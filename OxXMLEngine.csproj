@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OxLibrary\OxLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ControlFactory\BatchUpdate\BatchUpdateForm.cs" />
+    <Compile Update="ControlFactory\BatchUpdate\BatchUpdatePanel.cs" />
+    <Compile Update="ControlFactory\Controls\ButtonEdit.cs" />
+    <Compile Update="ControlFactory\Controls\CustomControl.cs" />
+    <Compile Update="ControlFactory\Controls\CustomListControl.cs" />
+    <Compile Update="ControlFactory\Controls\Fields\FieldEditor.cs" />
+    <Compile Update="ControlFactory\Controls\Fields\FieldListControl.cs" />
+    <Compile Update="ControlFactory\Controls\Fields\FieldListPanel.cs" />
+    <Compile Update="ControlFactory\Controls\ListItemEditor.cs" />
+    <Compile Update="ControlFactory\Controls\ListItemsControl.cs" />
+    <Compile Update="ControlFactory\Controls\ListMovableItemsControl.cs" />
+    <Compile Update="ControlFactory\Controls\Sorting\SortingEditor.cs" />
+    <Compile Update="ControlFactory\Controls\Sorting\SortingListControl.cs" />
+    <Compile Update="ControlFactory\Controls\Sorting\SortingPanel.cs" />
+    <Compile Update="ControlFactory\Filter\CategoriesTree.cs" />
+    <Compile Update="ControlFactory\Filter\QuickFilterPanel.cs" />
+    <Compile Update="ControlFactory\FunctionsPanel.cs" />
+    <Compile Update="Editor\DAOEditor.cs" />
+    <Compile Update="Grid\ItemsGridToolBar.cs" />
+    <Compile Update="Grid\TableView.cs" />
+    <Compile Update="ItemsFace.cs" />
+    <Compile Update="Settings\ControlFactory\Controls\IconContent\IconMappingControl.cs" />
+    <Compile Update="Settings\ControlFactory\Controls\IconContent\IconMappingEditor.cs" />
+    <Compile Update="Settings\Export\ExportSettingsForm.cs" />
+    <Compile Update="Settings\SettingsForm.cs" />
+    <Compile Update="Statistic\StatisticLabel.cs" />
+    <Compile Update="Statistic\StatisticPanel.cs" />
+    <Compile Update="Summary\SummaryPanel.cs" />
+    <Compile Update="Summary\SummaryView.cs" />
+    <Compile Update="View\ItemCard.cs" />
+    <Compile Update="View\ItemIcon.cs" />
+    <Compile Update="View\ItemInfo.cs" />
+    <Compile Update="View\ItemsView.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ControlFactory\Controls\Fields\FieldEditor.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Settings\Export\ExportSettingsForm.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SystemEngine\SystemAccessors\" />
+  </ItemGroup>
+
+</Project>

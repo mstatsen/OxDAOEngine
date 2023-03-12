@@ -1,0 +1,40 @@
+﻿using OxXMLEngine.Data;
+
+namespace OxXMLEngine.Grid
+{
+    public abstract class GridPainter<TField, TDAO>
+        where TField : notnull, Enum
+        where TDAO: DAO
+    {
+        public GridPainter(GridFieldColumns<TField> columnsDictionary) =>
+            ColumnsDictionary = columnsDictionary;
+
+        public void CellPainting_Handler(object? sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (sender == null)
+                return;
+
+            if (e.RowIndex < 0)
+                return;
+
+            TDAO? item = (TDAO?)((DataGridView)sender).Rows[e.RowIndex].Tag;
+
+            if (item == null)
+                return;
+
+            SetCellStyle(item, e);
+        }
+
+        public abstract DataGridViewCellStyle GetCellStyle(TDAO item, TField field, bool selected = false);
+        private  void SetCellStyle(TDAO item, DataGridViewCellPaintingEventArgs e) =>
+            e.CellStyle.ApplyStyle(
+                GetCellStyle(
+                    item,
+                    ColumnsDictionary.GetField(e.ColumnIndex), 
+                    (e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected
+                )
+            );
+
+        protected readonly GridFieldColumns<TField> ColumnsDictionary;
+    }
+}

@@ -1,0 +1,77 @@
+﻿namespace OxXMLEngine.ControlFactory
+{
+    public class ControlLayouts<TField> : List<ControlLayout<TField>>
+        where TField : notnull, Enum
+    {
+        public ControlLayout<TField> Template = new();
+
+        private static ControlLayout<TField> NewLayout(TField field) => new(field);
+
+        public ControlLayout<TField> AddFromTemplate(TField field, int verticalOffset)
+        {
+            ControlLayout<TField> layout = ControlLayouts<TField>.NewLayout(field);
+            layout.CopyFrom(Template);
+            Add(layout, verticalOffset);
+            return layout;
+        }
+
+        public List<TField> Fields
+        {
+            get
+            {
+                List<TField> result = new();
+
+                foreach (ControlLayout<TField> layout in this)
+                    result.Add(layout.Field);
+
+                return result;
+            }
+        }
+
+        public virtual ControlLayout<TField> AddFromTemplate(TField field, 
+            bool autoOffset = false, bool offsetWithMargins = true)
+        {
+            ControlLayout<TField> layout = ControlLayouts<TField>.NewLayout(field);
+            layout.CopyFrom(Template);
+            Add(layout, autoOffset, offsetWithMargins);
+            return layout;
+        }
+
+        public ControlLayout<TField> Add(TField field) =>
+            Add(ControlLayouts<TField>.NewLayout(field));
+
+        public ControlLayout<TField> Add(TField field, int verticalOffset) =>
+            Add(ControlLayouts<TField>.NewLayout(field), verticalOffset);
+
+        public ControlLayout<TField> Add(ControlLayout<TField> layout, 
+            bool autoOffset = false, bool offsetWithMargins = true)
+        {
+            if (autoOffset && Count > 0)
+                layout.OffsetVertical(Last, offsetWithMargins);
+
+            base.Add(layout);
+            return layout;
+        }
+
+        public ControlLayout<TField> Add(ControlLayout<TField> layout, int offset)
+        {
+            layout.OffsetVertical(Last, offset);
+            base.Add(layout);
+            return layout;
+        }
+
+        public ControlLayout<TField>? this[TField field] => 
+            Find((l) => l.Field.Equals(field));
+
+        public new void Clear()
+        {
+            Template.Clear();
+            base.Clear();
+        }
+
+        public ControlLayout<TField>? Last =>
+            Count > 0
+                ? this[^1]
+                : null;
+    }
+}

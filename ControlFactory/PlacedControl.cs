@@ -1,0 +1,80 @@
+﻿using OxLibrary;
+using OxLibrary.Controls;
+
+namespace OxXMLEngine.ControlFactory
+{
+    public class PlacedControl<TField>
+        where TField : notnull, Enum
+    {
+        public Control Control { get; internal set; }
+        public OxLabel? Label { get; internal set; }
+        public ControlLayout<TField> Layout { get; internal set; }
+
+        public void RecalcLabel() =>
+            Layout.RecalcLabel(this);
+
+        public int LabelLeft
+        {
+            get => Label == null ? int.MaxValue : Label.Left;
+            set
+            {
+                if (Label != null)
+                    Label.Left = value;
+            }
+        }
+
+        public PlacedControl(Control control, OxLabel? label, ControlLayout<TField> layout)
+        {
+            Control = control;
+            Label = label;
+            Layout = layout;
+            SetHandlers();
+        }
+
+        public void DetachParent()
+        {
+            if (Control.Parent != null)
+            {
+                Control parent = Control.Parent;
+                parent.Controls.Remove(Control);
+
+                if (Label != null)
+                    parent.Controls.Remove(Label);
+            }
+
+            Control.Parent = null;
+
+            if (Label != null)
+                Label.Parent = null;
+        }
+
+        private void SetHandlers()
+        {
+            if ((Control is OxCheckBox))
+                return;
+
+            SetMeasureHandlers(Control);
+
+            if (Label != null)
+                SetMeasureHandlers(Label);
+        }
+
+        private void SetMeasureHandlers(Control control)
+        {
+            control.LocationChanged += LocationChangedHandler;
+            control.SizeChanged += SizeChangedHandler;
+        }
+
+        private void AlignLabel()
+        {
+            if (Label != null)
+                OxControlHelper.AlignByBaseLine(Control, Label);
+        }
+
+        private void SizeChangedHandler(object? sender, EventArgs e) =>
+            AlignLabel();
+
+        private void LocationChangedHandler(object? sender, EventArgs e) =>
+            AlignLabel();
+    }
+}
