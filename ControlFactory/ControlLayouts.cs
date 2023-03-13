@@ -15,6 +15,15 @@
             return layout;
         }
 
+        public virtual ControlLayout<TField> AddFromTemplate(TField field, 
+            bool autoOffset = false, bool offsetWithMargins = true)
+        {
+            ControlLayout<TField> layout = ControlLayouts<TField>.NewLayout(field);
+            layout.CopyFrom(Template);
+            Add(layout, autoOffset, offsetWithMargins);
+            return layout;
+        }
+
         public List<TField> Fields
         {
             get
@@ -27,21 +36,6 @@
                 return result;
             }
         }
-
-        public virtual ControlLayout<TField> AddFromTemplate(TField field, 
-            bool autoOffset = false, bool offsetWithMargins = true)
-        {
-            ControlLayout<TField> layout = ControlLayouts<TField>.NewLayout(field);
-            layout.CopyFrom(Template);
-            Add(layout, autoOffset, offsetWithMargins);
-            return layout;
-        }
-
-        public ControlLayout<TField> Add(TField field) =>
-            Add(ControlLayouts<TField>.NewLayout(field));
-
-        public ControlLayout<TField> Add(TField field, int verticalOffset) =>
-            Add(ControlLayouts<TField>.NewLayout(field), verticalOffset);
 
         public ControlLayout<TField> Add(ControlLayout<TField> layout, 
             bool autoOffset = false, bool offsetWithMargins = true)

@@ -5,15 +5,26 @@ using OxXMLEngine.ControlFactory.Initializers;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Fields;
 using OxXMLEngine.Data.Types;
-using System;
-using System.Collections.Generic;
 using OxXMLEngine.View;
 using OxXMLEngine.Grid;
 using OxXMLEngine.ControlFactory.Filter;
 using OxXMLEngine.Data.Sorting;
+using OxXMLEngine.Data.Filter;
 
 namespace OxXMLEngine.ControlFactory
 {
+    public class BuilderKey
+    {
+        public readonly ControlScope Scope;
+        public readonly object? Variant;
+
+        public BuilderKey(ControlScope scope, object? variant)
+        {
+            Scope = scope;
+            Variant = variant;
+        }
+    }
+
     public abstract class ControlFactory<TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
@@ -39,15 +50,29 @@ namespace OxXMLEngine.ControlFactory
                 case FieldType.Boolean:
                 case FieldType.Integer:
                     if (context is FieldContext<TField, TDAO> accessorContext && context.IsQuickFilter)
+                    {
+                        object? variant = BuilderVariant(context.Builder);
+
                         return new ExtractInitializer<TField, TDAO>(accessorContext.Field, true,
-                            context.Scope == ControlScope.QuickFilterExport);
+                             variant != null && variant.Equals(QuickFilterVariant.Export));
+                    }
                     break;
             }
 
             return null;
         }
 
-        protected readonly Dictionary<ControlScope, ControlBuilder<TField, TDAO>> builders = new();
+        protected readonly Dictionary<BuilderKey, ControlBuilder<TField, TDAO>> builders = new();
+        protected readonly List<BuilderKey> buildersKeys = new();
+
+        protected object? BuilderVariant(ControlBuilder<TField, TDAO> builder)
+        {
+            foreach (var item in builders)
+                if (builder == item.Value)
+                    return item.Key.Variant;
+
+            return null;
+        }
 
         public IControlAccessor? CreateAccessor(IBuilderContext<TField, TDAO> context)
         {
@@ -103,11 +128,14 @@ namespace OxXMLEngine.ControlFactory
         protected IControlAccessor CreateTextBoxAccessor(IBuilderContext<TField, TDAO> context) =>
             new TextAccessor<TField, TDAO>(context);
 
-        protected IControlAccessor CreateExtractAccessor(IBuilderContext<TField, TDAO> context) => 
-            context is FieldContext<TField, TDAO> accessorContext
-                ? new ExtractAccessor<TField, TDAO>(accessorContext, context.IsQuickFilter, 
-                    context.Scope == ControlScope.QuickFilterExport || !context.IsQuickFilter)
+        protected IControlAccessor CreateExtractAccessor(IBuilderContext<TField, TDAO> context)
+        {
+            object? variant = BuilderVariant(context.Builder);
+            return context is FieldContext<TField, TDAO> accessorContext
+                ? new ExtractAccessor<TField, TDAO>(accessorContext, context.IsQuickFilter,
+                    (context.IsQuickFilter && variant != null && variant.Equals(QuickFilterVariant.Export)) || !context.IsQuickFilter)
                 : new ComboBoxAccessor<TField, TDAO>(context);
+        }
 
         protected IControlAccessor CreateMultilineAccessor(IBuilderContext<TField, TDAO> context) =>
             new TextAccessor<TField, TDAO>(context);
@@ -173,14 +201,22 @@ namespace OxXMLEngine.ControlFactory
             where TListControl : CustomListControl<TField, TDAO, TList, TItem>, new() =>
             CreateListAccessor<TItem, TList, TListControl>(context, ControlScope.Editor);
 
-        public virtual ControlBuilder<TField, TDAO> Builder(ControlScope scope, bool forceNew = false)
+        public virtual ControlBuilder<TField, TDAO> Builder(ControlScope scope, bool forceNew = false, object? variant = null)
         {
-            if (forceNew || !builders.TryGetValue(scope, out var builder))
+            BuilderKey? builderKey = buildersKeys.Find(k => k.Scope == scope && k.Variant == variant);
+
+            if (builderKey == null)
+            {
+                builderKey = new BuilderKey(scope, variant);
+                buildersKeys.Add(builderKey);
+            }
+
+            if (forceNew || !builders.TryGetValue(builderKey, out var builder))
             {
                 builder = new ControlBuilder<TField, TDAO>(this, scope);
 
                 if (!forceNew)
-                    builders.Add(scope, builder);
+                    builders.Add(builderKey, builder);
             }
 
             return builder;

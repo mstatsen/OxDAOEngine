@@ -19,11 +19,7 @@ namespace OxXMLEngine.ControlFactory.Filter
         public QuickFilterPanel(QuickFilterVariant variant)
         {
             Variant = variant;
-            Builder = DataManager.Builder<TField, TDAO>(
-                Variant == QuickFilterVariant.Export
-                    ? ControlScope.QuickFilterExport
-                    : ControlScope.QuickFilter
-            );
+            Builder = DataManager.Builder<TField, TDAO>(ControlScope.QuickFilter, false, Variant);
 
             if (Variant != QuickFilterVariant.Base)
                 ShowSettingsButton = false;
@@ -323,7 +319,7 @@ namespace OxXMLEngine.ControlFactory.Filter
 
         private void RecolorControl(TField field, Color filledColor)
         {
-            IControlAccessor accessor = Builder[field];
+            IControlAccessor accessor = Builder.Accessor(field);
             accessor.Control.BackColor =
                 accessor.IsEmpty
                     ? BackColor

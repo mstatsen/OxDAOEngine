@@ -190,12 +190,12 @@ namespace OxXMLEngine.Data
 
         private ItemSelector<TField, TDAO>? itemSelector;
 
-        public bool SelectItem(out TDAO? selectedItem, OxForm parentForm, TDAO? initialItem = null, IMatcher<TDAO>? filter = null)
+        public bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TDAO>? filter = null)
         {
             if (itemSelector == null)
                 itemSelector = new();
 
-            itemSelector.BaseColor = parentForm.MainPanel.BaseColor;
+            itemSelector.BaseColor = parentPane.BaseColor;
             itemSelector.Filter = filter;
             itemSelector.SelectedItem = initialItem;
 
@@ -214,7 +214,7 @@ namespace OxXMLEngine.Data
             EditNewItem(newItem);
         }
 
-        public void ViewItem(TField field, object value, ItemViewMode viewMode = ItemViewMode.Simple) =>
+        public void ViewItem(TField field, object? value, ItemViewMode viewMode = ItemViewMode.Simple) =>
             ViewItem(Item(field, value), viewMode);
 
         public void ViewItem(TDAO? item, ItemViewMode viewMode = ItemViewMode.Simple)
@@ -233,6 +233,17 @@ namespace OxXMLEngine.Data
             card.Item = item;
             card.ShowAsDialog();
         }
+
+        public void ViewItems(TField field, object? value, OxPane? parentPane)
+        {
+            if (itemSelector == null)
+                itemSelector = new();
+
+            itemSelector.BaseColor = parentPane != null ? parentPane.BaseColor : itemSelector.BaseColor;
+            itemSelector.Filter = new SimpleFilter<TField, TDAO>().AddFilter(field, value);
+            itemSelector.ShowAsDialog(OxDialogButton.Cancel);
+        }
+            
 
         private DAOEditor<TField, TDAO, TFieldGroup>? editor;
 

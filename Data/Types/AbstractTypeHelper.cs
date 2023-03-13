@@ -79,9 +79,11 @@
         public object Value(object? typeObject) => 
             typeObject switch
             {
+                null => (object)EmptyValue,
                 T tobject => tobject,
                 EnumItemObject<T> uobject => uobject.Value,
-                _ => (object)EmptyValue(),
+                string => Parse(typeObject.ToString()!),
+                _ => EmptyValue(),
             };
 
         public object? TypeObject(object? value) =>

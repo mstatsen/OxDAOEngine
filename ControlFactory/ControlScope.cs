@@ -4,7 +4,6 @@
     {
         Editor,
         QuickFilter,
-        QuickFilterExport,
         BatchUpdate,
         Sorting,
         Grouping,

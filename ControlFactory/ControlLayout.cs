@@ -1,7 +1,9 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
+using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxXMLEngine.ControlFactory.Controls;
+using OxXMLEngine.Data.Fields;
 using OxXMLEngine.Data.Types;
 
 namespace OxXMLEngine.ControlFactory
@@ -11,26 +13,28 @@ namespace OxXMLEngine.ControlFactory
     {
         public const int Space = 8;
 
-        public TField Field = default!;
-        public Control? Parent;
-        public int Left;
-        public int Top;
-        public int Width;
-        public int Height;
-        public bool Visible;
-        public Color BackColor;
-        public Color FontColor;
-        public AnchorStyles Anchors;
-        public DockStyle Dock;
-        public string FontFamily = string.Empty;
-        public float FontSize;
-        public FontStyle FontStyle;
-        public ControlCaptionVariant CaptionVariant;
-        public bool WrapLabel;
-        public Color LabelColor;
-        public FontStyle LabelStyle;
-        public int MaximumLabelWidth;
-        public bool AutoSize;
+        public TField Field { get; set; } = default!;
+        public Control? Parent { get; set; }
+        public int Left { get; set; }
+        public int Top { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public bool Visible { get; set; }
+        public Color BackColor { get; set; }
+        public Color FontColor { get; set; }
+        public AnchorStyles Anchors { get; set; }
+        public DockStyle Dock { get; set; }
+        public string FontFamily { get; set; } = string.Empty;
+        public float FontSize { get; set; }
+        public FontStyle FontStyle { get; set; }
+        public ControlCaptionVariant CaptionVariant { get; set; }
+        public bool WrapLabel { get; set; }
+        public Color LabelColor { get; set; }
+        public FontStyle LabelStyle { get; set; }
+        public int MaximumLabelWidth { get; set; }
+        public bool AutoSize { get; set; }
+
+        public bool SupportClickedLabels { get; set; } = false;
 
         public int Right => Left + Width;
         public int Bottom => Top + Height;
@@ -134,20 +138,64 @@ namespace OxXMLEngine.ControlFactory
         private OxLabel? ApplyLayoutToLabel(OxLabel? label, Control control)
         {
             if (label == null)
-                label = ControlLayout<TField>.CreateLabel();
+                label = CreateLabel();
             else
             if (label.IsDisposed)
                 return null;
 
             label.Text = TypeHelper.Name(Field);
             label.Parent = Parent;
-            label.Font = new Font(FontFamily, FontSize - 1, LabelStyle);
             label.ForeColor = LabelColor;
+
+            if (LabelsForeColors.ContainsKey(label))
+                LabelsForeColors.Remove(label);
+
+            LabelsForeColors.Add(label, LabelColor);
+
             label.BackColor = Color.Transparent;
             label.Visible = Visible;
+            label.Font = new Font(FontFamily, FontSize - 1, LabelStyle);
+
+            if (SupportClickedLabels)
+            {
+                FieldType fieldType = TypeHelper.FieldHelper<TField>().GetFieldType(Field);
+
+                if (fieldType == FieldType.Extract || fieldType == FieldType.Enum)
+                {
+                    label.Cursor = Cursors.Hand;
+                    label.MouseEnter -= LabelMouseEnter;
+                    label.MouseEnter += LabelMouseEnter;
+                    label.MouseLeave -= LabelMouseLeave;
+                    label.MouseLeave += LabelMouseLeave;
+                }
+            }
 
             CalcLabel(label, control);
             return label;
+        }
+
+        private readonly Dictionary<OxLabel, Color> LabelsForeColors = new();
+
+        private void LabelMouseLeave(object? sender, EventArgs e)
+        {
+            OxLabel? label = (OxLabel?)sender;
+
+            if (label == null)
+                return;
+
+            label.Font = new Font(label.Font, label.Font.Style & ~FontStyle.Underline);
+            label.ForeColor = LabelsForeColors[label];
+        }
+
+        private void LabelMouseEnter(object? sender, EventArgs e)
+        {
+            OxLabel? label = (OxLabel?)sender;
+
+            if (label == null)
+                return;
+
+            label.Font = new Font(label.Font, label.Font.Style | FontStyle.Underline);
+            label.ForeColor = new OxColorHelper(label.ForeColor).HLighter(4).Bluer(4);
         }
 
         private void CalcLabel(OxLabel? label, Control? control)
@@ -207,6 +255,7 @@ namespace OxXMLEngine.ControlFactory
             LabelStyle = layout.LabelStyle;
             MaximumLabelWidth = layout.MaximumLabelWidth;
             AutoSize = layout.AutoSize;
+            SupportClickedLabels = layout.SupportClickedLabels;
         }
 
         public const int VerticalControlMargin = 8;

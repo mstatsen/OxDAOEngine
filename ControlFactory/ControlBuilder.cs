@@ -236,7 +236,6 @@ namespace OxXMLEngine.ControlFactory
                     GrabEditorControls(item, rules);
                     break;
                 case ControlScope.QuickFilter:
-                case ControlScope.QuickFilterExport:
                     if (item is SimpleFilter<TField, TDAO> filter)
                         GrabQuickFilterControls(filter, rules);
                     break;

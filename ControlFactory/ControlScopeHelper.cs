@@ -5,8 +5,7 @@ namespace OxXMLEngine.ControlFactory
     public class ControlScopeHelper : AbstractTypeHelper<ControlScope>
     {
         public bool IsQuickFilter(ControlScope scope) =>
-            scope == ControlScope.QuickFilter
-            || scope == ControlScope.QuickFilterExport;
+            scope == ControlScope.QuickFilter;
 
         public bool IsView(ControlScope scope) =>
             scope == ControlScope.CardView
@@ -25,7 +24,6 @@ namespace OxXMLEngine.ControlFactory
             {
                 ControlScope.Editor => "Editor",
                 ControlScope.QuickFilter => "Quick filter",
-                ControlScope.QuickFilterExport => "Export quick filter",
                 ControlScope.BatchUpdate => "Batch update",
                 ControlScope.Sorting => "Sorting",
                 ControlScope.Grouping => "Group by",

@@ -26,6 +26,8 @@ namespace OxXMLEngine.Data.Fields
 
         public abstract FieldType GetFieldType(TField field);
 
+        public abstract ITypeHelper? GetHelper(TField field);
+
         public bool IsCalcedField(TField field) =>
             CalcedFields.Contains(field);
 
@@ -52,7 +54,6 @@ namespace OxXMLEngine.Data.Fields
             {
                 ControlScope.BatchUpdate or 
                 ControlScope.QuickFilter or 
-                ControlScope.QuickFilterExport or 
                 ControlScope.Sorting or 
                 ControlScope.Table or 
                 ControlScope.Html or 

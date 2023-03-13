@@ -26,6 +26,9 @@ namespace OxXMLEngine.Data.Filter
         public SimpleFilter(TField field, FilterOperation operation, object value) : this() =>
             AddFilter(field, operation, value);
 
+        public SimpleFilter(TField field, object value) : this() =>
+            AddFilter(field, value);
+
         public SimpleFilter(FilterConcat concat) : this() =>
             this.concat = concat;
 

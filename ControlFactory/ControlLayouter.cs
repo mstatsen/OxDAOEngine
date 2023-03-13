@@ -1,5 +1,9 @@
-﻿using OxXMLEngine.ControlFactory.Accessors;
+﻿using OxLibrary.Controls;
+using OxLibrary.Dialogs;
+using OxXMLEngine.ControlFactory.Accessors;
 using OxXMLEngine.Data;
+using OxXMLEngine.Data.Fields;
+using OxXMLEngine.Data.Types;
 
 namespace OxXMLEngine.ControlFactory
 {
@@ -31,13 +35,59 @@ namespace OxXMLEngine.ControlFactory
 
         private void LayoutControl(ControlLayout<TField> layout)
         {
+            layout.SupportClickedLabels = 
+                Builder.Scope == ControlScope.CardView ||
+                Builder.Scope == ControlScope.Editor ||
+                Builder.Scope == ControlScope.FullInfoView ||
+                Builder.Scope == ControlScope.Summary;
+
             if (PlacedControls.TryGetValue(layout.Field, out var placedControl))
                 layout.ApplyLayout(placedControl);
             else
             {
-                ControlAccessor<TField, TDAO> controlAccessor = (ControlAccessor<TField, TDAO>)Builder.Accessor(layout.Field);
-                PlacedControls.Add(layout.Field, controlAccessor.LayoutControl(layout));
+                ControlAccessor<TField, TDAO> controlAccessor = (ControlAccessor<TField, TDAO>)Builder[layout.Field];
+                placedControl = controlAccessor.LayoutControl(layout);
+                PlacedControls.Add(layout.Field, placedControl);
             }
+
+            OxLabel? label = placedControl?.Label;
+
+            if (label != null)
+            {
+                label.Click -= ExtractLabelClick;
+
+                FieldType fieldType = TypeHelper.FieldHelper<TField>().GetFieldType(layout.Field);
+
+                if (fieldType == FieldType.Extract || fieldType == FieldType.Enum)
+                    label.Click += ExtractLabelClick;
+            }
+        }
+
+        private void ExtractLabelClick(object? sender, EventArgs e)
+        {
+            OxLabel? label = (OxLabel?)sender;
+
+            if (label == null)
+                return;
+
+            foreach (KeyValuePair<TField, PlacedControl<TField>> item in PlacedControls)
+                if (item.Value.Label == label)
+                {
+                    object? value = Builder.Value(item.Key);
+                    FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
+
+                    if (fieldHelper.GetFieldType(item.Key) == FieldType.Enum 
+                        && value is string stringValue)
+                    {
+                        ITypeHelper? helper = fieldHelper.GetHelper(item.Key);
+
+                        if (helper != null)
+                            value = helper.Parse(stringValue);
+                    }
+
+                    DataManager.ViewItems<TField, TDAO>(item.Key, value);
+                    break;
+                }
         }
 
         public ControlLayout<TField> Template => Layouts.Template;

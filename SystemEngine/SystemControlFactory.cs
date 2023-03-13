@@ -8,9 +8,9 @@ namespace OxXMLEngine.SystemEngine
     {
 
         public override ControlBuilder<TSetting, SystemRootDAO<TSetting>> Builder(
-            ControlScope scope, bool forceNew = false)
+            ControlScope scope, bool forceNew = false, object? variant = null)
         {
-            ControlBuilder<TSetting, SystemRootDAO<TSetting>> builder = base.Builder(scope, forceNew);
+            ControlBuilder<TSetting, SystemRootDAO<TSetting>> builder = base.Builder(scope, forceNew, variant);
             builder.BuildOnly = true;
             return builder;
         }

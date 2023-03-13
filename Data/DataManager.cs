@@ -149,13 +149,13 @@ namespace OxXMLEngine.Data
             }
         }
 
-        public static ControlBuilder<TField, TDAO> Builder<TField, TDAO>(ControlScope scope, bool forceNew = false)
+        public static ControlBuilder<TField, TDAO> Builder<TField, TDAO>(ControlScope scope, bool forceNew = false, object? variant = null)
             where TField : notnull, Enum
             where TDAO : RootDAO<TField>, new()
         {
             try
             {
-                return ControlFactory<TField, TDAO>().Builder(scope, forceNew);
+                return ControlFactory<TField, TDAO>().Builder(scope, forceNew, variant);
             }
             catch
             {
@@ -283,14 +283,14 @@ namespace OxXMLEngine.Data
             }
         }
 
-        public static bool SelectItem<TField, TDAO>(out TDAO? selectedItem, OxForm parentForm, 
+        public static bool SelectItem<TField, TDAO>(out TDAO? selectedItem, OxPane parentPane, 
             TDAO? initialItem = null, IMatcher<TDAO>? filter = null)
             where TField : notnull, Enum
             where TDAO : RootDAO<TField>, new()
         {
             try
             {
-                return ListController<TField, TDAO>().SelectItem(out selectedItem, parentForm, initialItem, filter);
+                return ListController<TField, TDAO>().SelectItem(out selectedItem, parentPane, initialItem, filter);
             }
             catch
             {
@@ -340,7 +340,7 @@ namespace OxXMLEngine.Data
             }
         }
 
-        public static void ViewItem<TField, TDAO>(TField field, object value, ItemViewMode viewMode = ItemViewMode.Simple)
+        public static void ViewItem<TField, TDAO>(TField field, object? value, ItemViewMode viewMode = ItemViewMode.Simple)
             where TField : notnull, Enum
             where TDAO : RootDAO<TField>, new()
         {
@@ -350,7 +350,21 @@ namespace OxXMLEngine.Data
             }
             catch
             {
-                throw new KeyNotFoundException($"Cannot edit {typeof(TDAO).Name} because it controller not found");
+                throw new KeyNotFoundException($"Cannot view item because it controller not found");
+            }
+        }
+
+        public static void ViewItems<TField, TDAO>(TField field, object? value, OxPane? parentPane = null)
+            where TField : notnull, Enum
+            where TDAO : RootDAO<TField>, new()
+        {
+            try
+            {
+                ListController<TField, TDAO>().ViewItems(field, value, parentPane);
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Cannot view items because it controller not found");
             }
         }
 

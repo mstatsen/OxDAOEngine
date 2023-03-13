@@ -34,6 +34,7 @@ namespace OxXMLEngine.Grid
             };
             grid.DoubleClick += GridDoubleClickHandler;
             grid.Paddings.SetSize(OxSize.None);
+            ReAlign();
         }
 
         public RootListDAO<TField, TDAO>? CustomItemsList
@@ -65,7 +66,7 @@ namespace OxXMLEngine.Grid
 
         public void Fill()
         {
-            grid.Fill(Filter);
+            grid.Fill(Filter, true);
             ApplyQuickFilter();
         }
 
@@ -103,10 +104,10 @@ namespace OxXMLEngine.Grid
         {
             base.ReAlignControls();
 
-            if (grid != null)
-                grid.SendToBack();
+            QuickFilterPanel.BringToFront();
 
-            QuickFilterPanel.SendToBack();
+            if (grid != null)
+                grid.BringToFront();
         }
     }
 }
