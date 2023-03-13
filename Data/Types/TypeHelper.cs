@@ -155,14 +155,14 @@ namespace OxXMLEngine.Data.Types
 
         public static bool IsTypeHelpered<TItem>()
             where TItem : notnull, Enum =>
-            helperList.Find((H) =>
+            helperList.Find(H =>
                 (H.ItemType == typeof(TItem)) ||
                 (H.ItemObjectType == typeof(TItem))
             ) != null;
 
         public static bool IsTypeHelpered(object? value) =>
             value != null &&
-            helperList.Find((H) =>
+            helperList.Find(H =>
                 (H.ItemType == value.GetType()) ||
                 (H.ItemObjectType == value.GetType())
             ) != null;

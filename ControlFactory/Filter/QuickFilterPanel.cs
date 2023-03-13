@@ -134,7 +134,7 @@ namespace OxXMLEngine.ControlFactory.Filter
                     foreach (FilterGroups<TField, TDAO> groups in value.Root)
                         foreach (FilterGroup<TField, TDAO> group in groups)
                             foreach (SimpleFilter<TField, TDAO> simpleFilter in group)
-                                if (simpleFilter.Rules.Contains((r) => r.Field.Equals(field)))
+                                if (simpleFilter.Rules.Contains(r => r.Field.Equals(field)))
                                 {
                                     object? filteringValue = fieldHelper.IsCalcedField(field)
                                         ? simpleFilter.CalcedValues[field]

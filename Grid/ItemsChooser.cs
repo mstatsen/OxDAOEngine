@@ -63,8 +63,8 @@ namespace OxXMLEngine.Grid
                 if (itemUniqueValue == null)
                     continue;
 
-                TDAO? foundItem = availableGrid.Grid.ItemsList.Find((g) =>
-                    itemUniqueValue.Equals(g[uniqueField]));
+                TDAO? foundItem = availableGrid.Grid.ItemsList.Find(
+                    g => itemUniqueValue.Equals(g[uniqueField]));
 
                 if (foundItem == null)
                     return;

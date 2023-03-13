@@ -62,7 +62,7 @@ namespace OxXMLEngine.Data.Sorting
 
         public void Add(TField field, SortOrder sortOrder)
         {
-            FieldSorting<TField, TDAO>? sorting = Find((s) => s.Field.Equals(field));
+            FieldSorting<TField, TDAO>? sorting = Find(s => s.Field.Equals(field));
 
             if (sorting != null && sortOrder == SortOrder.None)
                 Remove(sorting);

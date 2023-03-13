@@ -179,7 +179,7 @@ namespace OxXMLEngine.Data
             if (AutoSorting)
             {
                 foreach (T item in List)
-                    if (!other.Contains((i) => item.Equals(i)))
+                    if (!other.Contains(i => item.Equals(i)))
                         return false;
             }
             else
@@ -205,7 +205,7 @@ namespace OxXMLEngine.Data
         public event DAOEntityEventHandler? ItemAddHandler;
         public event DAOEntityEventHandler? ItemRemoveHandler;
 
-        public int ModifiedCount => List.FindAll((d) => d.Modified).Count;
+        public int ModifiedCount => List.FindAll(d => d.Modified).Count;
 
         public override string ToString() => 
             string.Join(", ", List);

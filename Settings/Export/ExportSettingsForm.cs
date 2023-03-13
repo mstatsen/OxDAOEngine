@@ -382,7 +382,7 @@ namespace OxXMLEngine.Settings
             InitCategoriesTree();
             categoriesTree!.ActiveCategory = 
                 DataManager.ListController<TField, TDAO>().SystemCategories?
-                    .Find((c) => c.Name == categoryControl.Value);
+                    .Find(c => c.Name == categoryControl.Value);
 
             if (categoriesTree.ShowAsDialog(OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK)
                 categoryControl.Value = categoriesTree.ActiveCategory?.Name;

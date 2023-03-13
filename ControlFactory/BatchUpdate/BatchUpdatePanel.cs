@@ -35,7 +35,7 @@ namespace OxXMLEngine.ControlFactory.BatchUpdate
 
             foreach (TDAO item in ItemsGetter())
             {
-                TDAO? findItem = DataManager.FullItemsList<TField, TDAO>().Find((i) => i.Equals(item));
+                TDAO? findItem = DataManager.FullItemsList<TField, TDAO>().Find(i => i.Equals(item));
 
                 if (findItem != null)
                     findItem.Modified = true;

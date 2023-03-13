@@ -77,13 +77,13 @@ namespace OxXMLEngine.ControlFactory
         public IControlAccessor FieldListAccessor(object? additionalContext = null) =>
             Accessor(
                 Context("FieldListAccessor", FieldType.Custom, additionalContext),
-                (c) => Factory.CreateFieldListAccessor(c)
+                c => Factory.CreateFieldListAccessor(c)
             );
 
         public IControlAccessor SortingListAccessor(object? additionalContext = null) =>
             Accessor(
                 Context("SortingListAccessor", FieldType.Custom, additionalContext),
-                (c) => Factory.CreateSortingListAccessor(c)
+                c => Factory.CreateSortingListAccessor(c)
             );
 
 

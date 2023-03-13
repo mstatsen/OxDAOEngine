@@ -51,7 +51,7 @@ namespace OxXMLEngine.Data
             if (dao == null)
                 return false;
 
-            return Find((d) => d.Equals(dao)) != null;
+            return Find(d => d.Equals(dao)) != null;
         }
 
         protected override bool AutoSorting => false;

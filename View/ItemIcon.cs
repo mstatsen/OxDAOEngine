@@ -77,7 +77,7 @@ namespace OxXMLEngine.View
         private static ListDAO<IconMapping<TField>>? Mapping => 
             SettingsManager.DAOSettings<TField, TDAO>().IconMapping;
         private static IconMapping<TField>? PartMapping(IconContent part) =>
-            ItemIcon<TField, TDAO>.Mapping?.Find((p) => p.Part.Equals(part));
+            ItemIcon<TField, TDAO>.Mapping?.Find(p => p.Part.Equals(part));
 
         private static IconMapping<TField>? ImageMapping => 
             ItemIcon<TField, TDAO>.PartMapping(IconContent.Image);

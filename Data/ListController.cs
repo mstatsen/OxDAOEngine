@@ -331,7 +331,7 @@ namespace OxXMLEngine.Data
         public IDAOSettings<TField> SettingsByField => SettingsManager.DAOSettings<TField>();
 
         public TDAO? Item(TField field, object? value) =>
-            FullItemsList.Find((d) => (d[field] != null) && d[field]!.Equals(value));
+            FullItemsList.Find(d => (d[field] != null) && d[field]!.Equals(value));
 
         private readonly FieldHelper<TField> fieldHelper;
 

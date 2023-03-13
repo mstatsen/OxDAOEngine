@@ -25,10 +25,10 @@ namespace OxXMLEngine.Summary
                 PrepareDictionaries();
             }
 
-            IterateSummaryPanels((p) => p.FillAccessors());
+            IterateSummaryPanels(p => p.FillAccessors());
             Update();
-            IterateSummaryPanels((p) => p.AlignAccessors());
-            IterateSummaryPanels((p) => p.CalcPanelSize());
+            IterateSummaryPanels(p => p.AlignAccessors());
+            IterateSummaryPanels(p => p.CalcPanelSize());
             layouter.LayoutPanels(SummaryPanels);
             SummaryPanels.First().Expand();
         }

@@ -55,7 +55,7 @@
         }
 
         public ControlLayout<TField>? this[TField field] => 
-            Find((l) => l.Field.Equals(field));
+            Find(l => l.Field.Equals(field));
 
         public new void Clear()
         {

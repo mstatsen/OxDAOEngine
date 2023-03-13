@@ -40,7 +40,7 @@
 
         public EnumItemObject<T>? GetTypeObject(T value)
         {
-            EnumItemObject<T>? typeObject = typeObjects.Find((t) => t.Value.Equals(value));
+            EnumItemObject<T>? typeObject = typeObjects.Find(t => t.Value.Equals(value));
 
             if (typeObject == null)
             {

@@ -15,7 +15,7 @@ namespace OxXMLEngine.Export
             Items.CopyFrom(ListController.FullItemsList
                 .FilteredList(
                     ListController.SystemCategories?
-                        .Find((c) => c.Name == SettingsManager.DAOSettings<TField, TDAO>().ExportSettings.CategoryName))
+                        .Find(c => c.Name == SettingsManager.DAOSettings<TField, TDAO>().ExportSettings.CategoryName))
                 .FilteredList(SettingsManager.DAOSettings<TField, TDAO>().ExportSettings.Filter));
             Items.Sort(Sortings()?.SortingsList);
         }

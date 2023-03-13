@@ -21,6 +21,6 @@ namespace OxXMLEngine.Settings.ControlFactory.Initializers
 
         public override bool AvailableValue(IconContent value) =>
             ExistingMappings == null
-            || !ExistingMappings.Contains((p) => p.Part == value);
+            || !ExistingMappings.Contains(p => p.Part == value);
     }
 }

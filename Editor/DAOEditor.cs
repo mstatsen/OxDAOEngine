@@ -168,7 +168,7 @@ namespace OxXMLEngine.Editor
                 if (parent.Key == MainPanel)
                     continue;
 
-                bool calcedVisible = forceVisible || parent.Value.Find((g) => g.Visible) != null;
+                bool calcedVisible = forceVisible || parent.Value.Find(g => g.Visible) != null;
 
                 if (parent.Key.Visible != calcedVisible)
                 {

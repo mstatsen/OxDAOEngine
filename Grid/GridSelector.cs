@@ -92,7 +92,7 @@ namespace OxXMLEngine.Grid
             foreach (DataGridViewRow row in grid.Rows)
                 row.Selected =
                     row.Visible
-                    && savedSelection.Contains((i) => i.Equals(GetDaoFromRow<TDAO>(row)));
+                    && savedSelection.Contains(i => i.Equals(GetDaoFromRow<TDAO>(row)));
 
             if (grid.SelectedRows.Count == 0 && grid.Rows.Count > 0)
                 FocusOnFirstRow();

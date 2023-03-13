@@ -5,7 +5,7 @@
         where TDAO : DAO, IFieldMapping<TField>
     {
         public FilterRule<TField, TDAO>? this[TField field] =>
-            List.Find((rule) => rule.Field.Equals(field));
+            List.Find(rule => rule.Field.Equals(field));
 
         public FilterRule<TField, TDAO> Add(TField field) =>
             Add(
