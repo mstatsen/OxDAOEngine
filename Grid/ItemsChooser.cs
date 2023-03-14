@@ -154,29 +154,20 @@ namespace OxXMLEngine.Grid
             ItemsGrid<TField, TDAO> sourceGrid = select ? availableGrid.Grid : selectedGrid;
             ItemsGrid< TField, TDAO > destGrid = select ? selectedGrid : availableGrid.Grid;
 
-            DialogResult? canSelect = DialogResult.OK;
-            bool forAll = false;
+            bool? canSelect = true;
 
             RootListDAO<TField, TDAO> selectedList = sourceGrid.GetSelectedItems();
             destGrid.ItemsList.Modified = false;
 
             foreach (TDAO item in selectedList)
             {
-                if (!force && !forAll)
+                if (!force)
                     canSelect = select
                         ? ChooserParams.CanSelectItem?.Invoke(item, selectedList)
                         : ChooserParams.CanUnselectItem?.Invoke(item, selectedList);
 
-
-                if (canSelect != null)
-                    switch (canSelect)
-                    {
-                        case DialogResult.Cancel:
-                            return;
-                        case DialogResult.Continue:
-                            forAll = true;
-                            break;
-                    }
+                if (canSelect != null && canSelect == false)
+                    return;
 
                 destGrid.ItemsList.Add(item);
                 sourceGrid.GridView.Rows.RemoveAt(sourceGrid.GetRowIndex(item));

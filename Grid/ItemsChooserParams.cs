@@ -2,7 +2,7 @@
 
 namespace OxXMLEngine.Grid
 {
-    public delegate DialogResult CanSelectEvent<TField, TDAO>(TDAO currentItem, RootListDAO<TField, TDAO> selectedList)
+    public delegate bool CanSelectEvent<TField, TDAO>(TDAO currentItem, RootListDAO<TField, TDAO> selectedList)
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new();
 
