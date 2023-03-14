@@ -207,6 +207,7 @@ namespace OxXMLEngine.ControlFactory
                 label.MaximumSize = new Size(MaximumLabelWidth, 0);
 
             label.AutoSize = true;
+            label.Visible = Visible && CaptionVariant != ControlCaptionVariant.None; 
 
             switch (CaptionVariant)
             {
@@ -222,7 +223,6 @@ namespace OxXMLEngine.ControlFactory
                     break;
                 case ControlCaptionVariant.None:
                     label.Text = string.Empty;
-                    label.Visible = false;
                     break;
             }
         }
