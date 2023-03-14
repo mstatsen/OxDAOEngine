@@ -411,7 +411,7 @@ namespace OxXMLEngine.Settings
         {
             fileControl.Value = settings.GetFileName(formatAccessor.EnumValue);
 
-            foreach (KeyValuePair<ExportFormat, OxFrame> item in extraSettingsFrames)
+            foreach (var item in extraSettingsFrames)
                 item.Value.Visible = item.Key == formatAccessor.EnumValue;
 
             foreach (OxFrame frame in extraSettingsFrames.Values)

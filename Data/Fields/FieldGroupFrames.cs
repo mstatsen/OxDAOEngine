@@ -12,13 +12,13 @@ namespace OxXMLEngine.Data.Fields
 
         public void Add(FieldGroupFrames<TField, TFieldGroup> other)
         {
-            foreach (KeyValuePair<TFieldGroup, OxFrame> item in other)
+            foreach (var item in other)
                 Add(item.Key, item.Value);
         }
 
         public void SetGroupsSize()
         {
-            foreach (KeyValuePair<TFieldGroup, OxFrame> group in this)
+            foreach (var group in this)
                 group.Value.SetContentSize(
                     Width(group.Key),
                     Height(group.Key)

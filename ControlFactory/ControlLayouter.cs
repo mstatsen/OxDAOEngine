@@ -70,7 +70,7 @@ namespace OxXMLEngine.ControlFactory
             if (label == null)
                 return;
 
-            foreach (KeyValuePair<TField, PlacedControl<TField>> item in PlacedControls)
+            foreach (var item in PlacedControls)
                 if (item.Value.Label == label)
                 {
                     object? value = Builder.Value(item.Key);

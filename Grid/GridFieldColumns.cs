@@ -5,7 +5,7 @@
     {
         public TField GetField(int dataColumnIndex)
         {
-            foreach (KeyValuePair<TField, DataGridViewColumn> item in this)
+            foreach (var item in this)
                 if (item.Value.Index == dataColumnIndex)
                     return item.Key;
 

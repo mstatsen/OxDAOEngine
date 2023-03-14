@@ -18,7 +18,7 @@ namespace OxXMLEngine.Grid
     {
         public CustomGridColumn<TField, TDAO>? GetCustomColumn(DataGridViewColumn column)
         { 
-            foreach (KeyValuePair<CustomGridColumn<TField, TDAO>, DataGridViewColumn> item in this)
+            foreach (var item in this)
                 if (item.Value == column)
                     return item.Key;
 
@@ -89,7 +89,7 @@ namespace OxXMLEngine.Grid
         {
             List<ISorting<TField, TDAO>> newSortings = new();
 
-            foreach (KeyValuePair<DataGridViewColumn, SortOrder> sorting in GridView.ColumnSorting)
+            foreach (var sorting in GridView.ColumnSorting)
             {
                 if (gridFieldColumns.ContainsValue(sorting.Key))
                     newSortings.Add(
@@ -107,7 +107,7 @@ namespace OxXMLEngine.Grid
                 }
             }
 
-            if (customItemsList == null)
+            if (Usage == GridUsage.Edit && customItemsList == null)
             {
                 ListController.Settings.Sortings.SortingsList = newSortings;
                 ListController.Sort();
@@ -435,7 +435,7 @@ namespace OxXMLEngine.Grid
             foreach (TField field in gridFieldColumns.Keys)
                 GridView[gridFieldColumns[field].Index, rowIndex].Value = decorator[field] ?? string.Empty;
 
-            foreach (KeyValuePair<CustomGridColumn<TField, TDAO>, DataGridViewColumn> column in customGridColumns)
+            foreach (var column in customGridColumns)
                 GridView[column.Value.Index, rowIndex].Value = column.Key.ValueGetter(item) ?? string.Empty;
         }
 

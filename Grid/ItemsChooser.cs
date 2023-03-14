@@ -200,10 +200,20 @@ namespace OxXMLEngine.Grid
         private void SelectHanlder(object? sender, EventArgs e) =>
             MoveSelected(true);
 
-        protected override void OnSizeChanged(EventArgs e)
+        protected override void PrepareDialog(OxPanelViewer dialog)
         {
-            base.OnSizeChanged(e);
-            selectedPlace.Width = (Width - buttonsPanel.Width) / 2;
+            base.PrepareDialog(dialog);
+            dialog.Sizeble = true;
+            dialog.CanMaximize = true;
+            dialog.SizeChanged += PanelViewerSizeChangeHandler;
+        }
+
+        private void PanelViewerSizeChangeHandler(object? sender, EventArgs e) =>
+            RecalcGridsSizes();
+
+        private void RecalcGridsSizes()
+        {
+            selectedPlace.Width = ((PanelViewer != null ? PanelViewer.Width : Width) - buttonsPanel.Width) / 2;
             selectButton.Top = buttonsPanel.Height / 2 - selectButton.Height - 50;
             unSelectButton.Top = selectButton.Bottom + 8;
         }

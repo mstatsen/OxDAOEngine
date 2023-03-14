@@ -56,7 +56,7 @@ namespace OxXMLEngine.Statistic
 
         private void SetStatisticText()
         {
-            foreach (KeyValuePair<StatisticType, StatisticLabel> item in Labels)
+            foreach (var item in Labels)
             {
                 int newStatistic = 0;
 

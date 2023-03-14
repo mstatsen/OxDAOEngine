@@ -4,6 +4,7 @@
     { 
         Edit,
         SelectItem,
-        ChooseItems
+        ChooseItems,
+        ViewItems
     }
 }

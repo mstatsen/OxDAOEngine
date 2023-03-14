@@ -70,7 +70,7 @@ namespace OxXMLEngine.Summary
                 SummaryConsts.VerticalSpace
             );
 
-            foreach (KeyValuePair<object, int> extractItem in extraction)
+            foreach (var extractItem in extraction)
             {
                 IControlAccessor accessor = ValueAccessors.CreateAccessor(
                     extractItem.Key,

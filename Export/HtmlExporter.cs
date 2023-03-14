@@ -46,7 +46,7 @@ namespace OxXMLEngine.Export
         {
             StringBuilder bodyBuilder = new("");
 
-            foreach (KeyValuePair<string, string> item in Settings.ParamsValues)
+            foreach (var item in Settings.ParamsValues)
                 bodyBuilder.AppendLine(HtmlExporter<TField, TDAO>.RequestRow(item.Key, item.Value));
 
             Dictionary<string, string> filterValues = Settings.FilterValues;
@@ -56,7 +56,7 @@ namespace OxXMLEngine.Export
                 bodyBuilder.AppendLine("<br>");
                 bodyBuilder.AppendLine(HtmlExporter<TField, TDAO>.RequestRow("Filter", string.Empty));
 
-                foreach (KeyValuePair<string, string> item in filterValues)
+                foreach (var item in filterValues)
                     bodyBuilder.AppendLine(HtmlExporter<TField, TDAO>.FilterRow(item.Key, item.Value));
             }
 
@@ -156,7 +156,7 @@ namespace OxXMLEngine.Export
                 ListController.FullItemsList
             ).CountExtract(field, true);
 
-            foreach (KeyValuePair<object, int> item in extract)
+            foreach (var item in extract)
                 bodyBuilder.AppendLine(
                     SummaryRow(
                         TypeHelper.Name(item.Key),

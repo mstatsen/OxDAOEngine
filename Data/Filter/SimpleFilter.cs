@@ -81,7 +81,7 @@ namespace OxXMLEngine.Data.Filter
 
             XmlElement calcedValuesElement = XmlHelper.AppendElement(element, "CalcedValues", string.Empty)!;
 
-            foreach (KeyValuePair<TField, object?> calcedValue in calcedValues)
+            foreach (var calcedValue in calcedValues)
             {
                 XmlElement calcedValueElement = XmlHelper.AppendElement(calcedValuesElement, "CalcedValue", string.Empty)!;
                 XmlHelper.AppendElement(calcedValueElement, XmlConsts.Field, calcedValue.Key);

@@ -53,7 +53,7 @@ namespace OxXMLEngine.Data.Fields
 
         public FieldsVariant VariantByScope(ControlScope scope)
         {
-            foreach (KeyValuePair<FieldsVariant, ControlScope> item in VariantScope)
+            foreach (var item in VariantScope)
                 if (item.Value == scope)
                     return item.Key;
 

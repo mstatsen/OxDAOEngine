@@ -166,7 +166,7 @@ namespace OxXMLEngine.Export
 
             StringBuilder valueBuilder = new("");
 
-            foreach (KeyValuePair<object, int> item in extract)
+            foreach (var item in extract)
             {
                 valueBuilder.Clear();
 
@@ -207,7 +207,7 @@ namespace OxXMLEngine.Export
             paramsBuilder.AppendLine("Request".ToUpper());
             paramsBuilder.AppendLine(LineSeparator);
 
-            foreach (KeyValuePair<string, string> item in Settings.ParamsValues)
+            foreach (var item in Settings.ParamsValues)
             {
                 paramsBuilder.AppendFormat(ParamTemplate, item.Key, item.Value);
                 paramsBuilder.AppendLine("");
@@ -221,7 +221,7 @@ namespace OxXMLEngine.Export
                 paramsBuilder.AppendLine("");
                 bool textFilterExists = false;
 
-                foreach (KeyValuePair<string, string> item in filterValues)
+                foreach (var item in filterValues)
                     if (item.Key == Consts.QuickFilterTextFieldCaption)
                         textFilterExists = true;
                     else

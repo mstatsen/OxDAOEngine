@@ -243,7 +243,7 @@ namespace OxXMLEngine.Settings
             filter.Clear();
             exportSettings.Clear();
 
-            foreach (KeyValuePair<SettingsPart, FieldColumns<TField>> item in fields)
+            foreach (var item in fields)
             {
                 item.Value.Clear();
                 item.Value.CopyFrom(

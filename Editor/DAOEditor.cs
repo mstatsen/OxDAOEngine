@@ -43,7 +43,7 @@ namespace OxXMLEngine.Editor
 
         private void PlaceGroups()
         {
-            foreach (KeyValuePair<TFieldGroup, OxFrame> group in Groups)
+            foreach (var group in Groups)
                 group.Value.Parent = GroupParent(group.Key);
         }
 
@@ -67,7 +67,7 @@ namespace OxXMLEngine.Editor
 
         private void SetMargins()
         {
-            foreach (KeyValuePair<TFieldGroup, OxFrame> item in Groups)
+            foreach (var item in Groups)
                 SetFrameMargin(item.Key, item.Value);
         }
 
@@ -163,7 +163,7 @@ namespace OxXMLEngine.Editor
         {
             bool visibleChanged = false;
 
-            foreach (KeyValuePair<IOxPane, OxPaneList> parent in GroupParents)
+            foreach (var parent in GroupParents)
             {
                 if (parent.Key == MainPanel)
                     continue;

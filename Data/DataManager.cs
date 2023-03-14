@@ -46,7 +46,7 @@ namespace OxXMLEngine.Data
 
         public static void Save()
         {
-            foreach (KeyValuePair<string, XmlDocument> file in Files)
+            foreach (var file in Files)
             {
                 file.Value.RemoveAll();
                 file.Value.AppendChild(file.Value.CreateElement("Data"));
@@ -62,7 +62,7 @@ namespace OxXMLEngine.Data
 
         public static void Load()
         {
-            foreach (KeyValuePair<string, XmlDocument> file in Files)
+            foreach (var file in Files)
             {
                 file.Value.RemoveAll();
 
@@ -354,13 +354,13 @@ namespace OxXMLEngine.Data
             }
         }
 
-        public static void ViewItems<TField, TDAO>(TField field, object? value, OxPane? parentPane = null)
+        public static void ViewItems<TField, TDAO>(TField field, object? value)
             where TField : notnull, Enum
             where TDAO : RootDAO<TField>, new()
         {
             try
             {
-                ListController<TField, TDAO>().ViewItems(field, value, parentPane);
+                ListController<TField, TDAO>().ViewItems(field, value);
             }
             catch
             {

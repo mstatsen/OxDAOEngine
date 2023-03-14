@@ -93,7 +93,7 @@ namespace OxXMLEngine.Settings
 
         protected override string EmptyMandatoryField()
         {
-            foreach (KeyValuePair<ISettingsController, SettingsPartDictionary<IFieldsPanel>> item in settingsFieldPanels)
+            foreach (var item in settingsFieldPanels)
                 foreach (SettingsPart part in partHelper.MandatoryFields)
                     if (settingsFieldPanels[item.Key][part].Fields.Count == 0)
                         return $"{item.Key.Name} {TypeHelper.Name(part)} fields";
@@ -124,12 +124,12 @@ namespace OxXMLEngine.Settings
         {
             foreach (ISettingsController settings in SettingsManager.Controllers)
             {
-                foreach (KeyValuePair<string, IControlAccessor> item in settingsControls[settings])
+                foreach (var item in settingsControls[settings])
                     item.Value.Value = settings[item.Key];
 
                 if (settings is IDAOSettings daoSettings)
                 {
-                    foreach (KeyValuePair<SettingsPart, IFieldsPanel> item in settingsFieldPanels[settings])
+                    foreach (var item in settingsFieldPanels[settings])
                         item.Value.Fields = daoSettings.GetFields(item.Key);
                 }
             }
@@ -139,11 +139,11 @@ namespace OxXMLEngine.Settings
         {
             foreach (ISettingsController settings in SettingsManager.Controllers)
             {
-                foreach (KeyValuePair<string, IControlAccessor> item in settingsControls[settings])
+                foreach (var item in settingsControls[settings])
                     settings[item.Key] = item.Value.Value;
 
                 if (settings is IDAOSettings daoSettings)
-                    foreach (KeyValuePair<SettingsPart, IFieldsPanel> item in settingsFieldPanels[settings])
+                    foreach (var item in settingsFieldPanels[settings])
                         daoSettings.SetFields(item.Key, item.Value.Fields);
             }
         }
@@ -389,7 +389,7 @@ namespace OxXMLEngine.Settings
 
         private void SetDefaultForPart(ISettingsController settings, SettingsPart part)
         {
-            foreach (KeyValuePair<string, IControlAccessor> item in settingsControls[settings])
+            foreach (var item in settingsControls[settings])
                 if (settings.Helper.Part(item.Key) == part)
                     item.Value.Value = settings.GetDefault(item.Key);
 
@@ -411,8 +411,8 @@ namespace OxXMLEngine.Settings
                 && !OxMessage.Confirmation("Are you sure you want to reset all settings to the default values?"))
                 return;
 
-            foreach (KeyValuePair<ISettingsController, SettingsPartPanels> item in settingsPanels)
-                foreach (KeyValuePair<SettingsPart, OxPanel> partPanel in item.Value)
+            foreach (var item in settingsPanels)
+                foreach (var partPanel in item.Value)
                     if (scope == DefaulterScope.All ||
                         partPanel.Value == settingsTabs[item.Key].ActivePage)
                         SetDefaultForPart(item.Key, partPanel.Key);

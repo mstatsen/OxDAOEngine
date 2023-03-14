@@ -87,7 +87,7 @@ namespace OxXMLEngine.ControlFactory.Controls
 
         private void SetToolButtonsVisible()
         {
-            foreach (KeyValuePair<FieldsFilling, OxButton> item in toolButtons)
+            foreach (var item in toolButtons)
             {
                 if (item.Key == FieldsFilling.Clear)
                     continue;

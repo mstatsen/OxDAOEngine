@@ -1,4 +1,5 @@
-﻿using OxLibrary.Dialogs;
+﻿using OxLibrary;
+using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxXMLEngine.ControlFactory;
 using OxXMLEngine.Data.Decorator;
@@ -234,14 +235,24 @@ namespace OxXMLEngine.Data
             card.ShowAsDialog();
         }
 
-        public void ViewItems(TField field, object? value, OxPane? parentPane)
+        public void ViewItems(TField field, object? value)
         {
-            if (itemSelector == null)
-                itemSelector = new();
+            ItemsViewer<TField, TDAO>? itemsViewer = new();
 
-            itemSelector.BaseColor = parentPane != null ? parentPane.BaseColor : itemSelector.BaseColor;
-            itemSelector.Filter = new SimpleFilter<TField, TDAO>().AddFilter(field, value);
-            itemSelector.ShowAsDialog(OxDialogButton.Cancel);
+            try
+            {
+
+                if (value == null)
+                    itemsViewer.Text = $"{Name} where {fieldHelper.Name(field)} blank";
+                else itemsViewer.Text = $"{Name} where {fieldHelper.Name(field)} = {value}";
+
+                itemsViewer.Filter = new SimpleFilter<TField, TDAO>().AddFilter(field, value);
+                itemsViewer.ShowAsDialog(OxDialogButton.Cancel);
+            }
+            finally
+            {
+                itemsViewer.Dispose();
+            }
         }
             
 

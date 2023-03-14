@@ -10,7 +10,7 @@
             FieldExtract list = new();
             FieldCountExtract countExtract = new();
 
-            foreach (KeyValuePair<object, int> item in this)
+            foreach (var item in this)
             {
                 list.Add(item.Key);
                 countExtract.Add(item.Key, item.Value);

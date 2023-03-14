@@ -139,7 +139,7 @@ namespace OxXMLEngine.Settings
 
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
-            foreach (KeyValuePair<TSetting, object?> item in settings)
+            foreach (var item in settings)
             {
                 if (IsDAOSetting(item.Key))
                 {

@@ -18,15 +18,16 @@ namespace OxXMLEngine.Data
         RootListDAO<TField, TDAO> FullItemsList { get; }
         RootListDAO<TField, TDAO> VisibleItemsList { get; }
         TDAO? Item(TField field, object value);
+
         void AddItem();
         void EditItem(TDAO? item);
         void CopyItem(TDAO? item);
         void ViewItem(TDAO? item, ItemViewMode viewMode = ItemViewMode.Simple);
         void ViewItem(TField field, object? value, ItemViewMode viewMode = ItemViewMode.Simple);
-        void ViewItems(TField field, object? value, OxPane? parentPane);
-
+        void ViewItems(TField field, object? value);
         bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TDAO>? filter = null);
         void Delete(RootListDAO<TField, TDAO> list);
+
         int TotalCount { get; }
         int FilteredCount { get; }
         int ModifiedCount { get; }
