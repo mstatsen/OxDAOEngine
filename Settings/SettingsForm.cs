@@ -196,7 +196,7 @@ namespace OxXMLEngine.Settings
             settingsTabs[settings].ActivePage = settingsPanels[settings][part];
         }
 
-        private SettingsPartList PartList(ISettingsController settings) =>
+        private List<SettingsPart> PartList(ISettingsController settings) =>
             settings is IDAOSettings
                 ? partHelper.VisibleDAOSettings
                 : partHelper.VisibleGeneralSettings;

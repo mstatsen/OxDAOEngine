@@ -19,7 +19,7 @@ namespace OxXMLEngine.Settings
                 _ => string.Empty,
             };
 
-        public SettingsPartList VisibleDAOSettings =>
+        public List<SettingsPart> VisibleDAOSettings =>
             new()
             {
                 SettingsPart.Table,
@@ -29,14 +29,14 @@ namespace OxXMLEngine.Settings
                 SettingsPart.Summary
             };
 
-        public SettingsPartList VisibleGeneralSettings =>
+        public List<SettingsPart> VisibleGeneralSettings =>
             new()
             {
                 SettingsPart.Main,
                 SettingsPart.Styles
             };
 
-        public SettingsPartList FieldsSettings =>
+        public List<SettingsPart> FieldsSettings =>
             new()
             {
                 SettingsPart.Table,
@@ -46,7 +46,7 @@ namespace OxXMLEngine.Settings
                 SettingsPart.Summary
             };
 
-        public SettingsPartList MandatoryFields =>
+        public List<SettingsPart> MandatoryFields =>
             new()
             {
                 SettingsPart.Table,

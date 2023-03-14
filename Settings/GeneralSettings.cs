@@ -38,7 +38,7 @@ namespace OxXMLEngine.Settings
         }
 
         protected override ISettingsObserver CreateObserver() => 
-            new GeneralObserver();
+            new SettingsObserver<GeneralSetting, GeneralSettings>();
 
         protected override bool IsBoolSettings(GeneralSetting setting)
         {

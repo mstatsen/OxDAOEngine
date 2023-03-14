@@ -20,24 +20,30 @@ namespace OxXMLEngine.Data.Sorting
         {
             int result;
 
-            if (x == null)
-                result = y == null ? 0 : -1;
-            else
-            if (y == null)
-                result = 1;
-            else
+            switch (x)
             {
+                case null:
+                    result = y == null ? 0 : -1;
+                    break;
+                default:
+                    if (y == null)
+                        result = 1;
+                    else
+                    {
 
-                string? xValue = GridColumn.ValueGetter(x)?.ToString();
-                string? yValue = GridColumn.ValueGetter(y)?.ToString();
+                        string? xValue = GridColumn.ValueGetter(x)?.ToString();
+                        string? yValue = GridColumn.ValueGetter(y)?.ToString();
 
-                if (xValue == null)
-                    result = yValue == null ? 0 : -1;
-                else
-                if (yValue == null)
-                    result = 1;
-                else
-                    result = xValue.CompareTo(yValue);
+                        if (xValue == null)
+                            result = yValue == null ? 0 : -1;
+                        else
+                        if (yValue == null)
+                            result = 1;
+                        else
+                            result = xValue.CompareTo(yValue);
+                    }
+
+                    break;
             }
 
             if (result != 0 &&

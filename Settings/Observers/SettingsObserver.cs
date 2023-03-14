@@ -1,6 +1,6 @@
 ﻿namespace OxXMLEngine.Settings
 {
-    public abstract class SettingsObserver<TSetting, TSettings> : ISettingsObserver<TSetting>
+    public class SettingsObserver<TSetting, TSettings> : ISettingsObserver<TSetting>
         where TSetting : Enum
         where TSettings : SettingsController<TSetting>, new()
     {

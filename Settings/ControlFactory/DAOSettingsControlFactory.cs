@@ -36,45 +36,28 @@ namespace OxXMLEngine.Settings.ControlFactory
                 _ => FieldType.Custom,
             };
 
-        protected override IControlAccessor? CreateOtherAccessor(
-            IBuilderContext<DAOSetting, SystemRootDAO<DAOSetting>> context)
-        {
-            if (context is FieldContext<DAOSetting, SystemRootDAO<DAOSetting>> fieldContext)
-                switch (fieldContext.Field)
+        protected override IControlAccessor? CreateOtherAccessor(IBuilderContext<DAOSetting, SystemRootDAO<DAOSetting>> context) => 
+            context is FieldContext<DAOSetting, SystemRootDAO<DAOSetting>> fieldContext
+                ? fieldContext.Field switch
                 {
-                    case DAOSetting.IconsSize:
-                        return CreateEnumAccessor<IconSize>(context);
-                    case DAOSetting.IconClickVariant:
-                        return CreateEnumAccessor<IconClickVariant>(context);
-                    case DAOSetting.IconMapping:
-                        return CreateButtonEditAccessor<IconMapping<TField>, 
-                            ListDAO<IconMapping<TField>>, IconMappingControl<TField>>(context);
-                    case DAOSetting.SummarySorting:
-                        return CreateEnumAccessor<ExtractCompareType>(context);
-                    case DAOSetting.QuickFilterTextFieldOperation:
-                        return CreateEnumAccessor<TextFilterOperation>(context);
+                    DAOSetting.IconsSize => CreateEnumAccessor<IconSize>(context),
+                    DAOSetting.IconClickVariant => CreateEnumAccessor<IconClickVariant>(context),
+                    DAOSetting.IconMapping => 
+                        CreateButtonEditAccessor<IconMapping<TField>, ListDAO<IconMapping<TField>>, IconMappingControl<TField>>(context),
+                    DAOSetting.SummarySorting => CreateEnumAccessor<ExtractCompareType>(context),
+                    DAOSetting.QuickFilterTextFieldOperation => CreateEnumAccessor<TextFilterOperation>(context),
+                    _ => null,
                 }
-            else
-            { 
-                if (context.Name == "IconMappingField")
-                    return new FieldAccessor<DAOSetting, SystemRootDAO<DAOSetting>, TField>(context);
-            }
+                : context.Name == "IconMappingField" ? new FieldAccessor<DAOSetting, SystemRootDAO<DAOSetting>, TField>(context) : (IControlAccessor?)null;
 
-            return null;
-        }
-
-        protected override IInitializer? Initializer(IBuilderContext<DAOSetting, SystemRootDAO<DAOSetting>> context)
-        {
-            if (context is FieldContext<DAOSetting, SystemRootDAO<DAOSetting>> fieldContext)
-                switch (fieldContext.Field)
+        protected override IInitializer? Initializer(IBuilderContext<DAOSetting, SystemRootDAO<DAOSetting>> context) => 
+            context is FieldContext<DAOSetting, SystemRootDAO<DAOSetting>> fieldContext
+                ? fieldContext.Field switch
                 {
-                    case DAOSetting.CardsPageSize:
-                        return new NumericInitializer(1, 18, 3);
-                    case DAOSetting.IconsPageSize:
-                        return new NumericInitializer(1, 90, 15);
+                    DAOSetting.CardsPageSize => new NumericInitializer(1, 18, 3),
+                    DAOSetting.IconsPageSize => new NumericInitializer(1, 90, 15),
+                    _ => base.Initializer(context),
                 }
-
-            return base.Initializer(context);
-        }
+                : base.Initializer(context);
     }
 }

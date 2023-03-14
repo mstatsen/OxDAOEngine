@@ -38,5 +38,11 @@ namespace OxXMLEngine.ControlFactory
                 ControlScope.Inline => "Inline",
                 _ => "Unknown",
             };
+
+        public bool SupportClickedLabels(ControlScope scope) => 
+            scope == ControlScope.CardView ||
+            scope == ControlScope.Editor ||
+            scope == ControlScope.FullInfoView ||
+            scope == ControlScope.Summary;
     }
 }

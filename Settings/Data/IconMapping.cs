@@ -58,11 +58,11 @@ namespace OxXMLEngine.Settings.Data
 
                 return part switch
                 {
-                    IconContent.Image => otherPart == IconContent.Image 
+                    IconContent.Image => otherPart == IconContent.Image
                         ? 0 : -1,
                     IconContent.Title => otherPart == IconContent.Image
                         ? 1 : otherPart == IconContent.Title ? 0 : -1,
-                    IconContent.Left => otherPart == IconContent.Image || otherPart == IconContent.Title 
+                    IconContent.Left => otherPart == IconContent.Image || otherPart == IconContent.Title
                         ? 1 : otherPart == IconContent.Left ? 0 : -1,
                     _ => //IconContent.Right
                         1

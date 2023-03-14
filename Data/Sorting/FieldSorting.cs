@@ -70,15 +70,11 @@ namespace OxXMLEngine.Data.Sorting
 
         public int Compare(TDAO? x, TDAO? y)
         {
-            int result;
-
-            if (x == null)
-                result = y == null ? 0 : -1;
-            else
-            if (y == null)
-                result = 1;
-            else
-                result = x.CompareField(Field, y);
+            var result = x switch
+            {
+                null => y == null ? 0 : -1,
+                _ => y == null ? 1 : x.CompareField(Field, y),
+            };
 
             if (result != 0 &&
                 SortOrder == SortOrder.Descending)

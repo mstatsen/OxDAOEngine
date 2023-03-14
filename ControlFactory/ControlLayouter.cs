@@ -1,5 +1,4 @@
 ﻿using OxLibrary.Controls;
-using OxLibrary.Dialogs;
 using OxXMLEngine.ControlFactory.Accessors;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Fields;
@@ -35,32 +34,33 @@ namespace OxXMLEngine.ControlFactory
 
         private void LayoutControl(ControlLayout<TField> layout)
         {
-            layout.SupportClickedLabels = 
-                Builder.Scope == ControlScope.CardView ||
-                Builder.Scope == ControlScope.Editor ||
-                Builder.Scope == ControlScope.FullInfoView ||
-                Builder.Scope == ControlScope.Summary;
+            layout.SupportClickedLabels = TypeHelper.Helper<ControlScopeHelper>().SupportClickedLabels(Builder.Scope);
+            TField field = layout.Field;
 
-            if (PlacedControls.TryGetValue(layout.Field, out var placedControl))
+            if (PlacedControls.TryGetValue(field, out var placedControl))
                 layout.ApplyLayout(placedControl);
             else
             {
-                ControlAccessor<TField, TDAO> controlAccessor = (ControlAccessor<TField, TDAO>)Builder[layout.Field];
+                ControlAccessor<TField, TDAO> controlAccessor = (ControlAccessor<TField, TDAO>)Builder[field];
                 placedControl = controlAccessor.LayoutControl(layout);
-                PlacedControls.Add(layout.Field, placedControl);
+                PlacedControls.Add(field, placedControl);
             }
 
+            SetLabelClickHander(field, placedControl);
+        }
+
+        private void SetLabelClickHander(TField field, PlacedControl<TField> placedControl)
+        {
             OxLabel? label = placedControl?.Label;
 
-            if (label != null)
-            {
-                label.Click -= ExtractLabelClick;
+            if (label == null)
+                return;
 
-                FieldType fieldType = TypeHelper.FieldHelper<TField>().GetFieldType(layout.Field);
+            label.Click -= ExtractLabelClick;
+            FieldType fieldType = TypeHelper.FieldHelper<TField>().GetFieldType(field);
 
-                if (fieldType == FieldType.Extract || fieldType == FieldType.Enum)
-                    label.Click += ExtractLabelClick;
-            }
+            if (fieldType == FieldType.Extract || fieldType == FieldType.Enum)
+                label.Click += ExtractLabelClick;
         }
 
         private void ExtractLabelClick(object? sender, EventArgs e)
@@ -71,23 +71,25 @@ namespace OxXMLEngine.ControlFactory
                 return;
 
             foreach (var item in PlacedControls)
-                if (item.Value.Label == label)
+            {
+                if (item.Value.Label != label)
+                    continue;
+
+                object? value = Builder.Value(item.Key);
+                FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
+
+                if (fieldHelper.GetFieldType(item.Key) == FieldType.Enum
+                    && value is string stringValue)
                 {
-                    object? value = Builder.Value(item.Key);
-                    FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
+                    ITypeHelper? helper = fieldHelper.GetHelper(item.Key);
 
-                    if (fieldHelper.GetFieldType(item.Key) == FieldType.Enum 
-                        && value is string stringValue)
-                    {
-                        ITypeHelper? helper = fieldHelper.GetHelper(item.Key);
-
-                        if (helper != null)
-                            value = helper.Parse(stringValue);
-                    }
-
-                    DataManager.ViewItems<TField, TDAO>(item.Key, value);
-                    break;
+                    if (helper != null)
+                        value = helper.Parse(stringValue);
                 }
+
+                DataManager.ViewItems<TField, TDAO>(item.Key, value);
+                break;
+            }
         }
 
         public ControlLayout<TField> Template => Layouts.Template;
@@ -109,13 +111,9 @@ namespace OxXMLEngine.ControlFactory
 
             foreach (ControlLayout<TField> layout in layouts)
             { 
-                if (layout == null)
-                    continue;
-
-                if (layout.CaptionVariant == ControlCaptionVariant.None)
-                    continue;
-
-                if (!PlacedControls.TryGetValue(layout.Field, out var placedControl))
+                if (layout == null || 
+                    layout.CaptionVariant == ControlCaptionVariant.None ||
+                    !PlacedControls.TryGetValue(layout.Field, out var placedControl))
                     continue;
 
                 minimum = Math.Min(minimum, placedControl.LabelLeft);

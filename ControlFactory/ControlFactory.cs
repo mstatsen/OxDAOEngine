@@ -150,7 +150,6 @@ namespace OxXMLEngine.ControlFactory
                 ? CreateExtractAccessor(context)
                 : new NumericAccessor<TField, TDAO>(context);
 
-
         protected IControlAccessor CreateBoolAccessor(IBuilderContext<TField, TDAO> context)
         {
             if (context.IsBatchUpdate || context.IsQuickFilter)
