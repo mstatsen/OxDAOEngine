@@ -40,7 +40,7 @@ namespace OxXMLEngine.ControlFactory.BatchUpdate
                 if (findItem != null)
                     findItem.Modified = true;
 
-                item.SilentChange = false;
+                item.FinishSilentChange();
             }
 
             BatchUpdateCompleted?.Invoke(this, EventArgs.Empty);
@@ -61,7 +61,7 @@ namespace OxXMLEngine.ControlFactory.BatchUpdate
             SetContentSize(360, 120);
         }
 
-        public bool FieldIsEmpty => 
+        public bool FieldIsEmpty =>
             FieldAccessor.Value == null 
             || FieldAccessor.Value is NullObject;
 

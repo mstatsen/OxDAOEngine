@@ -18,6 +18,12 @@ namespace OxXMLEngine.ControlFactory.BatchUpdate
             }
         }
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            SetContentSize(360, 120);
+        }
+
         public EventHandler? BatchUpdateCompleted
         {
             get => MainPanel.BatchUpdateCompleted;
