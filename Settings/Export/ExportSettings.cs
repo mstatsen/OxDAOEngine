@@ -20,7 +20,7 @@ namespace OxXMLEngine.Settings
         public Filter<TField, TDAO> Filter { get; internal set; } = new();
         public ExportFormat Format { get; set; }
 
-        public string CategoryName { get; set; } = "All Games";
+        public string? CategoryName { get; set; }
 
         public string FileName
         {
@@ -70,7 +70,7 @@ namespace OxXMLEngine.Settings
             Format = ExportFormat.Html;
         }
 
-        public Dictionary<string, string> ParamsValues => new()
+        public Dictionary<string, string?> ParamsValues => new()
         {
             ["Category"] = CategoryName
         };

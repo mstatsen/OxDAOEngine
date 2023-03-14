@@ -227,7 +227,7 @@ namespace OxXMLEngine.Grid
                     BatchUpdate();
                     break;
                 case OxToolbarAction.Export:
-                    OxMessage.ShowInfo("Export under construction");
+                    ListController.ExportController.Export();
                     break;
             }
         }

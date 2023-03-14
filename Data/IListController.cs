@@ -5,6 +5,7 @@ using OxXMLEngine.Data.Decorator;
 using OxXMLEngine.Data.Filter;
 using OxXMLEngine.Data.Sorting;
 using OxXMLEngine.Editor;
+using OxXMLEngine.Export;
 using OxXMLEngine.Settings;
 using OxXMLEngine.Summary;
 using OxXMLEngine.View;
@@ -47,6 +48,7 @@ namespace OxXMLEngine.Data
         event EventHandler? CategoryChanged;
         DecoratorFactory<TField, TDAO> DecoratorFactory { get; }
         ControlFactory<TField, TDAO> ControlFactory { get; }
+        ExportController<TField, TDAO> ExportController { get; }
         new DAOSettings<TField, TDAO> Settings { get; }
         void Sort();
         List<ISummaryPanel>? GeneralSummaries { get; }

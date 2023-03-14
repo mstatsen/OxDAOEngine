@@ -1,5 +1,4 @@
-﻿using OxLibrary;
-using OxLibrary.Dialogs;
+﻿using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxXMLEngine.ControlFactory;
 using OxXMLEngine.Data.Decorator;
@@ -7,6 +6,7 @@ using OxXMLEngine.Data.Fields;
 using OxXMLEngine.Data.Filter;
 using OxXMLEngine.Data.Sorting;
 using OxXMLEngine.Editor;
+using OxXMLEngine.Export;
 using OxXMLEngine.Grid;
 using OxXMLEngine.Settings;
 using OxXMLEngine.Summary;
@@ -419,5 +419,18 @@ namespace OxXMLEngine.Data
         OxPane? IDataController.Face => Face;
 
         public virtual List<ISummaryPanel>? GeneralSummaries => null;
+
+        public ExportController<TField, TDAO>? exportController;
+
+        public ExportController<TField, TDAO> ExportController
+        {
+            get
+            {
+                if (exportController == null)
+                    exportController = new();
+
+                return exportController;
+            }
+        }
     }
 }

@@ -3,10 +3,10 @@ using OxXMLEngine.Data.Decorator;
 using OxXMLEngine.Data.Extract;
 using OxXMLEngine.Data.Filter;
 using OxXMLEngine.Data.Fields;
+using OxXMLEngine.Data.Sorting;
 using OxXMLEngine.Data.Types;
 using OxXMLEngine.Settings;
 using System.Text;
-using OxXMLEngine.Data.Sorting;
 
 namespace OxXMLEngine.Export
 {
@@ -63,9 +63,9 @@ namespace OxXMLEngine.Export
             return bodyBuilder.ToString();
         }
 
-        private static string RequestRow(string key, object value)
+        private static string RequestRow(string key, object? value)
         {
-            string? stringValue = value.ToString();
+            string? stringValue = value?.ToString();
 
             if (stringValue == null)
                 stringValue = string.Empty;

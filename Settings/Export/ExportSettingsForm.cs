@@ -32,8 +32,8 @@ namespace OxXMLEngine.Settings
             BaseColor = EngineStyles.SettingsFormColor;
             CreateExtraSettingsFrames();
 
-            quickFilterPanel.Parent = this;
-            quickFilterPanel.Margins.HorizontalOx = OxSize.Extra;
+            quickFilter.Parent = this;
+            quickFilter.Margins.HorizontalOx = OxSize.Extra;
 
             PrepareHTMLControls();
 
@@ -51,26 +51,17 @@ namespace OxXMLEngine.Settings
             textIncludeParamsAccessor = CreateIncludeParamsControl(ExportFormat.Text);
             textSummaryAccessor = CreateSummaryControl(ExportFormat.Text);
 
+            GeneralPanel = CreateFrame("General");
+
             formatAccessor = Builder.EnumAccessor<ExportFormat>();
             formatAccessor.Value = settings.Format;
             formatAccessor.ValueChangeHandler += FormatChangeHandler;
             SetupGeneralControl(formatAccessor.Control, MainPanel.BaseColor, "Export as");
 
-            categoryControl = new OxButtonEdit()
-            {
-                Value = settings.CategoryName,
-                Font = EngineStyles.DefaultFont
-            };
-            categoryControl.OnButtonClick += SelectCategory;
+            categoryControl = CreateButtonEdit(settings.CategoryName, SelectCategory);
             SetupGeneralControl(categoryControl, MainPanel.Colors.Lighter(1), "Category");
 
-            GeneralPanel = CreateFrame("General");
-            fileControl = new OxButtonEdit()
-            {
-                Value = settings.FileName,
-                Font = EngineStyles.DefaultFont
-            };
-            fileControl.OnButtonClick += ShowFileDialog;
+            fileControl = CreateButtonEdit(settings.FileName, ShowFileDialog);
             SetupGeneralControl(fileControl, MainPanel.Colors.Lighter(1), "File name");
 
             CalcFramesSizes();
@@ -78,6 +69,18 @@ namespace OxXMLEngine.Settings
             MainPanel.SetButtonText(OxDialogButton.OK, "Export");
             MainPanel.DialogButtonStartSpace = 8;
             MainPanel.DialogButtonSpace = 4;
+        }
+
+        private OxButtonEdit CreateButtonEdit(string? value, EventHandler? onClick)
+        {
+            OxButtonEdit buttonEdit = new()
+            {
+                Value = value,
+                Font = EngineStyles.DefaultFont,
+                BaseColor = MainPanel.Colors.Lighter()
+            };
+            buttonEdit.OnButtonClick += onClick;
+            return buttonEdit;
         }
 
         private static OxPanel CreateExtraPanel(int height) =>
@@ -105,7 +108,7 @@ namespace OxXMLEngine.Settings
 
         private IControlAccessor CreateIncludeParamsControl(ExportFormat format)
         {
-            IControlAccessor accessor = Builder.Accessor("IncludeParams", FieldType.Boolean);
+            IControlAccessor accessor = Builder.Accessor("IncludeParams", FieldType.Boolean, format);
             accessor.Value = format == ExportFormat.Html
                     ? settings.HTML.IncludeExportParams
                     : settings.Text.IncludeExportParams;
@@ -135,7 +138,7 @@ namespace OxXMLEngine.Settings
         private IControlAccessor CreateZeroSummaryAccessor()
         {
 
-            IControlAccessor accessor = Builder.Accessor("SeroSummary", FieldType.Boolean);
+            IControlAccessor accessor = Builder.Accessor("ZeroSummary", FieldType.Boolean);
             accessor.Value = settings.HTML.ZeroSummary;
             accessor.Text = "Show summary with zero count";
             SetupControl(accessor.Control, ExportFormat.Html, htmlGeneralPanel, MainPanel.Colors.Lighter(1));
@@ -182,7 +185,7 @@ namespace OxXMLEngine.Settings
 
             if (DialogResult == DialogResult.OK)
             {
-                settings.Filter.CopyFrom(quickFilterPanel.ActiveFilter);
+                settings.Filter.CopyFrom(quickFilter.ActiveFilter);
                 settings.CategoryName = categoryControl.Value ?? string.Empty;
                 settings.Format = formatAccessor.EnumValue;
                 settings.FileName = fileControl.Value ?? string.Empty;
@@ -194,14 +197,13 @@ namespace OxXMLEngine.Settings
                 settings.Text.Summary = textSummaryAccessor.EnumValue;
                 settings.Text.IncludeExportParams = textIncludeParamsAccessor.BoolValue;
                 settings.XML.Indent = indentAccessor.BoolValue;
-                
             }
         }
 
         private void ExportSettingsForm_Shown(object? sender, EventArgs e)
         {
-            quickFilterPanel.RenewFilterControls();
-            quickFilterPanel.ActiveFilter = settings.Filter;
+            quickFilter.RenewFilterControls();
+            quickFilter.ActiveFilter = settings.Filter;
             htmlFieldsPanel.Fields = settings.HTML.Fields.Count == 0
                 ? TypeHelper.FieldHelper<TField>()
                     .Columns(FieldsVariant.Html, FieldsFilling.Default)
@@ -217,7 +219,9 @@ namespace OxXMLEngine.Settings
             ExportFormatHelper helper = TypeHelper.Helper<ExportFormatHelper>();
             SaveFileDialog saveDialog = new()
             {
-                FileName = fileControl.Value == string.Empty ? "Games"+ helper.FileExt(currentFormat) : fileControl.Value,
+                FileName = fileControl.Value == string.Empty
+                    ? DataManager.ListController<TField, TDAO>().Name + helper.FileExt(currentFormat)
+                    : fileControl.Value,
                 Filter = helper.FileFilter(currentFormat),
                 OverwritePrompt = false
             };
@@ -254,7 +258,6 @@ namespace OxXMLEngine.Settings
                 parent = frame;
 
             control.Top = GetLastControlBottom(frame);
-
             control.Parent = parent;
             control.Height = 24;
             control.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
@@ -390,13 +393,13 @@ namespace OxXMLEngine.Settings
 
         private EnumAccessor<TField, TDAO, ExportSummaryType> CreateSummaryControl(ExportFormat format)
         {
-            EnumAccessor<TField, TDAO, ExportSummaryType> accessor = Builder.EnumAccessor<ExportSummaryType>();
+            EnumAccessor<TField, TDAO, ExportSummaryType> accessor = Builder.EnumAccessor<ExportSummaryType>(format);
             
             accessor.Value = format == ExportFormat.Html 
                 ? settings.HTML.Summary 
                 : settings.Text.Summary;
 
-            OxPane parentPane = format == ExportFormat.Html 
+            OxPane parentPane = format == ExportFormat.Html
                 ? htmlGeneralPanel 
                 : textGeneralPanel;
 
@@ -423,7 +426,7 @@ namespace OxXMLEngine.Settings
         }
 
         private readonly ExportSettings<TField, TDAO> settings;
-        private readonly QuickFilterPanel<TField, TDAO> quickFilterPanel = new(QuickFilterVariant.Export)
+        private readonly QuickFilterPanel<TField, TDAO> quickFilter = new(QuickFilterVariant.Export)
         {
             Dock = DockStyle.Top
         };

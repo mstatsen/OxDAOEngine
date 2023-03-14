@@ -36,22 +36,18 @@ namespace OxXMLEngine.Data
 
             if (fieldHelper.UniqueField != null)
             {
-                switch (fieldHelper.GetFieldType(fieldHelper.UniqueField))
-                {
-                    case FieldType.Guid:
-                        this[fieldHelper.UniqueField] = new Guid();
-                        break;
-                    case FieldType.Label:
-                    case FieldType.String:
-                        this[fieldHelper.UniqueField] += " COPY";
-                        break;
-                    case FieldType.Memo:
-                        this[fieldHelper.UniqueField] = "COPY " + this[fieldHelper.UniqueField];
-                        break;
-                }
+                this[fieldHelper.UniqueField] =
+                    fieldHelper.GetFieldType(fieldHelper.UniqueField) switch
+                    {
+                        FieldType.Guid => Guid.NewGuid(),
+                        FieldType.Label or FieldType.String => this[fieldHelper.UniqueField] + " (Copy)",
+                        FieldType.Memo => "COPY " + this[fieldHelper.UniqueField],
+                        _ =>
+                            this[fieldHelper.UniqueField]
+                    };
             }
 
-            this[fieldHelper.TitleField] += " COPY";
+            this[fieldHelper.TitleField] += " (Copy)";
         }
     }
 }

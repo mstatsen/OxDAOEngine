@@ -21,11 +21,16 @@ namespace OxXMLEngine.Grid
             Grid.Dock = DockStyle.Fill;
             Grid.ToolbarActionClick += ToolBarActoinClickHandler;
             Grid.CurrentItemChanged += CurrentItemChangeHandler;
-
             InfoCardPlace = CreateInfoCardPlace();
             CurrentInfoCard = DataManager.ControlFactory<TField, TDAO>().CreateInfoCard();
             PrepareInfoCard();
             PrepareInfoCardLoadingPanel();
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            UpdateCurrentItemFullCard();
         }
 
         private void PrepareInfoCard()

@@ -268,6 +268,9 @@ namespace OxXMLEngine.ControlFactory.Filter
 
         private void SelectCategory(Category<TField, TDAO>? category)
         {
+            if (categorySelector.VisibleCount == 0)
+                return;
+
             TreeNode? selectedNode = category == null ? null : GetNodeByTag(category);
             categorySelector.SelectedNode = selectedNode ?? categorySelector.Nodes[0];
         }

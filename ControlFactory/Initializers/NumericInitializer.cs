@@ -1,7 +1,6 @@
 ﻿using OxLibrary.Controls;
-using OxXMLEngine.ControlFactory.Initializers;
 
-namespace PlayStationGames.Engine.ControlFactory.Initializers
+namespace OxXMLEngine.ControlFactory.Initializers
 {
     public class NumericInitializer : EmptyControlInitializer
     {

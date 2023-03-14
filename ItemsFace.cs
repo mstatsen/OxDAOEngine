@@ -1,11 +1,8 @@
 ﻿using OxLibrary;
 using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.ControlFactory.Controls;
 using OxXMLEngine.ControlFactory.Filter;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Sorting;
 using OxXMLEngine.Data.Types;
 using OxXMLEngine.Grid;
 using OxXMLEngine.Settings;
@@ -15,7 +12,7 @@ using OxXMLEngine.View;
 
 namespace OxXMLEngine
 {
-    public class ItemsFace<TField, TDAO> : OxFrame, IDataReceiver
+    public class ItemsFace<TField, TDAO> : OxPane, IDataReceiver
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -36,11 +33,10 @@ namespace OxXMLEngine
             summaryView = CreateSummaryView();
             ActivateFirstPage();
 
-            functionsPlace = CreateFunctionsPlace();
-            PrepareFunctionsPanels();
+            PrepareQuickFilter();
             PrepareLoadingPanel();
             PrepareCategoriesTree();
-            sortingPanel.Visible = false;
+            //sortingPanel.Visible = false;
 
             statisticPanel = CreateStatisticPanel();
             ListController.ListChanged += ListChangedHandler;
@@ -50,7 +46,7 @@ namespace OxXMLEngine
         }
 
         private StatisticPanel<TField, TDAO> CreateStatisticPanel() =>
-            new(tableView.Grid, quickFilterPanel)
+            new(tableView.Grid, quickFilter)
             {
                 Dock = DockStyle.Bottom,
                 Parent = this
@@ -95,7 +91,6 @@ namespace OxXMLEngine
 
             itemsView.LoadingStarted += LoadingStartedHandler;
             itemsView.LoadingEnded += LoadingEndedHandler;
-
             tabControl.AddPage(itemsView);
             return itemsView;
         }
@@ -136,7 +131,7 @@ namespace OxXMLEngine
         {
             SortList();
             categoriesTree.RefreshCategories();
-            quickFilterPanel.RenewFilterControls();
+            quickFilter.RenewFilterControls();
             statisticPanel.Renew();
             tableView.Renew();
             tableView.SelectFirstItem();
@@ -160,7 +155,7 @@ namespace OxXMLEngine
         private bool QuickFilterChanged()
         {
             RootListDAO<TField, TDAO> newActualItemList = ListController.VisibleItemsList
-                .FilteredList(quickFilterPanel?.ActiveFilter, Settings.Sortings.SortingsList);
+                .FilteredList(quickFilter?.ActiveFilter, Settings.Sortings.SortingsList);
 
             if (actualItemList != null
                 && actualItemList.Equals(newActualItemList))
@@ -179,7 +174,7 @@ namespace OxXMLEngine
 
             try
             {
-                tableView.ApplyQuickFilter(quickFilterPanel.ActiveFilter);
+                tableView.ApplyQuickFilter(quickFilter.ActiveFilter);
 
                 if (tabControl.ActivePage == cardsView)
                     cardsView.Fill(actualItemList);
@@ -198,11 +193,13 @@ namespace OxXMLEngine
 
         public virtual void ApplySettings()
         {
+            /*
             if (ItemsFace<TField, TDAO>.Settings.Observer.SortingFieldsChanged)
             {
                 sortingPanel.Sortings = ItemsFace<TField, TDAO>.Settings.Sortings;
                 SortList();
             }
+            */
 
             if (ItemsFace<TField, TDAO>.Settings.Observer[DAOSetting.ShowCategories])
                 categoriesPlace.Visible = ItemsFace<TField, TDAO>.Settings.ShowCategories;
@@ -211,11 +208,14 @@ namespace OxXMLEngine
                 categoriesPlace.Expanded = ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded;
 
             tableView.ApplySettings();
-            sortingPanel.ApplySettings();
-            quickFilterPanel.ApplySettings();
+            //sortingPanel.ApplySettings();
+            quickFilter.ApplySettings();
             categoriesTree.ApplySettings();
 
-            if (ItemsFace<TField, TDAO>.Settings.Observer[DAOSetting.ShowIcons])
+            if (Settings.Observer.QuickFilterFieldsChanged)
+                RecalcQuickFilterSize();
+
+            if (Settings.Observer[DAOSetting.ShowIcons])
             {
                 tabControl.TabButtons[iconsView].Visible = ItemsFace<TField, TDAO>.Settings.ShowIcons;
                 iconsView.Visible = ItemsFace<TField, TDAO>.Settings.ShowIcons;
@@ -223,7 +223,7 @@ namespace OxXMLEngine
 
             iconsView.ApplySettings();
 
-            if (ItemsFace<TField, TDAO>.Settings.Observer[DAOSetting.ShowCards])
+            if (Settings.Observer[DAOSetting.ShowCards])
             {
                 tabControl.TabButtons[cardsView].Visible = ItemsFace<TField, TDAO>.Settings.ShowCards;
                 cardsView.Visible = ItemsFace<TField, TDAO>.Settings.ShowCards;
@@ -235,8 +235,8 @@ namespace OxXMLEngine
         public virtual void SaveSettings()
         {
             tableView.SaveSettings();
-            sortingPanel.SaveSettings();
-            quickFilterPanel.SaveSettings();
+            //sortingPanel.SaveSettings();
+            quickFilter.SaveSettings();
             categoriesTree.SaveSettings();
             ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded = categoriesPlace.Expanded;
             //ItemsFace<TField, TDAO>.Settings.Sortings = sortingPanel.Sortings;
@@ -264,89 +264,37 @@ namespace OxXMLEngine
 
         private void EndLoading() => loadingPanel.EndLoading();
 
-        private void PrepareFunctionsPanels()
+        private void PrepareQuickFilter()
         {
-            quickFilterPanel.Margins.SetSize(OxSize.Large);
-            quickFilterPanel.Margins.RightOx = OxSize.None;
-            quickFilterPanel.Paddings.SetSize(OxSize.Large);
-            quickFilterPanel.Changed += QuickFilterChangedHandler;
-            quickFilterPanel.RenewFilterControls();
-            quickFilterPanel.Parent = functionsPanel;
-            quickFilterPanel.SizeChanged += FunctionsPanelResizeHandler;
-            quickFilterPanel.VisibleChanged += FunctionsPanelResizeHandler;
+            quickFilterPlace.Parent = tabControl;
+            quickFilterPlace.Dock = DockStyle.Top;
+            quickFilterPlace.Expanded = true;
+            quickFilterPlace.Margins.SetSize(OxSize.Large);
+ 
+            quickFilter.Dock = DockStyle.Fill;
+            quickFilter.Changed += QuickFilterChangedHandler;
+            quickFilter.RenewFilterControls();
+            quickFilter.Parent = quickFilterPlace;
+            quickFilter.VisibleChanged += QuickFilterVisibleChangedHandler;
+            quickFilter.Borders[OxDock.Bottom].Visible = false;
+            quickFilter.Header.Colors.BaseColorChanged += QuickFilterBaseColorChangerHandler;
 
-            sortingPanel.Sortings = ItemsFace<TField, TDAO>.Settings.Sortings;
-            sortingPanel.ExternalChangeHandler = SortChangedHandler;
-            sortingPanel.Margins.SetSize(OxSize.Large);
-            sortingPanel.Paddings.HorizontalOx = OxSize.Medium;
-            sortingPanel.MaximumSize = sortingPanel.Size;
-            sortingPanel.Parent = functionsPanel;
-            sortingPanel.SizeChanged += FunctionsPanelResizeHandler;
-            sortingPanel.VisibleChanged += FunctionsPanelResizeHandler;
-            sortingPanel.Left = quickFilterPanel.Right;
-
-            functionsPanel.Parent = functionsPlace;
-            functionsPanel.BaseColor = new OxColorHelper(BaseColor).HBluer(2).HGreener(1).Lighter(1);
-            functionsPanel.Paddings.VerticalOx = OxSize.None;
-
-            functionsPlace.BaseColor = new OxColorHelper(functionsPanel.BaseColor)
-                .Darker(Consts.SiderButtonDarkerMultiple);
+            RecalcQuickFilterSize();
         }
 
-        private OxSidePanel CreateFunctionsPlace()
+        private void QuickFilterBaseColorChangerHandler(object? sender, EventArgs e) =>
+            quickFilterPlace.BaseColor = quickFilter.Header.BaseColor;
+
+        private void QuickFilterVisibleChangedHandler(object? sender, EventArgs e)
         {
-            OxSidePanel result = new(new Size(1, 200))
-            {
-                Parent = tabControl,
-                Dock = DockStyle.Top,
-                Expanded = true,
-                BorderVisible = true
-            };
-            result.Borders.SetSize(OxSize.Small);
-            result.Borders.BottomOx = OxSize.None;
-            result.Margins.LeftOx = OxSize.Large;
-            result.Margins.RightOx = OxSize.Large;
-            result.Margins.TopOx = OxSize.Large;
-            result.SiderButtonBorders.HorizontalOx = OxSize.None;
-            result.SiderButtonBorders.BottomOx = OxSize.None;
-            result.OnExpandedChanged += FunctionsPlaceExpandedHandler;
-            return result;
+            RecalcQuickFilterSize();
         }
 
-        private void FunctionsPanelResizeHandler(object? sender, EventArgs e) =>
-            RelayoutFunctionsPanels();
-
-        private void RelayoutFunctionsPanels()
+        private void RecalcQuickFilterSize()
         {
-            OxPaneList functionPanels = new()
-            {
-                quickFilterPanel,
-                sortingPanel
-            };
-            sortingPanel.Left = quickFilterPanel.Visible ? quickFilterPanel.Right : 0;
-
-            int calcedWidth = 0;
-
-            foreach (OxPane pane in functionPanels)
-                calcedWidth += pane.Width;
-
-            functionsPanel.SetContentSize(
-                calcedWidth,
-                Math.Max(quickFilterPanel.Height, sortingPanel.Height)
-            );
-            functionsPlace.SetContentSize(functionsPanel.Width, functionsPanel.Height);
-
-            int maxHeight = 0;
-
-            foreach (OxPane pane in functionPanels)
-                maxHeight = Math.Max(maxHeight, pane.Height);
-
-            foreach (OxPane pane in functionPanels)
-                pane.Height = maxHeight;
-
-            Borders.TopOx = functionsPlace.Visible ? OxSize.Small : OxSize.None;
+            quickFilter.Paddings.SetSize(quickFilter.OnlyText ? OxSize.None : OxSize.Large);
+            quickFilterPlace.SetContentSize(1, quickFilter.CalcedHeight);
         }
-
 
         private void PrepareCategoriesTree()
         {
@@ -378,19 +326,21 @@ namespace OxXMLEngine
         private void TableFillCompleteHandler(object? sender, EventArgs e) =>
             ApplyQuickFilter();
 
+        /*
         private void SortChangedHandler(DAO dao, DAOEntityEventArgs e)
         {
             ItemsFace<TField, TDAO>.Settings.Sortings = sortingPanel.Sortings;
             SortList();
         }
+        */
 
         private void ActivatePageHandler(object sender, OxTabControlEventArgs e) =>
             ApplyQuickFilter(true);
 
         private void DeactivatePageHandler(object sender, OxTabControlEventArgs e)
         {
-            sortingPanel.Visible = e.Page != tableView;
-            functionsPlace.Visible = e.Page != summaryView;
+            //sortingPanel.Visible = e.Page != tableView;
+            quickFilterPlace.Visible = e.Page != summaryView;
         }
 
         private void ListChangedHandler(object? sender, EventArgs e) =>
@@ -399,11 +349,11 @@ namespace OxXMLEngine
         public void RenewFilterControls(object? sender, CategoryEventArgs<TField, TDAO> e)
         {
             if (e.IsFilterChanged)
-                quickFilterPanel.RenewFilterControls();
+                quickFilter.RenewFilterControls();
         }
 
         public void RenewFilterControls(object? sender, EventArgs e) =>
-            quickFilterPanel.RenewFilterControls();
+            quickFilter.RenewFilterControls();
 
         private void ActiveCategoryChangedHandler(object? sender, CategoryEventArgs<TField, TDAO> e)
         {
@@ -428,9 +378,6 @@ namespace OxXMLEngine
         private void CategoriesPlaceExpandedHandler(object? sender, EventArgs e) =>
             categoriesTree.Enabled = true;
 
-        private void FunctionsPlaceExpandedHandler(object? sender, EventArgs e) => 
-            functionsPlace.SiderButtonBorders.TopOx = functionsPlace.Expanded ? OxSize.Small : OxSize.None;
-
         public void FillData()
         {
             tableView.FillGrid();
@@ -449,7 +396,7 @@ namespace OxXMLEngine
         protected override void OnVisibleChanged(EventArgs e)
         {
             base.OnVisibleChanged(e);
-            RelayoutFunctionsPanels();
+            RecalcQuickFilterSize();
         }
 
         public SettingsPart ActiveSettingsPart => tabControl.ActivePage != tableView 
@@ -462,12 +409,11 @@ namespace OxXMLEngine
         private readonly SummaryView<TField, TDAO> summaryView;
         private readonly CategoriesTree<TField, TDAO> categoriesTree = new();
         private readonly OxLoadingPanel loadingPanel = new();
-        private readonly QuickFilterPanel<TField, TDAO> quickFilterPanel = new(QuickFilterVariant.Base);
-        private readonly SortingPanel<TField, TDAO> sortingPanel = new(SortingVariant.Global, ControlScope.Table);
-        private readonly OxPanel functionsPanel = new();
+        private readonly QuickFilterPanel<TField, TDAO> quickFilter = new(QuickFilterVariant.Base);
+        //private readonly SortingPanel<TField, TDAO> sortingPanel = new(SortingVariant.Global, ControlScope.Table);
         private RootListDAO<TField, TDAO>? actualItemList;
         private readonly OxSidePanel categoriesPlace = new(new Size(280, 1));
-        private readonly OxSidePanel functionsPlace;
+        private readonly OxSidePanel quickFilterPlace = new(new Size(1, 150));
         private readonly OxTabControl tabControl;
         private readonly StatisticPanel<TField, TDAO> statisticPanel;
     }

@@ -40,8 +40,16 @@ namespace OxXMLEngine.Export
         private bool PrepareToExport() =>
             settingsForm.ShowDialog() == DialogResult.OK;
 
-        private static void OpenReadyFile() =>
-            Process.Start(ExportController<TField, TDAO>.Settings.FileName);
+        private static void OpenReadyFile()
+        {
+            Process.Start(
+                new ProcessStartInfo
+                {
+                    FileName = Settings.FileName,
+                    UseShellExecute = true
+                }
+            );
+        }
 
         private readonly ExportSettingsForm<TField, TDAO> settingsForm;
     }

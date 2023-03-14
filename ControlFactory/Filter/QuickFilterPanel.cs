@@ -29,6 +29,8 @@ namespace OxXMLEngine.ControlFactory.Filter
             Waiter = new OxWaiter(InvokeChangeHandler);
         }
 
+        public bool OnlyText => Layouter.Count == 1;
+
         public void RenewFilterControls()
         {
             if (Builder == null)
@@ -205,10 +207,10 @@ namespace OxXMLEngine.ControlFactory.Filter
 
         private void PrepareLayouts()
         {
-            Layouter.Template.Top = 
-                Variant == QuickFilterVariant.Select 
-                || Variant == QuickFilterVariant.Export 
-                ? 4 
+            Layouter.Template.Top =
+                Variant == QuickFilterVariant.Select
+                || Variant == QuickFilterVariant.Export
+                ? 4
                 : 0;
             Layouter.Template.Left = FirstControlLeft;
             Layouter.Template.Height = 22;
@@ -287,20 +289,20 @@ namespace OxXMLEngine.ControlFactory.Filter
 
             if (layoutForOffsetText != null)
                 layoutTextFilter.OffsetVertical(layoutForOffsetText);
-                
+
             if (Layouter.Count == 1)
             {
-                layoutTextFilter.Left = 12;
                 layoutTextFilter.CaptionVariant = ControlCaptionVariant.None;
-                layoutTextFilter.Width = 400;
+                layoutTextFilter.Dock = DockStyle.Fill;
             }
             else
             {
-                layoutTextFilter.Left = 60;
                 layoutTextFilter.CaptionVariant = ControlCaptionVariant.Left;
-                layoutTextFilter.Width = Math.Max(maxColumnWidth-60, 400);
+                layoutTextFilter.Left = 50;
+                layoutTextFilter.Height = 26;
+                layoutTextFilter.Width = Width - layoutTextFilter.Left - 10;
+                layoutTextFilter.Anchors = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             }
-            layoutTextFilter.Height = 26;
         }
 
         private int FirstControlLeft =>
@@ -369,8 +371,9 @@ namespace OxXMLEngine.ControlFactory.Filter
             if (FilterTextControl == null)
                 return;
 
-            int calcedWidth = FilterTextControl.Control.Right + 24;
-            int calcedHeight = FilterTextControl.Control.Bottom;
+            int calcedWidth = FilterTextControl.Control.Right + 10;
+            int calcedHeight = Layouter.Count == 1 ? 40 : FilterTextControl.Control.Bottom;
+            SetTextFilterBorder();
 
             if (Variant == QuickFilterVariant.Export
                 || Variant == QuickFilterVariant.Select)
@@ -396,21 +399,9 @@ namespace OxXMLEngine.ControlFactory.Filter
                 OxLabel? textControlLabel = FilterTextControl.Label;
 
                 if (temlpateLabel != null && textControlLabel != null)
-                {
-                    if (textControlLabel.Left < 0)
-                    {
-                        delta = temlpateLabel.Left - textControlLabel.Left;
-                        textControlLabel.Left = temlpateLabel.Left;
-                    }
-                    else
-                    {
-                        delta = temlpateLabel.Right - textControlLabel.Right;
-                        textControlLabel.Left = temlpateLabel.Right - textControlLabel.Width;
-                    }
-
-                    FilterTextControl.Control.Left += delta;
-                    FilterTextControl.Control.Width -= delta;
-                }
+                    textControlLabel.Left = textControlLabel.Left < 0 
+                        ? temlpateLabel.Left 
+                        : temlpateLabel.Right - textControlLabel.Width;
 
                 foreach (TField field in QuickFilterFields)
                 {
@@ -455,6 +446,19 @@ namespace OxXMLEngine.ControlFactory.Filter
                 calcedWidth += 8;
                 SetContentSize(calcedWidth, calcedHeight);
             }
+        }
+
+        private void SetTextFilterBorder()
+        {
+            PlacedControl<TField>? textFilterControl = Layouter.PlacedControl(TextFilterContainer);
+
+            if (textFilterControl == null)
+                return;
+
+            ((OxTextBox)textFilterControl.Control).BorderStyle = 
+                Layouter.Count == 1 
+                    ? BorderStyle.None 
+                    : BorderStyle.FixedSingle;
         }
 
         private string FieldCaption(TField field)
@@ -556,7 +560,7 @@ namespace OxXMLEngine.ControlFactory.Filter
             base.OnVisibleChanged(e);
 
             if (Visible)
-                LayoutControls();
+                RecolorControls();
         }
 
         private readonly FieldHelper<TField> fieldHelper = 

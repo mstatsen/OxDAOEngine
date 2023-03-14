@@ -9,7 +9,6 @@ using OxXMLEngine.Settings.ControlFactory.Controls;
 using OxXMLEngine.Settings.Data;
 using OxXMLEngine.SystemEngine;
 using OxXMLEngine.View;
-using PlayStationGames.Engine.ControlFactory.Initializers;
 
 namespace OxXMLEngine.Settings.ControlFactory
 {
