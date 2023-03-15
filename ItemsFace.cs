@@ -202,10 +202,10 @@ namespace OxXMLEngine
             */
 
             if (ItemsFace<TField, TDAO>.Settings.Observer[DAOSetting.ShowCategories])
-                categoriesPlace.Visible = ItemsFace<TField, TDAO>.Settings.ShowCategories;
+                categoriesTree.Visible = ItemsFace<TField, TDAO>.Settings.ShowCategories;
 
-            if (categoriesPlace.Expanded != ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded)
-                categoriesPlace.Expanded = ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded;
+            if (categoriesTree.Expanded != ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded)
+                categoriesTree.Expanded = ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded;
 
             tableView.ApplySettings();
             //sortingPanel.ApplySettings();
@@ -213,7 +213,7 @@ namespace OxXMLEngine
             categoriesTree.ApplySettings();
 
             if (Settings.Observer.QuickFilterFieldsChanged)
-                RecalcQuickFilterSize();
+                quickFilter.RecalcPaddings();
 
             if (Settings.Observer[DAOSetting.ShowIcons])
             {
@@ -238,7 +238,7 @@ namespace OxXMLEngine
             //sortingPanel.SaveSettings();
             quickFilter.SaveSettings();
             categoriesTree.SaveSettings();
-            ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded = categoriesPlace.Expanded;
+            ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded = categoriesTree.Expanded;
             //ItemsFace<TField, TDAO>.Settings.Sortings = sortingPanel.Sortings;
         }
 
@@ -266,59 +266,37 @@ namespace OxXMLEngine
 
         private void PrepareQuickFilter()
         {
-            quickFilterPlace.Parent = tabControl;
-            quickFilterPlace.Dock = DockStyle.Top;
-            quickFilterPlace.Expanded = true;
-            quickFilterPlace.Margins.SetSize(OxSize.Large);
- 
-            quickFilter.Dock = DockStyle.Fill;
+            quickFilter.Parent = tabControl;
+            quickFilter.Dock = DockStyle.Top;
             quickFilter.Changed += QuickFilterChangedHandler;
+            quickFilter.Margins.SetSize(OxSize.Large);
             quickFilter.RenewFilterControls();
-            quickFilter.Parent = quickFilterPlace;
+            
             quickFilter.VisibleChanged += QuickFilterVisibleChangedHandler;
-            quickFilter.Borders[OxDock.Bottom].Visible = false;
-            quickFilter.Header.Colors.BaseColorChanged += QuickFilterBaseColorChangerHandler;
-
-            RecalcQuickFilterSize();
+            quickFilter.RecalcPaddings();
         }
 
-        private void QuickFilterBaseColorChangerHandler(object? sender, EventArgs e) =>
-            quickFilterPlace.BaseColor = quickFilter.Header.BaseColor;
+        private void QuickFilterVisibleChangedHandler(object? sender, EventArgs e) =>
+            quickFilter.RecalcPaddings();
 
-        private void QuickFilterVisibleChangedHandler(object? sender, EventArgs e)
-        {
-            RecalcQuickFilterSize();
-        }
-
-        private void RecalcQuickFilterSize()
-        {
-            quickFilter.Paddings.SetSize(quickFilter.OnlyText ? OxSize.None : OxSize.Large);
-            quickFilterPlace.SetContentSize(1, quickFilter.CalcedHeight);
-        }
 
         private void PrepareCategoriesTree()
         {
-            categoriesPlace.Dock = DockStyle.Left;
-            categoriesPlace.Expanded = true;
-            categoriesPlace.Parent = this;
-            categoriesPlace.Margins.TopOx = OxSize.Large;
-            categoriesPlace.Margins.LeftOx = OxSize.Medium;
-            categoriesPlace.Margins.BottomOx = OxSize.Small;
-            categoriesPlace.Margins.RightOx = OxSize.None;
-            categoriesPlace.OnExpandedChanged += CategoriesPlaceExpandedHandler;
-            categoriesPlace.OnAfterCollapse += CategoriesPlaceAfterCollapseHandler;
+            //categoriesTree.OnExpandedChanged += CategoriesTreeExpandedHandler;
+            //categoriesTree.OnAfterCollapse += CategoriesTreeAfterCollapseHandler;
 
-            categoriesTree.Parent = categoriesPlace;
-            categoriesTree.Dock = DockStyle.Fill;
+            categoriesTree.Parent = this;
+            categoriesTree.Dock = DockStyle.Left;
+            categoriesTree.Margins.TopOx = OxSize.Large;
+            categoriesTree.Margins.LeftOx = OxSize.Medium;
+            categoriesTree.Margins.BottomOx = OxSize.Small;
+            categoriesTree.Margins.RightOx = OxSize.None;
             categoriesTree.Paddings.SetSize(OxSize.Medium);
             categoriesTree.Borders[OxDock.Right].Visible = false;
             categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;
             categoriesTree.ActiveCategoryChanged += RenewFilterControls;
-            categoriesTree.Header.Colors.BaseColorChanged += CategoriesBaseColorChangeHandler;
         }
 
-        private void CategoriesBaseColorChangeHandler(object? sender, EventArgs e) => 
-            categoriesPlace.BaseColor = categoriesTree.Header.BaseColor;
 
         private void QuickFilterChangedHandler(object? sender, EventArgs e) =>
             ApplyQuickFilter();
@@ -340,7 +318,6 @@ namespace OxXMLEngine
         private void DeactivatePageHandler(object sender, OxTabControlEventArgs e)
         {
             //sortingPanel.Visible = e.Page != tableView;
-            quickFilterPlace.Visible = e.Page != summaryView;
         }
 
         private void ListChangedHandler(object? sender, EventArgs e) =>
@@ -372,11 +349,13 @@ namespace OxXMLEngine
             }
         }
 
-        private void CategoriesPlaceAfterCollapseHandler(object? sender, EventArgs e) =>
-            categoriesTree.Enabled = false;
+        /*
+        private void CategoriesTreeAfterCollapseHandler(object? sender, EventArgs e) =>
+            categoriesTree.Enabled = true;//TODO:
 
-        private void CategoriesPlaceExpandedHandler(object? sender, EventArgs e) =>
+        private void CategoriesTreeExpandedHandler(object? sender, EventArgs e) =>
             categoriesTree.Enabled = true;
+        */
 
         public void FillData()
         {
@@ -396,7 +375,7 @@ namespace OxXMLEngine
         protected override void OnVisibleChanged(EventArgs e)
         {
             base.OnVisibleChanged(e);
-            RecalcQuickFilterSize();
+            quickFilter.RecalcPaddings();
         }
 
         public SettingsPart ActiveSettingsPart => tabControl.ActivePage != tableView 
@@ -412,8 +391,6 @@ namespace OxXMLEngine
         private readonly QuickFilterPanel<TField, TDAO> quickFilter = new(QuickFilterVariant.Base);
         //private readonly SortingPanel<TField, TDAO> sortingPanel = new(SortingVariant.Global, ControlScope.Table);
         private RootListDAO<TField, TDAO>? actualItemList;
-        private readonly OxSidePanel categoriesPlace = new(new Size(280, 1));
-        private readonly OxSidePanel quickFilterPlace = new(new Size(1, 150));
         private readonly OxTabControl tabControl;
         private readonly StatisticPanel<TField, TDAO> statisticPanel;
     }

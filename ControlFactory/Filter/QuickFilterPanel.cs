@@ -307,6 +307,9 @@ namespace OxXMLEngine.ControlFactory.Filter
             }
         }
 
+        public void RecalcPaddings() =>
+            Paddings.SetSize(OnlyText ? OxSize.None : OxSize.Medium);
+
         private int FirstControlLeft =>
             Variant == QuickFilterVariant.Export
                 ? 84 
@@ -376,11 +379,7 @@ namespace OxXMLEngine.ControlFactory.Filter
             int calcedWidth = FilterTextControl.Control.Right + 10;
             int calcedHeight = Layouter.Count == 1 ? 40 : FilterTextControl.Control.Bottom;
             SetTextFilterBorder();
-
-            if (Variant == QuickFilterVariant.Export
-                || Variant == QuickFilterVariant.Select)
-                calcedHeight += 4;
-
+            calcedHeight += Paddings.Bottom;
             SetContentSize(calcedWidth, calcedHeight);
             Width = calcedWidth;
 

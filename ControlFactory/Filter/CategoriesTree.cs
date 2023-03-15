@@ -117,7 +117,7 @@ namespace OxXMLEngine.ControlFactory.Filter
                 if (categoryName == null)
                     return null;
 
-                Category<TField, TDAO> fieldCategory = CategoriesTree<TField, TDAO>.CreateCategory(categoryName);
+                Category<TField, TDAO> fieldCategory = CreateCategory(categoryName);
                 List<object> extract = new FieldExtractor<TField, TDAO>()
                 {
                     Items = FullList
@@ -130,7 +130,7 @@ namespace OxXMLEngine.ControlFactory.Filter
 
                     if (categoryName != null)
                         fieldCategory.AddChild(
-                            CategoriesTree<TField, TDAO>.CreateCategory(categoryName)
+                            CreateCategory(categoryName)
                             .AddFilter(field, value)
                         );
                 }
@@ -148,7 +148,7 @@ namespace OxXMLEngine.ControlFactory.Filter
             if (FieldsByFields.Count == 0 && Settings.HideEmptyCategory)
                 return null;
 
-            Category<TField, TDAO> byFieldsCategory = CategoriesTree<TField, TDAO>.CreateCategory("By Fields");
+            Category<TField, TDAO> byFieldsCategory = CreateCategory("By Fields");
 
             foreach (TField field in FieldsByFields)
             {
@@ -207,7 +207,8 @@ namespace OxXMLEngine.ControlFactory.Filter
 
         private Category<TField, TDAO>? LastCategory;
 
-        public CategoriesTree() : base() { }
+        public CategoriesTree() : base() =>
+            SetContentSize(new Size(280, 1));
 
         private TreeNode? GetNodeByTag(object tag, TreeNodeCollection? treeNodes = null)
         {

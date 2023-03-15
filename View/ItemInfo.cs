@@ -7,8 +7,8 @@ using OxXMLEngine.Settings;
 
 namespace OxXMLEngine.View
 {
-    public abstract class ItemInfo<TField, TDAO, TFieldGroup> 
-        : OxFrameWithHeader, IItemView<TField, TDAO>
+    public abstract class ItemInfo<TField, TDAO, TFieldGroup>
+        : FunctionsPanel<DAOSettings<TField, TDAO>>, IItemInfo<TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
@@ -34,6 +34,8 @@ namespace OxXMLEngine.View
             }
         }
 
+        protected override Color FunctionColor => DefaultColor;
+
         public ItemInfo() : base()
         {
             ContentContainer.AutoScroll = true;
@@ -50,7 +52,7 @@ namespace OxXMLEngine.View
             Header.SetContentSize(Header.Width, 36);
         }
 
-        public override Color DefaultColor => EngineStyles.CardColor;
+        //public override Color DefaultColor => EngineStyles.CardColor;
 
         public OxPane AsPane => this;
 
@@ -183,7 +185,7 @@ namespace OxXMLEngine.View
         private void ClearLayouts() =>
             Layouter?.Clear();
 
-        public void ApplySettings()
+        protected override void ApplySettingsInternal()
         {
             if (SettingsManager.Settings<GeneralSettings>().Observer[GeneralSetting.DarkerHeaders])
                 PrepareColors();

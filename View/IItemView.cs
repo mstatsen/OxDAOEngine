@@ -11,4 +11,15 @@ namespace OxXMLEngine.View
         OxPane AsPane { get; }
         void ApplySettings();
     }
+
+    public interface IItemInfo<TField, TDAO> : IItemView<TField, TDAO>
+        where TField : notnull, Enum
+        where TDAO : DAO, IFieldMapping<TField>, new()
+    { 
+        bool Expanded { get; set; }
+
+        EventHandler? OnExpandedChanged { get; set; }
+        EventHandler? OnAfterExpand { get; set; }
+        EventHandler? OnAfterCollapse { get; set; }
+    }
 }

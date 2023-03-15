@@ -221,7 +221,7 @@ namespace OxXMLEngine.ControlFactory
             return builder;
         }
 
-        public virtual IItemView<TField, TDAO>? CreateInfoCard() => null;
+        public virtual IItemInfo<TField, TDAO>? CreateInfoCard() => null;
 
         public virtual GridPainter<TField, TDAO>? CreateGridPainter(
             GridFieldColumns<TField> columns, GridUsage usage) => null;
