@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace OxXMLEngine.Data.Filter
+﻿namespace OxXMLEngine.Data.Filter
 {
-    public interface IMatcherList<TDAO>
-        where TDAO : DAO
+    public interface IMatcherList<TField>
+        where TField : notnull, Enum
     {
         FilterConcat FilterConcat { get; }
-        List<IMatcher<TDAO>> MatchList { get; }
+        List<IMatcher<TField>> MatchList { get; }
         bool FilterIsEmpty { get; }
     }
 }

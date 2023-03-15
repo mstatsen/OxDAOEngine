@@ -26,7 +26,7 @@ namespace OxXMLEngine.Data
         void ViewItem(TDAO? item, ItemViewMode viewMode = ItemViewMode.Simple);
         void ViewItem(TField field, object? value, ItemViewMode viewMode = ItemViewMode.Simple);
         void ViewItems(TField field, object? value);
-        bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TDAO>? filter = null);
+        bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TField>? filter = null);
         void Delete(RootListDAO<TField, TDAO> list);
 
         int TotalCount { get; }

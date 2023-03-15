@@ -3,7 +3,7 @@ using OxXMLEngine.Data.Sorting;
 
 namespace OxXMLEngine.Data
 {
-    public sealed class RootListDAO<TField, TDAO> : ListDAO<TDAO>, IMatcher<TDAO>
+    public sealed class RootListDAO<TField, TDAO> : ListDAO<TDAO>, IMatcher<TField>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -32,16 +32,16 @@ namespace OxXMLEngine.Data
                 CallSortChangeHandler();
         }
 
-        public RootListDAO<TField, TDAO> FilteredList(IMatcher<TDAO>? filter) =>
+        public RootListDAO<TField, TDAO> FilteredList(IMatcher<TField>? filter) =>
             FilteredList<RootListDAO<TField, TDAO>>(filter);
 
-        public void Iterate(Func<TDAO, int> iterator, IMatcher<TDAO>? filter)
+        public void Iterate(Func<TDAO, int> iterator, IMatcher<TField>? filter)
         {
             foreach (TDAO item in FilteredList<ListDAO<TDAO>>(filter))
                 iterator(item);
         }
 
-        public TList FilteredList<TList>(IMatcher<TDAO>? filter)
+        public TList FilteredList<TList>(IMatcher<TField>? filter)
             where TList : ListDAO<TDAO>, new()
         {
             TList filteredList = new();
@@ -56,7 +56,7 @@ namespace OxXMLEngine.Data
             return filteredList;
         }
 
-        public RootListDAO<TField, TDAO> FilteredList(IMatcher<TDAO>? filter,
+        public RootListDAO<TField, TDAO> FilteredList(IMatcher<TField>? filter,
             List<ISorting<TField, TDAO>> sortings)
         {
             RootListDAO<TField, TDAO> filteredList = FilteredList(filter);
@@ -67,7 +67,7 @@ namespace OxXMLEngine.Data
         public RootListDAO<TField, TDAO> Distinct(Func<TDAO, RootListDAO<TField, TDAO>, bool> CheckUnique) =>
             Distinct<RootListDAO<TField, TDAO>>(CheckUnique);
 
-        public bool Match(TDAO? dao)
+        public bool Match(IFieldMapping<TField>? dao)
         {
             if (dao == null)
                 return false;

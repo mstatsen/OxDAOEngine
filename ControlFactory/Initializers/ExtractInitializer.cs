@@ -14,7 +14,7 @@ namespace OxXMLEngine.ControlFactory.Initializers
         public TField Field;
         private OxComboBox? ComboBox;
 
-        public IMatcher<TDAO>? Filter { get; set; }
+        public IMatcher<TField>? Filter { get; set; }
 
         public ExtractInitializer(TField field, bool fullExtract)
             : this(field, false, fullExtract, null) { }
@@ -22,7 +22,7 @@ namespace OxXMLEngine.ControlFactory.Initializers
         public ExtractInitializer(TField field, bool addAnyObject, bool fullExtract) 
             : this(field, addAnyObject, fullExtract, null) { }
 
-        public ExtractInitializer(TField field, bool addAnyObject, bool fullExtract, IMatcher<TDAO>? filter)
+        public ExtractInitializer(TField field, bool addAnyObject, bool fullExtract, IMatcher<TField>? filter)
         {
             Field = field;
             FullExtract = fullExtract;

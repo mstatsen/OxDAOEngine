@@ -38,7 +38,7 @@ namespace OxXMLEngine.Data.Filter
             XmlHelper.AppendElement(element, XmlConsts.Field, Field);
         }
 
-        public bool Match(TDAO? leftObject, TDAO? rightObject) =>
+        public bool Match(IFieldMapping<TField>? leftObject, IFieldMapping<TField>? rightObject) =>
             TypeHelper.Helper<FilterOperationHelper>()
                     .Match(Operation, leftObject?[Field], rightObject?[Field]);
 

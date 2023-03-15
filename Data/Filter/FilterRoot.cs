@@ -4,24 +4,24 @@ using System.Xml;
 namespace OxXMLEngine.Data.Filter
 {
     public class FilterRoot<TField, TDAO> 
-        : ListDAO<FilterGroups<TField, TDAO>>, IMatcher<TDAO>, IMatcherList<TDAO>
+        : ListDAO<FilterGroups<TField, TDAO>>, IMatcher<TField>, IMatcherList<TField>
         where TField : notnull, Enum
         where TDAO : DAO, IFieldMapping<TField>, new()
     {
         public FilterConcat FilterConcat { get; set; } = FilterConcat.AND;
 
-        public List<IMatcher<TDAO>> MatchList
+        public List<IMatcher<TField>> MatchList
         {
             get
             {
-                List<IMatcher<TDAO>> matchList = new();
+                List<IMatcher<TField>> matchList = new();
                 matchList.AddRange(List);
                 return matchList;
             }
         }
 
         public bool FilterIsEmpty =>
-            MatchAggregator<TDAO>.IsEmpty(this);
+            MatchAggregator<TField>.IsEmpty(this);
 
         public FilterRoot() { }
 
@@ -70,8 +70,8 @@ namespace OxXMLEngine.Data.Filter
             FilterConcat concatToGroup = FilterConcat.OR) =>
             GetSuitableGroup(concatToGroup).Add(field, value);
 
-        public bool Match(TDAO? dao) =>
-            MatchAggregator<TDAO>.Match(this, dao);
+        public bool Match(IFieldMapping<TField>? dao) =>
+            MatchAggregator<TField>.Match(this, dao);
 
         protected override void LoadData(XmlElement element)
         {

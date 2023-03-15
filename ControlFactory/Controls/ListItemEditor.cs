@@ -33,7 +33,7 @@ namespace OxXMLEngine.ControlFactory.Controls
 
         public List<object>? ExistingItems { get; set; }
 
-        public IMatcher<TDAO>? Filter { get; set; }
+        public IMatcher<TField>? Filter { get; set; }
 
         public virtual void RenewData() { }
 

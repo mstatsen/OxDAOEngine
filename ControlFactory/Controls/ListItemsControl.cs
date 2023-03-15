@@ -49,7 +49,7 @@ namespace OxXMLEngine.ControlFactory.Controls
             return editor;
         }
 
-        public IMatcher<TDAO>? Filter;
+        public IMatcher<TField>? Filter;
 
         protected virtual bool EqualsItems(TItem leftItem, TItem rightItem) =>
             leftItem.Equals(rightItem);

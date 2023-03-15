@@ -153,7 +153,7 @@ namespace OxXMLEngine.Grid
                     ? DataManager.VisibleItemsList<TField, TDAO>()
                     : DataManager.FullItemsList<TField, TDAO>());
 
-        private void IterateItems(Func<TDAO, int> iterator, IMatcher<TDAO>? filter = null) => 
+        private void IterateItems(Func<TDAO, int> iterator, IMatcher<TField>? filter = null) => 
             ItemsList.Iterate(iterator, filter);
 
         public void ClearGrid()
@@ -171,7 +171,7 @@ namespace OxXMLEngine.Grid
             }
         }
 
-        public void Fill(IMatcher<TDAO>? filter = null, bool force = false)
+        public void Fill(IMatcher<TField>? filter = null, bool force = false)
         {
             SetGridSorting();
 
@@ -559,7 +559,7 @@ namespace OxXMLEngine.Grid
             }
         }
 
-        public void ApplyQuickFilter(IMatcher<TDAO>? quickFilter)
+        public void ApplyQuickFilter(IMatcher<TField>? quickFilter)
         {
             if (quickFilter == null || quickFilter.FilterIsEmpty)
             {

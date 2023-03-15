@@ -1,7 +1,7 @@
 ﻿namespace OxXMLEngine.Data.Filter
 {
-    public class MatchAggregator<TDAO>
-        where TDAO : DAO
+    public class MatchAggregator<TField>
+        where TField : notnull, Enum
     {
         private readonly FilterConcat Concat;
 
@@ -28,11 +28,11 @@
         public bool Complete => 
             Concat == FilterConcat.AND && !Matched;
 
-        public static bool IsEmpty(IMatcherList<TDAO> matcher)
+        public static bool IsEmpty(IMatcherList<TField> matcher)
         {
-            MatchAggregator<TDAO> aggregator = new(FilterConcat.OR);
+            MatchAggregator<TField> aggregator = new(FilterConcat.OR);
 
-            foreach (IMatcher<TDAO> filter in matcher.MatchList)
+            foreach (IMatcher<TField> filter in matcher.MatchList)
             {
                 aggregator.Aggregate(!filter.FilterIsEmpty);
 
@@ -43,11 +43,11 @@
             return !aggregator.Matched;
         }
 
-        public static bool Match(IMatcherList<TDAO> matcher, TDAO? dao)
+        public static bool Match(IMatcherList<TField> matcher, IFieldMapping<TField>? dao)
         {
-            MatchAggregator<TDAO> aggregator = new(matcher.FilterConcat);
+            MatchAggregator<TField> aggregator = new(matcher.FilterConcat);
 
-            foreach (IMatcher<TDAO> matcherItem in matcher.MatchList)
+            foreach (IMatcher<TField> matcherItem in matcher.MatchList)
             {
                 aggregator.Aggregate(matcherItem.Match(dao));
 

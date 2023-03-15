@@ -1,9 +1,9 @@
 ﻿namespace OxXMLEngine.Data.Filter
 {
-    public interface IMatcher<TDAO>
-        where TDAO : DAO
+    public interface IMatcher<TField>
+        where TField : notnull, Enum
     {
-        bool Match(TDAO? dao);
+        bool Match(IFieldMapping<TField>? dao);
         bool FilterIsEmpty { get; }
     }
 }

@@ -6,20 +6,20 @@ using System.Xml;
 namespace OxXMLEngine.Data.Filter
 {
     public class FilterGroups<TField, TDAO>
-        : ListDAO<FilterGroup<TField, TDAO>>, IMatcher<TDAO>, IMatcherList<TDAO>
+        : ListDAO<FilterGroup<TField, TDAO>>, IMatcher<TField>, IMatcherList<TField>
         where TField : notnull, Enum
         where TDAO : DAO, IFieldMapping<TField>, new()
     {
         public bool FilterIsEmpty =>
-            MatchAggregator<TDAO>.IsEmpty(this);
+            MatchAggregator<TField>.IsEmpty(this);
 
         public FilterConcat FilterConcat { get; internal set; } = FilterConcat.AND;
 
-        public List<IMatcher<TDAO>> MatchList
+        public List<IMatcher<TField>> MatchList
         {
             get
             {
-                List<IMatcher<TDAO>> matchList = new();
+                List<IMatcher<TField>> matchList = new();
                 matchList.AddRange(List);
                 return matchList;
             }
@@ -37,7 +37,7 @@ namespace OxXMLEngine.Data.Filter
             XmlHelper.AppendElement(element, XmlConsts.FilterConcat, FilterConcat);
         }
 
-        public bool Match(TDAO? dao) =>
-            MatchAggregator<TDAO>.Match(this, dao);
+        public bool Match(IFieldMapping<TField>? dao) =>
+            MatchAggregator<TField>.Match(this, dao);
     }
 }

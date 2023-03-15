@@ -191,7 +191,7 @@ namespace OxXMLEngine.Data
 
         private ItemSelector<TField, TDAO>? itemSelector;
 
-        public bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TDAO>? filter = null)
+        public bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TField>? filter = null)
         {
             if (itemSelector == null)
                 itemSelector = new();

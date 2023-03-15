@@ -4,7 +4,7 @@ using System.Xml;
 namespace OxXMLEngine.Data.Filter
 {
     public class FilterGroup<TField, TDAO> : ListDAO<SimpleFilter<TField, TDAO>>, 
-        IMatcher<TDAO>, IMatcherList<TDAO>
+        IMatcher<TField>, IMatcherList<TField>
         where TField : notnull, Enum
         where TDAO : DAO, IFieldMapping<TField>, new()
     {
@@ -41,20 +41,20 @@ namespace OxXMLEngine.Data.Filter
             return Add(filter);
         }
 
-        public bool Match(TDAO? dao) =>
-            MatchAggregator<TDAO>.Match(this, dao);
+        public bool Match(IFieldMapping<TField>? dao) =>
+            MatchAggregator<TField>.Match(this, dao);
 
-        public List<IMatcher<TDAO>> MatchList
+        public List<IMatcher<TField>> MatchList
         {
             get
             {
-                List<IMatcher<TDAO>> matchList = new();
+                List<IMatcher<TField>> matchList = new();
                 matchList.AddRange(List);
                 return matchList;
             }
         }
 
         public bool FilterIsEmpty =>
-            MatchAggregator<TDAO>.IsEmpty(this);
+            MatchAggregator<TField>.IsEmpty(this);
     }
 }

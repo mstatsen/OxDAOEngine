@@ -1,6 +1,5 @@
 ﻿using OxXMLEngine.Data;
 using OxXMLEngine.Data.Filter;
-using System;
 
 namespace OxXMLEngine.ControlFactory.Initializers
 {
@@ -8,6 +7,6 @@ namespace OxXMLEngine.ControlFactory.Initializers
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        IMatcher<TDAO>? Filter { get; set; }
+        IMatcher<TField>? Filter { get; set; }
     }
 }

@@ -53,7 +53,7 @@ namespace OxXMLEngine.Grid
             InfoCardLoadingPanel.Borders.LeftOx = OxSize.None;
         }
 
-        public void ApplyQuickFilter(IMatcher<TDAO>? filter) =>
+        public void ApplyQuickFilter(IMatcher<TField>? filter) =>
             Grid.ApplyQuickFilter(filter);
 
         public EventHandler? BatchUpdateCompleted

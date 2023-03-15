@@ -10,9 +10,9 @@ namespace OxXMLEngine.Grid
         where TDAO : RootDAO<TField>, new()
     {
         public readonly ItemsGrid<TField, TDAO> Grid;
-        private IMatcher<TDAO>? filter;
+        private IMatcher<TField>? filter;
 
-        public IMatcher<TDAO>? Filter
+        public IMatcher<TField>? Filter
         {
             get => filter;
             set

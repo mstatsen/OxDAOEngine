@@ -5,7 +5,7 @@ using System.Xml;
 namespace OxXMLEngine.Data.Filter
 {
     public class Category<TField, TDAO> 
-        : DAO, IMatcher<TDAO>
+        : DAO, IMatcher<TField>
         where TField : notnull, Enum
         where TDAO : DAO, IFieldMapping<TField>, new()
     {
@@ -161,7 +161,7 @@ namespace OxXMLEngine.Data.Filter
         public override void Init() =>
             AddMember(Filter);
 
-        public bool Match(TDAO? dao) =>
+        public bool Match(IFieldMapping<TField>? dao) =>
             FullFilter.Match(dao);
 
         protected override void LoadData(XmlElement element)

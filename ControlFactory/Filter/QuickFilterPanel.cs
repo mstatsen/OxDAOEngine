@@ -144,7 +144,7 @@ namespace OxXMLEngine.ControlFactory.Filter
                                             : null
                                         : filteringValue = simpleFilter[field];
 
-                                    if (TypeHelper.IsTypeHelpered(field))
+                                    if (TypeHelper.FieldIsTypeHelpered(field))
                                         filteringValue = TypeHelper.TypeObject(filteringValue);
 
                                     Builder[field].Value = filteringValue;

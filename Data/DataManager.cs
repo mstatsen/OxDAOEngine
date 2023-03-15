@@ -284,7 +284,7 @@ namespace OxXMLEngine.Data
         }
 
         public static bool SelectItem<TField, TDAO>(out TDAO? selectedItem, OxPane parentPane, 
-            TDAO? initialItem = null, IMatcher<TDAO>? filter = null)
+            TDAO? initialItem = null, IMatcher<TField>? filter = null)
             where TField : notnull, Enum
             where TDAO : RootDAO<TField>, new()
         {

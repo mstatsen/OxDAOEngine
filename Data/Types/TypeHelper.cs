@@ -167,6 +167,10 @@ namespace OxXMLEngine.Data.Types
                 (H.ItemObjectType == value.GetType())
             ) != null;
 
+        public static bool FieldIsTypeHelpered<TField>(TField field)
+            where TField : notnull, Enum =>
+            FieldHelper<TField>().GetHelper(field) != null;
+
         public static List<TDepended> DependedList<TDepended>(object value)
             where TDepended : notnull, Enum
         {

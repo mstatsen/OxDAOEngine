@@ -5,7 +5,7 @@ using System.Xml;
 namespace OxXMLEngine.Data.Filter
 {
     public class SimpleFilter<TField, TDAO> 
-        : DAO, IMatcher<TDAO>, IFieldMapping<TField>
+        : DAO, IMatcher<TField>, IFieldMapping<TField>
         where TField : notnull, Enum
         where TDAO : DAO, IFieldMapping<TField>, new()
     {
@@ -103,7 +103,7 @@ namespace OxXMLEngine.Data.Filter
             set => SetFieldValue(field, value);
         }
 
-        public bool Match(TDAO? dao)
+        public bool Match(IFieldMapping<TField>? dao)
         {
             if (dao == null)
                 return false;
@@ -111,11 +111,11 @@ namespace OxXMLEngine.Data.Filter
             if (FilterIsEmpty)
                 return true;
 
-            MatchAggregator<TDAO> aggregator = new(concat);
+            MatchAggregator<TField> aggregator = new(concat);
 
             foreach (FilterRule<TField, TDAO> rule in rules)
             {
-                aggregator.Aggregate(rule.Match(dao, itemDAO));
+                aggregator.Aggregate(rule.Match(dao, this));
 
                 if (aggregator.Complete)
                     break;
@@ -167,10 +167,14 @@ namespace OxXMLEngine.Data.Filter
             if (IsCalcedField(field))
             {
                 calcedValues.TryGetValue(field, out var value);
-                object? valueObject = TypeHelper.Value(value);
 
-                if (valueObject != null)
-                    value = valueObject;
+                if (TypeHelper.FieldIsTypeHelpered(field))
+                {
+                    object? valueObject = TypeHelper.Value(value);
+
+                    if (valueObject != null)
+                        value = valueObject;
+                }
 
                 return value;
             }

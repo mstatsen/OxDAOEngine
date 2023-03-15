@@ -3,7 +3,7 @@
 namespace OxXMLEngine.Data.Filter
 {
     public class Filter<TField, TDAO> 
-        : DAO, IMatcher<TDAO>
+        : DAO, IMatcher<TField>
         where TField : notnull, Enum
         where TDAO : DAO, IFieldMapping<TField>, new()
     {
@@ -26,7 +26,7 @@ namespace OxXMLEngine.Data.Filter
             FilterConcat concatToGroup = FilterConcat.OR) =>
             Root.AddFilter(field, value, concatToGroup);
 
-        public bool Match(TDAO? dao) =>
+        public bool Match(IFieldMapping<TField>? dao) =>
             Root.Match(dao);
 
         public bool FilterIsEmpty =>

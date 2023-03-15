@@ -1,6 +1,4 @@
 ﻿using OxXMLEngine.Data.Filter;
-using System;
-using System.Collections.Generic;
 
 namespace OxXMLEngine.Data.Extract
 {
@@ -11,7 +9,7 @@ namespace OxXMLEngine.Data.Extract
         public FieldExtract Extract(TField field, bool ignoreDubles, bool ignoreEmpty = false) =>
             Extract(field, null, ignoreDubles, ignoreEmpty);
 
-        public FieldExtract<T> Extract<T>(TField field, IMatcher<TDAO>? filter,
+        public FieldExtract<T> Extract<T>(TField field, IMatcher<TField>? filter,
             bool ignoreDubles, bool ignoreEmpty = false)
         {
             FieldExtract extract = Extract(field, filter, ignoreDubles, ignoreEmpty);
@@ -23,7 +21,7 @@ namespace OxXMLEngine.Data.Extract
             return result;
         }
 
-        public int Sum(TField field, IMatcher<TDAO>? filter)
+        public int Sum(TField field, IMatcher<TField>? filter)
         {
             List<int> extract = Extract<int>(field, filter, false, true);
 
@@ -43,7 +41,7 @@ namespace OxXMLEngine.Data.Extract
                 && value.ToString() == string.Empty));
 
 
-        public FieldExtract Extract(TField field, IMatcher<TDAO>? filter, 
+        public FieldExtract Extract(TField field, IMatcher<TField>? filter, 
             bool ignoreDubles, bool ignoreEmpty = false)
         {
             FieldExtract result = new();
@@ -76,7 +74,7 @@ namespace OxXMLEngine.Data.Extract
 
 
         public FieldCountExtract CountExtract(TField field,
-            IMatcher<TDAO>? filter, bool ignoreDubles, 
+            IMatcher<TField>? filter, bool ignoreDubles, 
             ExtractCompareType compareType = ExtractCompareType.Default)
         {
             FieldCountExtract result = new();
