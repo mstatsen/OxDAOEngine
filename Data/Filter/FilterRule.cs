@@ -6,7 +6,7 @@ namespace OxXMLEngine.Data.Filter
 {
     public class FilterRule<TField, TDAO> : DAO
         where TField : notnull, Enum
-        where TDAO : DAO, IFieldMapping<TField>
+        where TDAO : IFieldMapping<TField>
     {
         public TField Field = default!;
         public FilterOperation Operation;

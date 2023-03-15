@@ -139,7 +139,9 @@ namespace OxXMLEngine.ControlFactory.Filter
                                 if (simpleFilter.Rules.Contains(r => r.Field.Equals(field)))
                                 {
                                     object? filteringValue = fieldHelper.IsCalcedField(field)
-                                        ? simpleFilter.CalcedValues[field]
+                                        ? simpleFilter.CalcedValues.ContainsKey(field) 
+                                            ? simpleFilter.CalcedValues[field]
+                                            : null
                                         : filteringValue = simpleFilter[field];
 
                                     if (TypeHelper.IsTypeHelpered(field))

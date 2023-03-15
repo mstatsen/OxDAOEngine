@@ -157,7 +157,7 @@ namespace OxXMLEngine.Data.Filter
             rules.Add(field, operation);
 
             if (value != null && value is not NullObject)
-                itemDAO[field] = value;
+                this[field] = value;
 
             return this;
         }

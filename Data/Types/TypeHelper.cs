@@ -122,7 +122,7 @@ namespace OxXMLEngine.Data.Types
 
         public static object? TypeObject(object? value) =>
             value == null 
-                ? null
+                ? AnyObject
                 : Helper(value).TypeObject(value);
 
         public static TItem EmptyValue<TItem>() 

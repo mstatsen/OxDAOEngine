@@ -2,7 +2,7 @@
 {
     public class FilterRules<TField, TDAO> : ListDAO<FilterRule<TField, TDAO>>
         where TField : notnull, Enum
-        where TDAO : DAO, IFieldMapping<TField>
+        where TDAO : IFieldMapping<TField>
     {
         public FilterRule<TField, TDAO>? this[TField field] =>
             List.Find(rule => rule.Field.Equals(field));

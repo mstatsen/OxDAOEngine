@@ -258,26 +258,5 @@ namespace OxXMLEngine.Data
 
         public ListDAO<T> Distinct<ListDAO>(Func<T, ListDAO<T>, bool> CheckUnique) => 
             Distinct<ListDAO>(CheckUnique);
-
-        public TList FilteredList<TList>(IMatcher<T>? filter)
-            where TList : ListDAO<T>, new()
-        {
-            TList filteredList = new();
-
-            if (filter == null || filter.FilterIsEmpty)
-                filteredList.AddRange(List);
-            else
-                foreach (T item in List)
-                    if (filter.Match(item))
-                        filteredList.Add(item);
-
-            return filteredList;
-        }
-
-        public void Iterate(Func<T, int> iterator, IMatcher<T>? filter)
-        {
-            foreach (T item in FilteredList<ListDAO<T>>(filter))
-                iterator(item);
-        }
     }
 }

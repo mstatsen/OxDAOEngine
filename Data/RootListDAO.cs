@@ -35,6 +35,27 @@ namespace OxXMLEngine.Data
         public RootListDAO<TField, TDAO> FilteredList(IMatcher<TDAO>? filter) =>
             FilteredList<RootListDAO<TField, TDAO>>(filter);
 
+        public void Iterate(Func<TDAO, int> iterator, IMatcher<TDAO>? filter)
+        {
+            foreach (TDAO item in FilteredList<ListDAO<TDAO>>(filter))
+                iterator(item);
+        }
+
+        public TList FilteredList<TList>(IMatcher<TDAO>? filter)
+            where TList : ListDAO<TDAO>, new()
+        {
+            TList filteredList = new();
+
+            if (filter == null || filter.FilterIsEmpty)
+                filteredList.AddRange(List);
+            else
+                foreach (TDAO item in List)
+                    if (filter.Match(item))
+                        filteredList.Add(item);
+
+            return filteredList;
+        }
+
         public RootListDAO<TField, TDAO> FilteredList(IMatcher<TDAO>? filter,
             List<ISorting<TField, TDAO>> sortings)
         {

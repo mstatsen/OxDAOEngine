@@ -8,8 +8,8 @@ namespace OxXMLEngine.Data.Types
         string ShortName(object value);
         string FullName(object value);
         string XmlValue(object value);
-        object Value(object typeObject);
-        object? TypeObject(object value);
+        object? Value(object? typeObject);
+        object? TypeObject(object? value);
         object Parse(string text);
         object EmptyValue();
         object DefaultValue();
