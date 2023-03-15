@@ -211,10 +211,10 @@ namespace OxXMLEngine.ControlFactory
             }
         }
 
-        private static bool CheckFilter(FilterRules<TField, TDAO>? rules, TField field) =>
+        private static bool CheckFilter(FilterRules<TField>? rules, TField field) =>
             rules == null || rules.RuleExist(field);
 
-        private void GrabEditorControls(IFieldMapping<TField> item, FilterRules<TField, TDAO>? rules)
+        private void GrabEditorControls(IFieldMapping<TField> item, FilterRules<TField>? rules)
         {
             foreach (TField field in TypeHelper.FieldHelper<TField>().EditingFields)
             {
@@ -225,7 +225,7 @@ namespace OxXMLEngine.ControlFactory
             }
         }
 
-        public void GrabControls(IFieldMapping<TField> item, FilterRules<TField, TDAO>? rules = null)
+        public void GrabControls(IFieldMapping<TField> item, FilterRules<TField>? rules = null)
         {
             if (BuildOnly)
                 return;
@@ -242,7 +242,7 @@ namespace OxXMLEngine.ControlFactory
             }
         }
 
-        public void GrabQuickFilterControls(SimpleFilter<TField, TDAO> quickFilter, FilterRules<TField, TDAO>? rules)
+        public void GrabQuickFilterControls(SimpleFilter<TField, TDAO> quickFilter, FilterRules<TField>? rules)
         {
             foreach (TField field in TypeHelper.All<TField>())
                 if (rules == null || rules.RuleExist(field))

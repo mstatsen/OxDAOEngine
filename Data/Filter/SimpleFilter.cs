@@ -10,7 +10,7 @@ namespace OxXMLEngine.Data.Filter
         where TDAO : DAO, IFieldMapping<TField>, new()
     {
         private FilterConcat concat = FilterConcat.AND;
-        private readonly FilterRules<TField, TDAO> rules = new();
+        private readonly FilterRules<TField> rules = new();
         private readonly Dictionary<TField, object?> calcedValues = new();
 
         private TDAO itemDAO = new();
@@ -93,7 +93,7 @@ namespace OxXMLEngine.Data.Filter
             rules.IsEmpty;
 
         public FilterConcat Concat { get => concat; set => concat = value; }
-        public FilterRules<TField, TDAO> Rules => rules;
+        public FilterRules<TField> Rules => rules;
 
         public Dictionary<TField, object?> CalcedValues => calcedValues;
 
@@ -113,7 +113,7 @@ namespace OxXMLEngine.Data.Filter
 
             MatchAggregator<TField> aggregator = new(concat);
 
-            foreach (FilterRule<TField, TDAO> rule in rules)
+            foreach (FilterRule<TField> rule in rules)
             {
                 aggregator.Aggregate(rule.Match(dao, this));
 

@@ -84,7 +84,7 @@ namespace OxXMLEngine.Settings
                 SimpleFilter<TField, TDAO>? fieldsFilter = Filter?.Root[0][0][0];
 
                 if (fieldsFilter != null)
-                    foreach (FilterRule<TField, TDAO> rule in fieldsFilter.Rules)
+                    foreach (FilterRule<TField> rule in fieldsFilter.Rules)
                     {
                         TField field = rule.Field;
                         object? value = fieldsFilter[field];
@@ -107,7 +107,7 @@ namespace OxXMLEngine.Settings
                 SimpleFilter<TField, TDAO>? textFilter = Filter?.Root[0][0][1];
 
                 if (textFilter != null)
-                    foreach (FilterRule<TField, TDAO> rule in textFilter.Rules)
+                    foreach (FilterRule<TField> rule in textFilter.Rules)
                     {
                         TField field = rule.Field;
                         object? value = textFilter[field];

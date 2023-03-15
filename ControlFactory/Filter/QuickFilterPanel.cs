@@ -106,7 +106,7 @@ namespace OxXMLEngine.ControlFactory.Filter
                 if (Builder == null)
                     return null;
 
-                FilterRules<TField, TDAO> rules = new();
+                FilterRules<TField> rules = new();
 
                 foreach (TField field in QuickFilterFields)
                     rules.Add(field);

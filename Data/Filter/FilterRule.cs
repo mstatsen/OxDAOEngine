@@ -4,9 +4,8 @@ using System.Xml;
 
 namespace OxXMLEngine.Data.Filter
 {
-    public class FilterRule<TField, TDAO> : DAO
+    public class FilterRule<TField> : DAO
         where TField : notnull, Enum
-        where TDAO : IFieldMapping<TField>
     {
         public TField Field = default!;
         public FilterOperation Operation;
@@ -43,7 +42,7 @@ namespace OxXMLEngine.Data.Filter
                     .Match(Operation, leftObject?[Field], rightObject?[Field]);
 
         public override bool Equals(object? obj) =>
-            obj is FilterRule<TField, TDAO> otherRule
+            obj is FilterRule<TField> otherRule
             && (base.Equals(obj) ||
                 (Field.Equals(otherRule.Field)
                 && Operation.Equals(otherRule.Operation))
