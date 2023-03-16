@@ -43,6 +43,7 @@ namespace OxXMLEngine.View
             Layouter = Builder.Layouter;
             SetSizes();
             FontColors = new OxColorHelper(DefaultForeColor);
+            SettingsAvailable = false;
         }
 
         private void SetSizes()

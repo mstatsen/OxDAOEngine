@@ -22,7 +22,7 @@ namespace OxXMLEngine.ControlFactory.Filter
             Builder = DataManager.Builder<TField, TDAO>(ControlScope.QuickFilter, false, Variant);
 
             if (Variant != QuickFilterVariant.Base)
-                ShowSettingsButton = false;
+                SettingsAvailable = false;
 
             Layouter = Builder.Layouter;
             SetTitle();

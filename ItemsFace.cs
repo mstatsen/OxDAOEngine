@@ -26,6 +26,8 @@ namespace OxXMLEngine
             Dock = DockStyle.Fill;
             Font = EngineStyles.DefaultFont;
 
+            tabControlPanel.Parent = this;
+            tabControlPanel.Dock = DockStyle.Fill;
             tabControl = CreateTabControl();
             tableView = CreateTableView();
             cardsView = CreateView(ItemsViewsType.Cards);
@@ -49,7 +51,7 @@ namespace OxXMLEngine
             new(tableView.Grid, quickFilter)
             {
                 Dock = DockStyle.Bottom,
-                Parent = this
+                Parent = tabControlPanel
             };
 
         private void ActivateFirstPage()
@@ -66,7 +68,7 @@ namespace OxXMLEngine
         {
             OxTabControl result = new()
             {
-                Parent = this,
+                Parent = tabControlPanel,
                 Dock = DockStyle.Fill,
                 Font = EngineStyles.DefaultFont,
                 TabHeaderSize = new Size(84, 24),
@@ -266,19 +268,21 @@ namespace OxXMLEngine
 
         private void PrepareQuickFilter()
         {
-            quickFilter.Parent = tabControl;
+            quickFilter.Parent = tabControlPanel;
             quickFilter.Dock = DockStyle.Top;
             quickFilter.Changed += QuickFilterChangedHandler;
             quickFilter.Margins.SetSize(OxSize.Large);
             quickFilter.RenewFilterControls();
-            
+            quickFilter.OnPinnedChanged += QuickFilterPinnedChangedHandler;
             quickFilter.VisibleChanged += QuickFilterVisibleChangedHandler;
             quickFilter.RecalcPaddings();
         }
 
+        private void QuickFilterPinnedChangedHandler(object? sender, EventArgs e) => 
+            categoriesTree.RecalcPinned();
+
         private void QuickFilterVisibleChangedHandler(object? sender, EventArgs e) =>
             quickFilter.RecalcPaddings();
-
 
         private void PrepareCategoriesTree()
         {
@@ -296,7 +300,6 @@ namespace OxXMLEngine
             categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;
             categoriesTree.ActiveCategoryChanged += RenewFilterControls;
         }
-
 
         private void QuickFilterChangedHandler(object? sender, EventArgs e) =>
             ApplyQuickFilter();
@@ -382,16 +385,27 @@ namespace OxXMLEngine
             ? SettingsPart.View
             : SettingsPart.Table;
 
+        public override void ReAlignControls()
+        {
+            base.ReAlignControls();
+            /*
+            categoriesTree?.SendToBack();
+            quickFilter?.SendToBack();
+            tabControl?.SendToBack();
+            */
+        }
+
         private readonly TableView<TField, TDAO> tableView;
         private readonly ItemsView<TField, TDAO> cardsView;
         private readonly ItemsView<TField, TDAO> iconsView;
         private readonly SummaryView<TField, TDAO> summaryView;
+        private readonly QuickFilterPanel<TField, TDAO> quickFilter = new(QuickFilterVariant.Base);
         private readonly CategoriesTree<TField, TDAO> categoriesTree = new();
         private readonly OxLoadingPanel loadingPanel = new();
-        private readonly QuickFilterPanel<TField, TDAO> quickFilter = new(QuickFilterVariant.Base);
         //private readonly SortingPanel<TField, TDAO> sortingPanel = new(SortingVariant.Global, ControlScope.Table);
         private RootListDAO<TField, TDAO>? actualItemList;
         private readonly OxTabControl tabControl;
+        private readonly OxPane tabControlPanel = new();
         private readonly StatisticPanel<TField, TDAO> statisticPanel;
     }
 }

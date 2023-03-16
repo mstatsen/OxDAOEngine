@@ -21,10 +21,8 @@ namespace OxXMLEngine.Grid
             Grid.Dock = DockStyle.Fill;
             Grid.ToolbarActionClick += ToolBarActoinClickHandler;
             Grid.CurrentItemChanged += CurrentItemChangeHandler;
-            //InfoCardPlace = CreateInfoCardPlace();
             CurrentInfoCard = DataManager.ControlFactory<TField, TDAO>().CreateInfoCard();
             PrepareInfoCard();
-            PrepareInfoCardLoadingPanel();
         }
 
         protected override void OnVisibleChanged(EventArgs e)
@@ -45,16 +43,24 @@ namespace OxXMLEngine.Grid
             CurrentInfoCard.OnExpandedChanged += FullInfoCardPlaceExpandedChangedHandler;
             CurrentInfoCard.VisibleChanged += FullInfoCardPlaceVisibleChangedHandler;
             CurrentInfoCard.Dock = DockStyle.Right;
+            CurrentInfoCard.OnPinnedChanged += InfoCardPinnedChangedHandler;
             CurrentInfoCard.SetContentSize(500, 1);
         }
 
-        private void PrepareInfoCardLoadingPanel()
+        private void InfoCardPinnedChangedHandler(object? sender, EventArgs e)
         {
+            if (CurrentInfoCard == null)
+                return;
+
             /*
-            InfoCardLoadingPanel.Parent = InfoCardPlace;
-            InfoCardLoadingPanel.UseParentColor = true;
-            InfoCardLoadingPanel.Margins.SetSize(OxSize.None);
-            InfoCardLoadingPanel.Borders.LeftOx = OxSize.None;
+            if (CurrentInfoCard.Pinned)
+            {
+                Grid.Paddings.Right = 0;
+            }
+            else
+            {
+                Grid.Paddings.Right = CurrentInfoCard.Margins.Left + CurrentInfoCard.Margins.Right + CurrentInfoCard.Sider.Width;
+            }
             */
         }
 
@@ -118,25 +124,6 @@ namespace OxXMLEngine.Grid
             SetPaneBaseColor(Grid, BaseColor);
         }
 
-        /*
-        private OxSidePanel CreateInfoCardPlace()
-        {
-            OxSidePanel result = new(new Size(500, 1))
-            {
-                Parent = this,
-                Dock = DockStyle.Right,
-                Expanded = false
-            };
-
-            result.Margins.SetSize(OxSize.Medium);
-            result.Margins.LeftOx = OxSize.Large;
-            result.Margins.TopOx = OxSize.Large;
-            result.OnExpandedChanged += FullInfoCardPlaceExpandedChangedHandler;
-            result.VisibleChanged += FullInfoCardPlaceVisibleChangedHandler;
-            return result;
-        }
-        */
-
         private void FullInfoCardPlaceVisibleChangedHandler(object? sender, EventArgs e) =>
             UpdateCurrentItemFullCard();
 
@@ -147,15 +134,6 @@ namespace OxXMLEngine.Grid
         {
             if (CurrentInfoCard == null)
                 return;
-
-            /*
-            InfoCardPlace.BaseColor = new OxColorHelper(Grid.CurrentItemBackColor)
-                .HDarker(SettingsManager.Settings<GeneralSettings>().DarkerHeaders ? 1 : 0).Darker(7);
-
-            if (!InfoCardPlace.Visible
-                || !InfoCardPlace.Expanded)
-                return;
-            */
 
             InfoCardLoadingPanel.StartLoading();
 
@@ -204,19 +182,12 @@ namespace OxXMLEngine.Grid
                     || TableView<TField, TDAO>.Observer.TableFieldsChanged)
                 Renew();
 
-            /*
-            if (SettingsManager.Settings<GeneralSettings>().Observer[GeneralSetting.DarkerHeaders])
-                InfoCardPlace.BaseColor = new OxColorHelper(Grid.CurrentItemBackColor)
-                    .HDarker(SettingsManager.Settings<GeneralSettings>().DarkerHeaders ? 1 : 0).Darker(7);
-            */
-
             CurrentInfoCard?.ApplySettings();
         }
 
         public virtual void SaveSettings() => 
             SettingsManager.DAOSettings<TField>().GameInfoPanelExpanded = CurrentInfoCard != null && CurrentInfoCard.Expanded;
 
-        //protected OxSidePanel InfoCardPlace;
         protected IItemInfo<TField, TDAO>? CurrentInfoCard;
         protected readonly OxLoadingPanel InfoCardLoadingPanel = new();
     }
