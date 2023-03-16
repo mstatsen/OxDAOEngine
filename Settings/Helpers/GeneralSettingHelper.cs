@@ -1,7 +1,4 @@
-﻿using OxXMLEngine.SystemEngine;
-using System.Windows.Forms;
-
-namespace OxXMLEngine.Settings
+﻿namespace OxXMLEngine.Settings
 {
     public class GeneralSettingHelper : SettingHelper<GeneralSetting>
     {
@@ -14,6 +11,8 @@ namespace OxXMLEngine.Settings
                 GeneralSetting.ColorizePanels or
                 GeneralSetting.DarkerHeaders =>
                     true,
+                GeneralSetting.DoublePinButtons =>
+                    false,
                 _ =>
                     null,
             };
@@ -25,13 +24,15 @@ namespace OxXMLEngine.Settings
                 GeneralSetting.ShowCustomizeButtons => "Show customize button on functional panels",
                 GeneralSetting.ColorizePanels => "Colorize functional panels",
                 GeneralSetting.DarkerHeaders => "Dark functional panels' headers",
+                GeneralSetting.DoublePinButtons => "Two Pin buttons for pinnable functional panels",
                 _ => string.Empty,
             };
 
         public override SettingsPart Part(GeneralSetting setting) => 
             setting switch
             {
-                GeneralSetting.ShowCustomizeButtons =>
+                GeneralSetting.ShowCustomizeButtons or
+                GeneralSetting.DoublePinButtons =>
                     SettingsPart.Main,
                 GeneralSetting.ColorizePanels or
                 GeneralSetting.DarkerHeaders =>
@@ -45,7 +46,8 @@ namespace OxXMLEngine.Settings
             {
                 GeneralSetting.ShowCustomizeButtons or 
                 GeneralSetting.ColorizePanels or 
-                GeneralSetting.DarkerHeaders => 
+                GeneralSetting.DarkerHeaders or
+                GeneralSetting.DoublePinButtons =>
                     true,
                 _ => 
                     false,

@@ -10,7 +10,8 @@ namespace OxXMLEngine.Settings.ControlFactory
             {
                 GeneralSetting.ShowCustomizeButtons or 
                 GeneralSetting.ColorizePanels or 
-                GeneralSetting.DarkerHeaders => 
+                GeneralSetting.DarkerHeaders or
+                GeneralSetting.DoublePinButtons => 
                     FieldType.Boolean,
                 _ => 
                     FieldType.Custom,

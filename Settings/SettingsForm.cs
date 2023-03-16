@@ -280,7 +280,7 @@ namespace OxXMLEngine.Settings
                     }
                     catch
                     {
-                        OxMessage.ShowError("Can not create control for {setting} setting.");
+                        OxMessage.ShowError($"Can not create control for {setting} setting.");
                     }
 
             CreateFieldsPanels();

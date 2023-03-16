@@ -1,6 +1,4 @@
-﻿using OxXMLEngine.Data.Types;
-
-namespace OxXMLEngine.Settings
+﻿namespace OxXMLEngine.Settings
 {
     public enum GeneralSetting
     {
@@ -8,6 +6,7 @@ namespace OxXMLEngine.Settings
         MainFormState,
         ShowCustomizeButtons,
         ColorizePanels,
-        DarkerHeaders
+        DarkerHeaders,
+        DoublePinButtons
     }
 }

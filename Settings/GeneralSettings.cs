@@ -1,6 +1,5 @@
 ﻿using OxXMLEngine.Settings.ControlFactory;
 using OxXMLEngine.SystemEngine;
-using System.Windows.Forms;
 
 namespace OxXMLEngine.Settings
 {
@@ -37,6 +36,12 @@ namespace OxXMLEngine.Settings
             set => settings[GeneralSetting.DarkerHeaders] = value;
         }
 
+        public bool DoublePinButtons
+        {
+            get => BoolValue(GeneralSetting.DoublePinButtons);
+            set => settings[GeneralSetting.DoublePinButtons] = value;
+        }
+
         protected override ISettingsObserver CreateObserver() => 
             new SettingsObserver<GeneralSetting, GeneralSettings>();
 
@@ -46,7 +51,8 @@ namespace OxXMLEngine.Settings
             {
                 GeneralSetting.ShowCustomizeButtons or 
                 GeneralSetting.ColorizePanels or 
-                GeneralSetting.DarkerHeaders => 
+                GeneralSetting.DarkerHeaders or
+                GeneralSetting.DoublePinButtons => 
                     true,
                 _ => 
                     base.IsBoolSettings(setting),

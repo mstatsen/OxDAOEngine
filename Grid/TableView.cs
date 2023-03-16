@@ -15,7 +15,7 @@ namespace OxXMLEngine.Grid
         public TableView() : base() 
         {
             Borders.SetSize(OxSize.None);
-            Borders.TopOx = OxSize.Small;
+            //Borders.TopOx = OxSize.Small;
 
             Grid.Parent = this;
             Grid.Dock = DockStyle.Fill;
@@ -43,25 +43,7 @@ namespace OxXMLEngine.Grid
             CurrentInfoCard.OnExpandedChanged += FullInfoCardPlaceExpandedChangedHandler;
             CurrentInfoCard.VisibleChanged += FullInfoCardPlaceVisibleChangedHandler;
             CurrentInfoCard.Dock = DockStyle.Right;
-            CurrentInfoCard.OnPinnedChanged += InfoCardPinnedChangedHandler;
             CurrentInfoCard.SetContentSize(500, 1);
-        }
-
-        private void InfoCardPinnedChangedHandler(object? sender, EventArgs e)
-        {
-            if (CurrentInfoCard == null)
-                return;
-
-            /*
-            if (CurrentInfoCard.Pinned)
-            {
-                Grid.Paddings.Right = 0;
-            }
-            else
-            {
-                Grid.Paddings.Right = CurrentInfoCard.Margins.Left + CurrentInfoCard.Margins.Right + CurrentInfoCard.Sider.Width;
-            }
-            */
         }
 
         public void ApplyQuickFilter(IMatcher<TField>? filter) =>

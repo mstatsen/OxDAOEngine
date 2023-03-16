@@ -46,7 +46,6 @@ namespace OxXMLEngine.ControlFactory
             SiderButton.Parent = Sider;
             PinButton.Parent = Sider;
             PinButton2.Parent = Sider;
-            PinButton2.Visible = false; //!! set true for 2 pin buttons !!
         }
 
         public OxPanel Sider { get; } = new(new Size(16, 1));
@@ -130,6 +129,9 @@ namespace OxXMLEngine.ControlFactory
         {
             if (GeneralObserver[GeneralSetting.ShowCustomizeButtons])
                 ShowSettingsButton = GeneralSettings.ShowCustomizeButtons;
+
+            if (GeneralObserver[GeneralSetting.DoublePinButtons])
+                PinButton2.Visible = GeneralSettings.DoublePinButtons;
 
             if (GeneralObserver[GeneralSetting.ColorizePanels])
                 BaseColor = GeneralSettings.ColorizePanels ? FunctionColor : DefaultColor;

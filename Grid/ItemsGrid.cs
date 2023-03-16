@@ -657,8 +657,9 @@ namespace OxXMLEngine.Grid
         protected override void PrepareColors()
         {
             base.PrepareColors();
-            GridView.BackgroundColor = Colors.Lighter(6);
             ToolBar.BaseColor = BaseColor;
+            GridView.BackgroundColor = Colors.HLighter(7).Bluer(1);
+            
         }
 
         private void SelectionChangedHandler(object? sender, EventArgs e) =>

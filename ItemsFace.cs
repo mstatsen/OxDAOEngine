@@ -371,6 +371,15 @@ namespace OxXMLEngine
         {
             base.PrepareColors();
 
+            if (tableView != null)
+                tableView.BaseColor = BaseColor;
+
+            if (cardsView != null)
+                cardsView.BaseColor = BaseColor;
+
+            if (iconsView != null)
+                iconsView.BaseColor = BaseColor;
+
             if (statisticPanel != null)
                 statisticPanel.BaseColor = BaseColor;
         }
