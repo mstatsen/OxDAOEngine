@@ -135,6 +135,7 @@ namespace OxXMLEngine.Grid
 
         public virtual void ApplySettings() 
         {
+
             if (TableView<TField, TDAO>.Observer[DAOSetting.ShowItemInfo])
             {
                 if (CurrentInfoCard != null && CurrentInfoCard.Visible != TableView<TField, TDAO>.Settings.ShowItemInfo)
@@ -143,7 +144,7 @@ namespace OxXMLEngine.Grid
 
             if (TableView<TField, TDAO>.Observer[DAOSetting.ItemInfoPanelExpanded])
             {
-                bool savedInfoCardPlaceExpanded = TableView<TField, TDAO>.Settings.GameInfoPanelExpanded;
+                bool savedInfoCardPlaceExpanded = TableView<TField, TDAO>.Settings.ItemInfoPanelExpanded;
 
                 if (CurrentInfoCard != null && CurrentInfoCard.Expanded != savedInfoCardPlaceExpanded)
                     CurrentInfoCard.Expanded = savedInfoCardPlaceExpanded;
@@ -158,10 +159,10 @@ namespace OxXMLEngine.Grid
             CurrentInfoCard?.ApplySettings();
         }
 
-        public virtual void SaveSettings() => 
-            SettingsManager.DAOSettings<TField>().GameInfoPanelExpanded = CurrentInfoCard != null && CurrentInfoCard.Expanded;
+        public virtual void SaveSettings() =>
+            CurrentInfoCard?.SaveSettings();
 
-        protected IItemInfo<TField, TDAO>? CurrentInfoCard;
+        public readonly IItemInfo<TField, TDAO>? CurrentInfoCard;
         protected readonly OxLoadingPanel InfoCardLoadingPanel = new();
     }
 }

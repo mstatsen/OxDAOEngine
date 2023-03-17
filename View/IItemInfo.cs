@@ -10,6 +10,9 @@ namespace OxXMLEngine.View
         bool Expanded { get; set; }
         bool Pinned { get; set; }
         OxPanel Sider { get; }
+        bool SiderEnabled { get; set; }
+        void ApplySettings();
+        void SaveSettings();
 
         EventHandler? OnPinnedChanged { get; set; }
         EventHandler? OnExpandedChanged { get; set; }

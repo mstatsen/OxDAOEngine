@@ -8,7 +8,7 @@ using OxXMLEngine.Settings;
 namespace OxXMLEngine.View
 {
     public abstract class ItemInfo<TField, TDAO, TFieldGroup>
-        : FunctionsPanel<DAOSettings<TField, TDAO>>, IItemInfo<TField, TDAO>
+        : FunctionsPanel<TField, TDAO>, IItemInfo<TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
@@ -184,8 +184,29 @@ namespace OxXMLEngine.View
 
         protected override void ApplySettingsInternal()
         {
+            if (Observer[DAOSetting.ShowItemInfo])
+            {
+                if (Visible != Settings.ShowItemInfo)
+                    Visible = Settings.ShowItemInfo;
+            }
+
+            if (Observer[DAOSetting.ItemInfoPanelPinned] &&
+                (Pinned != Settings.ItemInfoPanelPinned))
+                Pinned = Settings.ItemInfoPanelPinned;
+
+            if ((Observer[DAOSetting.ItemInfoPanelPinned] || Observer[DAOSetting.ItemInfoPanelExpanded])
+                && (Expanded != (Pinned && Settings.ItemInfoPanelExpanded)))
+                Expanded = Pinned && Settings.ItemInfoPanelExpanded;
+
             if (SettingsManager.Settings<GeneralSettings>().Observer[GeneralSetting.DarkerHeaders])
                 PrepareColors();
+        }
+
+        public override void SaveSettings()
+        {
+            base.SaveSettings();
+            Settings.ItemInfoPanelPinned = Pinned;
+            Settings.ItemInfoPanelExpanded = Expanded;
         }
 
         protected ControlFactory<TField, TDAO> ControlFactory = 

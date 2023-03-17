@@ -10,8 +10,12 @@
         SummarySorting,
 
         ShowItemInfo,
+        CategoryPanelPinned,
         CategoryPanelExpanded,
+        ItemInfoPanelPinned,
         ItemInfoPanelExpanded,
+        QuickFilterPinned,
+        QuickFilterExpanded,
         ShowCategories,
         ShowCards,
         CardsPageSize,

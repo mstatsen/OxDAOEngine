@@ -203,12 +203,6 @@ namespace OxXMLEngine
             }
             */
 
-            if (ItemsFace<TField, TDAO>.Settings.Observer[DAOSetting.ShowCategories])
-                categoriesTree.Visible = ItemsFace<TField, TDAO>.Settings.ShowCategories;
-
-            if (categoriesTree.Expanded != ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded)
-                categoriesTree.Expanded = ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded;
-
             tableView.ApplySettings();
             //sortingPanel.ApplySettings();
             quickFilter.ApplySettings();
@@ -240,7 +234,6 @@ namespace OxXMLEngine
             //sortingPanel.SaveSettings();
             quickFilter.SaveSettings();
             categoriesTree.SaveSettings();
-            ItemsFace<TField, TDAO>.Settings.CategoryPanelExpanded = categoriesTree.Expanded;
             //ItemsFace<TField, TDAO>.Settings.Sortings = sortingPanel.Sortings;
         }
 
@@ -266,10 +259,12 @@ namespace OxXMLEngine
             quickFilter.Dock = DockStyle.Top;
             quickFilter.Changed += (s, e) => ApplyQuickFilter();
             quickFilter.Margins.SetSize(OxSize.Large);
+            quickFilter.Margins.BottomOx = OxSize.None;
             quickFilter.RenewFilterControls();
             quickFilter.OnPinnedChanged += (s, e) => categoriesTree.RecalcPinned();
             quickFilter.VisibleChanged += (s, e) => quickFilter.RecalcPaddings();
             quickFilter.RecalcPaddings();
+            quickFilter.RecalcPinned();
         }
 
         private void PrepareCategoriesTree()
@@ -287,6 +282,7 @@ namespace OxXMLEngine
             categoriesTree.Borders[OxDock.Right].Visible = false;
             categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;
             categoriesTree.ActiveCategoryChanged += RenewFilterControls;
+            categoriesTree.RecalcPinned();
         }
 
 
@@ -363,22 +359,32 @@ namespace OxXMLEngine
         protected override void OnVisibleChanged(EventArgs e)
         {
             base.OnVisibleChanged(e);
-            quickFilter.RecalcPaddings();
+
+            if (Visible)
+                quickFilter.RecalcPaddings();
+
+            quickFilter.SiderEnabled = Visible;
+
+            if (!quickFilter.Pinned)
+                quickFilter.Expanded = false;
+
+            categoriesTree.SiderEnabled = Visible;
+
+            if (!categoriesTree.Pinned)
+                categoriesTree.Expanded = false;
+
+            if (tableView != null && tableView.CurrentInfoCard != null)
+            {
+                tableView.CurrentInfoCard.SiderEnabled = Visible;
+
+                if (!tableView.CurrentInfoCard.Pinned)
+                    tableView.CurrentInfoCard.Expanded = false;
+            }
         }
 
         public SettingsPart ActiveSettingsPart => tabControl.ActivePage != tableView 
             ? SettingsPart.View
             : SettingsPart.Table;
-
-        public override void ReAlignControls()
-        {
-            base.ReAlignControls();
-            /*
-            categoriesTree?.SendToBack();
-            quickFilter?.SendToBack();
-            tabControl?.SendToBack();
-            */
-        }
 
         private readonly TableView<TField, TDAO> tableView;
         private readonly ItemsView<TField, TDAO> cardsView;

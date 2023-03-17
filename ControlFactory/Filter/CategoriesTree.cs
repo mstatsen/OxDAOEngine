@@ -296,11 +296,29 @@ namespace OxXMLEngine.ControlFactory.Filter
 
         protected override void ApplySettingsInternal()
         {
+            if (Observer[DAOSetting.ShowCategories])
+                Visible = Settings.ShowCategories;
+
+            if (Observer[DAOSetting.CategoryPanelPinned] &&
+                (Pinned != Settings.CategoryPanelPinned))
+                Pinned = Settings.CategoryPanelPinned;
+
+            if ((Observer[DAOSetting.CategoryPanelPinned] || Observer[DAOSetting.CategoryPanelExpanded])
+                && (Expanded != (Pinned && Settings.CategoryPanelExpanded)))
+                Expanded = Pinned && Settings.CategoryPanelExpanded;
+
             if (Observer.CategoryFieldsChanged
                 || Observer[DAOSetting.AutoExpandCategories]
                 || Observer[DAOSetting.HideEmptyCategory]
                 || Observer[DAOSetting.ShowCategories])
             RefreshCategories();
+        }
+
+        public override void SaveSettings()
+        {
+            base.SaveSettings();
+            Settings.CategoryPanelPinned = Pinned;
+            Settings.CategoryPanelExpanded = Expanded;
         }
 
         private void AddCategoryToSelector(Category<TField, TDAO> category, TreeNode? parentNode)

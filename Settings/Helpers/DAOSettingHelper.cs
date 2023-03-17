@@ -22,8 +22,12 @@ namespace OxXMLEngine.Settings
                 DAOSetting.ShowCards => "Show Cards view",
                 DAOSetting.SummarySorting => "Summary Sorting",
                 DAOSetting.QuickFilterTextFieldOperation => "'Text' field filtering operation",
+                DAOSetting.CategoryPanelPinned => "Category panel pinned",
                 DAOSetting.CategoryPanelExpanded => "Category panel expanded",
+                DAOSetting.ItemInfoPanelPinned => "Item info panel pinned",
                 DAOSetting.ItemInfoPanelExpanded => "Item info panel expanded",
+                DAOSetting.QuickFilterPinned => "Quick filter pinned",
+                DAOSetting.QuickFilterExpanded => "Quick filter expanded",
                 _ => string.Empty,
             };
 
@@ -34,14 +38,18 @@ namespace OxXMLEngine.Settings
             setting switch
             {
                 DAOSetting.ShowCategories or
-                DAOSetting.CategoryPanelExpanded or
                 DAOSetting.HideEmptyCategory or
                 DAOSetting.ShowItemInfo or
                 DAOSetting.ShowIcons or
                 DAOSetting.ShowCards =>
                     true,
                 DAOSetting.AutoExpandCategories or
-                DAOSetting.ItemInfoPanelExpanded =>
+                DAOSetting.CategoryPanelPinned or
+                DAOSetting.CategoryPanelExpanded or
+                DAOSetting.ItemInfoPanelExpanded or
+                DAOSetting.ItemInfoPanelPinned or
+                DAOSetting.QuickFilterPinned or
+                DAOSetting.QuickFilterExpanded =>
                     false,
                 DAOSetting.CardsPageSize =>
                     12,

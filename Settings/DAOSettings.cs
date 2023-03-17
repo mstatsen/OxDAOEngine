@@ -42,6 +42,12 @@ namespace OxXMLEngine.Settings
             set => this[DAOSetting.CategoryPanelExpanded] = value;
         }
 
+        public bool CategoryPanelPinned
+        {
+            get => BoolValue(DAOSetting.CategoryPanelPinned);
+            set => this[DAOSetting.CategoryPanelPinned] = value;
+        }
+
         public bool AutoExpandCategories
         {
             get => BoolValue(DAOSetting.AutoExpandCategories);
@@ -88,10 +94,28 @@ namespace OxXMLEngine.Settings
             set => this[DAOSetting.QuickFilterTextFieldOperation] = value;
         }
 
-        public bool GameInfoPanelExpanded
+        public bool ItemInfoPanelPinned
+        {
+            get => BoolValue(DAOSetting.ItemInfoPanelPinned);
+            set => this[DAOSetting.ItemInfoPanelPinned] = value;
+        }
+
+        public bool ItemInfoPanelExpanded
         {
             get => BoolValue(DAOSetting.ItemInfoPanelExpanded);
             set => this[DAOSetting.ItemInfoPanelExpanded] = value;
+        }
+
+        public bool QuickFilterPinned
+        {
+            get => BoolValue(DAOSetting.QuickFilterPinned);
+            set => this[DAOSetting.QuickFilterPinned] = value;
+        }
+
+        public bool QuickFilterExpanded
+        {
+            get => BoolValue(DAOSetting.QuickFilterExpanded);
+            set => this[DAOSetting.QuickFilterExpanded] = value;
         }
 
         public IconClickVariant IconClickVariant
@@ -335,8 +359,12 @@ namespace OxXMLEngine.Settings
                 DAOSetting.AutoExpandCategories or 
                 DAOSetting.HideEmptyCategory or 
                 DAOSetting.ShowItemInfo or 
-                DAOSetting.CategoryPanelExpanded or 
-                DAOSetting.ItemInfoPanelExpanded or 
+                DAOSetting.CategoryPanelPinned or
+                DAOSetting.CategoryPanelExpanded or
+                DAOSetting.ItemInfoPanelPinned or
+                DAOSetting.ItemInfoPanelExpanded or
+                DAOSetting.QuickFilterPinned or
+                DAOSetting.QuickFilterExpanded or
                 DAOSetting.ShowCategories or 
                 DAOSetting.ShowCards or 
                 DAOSetting.ShowIcons =>

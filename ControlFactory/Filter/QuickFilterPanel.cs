@@ -533,6 +533,14 @@ namespace OxXMLEngine.ControlFactory.Filter
 
         protected override void ApplySettingsInternal()
         {
+            if (Observer[DAOSetting.QuickFilterPinned] &&
+                (Pinned != Settings.QuickFilterPinned))
+                Pinned = Settings.QuickFilterPinned;
+
+            if ((Observer[DAOSetting.QuickFilterPinned] || Observer[DAOSetting.QuickFilterExpanded])
+                && (Expanded != (Pinned && Settings.QuickFilterExpanded)))
+                Expanded = Pinned && Settings.QuickFilterExpanded;
+
             if (Observer.QuickFilterFieldsChanged || Observer.QuickFilterTextFieldsChanged)
                 RenewFilterControls();
 
@@ -543,6 +551,8 @@ namespace OxXMLEngine.ControlFactory.Filter
         {
             base.SaveSettings();
             Settings.Filter = ActiveFilter;
+            Settings.CategoryPanelPinned = Pinned;
+            Settings.CategoryPanelExpanded = Expanded;
         }
 
         protected List<TField> QuickFilterFields => 

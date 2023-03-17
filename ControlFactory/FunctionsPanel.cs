@@ -44,8 +44,28 @@ namespace OxXMLEngine.ControlFactory
 
             Sider.Parent = this;
             SiderButton.Parent = Sider;
-            PinButton.Parent = Sider;
-            PinButton2.Parent = Sider;
+            SiderButton.Borders.SetSize(OxSize.None);
+            PreparePinButton(PinButton);
+            PreparePinButton(PinButton2);
+        }
+
+        private void PreparePinButton(OxIconButton button)
+        {
+            button.Parent = Sider;
+            button.Borders.SetSize(OxSize.Small);
+            button.HoveredChanged = PinButtonHoveredChanged;
+        }
+
+        private void PinButtonHoveredChanged(object? sender, EventArgs e)
+        {
+            if (sender == PinButton)
+            {
+                if (PinButton.Hovered != PinButton2.Hovered)
+                    PinButton2.Hovered = PinButton.Hovered;
+            }
+            else
+            if (PinButton.Hovered != PinButton2.Hovered)
+                PinButton.Hovered = PinButton2.Hovered;
         }
 
         public OxPanel Sider { get; } = new(new Size(16, 1));
@@ -71,6 +91,12 @@ namespace OxXMLEngine.ControlFactory
         {
             base.OnVisibleChanged(e);
             RecalcPinned();
+        }
+
+        public bool SiderEnabled
+        {
+            get => waiter.Enabled;
+            set => waiter.Enabled = value && !Pinned;
         }
 
         protected override void OnParentChanged(EventArgs e)
@@ -199,8 +225,8 @@ namespace OxXMLEngine.ControlFactory
             ContentContainer.ReAlign();
             Paddings.ReAlign();
             Header.ReAlign();
-            Sider.ReAlign();
             Borders.ReAlign();
+            Sider.ReAlign();
             Margins.ReAlign();
             SendToBack();
         }
@@ -219,15 +245,8 @@ namespace OxXMLEngine.ControlFactory
                 SiderButton.Borders.VerticalOx = OxSize.Small;
                 SiderButton.Borders.HorizontalOx = OxSize.None;
                 PinButton.Dock = DockStyle.Left;
-                PinButton.Borders.VerticalOx = OxSize.Small;
-                PinButton.Borders.LeftOx = OxSize.None;
-                PinButton.Borders.RightOx = OxSize.Small;
                 PinButton.Width = 24;
-
                 PinButton2.Dock = DockStyle.Right;
-                PinButton2.Borders.VerticalOx = OxSize.Small;
-                PinButton2.Borders.LeftOx = OxSize.Small;
-                PinButton2.Borders.RightOx = OxSize.None;
                 PinButton2.Width = 24;
             }
             else
@@ -236,14 +255,8 @@ namespace OxXMLEngine.ControlFactory
                 SiderButton.Borders.VerticalOx = OxSize.None;
                 SiderButton.Borders.HorizontalOx = OxSize.Small;
                 PinButton.Dock = DockStyle.Top;
-                PinButton.Borders.HorizontalOx = OxSize.Small;
-                PinButton.Borders.TopOx = OxSize.None;
-                PinButton.Borders.BottomOx = OxSize.Small;
                 PinButton.Height = 24;
                 PinButton2.Dock = DockStyle.Bottom;
-                PinButton2.Borders.HorizontalOx = OxSize.Small;
-                PinButton2.Borders.TopOx = OxSize.Small;
-                PinButton2.Borders.BottomOx = OxSize.None;
                 PinButton2.Height = 24;
             }
 
@@ -252,7 +265,7 @@ namespace OxXMLEngine.ControlFactory
             base.OnDockChanged(e);
         }
 
-        private bool expanded = true;
+        private bool expanded = false;
 
         private void SetExpanded(bool value)
         {
@@ -269,7 +282,7 @@ namespace OxXMLEngine.ControlFactory
                 Paddings[OxDockHelper.Dock(Dock)].Visible = value;
                 Paddings[OxDockHelper.Dock(Sider.Dock)].Visible = value;
                 ContentContainer.Visible = value;
-                Header.Visible = value || !OxDockHelper.IsVertical(OxDockHelper.Dock(Dock));
+                Header.Visible = value; 
                 SiderButton.Icon = SiderButtonIcon;
                 Borders[OxDockHelper.Dock(Dock)].Visible = value;
             }
@@ -277,6 +290,8 @@ namespace OxXMLEngine.ControlFactory
             {
                 Update();
                 ContentContainer.EndSizeRecalcing();
+                RecalcPinned();
+                RecalcSize();
             }
 
             if (expanded)
@@ -377,13 +392,17 @@ namespace OxXMLEngine.ControlFactory
             }
         }
 
+        private void RecalcPinnedButton(OxIconButton button)
+        {
+            button.FreezeHovered = pinned;
+            button.Icon = pinned ? OxIcons.pin : OxIcons.unpin;
+        }
+
+
         public void RecalcPinned()
         {
-            PinButton.FreezeHovered = pinned;
-            PinButton.Icon = pinned ? OxIcons.pin : OxIcons.unpin;
-
-            PinButton2.FreezeHovered = pinned;
-            PinButton2.Icon = pinned ? OxIcons.pin : OxIcons.unpin;
+            RecalcPinnedButton(PinButton);
+            RecalcPinnedButton(PinButton2);
 
             Control? parentFillControl = GetParentFillControl();
 
@@ -499,20 +518,23 @@ namespace OxXMLEngine.ControlFactory
                 fakePadding.SendToBack();
         }
 
-        private void MouseEnterHandler(object? sender, EventArgs e) => 
-            waiter.Ready = !Expanded && !pinned;
+        private void MouseEnterHandler(object? sender, EventArgs e)
+        {
+            waiter.Start();
+            waiter.Ready = Visible && !Expanded && !pinned;
+        }
 
         private readonly OxWaiter waiter;
 
         private void MouseLeaveHandler(object? sender, EventArgs e) => 
-            waiter.Ready = Expanded && !pinned;
+            waiter.Ready = Visible && Expanded && !pinned;
 
         private void CheckExpandedState() =>
             Expanded = ClientRectangle.Contains(PointToClient(MousePosition));
 
         private int StopWaiter()
         {
-            waiter.Ready = false;
+            waiter.Stop();
 
             if (Pinned)
                 return 1;

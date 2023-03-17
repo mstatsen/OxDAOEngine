@@ -9,6 +9,5 @@ namespace OxXMLEngine.View
     {
         TDAO? Item { get; set; }
         OxPane AsPane { get; }
-        void ApplySettings();
     }
 }

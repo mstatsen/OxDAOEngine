@@ -12,6 +12,7 @@ namespace OxXMLEngine.Settings
     {
         int CardsPageSize { get; set; }
         int IconsPageSize { get; set; }
+        bool CategoryPanelPinned { get; set; }
         bool CategoryPanelExpanded { get; set; }
         bool AutoExpandCategories { get; set; }
         bool HideEmptyCategory { get; set; }
@@ -20,7 +21,10 @@ namespace OxXMLEngine.Settings
         bool ShowIcons { get; set; }
         bool ShowCards { get; set; }
         TextFilterOperation QuickFilterTextFieldOperation { get; set; }
-        bool GameInfoPanelExpanded { get; set; }
+        bool ItemInfoPanelPinned { get; set; }
+        bool ItemInfoPanelExpanded { get; set; }
+        bool QuickFilterPinned { get; set; }
+        bool QuickFilterExpanded { get; set; }
         IconClickVariant IconClickVariant { get; set; }
         IconSize IconsSize { get; set; }
         ExtractCompareType SummarySorting { get; set; }
