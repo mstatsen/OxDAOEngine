@@ -133,6 +133,7 @@ namespace OxXMLEngine.Settings
             htmlSortingPanel.Dock = DockStyle.Right;
             htmlSortingPanel.Paddings.HorizontalOx = OxSize.Medium;
             htmlSortingPanel.SetContentSize(168, htmlSortingPanel.SavedHeight);
+            htmlSortingPanel.IsSimplePanel = true;
         }
 
         private IControlAccessor CreateZeroSummaryAccessor()
@@ -245,6 +246,7 @@ namespace OxXMLEngine.Settings
             groupByPanel.Dock = DockStyle.Left;
             groupByPanel.Paddings.HorizontalOx = OxSize.Medium;
             groupByPanel.SetContentSize(200, groupByPanel.SavedHeight);
+            groupByPanel.IsSimplePanel = true;
         }
 
         private void SetupControl(Control control, ExportFormat format, OxPane? parent, Color baseColor, string caption = "") =>
@@ -369,13 +371,6 @@ namespace OxXMLEngine.Settings
            
         private void InitCategoriesTree()
         {
-            if (categoriesTree != null)
-                return;
-
-            categoriesTree = new CategoriesTree<TField, TDAO>()
-            {
-                ShowCount = false
-            };
             categoriesTree.SetContentSize(360, 480);
             categoriesTree.RefreshCategories(true);
         }
@@ -428,7 +423,8 @@ namespace OxXMLEngine.Settings
         private readonly ExportSettings<TField, TDAO> settings;
         private readonly QuickFilterPanel<TField, TDAO> quickFilter = new(QuickFilterVariant.Export)
         {
-            Dock = DockStyle.Top
+            Dock = DockStyle.Top,
+            IsSimplePanel = true
         };
 
         private readonly OxPanel htmlGeneralPanel = CreateExtraPanel(172);
@@ -454,7 +450,11 @@ namespace OxXMLEngine.Settings
 
         private readonly OxFrame GeneralPanel;
         private readonly Dictionary<ExportFormat, OxFrame> extraSettingsFrames = new();
-        private CategoriesTree<TField, TDAO>? categoriesTree;
+        private readonly CategoriesTree<TField, TDAO>? categoriesTree = new()
+        {
+            ShowCount = false,
+            IsSimplePanel = true
+        };
         private readonly Dictionary<OxFrame, List<Control>> FramesControls = new();
     }
 }

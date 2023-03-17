@@ -13,6 +13,7 @@ namespace OxXMLEngine.ControlFactory
         {
             ShowSettingsButton = true;
             BaseColor = FunctionColor;
+
             waiter = new OxWaiter(StopWaiter);
             waiter.Start();
         }
@@ -43,8 +44,8 @@ namespace OxXMLEngine.ControlFactory
             loadingPanel.BringToFront();
 
             Sider.Parent = this;
-            SiderButton.Parent = Sider;
-            SiderButton.Borders.SetSize(OxSize.None);
+            ExpandButton.Parent = Sider;
+            ExpandButton.Borders.SetSize(OxSize.None);
             PreparePinButton(PinButton);
             PreparePinButton(PinButton2);
         }
@@ -69,7 +70,7 @@ namespace OxXMLEngine.ControlFactory
         }
 
         public OxPanel Sider { get; } = new(new Size(16, 1));
-        private readonly OxIconButton SiderButton = new(OxIcons.left, 16)
+        private readonly OxIconButton ExpandButton = new(OxIcons.left, 16)
         {
             Dock = DockStyle.Fill,
             HiddenBorder = false
@@ -131,9 +132,9 @@ namespace OxXMLEngine.ControlFactory
             if (GeneralSettings.DarkerHeaders)
                 Header.BaseColor = Colors.Darker(1);
 
-            SiderButton.BaseColor = Colors.Darker(GeneralSettings.DarkerHeaders ? 1 : 0);
-            PinButton.BaseColor = SiderButton.BaseColor;
-            PinButton2.BaseColor = SiderButton.BaseColor;
+            ExpandButton.BaseColor = Colors.Darker(GeneralSettings.DarkerHeaders ? 1 : 0);
+            PinButton.BaseColor = ExpandButton.BaseColor;
+            PinButton2.BaseColor = ExpandButton.BaseColor;
         }
 
         protected virtual TSettings Settings => SettingsManager.Settings<TSettings>();
@@ -235,15 +236,16 @@ namespace OxXMLEngine.ControlFactory
         {
             OxDock oxDock = OxDockHelper.Dock(Dock);
             Sider.Dock = OxDockHelper.Dock(OxDockHelper.Opposite(oxDock));
-            Borders[OxDockHelper.Dock(Sider.Dock)].Visible = false;
+            Borders[OxDockHelper.Dock(Sider.Dock)].Visible = !IsSimplePanel;
 
-            Sider.Visible = Dock != DockStyle.Fill && Dock != DockStyle.None;
+            Sider.Visible = !IsSimplePanel && Dock != DockStyle.Fill && Dock != DockStyle.None;
 
             if (OxDockHelper.IsVertical(oxDock))
             {
                 Sider.SetContentSize(1, 16);
-                SiderButton.Borders.VerticalOx = OxSize.Small;
-                SiderButton.Borders.HorizontalOx = OxSize.None;
+                ExpandButton.Borders.VerticalOx = OxSize.Small;
+                ExpandButton.Borders[OxDockHelper.Opposite(OxDockHelper.Dock(Sider.Dock))].Visible = false;
+                ExpandButton.Borders.HorizontalOx = OxSize.None;
                 PinButton.Dock = DockStyle.Left;
                 PinButton.Width = 24;
                 PinButton2.Dock = DockStyle.Right;
@@ -252,15 +254,15 @@ namespace OxXMLEngine.ControlFactory
             else
             {
                 Sider.SetContentSize(16, 1);
-                SiderButton.Borders.VerticalOx = OxSize.None;
-                SiderButton.Borders.HorizontalOx = OxSize.Small;
+                ExpandButton.Borders.VerticalOx = OxSize.None;
+                ExpandButton.Borders.HorizontalOx = OxSize.Small;
                 PinButton.Dock = DockStyle.Top;
                 PinButton.Height = 24;
                 PinButton2.Dock = DockStyle.Bottom;
                 PinButton2.Height = 24;
             }
 
-            SiderButton.Icon = SiderButtonIcon;
+            ExpandButton.Icon = ExpandButtonIcon;
             RecalcPinned();
             base.OnDockChanged(e);
         }
@@ -283,7 +285,7 @@ namespace OxXMLEngine.ControlFactory
                 Paddings[OxDockHelper.Dock(Sider.Dock)].Visible = value;
                 ContentContainer.Visible = value;
                 Header.Visible = value; 
-                SiderButton.Icon = SiderButtonIcon;
+                ExpandButton.Icon = ExpandButtonIcon;
                 Borders[OxDockHelper.Dock(Dock)].Visible = value;
             }
             finally
@@ -324,11 +326,11 @@ namespace OxXMLEngine.ControlFactory
         {
             SetMouseHandler(this);
             SetMouseHandler(ContentContainer);
-            SetMouseHandler(SiderButton);
-            SetMouseHandler(SiderButton.Picture);
-            SetMouseHandler(SiderButton.Margins);
-            SetMouseHandler(SiderButton.Borders);
-            SetMouseHandler(SiderButton.Paddings);
+            SetMouseHandler(ExpandButton);
+            SetMouseHandler(ExpandButton.Picture);
+            SetMouseHandler(ExpandButton.Margins);
+            SetMouseHandler(ExpandButton.Borders);
+            SetMouseHandler(ExpandButton.Paddings);
             SetMouseHandler(PinButton);
             SetMouseHandler(PinButton.Picture);
             SetMouseHandler(PinButton.Margins);
@@ -348,7 +350,7 @@ namespace OxXMLEngine.ControlFactory
         {
             base.SetHandlers();
             ApplyRecalcSizeHandler(ContentContainer, false, true);
-            SiderButton.Click += (s, e) => Expanded = !Expanded;
+            ExpandButton.Click += (s, e) => Expanded = !Expanded;
             PinButton.Click += (s, e) => Pinned = !Pinned;
             PinButton2.Click += (s, e) => Pinned = !Pinned;
             SetMouseHandlers();
@@ -362,7 +364,7 @@ namespace OxXMLEngine.ControlFactory
 
         private bool Expandable => IsVariableWidth || IsVariableHeight;
 
-        public Bitmap? SiderButtonIcon =>
+        public Bitmap? ExpandButtonIcon =>
             Dock switch
             {
                 DockStyle.Left => expanded ? OxIcons.left : OxIcons.right,
@@ -544,6 +546,24 @@ namespace OxXMLEngine.ControlFactory
 
             BeginInvoke(CheckExpandedState);
             return 0;
+        }
+
+        private bool isSimplePanel = false;
+        public bool IsSimplePanel
+        {
+            get => isSimplePanel;
+            set
+            {
+                isSimplePanel = value;
+                Sider.Visible = !isSimplePanel;
+
+                if (isSimplePanel)
+                {
+                    waiter.Stop();
+                    Pinned = true;
+                    Expanded = true;
+                }
+            }
         }
     }
 
