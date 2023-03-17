@@ -108,13 +108,13 @@ namespace OxXMLEngine.Grid
             buttonsPanel.Dock = DockStyle.Right;
 
             selectButton.Parent = buttonsPanel;
-            selectButton.Click += SelectHanlder;
+            selectButton.Click += (s, e) => MoveSelected(true);
             selectButton.Left = 4;
             selectButton.SetContentSize(54, 38);
             selectButton.HiddenBorder = false;
 
             unSelectButton.Parent = buttonsPanel;
-            unSelectButton.Click += UnselectHanlder;
+            unSelectButton.Click += (s, e) => MoveSelected(false);
             unSelectButton.Left = 4;
             unSelectButton.SetContentSize(54, 38);
             unSelectButton.HiddenBorder = false;
@@ -139,15 +139,9 @@ namespace OxXMLEngine.Grid
             availableGrid.QuickFilterPanel.Parent = topPanel;
             availableGrid.QuickFilterPanel.Margins.BottomOx = OxSize.Extra;
 
-            availableGrid.Grid.GridView.SelectionChanged += AvailableGridSelectionChanger;
-            selectedGrid.GridView.SelectionChanged += SelectedGridSelectionChanger;
+            availableGrid.Grid.GridView.SelectionChanged += (s, e) => selectButton.Enabled = availableGrid.Grid.SelectedCount > 0;
+            selectedGrid.GridView.SelectionChanged += (s, e) => unSelectButton.Enabled = selectedGrid.SelectedCount > 0;
         }
-
-        private void AvailableGridSelectionChanger(object? sender, EventArgs e) => 
-            selectButton.Enabled = availableGrid.Grid.SelectedCount > 0;
-
-        private void SelectedGridSelectionChanger(object? sender, EventArgs e) =>
-            unSelectButton.Enabled = selectedGrid.SelectedCount > 0;
 
         private void MoveSelected(bool select, bool force = false)
         {
@@ -185,22 +179,13 @@ namespace OxXMLEngine.Grid
             else ChooserParams.CompleteUnselect?.Invoke(this, EventArgs.Empty);
         }
 
-        private void UnselectHanlder(object? sender, EventArgs e) =>
-            MoveSelected(false);
-
-        private void SelectHanlder(object? sender, EventArgs e) =>
-            MoveSelected(true);
-
         protected override void PrepareDialog(OxPanelViewer dialog)
         {
             base.PrepareDialog(dialog);
             dialog.Sizeble = true;
             dialog.CanMaximize = true;
-            dialog.SizeChanged += PanelViewerSizeChangeHandler;
+            dialog.SizeChanged += (s, e) => RecalcGridsSizes();
         }
-
-        private void PanelViewerSizeChangeHandler(object? sender, EventArgs e) =>
-            RecalcGridsSizes();
 
         private void RecalcGridsSizes()
         {

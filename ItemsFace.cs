@@ -41,10 +41,10 @@ namespace OxXMLEngine
             //sortingPanel.Visible = false;
 
             statisticPanel = CreateStatisticPanel();
-            ListController.ListChanged += ListChangedHandler;
-            ListController.OnAfterLoad += RenewFilterControls;
-            tabControl.ActivatePage += ActivatePageHandler;
-            tabControl.DeactivatePage += DeactivatePageHandler;
+            ListController.ListChanged += (s, e) => ApplyQuickFilter(true);
+            ListController.OnAfterLoad += (s, e) => quickFilter.RenewFilterControls();
+            tabControl.ActivatePage += (s, e) => ApplyQuickFilter(true);
+            //tabControl.DeactivatePage += DeactivatePageHandler;
         }
 
         private StatisticPanel<TField, TDAO> CreateStatisticPanel() =>
@@ -91,8 +91,8 @@ namespace OxXMLEngine
                     BaseColor = BaseColor
                 };
 
-            itemsView.LoadingStarted += LoadingStartedHandler;
-            itemsView.LoadingEnded += LoadingEndedHandler;
+            itemsView.LoadingStarted += (s, e) => StartLoading(s == null ? this : ((ItemsView<TField, TDAO>)s).ContentContainer);
+            itemsView.LoadingEnded += (s, e) => EndLoading();
             tabControl.AddPage(itemsView);
             return itemsView;
         }
@@ -108,7 +108,7 @@ namespace OxXMLEngine
                 BatchUpdateCompleted = BatchUpdateCompletedHandler
             };
             result.Paddings.LeftOx = OxSize.Medium;
-            result.GridFillCompleted += TableFillCompleteHandler;
+            result.GridFillCompleted += (s, e) => ApplyQuickFilter();
             tabControl.AddPage(result);
             return result;
         }
@@ -258,31 +258,19 @@ namespace OxXMLEngine
             loadingPanel.StartLoading();
         }
 
-        private void LoadingStartedHandler(object? sender, EventArgs e) =>
-            StartLoading(sender == null ? this : ((ItemsView<TField, TDAO>)sender).ContentContainer);
-
-        private void LoadingEndedHandler(object? sender, EventArgs e) =>
-            EndLoading();
-
         private void EndLoading() => loadingPanel.EndLoading();
 
         private void PrepareQuickFilter()
         {
             quickFilter.Parent = tabControlPanel;
             quickFilter.Dock = DockStyle.Top;
-            quickFilter.Changed += QuickFilterChangedHandler;
+            quickFilter.Changed += (s, e) => ApplyQuickFilter();
             quickFilter.Margins.SetSize(OxSize.Large);
             quickFilter.RenewFilterControls();
-            quickFilter.OnPinnedChanged += QuickFilterPinnedChangedHandler;
-            quickFilter.VisibleChanged += QuickFilterVisibleChangedHandler;
+            quickFilter.OnPinnedChanged += (s, e) => categoriesTree.RecalcPinned();
+            quickFilter.VisibleChanged += (s, e) => quickFilter.RecalcPaddings();
             quickFilter.RecalcPaddings();
         }
-
-        private void QuickFilterPinnedChangedHandler(object? sender, EventArgs e) => 
-            categoriesTree.RecalcPinned();
-
-        private void QuickFilterVisibleChangedHandler(object? sender, EventArgs e) =>
-            quickFilter.RecalcPaddings();
 
         private void PrepareCategoriesTree()
         {
@@ -301,11 +289,6 @@ namespace OxXMLEngine
             categoriesTree.ActiveCategoryChanged += RenewFilterControls;
         }
 
-        private void QuickFilterChangedHandler(object? sender, EventArgs e) =>
-            ApplyQuickFilter();
-
-        private void TableFillCompleteHandler(object? sender, EventArgs e) =>
-            ApplyQuickFilter();
 
         /*
         private void SortChangedHandler(DAO dao, DAOEntityEventArgs e)
@@ -314,26 +297,19 @@ namespace OxXMLEngine
             SortList();
         }
         */
-
-        private void ActivatePageHandler(object sender, OxTabControlEventArgs e) =>
-            ApplyQuickFilter(true);
+        /*
 
         private void DeactivatePageHandler(object sender, OxTabControlEventArgs e)
         {
-            //sortingPanel.Visible = e.Page != tableView;
+            sortingPanel.Visible = e.Page != tableView;
         }
-
-        private void ListChangedHandler(object? sender, EventArgs e) =>
-            ApplyQuickFilter(true);
+        */
 
         public void RenewFilterControls(object? sender, CategoryEventArgs<TField, TDAO> e)
         {
             if (e.IsFilterChanged)
                 quickFilter.RenewFilterControls();
         }
-
-        public void RenewFilterControls(object? sender, EventArgs e) =>
-            quickFilter.RenewFilterControls();
 
         private void ActiveCategoryChangedHandler(object? sender, CategoryEventArgs<TField, TDAO> e)
         {

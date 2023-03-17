@@ -145,34 +145,15 @@ namespace OxXMLEngine.Statistic
 
         private void AccessHandlers()
         {
-            ListController.CategoryChanged += CategoryChangeHandler;
-            ListController.ListChanged += ControllerChangeHandler;
-            ListController.ModifiedHandler += ListControllerModifiedChangedHandler;
-            ListController.ItemFieldChanged += ListControllerFieldChangedHandler;
-            QuickFilterPanel.Changed += QuickFilterChangedHandler;
-            Grid.CurrentItemChanged += GridChangeHandler;
+            ListController.CategoryChanged += (s, e) => RenewCategoryValue();
+            ListController.ListChanged += (s, e) => SetStatisticText();
+            ListController.ModifiedHandler += (d, m) => SetStatisticText();
+            ListController.ItemFieldChanged += (d, e) => SetStatisticText();
+            QuickFilterPanel.Changed += (s, e) => SetStatisticText();
+            Grid.CurrentItemChanged += (s, e) => SetStatisticText();
         }
 
-        private void CategoryChangeHandler(object? sender, EventArgs e) =>
-            RenewCategoryValue();
-
-        private void ListControllerFieldChangedHandler(DAO dao, DAOEntityEventArgs e) =>
-            SetStatisticText();
-
-        private void ListControllerModifiedChangedHandler(DAO dao, bool Modified) =>
-            SetStatisticText();
-
-        private void GridChangeHandler(object? sender, EventArgs e) =>
-            SetStatisticText();
-
-        private void QuickFilterChangedHandler(object? sender, EventArgs e) =>
-            SetStatisticText();
-
-        private void ControllerChangeHandler(object? sender, EventArgs e) =>
-            SetStatisticText();
-
         private readonly Dictionary<StatisticType, StatisticLabel> Labels = new();
-
         private readonly ItemsGrid<TField, TDAO> Grid;
         private readonly QuickFilterPanel<TField, TDAO> QuickFilterPanel;
     }

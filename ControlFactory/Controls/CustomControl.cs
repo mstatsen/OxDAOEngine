@@ -15,8 +15,13 @@ namespace OxXMLEngine.ControlFactory.Controls
             Context = context;
             InitComponents();
             RecalcControls();
-            SizeChanged += SizeChangedHandler;
             return this;
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            RecalcControls();
         }
 
         public IBuilderContext<TField, TDAO> Context { get; private set; } = default!;
@@ -51,9 +56,6 @@ namespace OxXMLEngine.ControlFactory.Controls
             get => GetControlColor();
             set => SetControlColor(value);
         }
-
-        private void SizeChangedHandler(object? sender, EventArgs e) => 
-            RecalcControls();
 
         protected virtual void RecalcControls() { }
 

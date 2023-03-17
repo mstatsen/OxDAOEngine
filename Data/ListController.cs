@@ -81,8 +81,8 @@ namespace OxXMLEngine.Data
         {
             FullItemsList.ChangeHandler += ListChangedHandler;
             FullItemsList.ModifiedChangeHandler += ListModifiedChangeHandler;
-            FullItemsList.ItemAddHandler += ListAddHandler;
-            FullItemsList.ItemRemoveHandler += ListRemoveHandler;
+            FullItemsList.ItemAddHandler += (d, e) => AddHandler?.Invoke(d, e);
+            FullItemsList.ItemRemoveHandler += (d, e) => RemoveHandler?.Invoke(d, e);
             FullItemsList.SortChangeHandler += ItemListSortChanger;
         }
 
@@ -91,12 +91,6 @@ namespace OxXMLEngine.Data
             RenewVisibleItems();
             ItemsSortChangeHandler?.Invoke(this, e);
         }
-
-        private void ListAddHandler(DAO dao, DAOEntityEventArgs e) =>
-            AddHandler?.Invoke(dao, e);
-
-        private void ListRemoveHandler(DAO dao, DAOEntityEventArgs e) =>
-            RemoveHandler?.Invoke(dao, e);
 
         protected virtual void ListModifiedChangeHandler(DAO dao, bool Modified)
         {

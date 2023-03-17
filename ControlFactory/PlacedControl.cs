@@ -61,8 +61,8 @@ namespace OxXMLEngine.ControlFactory
 
         private void SetMeasureHandlers(Control control)
         {
-            control.LocationChanged += LocationChangedHandler;
-            control.SizeChanged += SizeChangedHandler;
+            control.LocationChanged += (s, e) => AlignLabel();
+            control.SizeChanged += (s, e) => AlignLabel();
         }
 
         private void AlignLabel()
@@ -70,11 +70,5 @@ namespace OxXMLEngine.ControlFactory
             if (Label != null)
                 OxControlHelper.AlignByBaseLine(Control, Label);
         }
-
-        private void SizeChangedHandler(object? sender, EventArgs e) =>
-            AlignLabel();
-
-        private void LocationChangedHandler(object? sender, EventArgs e) =>
-            AlignLabel();
     }
 }

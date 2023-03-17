@@ -63,7 +63,7 @@ namespace OxXMLEngine.ControlFactory.Filter
             ExpandButton.SetContentSize(28, 23);
             ExpandButton.Click += ExpandAllClick;
             CollapseButton.SetContentSize(28, 23);
-            CollapseButton.Click += CollapseAllClick;
+            CollapseButton.Click += (s, e) => categorySelector.CollapseAll();
             Header.AddToolButton(CollapseButton);
             Header.AddToolButton(ExpandButton);
         }
@@ -89,9 +89,6 @@ namespace OxXMLEngine.ControlFactory.Filter
             categorySelector.ExpandAll();
             categorySelector.SelectedNode?.EnsureVisible();
         }
-
-        private void CollapseAllClick(object? sender, EventArgs e) =>
-            categorySelector.CollapseAll();
 
         private readonly OxIconButton CollapseButton = new(OxIcons.up, 23)
         {
@@ -187,7 +184,7 @@ namespace OxXMLEngine.ControlFactory.Filter
         {
             categorySelector.Parent = ContentContainer;
             categorySelector.AfterSelect += AfterSelectHandler;
-            categorySelector.BeforeCollapse += BeforeCollapseHandler;
+            categorySelector.BeforeCollapse += (s, e) => e.Cancel = e.Node == null || e.Node.Level == 0;
             categorySelector.DoubleClick += CategorySelectorDoubleClickHandler;
             categorySelector.Click += CategorySelectorClickHandler;
         }
@@ -325,9 +322,6 @@ namespace OxXMLEngine.ControlFactory.Filter
                 categorySelector.Nodes.Add(node);
             else parentNode.Nodes.Add(node);
         }
-
-        private void BeforeCollapseHandler(object? sender, TreeViewCancelEventArgs e) => 
-            e.Cancel = e.Node == null || e.Node.Level == 0;
 
         private void AfterSelectHandler(object? sender, TreeViewEventArgs e)
         {

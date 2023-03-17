@@ -19,7 +19,7 @@ namespace OxXMLEngine.Grid
 
             Grid.Parent = this;
             Grid.Dock = DockStyle.Fill;
-            Grid.ToolbarActionClick += ToolBarActoinClickHandler;
+            Grid.ToolbarActionClick += (s, e) => ExecuteAction(e.Action);
             Grid.CurrentItemChanged += CurrentItemChangeHandler;
             CurrentInfoCard = DataManager.ControlFactory<TField, TDAO>().CreateInfoCard();
             PrepareInfoCard();
@@ -40,8 +40,8 @@ namespace OxXMLEngine.Grid
             CurrentInfoCard.Margins.SetSize(OxSize.Medium);
             CurrentInfoCard.Margins.LeftOx = OxSize.Large;
             CurrentInfoCard.Margins.TopOx = OxSize.Large;
-            CurrentInfoCard.OnExpandedChanged += FullInfoCardPlaceExpandedChangedHandler;
-            CurrentInfoCard.VisibleChanged += FullInfoCardPlaceVisibleChangedHandler;
+            CurrentInfoCard.OnExpandedChanged += (s, e) => UpdateCurrentItemFullCard();
+            CurrentInfoCard.VisibleChanged += (s, e) => UpdateCurrentItemFullCard();
             CurrentInfoCard.Dock = DockStyle.Right;
             CurrentInfoCard.SetContentSize(500, 1);
         }
@@ -59,9 +59,6 @@ namespace OxXMLEngine.Grid
             Grid.CurrentItem;
 
         public ItemsGrid<TField, TDAO> Grid = new();
-
-        private void ToolBarActoinClickHandler(object? sender, ToolbarActionEventArgs EventArgs) =>
-            ExecuteAction(EventArgs.Action);
 
         protected virtual void CurrentItemChangeHandler(object? sender, EventArgs e) 
         {
@@ -105,12 +102,6 @@ namespace OxXMLEngine.Grid
             base.PrepareColors();
             SetPaneBaseColor(Grid, BaseColor);
         }
-
-        private void FullInfoCardPlaceVisibleChangedHandler(object? sender, EventArgs e) =>
-            UpdateCurrentItemFullCard();
-
-        private void FullInfoCardPlaceExpandedChangedHandler(object? sender, EventArgs e) =>
-            UpdateCurrentItemFullCard();
 
         private void UpdateCurrentItemFullCard()
         {

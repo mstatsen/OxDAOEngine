@@ -31,7 +31,7 @@ namespace OxXMLEngine.ControlFactory
         protected override void PrepareInnerControls()
         {
             CustomizeButton.SetContentSize(28, 23);
-            CustomizeButton.Click += CustomizeButtonClick;
+            CustomizeButton.Click += (s, e) => SettingsForm.ShowSettings(Settings, SettingsPart);
             Header.AddToolButton(CustomizeButton);
 
             base.PrepareInnerControls();
@@ -115,9 +115,6 @@ namespace OxXMLEngine.ControlFactory
         protected ISettingsObserver GeneralObserver => GeneralSettings.Observer;
 
         protected virtual SettingsPart SettingsPart => default;
-
-        private void CustomizeButtonClick(object? sender, EventArgs e) =>
-            SettingsForm.ShowSettings(Settings, SettingsPart);
 
         private readonly OxIconButton CustomizeButton = new(OxIcons.settings, 23)
         {

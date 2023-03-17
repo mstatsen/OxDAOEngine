@@ -55,12 +55,9 @@ namespace OxXMLEngine.ControlFactory.Controls
         {
             base.PrepareInnerControls();
             ClearButton.SetContentSize(80, 23);
-            ClearButton.Click += ClearButtonClick;
+            ClearButton.Click += (s, e) => ClearControls();
             Header.AddToolButton(ClearButton);
         }
-
-        private void ClearButtonClick(object? sender, EventArgs e) =>
-            ClearControls();
 
         private void ClearControls()
         {

@@ -30,7 +30,9 @@ namespace OxXMLEngine.View
                 FontColors.BaseColor = ControlFactory.ItemColorer.ForeColor(item);
                 PrepareControls();
                 PrepareColors();
-                AccessItemHandlers();
+
+                if (Item != null)
+                    Item.ChangeHandler += ItemChangeHandler;
             }
         }
 
@@ -158,12 +160,6 @@ namespace OxXMLEngine.View
 
 
         protected virtual void PreparePanels() { }
-
-        private void AccessItemHandlers()
-        {
-            if (Item != null)
-                Item.ChangeHandler += ItemChangeHandler;
-        }
 
         private void ItemChangeHandler(object sender, DAOEntityEventArgs e) =>
             PrepareControls();

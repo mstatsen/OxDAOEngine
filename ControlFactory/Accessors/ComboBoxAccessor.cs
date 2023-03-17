@@ -27,32 +27,14 @@ namespace OxXMLEngine.ControlFactory.Accessors
             base.AfterControlCreated();
             ComboBox.SizeChanged += ComboBoxSizeChangeHandler;
             ComboBox.LocationChanged += ComboBoxLocationChangeHandler;
-            ComboBox.SelectionChangeCommitted += ComboBoxValueChangeHandler;
-            ComboBox.TextChanged += ComboBoxValueChangeHandler;
-            ComboBox.ParentChanged += ComboBoxParentChangeHandler;
-            ComboBox.BackColorChanged += ComboBoxBackColorChangeHandler;
-            ComboBox.FontChanged += ComboBoxFontChangeHandler;
-            ComboBox.ForeColorChanged += ComboBoxForeColorChangeHandler;
-            ComboBox.VisibleChanged += ComboBoxVisibleChangeHandler;
+            ComboBox.SelectionChangeCommitted += (s, e) => ReadOnlyControl.Text = ComboBox.Text;
+            ComboBox.TextChanged += (s, e) => ReadOnlyControl.Text = ComboBox.Text;
+            ComboBox.ParentChanged += (s, e) => ReadOnlyControl.Parent = ComboBox.Parent;
+            ComboBox.BackColorChanged += (s, e) => ReadOnlyControl.BackColor = ComboBox.BackColor;
+            ComboBox.FontChanged += (s, e) => ReadOnlyControl.Font = ComboBox.Font;
+            ComboBox.ForeColorChanged += (s, e) => ReadOnlyControl.ForeColor = ComboBox.ForeColor;
+            ComboBox.VisibleChanged += (s, e) => ReadOnlyControl.Visible = visible && ReadOnly && !ComboBox.Visible;
         }
-
-        private void ComboBoxVisibleChangeHandler(object? sender, EventArgs e) =>
-            ReadOnlyControl.Visible = visible && ReadOnly && !ComboBox.Visible;
-
-        private void ComboBoxForeColorChangeHandler(object? sender, EventArgs e) =>
-            ReadOnlyControl.ForeColor = ComboBox.ForeColor;
-
-        private void ComboBoxFontChangeHandler(object? sender, EventArgs e) =>
-            ReadOnlyControl.Font = ComboBox.Font;
-
-        private void ComboBoxBackColorChangeHandler(object? sender, EventArgs e) =>
-            ReadOnlyControl.BackColor = ComboBox.BackColor;
-
-        private void ComboBoxParentChangeHandler(object? sender, EventArgs e) =>
-            ReadOnlyControl.Parent = ComboBox.Parent;
-
-        private void ComboBoxValueChangeHandler(object? sender, EventArgs e) => 
-            ReadOnlyControl.Text = ComboBox.Text;
 
         private void ComboBoxLocationChangeHandler(object? sender, EventArgs e)
         {

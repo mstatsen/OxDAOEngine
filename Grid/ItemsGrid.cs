@@ -1,6 +1,5 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxXMLEngine.ControlFactory.BatchUpdate;
 using OxXMLEngine.Data;
@@ -64,10 +63,10 @@ namespace OxXMLEngine.Grid
         public ItemsGrid(RootListDAO<TField, TDAO>? itemsList, GridUsage usage = GridUsage.Edit)
         {
             customItemsList = itemsList;
-            ListController.ItemsSortChangeHandler += ItemsSortChangedHandler;
-            ListController.AddHandler += ItemAdded;
+            ListController.ItemsSortChangeHandler += (s, e) => SortGrid();
+            ListController.AddHandler += (d, e) => d.ChangeHandler += ItemChanged;
             selector = new GridSelector<TField, TDAO>(GridView);
-            GridView.DoubleClick += DoubleClickHandler;
+            GridView.DoubleClick += (s, e) => ExecuteAction(OxToolbarAction.Edit);
             GridView.SelectionChanged += GridSelectionChangedHandler;
             GridView.SortingChanged += GridSortingChangeHandler;
             GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
@@ -240,16 +239,13 @@ namespace OxXMLEngine.Grid
                 batchUpdateForm = new BatchUpdateForm<TField, TDAO>()
                 {
                     ItemsGetter = GetSelectedItems,
-                    BatchUpdateCompleted = BatchUpdateCompletedHandler
+                    BatchUpdateCompleted = (s, e) => BatchUpdateCompleted?.Invoke(s, e)
                 };
 
             batchUpdateForm.ShowDialog();
         }
 
         public EventHandler? BatchUpdateCompleted;
-
-        private void BatchUpdateCompletedHandler(object? sender, EventArgs e) =>
-            BatchUpdateCompleted?.Invoke(sender, e);
 
         public TDAO? CurrentItem =>
             GridView.SelectedRows.Count > 0
@@ -267,14 +263,8 @@ namespace OxXMLEngine.Grid
         public int SelectedCount =>
             GetSelectedItems().Count;
 
-        public void DoubleClickHandler(object? sender, EventArgs e) =>
-            ExecuteAction(OxToolbarAction.Edit);
-
         public void SelectFirstItem() =>
             selector.FocusOnFirstRow();
-
-        protected void ItemsSortChangedHandler(object? sender, EventArgs e) =>
-            SortGrid();
 
         protected void GridSelectionChangedHandler(object? sender, EventArgs e) =>
             CurrentItemChanged?.Invoke(sender, e);
@@ -349,9 +339,6 @@ namespace OxXMLEngine.Grid
                     break;
             }
         }
-
-        private void ItemAdded(DAO dao, DAOEntityEventArgs? e) =>
-            dao.ChangeHandler += ItemChanged;
 
         protected int AppendItem(TDAO item)
         {
@@ -651,7 +638,9 @@ namespace OxXMLEngine.Grid
         protected override void SetHandlers()
         {
             base.SetHandlers();
-            GridView.SelectionChanged += SelectionChangedHandler;
+            GridView.SelectionChanged += (s, e) => 
+                ToolBar.AllowEditingActions = GridView.SelectedRows.Count > 0 
+                && GridView.SelectedRows[0].Visible;
         }
 
         protected override void PrepareColors()
@@ -659,12 +648,7 @@ namespace OxXMLEngine.Grid
             base.PrepareColors();
             ToolBar.BaseColor = BaseColor;
             GridView.BackgroundColor = Colors.HLighter(7).Bluer(1);
-            
         }
-
-        private void SelectionChangedHandler(object? sender, EventArgs e) =>
-            ToolBar.AllowEditingActions = GridView.SelectedRows.Count > 0
-                && GridView.SelectedRows[0].Visible;
 
         public bool ReadOnly
         {

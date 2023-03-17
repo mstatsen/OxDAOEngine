@@ -56,7 +56,7 @@ namespace OxXMLEngine.ControlFactory.Accessors
         public ControlAccessor(IBuilderContext<TField, TDAO> context)
         {
             Context = context;
-            Context.InitializerChanged = InitializerChangedHander;
+            Context.InitializerChanged = (s, e) => RenewControl(true);
 
             if (AutoInit)
                 Init();
@@ -218,9 +218,6 @@ namespace OxXMLEngine.ControlFactory.Accessors
             Control.Visible = value;
 
         public abstract void Clear();
-
-        private void InitializerChangedHander(object? sender, EventArgs e) =>
-            RenewControl(true);
 
         public virtual void RenewControl(bool hardReset = false)
         {

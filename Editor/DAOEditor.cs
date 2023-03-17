@@ -60,7 +60,7 @@ namespace OxXMLEngine.Editor
         private void SetHandlers()
         {
             foreach (OxPane pane in Groups.Values)
-                pane.Resize += ResizeHandler;
+                pane.Resize += (s, e) => InvalidateSize();
         }
 
         protected virtual void SetPaddings() { }
@@ -123,9 +123,6 @@ namespace OxXMLEngine.Editor
 
         public DAOWorker<TField, TDAO, TFieldGroup> Worker =>
             DataManager.Worker<TField, TDAO, TFieldGroup>();
-
-        private void ResizeHandler(object? sender, EventArgs e) =>
-            InvalidateSize();
 
         private bool invalidateSizeInProcess = false;
 
@@ -267,13 +264,10 @@ namespace OxXMLEngine.Editor
             panel.Parent = parent;
             panel.Dock = dock;
             ParentPanels.Add(panel);
-            panel.VisibleChanged += ParentPanelVisibleChangeHandler;
+            panel.VisibleChanged += (s, e) => InvalidateSize();
 
             if (parentForGroups)
                 GroupParents.Add(panel);
         }
-
-        private void ParentPanelVisibleChangeHandler(object? sender, EventArgs e) =>
-            InvalidateSize();
     }
 }

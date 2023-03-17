@@ -98,12 +98,6 @@ namespace OxXMLEngine.ControlFactory.Controls
             EnableControls();
         }
 
-        private void AddItemHandler(object? sender, EventArgs e) => 
-            AddItem();
-
-        private void EditItemHandler(object? sender, EventArgs e) => 
-            EditItem();
-
         protected TItem SelectedItem => 
             (TItem)ListBox.SelectedItem;
 
@@ -149,9 +143,6 @@ namespace OxXMLEngine.ControlFactory.Controls
             }
         }
 
-        private void RemoveItemHandler(object? sender, EventArgs e) => 
-            RemoveItem();
-
         private void RemoveItem()
         {
             if (readOnly)
@@ -177,9 +168,6 @@ namespace OxXMLEngine.ControlFactory.Controls
 
             InvokeValueChangeHandler();
         }
-
-        private void ControlSelectedChangedHandler(object? sender, EventArgs e) => 
-            EnableControls();
 
         private static void SetButtonEnabled(OxClickFrame button, bool enabled)
         {
@@ -249,9 +237,9 @@ namespace OxXMLEngine.ControlFactory.Controls
 
         protected virtual void InitButtons()
         {
-            PrepareEditButton(AddButton, AddItemHandler);
-            PrepareEditButton(DeleteButton, RemoveItemHandler, true);
-            PrepareEditButton(EditButton, EditItemHandler, true);
+            PrepareEditButton(AddButton, (s, e) => AddItem());
+            PrepareEditButton(DeleteButton, (s, e) => RemoveItem(), true);
+            PrepareEditButton(EditButton, (s, e) => EditItem(), true);
         }
 
         private readonly OxIconButton AddButton = CreateButton(OxIcons.plus);
@@ -311,8 +299,8 @@ namespace OxXMLEngine.ControlFactory.Controls
         protected void InitControl()
         {
             ListBox.Parent = ControlPanel;
-            ListBox.SelectedIndexChanged += ControlSelectedChangedHandler;
-            ListBox.DoubleClick += EditItemHandler;
+            ListBox.SelectedIndexChanged += (s, e) => EnableControls();
+            ListBox.DoubleClick += (s, e) => EditItem();
             ListBox.Click += ListClickHandler;
         }
 

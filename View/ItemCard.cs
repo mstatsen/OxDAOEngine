@@ -19,7 +19,7 @@ namespace OxXMLEngine.View
         {
             ViewMode = viewMode;
             EditorButton.SetContentSize(25, 20);
-            EditorButton.Click += ShowEditorButtonClickHandler;
+            EditorButton.Click += (s, e) => DataManager.EditItem<TField, TDAO>(item);
             EditorButton.Visible = ViewMode == ItemViewMode.WithEditLink;
             Header.AddToolButton(EditorButton);
             Builder = DataManager.Builder<TField, TDAO>(ControlScope.CardView, true);
@@ -38,9 +38,6 @@ namespace OxXMLEngine.View
             base.PrepareColors();
             Header.Label.ForeColor = fontColors.BaseColor;
         }
-
-        private void ShowEditorButtonClickHandler(object? sender, EventArgs e) =>
-            DataManager.EditItem<TField, TDAO>(item);
 
         private void LayoutControls()
         {
@@ -75,12 +72,6 @@ namespace OxXMLEngine.View
         {
             ClearLayoutTemplate();
             PrepareLayouts();
-        }
-
-        private void AccessItemHandlers()
-        {
-            if (item != null)
-                item.ChangeHandler += ItemChangeHandler;
         }
 
         private void ItemChangeHandler(object sender, DAOEntityEventArgs e) =>
@@ -126,10 +117,7 @@ namespace OxXMLEngine.View
         protected virtual string? GetTitle() =>
             item?.ToString();
 
-        public void ApplySettings()
-        {
-            
-        }
+        public void ApplySettings() { }
 
         private TDAO? item;
 
@@ -138,8 +126,14 @@ namespace OxXMLEngine.View
             get => item;
             set
             {
+                if (item != null)
+                    item.ChangeHandler -= ItemChangeHandler;
+
                 item = value;
-                AccessItemHandlers();
+
+                if (item != null)
+                    item.ChangeHandler += ItemChangeHandler;
+
                 PrepareControls();
                 PrepareColors();
                 SetTitle();

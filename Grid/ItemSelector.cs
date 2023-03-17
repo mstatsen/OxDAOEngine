@@ -31,7 +31,7 @@ namespace OxXMLEngine.Grid
         {
             if (PanelViewer != null
                 && SelectedItem != null)
-            PanelViewer.DialogResult = DialogResult.OK;
+                PanelViewer.DialogResult = DialogResult.OK;
         }
 
         public override void Fill()
@@ -46,12 +46,9 @@ namespace OxXMLEngine.Grid
             QuickFilterPanel.Dock = DockStyle.Top;
             QuickFilterPanel.Margins.BottomOx = OxSize.Large;
             QuickFilterPanel.Height += 20;
-            QuickFilterPanel.Changed += QuickFilterChangedHandler;
+            QuickFilterPanel.Changed += (s, e) => ApplyQuickFilter();
             QuickFilterPanel.RenewFilterControls();
         }
-
-        private void QuickFilterChangedHandler(object? sender, EventArgs e) =>
-            ApplyQuickFilter();
 
         private void ApplyQuickFilter() =>
             Grid?.ApplyQuickFilter(QuickFilterPanel.ActiveFilter);

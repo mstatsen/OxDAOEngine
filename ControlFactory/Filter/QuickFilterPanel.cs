@@ -343,9 +343,6 @@ namespace OxXMLEngine.ControlFactory.Filter
             RecolorControl(TextFilterContainer, filledColor);
         }
 
-        private void ClearButtonClick(object? sender, EventArgs e) =>
-            ClearControls();
-
         private int InvokeChangeHandler()
         {
             if (updating)
@@ -516,7 +513,7 @@ namespace OxXMLEngine.ControlFactory.Filter
         {
             base.PrepareInnerControls();
             ClearButton.SetContentSize(80, 23);
-            ClearButton.Click += ClearButtonClick;
+            ClearButton.Click += (s, e) => ClearControls();
             Header.AddToolButton(ClearButton);
         }
 
