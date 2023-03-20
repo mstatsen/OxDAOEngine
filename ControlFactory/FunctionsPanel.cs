@@ -191,35 +191,19 @@ namespace OxXMLEngine.ControlFactory
             Header.Visible = true;
         }
 
-        protected override int GetCalcedWidth()
-        {
-            int calcedWidth = base.GetCalcedWidth();
+        protected override int GetCalcedWidth() => 
+            !OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
+                ? Sider.CalcedWidth + (Expanded
+                    ? base.GetCalcedWidth()
+                    : Margins[OxDock.Left].CalcedWidth + Margins[OxDock.Right].CalcedWidth)
+                : base.GetCalcedWidth();
 
-            if (!OxDockHelper.IsVertical(OxDockHelper.Dock(Dock)))
-            {
-                calcedWidth += Sider.CalcedWidth;
-
-                if (!Expanded)
-                    calcedWidth -= SavedWidth + 1;
-            }
-
-            return calcedWidth;
-        }
-
-        protected override int GetCalcedHeight()
-        {
-            int calcedHeight = base.GetCalcedHeight();
-
-            if (OxDockHelper.IsVertical(OxDockHelper.Dock(Dock)))
-            {
-                calcedHeight += Sider.CalcedHeight;
-
-                if (!Expanded)
-                    calcedHeight -= SavedHeight + Header.Height + 1;
-            }
-
-            return calcedHeight;
-        }
+        protected override int GetCalcedHeight() => 
+            OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
+                ? Sider.CalcedHeight + (Expanded
+                    ? base.GetCalcedHeight()
+                    : Margins[OxDock.Top].CalcedHeight + Margins[OxDock.Bottom].CalcedHeight)
+                : base.GetCalcedHeight();
 
         public override void ReAlignControls()
         {
@@ -236,15 +220,13 @@ namespace OxXMLEngine.ControlFactory
         {
             OxDock oxDock = OxDockHelper.Dock(Dock);
             Sider.Dock = OxDockHelper.Dock(OxDockHelper.Opposite(oxDock));
-            Borders[OxDockHelper.Dock(Sider.Dock)].Visible = !IsSimplePanel;
-
+            Borders[OxDockHelper.Dock(Sider.Dock)].Visible = IsSimplePanel;
             Sider.Visible = !IsSimplePanel && Dock != DockStyle.Fill && Dock != DockStyle.None;
 
             if (OxDockHelper.IsVertical(oxDock))
             {
                 Sider.SetContentSize(1, 16);
                 ExpandButton.Borders.VerticalOx = OxSize.Small;
-                ExpandButton.Borders[OxDockHelper.Opposite(OxDockHelper.Dock(Sider.Dock))].Visible = false;
                 ExpandButton.Borders.HorizontalOx = OxSize.None;
                 PinButton.Dock = DockStyle.Left;
                 PinButton.Width = 24;
@@ -256,6 +238,7 @@ namespace OxXMLEngine.ControlFactory
                 Sider.SetContentSize(16, 1);
                 ExpandButton.Borders.VerticalOx = OxSize.None;
                 ExpandButton.Borders.HorizontalOx = OxSize.Small;
+                PinButton.Borders.SetSize(OxSize.Small);
                 PinButton.Dock = DockStyle.Top;
                 PinButton.Height = 24;
                 PinButton2.Dock = DockStyle.Bottom;
@@ -278,7 +261,7 @@ namespace OxXMLEngine.ControlFactory
 
             OnExpandedChanged?.Invoke(this, EventArgs.Empty);
 
-            ContentContainer.StartSizeRecalcing();
+            StartSizeRecalcing();
             try
             {
                 Paddings[OxDockHelper.Dock(Dock)].Visible = value;
@@ -291,7 +274,7 @@ namespace OxXMLEngine.ControlFactory
             finally
             {
                 Update();
-                ContentContainer.EndSizeRecalcing();
+                EndSizeRecalcing();
                 RecalcPinned();
                 RecalcSize();
             }
@@ -485,8 +468,8 @@ namespace OxXMLEngine.ControlFactory
                 }
 
             int fakePaddingSize = OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
-                ? Sider.Height + Margins.Top + Margins.Bottom
-                : Sider.Width + Margins.Left + Margins.Right;
+                ? Sider.CalcedHeight + Margins.CalcedSize(OxDock.Top) + Margins.CalcedSize(OxDock.Bottom)
+                : Sider.CalcedWidth + Margins.CalcedSize(OxDock.Left) + Margins.CalcedSize(OxDock.Right);
 
             if (fakePadding != null)
             {
@@ -562,6 +545,7 @@ namespace OxXMLEngine.ControlFactory
                     waiter.Stop();
                     Pinned = true;
                     Expanded = true;
+                    Borders[OxDockHelper.Dock(Sider.Dock)].Visible = IsSimplePanel;
                 }
             }
         }
