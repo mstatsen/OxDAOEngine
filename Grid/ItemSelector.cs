@@ -9,7 +9,10 @@ namespace OxXMLEngine.Grid
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public readonly QuickFilterPanel<TField, TDAO> QuickFilterPanel = new(QuickFilterVariant.Select);
+        public readonly QuickFilterPanel<TField, TDAO> QuickFilter = new(QuickFilterVariant.Select)
+        {
+            IsSimplePanel = true
+        };
 
         public ItemSelector(RootListDAO<TField, TDAO>? itemList = null, GridUsage usage = GridUsage.SelectItem)
             : base(itemList, usage) => 
@@ -18,7 +21,7 @@ namespace OxXMLEngine.Grid
         public TDAO? SelectedItem
         {
             get => Grid.CurrentItem;
-            set => QuickFilterPanel.SetFilter(value);
+            set => QuickFilter.SetFilter(value);
         }
 
         protected override void PrepareInnerControls()
@@ -42,16 +45,16 @@ namespace OxXMLEngine.Grid
 
         private void PrepareQuickFilter()
         {
-            QuickFilterPanel.Parent = ContentContainer;
-            QuickFilterPanel.Dock = DockStyle.Top;
-            QuickFilterPanel.Margins.BottomOx = OxSize.Large;
-            QuickFilterPanel.Height += 20;
-            QuickFilterPanel.Changed += (s, e) => ApplyQuickFilter();
-            QuickFilterPanel.RenewFilterControls();
+            QuickFilter.Parent = ContentContainer;
+            QuickFilter.Dock = DockStyle.Top;
+            QuickFilter.Margins.BottomOx = OxSize.Large;
+            QuickFilter.Height += 20;
+            QuickFilter.Changed += (s, e) => ApplyQuickFilter();
+            QuickFilter.RenewFilterControls();
         }
 
         private void ApplyQuickFilter() =>
-            Grid?.ApplyQuickFilter(QuickFilterPanel.ActiveFilter);
+            Grid?.ApplyQuickFilter(QuickFilter.ActiveFilter);
 
         protected override void AfterCreated()
         {
@@ -63,7 +66,7 @@ namespace OxXMLEngine.Grid
         {
             base.ReAlignControls();
 
-            QuickFilterPanel.BringToFront();
+            QuickFilter.BringToFront();
 
             if (Grid != null)
                 Grid.BringToFront();

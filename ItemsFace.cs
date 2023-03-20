@@ -25,6 +25,7 @@ namespace OxXMLEngine
             Text = ListController.Name;
             Dock = DockStyle.Fill;
             Font = EngineStyles.DefaultFont;
+            BaseColor = Colors.Darker(2);
 
             tabControlPanel.Parent = this;
             tabControlPanel.Dock = DockStyle.Fill;

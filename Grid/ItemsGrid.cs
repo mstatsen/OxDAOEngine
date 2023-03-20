@@ -629,6 +629,7 @@ namespace OxXMLEngine.Grid
         {
             ToolBar.Parent = ContentContainer;
             ToolBar.Dock = DockStyle.Top;
+            ToolBar.Margins.TopOx = OxSize.None;
             ToolBar.Margins.BottomOx = OxSize.Medium;
             ToolBar.Borders.RightOx = OxSize.None;
             ToolBar.Borders.LeftOx = OxSize.None;
@@ -647,7 +648,7 @@ namespace OxXMLEngine.Grid
         {
             base.PrepareColors();
             ToolBar.BaseColor = BaseColor;
-            GridView.BackgroundColor = Colors.HLighter(7).Bluer(1);
+            GridView.BackgroundColor = Colors.Lighter(7);
         }
 
         public bool ReadOnly
