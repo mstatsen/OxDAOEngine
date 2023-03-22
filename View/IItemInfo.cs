@@ -13,10 +13,5 @@ namespace OxXMLEngine.View
         bool SiderEnabled { get; set; }
         void ApplySettings();
         void SaveSettings();
-
-        EventHandler? OnPinnedChanged { get; set; }
-        EventHandler? OnExpandedChanged { get; set; }
-        EventHandler? OnAfterExpand { get; set; }
-        EventHandler? OnAfterCollapse { get; set; }
     }
 }

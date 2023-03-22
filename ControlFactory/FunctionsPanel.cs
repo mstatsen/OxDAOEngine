@@ -6,6 +6,36 @@ using OxXMLEngine.Settings;
 
 namespace OxXMLEngine.ControlFactory
 {
+    public class PinnedChangedEventArgs : EventArgs
+    {
+        public readonly bool OldPinned;
+        public readonly bool NewPinned;
+
+        public PinnedChangedEventArgs(bool oldPinned, bool newPinned)
+        {
+            OldPinned = oldPinned;
+            NewPinned = newPinned;
+        }
+    }
+
+    public class ExpandedChangedEventArgs : EventArgs
+    {
+        public readonly bool OldExpanded;
+        public readonly bool NewExpanded;
+
+        public ExpandedChangedEventArgs(bool oldExpanded, bool newExpanded)
+        {
+            OldExpanded = oldExpanded;
+            NewExpanded = newExpanded;
+        }
+    }
+
+    public delegate void FunctionsPanelPinnedChangeHandler<TSettings>(FunctionsPanel<TSettings> sender, PinnedChangedEventArgs e)
+        where TSettings : ISettingsController;
+
+    public delegate void FunctionsPanelExpandedChangeHandler<TSettings>(FunctionsPanel<TSettings> sender, ExpandedChangedEventArgs e)
+        where TSettings : ISettingsController;
+
     public abstract class FunctionsPanel<TSettings> : OxFunctionsPanel
         where TSettings : ISettingsController
     {
@@ -254,12 +284,11 @@ namespace OxXMLEngine.ControlFactory
 
         private void SetExpanded(bool value)
         {
-            expanded = value;
-
             if (!Expandable)
                 return;
 
-            OnExpandedChanged?.Invoke(this, EventArgs.Empty);
+            OnExpandedChanging(new ExpandedChangedEventArgs(expanded, value));
+            expanded = value;
 
             StartSizeRecalcing();
             try
@@ -279,10 +308,14 @@ namespace OxXMLEngine.ControlFactory
                 RecalcSize();
             }
 
-            if (expanded)
-                OnAfterExpand?.Invoke(this, EventArgs.Empty);
-            else OnAfterCollapse?.Invoke(this, EventArgs.Empty);
+            OnExpandedChanged(new ExpandedChangedEventArgs(!Expanded, Expanded));
         }
+
+        protected virtual void OnExpandedChanging(ExpandedChangedEventArgs e) => 
+            ExpandedChanging?.Invoke(this, e);
+
+        protected virtual void OnExpandedChanged(ExpandedChangedEventArgs e) =>
+            ExpandedChanged?.Invoke(this, e);
 
         private void SetMouseHandler(OxBorders borders)
         {
@@ -305,8 +338,14 @@ namespace OxXMLEngine.ControlFactory
 
         }
 
+        private bool? mouseHandlersSetted = null;
+
         private void SetMouseHandlers()
         {
+            if (mouseHandlersSetted != null && 
+                mouseHandlersSetted == pinned)
+                return;
+
             SetMouseHandler(this);
             SetMouseHandler(ContentContainer);
             SetMouseHandler(ExpandButton);
@@ -327,6 +366,7 @@ namespace OxXMLEngine.ControlFactory
             SetMouseHandler(Margins);
             SetMouseHandler(Borders);
             SetMouseHandler(Paddings);
+            mouseHandlersSetted = pinned;
         }
 
         protected override void SetHandlers()
@@ -360,11 +400,9 @@ namespace OxXMLEngine.ControlFactory
         public void Expand() => Expanded = true;
         public void Collapse() => Expanded = false;
 
-        public EventHandler? OnPinnedChanged { get; set; }
-        public EventHandler? OnExpandedChanged { get; set; }
-        public EventHandler? OnAfterExpand { get; set; }
-        public EventHandler? OnAfterCollapse { get; set; }
-
+        public FunctionsPanelPinnedChangeHandler<TSettings>? PinnedChanged { get; set; }
+        public FunctionsPanelExpandedChangeHandler<TSettings>? ExpandedChanging { get; set; }
+        public FunctionsPanelExpandedChangeHandler<TSettings>? ExpandedChanged { get; set; }
 
         private bool pinned = false;
         public bool Pinned
@@ -411,9 +449,12 @@ namespace OxXMLEngine.ControlFactory
                     parentFillControl?.ResumeLayout();
                 }
             }
-            OnPinnedChanged?.Invoke(this, EventArgs.Empty);
+            OnPinnedChanged(new PinnedChangedEventArgs(!Pinned, Pinned));
             SetMouseHandlers();
         }
+
+        protected virtual void OnPinnedChanged(PinnedChangedEventArgs e) =>
+            PinnedChanged?.Invoke(this, e);
 
         private readonly Guid Id = Guid.NewGuid();
 
@@ -514,8 +555,13 @@ namespace OxXMLEngine.ControlFactory
         private void MouseLeaveHandler(object? sender, EventArgs e) => 
             waiter.Ready = Visible && Expanded && !pinned;
 
-        private void CheckExpandedState() =>
-            Expanded = ClientRectangle.Contains(PointToClient(MousePosition));
+        private void CheckExpandedState()
+        {
+            bool onPanel = ClientRectangle.Contains(PointToClient(MousePosition));
+
+            if (Expanded != onPanel)
+                Expanded = onPanel;
+        }
 
         private int StopWaiter()
         {

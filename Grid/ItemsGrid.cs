@@ -266,7 +266,7 @@ namespace OxXMLEngine.Grid
         public void SelectFirstItem() =>
             selector.FocusOnFirstRow();
 
-        protected void GridSelectionChangedHandler(object? sender, EventArgs e) =>
+        private void GridSelectionChangedHandler(object? sender, EventArgs e) =>
             CurrentItemChanged?.Invoke(sender, e);
 
         private bool ListOfItemsChanged()
@@ -340,7 +340,7 @@ namespace OxXMLEngine.Grid
             }
         }
 
-        protected int AppendItem(TDAO item)
+        private int AppendItem(TDAO item)
         {
             int rowIndex = GridView.Rows.Add();
             GridView.Rows[rowIndex].Tag = item;
@@ -349,7 +349,7 @@ namespace OxXMLEngine.Grid
             return rowIndex;
         }
 
-        protected void LocateItem(TDAO item)
+        private void LocateItem(TDAO item)
         {
             GridView.ClearSelection();
             SortGrid();
@@ -380,10 +380,10 @@ namespace OxXMLEngine.Grid
             }
         }
 
-        protected void SaveState() =>
+        private void SaveState() =>
             selector.SaveState();
 
-        protected void RestoreState()
+        private void RestoreState()
         {
             GridView.SelectionChanged -= GridSelectionChangedHandler;
 
@@ -408,7 +408,7 @@ namespace OxXMLEngine.Grid
         }
 
 
-        protected void UpdateValues(int rowIndex)
+        private void UpdateValues(int rowIndex)
         {
             TDAO? item = selector.GetDaoFromRow(rowIndex);
 
@@ -490,7 +490,7 @@ namespace OxXMLEngine.Grid
             return rowsCount > 0;
         }
 
-        protected bool IsAvailableColumn(TField field)
+        private bool IsAvailableColumn(TField field)
         {
             if (fields != null)
                 return fields.Contains(field);
@@ -505,7 +505,7 @@ namespace OxXMLEngine.Grid
             };
         }
 
-        protected void SetRowVisible(DataGridViewRow row, bool visible)
+        private void SetRowVisible(DataGridViewRow row, bool visible)
         {
             if (row.Visible == visible)
                 return;
@@ -523,15 +523,15 @@ namespace OxXMLEngine.Grid
             GridFillCompleted?.Invoke(this, EventArgs.Empty);
 
 
-        protected IListController<TField, TDAO> ListController = 
+        private IListController<TField, TDAO> ListController = 
             DataManager.ListController<TField, TDAO>();
 
-        protected GridSelector<TField, TDAO> selector;
+        private GridSelector<TField, TDAO> selector;
         private bool readOnly = false;
         private readonly DecoratorFactory<TField, TDAO> DecoratorFactory = 
             DataManager.DecoratorFactory<TField, TDAO>();
 
-        public void ClearQuickFilter()
+        private void ClearQuickFilter()
         {
             SuspendLayout();
 

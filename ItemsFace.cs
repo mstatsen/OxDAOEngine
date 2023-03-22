@@ -262,7 +262,7 @@ namespace OxXMLEngine
             quickFilter.Margins.SetSize(OxSize.Large);
             quickFilter.Margins.BottomOx = OxSize.None;
             quickFilter.RenewFilterControls();
-            quickFilter.OnPinnedChanged += (s, e) => categoriesTree.RecalcPinned();
+            quickFilter.PinnedChanged += (s, e) => categoriesTree.RecalcPinned();
             quickFilter.VisibleChanged += (s, e) => quickFilter.RecalcPaddings();
             quickFilter.RecalcPaddings();
             quickFilter.RecalcPinned();
@@ -270,9 +270,6 @@ namespace OxXMLEngine
 
         private void PrepareCategoriesTree()
         {
-            //categoriesTree.OnExpandedChanged += CategoriesTreeExpandedHandler;
-            //categoriesTree.OnAfterCollapse += CategoriesTreeAfterCollapseHandler;
-
             categoriesTree.Parent = this;
             categoriesTree.Dock = DockStyle.Left;
             categoriesTree.Margins.TopOx = OxSize.Large;
@@ -324,14 +321,6 @@ namespace OxXMLEngine
                 EndLoading();
             }
         }
-
-        /*
-        private void CategoriesTreeAfterCollapseHandler(object? sender, EventArgs e) =>
-            categoriesTree.Enabled = true;//TODO:
-
-        private void CategoriesTreeExpandedHandler(object? sender, EventArgs e) =>
-            categoriesTree.Enabled = true;
-        */
 
         public void FillData()
         {

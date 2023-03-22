@@ -195,7 +195,7 @@ namespace OxXMLEngine.ControlFactory
                 return;
 
             label.Font = new Font(label.Font, label.Font.Style | FontStyle.Underline);
-            label.ForeColor = new OxColorHelper(label.ForeColor).HLighter(4).Bluer(4);
+            label.ForeColor = new OxColorHelper(label.ForeColor).HLighter(1).Bluer(1);
         }
 
         private void CalcLabel(OxLabel? label, Control? control)

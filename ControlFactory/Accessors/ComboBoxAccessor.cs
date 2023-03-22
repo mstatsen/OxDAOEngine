@@ -3,8 +3,6 @@ using OxXMLEngine.ControlFactory.Context;
 using OxXMLEngine.ControlFactory.ValueAccessors;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Types;
-using System;
-using System.Windows.Forms;
 
 namespace OxXMLEngine.ControlFactory.Accessors
 {
@@ -14,7 +12,7 @@ namespace OxXMLEngine.ControlFactory.Accessors
     {
         protected override ValueAccessor CreateValueAccessor() =>
             Context.MultipleValue
-            ? (ValueAccessor)new CheckComboBoxValueAccessor()
+            ? new CheckComboBoxValueAccessor()
             : new SimpleComboBoxValueAccessor();
 
         protected override Control CreateControl() =>

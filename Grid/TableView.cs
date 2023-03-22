@@ -15,8 +15,6 @@ namespace OxXMLEngine.Grid
         public TableView() : base() 
         {
             Borders.SetSize(OxSize.None);
-            //Borders.TopOx = OxSize.Small;
-
             Grid.Parent = this;
             Grid.Dock = DockStyle.Fill;
             Grid.ToolbarActionClick += (s, e) => ExecuteAction(e.Action);
@@ -40,8 +38,6 @@ namespace OxXMLEngine.Grid
             CurrentInfoCard.Margins.SetSize(OxSize.Medium);
             CurrentInfoCard.Margins.LeftOx = OxSize.Large;
             CurrentInfoCard.Margins.TopOx = OxSize.Large;
-            CurrentInfoCard.OnExpandedChanged += (s, e) => UpdateCurrentItemFullCard();
-            CurrentInfoCard.VisibleChanged += (s, e) => UpdateCurrentItemFullCard();
             CurrentInfoCard.Dock = DockStyle.Right;
             CurrentInfoCard.SetContentSize(500, 1);
         }
@@ -108,23 +104,7 @@ namespace OxXMLEngine.Grid
             if (CurrentInfoCard == null)
                 return;
 
-            InfoCardLoadingPanel.StartLoading();
-
-            try
-            {
-                if (CurrentInfoCard.Item == CurrentItem)
-                    return;
-
-                if (CurrentItem != null)
-                {
-                    CurrentInfoCard.Item = CurrentItem;
-                    CurrentInfoCard.Borders.LeftOx = OxSize.None;
-                }
-            }
-            finally
-            {
-                InfoCardLoadingPanel.EndLoading();
-            }
+            CurrentInfoCard.Item = CurrentItem;
         }
 
         private static DAOSettings<TField, TDAO> Settings =>
@@ -163,6 +143,5 @@ namespace OxXMLEngine.Grid
             CurrentInfoCard?.SaveSettings();
 
         public readonly IItemInfo<TField, TDAO>? CurrentInfoCard;
-        protected readonly OxLoadingPanel InfoCardLoadingPanel = new();
     }
 }

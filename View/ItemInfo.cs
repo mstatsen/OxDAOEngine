@@ -7,8 +7,7 @@ using OxXMLEngine.Settings;
 
 namespace OxXMLEngine.View
 {
-    public abstract class ItemInfo<TField, TDAO, TFieldGroup>
-        : FunctionsPanel<TField, TDAO>, IItemInfo<TField, TDAO>
+    public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TField, TDAO>, IItemInfo<TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
@@ -20,20 +19,35 @@ namespace OxXMLEngine.View
             get => item;
             set
             {
+                if ((item != null && item.Equals(value)) || (value == null))
+                    return;
+
                 if (item != null)
                     item.ChangeHandler -= ItemChangeHandler;
 
-                Builder.DetachControlsFromParent();
                 item = value;
-                
-                BaseColor = ControlFactory.ItemColorer.BaseColor(item);
-                FontColors.BaseColor = ControlFactory.ItemColorer.ForeColor(item);
-                PrepareControls();
-                PrepareColors();
 
                 if (Item != null)
                     Item.ChangeHandler += ItemChangeHandler;
+
+                RenewControls();
             }
+        }
+
+        private void RenewControls()
+        {
+            /*
+            if (Expanded)
+                Builder.DetachControlsFromParent();
+            */
+
+            BaseColor = ControlFactory.ItemColorer.BaseColor(item);
+            FontColors.BaseColor = ControlFactory.ItemColorer.ForeColor(item);
+
+            if (Expanded)
+                PrepareControls();
+
+            PrepareColors();
         }
 
         protected override Color FunctionColor => DefaultColor;
@@ -48,14 +62,24 @@ namespace OxXMLEngine.View
             SettingsAvailable = false;
         }
 
+        protected override void OnExpandedChanged(ExpandedChangedEventArgs e)
+        {
+            base.OnExpandedChanged(e);
+            RenewControls();
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            RenewControls();
+        }
+
         private void SetSizes()
         {
             Margins.SetSize(OxSize.None);
             Paddings.SetSize(OxSize.Large);
             Header.SetContentSize(Header.Width, 36);
         }
-
-        //public override Color DefaultColor => EngineStyles.CardColor;
 
         public OxPane AsPane => this;
 

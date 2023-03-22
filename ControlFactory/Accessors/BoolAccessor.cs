@@ -1,4 +1,5 @@
-﻿using OxXMLEngine.ControlFactory.Context;
+﻿using OxLibrary.Controls;
+using OxXMLEngine.ControlFactory.Context;
 using OxXMLEngine.Data;
 
 namespace OxXMLEngine.ControlFactory.Accessors
@@ -11,7 +12,7 @@ namespace OxXMLEngine.ControlFactory.Accessors
 
         protected override void InitControl()
         {
-            ComboBox comboBox = (ComboBox)Control;
+            OxComboBox comboBox = (OxComboBox)Control;
             comboBox.Items.Clear();
             comboBox.Items.Add(false);
             comboBox.Items.Add(true);

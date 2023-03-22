@@ -27,7 +27,6 @@ namespace OxXMLEngine.Data.Types
 
         public static NullObject AnyObject => anyObject;
 
-
         public static ITypeHelper Helper(object value)
         {
             foreach (ITypeHelper helper in helperList)

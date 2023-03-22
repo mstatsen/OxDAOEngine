@@ -450,7 +450,7 @@ namespace OxXMLEngine.Settings
 
         private readonly OxFrame GeneralPanel;
         private readonly Dictionary<ExportFormat, OxFrame> extraSettingsFrames = new();
-        private readonly CategoriesTree<TField, TDAO>? categoriesTree = new()
+        private readonly CategoriesTree<TField, TDAO> categoriesTree = new()
         {
             ShowCount = false,
             IsSimplePanel = true
