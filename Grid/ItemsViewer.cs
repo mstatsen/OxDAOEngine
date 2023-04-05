@@ -9,7 +9,7 @@ namespace OxXMLEngine.Grid
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public readonly ItemsGrid<TField, TDAO> Grid;
+        public readonly ItemsRootGrid<TField, TDAO> Grid;
         private IMatcher<TField>? filter;
 
         public IMatcher<TField>? Filter
@@ -25,7 +25,7 @@ namespace OxXMLEngine.Grid
         public ItemsViewer(RootListDAO<TField, TDAO>? itemList = null, GridUsage usage = GridUsage.ViewItems)
             : base(new Size(1024, 768))
         {
-            Grid = new ItemsGrid<TField, TDAO>(itemList, usage)
+            Grid = new ItemsRootGrid<TField, TDAO>(itemList, usage)
             {
                 Parent = ContentContainer,
                 Dock = DockStyle.Fill
@@ -34,7 +34,7 @@ namespace OxXMLEngine.Grid
             ReAlign();
         }
 
-        public RootListDAO<TField, TDAO>? CustomItemsList
+        public IRootListDAO<TField, TDAO>? CustomItemsList
         {
             get => Grid.CustomItemsList;
             set => Grid.CustomItemsList = value;

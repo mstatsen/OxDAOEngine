@@ -90,7 +90,7 @@ namespace OxXMLEngine.ControlFactory.Filter
             get
             {
                 List<TField> list = Settings.QuickFilterTextFields.Fields;
-                List<TField>? textFields = fieldHelper.GetFields(FieldsVariant.QuickFilterText, FieldsFilling.Min);
+                List<TField>? textFields = fieldHelper.GetFieldsInternal(FieldsVariant.QuickFilterText, FieldsFilling.Min);
 
                 if (list.Count == 0 && textFields != null)
                     list.AddRange(textFields);

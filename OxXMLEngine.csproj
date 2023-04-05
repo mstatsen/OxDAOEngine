@@ -38,7 +38,6 @@
     <Compile Update="Settings\ControlFactory\Controls\IconContent\IconMappingEditor.cs" />
     <Compile Update="Settings\Export\ExportSettingsForm.cs" />
     <Compile Update="Settings\SettingsForm.cs" />
-    <Compile Update="Statistic\StatisticLabel.cs" />
     <Compile Update="Statistic\StatisticPanel.cs" />
     <Compile Update="Summary\SummaryPanel.cs" />
     <Compile Update="Summary\SummaryView.cs" />

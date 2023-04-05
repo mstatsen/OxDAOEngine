@@ -14,7 +14,7 @@ namespace OxXMLEngine.Settings.Data
         public TField Field
         {
             get => field;
-            set => field = EnumValue<TField>(ModifyField(field, value));
+            set => field = EnumValue<TField>(ModifyValue(field, value));
         }
 
         private IconContent part = default;
@@ -22,7 +22,7 @@ namespace OxXMLEngine.Settings.Data
         public IconContent Part
         {
             get => part;
-            set => part = ModifyField(part, value);
+            set => part = ModifyValue(part, value);
         }
 
         public override void Clear()

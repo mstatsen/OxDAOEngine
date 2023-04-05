@@ -12,7 +12,7 @@ namespace OxXMLEngine.Grid
             BorderVisible = false;
         }
 
-        protected virtual void CreateButtons()
+        protected void CreateButtons()
         {
             AddButton(OxToolbarAction.New);
             AddButton(OxToolbarAction.Copy);
@@ -27,6 +27,19 @@ namespace OxXMLEngine.Grid
             Paddings.SetSize(OxSize.Medium);
             Paddings.LeftOx = OxSize.None;
             Paddings.TopOx = OxSize.Large;
+        }
+
+        private bool actionsVisible = true;
+        public bool ActionsVisible 
+        { 
+            get => actionsVisible;
+            set
+            {
+                actionsVisible = value;
+
+                foreach (OxButton button in Actions.Values)
+                    button.Visible = actionsVisible;
+            }
         }
     }
 }

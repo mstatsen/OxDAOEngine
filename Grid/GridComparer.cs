@@ -8,7 +8,7 @@ namespace OxXMLEngine.Grid
         where TDAO : RootDAO<TField>, new()
     {
         public GridComparer(GridSelector<TField, TDAO> gridSelector, 
-            RootListDAO<TField, TDAO> itemsList)
+            IRootListDAO<TField, TDAO>? itemsList)
         {
             GridSelector = gridSelector;
             ItemsList = itemsList;
@@ -18,12 +18,12 @@ namespace OxXMLEngine.Grid
             GridSelector.GetDaoFromRow((DataGridViewRow?)row);
 
         private int DAOIndex(object? row) =>
-            ItemsList.IndexOf(GetDAO(row));
+            ItemsList == null ? 0 : ItemsList.IndexOf(GetDAO(row));
 
         public int Compare(object? x, object? y) =>
             DAOIndex(x).CompareTo(DAOIndex(y));
 
         private readonly GridSelector<TField, TDAO> GridSelector;
-        private readonly RootListDAO<TField, TDAO> ItemsList;
+        private readonly IRootListDAO<TField, TDAO>? ItemsList;
     }
 }

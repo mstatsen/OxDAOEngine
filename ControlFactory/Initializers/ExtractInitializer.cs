@@ -88,7 +88,7 @@ namespace OxXMLEngine.ControlFactory.Initializers
         public FieldExtract AvailableItems => 
             new FieldExtractor<TField, TDAO>(SourceItems).Extract(Field, Filter, true, true);
 
-        private void ListModifiedChangedHandler(DAO dao, bool Modified) => 
+        private void ListModifiedChangedHandler(DAO dao, DAOModifyEventArgs e) => 
             RenewControl();
 
         private void ListChangedHandler(object? sender, EventArgs e) => 

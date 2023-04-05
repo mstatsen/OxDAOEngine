@@ -12,7 +12,7 @@ namespace OxXMLEngine.Grid
         where TDAO : RootDAO<TField>, new()
     {
         private readonly ItemSelector<TField, TDAO> availableGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
-        private readonly ItemsGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
+        private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
         private readonly OxPane buttonsPanel = new(new Size(64, 1));
         private readonly OxPane topPanel = new(new Size(1, 100));
         private readonly OxIconButton selectButton = new(OxIcons.right, 54);
@@ -41,7 +41,7 @@ namespace OxXMLEngine.Grid
             availableGrid.Grid.AdditionalColumns = chooserParams.AvailableGridAdditionalColumns;
             availableGrid.CustomItemsList = ChooserParams.AvailableItems;
 
-            selectedGrid.CustomItemsList = new();
+            selectedGrid.CustomItemsList = new RootListDAO<TField, TDAO>();
             selectedGrid.Fields = chooserParams.SelectedGridFields;
             selectedGrid.AdditionalColumns = chooserParams.SelectedGridAdditionalColumns;
 
@@ -145,8 +145,8 @@ namespace OxXMLEngine.Grid
 
         private void MoveSelected(bool select, bool force = false)
         {
-            ItemsGrid<TField, TDAO> sourceGrid = select ? availableGrid.Grid : selectedGrid;
-            ItemsGrid< TField, TDAO > destGrid = select ? selectedGrid : availableGrid.Grid;
+            ItemsRootGrid<TField, TDAO> sourceGrid = select ? availableGrid.Grid : selectedGrid;
+            ItemsRootGrid< TField, TDAO > destGrid = select ? selectedGrid : availableGrid.Grid;
 
             bool? canSelect = true;
 

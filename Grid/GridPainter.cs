@@ -9,7 +9,7 @@ namespace OxXMLEngine.Grid
         public GridPainter(GridFieldColumns<TField> columnsDictionary) =>
             ColumnsDictionary = columnsDictionary;
 
-        public void CellPainting_Handler(object? sender, DataGridViewCellPaintingEventArgs e)
+        public void CellPainting(object? sender, DataGridViewCellPaintingEventArgs e)
         {
             if (sender == null)
                 return;
@@ -25,7 +25,7 @@ namespace OxXMLEngine.Grid
             SetCellStyle(item, e);
         }
 
-        public abstract DataGridViewCellStyle GetCellStyle(TDAO item, TField field, bool selected = false);
+        public abstract DataGridViewCellStyle? GetCellStyle(TDAO? item, TField field, bool selected = false);
         private  void SetCellStyle(TDAO item, DataGridViewCellPaintingEventArgs e) =>
             e.CellStyle.ApplyStyle(
                 GetCellStyle(

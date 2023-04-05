@@ -3,14 +3,31 @@ using OxXMLEngine.Data.Sorting;
 
 namespace OxXMLEngine.Data
 {
-    public sealed class RootListDAO<TField, TDAO> : ListDAO<TDAO>, IMatcher<TField>
+    public class RootListDAO<TField, TDAO> : ListDAO<TDAO>, IMatcher<TField>, IRootListDAO<TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
         public void CallSortChangeHandler() =>
            SortChangeHandler?.Invoke(this, EventArgs.Empty);
 
-        public event EventHandler? SortChangeHandler;
+        public FieldModified<TField>? FieldModified { get; set; } //TODO: iterate all items and set its handlers after change this
+
+        private void MemberFieldModified(FieldModifiedEventArgs<TField> e) =>
+            FieldModified?.Invoke(e);
+
+        protected override void SetMemberHandlers(DAO member, bool set = true)
+        {
+            base.SetMemberHandlers(member, set);
+
+            if (FieldModified != null && member is TDAO daoMember)
+            {
+                if (set)
+                    daoMember.FieldModified += MemberFieldModified;
+                else daoMember.FieldModified -= MemberFieldModified;
+            }
+        }
+
+        public EventHandler? SortChangeHandler { get; set; }
 
         private bool sortingEnabled = true;
 
@@ -55,6 +72,7 @@ namespace OxXMLEngine.Data
 
             return filteredList;
         }
+
 
         public RootListDAO<TField, TDAO> FilteredList(IMatcher<TField>? filter,
             List<ISorting<TField, TDAO>> sortings)

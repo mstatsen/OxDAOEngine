@@ -37,7 +37,6 @@ namespace OxXMLEngine.Settings
             base.LoadData(element);
             Sorting.Load(element);
             ZeroSummary = XmlHelper.ValueBool(element, XmlConsts.ZeroSummary);
-
         }
 
         protected override void SaveData(XmlElement element, bool clearModified = true)

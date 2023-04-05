@@ -1,10 +1,9 @@
 ﻿using System.Xml;
 using System.Collections;
-using OxXMLEngine.Data.Filter;
 
 namespace OxXMLEngine.Data
 {
-    public class ListDAO<T> : DAO, IEnumerable<T>, IEnumerable
+    public class ListDAO<T> : DAO, IEnumerable<T>, IEnumerable, IListDAO<T>
         where T : DAO, new()
     {
         public readonly List<T> List = new();
@@ -38,7 +37,7 @@ namespace OxXMLEngine.Data
                     : x.CompareTo(y);
         }
 
-        public void LinkedCopyFrom(ListDAO<T>? otherList)
+        public void LinkedCopyFrom(IListDAO<T>? otherList)
         {
             if (otherList == null)
                 CopyFrom(null);
@@ -113,7 +112,7 @@ namespace OxXMLEngine.Data
         }
 
         public void NotifyAboutItemAdded(T item) =>
-            ItemAddHandler?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Insert));
+            ItemAddHandler?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Add));
 
         public T Add() => Add(new T());
 
@@ -143,7 +142,7 @@ namespace OxXMLEngine.Data
             if (List.Remove(item))
             {
                 RemoveMember(item);
-                ItemRemoveHandler?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Delete));
+                ItemRemoveHandler?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Remove));
                 Modified = true;
                 return true;
             }

@@ -39,6 +39,5 @@ namespace OxXMLEngine.Statistic
                 _ =>
                     120
             };
-
     }
 }

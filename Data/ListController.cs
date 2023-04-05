@@ -4,11 +4,13 @@ using OxXMLEngine.ControlFactory;
 using OxXMLEngine.Data.Decorator;
 using OxXMLEngine.Data.Fields;
 using OxXMLEngine.Data.Filter;
+using OxXMLEngine.Data.History;
 using OxXMLEngine.Data.Sorting;
 using OxXMLEngine.Editor;
 using OxXMLEngine.Export;
 using OxXMLEngine.Grid;
 using OxXMLEngine.Settings;
+using OxXMLEngine.Statistic;
 using OxXMLEngine.Summary;
 using OxXMLEngine.View;
 using System.Xml;
@@ -77,13 +79,20 @@ namespace OxXMLEngine.Data
         public void Sort() =>
             FullItemsList.Sort(Settings.Sortings.SortingsList, true);
 
-        protected virtual void SetListHandlers()
+        protected void SetListHandlers()
         {
             FullItemsList.ChangeHandler += ListChangedHandler;
             FullItemsList.ModifiedChangeHandler += ListModifiedChangeHandler;
+            FullItemsList.FieldModified += FieldModifiedHanlder;
             FullItemsList.ItemAddHandler += (d, e) => AddHandler?.Invoke(d, e);
             FullItemsList.ItemRemoveHandler += (d, e) => RemoveHandler?.Invoke(d, e);
             FullItemsList.SortChangeHandler += ItemListSortChanger;
+        }
+
+        private void FieldModifiedHanlder(FieldModifiedEventArgs<TField> e)
+        {
+            if (e.DAO is TDAO eDao)
+                History.ChangeField(eDao, e.Field, e.OldValue);
         }
 
         private void ItemListSortChanger(object? sender, EventArgs e)
@@ -92,17 +101,16 @@ namespace OxXMLEngine.Data
             ItemsSortChangeHandler?.Invoke(this, e);
         }
 
-        protected virtual void ListModifiedChangeHandler(DAO dao, bool Modified)
+        public ItemHistoryList<TField, TDAO> History { get; } = new();
+
+        protected virtual void ListModifiedChangeHandler(DAO dao, DAOModifyEventArgs e)
         {
             Sort();
             RenewListsAndNotifyAll();
-            ModifiedHandler?.Invoke(dao, Modified);
+            ModifiedHandler?.Invoke(dao, e);
 
-            if (!Modified)
-            {
-                deletedCount = 0;
-                addedCount = 0;
-            }
+            if (!e.Modified)
+                History.Clear();
         }
 
         private void ListChangedHandler(DAO dao, DAOEntityEventArgs? e) =>
@@ -158,13 +166,13 @@ namespace OxXMLEngine.Data
         {
             if (GetItemEditor(item).ShowDialog() == DialogResult.OK)
             {
-                addedCount++;
+                History.AddDAO(item);
                 FullItemsList.NotifyAboutItemAdded(item);
-                item.NotifyAll(DAOOperation.Insert);
+                item.NotifyAll(DAOOperation.Add);
                 FullItemsList.Add(item);
                 RenewVisibleItems();
                 Sort();
-                ItemFieldChanged?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Insert));
+                ItemFieldChanged?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Add));
             }
         }
 
@@ -248,7 +256,60 @@ namespace OxXMLEngine.Data
                 itemsViewer.Dispose();
             }
         }
-            
+
+        private class HistoryGridPainter : GridPainter<TField, ItemHistory<TField, TDAO>>
+        {
+            private readonly GridPainter<TField, TDAO>? DAOPainter;
+            //TODO: additional columns paint
+            public override DataGridViewCellStyle? GetCellStyle(ItemHistory<TField, TDAO>? item, TField field, bool selected = false) => 
+                DAOPainter?.GetCellStyle(item?.DAO, field, selected);
+
+            public HistoryGridPainter(ItemsGrid<TField, ItemHistory<TField, TDAO>> grid) : base(grid.GridFieldColumns)
+            {
+                DAOPainter = DataManager.ControlFactory<TField, TDAO>().CreateGridPainter(grid.GridFieldColumns, grid.Usage);
+            }
+        }
+
+        public void ViewHistory()
+        {
+            ItemsGrid<TField, ItemHistory<TField, TDAO>> historyGrid = new(History, GridUsage.ViewItems)
+            {
+                Text = "Items History",
+                Fields = new List<TField>()
+                {
+                    fieldHelper.TitleField
+                },
+                AdditionalColumns = new()
+                {
+                    new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("Operation",
+                        (h) => h.Operation,
+                    80),
+                    new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("Field", 
+                        (h) => h is FieldHistory<TField, TDAO> fh ? fieldHelper.Name(fh.Field) : string.Empty, 
+                    80),
+                    new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("Old Value",
+                        (h) => h is FieldHistory<TField, TDAO> fh ? fh.OldValue : string.Empty,
+                    80),
+                    new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("New Value",
+                        (h) => h is FieldHistory<TField, TDAO> fh ? fh.NewValue : string.Empty,
+                    80)
+                }, 
+            };
+
+            try
+            {
+                historyGrid.Painter = new HistoryGridPainter(historyGrid);
+                historyGrid.GridView.DoubleClick += (s, e) => ViewItem(historyGrid.CurrentItem?.DAO);
+                historyGrid.SetContentSize(1024, 768);
+                historyGrid.Fill();
+                historyGrid.ShowAsDialog(OxDialogButton.Cancel);
+            }
+            finally
+            {
+                historyGrid.Dispose();
+            }
+        }
+
 
         private DAOEditor<TField, TDAO, TFieldGroup>? editor;
 
@@ -287,14 +348,10 @@ namespace OxXMLEngine.Data
 
         public int TotalCount => FullItemsList.Count;
         public int FilteredCount => VisibleItemsList.Count;
-        public int ModifiedCount => FullItemsList.ModifiedCount;
-
-        public int DeletedCount => deletedCount;
-
-        public int AddedCount => addedCount;
-
-        private int deletedCount = 0;
-        private int addedCount = 0;
+        public int ModifiedCount => History.DistinctModifiedDAOCount;
+        public int AddedCount => History.AddedCount;
+        public int RemovedCount => History.RemovedCount;
+        
 
         public void Delete(RootListDAO<TField, TDAO> list)
         {
@@ -305,13 +362,13 @@ namespace OxXMLEngine.Data
                 return;
 
             foreach (TDAO item in list)
-                item.NotifyAll(DAOOperation.Delete);
+                item.NotifyAll(DAOOperation.Remove);
 
             FullItemsList.StartSilentChange();
 
             foreach (TDAO item in list)
                 if (FullItemsList.Remove(item))
-                    deletedCount++;
+                    History.RemoveDAO(item);
 
             FullItemsList.FinishSilentChange();
             RenewVisibleItems();
@@ -378,7 +435,7 @@ namespace OxXMLEngine.Data
 
         public DAOEntityEventHandler? AddHandler { get; set; }
         public DAOEntityEventHandler? RemoveHandler { get; set; }
-        public ModifiedChangeHandler? ModifiedHandler { get; set; }
+        public event ModifiedChangeHandler? ModifiedHandler;
         public EventHandler? ListChanged { get; set; }
         public EventHandler? OnAfterLoad { get; set; }
 

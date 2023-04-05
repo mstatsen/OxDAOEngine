@@ -2,9 +2,9 @@
 {
     public enum DAOOperation
     {
-        Insert,
+        Add,
         Modify,
-        Delete
+        Remove
     };
 
     public delegate RootListDAO<TField, TDAO> GetListEvent<TField, TDAO>()
@@ -19,6 +19,17 @@
             Operation = operation;
     }
 
+    public class DAOModifyEventArgs
+    {
+        public bool Modified { get; }
+        public object? OldValue { get; }
+        public DAOModifyEventArgs(bool modified, object? oldValue)
+        {
+            Modified = modified;
+            OldValue = oldValue;
+        }
+    }
+
     public delegate void DAOEntityEventHandler(DAO dao, DAOEntityEventArgs e);
-    public delegate void ModifiedChangeHandler(DAO dao, bool Modified);
+    public delegate void ModifiedChangeHandler(DAO dao, DAOModifyEventArgs e);
 }

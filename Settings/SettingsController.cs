@@ -48,7 +48,7 @@ namespace OxXMLEngine.Settings
                         dao.CopyFrom((DAO?)value);
                 }
                 else
-                    settings[setting] = ModifyField(settings[setting], value);
+                    settings[setting] = ModifyValue(settings[setting], value);
             }
         }
 
@@ -203,12 +203,8 @@ namespace OxXMLEngine.Settings
                 return controlFactory;
             }
         }
-        
-        public ModifiedChangeHandler? ModifiedHandler 
-        { 
-            get => null;
-            set { }
-        }
+
+        public event ModifiedChangeHandler? ModifiedHandler;
 
         public SettingsPart ActiveSettingsPart => SettingsPart.Full;
 

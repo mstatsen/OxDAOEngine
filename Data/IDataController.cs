@@ -12,7 +12,7 @@ namespace OxXMLEngine.Data
         string Name { get; }
         bool Modified { get; }
         bool IsSystem { get; }
-        ModifiedChangeHandler? ModifiedHandler { get; set; }
+        event ModifiedChangeHandler? ModifiedHandler;
         ISettingsController Settings { get; }
         SettingsPart ActiveSettingsPart { get; }
         OxPane? Face { get; }

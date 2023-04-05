@@ -1,4 +1,6 @@
 ﻿using OxLibrary;
+using OxLibrary.Controls;
+using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxXMLEngine.ControlFactory.Filter;
 using OxXMLEngine.Data;
@@ -12,7 +14,7 @@ namespace OxXMLEngine.Statistic
         where TDAO : RootDAO<TField>, new()
     {
         public StatisticPanel(
-            ItemsGrid<TField, TDAO> grid,
+            ItemsRootGrid<TField, TDAO> grid,
             QuickFilterPanel<TField, TDAO> quickFilterPanel) : base(new Size(100, 24))
         {
             Grid = grid;
@@ -47,7 +49,7 @@ namespace OxXMLEngine.Statistic
                 StatisticType.Selected => Grid.SelectedCount,
                 StatisticType.Modified => ListController.ModifiedCount,
                 StatisticType.Added => ListController.AddedCount,
-                StatisticType.Deleted => ListController.DeletedCount,
+                StatisticType.Deleted => ListController.RemovedCount,
                 _ => 0,
             };
 
@@ -63,14 +65,14 @@ namespace OxXMLEngine.Statistic
                 switch (item.Key)
                 {
                     case StatisticType.Total:
-                        item.Value.StatisticText = $"Total {ListController.Name} : {ListController.TotalCount}";
+                        item.Value.Text = $"Total {ListController.Name} : {ListController.TotalCount}";
                         break;
                     case StatisticType.Category:
                         RenewCategoryValue();
                         break;
                     default:
                         newStatistic = Statistic(item.Key);
-                        item.Value.StatisticText = $"{helper.Name(item.Key)}: {newStatistic}";
+                        item.Value.Text = $"{helper.Name(item.Key)}: {newStatistic}";
                         break;
                 }
 
@@ -79,7 +81,7 @@ namespace OxXMLEngine.Statistic
         }
 
         private void RenewCategoryValue() => 
-            Labels[StatisticType.Category].StatisticText =
+            Labels[StatisticType.Category].Text =
                 ListController.Category != null &&
                 ListController.Category?.Name != null &&
                 ListController.Category?.Name != string.Empty
@@ -88,21 +90,34 @@ namespace OxXMLEngine.Statistic
 
         private readonly StatisticTypeHelper helper = TypeHelper.Helper<StatisticTypeHelper>();
 
-        private void CreateLabel(StatisticType type) =>
-            Labels.Add(type,
-                new StatisticLabel()
-                {
-                    Parent = ContentContainer,
-                    Dock = helper.Dock(type),
-                    Width = helper.Width(type)
-                });
+        private void CreateLabel(StatisticType type)
+        {
+            OxButton label = new("", null)
+            {
+                Parent = ContentContainer,
+                Dock = helper.Dock(type),
+                ReadOnly = true
+            };
+            Labels.Add(type, label);
+            label.SetContentSize(helper.Width(type), 1);
+
+            switch (type)
+            {
+                case StatisticType.Modified:
+                case StatisticType.Added:
+                case StatisticType.Deleted:
+                    label.ReadOnly = false;
+                    label.Click += (s, e) => ListController.ViewHistory();
+                    break;
+            }
+        }
 
         private void CreateLabels()
         {
             foreach (StatisticType type in helper.All())
                 CreateLabel(type);
 
-            foreach (StatisticLabel label in Labels.Values)
+            foreach (OxButton label in Labels.Values)
             {
                 label.BringToFront();
                 label.Margins.SetSize(OxSize.Medium);
@@ -153,8 +168,8 @@ namespace OxXMLEngine.Statistic
             Grid.CurrentItemChanged += (s, e) => SetStatisticText();
         }
 
-        private readonly Dictionary<StatisticType, StatisticLabel> Labels = new();
-        private readonly ItemsGrid<TField, TDAO> Grid;
+        private readonly Dictionary<StatisticType, OxButton> Labels = new();
+        private readonly ItemsRootGrid<TField, TDAO> Grid;
         private readonly QuickFilterPanel<TField, TDAO> QuickFilterPanel;
     }
 }

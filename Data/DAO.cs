@@ -5,8 +5,10 @@ namespace OxXMLEngine.Data
 {
     public abstract class DAO : IComparable
     {
+        //TODO: add "event" directive
         public DAOEntityEventHandler? ChangeHandler { get; set; }
 
+        //TODO: add "event" directive
         public ModifiedChangeHandler? ModifiedChangeHandler { get; set; }
 
         public DAO()
@@ -50,7 +52,7 @@ namespace OxXMLEngine.Data
         public void FinishSilentChange()
         {
             SilentChange = false;
-            ModifiedChangeHandler?.Invoke(this, Modified);
+            ModifiedChangeHandler?.Invoke(this, new DAOModifyEventArgs(Modified, null));
 
             if (Modified)
                 NotifyAll(DAOOperation.Modify);
@@ -67,7 +69,7 @@ namespace OxXMLEngine.Data
                 if (!SilentChange)
                 {
                     if (oldValue != modified)
-                        ModifiedChangeHandler?.Invoke(this, value);
+                        ModifiedChangeHandler?.Invoke(this, new DAOModifyEventArgs(modified, null));
 
                     if (modified)
                         NotifyAll(DAOOperation.Modify);
@@ -79,8 +81,8 @@ namespace OxXMLEngine.Data
         {
             DAOEntityEventArgs e = new(operation);
 
-            if (operation == DAOOperation.Delete)
-                ModifiedChangeHandler?.Invoke(this, true);
+            if (operation == DAOOperation.Remove)
+                ModifiedChangeHandler?.Invoke(this, new DAOModifyEventArgs(true, this));
 
             ChangeHandler?.Invoke(this, e);
             modified = true;
@@ -129,8 +131,8 @@ namespace OxXMLEngine.Data
             Modified = true;
         }
 
-        private void MemberModifiedHandler(object? sender, bool modified) =>
-            Modified |= modified;
+        protected virtual void MemberModifiedHandler(DAO dao, DAOModifyEventArgs e) =>
+            Modified |= e.Modified;
 
         protected virtual void SetMemberHandlers(DAO member, bool set = true)
         {
@@ -139,7 +141,7 @@ namespace OxXMLEngine.Data
             else member.ModifiedChangeHandler -= MemberModifiedHandler;
         }
 
-        protected T? ModifyField<T>(T? oldValue, T? newValue)
+        protected T? ModifyValue<T>(T? oldValue, T? newValue)
         {
             Modified |= CheckValueModified(oldValue, newValue);
             return newValue;
@@ -152,12 +154,11 @@ namespace OxXMLEngine.Data
 
         public virtual bool IsEmpty => false;
 
-        private void SetMembersHandlers()
+        protected virtual void SetMembersHandlers()
         {
             foreach (DAO member in Members)
                 SetMemberHandlers(member, true);
         }
-
 
         protected void AddMember(DAO member) =>
             Members.Add(member);

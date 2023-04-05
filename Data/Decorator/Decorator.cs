@@ -15,7 +15,7 @@
         public virtual string Attributes(TField field) =>
             string.Empty;
 
-        protected readonly TDAO Dao;
+        public TDAO Dao { get; }
 
         public static object NormalizeIfEmpty(object? value) => 
             (value == null) || 

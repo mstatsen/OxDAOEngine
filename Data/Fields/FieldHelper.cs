@@ -82,10 +82,10 @@ namespace OxXMLEngine.Data.Fields
 
         public abstract TField FieldMetaData { get; }
         public abstract TField TitleField { get; }
-
         public abstract TField UniqueField { get; }
 
-        public abstract List<TField> FullList(FieldsVariant variant);
+        public List<TField> FullList(FieldsVariant variant) => 
+            GetFields(variant, FieldsFilling.Full);
 
         protected abstract List<TField> GetMandatoryFields();
         protected abstract List<TField> GetCalcedFields();
@@ -104,12 +104,25 @@ namespace OxXMLEngine.Data.Fields
         public List<TField>? GetFields(FieldsVariant variant) =>
             GetFields(variant, FieldsFilling.Full);
 
-        public abstract List<TField>? GetFields(FieldsVariant variant, FieldsFilling filling);
+        public List<TField> GetFields(FieldsVariant variant, FieldsFilling filling) 
+        {
+            List<TField>? result = GetFieldsInternal(variant, filling);
+
+            if (result == null || result.Count == 0)
+                result = GetFieldsInternal(FieldsVariant.Table, filling);
+
+            if (result == null)
+                result = new();
+
+            return result;
+        }
+
+        public abstract List<TField>? GetFieldsInternal(FieldsVariant variant, FieldsFilling filling);
 
 
         public int FullListCount(FieldsVariant variant)
         {
-            List<TField>? fields = GetFields(variant, FieldsFilling.Full);
+            List<TField>? fields = GetFieldsInternal(variant, FieldsFilling.Full);
             return fields != null ? fields.Count : 0;
         }
 

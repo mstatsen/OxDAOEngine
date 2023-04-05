@@ -4,14 +4,70 @@ using OxXMLEngine.Data.Types;
 
 namespace OxXMLEngine.Data
 {
+    public class FieldModifiedEventArgs<TField> : EventArgs
+        where TField : notnull, Enum
+    { 
+        public RootDAO<TField> DAO { get; }
+        public TField Field { get; }
+        public object? OldValue { get; }
+
+        public FieldModifiedEventArgs(RootDAO<TField> dao, TField field, object? oldValue)
+        {
+            DAO = dao;
+            Field = field;
+            OldValue = oldValue;
+        }
+    }
+
+    public delegate void FieldModified<TField>(FieldModifiedEventArgs<TField> e)
+        where TField : notnull, Enum;
+
     public abstract class RootDAO<TField> : DAO, IFieldMapping<TField>
         where TField : notnull, Enum
     {
+
+        public FieldModified<TField>? FieldModified;
+
+        public FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();
+
         public object? this[TField field]
         {
             get => GetFieldValue(field);
             set => SetFieldValue(field, value);
         }
+
+        protected Dictionary<TField, DAO> FieldMembers = new();
+
+        protected void AddMember(TField field, DAO member)
+        {
+            AddMember(member);
+            FieldMembers.Add(field, member);
+        }
+
+        protected T? ModifyValue<T>(TField field, T? oldValue, T? newValue)
+        {
+            if (CheckValueModified(oldValue, newValue))
+            {
+                OnFieldModified(new FieldModifiedEventArgs<TField>(this, field, oldValue));
+                Modified = true;
+            }
+            
+            return newValue;
+        }
+
+        protected override void MemberModifiedHandler(DAO dao, DAOModifyEventArgs e)
+        {
+            if (e.Modified)
+                foreach (KeyValuePair<TField, DAO> item in FieldMembers)
+                    if (item.Value == dao)
+                        OnFieldModified(new FieldModifiedEventArgs<TField>(this, item.Key, e.OldValue));
+
+            base.MemberModifiedHandler(dao, e);
+        }
+            
+
+        protected virtual void OnFieldModified(FieldModifiedEventArgs<TField> e) => 
+            FieldModified?.Invoke(e);
 
         protected abstract void SetFieldValue(TField field, object? value);
 

@@ -54,7 +54,7 @@ namespace OxXMLEngine.Grid
         public TDAO? CurrentItem =>
             Grid.CurrentItem;
 
-        public ItemsGrid<TField, TDAO> Grid = new();
+        public ItemsRootGrid<TField, TDAO> Grid = new();
 
         protected virtual void CurrentItemChangeHandler(object? sender, EventArgs e) 
         {
