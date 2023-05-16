@@ -132,6 +132,12 @@ namespace OxXMLEngine.ControlFactory.Filter
                         );
                 }
 
+                if (!TypeHelper.FieldIsTypeHelpered(field))
+                    fieldCategory.AddChild(
+                        CreateCategory($"< no {fieldCategory.Name.ToLower()} >")
+                        .AddFilterBlank(field)
+                    );
+
                 return fieldCategory;
             }
             catch 

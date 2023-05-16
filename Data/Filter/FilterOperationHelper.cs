@@ -57,7 +57,7 @@ namespace OxXMLEngine.Data.Filter
                     DAO.IntValue(leftObject) < DAO.IntValue(rightObject),
                 FilterOperation.Blank => 
                     leftObject == null || leftString == null || leftString == string.Empty,
-                FilterOperation.NotBlank => 
+                FilterOperation.NotBlank =>
                     !Match(FilterOperation.Blank, leftObject, rightObject),
                 _ => true,
             };
