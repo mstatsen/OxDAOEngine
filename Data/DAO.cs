@@ -32,6 +32,8 @@ namespace OxXMLEngine.Data
                 : thisString.CompareTo(otherString);
         }
 
+        public virtual string? MatchingString() => ToString();
+
         protected List<DAO> Members = new();
 
         protected bool AutoSaveMembers = true;

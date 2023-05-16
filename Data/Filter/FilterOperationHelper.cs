@@ -28,8 +28,8 @@ namespace OxXMLEngine.Data.Filter
 
         public bool Match(FilterOperation operation, object? leftObject, object? rightObject)
         {
-            string? leftString = leftObject?.ToString();
-            string? rightString = rightObject?.ToString();
+            string? leftString = leftObject is DAO leftDao ? leftDao.MatchingString() : leftObject?.ToString();
+            string? rightString = rightObject is DAO rightDao ? rightDao.MatchingString() : rightObject?.ToString();
 
             return operation switch
             {

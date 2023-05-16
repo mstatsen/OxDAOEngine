@@ -209,6 +209,16 @@ namespace OxXMLEngine.Data
         public override string ToString() => 
             string.Join(", ", List);
 
+        public override string? MatchingString()
+        {
+            string? result = string.Empty;
+
+            foreach (T item in this)
+                result += $"$$_$${item}$$_$$";
+
+            return result;
+        }
+
         public IEnumerator<T> GetEnumerator() =>
             List.GetEnumerator();
 
