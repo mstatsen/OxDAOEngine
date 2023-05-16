@@ -78,7 +78,11 @@ namespace OxXMLEngine.ControlFactory
             ExpandButton.Borders.SetSize(OxSize.None);
             PreparePinButton(PinButton);
             PreparePinButton(PinButton2);
+            PinButton2.VisibleChanged += PinButton2VisibleChanged;
         }
+
+        private void PinButton2VisibleChanged(object? sender, EventArgs e) =>
+            SetExpandButtonLastBorder();
 
         private void PreparePinButton(OxIconButton button)
         {
@@ -275,10 +279,17 @@ namespace OxXMLEngine.ControlFactory
                 PinButton2.Height = 24;
             }
 
+            SetExpandButtonLastBorder();
+
             ExpandButton.Icon = ExpandButtonIcon;
             RecalcPinned();
             base.OnDockChanged(e);
         }
+
+        private void SetExpandButtonLastBorder() =>
+            ExpandButton.Borders.Borders[OxDockHelper.Dock(PinButton2.Dock)].SetSize(
+                PinButton2.Visible ? OxSize.None : OxSize.Small
+            );
 
         private bool expanded = false;
 

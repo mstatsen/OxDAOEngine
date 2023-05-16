@@ -274,7 +274,7 @@ namespace OxXMLEngine
             categoriesTree.Dock = DockStyle.Left;
             categoriesTree.Margins.TopOx = OxSize.Large;
             categoriesTree.Margins.LeftOx = OxSize.Medium;
-            categoriesTree.Margins.BottomOx = OxSize.Small;
+            categoriesTree.Margins.BottomOx = OxSize.Medium;
             categoriesTree.Margins.RightOx = OxSize.None;
             categoriesTree.Paddings.SetSize(OxSize.Medium);
             categoriesTree.Borders[OxDock.Right].Visible = false;
