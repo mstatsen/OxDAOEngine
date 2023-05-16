@@ -19,7 +19,6 @@
         public const string EmulatorType = "EmulatorType";
         public const string ExportContentVariant = "ContentVariant";
         public const string ExportFormat = "Format";
-        public const string Favorite = "Favorite";
         public const string FileName = "FileName";
         public const string Field = "Field";
         public const string FilterConcat = "FilterConcat";
@@ -65,8 +64,8 @@
         public const string Source = "Source";
         public const string StorageId = "StorageId";
         public const string SummaryType = "Summary";
+        public const string Tag = "Tag";
         public const string TrophysetAccess = "TrophysetAccess";
-        public const string TrophysetTODO = "TrophysetTODO";
         public const string Type = "Type";
         public const string URL = "URL";
         public const string Verified = "Verified";

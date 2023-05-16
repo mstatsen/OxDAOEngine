@@ -1,5 +1,4 @@
 ﻿using OxXMLEngine.Data.Filter;
-using System;
 
 namespace OxXMLEngine.Data
 {
