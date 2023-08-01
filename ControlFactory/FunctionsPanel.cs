@@ -523,8 +523,15 @@ namespace OxXMLEngine.ControlFactory
                 ? Sider.CalcedHeight + Margins.CalcedSize(OxDock.Top) + Margins.CalcedSize(OxDock.Bottom)
                 : Sider.CalcedWidth + Margins.CalcedSize(OxDock.Left) + Margins.CalcedSize(OxDock.Right);
 
+
             if (fakePadding != null)
             {
+                if (!Visible)
+                {
+                    fakePadding.Visible = false;
+                    return;
+                }
+
                 if (fakePadding.Dock == Dock)
                 {
                     fakePadding.SetSize(fakePaddingSize);

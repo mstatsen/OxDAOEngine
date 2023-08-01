@@ -36,11 +36,6 @@ namespace OxXMLEngine.View
 
         private void RenewControls()
         {
-            /*
-            if (Expanded)
-                Builder.DetachControlsFromParent();
-            */
-
             BaseColor = ControlFactory.ItemColorer.BaseColor(item);
             FontColors.BaseColor = ControlFactory.ItemColorer.ForeColor(item);
 
