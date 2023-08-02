@@ -17,14 +17,10 @@ namespace OxXMLEngine.Summary
 
         private readonly OxPanelLayouter layouter = new();
 
-        public void RefreshData(bool hardReset = false)
+        public void RefreshData()
         {
-            if (hardReset)
-            {
-                Clear();
-                PrepareDictionaries();
-            }
-
+            Clear();
+            PrepareDictionaries();
             IterateSummaryPanels(p => p.FillAccessors());
             Update();
             IterateSummaryPanels(p => p.AlignAccessors());

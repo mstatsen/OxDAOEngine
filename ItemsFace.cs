@@ -227,6 +227,9 @@ namespace OxXMLEngine
             }
 
             cardsView.ApplySettings();
+
+            if (Settings.Observer.SummaryFieldsChanged)
+                summaryView.RefreshData();
         }
 
         public virtual void SaveSettings()
@@ -325,7 +328,7 @@ namespace OxXMLEngine
         public void FillData()
         {
             tableView.FillGrid();
-            summaryView.RefreshData(true);
+            summaryView.RefreshData();
             ApplyQuickFilter(true);
         }
 
