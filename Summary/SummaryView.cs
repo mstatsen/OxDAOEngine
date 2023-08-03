@@ -42,9 +42,9 @@ namespace OxXMLEngine.Summary
         {
             base.PrepareInnerControls();
             PrepareDictionaries();
-            ContentContainer.AutoScroll = true;
             layouter.Parent = ContentContainer;
             layouter.Dock = DockStyle.Top;
+            ContentContainer.AutoScroll = true;
         }
 
         private void PrepareDictionaries()

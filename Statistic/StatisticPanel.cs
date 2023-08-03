@@ -1,6 +1,5 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxXMLEngine.ControlFactory.Filter;
 using OxXMLEngine.Data;

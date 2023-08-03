@@ -7,7 +7,7 @@ using OxXMLEngine.Data.Sorting;
 
 namespace OxXMLEngine.Grid
 {
-    public class ItemsRootGrid<TField, TDAO> : ItemsGrid<TField, TDAO>
+    public partial class ItemsRootGrid<TField, TDAO> : ItemsGrid<TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -19,6 +19,10 @@ namespace OxXMLEngine.Grid
             ListController.AddHandler += (d, e) => d.ChangeHandler += ItemChanged;
             GridView.DoubleClick += (s, e) => ExecuteAction(OxToolbarAction.Edit);
             GridView.KeyUp += GridView_KeyUp;
+            GridView.ContextMenuStrip = new ItemsRootGridContextMenu<TField, TDAO>(this)
+            {
+                Enabled = Usage == GridUsage.Edit
+            };
             Painter = ListController.ControlFactory.CreateGridPainter(GridFieldColumns, usage);
         }
 

@@ -45,6 +45,7 @@ namespace OxXMLEngine
             ListController.ListChanged += (s, e) => ApplyQuickFilter(true);
             ListController.OnAfterLoad += (s, e) => quickFilter.RenewFilterControls();
             tabControl.ActivatePage += (s, e) => ApplyQuickFilter(true);
+            statisticPanel.Renew();
             //tabControl.DeactivatePage += DeactivatePageHandler;
         }
 
