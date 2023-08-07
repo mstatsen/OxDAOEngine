@@ -7,6 +7,7 @@ using OxXMLEngine.Data.Sorting;
 using OxXMLEngine.Data.Types;
 using OxXMLEngine.Settings;
 using System.Text;
+using OxXMLEngine.View;
 
 namespace OxXMLEngine.Export
 {
@@ -171,12 +172,12 @@ namespace OxXMLEngine.Export
 
         private string GeneralSummary()
         {
-            if (ListController.FullItemsList.Count == 0)
+            if (Items.Count == 0)
                 return "<i>No data to display</i>";
 
             StringBuilder bodyBuilder = new("");
             bodyBuilder.AppendLine(
-                SummaryRow(ListController.Name, ListController.FullItemsList.Count, 
+                SummaryRow(ListController.Name, Items.Count, 
                     ListController.TotalCount)
 
             );
@@ -252,7 +253,7 @@ namespace OxXMLEngine.Export
         {
             StringBuilder builder = new("");
 
-            foreach (TDAO item in ListController.FullItemsList)
+            foreach (TDAO item in Items)
                 builder.Append(ItemRow(item));
 
             return builder.ToString();
@@ -281,12 +282,10 @@ namespace OxXMLEngine.Export
 
         private static object TableRowAttributes(TDAO item)
         {
-            /*
-            string fontColor = ColorTranslator.ToHtml(TypeHelper.FontColor(game[GameField.Status]));
-            string backColor = ColorTranslator.ToHtml(TypeHelper.BackColor(game.SourceType));
+            ItemColorer<TField, TDAO> colorer = DataManager.ControlFactory<TField, TDAO>().ItemColorer;
+            string fontColor = ColorTranslator.ToHtml(colorer.ForeColor(item));
+            string backColor = ColorTranslator.ToHtml(colorer.BackColor(item));
             return $" style =\"color: {fontColor}; background-color: {backColor};\"";
-            */
-            return "";
         }
 
         private static string FullStyles()
