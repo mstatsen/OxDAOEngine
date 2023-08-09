@@ -15,14 +15,15 @@ namespace OxXMLEngine.Export
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public HtmlExporter(ExportSettings<TField, TDAO> settings) : base(settings)
+        public HtmlExporter(ExportSettings<TField, TDAO> settings, ExportSettingsForm<TField, TDAO> settingsForm) : 
+            base(settings, settingsForm)
         { }
 
         public override string Text() =>
             string.Format(Templates.Html, HtmlExporter<TField, TDAO>.FullHead(), FullBody());
 
         protected override FieldSortings<TField, TDAO> Sortings() =>
-            Settings.HTML.Sorting;
+            SettingsForm.htmlSortingPanel.Sortings;
 
         private static string FullHead() =>
             string.Format(Templates.Head, HtmlExporter<TField, TDAO>.HeadAttributes(), FullStyles());

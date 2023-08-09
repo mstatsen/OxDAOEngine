@@ -10,18 +10,11 @@ namespace OxXMLEngine.Export
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public XmlExporter(ExportSettings<TField, TDAO> settings) : base(settings)
+        public XmlExporter(ExportSettings<TField, TDAO> settings, ExportSettingsForm<TField, TDAO> settingsForm) 
+            : base(settings, settingsForm)
         { }
 
         protected override FieldSortings<TField, TDAO>? Sortings() => ListController.DefaultSorting();
-            /*
-            new Sortings<TField>
-            {
-                new Sorting<GameField>(GameField.Name, SortingDirection.Ascending),
-                new Sorting<GameField>(GameField.Platform, SortingDirection.Ascending),
-                new Sorting<GameField>(GameField.Source, SortingDirection.Ascending)
-            };
-            */
 
         public override string Text()
         {

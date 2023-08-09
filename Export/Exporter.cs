@@ -8,9 +8,11 @@ namespace OxXMLEngine.Export
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public Exporter(ExportSettings<TField, TDAO> exportSettings)
+        public Exporter(ExportSettings<TField, TDAO> exportSettings, ExportSettingsForm<TField, TDAO> settingsForm)
         {
             Settings = exportSettings;
+            SettingsForm = settingsForm;
+
             Items = new RootListDAO<TField, TDAO>();
             Items.CopyFrom(ListController.FullItemsList
                 .FilteredList(
@@ -28,5 +30,6 @@ namespace OxXMLEngine.Export
 
         protected readonly RootListDAO<TField, TDAO> Items;
         protected readonly ExportSettings<TField, TDAO> Settings;
+        protected readonly ExportSettingsForm<TField, TDAO> SettingsForm;
     }
 }

@@ -12,7 +12,7 @@ namespace OxXMLEngine.Export
             SettingsManager.DAOSettings<TField, TDAO>().ExportSettings;
 
         public ExportController() => 
-            settingsForm = new ExportSettingsForm<TField, TDAO>(ExportController<TField, TDAO>.Settings);
+            settingsForm = new ExportSettingsForm<TField, TDAO>(Settings);
 
         public void Export()
         {
@@ -23,12 +23,12 @@ namespace OxXMLEngine.Export
             OpenReadyFile();
         }
 
-        private static void SaveFile()
+        private void SaveFile()
         {
             try
             {
                 StreamWriter sw = new(ExportController<TField, TDAO>.Settings.FileName);
-                sw.Write(ExporterFactory.Exporter(ExportController<TField, TDAO>.Settings).Text());
+                sw.Write(ExporterFactory.Exporter(ExportController<TField, TDAO>.Settings, settingsForm).Text());
                 sw.Close();
             }
             catch (Exception e)

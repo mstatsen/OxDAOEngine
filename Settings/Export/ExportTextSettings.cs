@@ -1,6 +1,5 @@
 ﻿using OxXMLEngine.Data;
 using OxXMLEngine.Data.Sorting;
-using System;
 using System.Xml;
 
 namespace OxXMLEngine.Settings

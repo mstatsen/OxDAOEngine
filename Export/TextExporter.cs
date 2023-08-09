@@ -15,7 +15,8 @@ namespace OxXMLEngine.Export
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public TextExporter(ExportSettings<TField, TDAO> settings) : base(settings)
+        public TextExporter(ExportSettings<TField, TDAO> settings, ExportSettingsForm<TField, TDAO> settingsForm) 
+            : base(settings, settingsForm)
         { }
 
         public override string Text()
@@ -24,16 +25,14 @@ namespace OxXMLEngine.Export
             builder.Append(ExportParams());
             builder.Append(Summary());
 
-            TDAO? prevGame = null;
+            TDAO? prevItem = null;
 
-            foreach (TDAO game in ListController.FullItemsList)
+            foreach (TDAO item in Items)
             {
-                if (prevGame != null)
-                    builder.Append(GameGroups(prevGame, game));
-
-                builder.Append(GameLine(game));
+                builder.Append(ItemGroups(prevItem, item));
+                builder.Append(ItemLine(item));
                 builder.AppendLine();
-                prevGame = game;
+                prevItem = item;
             }
 
             return builder.ToString();
@@ -42,7 +41,7 @@ namespace OxXMLEngine.Export
         protected override FieldSortings<TField, TDAO> Sortings()
         {
             FieldSortings<TField, TDAO> sortings = new();
-            sortings.CopyFrom(Settings.Text.Grouping);
+            sortings.CopyFrom(SettingsForm.groupByPanel.Sortings);
 
             FieldSortings<TField, TDAO>? defaultSorting = ListController.DefaultSorting();
             if (defaultSorting != null)
@@ -55,15 +54,15 @@ namespace OxXMLEngine.Export
             return sortings;
         }
 
-        private string GameLine(TDAO game)
+        private string ItemLine(TDAO item)
         {
             StringBuilder builder = new(
                 string.Join("", Enumerable.Repeat(XmlConsts.DefaultIndent, Settings.Text.Grouping.Count))
             );
 
-            Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.FullInfo, game);
+            Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.FullInfo, item);
 
-            //builder.Append(decorator[GameField.Name]);
+            builder.Append(decorator[TypeHelper.FieldHelper<TField>().TitleField]);
             builder.Append(InlineFields(decorator));
             return builder.ToString();
         }
@@ -96,24 +95,25 @@ namespace OxXMLEngine.Export
             return builder.ToString();
         }
 
-        private string GameGroups(TDAO prevGame, TDAO game)
+        private string ItemGroups(TDAO? prevItem, TDAO item)
         {
             bool needStartGroup = false;
             int groupIndentCount = 0;
             string groupName;
             StringBuilder builder = new("");
-            Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.FullInfo, game);
+            Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.FullInfo, item);
+            FieldSortings<TField, TDAO> groupings = SettingsForm.groupByPanel.Sortings;
 
-            foreach (FieldSorting<TField, TDAO> group in Settings.Text.Grouping)
+            foreach (FieldSorting<TField, TDAO> group in groupings)
             {
                 if (needStartGroup || 
-                    (prevGame == null) || 
-                    prevGame[group.Field] != null || 
-                    (!prevGame[group.Field]!.Equals(game[group.Field])))
+                    (prevItem == null) || 
+                    prevItem[group.Field] == null || 
+                    (!prevItem[group.Field]!.Equals(item[group.Field])))
                 {
-                    if (prevGame != null)
+                    if (prevItem != null)
                     {
-                        if (group == Settings.Text.Grouping.First())
+                        if (group == groupings.First())
                             builder.AppendLine();
 
                         if (!needStartGroup)
@@ -145,7 +145,7 @@ namespace OxXMLEngine.Export
             summaryBuilder.AppendLine(HardLineSeparator);
             summaryBuilder.AppendLine("Summary".ToUpper());
             summaryBuilder.AppendLine(HardLineSeparator);
-            summaryBuilder.AppendFormat(ParamTemplate, "Games", GamesCount());
+            summaryBuilder.AppendFormat(ParamTemplate, ListController.Name, ItemsCount());
             summaryBuilder.AppendLine();
 //TODO            AppendFieldInfo(summaryBuilder, GameField.Platform);
             summaryBuilder.AppendLine(HardLineSeparator);
@@ -154,12 +154,13 @@ namespace OxXMLEngine.Export
             return summaryBuilder.ToString();
         }
 
+        /*TODO
         private void AppendFieldInfo(StringBuilder builder, TField field)
         {
             FieldCountExtract extract = new FieldExtractor<TField, TDAO>(
                 Settings.Text.Summary == ExportSummaryType.Exported
                     ? Items
-                    : TotalGamesList).CountExtract(
+                    : TotalItemsList).CountExtract(
                 field,
                 true
             );
@@ -189,13 +190,14 @@ namespace OxXMLEngine.Export
             }
 
         }
+        */
 
-        private string GamesCount() => 
+        private string ItemsCount() => 
             Settings.Text.Summary == ExportSummaryType.Full 
-                ? $"{Items.Count} / {TotalGamesList.Count}"
+                ? $"{Items.Count} / {TotalItemsList.Count}"
                 : Items.Count.ToString();
 
-        private RootListDAO<TField, TDAO> TotalGamesList => ListController.FullItemsList;
+        private RootListDAO<TField, TDAO> TotalItemsList => ListController.FullItemsList;
 
         private string ExportParams()
         {
@@ -238,7 +240,7 @@ namespace OxXMLEngine.Export
                 {
                     paramsBuilder.Append(XmlConsts.DefaultIndent);
                     paramsBuilder.Append(XmlConsts.DefaultIndent);
-                    paramsBuilder.AppendFormat("One of game fields need contains '{0}'",
+                    paramsBuilder.AppendFormat("One of item fields need contains '{0}'",
                         filterValues[Consts.QuickFilterTextFieldCaption]
                     );
                     paramsBuilder.AppendLine("");

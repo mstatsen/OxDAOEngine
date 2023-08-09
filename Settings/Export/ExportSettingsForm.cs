@@ -428,9 +428,9 @@ namespace OxXMLEngine.Settings
         };
 
         private readonly OxPanel htmlGeneralPanel = CreateExtraPanel(172);
-        private readonly OxPanel htmlsPanel = CreateExtraPanel(60);
+        private readonly OxPanel htmlsPanel = CreateExtraPanel(100);
         private readonly FieldsPanel<TField, TDAO> htmlFieldsPanel = new(FieldsVariant.Html);
-        private readonly SortingPanel<TField, TDAO> htmlSortingPanel = new(SortingVariant.Export, ControlScope.Html);
+        public readonly SortingPanel<TField, TDAO> htmlSortingPanel = new(SortingVariant.Export, ControlScope.Html);
         private readonly EnumAccessor<TField, TDAO, ExportSummaryType> htmlSummaryAccessor;
         private readonly IControlAccessor htmlIncludeParamsAccessor;
         private readonly IControlAccessor zeroSummaryAccessor;
@@ -438,7 +438,7 @@ namespace OxXMLEngine.Settings
         private readonly OxPanel textsPanel = CreateExtraPanel(120);
         private readonly OxPanel textGeneralPanel = CreateExtraPanel(60);
         private readonly FieldsPanel<TField, TDAO> inlineFieldsPanel = new(FieldsVariant.Inline);
-        private readonly SortingPanel<TField, TDAO> groupByPanel = new(SortingVariant.GroupBy, ControlScope.Grouping);
+        public readonly SortingPanel<TField, TDAO> groupByPanel = new(SortingVariant.GroupBy, ControlScope.Grouping);
         private readonly EnumAccessor<TField, TDAO, ExportSummaryType> textSummaryAccessor;
         private readonly IControlAccessor textIncludeParamsAccessor;
 
