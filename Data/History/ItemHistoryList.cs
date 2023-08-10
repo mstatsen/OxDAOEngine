@@ -15,7 +15,6 @@
 
         private ItemHistoryList<TField, TDAO> ByOperation(DAOOperation operation)
         {
-
             ItemHistoryList<TField, TDAO> result = new();
             result.AddRange(FindAll((h) => h.Operation == operation));
             return result;

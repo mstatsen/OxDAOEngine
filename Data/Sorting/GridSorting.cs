@@ -34,13 +34,11 @@ namespace OxXMLEngine.Data.Sorting
                         string? xValue = GridColumn.ValueGetter(x)?.ToString();
                         string? yValue = GridColumn.ValueGetter(y)?.ToString();
 
-                        if (xValue == null)
-                            result = yValue == null ? 0 : -1;
-                        else
-                        if (yValue == null)
-                            result = 1;
-                        else
-                            result = xValue.CompareTo(yValue);
+                        result = xValue switch
+                        {
+                            null => yValue == null ? 0 : -1,
+                            _ => yValue == null ? 1 : xValue.CompareTo(yValue),
+                        };
                     }
 
                     break;

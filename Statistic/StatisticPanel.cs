@@ -126,36 +126,31 @@ namespace OxXMLEngine.Statistic
         private readonly OxColorHelper CategoryColorHelper = new(EngineStyles.CategoryColor);
         private readonly OxColorHelper QuickFilterColorHelper = new(EngineStyles.QuickFilterColor);
 
-        private void PrepareStatisticColor(StatisticType type, int statistic)
-        {
-            switch (type)
-            {
-                case StatisticType.Category:
-                    Labels[type].BaseColor = CategoryColorHelper.Darker(
-                        ListController.Category == null || ListController.Category.FilterIsEmpty
-                        ? 0
-                        : 2);
-                    break;
-                case StatisticType.Visible:
-                    Labels[type].BaseColor = QuickFilterColorHelper.Darker(
+        private void PrepareStatisticColor(StatisticType type, int statistic) => 
+            Labels[type].BaseColor = 
+                type switch
+                {
+                    StatisticType.Category => 
+                        CategoryColorHelper.Darker(
+                            ListController.Category == null || ListController.Category.FilterIsEmpty
+                                ? 0
+                                : 2
+                        ),
+                    StatisticType.Visible => 
+                        QuickFilterColorHelper.Darker(
                             QuickFilterPanel == null ||
                             QuickFilterPanel.ActiveFilter == null ||
                             QuickFilterPanel.ActiveFilter.FilterIsEmpty
-                            ? 0
-                            : 2
-                        );
-                    break;
-                default:
-                    OxColorHelper labelColorHelper = new OxColorHelper(BaseColor).HDarker(1);
-                    Labels[type].BaseColor = (statistic > 0) &&
-                        (type == StatisticType.Modified
-                        || type == StatisticType.Added
-                        || type == StatisticType.Deleted)
-                        ? labelColorHelper.Redder(6)
-                        : labelColorHelper.Lighter(1);
-                    break;
-            }
-        }
+                                ? 0
+                                : 2
+                        ),
+                    _ => (statistic > 0) &&
+                         (type == StatisticType.Modified
+                          || type == StatisticType.Added
+                          || type == StatisticType.Deleted)
+                            ? new OxColorHelper(BaseColor).HDarker(1).Redder(6)
+                            : new OxColorHelper(BaseColor).HDarker(1).Lighter(1),
+                };
 
         private void AccessHandlers()
         {

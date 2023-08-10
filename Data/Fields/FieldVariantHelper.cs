@@ -59,7 +59,6 @@ namespace OxXMLEngine.Data.Fields
 
             return FieldsVariant.Table;
         }
-            
 
         public override FieldsVariant EmptyValue() =>
             FieldsVariant.Table;

@@ -11,10 +11,15 @@ namespace OxXMLEngine.Data.Sorting
 
         public void Clear(SortingVariant variant)
         {
-            if (variant == SortingVariant.GroupBy)
-                Clear();
-            else
-                ResetToDefault();
+            switch (variant)
+            {
+                case SortingVariant.GroupBy:
+                    Clear();
+                    break;
+                default:
+                    ResetToDefault();
+                    break;
+            }
         }
 
         public List<ISorting<TField, TDAO>> SortingsList
@@ -41,10 +46,15 @@ namespace OxXMLEngine.Data.Sorting
         {
             List<ISorting<TField, TDAO>>? defaultSorting = DataManager.DefaultSorting<TField, TDAO>()?.SortingsList;
 
-            if (defaultSorting != null)
-                SortingsList = defaultSorting;
-            else
-                Clear();
+            switch (defaultSorting)
+            {
+                case null:
+                    Clear();
+                    break;
+                default:
+                    SortingsList = defaultSorting;
+                    break;
+            }
         }
 
         public List<TField> Fields

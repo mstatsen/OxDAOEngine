@@ -27,19 +27,15 @@ namespace OxXMLEngine.Data.Filter
         public FilterGroup(FilterConcat filterConcat) : this() =>
             FilterConcat = filterConcat;
 
-        public SimpleFilter<TField, TDAO> Add(TField field, FilterOperation operation, object? value)
-        {
-            SimpleFilter<TField, TDAO> filter = new();
-            filter.AddFilter(field, operation, value);
-            return Add(filter);
-        }
+        public SimpleFilter<TField, TDAO> Add(TField field, FilterOperation operation, object? value) => 
+            Add(new SimpleFilter<TField, TDAO>()
+                .AddFilter(field, operation, value)
+            );
 
-        public SimpleFilter<TField, TDAO> Add(TField field, object value)
-        {
-            SimpleFilter<TField, TDAO> filter = new();
-            filter.AddFilter(field, value);
-            return Add(filter);
-        }
+        public SimpleFilter<TField, TDAO> Add(TField field, object value) => 
+            Add(new SimpleFilter<TField, TDAO>()
+                .AddFilter(field, value)
+            );
 
         public bool Match(IFieldMapping<TField>? dao) =>
             MatchAggregator<TField>.Match(this, dao);

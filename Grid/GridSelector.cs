@@ -44,7 +44,7 @@ namespace OxXMLEngine.Grid
             if (grid.RowCount == 0)
                 return;
 
-            if (topRowIndex > -1 
+            if (topRowIndex > -1
                 && topRowIndex < grid.RowCount 
                 && grid.Rows[topRowIndex].Visible)
                 grid.FirstDisplayedScrollingRowIndex = topRowIndex;

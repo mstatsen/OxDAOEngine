@@ -76,7 +76,7 @@ namespace OxXMLEngine.Export
             {
                 fieldValue = decorator[column.Field]?.ToString()?.Trim();
 
-                if (fieldValue == null || 
+                if (fieldValue == null ||
                     fieldValue == string.Empty)
                     continue;
 

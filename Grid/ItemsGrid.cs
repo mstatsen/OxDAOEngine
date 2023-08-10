@@ -543,7 +543,6 @@ namespace OxXMLEngine.Grid
 
         protected virtual object? GetFieldValue(TField field, TDAO item) => item[field];
 
-
         private void UpdateValues(int rowIndex)
         {
             TDAO? item = selector.GetDaoFromRow(rowIndex);
