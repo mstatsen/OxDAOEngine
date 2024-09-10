@@ -24,7 +24,7 @@ namespace OxXMLEngine.View
 
             if (placedCards != null)
             {
-                foreach (OxPane pane in placedCards)
+                foreach (OxPane pane in placedCards.Cast<OxPane>())
                     pane.Dispose();
 
                 placedCards.Clear();

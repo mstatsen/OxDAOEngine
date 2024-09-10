@@ -52,10 +52,7 @@ namespace OxXMLEngine.Editor
         private void GenerateLayouts()
         {
             BeforeGenerateLayouts();
-
-            if (generator == null)
-                generator = CreateLayoutsGenerator(GetFieldGroupFrames(), Layouter);
-
+            generator ??= CreateLayoutsGenerator(GetFieldGroupFrames(), Layouter);
             generator.GenerateLayouts();
             AfterGenerateLayouts();
         }

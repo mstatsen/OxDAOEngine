@@ -105,7 +105,7 @@ namespace OxXMLEngine.Settings
         {
             int maximumTabWidth = tabControl.TabHeaderSize.Width * tabControl.Pages.Count;
 
-            foreach (OxPane tab in tabControl.Pages)
+            foreach (OxPane tab in tabControl.Pages.Cast<OxPane>())
                 if (tab is OxTabControl childTabControl)
                 {
                     maximumTabWidth = Math.Max(maximumTabWidth, 
@@ -308,8 +308,7 @@ namespace OxXMLEngine.Settings
         private void RelocateControls(ISettingsController settings, SettingsPart part, 
             List<string>? settingList = null, string caption = "")
         {
-            if (settingList == null)
-                settingList = settings.Helper.ItemsByPart(part);
+            settingList ??= settings.Helper.ItemsByPart(part);
 
             if (settingList == null || settingList.Count == 0)
                 return;

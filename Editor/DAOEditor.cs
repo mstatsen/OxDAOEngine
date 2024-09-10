@@ -223,7 +223,7 @@ namespace OxXMLEngine.Editor
 
         protected void SetParentsColor() 
         { 
-            foreach (OxPanel panel in ParentPanels)
+            foreach (OxPanel panel in ParentPanels.Cast<OxPanel>())
                 if (panel != MainPanel)
                     panel.BaseColor = MainPanel.Colors.Lighter(1);
         }
@@ -252,7 +252,7 @@ namespace OxXMLEngine.Editor
         {
             int result = 0;
 
-            foreach (OxFrame container in GroupParents[parentControl])
+            foreach (OxFrame container in GroupParents[parentControl].Cast<OxFrame>())
                 if (container.Visible)
                     result += container.Height;
 

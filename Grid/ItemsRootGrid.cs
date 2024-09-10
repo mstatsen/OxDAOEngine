@@ -108,8 +108,7 @@ namespace OxXMLEngine.Grid
 
         private void BatchUpdate()
         {
-            if (batchUpdateForm == null)
-                batchUpdateForm = new BatchUpdateForm<TField, TDAO>()
+            batchUpdateForm ??= new BatchUpdateForm<TField, TDAO>()
                 {
                     ItemsGetter = GetSelectedItems,
                     BatchUpdateCompleted = (s, e) => BatchUpdateCompleted?.Invoke(s, e)

@@ -69,11 +69,8 @@ namespace OxXMLEngine.Grid
         public override void ReAlignControls()
         {
             base.ReAlignControls();
-
             QuickFilter.BringToFront();
-
-            if (Grid != null)
-                Grid.BringToFront();
+            Grid?.BringToFront();
         }
     }
 }

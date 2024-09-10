@@ -104,9 +104,7 @@ namespace OxXMLEngine.Settings
         { 
             get
             {
-                if (observer == null)
-                    observer = CreateObserver();
-
+                observer ??= CreateObserver();
                 return observer;
             }
         }
@@ -197,9 +195,7 @@ namespace OxXMLEngine.Settings
         {
             get
             {
-                if (controlFactory == null)
-                    controlFactory = CreateControlFactory();
-
+                controlFactory ??= CreateControlFactory();
                 return controlFactory;
             }
         }

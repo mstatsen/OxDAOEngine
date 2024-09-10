@@ -315,9 +315,7 @@ namespace OxXMLEngine.Data
         {
             get
             {
-                if (editor == null)
-                    editor = CreateEditor();
-
+                editor ??= CreateEditor();
                 return editor;
             }
         }
@@ -337,9 +335,7 @@ namespace OxXMLEngine.Data
         {
             get
             {
-                if (worker == null)
-                    worker = CreateWorker();
-
+                worker ??= CreateWorker();
                 return worker;
             }
         }
@@ -411,9 +407,7 @@ namespace OxXMLEngine.Data
         {
             get
             {
-                if (decoratorFactory == null)
-                    decoratorFactory = CreateDecoratorFactory();
-
+                decoratorFactory ??= CreateDecoratorFactory();
                 return decoratorFactory;
             }
         }
@@ -424,9 +418,7 @@ namespace OxXMLEngine.Data
         {
             get
             {
-                if (controlFactory == null)
-                    controlFactory = CreateControlFactory();
-
+                controlFactory ??= CreateControlFactory();
                 return controlFactory;
             }
         }
@@ -454,9 +446,7 @@ namespace OxXMLEngine.Data
         {
             get
             { 
-                if (face == null)
-                    face = new ItemsFace<TField, TDAO>();
-
+                face ??= new ItemsFace<TField, TDAO>();
                 return face;
             }
         }
@@ -475,9 +465,7 @@ namespace OxXMLEngine.Data
         {
             get
             {
-                if (exportController == null)
-                    exportController = new();
-
+                exportController ??= new();
                 return exportController;
             }
         }

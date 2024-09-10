@@ -111,9 +111,7 @@ namespace OxXMLEngine.Data.Fields
             if (result == null || result.Count == 0)
                 result = GetFieldsInternal(FieldsVariant.Table, filling);
 
-            if (result == null)
-                result = new();
-
+            result ??= new();
             return result;
         }
 

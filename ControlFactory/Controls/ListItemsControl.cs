@@ -359,7 +359,7 @@ namespace OxXMLEngine.ControlFactory.Controls
             SetControlBackColor(ListBox, Colors.Lighter(7));
 
             if (Buttons != null)
-                foreach (OxIconButton button in Buttons)
+                foreach (OxIconButton button in Buttons.Cast<OxIconButton>())
                     button.BaseColor = BaseColor;
         }
 

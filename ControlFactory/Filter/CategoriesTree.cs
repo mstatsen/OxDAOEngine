@@ -215,8 +215,7 @@ namespace OxXMLEngine.ControlFactory.Filter
 
         private TreeNode? GetNodeByTag(object tag, TreeNodeCollection? treeNodes = null)
         {
-            if (treeNodes == null)
-                treeNodes = categorySelector.Nodes;
+            treeNodes ??= categorySelector.Nodes;
 
             foreach (TreeNode node in treeNodes)
             {

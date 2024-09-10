@@ -238,9 +238,7 @@ namespace OxXMLEngine.ControlFactory
         {
             get
             {
-                if (itemColorer == null)
-                    itemColorer = CreateItemColorer();
-
+                itemColorer ??= CreateItemColorer();
                 return itemColorer;
             }
         }
