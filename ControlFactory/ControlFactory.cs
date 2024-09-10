@@ -141,9 +141,9 @@ namespace OxXMLEngine.ControlFactory
             new TextAccessor<TField, TDAO>(context);
 
         protected IControlAccessor CreateImageAccessor(IBuilderContext<TField, TDAO> context) =>
-            (context.IsView
+            context.IsView
                 ? new ImageAccessor<TField, TDAO>(context)
-                : new PictureContainerAccessor<TField, TDAO>(context));
+                : new PictureContainerAccessor<TField, TDAO>(context);
 
         protected IControlAccessor CreateNumericAccessor(IBuilderContext<TField, TDAO> context) =>
             context.IsQuickFilter

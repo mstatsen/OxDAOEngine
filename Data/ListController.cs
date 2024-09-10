@@ -195,9 +195,7 @@ namespace OxXMLEngine.Data
 
         public bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TField>? filter = null)
         {
-            if (itemSelector == null)
-                itemSelector = new();
-
+            itemSelector ??= new();
             itemSelector.BaseColor = parentPane.BaseColor;
             itemSelector.Filter = filter;
             itemSelector.SelectedItem = initialItem;

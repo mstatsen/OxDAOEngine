@@ -1,7 +1,5 @@
 ﻿using OxXMLEngine.ControlFactory.Context;
 using OxXMLEngine.Data;
-using System;
-using System.Windows.Forms;
 
 namespace OxXMLEngine.ControlFactory.Accessors
 {

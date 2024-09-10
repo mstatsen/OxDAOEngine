@@ -186,7 +186,7 @@ namespace OxXMLEngine.Data.Filter
         {
             if (IsCalcedField(field))
             {
-                if (calcedValues.TryGetValue(field, out object _))
+                if (calcedValues.TryGetValue(field, out var _))
                     calcedValues[field] = value;
                 else
                     calcedValues.Add(field, value);

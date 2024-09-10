@@ -6,12 +6,14 @@
         public const string Bronze = "Bronze";
         public const string CategoryName = "CategoryName";
         public const string Code = "Code";
+        public const string Color = "Color";
         public const string Column = "Column";
         public const string CompleteTime = "CompleteTime";
         public const string ConsoleId = "ConsoleId";
         public const string Count = "Count";
         public const string CriticScore = "CriticScore";
         public const string DefaultIndent = "    ";
+        public const string Description = "Description";
         public const string Developer = "Developer";
         public const string Difficult = "Difficult";
         public const string DLC = "DLC";
@@ -63,6 +65,7 @@
         public const string SortOrder = "SortOrder";
         public const string Source = "Source";
         public const string StorageId = "StorageId";
+        public const string JoystickType = "JoystickType";
         public const string SummaryType = "Summary";
         public const string Tag = "Tag";
         public const string TrophysetAccess = "TrophysetAccess";

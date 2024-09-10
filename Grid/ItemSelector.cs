@@ -21,7 +21,11 @@ namespace OxXMLEngine.Grid
         public TDAO? SelectedItem
         {
             get => Grid.CurrentItem;
-            set => QuickFilter.SetFilter(value);
+            set 
+                {
+                QuickFilter.SetFilter(value);
+                ApplyQuickFilter();
+            }
         }
 
         protected override void PrepareInnerControls()

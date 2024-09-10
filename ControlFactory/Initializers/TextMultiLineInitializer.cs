@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace OxXMLEngine.ControlFactory.Initializers
+﻿namespace OxXMLEngine.ControlFactory.Initializers
 {
     public class TextMultiLineInitializer : EmptyControlInitializer
     {

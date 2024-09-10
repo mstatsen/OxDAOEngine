@@ -31,6 +31,8 @@ namespace OxXMLEngine.ControlFactory.Controls
 
         private bool firstLoad;
 
+        public TDAO? ParentItem { get; set; }
+
         public List<object>? ExistingItems { get; set; }
 
         public IMatcher<TField>? Filter { get; set; }

@@ -29,6 +29,8 @@ namespace OxXMLEngine.ControlFactory.Controls
             BorderStyle = BorderStyle.None
         };
 
+        public TDAO? ParentItem { get; set; }
+
         private const int ButtonSpace = (int)OxSize.Medium;
         private const int ButtonWidth = 28;
         private const int ButtonHeight = 20;
@@ -37,19 +39,19 @@ namespace OxXMLEngine.ControlFactory.Controls
 
         private TEditor Editor(TypeOfEditorShow type)
         {
-            if (editor == null)
-                editor = new TEditor
+            editor ??= new TEditor
                 {
                     BaseColor = Colors.Lighter(Context.Scope == ControlScope.Editor ? 0 : 1)
                 }.Init<TEditor>(Context);
 
+            editor.ParentItem = ParentItem;
             editor.ExistingItems = GetExistingItems(type).ObjectList;
             editor.Filter = Filter;
             editor.RenewData();
             return editor;
         }
 
-        public IMatcher<TField>? Filter;
+        public IMatcher<TField>? Filter { get; set; }
 
         protected virtual bool EqualsItems(TItem leftItem, TItem rightItem) =>
             leftItem.Equals(rightItem);
