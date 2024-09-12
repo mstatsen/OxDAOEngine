@@ -320,7 +320,7 @@ namespace OxXMLEngine
                 quickFilter.RenewFilterControls();
         }
 
-        private void ActiveCategoryChangedHandler(object? sender, CategoryEventArgs<TField, TDAO> e)
+        private void ChangeActiveCategory(bool needFillTableView)
         {
             StartLoading(tabControl);
 
@@ -328,7 +328,7 @@ namespace OxXMLEngine
             {
                 ListController.Category = categoriesTree?.ActiveCategory;
 
-                if (e.IsFilterChanged)
+                if (needFillTableView)
                     tableView.FillGrid();
             }
             finally
@@ -337,9 +337,12 @@ namespace OxXMLEngine
             }
         }
 
+        private void ActiveCategoryChangedHandler(object? sender, CategoryEventArgs<TField, TDAO> e) => 
+            ChangeActiveCategory(e.IsFilterChanged);
+
         public void FillData()
         {
-            tableView.FillGrid();
+            ChangeActiveCategory(true);
             summaryView.RefreshData();
             ApplyQuickFilter(true);
         }
