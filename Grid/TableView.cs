@@ -111,29 +111,29 @@ namespace OxXMLEngine.Grid
             SettingsManager.DAOSettings<TField, TDAO>();
 
         private static DAOObserver<TField, TDAO> Observer =>
-            TableView<TField, TDAO>.Settings.Observer;
+            Settings.Observer;
 
         public virtual void ApplySettings() 
         {
 
-            if (TableView<TField, TDAO>.Observer[DAOSetting.ShowItemInfo])
+            if (Observer[DAOSetting.ShowItemInfo])
             {
-                if (CurrentInfoCard != null && CurrentInfoCard.Visible != TableView<TField, TDAO>.Settings.ShowItemInfo)
-                    CurrentInfoCard.Visible = TableView<TField, TDAO>.Settings.ShowItemInfo;
+                if (CurrentInfoCard != null && CurrentInfoCard.Visible != Settings.ShowItemInfo)
+                    CurrentInfoCard.Visible = Settings.ShowItemInfo;
             }
 
-            if (TableView<TField, TDAO>.Observer[DAOSetting.ItemInfoPanelExpanded])
+            if (Observer[DAOSetting.ItemInfoPanelExpanded])
             {
-                bool savedInfoCardPlaceExpanded = TableView<TField, TDAO>.Settings.ItemInfoPanelExpanded;
+                bool savedInfoCardPlaceExpanded = Settings.ItemInfoPanelExpanded;
 
                 if (CurrentInfoCard != null && CurrentInfoCard.Expanded != savedInfoCardPlaceExpanded)
                     CurrentInfoCard.Expanded = savedInfoCardPlaceExpanded;
             }
 
-            if (TableView<TField, TDAO>.Observer.QuickFilterFieldsChanged
-                    || TableView<TField, TDAO>.Observer.QuickFilterTextFieldsChanged
-                    || TableView<TField, TDAO>.Observer.SortingFieldsChanged
-                    || TableView<TField, TDAO>.Observer.TableFieldsChanged)
+            if (Observer.QuickFilterFieldsChanged
+                    || Observer.QuickFilterTextFieldsChanged
+                    || Observer.SortingFieldsChanged
+                    || Observer.TableFieldsChanged)
                 Renew();
 
             CurrentInfoCard?.ApplySettings();

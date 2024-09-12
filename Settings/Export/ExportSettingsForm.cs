@@ -255,10 +255,7 @@ namespace OxXMLEngine.Settings
         private void SetupControl(Control control, OxFrame frame, OxPane? parent, Color baseColor, string caption)
         {
             List<Control> framesControls = FramesControls[frame];
-
-            if (parent == null)
-                parent = frame;
-
+            parent ??= frame;
             control.Top = GetLastControlBottom(frame);
             control.Parent = parent;
             control.Height = 24;
@@ -427,16 +424,16 @@ namespace OxXMLEngine.Settings
             IsSimplePanel = true
         };
 
-        private readonly OxPanel htmlGeneralPanel = CreateExtraPanel(172);
-        private readonly OxPanel htmlsPanel = CreateExtraPanel(100);
+        private readonly OxPanel htmlGeneralPanel = CreateExtraPanel(216);
+        private readonly OxPanel htmlsPanel = CreateExtraPanel(144);
         private readonly FieldsPanel<TField, TDAO> htmlFieldsPanel = new(FieldsVariant.Html);
         public readonly SortingPanel<TField, TDAO> htmlSortingPanel = new(SortingVariant.Export, ControlScope.Html);
         private readonly EnumAccessor<TField, TDAO, ExportSummaryType> htmlSummaryAccessor;
         private readonly IControlAccessor htmlIncludeParamsAccessor;
         private readonly IControlAccessor zeroSummaryAccessor;
 
-        private readonly OxPanel textsPanel = CreateExtraPanel(120);
-        private readonly OxPanel textGeneralPanel = CreateExtraPanel(60);
+        private readonly OxPanel textsPanel = CreateExtraPanel(144);
+        private readonly OxPanel textGeneralPanel = CreateExtraPanel(84);
         private readonly FieldsPanel<TField, TDAO> inlineFieldsPanel = new(FieldsVariant.Inline);
         public readonly SortingPanel<TField, TDAO> groupByPanel = new(SortingVariant.GroupBy, ControlScope.Grouping);
         private readonly EnumAccessor<TField, TDAO, ExportSummaryType> textSummaryAccessor;

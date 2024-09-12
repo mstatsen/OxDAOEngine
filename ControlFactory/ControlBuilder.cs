@@ -158,9 +158,9 @@ namespace OxXMLEngine.ControlFactory
                             if (fieldHelper.CalcedFields.Contains(field))
                                 currentDecorator = decorator;
 
-                            if (fieldHelper.EditingFieldsExtended.Contains(field))
-                                currentDecorator = simpleDecorator;
-                            else currentDecorator = null;
+                            currentDecorator = fieldHelper.EditingFieldsExtended.Contains(field) 
+                                ? simpleDecorator 
+                                : null;
 
                             break;
                     }
@@ -176,13 +176,20 @@ namespace OxXMLEngine.ControlFactory
                     continue;
 
                 accessor.ValueChangeHandler -= ModifiedHandler;
-                accessor.RenewControl();
 
-                if (accessor is IDependedControl dependedAccessor)
-                    dependedAccessor.ApplyDependencies();
+                try
+                {
+                    accessor.RenewControl();
 
-                accessor.Value = value;
-                accessor.ValueChangeHandler += ModifiedHandler;
+                    if (accessor is IDependedControl dependedAccessor)
+                        dependedAccessor.ApplyDependencies();
+
+                    accessor.Value = value;
+                }
+                finally
+                {
+                    accessor.ValueChangeHandler += ModifiedHandler;
+                }
             }
 
             Modified = false;

@@ -3,7 +3,7 @@
     public interface IDataReceiver
     {
         void FillData();
-        void ApplySettings();
+        void ApplySettings(bool firstLoad);
         void SaveSettings();
     }
 }

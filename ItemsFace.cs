@@ -195,7 +195,7 @@ namespace OxXMLEngine
         private static DAOSettings<TField, TDAO> Settings =>
             SettingsManager.DAOSettings<TField, TDAO>();
 
-        public virtual void ApplySettings()
+        public virtual void ApplySettings(bool firstLoad)
         {
             /*
             if (ItemsFace<TField, TDAO>.Settings.Observer.SortingFieldsChanged)
@@ -204,32 +204,43 @@ namespace OxXMLEngine
                 SortList();
             }
             */
+            if (firstLoad)
+            {
+                categoriesTree.ActiveCategoryChanged -= ActiveCategoryChangedHandler;
+                Settings.Observer.QuickFilterFieldsChanged = false;
+                Settings.Observer.QuickFilterTextFieldsChanged = false;
+                Settings.Observer.SortingFieldsChanged = false;
+                Settings.Observer.TableFieldsChanged = false;
+            }
 
             tableView.ApplySettings();
             //sortingPanel.ApplySettings();
             quickFilter.ApplySettings();
             categoriesTree.ApplySettings();
 
+            if (firstLoad)
+                categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;
+
             if (Settings.Observer.QuickFilterFieldsChanged)
                 quickFilter.RecalcPaddings();
 
             if (Settings.Observer[DAOSetting.ShowIcons])
             {
-                tabControl.TabButtons[iconsView].Visible = ItemsFace<TField, TDAO>.Settings.ShowIcons;
-                iconsView.Visible = ItemsFace<TField, TDAO>.Settings.ShowIcons;
+                tabControl.TabButtons[iconsView].Visible = Settings.ShowIcons;
+                iconsView.Visible = Settings.ShowIcons;
             }
 
             iconsView.ApplySettings();
 
             if (Settings.Observer[DAOSetting.ShowCards])
             {
-                tabControl.TabButtons[cardsView].Visible = ItemsFace<TField, TDAO>.Settings.ShowCards;
-                cardsView.Visible = ItemsFace<TField, TDAO>.Settings.ShowCards;
+                tabControl.TabButtons[cardsView].Visible = Settings.ShowCards;
+                cardsView.Visible = Settings.ShowCards;
             }
 
             cardsView.ApplySettings();
 
-            if (Settings.Observer.SummaryFieldsChanged)
+            if (!firstLoad && Settings.Observer.SummaryFieldsChanged)
                 summaryView.RefreshData();
         }
 

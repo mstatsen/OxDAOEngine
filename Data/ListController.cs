@@ -262,10 +262,8 @@ namespace OxXMLEngine.Data
             public override DataGridViewCellStyle? GetCellStyle(ItemHistory<TField, TDAO>? item, TField field, bool selected = false) => 
                 DAOPainter?.GetCellStyle(item?.DAO, field, selected);
 
-            public HistoryGridPainter(ItemsGrid<TField, ItemHistory<TField, TDAO>> grid) : base(grid.GridFieldColumns)
-            {
+            public HistoryGridPainter(ItemsGrid<TField, ItemHistory<TField, TDAO>> grid) : base(grid.GridFieldColumns) => 
                 DAOPainter = DataManager.ControlFactory<TField, TDAO>().CreateGridPainter(grid.GridFieldColumns, grid.Usage);
-            }
         }
 
         public void ViewHistory()
@@ -346,7 +344,6 @@ namespace OxXMLEngine.Data
         public int AddedCount => History.AddedCount;
         public int RemovedCount => History.RemovedCount;
         
-
         public void Delete(RootListDAO<TField, TDAO> list)
         {
             string messageBase = "Are you sure you want to delete selected";
@@ -369,10 +366,8 @@ namespace OxXMLEngine.Data
         }
 
         protected virtual void RegisterHelpers() { }
-
         protected string GetFileName() => $"{Name}.xml";
         public string FileName => GetFileName();
-
         public abstract string Name { get; }
 
         public static void Init()

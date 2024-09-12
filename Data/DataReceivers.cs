@@ -9,7 +9,7 @@ namespace OxXMLEngine.Data
         public static void Register(IDataReceiver receiver) =>
             Receivers.Add(receiver);
 
-        public static void ApplySettings(bool fullApplies = false)
+        public static void ApplySettings(bool fullApplies = false, bool firstLoad = false)
         { 
             if (fullApplies)
                 SettingsManager.SetFullApplies(true);
@@ -19,7 +19,7 @@ namespace OxXMLEngine.Data
             try
             {
                 foreach (IDataReceiver receiver in Receivers)
-                    receiver.ApplySettings();
+                    receiver.ApplySettings(firstLoad);
             }
             finally
             {
@@ -32,7 +32,7 @@ namespace OxXMLEngine.Data
 
         public static void FillData()
         {
-            ApplySettings(true);
+            ApplySettings(true, true);
 
             foreach (IDataReceiver receiver in Receivers)
                 receiver.FillData();

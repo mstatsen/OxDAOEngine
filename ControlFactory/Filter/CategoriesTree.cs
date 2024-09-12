@@ -316,7 +316,7 @@ namespace OxXMLEngine.ControlFactory.Filter
                 || Observer[DAOSetting.AutoExpandCategories]
                 || Observer[DAOSetting.HideEmptyCategory]
                 || Observer[DAOSetting.ShowCategories])
-            RefreshCategories();
+                RefreshCategories();
         }
 
         public override void SaveSettings()
