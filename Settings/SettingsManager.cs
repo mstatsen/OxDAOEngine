@@ -5,12 +5,12 @@ namespace OxXMLEngine.Settings
     public static class SettingsManager
     {
         public static readonly List<ISettingsController> Controllers = new();
-        private static readonly Dictionary<Type, ISettingsController> DAOControllers = new();
+        public static readonly Dictionary<ISettingsController, IDataController> DAOControllers = new();
 
-        public static void Register<TField>(ISettingsController settings)
+        public static void Register<TField>(ISettingsController settings, IDataController dataController)
             where TField : notnull, Enum
         {
-            DAOControllers.Add(typeof(TField), settings);
+            DAOControllers.Add(settings, dataController);
             Register(settings);
         }
 

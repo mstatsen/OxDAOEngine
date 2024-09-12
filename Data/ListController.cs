@@ -10,7 +10,6 @@ using OxXMLEngine.Editor;
 using OxXMLEngine.Export;
 using OxXMLEngine.Grid;
 using OxXMLEngine.Settings;
-using OxXMLEngine.Statistic;
 using OxXMLEngine.Summary;
 using OxXMLEngine.View;
 using System.Xml;
@@ -374,7 +373,9 @@ namespace OxXMLEngine.Data
         {
             DataManager.Init();
             TListController instance = (TListController)DataManager.Register<TField>(new TListController());
-            SettingsManager.Register<TField>(instance.Settings);
+            instance.Settings.AvailableSummary = instance.AvailableSummary;
+            instance.Settings.AvailableCategories = instance.AvailableCategories;
+            SettingsManager.Register<TField>(instance.Settings, instance);
         }
 
         public DAOSettings<TField, TDAO> Settings { get; private set; }
@@ -464,5 +465,8 @@ namespace OxXMLEngine.Data
                 return exportController;
             }
         }
+
+        public virtual bool AvailableSummary => true;
+        public virtual bool AvailableCategories => true;
     }
 }

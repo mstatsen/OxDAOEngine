@@ -1,5 +1,4 @@
-﻿using OxLibrary.Dialogs;
-using OxLibrary.Panels;
+﻿using OxLibrary.Panels;
 using OxXMLEngine.ControlFactory;
 using OxXMLEngine.Data.Decorator;
 using OxXMLEngine.Data.Filter;
@@ -57,6 +56,8 @@ namespace OxXMLEngine.Data
         void Sort();
         List<ISummaryPanel>? GeneralSummaries { get; }
         FieldSortings<TField, TDAO>? DefaultSorting();
+        bool AvailableSummary { get; }
+        bool AvailableCategories { get; }
     }
 
     public interface IListController<TField, TDAO, TFieldGroup>

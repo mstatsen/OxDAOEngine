@@ -32,6 +32,8 @@ namespace OxXMLEngine.Settings
         List<object> GetFields(SettingsPart part);
         void SetFields(SettingsPart part, List<object> value);
         IFieldsPanel CreateFieldsPanel(SettingsPart part, Control parent);
+        bool AvailableSummary { get; set; }
+        bool AvailableCategories { get; set; }
     }
 
     public interface IDAOSettings<TField> : IDAOSettings

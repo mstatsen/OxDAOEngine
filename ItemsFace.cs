@@ -33,12 +33,16 @@ namespace OxXMLEngine
             tableView = CreateTableView();
             cardsView = CreateView(ItemsViewsType.Cards);
             iconsView = CreateView(ItemsViewsType.Icons);
-            summaryView = CreateSummaryView();
+
+            if (ListController.AvailableSummary)
+                summaryView = CreateSummaryView();
+
             ActivateFirstPage();
 
             PrepareQuickFilter();
             PrepareLoadingPanel();
             PrepareCategoriesTree();
+
             //sortingPanel.Visible = false;
 
             statisticPanel = CreateStatisticPanel();
@@ -216,6 +220,7 @@ namespace OxXMLEngine
             tableView.ApplySettings();
             //sortingPanel.ApplySettings();
             quickFilter.ApplySettings();
+
             categoriesTree.ApplySettings();
 
             if (firstLoad)
@@ -240,8 +245,10 @@ namespace OxXMLEngine
 
             cardsView.ApplySettings();
 
-            if (!firstLoad && Settings.Observer.SummaryFieldsChanged)
-                summaryView.RefreshData();
+            if (ListController.AvailableSummary && 
+                !firstLoad && 
+                Settings.Observer.SummaryFieldsChanged)
+                summaryView!.RefreshData();
         }
 
         public virtual void SaveSettings()
@@ -326,7 +333,7 @@ namespace OxXMLEngine
 
             try
             {
-                ListController.Category = categoriesTree?.ActiveCategory;
+                ListController.Category = categoriesTree.ActiveCategory;
 
                 if (needFillTableView)
                     tableView.FillGrid();
@@ -343,7 +350,10 @@ namespace OxXMLEngine
         public void FillData()
         {
             ChangeActiveCategory(true);
-            summaryView.RefreshData();
+
+            if (ListController.AvailableSummary)
+                summaryView!.RefreshData();
+
             ApplyQuickFilter(true);
         }
 
@@ -397,7 +407,7 @@ namespace OxXMLEngine
         private readonly TableView<TField, TDAO> tableView;
         private readonly ItemsView<TField, TDAO> cardsView;
         private readonly ItemsView<TField, TDAO> iconsView;
-        private readonly SummaryView<TField, TDAO> summaryView;
+        private readonly SummaryView<TField, TDAO>? summaryView;
         private readonly QuickFilterPanel<TField, TDAO> quickFilter = new(QuickFilterVariant.Base);
         private readonly CategoriesTree<TField, TDAO> categoriesTree = new();
         private readonly OxLoadingPanel loadingPanel = new();

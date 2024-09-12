@@ -11,7 +11,9 @@
         public const string CompleteTime = "CompleteTime";
         public const string ConsoleId = "ConsoleId";
         public const string Count = "Count";
+        public const string Country = "Country";
         public const string CriticScore = "CriticScore";
+        public const string Default = "Default";
         public const string DefaultIndent = "    ";
         public const string Description = "Description";
         public const string Developer = "Developer";
@@ -43,14 +45,17 @@
         public const string Indent = "Indent";
         public const string Language = "Language";
         public const string Licensed = "Licensed";
+        public const string Login = "Login";
         public const string Mode = "Mode";
         public const string Model = "Model";
         public const string Name = "Name";
         public const string Net = "Net";
+        public const string Password = "Password";
         public const string PEGI = "PEGI";
         public const string Placement = "Placement";
         public const string Platform = "Platform";
         public const string Platinum = "Platinum";
+        public const string PSNProfilesLink = "PSNProfilesLink";
         public const string Publisher = "Publisher";
         public const string Region = "Region";
         public const string ROMs = "ROMs";
@@ -65,6 +70,7 @@
         public const string SortOrder = "SortOrder";
         public const string Source = "Source";
         public const string StorageId = "StorageId";
+        public const string StrategeLink = "StrategeLink";
         public const string JoystickType = "JoystickType";
         public const string SummaryType = "Summary";
         public const string Tag = "Tag";

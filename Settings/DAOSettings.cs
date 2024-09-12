@@ -62,8 +62,8 @@ namespace OxXMLEngine.Settings
 
         public bool ShowCategories
         {
-            get => BoolValue(DAOSetting.ShowCategories);
-            set => this[DAOSetting.ShowCategories] = value;
+            get => AvailableCategories && BoolValue(DAOSetting.ShowCategories);
+            set => this[DAOSetting.ShowCategories] = AvailableCategories && value;
         }
 
         public bool ShowItemInfo
@@ -352,6 +352,22 @@ namespace OxXMLEngine.Settings
             new DAOObserver<TField, TDAO>();
 
         public new DAOObserver<TField, TDAO> Observer => (DAOObserver<TField, TDAO>)base.Observer;
+
+        private bool availableSummary = true;
+
+        public bool AvailableSummary 
+        { 
+            get => availableSummary;
+            set => availableSummary = value; 
+        }
+
+        private bool availableCategories = true;
+
+        public bool AvailableCategories
+        {
+            get => availableCategories;
+            set => availableCategories = value;
+        }
 
         protected override bool IsBoolSettings(DAOSetting setting) =>
             setting switch

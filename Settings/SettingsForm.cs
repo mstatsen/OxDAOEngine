@@ -7,7 +7,7 @@ using OxXMLEngine.ControlFactory.Accessors;
 using OxXMLEngine.ControlFactory.Controls;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Types;
-using System.Reflection.Metadata.Ecma335;
+using System;
 
 namespace OxXMLEngine.Settings
 {
@@ -63,6 +63,9 @@ namespace OxXMLEngine.Settings
 
         private void ShowSettingsInternal(ISettingsController settings, SettingsPart part)
         {
+            if (!AvailablePart(settings, part))
+                return;
+
             startedSettings = settings;
             startedSettingsPart = part;
             DataReceivers.SaveSettings();
@@ -204,17 +207,43 @@ namespace OxXMLEngine.Settings
 
         private readonly SettingsPartHelper partHelper = TypeHelper.Helper<SettingsPartHelper>();
 
+        private bool AvailablePart(ISettingsController settings, SettingsPart part)
+        {
+            if (settings is IDAOSettings daoSettings)
+            {
+                switch (part)
+                {
+                    case SettingsPart.Category:
+                        return daoSettings.AvailableCategories;
+
+                    case SettingsPart.Summary:
+                        return daoSettings.AvailableSummary;
+                }
+            }
+
+            return true;
+        }
+
         private void CreatePanels()
         {
             foreach (ISettingsController settings in SettingsManager.Controllers)
                 foreach (SettingsPart part in PartList(settings))
+                {
+                    if (!AvailablePart(settings, part))
+                        continue;
+                    
                     CreateParamsPanel(settings, part);
+                }
         }
 
         private void CreateControl(ISettingsController settings, string setting, int columnNum = 0)
         {
             IControlAccessor accessor = settings.Accessor(setting);
             SettingsPart settingsPart = settings.Helper.Part(setting);
+
+            if (!AvailablePart(settings, settingsPart))
+                return;
+
             accessor.Parent = settingsPanels[settings][settingsPart];
             accessor.Left = 180 * (columnNum + 1);
             accessor.Top = CalcAcessorTop(
@@ -254,7 +283,11 @@ namespace OxXMLEngine.Settings
         private static int CalcAcessorTop(IControlAccessor? prevAccessor) =>
             (prevAccessor != null ? prevAccessor.Bottom : 4) + 4;
 
-        private void CreateFieldsPanel(IDAOSettings settings, SettingsPart part) => 
+        private void CreateFieldsPanel(IDAOSettings settings, SettingsPart part)
+        {
+            if (!AvailablePart(settings, part))
+                return;
+
             settingsFieldPanels[settings].Add(
                 part,
                 settings.CreateFieldsPanel(
@@ -262,13 +295,19 @@ namespace OxXMLEngine.Settings
                     settingsPanels[settings][part == SettingsPart.QuickFilterText ? SettingsPart.QuickFilter : part]
                 )
             );
+        }
 
         private void CreateFieldsPanels()
         {
             foreach (ISettingsController settings in SettingsManager.Controllers)
                 if (settings is IDAOSettings daoSettings)
                     foreach (SettingsPart part in partHelper.FieldsSettings)
+                    {
+                        if (!AvailablePart(settings, part))
+                            continue;
+
                         CreateFieldsPanel(daoSettings, part);
+                    }
         }
 
         private void CreateControls()
@@ -309,6 +348,9 @@ namespace OxXMLEngine.Settings
         private void RelocateControls(ISettingsController settings, SettingsPart part, 
             List<string>? settingList = null, string caption = "")
         {
+            if (!AvailablePart(settings, part))
+                return;
+
             settingList ??= settings.Helper.ItemsByPart(part);
 
             if (settingList == null || settingList.Count == 0)

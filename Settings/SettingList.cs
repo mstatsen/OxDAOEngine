@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OxXMLEngine.Settings
+﻿namespace OxXMLEngine.Settings
 {
     public class SettingList<TSetting> : List<TSetting>
         where TSetting : Enum

@@ -102,6 +102,10 @@ namespace OxXMLEngine.Statistic
 
             switch (type)
             {
+                case StatisticType.Category:
+                    label.Visible = ListController.AvailableCategories;
+                    break;
+
                 case StatisticType.Modified:
                 case StatisticType.Added:
                 case StatisticType.Deleted:
