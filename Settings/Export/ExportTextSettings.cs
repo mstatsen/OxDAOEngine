@@ -2,7 +2,7 @@
 using OxXMLEngine.Data.Sorting;
 using System.Xml;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Export
 {
     public class ExportTextSettings<TField, TDAO> : AbstractTextExportSettings<TField>
         where TField : notnull, Enum

@@ -5,7 +5,7 @@ using OxXMLEngine.Export;
 using OxXMLEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Export
 {
     public class ExportSettings<TField, TDAO> : DAO
         where TField : notnull, Enum
@@ -43,7 +43,7 @@ namespace OxXMLEngine.Settings
             }
         }
 
-        public string GetFileName(ExportFormat format) => 
+        public string GetFileName(ExportFormat format) =>
             format switch
             {
                 ExportFormat.Html => HTML.FileName,

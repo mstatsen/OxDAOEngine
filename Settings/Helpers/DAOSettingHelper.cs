@@ -2,11 +2,11 @@
 using OxXMLEngine.Data.Filter;
 using OxXMLEngine.View;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Helpers
 {
     public class DAOSettingHelper : SettingHelper<DAOSetting>
     {
-        public override string GetName(DAOSetting setting) => 
+        public override string GetName(DAOSetting setting) =>
             setting switch
             {
                 DAOSetting.CardsPageSize => "Cards' View page size",
@@ -31,10 +31,10 @@ namespace OxXMLEngine.Settings
                 _ => string.Empty,
             };
 
-        public override bool IsDAOSetting(DAOSetting setting) => 
+        public override bool IsDAOSetting(DAOSetting setting) =>
             setting == DAOSetting.IconMapping;
 
-        public override object? Default(DAOSetting setting) => 
+        public override object? Default(DAOSetting setting) =>
             setting switch
             {
                 DAOSetting.ShowCategories or
@@ -67,44 +67,44 @@ namespace OxXMLEngine.Settings
             };
 
 
-        public override SettingsPart Part(DAOSetting setting) => 
+        public override SettingsPart Part(DAOSetting setting) =>
             setting switch
             {
-                DAOSetting.ShowCategories or 
-                DAOSetting.HideEmptyCategory or 
-                DAOSetting.AutoExpandCategories => 
+                DAOSetting.ShowCategories or
+                DAOSetting.HideEmptyCategory or
+                DAOSetting.AutoExpandCategories =>
                     SettingsPart.Category,
-                DAOSetting.ShowItemInfo => 
+                DAOSetting.ShowItemInfo =>
                     SettingsPart.Table,
-                DAOSetting.ShowCards or 
-                DAOSetting.CardsPageSize or 
-                DAOSetting.ShowIcons or 
-                DAOSetting.IconsSize or 
-                DAOSetting.IconsPageSize or 
-                DAOSetting.IconMapping or 
-                DAOSetting.IconClickVariant => 
+                DAOSetting.ShowCards or
+                DAOSetting.CardsPageSize or
+                DAOSetting.ShowIcons or
+                DAOSetting.IconsSize or
+                DAOSetting.IconsPageSize or
+                DAOSetting.IconMapping or
+                DAOSetting.IconClickVariant =>
                     SettingsPart.View,
-                DAOSetting.QuickFilterTextFieldOperation => 
+                DAOSetting.QuickFilterTextFieldOperation =>
                     SettingsPart.QuickFilter,
-                DAOSetting.SummarySorting => 
+                DAOSetting.SummarySorting =>
                     SettingsPart.Summary,
                 _ => SettingsPart.Full,
             };
 
-        protected override bool IsVisible(DAOSetting setting) => 
+        protected override bool IsVisible(DAOSetting setting) =>
             setting switch
             {
-                DAOSetting.ShowItemInfo or 
-                DAOSetting.ShowCategories or 
-                DAOSetting.HideEmptyCategory or 
-                DAOSetting.AutoExpandCategories or 
-                DAOSetting.ShowCards or 
-                DAOSetting.CardsPageSize or 
-                DAOSetting.ShowIcons or 
-                DAOSetting.IconsPageSize or 
-                DAOSetting.IconMapping or 
-                DAOSetting.IconsSize or 
-                DAOSetting.IconClickVariant or 
+                DAOSetting.ShowItemInfo or
+                DAOSetting.ShowCategories or
+                DAOSetting.HideEmptyCategory or
+                DAOSetting.AutoExpandCategories or
+                DAOSetting.ShowCards or
+                DAOSetting.CardsPageSize or
+                DAOSetting.ShowIcons or
+                DAOSetting.IconsPageSize or
+                DAOSetting.IconMapping or
+                DAOSetting.IconsSize or
+                DAOSetting.IconClickVariant or
                 DAOSetting.QuickFilterTextFieldOperation =>
                     true,//case DAOSetting.SummarySorting:
                 _ => false,
@@ -118,7 +118,7 @@ namespace OxXMLEngine.Settings
             };
 
         public override SettingList<DAOSetting> IconSettings =>
-            new ()
+            new()
             {
                 DAOSetting.ShowIcons,
                 DAOSetting.IconsPageSize,
@@ -127,7 +127,7 @@ namespace OxXMLEngine.Settings
                 DAOSetting.IconClickVariant
             };
 
-        public override int ControlWidth(DAOSetting setting) => 
+        public override int ControlWidth(DAOSetting setting) =>
             setting switch
             {
                 DAOSetting.IconClickVariant => 160,

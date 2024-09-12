@@ -1,11 +1,10 @@
-﻿using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data.Types;
+﻿using OxXMLEngine.Data.Types;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Part
 {
     public class SettingsPartHelper : AbstractTypeHelper<SettingsPart>
     {
-        public override string GetName(SettingsPart part) => 
+        public override string GetName(SettingsPart part) =>
             part switch
             {
                 SettingsPart.Table => "Table",

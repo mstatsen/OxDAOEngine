@@ -1,7 +1,6 @@
 ﻿using OxXMLEngine.Data;
-using System;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Observers
 {
     public class DAOObserver<TField, TDAO>
         : SettingsObserver<DAOSetting, DAOSettings<TField, TDAO>>, ISettingsObserver<DAOSetting>

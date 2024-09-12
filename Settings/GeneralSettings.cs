@@ -1,4 +1,5 @@
 ﻿using OxXMLEngine.Settings.ControlFactory;
+using OxXMLEngine.Settings.Observers;
 using OxXMLEngine.SystemEngine;
 
 namespace OxXMLEngine.Settings

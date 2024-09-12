@@ -3,6 +3,7 @@ using OxLibrary.Controls;
 using OxLibrary.Panels;
 using OxXMLEngine.Data;
 using OxXMLEngine.Settings;
+using OxXMLEngine.Settings.Observers;
 
 namespace OxXMLEngine.ControlFactory
 {

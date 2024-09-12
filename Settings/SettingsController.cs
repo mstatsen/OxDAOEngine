@@ -3,6 +3,8 @@ using OxXMLEngine.ControlFactory;
 using OxXMLEngine.ControlFactory.Accessors;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Types;
+using OxXMLEngine.Settings.Helpers;
+using OxXMLEngine.Settings.Observers;
 using OxXMLEngine.SystemEngine;
 using OxXMLEngine.XML;
 using System.Xml;

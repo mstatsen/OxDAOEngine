@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OxXMLEngine.Settings
+﻿namespace OxXMLEngine.Settings.Observers
 {
     public interface ISettingsObserver
     {

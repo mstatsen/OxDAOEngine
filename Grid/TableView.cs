@@ -4,6 +4,7 @@ using OxLibrary.Panels;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Filter;
 using OxXMLEngine.Settings;
+using OxXMLEngine.Settings.Observers;
 using OxXMLEngine.View;
 
 namespace OxXMLEngine.Grid

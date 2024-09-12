@@ -1,5 +1,6 @@
 ﻿using OxXMLEngine.Data;
 using OxXMLEngine.Settings;
+using OxXMLEngine.Settings.Export;
 using System.Diagnostics;
 
 namespace OxXMLEngine.Export

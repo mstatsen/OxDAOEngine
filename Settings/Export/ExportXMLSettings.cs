@@ -1,7 +1,7 @@
 ﻿using OxXMLEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Export
 {
     public class ExportXMLSettings : AbstractExportSettings
     {

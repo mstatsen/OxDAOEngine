@@ -12,6 +12,7 @@ using OxXMLEngine.Data.Filter;
 using OxXMLEngine.Data.Sorting;
 using OxXMLEngine.Data.Types;
 using OxXMLEngine.Export;
+using OxXMLEngine.Settings.Export;
 
 namespace OxXMLEngine.Settings
 {

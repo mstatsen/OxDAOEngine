@@ -4,7 +4,6 @@ using OxXMLEngine.Data.Types;
 using OxXMLEngine.Settings.Data;
 using OxXMLEngine.SystemEngine;
 using OxXMLEngine.View;
-using System;
 
 namespace OxXMLEngine.Settings.ControlFactory.Controls
 {

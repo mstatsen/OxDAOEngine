@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Settings
+﻿namespace OxXMLEngine.Settings.Observers
 {
     public class SettingsObserver<TSetting, TSettings> : ISettingsObserver<TSetting>
         where TSetting : Enum
@@ -13,28 +13,28 @@
                 object? oldValue = OldValues[setting];
 
                 if (fullApplies ||
-                    (oldValue != null && !oldValue.Equals(Controller[setting])) ||
-                    (oldValue == null && Controller[setting] != null)
+                    oldValue != null && !oldValue.Equals(Controller[setting]) ||
+                    oldValue == null && Controller[setting] != null
                     )
                     ChangedSettings.Add(setting);
             }
         }
 
-        protected virtual void Clear() => 
+        protected virtual void Clear() =>
             ChangedSettings.Clear();
 
         public bool this[TSetting setting] =>
             ChangedSettings.Contains(setting);
 
-        protected TSettings Controller => 
+        protected TSettings Controller =>
             SettingsManager.Settings<TSettings>();
 
         public virtual bool IsEmpty =>
             ChangedSettings.Count == 0;
 
         protected bool fullApplies = false;
-        public bool FullApplies 
-        { 
+        public bool FullApplies
+        {
             get => fullApplies;
             set
             {
@@ -48,7 +48,7 @@
         protected readonly SettingList<TSetting> ChangedSettings = new();
         protected readonly TSettings OldValues;
 
-        public SettingsObserver() => 
+        public SettingsObserver() =>
             OldValues = new TSettings();
 
         public void RememberState()

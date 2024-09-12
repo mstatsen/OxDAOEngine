@@ -1,6 +1,6 @@
 ﻿using OxXMLEngine.Data.Types;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Helpers
 {
     public abstract class SettingHelper<TSetting> : AbstractTypeHelper<TSetting>, ISettingHelper
         where TSetting : Enum
@@ -56,13 +56,13 @@ namespace OxXMLEngine.Settings
 
         public TSetting ParseSetting(string setting) => TypeHelper.Parse<TSetting>(setting);
 
-        public object? Default(string setting) => 
+        public object? Default(string setting) =>
             Default(ParseSetting(setting));
 
-        public SettingsPart Part(string setting) => 
+        public SettingsPart Part(string setting) =>
             Part(ParseSetting(setting));
 
-        List<string> ISettingHelper.ItemsByPart(SettingsPart part) => 
+        List<string> ISettingHelper.ItemsByPart(SettingsPart part) =>
             SettingsByPart(part).StringList;
 
         public bool IsDAOSetting(string setting) => IsDAOSetting(ParseSetting(setting));

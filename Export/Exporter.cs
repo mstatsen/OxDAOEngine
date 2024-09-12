@@ -1,6 +1,7 @@
 ﻿using OxXMLEngine.Data;
 using OxXMLEngine.Data.Sorting;
 using OxXMLEngine.Settings;
+using OxXMLEngine.Settings.Export;
 
 namespace OxXMLEngine.Export
 {

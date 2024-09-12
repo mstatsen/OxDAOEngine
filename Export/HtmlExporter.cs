@@ -8,6 +8,7 @@ using OxXMLEngine.Data.Types;
 using OxXMLEngine.Settings;
 using System.Text;
 using OxXMLEngine.View;
+using OxXMLEngine.Settings.Export;
 
 namespace OxXMLEngine.Export
 {

@@ -1,5 +1,7 @@
 ﻿using OxXMLEngine.ControlFactory.Accessors;
 using OxXMLEngine.Data;
+using OxXMLEngine.Settings.Helpers;
+using OxXMLEngine.Settings.Observers;
 
 namespace OxXMLEngine.Settings
 {

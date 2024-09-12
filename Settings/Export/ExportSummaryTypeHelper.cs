@@ -1,12 +1,12 @@
 ﻿using OxXMLEngine.Data.Types;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Export
 {
     public class ExportSummaryTypeHelper : AbstractTypeHelper<ExportSummaryType>
     {
         public override ExportSummaryType EmptyValue() => ExportSummaryType.Exported;
 
-        public override string GetName(ExportSummaryType value) => 
+        public override string GetName(ExportSummaryType value) =>
             value switch
             {
                 ExportSummaryType.None => "None",

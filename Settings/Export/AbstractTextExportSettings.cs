@@ -3,7 +3,7 @@ using OxXMLEngine.XML;
 using System.Xml;
 using OxXMLEngine.Data.Fields;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Export
 {
     public abstract class AbstractTextExportSettings<TField> : AbstractExportSettings
         where TField : notnull, Enum

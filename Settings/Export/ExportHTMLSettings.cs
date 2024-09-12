@@ -5,7 +5,7 @@ using OxXMLEngine.Data.Types;
 using OxXMLEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Export
 {
     public class ExportHTMLSettings<TField, TDAO> : AbstractTextExportSettings<TField>
         where TField : notnull, Enum

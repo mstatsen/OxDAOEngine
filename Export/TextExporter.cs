@@ -6,6 +6,7 @@ using OxXMLEngine.Data.Filter;
 using OxXMLEngine.Data.Sorting;
 using OxXMLEngine.Data.Types;
 using OxXMLEngine.Settings;
+using OxXMLEngine.Settings.Export;
 using OxXMLEngine.XML;
 using System.Text;
 

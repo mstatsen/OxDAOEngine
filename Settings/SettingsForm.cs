@@ -7,6 +7,7 @@ using OxXMLEngine.ControlFactory.Accessors;
 using OxXMLEngine.ControlFactory.Controls;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Types;
+using OxXMLEngine.Settings.Part;
 using System;
 
 namespace OxXMLEngine.Settings

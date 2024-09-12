@@ -1,8 +1,8 @@
-﻿namespace OxXMLEngine.Settings
+﻿namespace OxXMLEngine.Settings.Helpers
 {
     public class GeneralSettingHelper : SettingHelper<GeneralSetting>
     {
-        public override object? Default(GeneralSetting setting) => 
+        public override object? Default(GeneralSetting setting) =>
             setting switch
             {
                 GeneralSetting.MainFormState =>
@@ -17,7 +17,7 @@
                     null,
             };
 
-        public override string GetName(GeneralSetting value) => 
+        public override string GetName(GeneralSetting value) =>
             value switch
             {
                 GeneralSetting.MainFormState => "MainFormState",
@@ -28,7 +28,7 @@
                 _ => string.Empty,
             };
 
-        public override SettingsPart Part(GeneralSetting setting) => 
+        public override SettingsPart Part(GeneralSetting setting) =>
             setting switch
             {
                 GeneralSetting.ShowCustomizeButtons or
@@ -41,15 +41,15 @@
                     SettingsPart.Full,
             };
 
-        protected override bool IsVisible(GeneralSetting setting) => 
+        protected override bool IsVisible(GeneralSetting setting) =>
             setting switch
             {
-                GeneralSetting.ShowCustomizeButtons or 
-                GeneralSetting.ColorizePanels or 
+                GeneralSetting.ShowCustomizeButtons or
+                GeneralSetting.ColorizePanels or
                 GeneralSetting.DarkerHeaders or
                 GeneralSetting.DoublePinButtons =>
                     true,
-                _ => 
+                _ =>
                     false,
             };
     }

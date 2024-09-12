@@ -1,6 +1,6 @@
 ﻿using OxXMLEngine.Data.Types;
 
-namespace OxXMLEngine.Settings
+namespace OxXMLEngine.Settings.Helpers
 {
     public interface ISettingHelper : ITypeHelper
     {
