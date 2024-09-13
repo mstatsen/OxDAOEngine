@@ -315,7 +315,8 @@ namespace OxXMLEngine.Data
                 : string.Empty;
 
         public static Guid GuidValue(object? value) =>
-            value != null
+            value != null && 
+            value.ToString() != string.Empty
                 ? (Guid)value
                 : Guid.Empty;
     }

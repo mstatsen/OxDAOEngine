@@ -50,6 +50,7 @@
         public const string Model = "Model";
         public const string Name = "Name";
         public const string Net = "Net";
+        public const string Owner = "Owner";
         public const string Password = "Password";
         public const string PEGI = "PEGI";
         public const string Placement = "Placement";

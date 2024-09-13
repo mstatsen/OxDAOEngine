@@ -3,10 +3,12 @@
     public enum GeneralSetting
     {
         Empty,
-        MainFormState,
         ShowCustomizeButtons,
+        CurrentView,
         ColorizePanels,
         DarkerHeaders,
-        DoublePinButtons
+        DoublePinButtons,
+        MainFormState,
+        CurrentController
     }
 }

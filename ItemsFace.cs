@@ -21,36 +21,61 @@ namespace OxXMLEngine
 
         public ItemsFace()
         {
+            VisibleChanged += OnVisibleChanged;
             DataReceivers.Register(this);
-            Text = ListController.Name;
-            Dock = DockStyle.Fill;
-            Font = EngineStyles.DefaultFont;
-            BaseColor = Colors.Darker(2);
-
-            tabControlPanel.Parent = this;
-            tabControlPanel.Dock = DockStyle.Fill;
+            PrepareFace();
+            PrepareTabControlParent();
             tabControl = CreateTabControl();
             tableView = CreateTableView();
             cardsView = CreateView(ItemsViewsType.Cards);
             iconsView = CreateView(ItemsViewsType.Icons);
-
-            if (ListController.AvailableSummary)
-                summaryView = CreateSummaryView();
-
-            ActivateFirstPage();
-
+            summaryView = CreateSummaryView();
             PrepareQuickFilter();
             PrepareLoadingPanel();
             PrepareCategoriesTree();
-
             //sortingPanel.Visible = false;
-
             statisticPanel = CreateStatisticPanel();
-            ListController.ListChanged += (s, e) => ApplyQuickFilter(true);
-            ListController.OnAfterLoad += (s, e) => quickFilter.RenewFilterControls();
-            tabControl.ActivatePage += (s, e) => ApplyQuickFilter(true);
+            ActivateTableView();
+            SetQuickFilterHandlers();
             statisticPanel.Renew();
             //tabControl.DeactivatePage += DeactivatePageHandler;
+        }
+
+        private void OnVisibleChanged(object? sender, EventArgs e) =>
+            SetTabButtonsVisible();
+
+        private void PrepareFace()
+        {
+            Text = ListController.Name;
+            Dock = DockStyle.Fill;
+            Font = EngineStyles.DefaultFont;
+            BaseColor = Colors.Darker(2);
+        }
+
+        private void SetQuickFilterHandlers()
+        {
+            if (ListController.AvailableQuickFilter)
+                ListController.OnAfterLoad += (s, e) => quickFilter.RenewFilterControls();
+
+            ListController.ListChanged += (s, e) => ApplyQuickFilter(true);
+            tabControl.ActivatePage += (s, e) => ApplyQuickFilter(true);
+            tabControl.ActivatePage += (s, e) => SaveCurrentView(e);
+        }
+
+        private void SaveCurrentView(OxTabControlEventArgs e)
+        {
+            foreach (KeyValuePair<ItemsViewsType, OxPane> view in Views)
+                if (view.Value == e.Page)
+                {
+                    Settings.CurrentView = view.Key;
+                    return;
+                };
+        }
+
+        private void PrepareTabControlParent()
+        {
+            tabControlPanel.Parent = this;
+            tabControlPanel.Dock = DockStyle.Fill;
         }
 
         private StatisticPanel<TField, TDAO> CreateStatisticPanel() =>
@@ -60,14 +85,18 @@ namespace OxXMLEngine
                 Parent = tabControlPanel
             };
 
-        private void ActivateFirstPage()
+        private void ActivateTableView() => 
+            tabControl.ActivePage = Views[ItemsViewsType.Table];
+
+        private void ActivateSavedView()
         {
             IOxPane? firstPage = tabControl.Pages.First;
 
             if (firstPage != null)
                 tabControl.TabButtons[firstPage].Margins.LeftOx = OxSize.Medium;
 
-            tabControl.ActivePage = firstPage;
+            tabControl.ActivePage = Views[Settings.CurrentView];
+            tabControl.Update();
         }
 
         private OxTabControl CreateTabControl()
@@ -88,8 +117,20 @@ namespace OxXMLEngine
             return result;
         }
 
-        private ItemsView<TField, TDAO> CreateView(ItemsViewsType viewType)
+        private ItemsView<TField, TDAO>? CreateView(ItemsViewsType viewType)
         {
+            switch (viewType)
+            { 
+                case ItemsViewsType.Cards:
+                    if (!ListController.AvailableCards)
+                        return null;
+                    break;
+                case ItemsViewsType.Icons:
+                    if (!ListController.AvailableIcons)
+                        return null;
+                    break;
+            }    
+
             ItemsView<TField, TDAO> itemsView =
                 new(viewType)
                 {
@@ -100,8 +141,11 @@ namespace OxXMLEngine
             itemsView.LoadingStarted += (s, e) => StartLoading(s == null ? this : ((ItemsView<TField, TDAO>)s).ContentContainer);
             itemsView.LoadingEnded += (s, e) => EndLoading();
             tabControl.AddPage(itemsView);
+            Views.Add(viewType, itemsView);
             return itemsView;
         }
+
+        private Dictionary<ItemsViewsType, OxPane> Views = new();
 
         private TableView<TField, TDAO> CreateTableView()
         {
@@ -114,13 +158,20 @@ namespace OxXMLEngine
                 BatchUpdateCompleted = BatchUpdateCompletedHandler
             };
             result.Paddings.LeftOx = OxSize.Medium;
-            result.GridFillCompleted += (s, e) => ApplyQuickFilter();
+
+            if (ListController.AvailableQuickFilter)
+                result.GridFillCompleted += (s, e) => ApplyQuickFilter();
+
             tabControl.AddPage(result);
+            Views.Add(ItemsViewsType.Table, result);
             return result;
         }
 
-        private SummaryView<TField, TDAO> CreateSummaryView()
+        private SummaryView<TField, TDAO>? CreateSummaryView()
         {
+            if (!ListController.AvailableSummary)
+                return null;
+
             SummaryView<TField, TDAO> result = new()
             {
                 Dock = DockStyle.Fill,
@@ -129,6 +180,7 @@ namespace OxXMLEngine
             };
             result.Paddings.LeftOx = OxSize.Medium;
             tabControl.AddPage(result);
+            Views.Add(ItemsViewsType.Summary, result);
             return result;
         }
 
@@ -139,7 +191,10 @@ namespace OxXMLEngine
         {
             SortList();
             categoriesTree.RefreshCategories();
-            quickFilter.RenewFilterControls();
+
+            if (ListController.AvailableQuickFilter)
+                quickFilter.RenewFilterControls();
+
             statisticPanel.Renew();
             tableView.Renew();
             tableView.SelectFirstItem();
@@ -152,7 +207,9 @@ namespace OxXMLEngine
             try
             {
                 ListController.Sort();
-                ApplyQuickFilter(true);
+
+                if (ListController.AvailableQuickFilter)
+                    ApplyQuickFilter(true);
             }
             finally
             {
@@ -162,6 +219,9 @@ namespace OxXMLEngine
 
         private bool QuickFilterChanged()
         {
+            //if (!ListController.AvailableQuickFilter)
+                //return true;
+
             RootListDAO<TField, TDAO> newActualItemList = ListController.VisibleItemsList
                 .FilteredList(quickFilter?.ActiveFilter, Settings.Sortings.SortingsList);
 
@@ -182,13 +242,20 @@ namespace OxXMLEngine
 
             try
             {
-                tableView.ApplyQuickFilter(quickFilter.ActiveFilter);
+                if (!ListController.AvailableQuickFilter)
+                    tableView.ApplyQuickFilter(quickFilter.ActiveFilter);
 
-                if (tabControl.ActivePage == cardsView)
-                    cardsView.Fill(actualItemList);
+                /*if (actualItemList == null)
+                    actualItemList = 
+                */
 
-                if (tabControl.ActivePage == iconsView)
-                    iconsView.Fill(actualItemList);
+                if (ListController.AvailableCards && 
+                    tabControl.ActivePage == cardsView)
+                    cardsView?.Fill(actualItemList);
+
+                if (ListController.AvailableIcons && 
+                    tabControl.ActivePage == iconsView)
+                    iconsView?.Fill(actualItemList);
             }
             finally
             {
@@ -219,44 +286,65 @@ namespace OxXMLEngine
 
             tableView.ApplySettings();
             //sortingPanel.ApplySettings();
-            quickFilter.ApplySettings();
+
+            if (ListController.AvailableQuickFilter)
+                quickFilter.ApplySettings();
 
             categoriesTree.ApplySettings();
 
             if (firstLoad)
                 categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;
 
-            if (Settings.Observer.QuickFilterFieldsChanged)
+            if (ListController.AvailableQuickFilter &&
+                Settings.Observer.QuickFilterFieldsChanged)
                 quickFilter.RecalcPaddings();
 
-            if (Settings.Observer[DAOSetting.ShowIcons])
-            {
-                tabControl.TabButtons[iconsView].Visible = Settings.ShowIcons;
-                iconsView.Visible = Settings.ShowIcons;
+            if (ListController.AvailableIcons)
+            { 
+                if (Settings.Observer[DAOSetting.ShowIcons])
+                {
+                    tabControl.TabButtons[iconsView!].Visible = Settings.ShowIcons;
+                    iconsView!.Visible = Settings.ShowIcons;
+                }
+
+                iconsView?.ApplySettings();
             }
 
-            iconsView.ApplySettings();
-
-            if (Settings.Observer[DAOSetting.ShowCards])
+            if (ListController.AvailableCards)
             {
-                tabControl.TabButtons[cardsView].Visible = Settings.ShowCards;
-                cardsView.Visible = Settings.ShowCards;
-            }
+                if (Settings.Observer[DAOSetting.ShowCards])
+                {
+                    tabControl.TabButtons[cardsView!].Visible = Settings.ShowCards;
+                    cardsView!.Visible = Settings.ShowCards;
+                }
 
-            cardsView.ApplySettings();
+                cardsView!.ApplySettings();
+            }
 
             if (ListController.AvailableSummary && 
                 !firstLoad && 
                 Settings.Observer.SummaryFieldsChanged)
                 summaryView!.RefreshData();
+
+            SetTabButtonsVisible();
         }
+
+        private void SetTabButtonsVisible() =>
+            tabControl.Header.Visible =
+                (ListController.AvailableCards && Settings.ShowCards) ||
+                (ListController.AvailableIcons && Settings.ShowIcons) ||
+                ListController.AvailableSummary;
 
         public virtual void SaveSettings()
         {
             tableView.SaveSettings();
             //sortingPanel.SaveSettings();
-            quickFilter.SaveSettings();
-            categoriesTree.SaveSettings();
+
+            if (ListController.AvailableQuickFilter)
+                quickFilter.SaveSettings();
+
+            if (ListController.AvailableCategories)
+                categoriesTree.SaveSettings();
             //ItemsFace<TField, TDAO>.Settings.Sortings = sortingPanel.Sortings;
         }
 
@@ -278,6 +366,9 @@ namespace OxXMLEngine
 
         private void PrepareQuickFilter()
         {
+            if (!ListController.AvailableQuickFilter)
+                return;
+
             quickFilter.Parent = tabControlPanel;
             quickFilter.Dock = DockStyle.Top;
             quickFilter.Changed += (s, e) => ApplyQuickFilter();
@@ -292,6 +383,9 @@ namespace OxXMLEngine
 
         private void PrepareCategoriesTree()
         {
+            if (!ListController.AvailableCategories)
+                return;
+
             categoriesTree.Parent = this;
             categoriesTree.Dock = DockStyle.Left;
             categoriesTree.Margins.TopOx = OxSize.Large;
@@ -323,7 +417,8 @@ namespace OxXMLEngine
 
         public void RenewFilterControls(object? sender, CategoryEventArgs<TField, TDAO> e)
         {
-            if (e.IsFilterChanged)
+            if (ListController.AvailableQuickFilter &&
+                e.IsFilterChanged)
                 quickFilter.RenewFilterControls();
         }
 
@@ -355,6 +450,7 @@ namespace OxXMLEngine
                 summaryView!.RefreshData();
 
             ApplyQuickFilter(true);
+            ActivateSavedView();
         }
 
         protected override void PrepareColors()
@@ -378,18 +474,24 @@ namespace OxXMLEngine
         {
             base.OnVisibleChanged(e);
 
-            if (Visible)
-                quickFilter.RecalcPaddings();
+            if (ListController.AvailableQuickFilter)
+            {
+                if (Visible)
+                    quickFilter.RecalcPaddings();
 
-            quickFilter.SiderEnabled = Visible;
+                quickFilter.SiderEnabled = Visible;
 
-            if (!quickFilter.Pinned)
-                quickFilter.Expanded = false;
+                if (!quickFilter.Pinned)
+                    quickFilter.Expanded = false;
+            }
 
-            categoriesTree.SiderEnabled = Visible;
+            if (ListController.AvailableCategories)
+            {
+                categoriesTree.SiderEnabled = Visible;
 
-            if (!categoriesTree.Pinned)
-                categoriesTree.Expanded = false;
+                if (!categoriesTree.Pinned)
+                    categoriesTree.Expanded = false;
+            }
 
             if (tableView != null && tableView.CurrentInfoCard != null)
             {
@@ -405,8 +507,8 @@ namespace OxXMLEngine
             : SettingsPart.Table;
 
         private readonly TableView<TField, TDAO> tableView;
-        private readonly ItemsView<TField, TDAO> cardsView;
-        private readonly ItemsView<TField, TDAO> iconsView;
+        private readonly ItemsView<TField, TDAO>? cardsView;
+        private readonly ItemsView<TField, TDAO>? iconsView;
         private readonly SummaryView<TField, TDAO>? summaryView;
         private readonly QuickFilterPanel<TField, TDAO> quickFilter = new(QuickFilterVariant.Base);
         private readonly CategoriesTree<TField, TDAO> categoriesTree = new();

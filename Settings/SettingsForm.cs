@@ -8,14 +8,13 @@ using OxXMLEngine.ControlFactory.Controls;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Types;
 using OxXMLEngine.Settings.Part;
-using System;
 
 namespace OxXMLEngine.Settings
 {
     public partial class SettingsForm : OxDialog
     {
         private class SettingsPartDictionary<T> : Dictionary<SettingsPart, T> { }
-        private class SettingsDictionray<T, U, V> : Dictionary<ISettingsController, T>
+        private class SettingsDictionary<T, U, V> : Dictionary<ISettingsController, T>
             where T : Dictionary<U, V>, new()
             where U : notnull
         {
@@ -36,13 +35,13 @@ namespace OxXMLEngine.Settings
             }
         };
 
-        private class SettingsDictionray<T, U> : SettingsDictionray<T, SettingsPart, U>
+        private class SettingsDictionray<T, U> : SettingsDictionary<T, SettingsPart, U>
             where T : SettingsPartDictionary<U>, new() { }
         private class SettingsPartPanels : SettingsPartDictionary<OxPanel> { }
         private class SettingsPanels : SettingsDictionray<SettingsPartPanels, OxPanel> { }
         private class SettingsPartControls : SettingsDictionray<SettingsPartDictionary<ControlAccessorList>, ControlAccessorList> { }
         private class SettingsFieldPanels : SettingsDictionray<SettingsPartDictionary<IFieldsPanel>, IFieldsPanel> { }
-        private class SettingsControls : SettingsDictionray<Dictionary<string, IControlAccessor>, string, IControlAccessor> { }
+        private class SettingsControls : SettingsDictionary<Dictionary<string, IControlAccessor>, string, IControlAccessor> { }
 
         public override Bitmap FormIcon =>
             OxIcons.settings;
@@ -57,7 +56,7 @@ namespace OxXMLEngine.Settings
             CreateControls();
             MainPanel.DialogButtonStartSpace = 8;
             MainPanel.DialogButtonSpace = 4;
-
+            SetSettingsTabButtonsVisible();
             foreach (OxTabControl tabControl in settingsTabs.Values)
                 tabControl.ActivateFirstPage();
         }
@@ -100,7 +99,8 @@ namespace OxXMLEngine.Settings
         {
             foreach (var item in settingsFieldPanels)
                 foreach (SettingsPart part in partHelper.MandatoryFields)
-                    if (settingsFieldPanels[item.Key][part].Fields.Count == 0)
+                    if (AvailablePart(item.Key, part) && 
+                        settingsFieldPanels[item.Key][part].Fields.Count == 0)
                         return $"{item.Key.Name} {TypeHelper.Name(part)} fields";
            
             return base.EmptyMandatoryField();
@@ -216,9 +216,13 @@ namespace OxXMLEngine.Settings
                 {
                     case SettingsPart.Category:
                         return daoSettings.AvailableCategories;
-
                     case SettingsPart.Summary:
                         return daoSettings.AvailableSummary;
+                    case SettingsPart.QuickFilter:
+                    case SettingsPart.QuickFilterText:
+                        return daoSettings.AvailableQuickFilter;
+                    case SettingsPart.View:
+                        return daoSettings.AvailableCards || daoSettings.AvailableIcons;
                 }
             }
 
@@ -473,6 +477,27 @@ namespace OxXMLEngine.Settings
 
         private void SettingsForm_Shown(object? sender, EventArgs e) =>
             SetFormSize();
+
+        private void SetSettingsTabButtonsVisible()
+        {
+            foreach (KeyValuePair<ISettingsController, OxTabControl> item in settingsTabs)
+            {
+                if (item.Key is not IDAOSettings daoSettings)
+                    continue;
+
+                if (daoSettings.AvailableCards ||
+                    daoSettings.AvailableIcons ||
+                    daoSettings.AvailableCategories ||
+                    daoSettings.AvailableQuickFilter ||
+                    daoSettings.AvailableSummary)
+                    item.Value.Header.Visible = true;
+                else
+                {
+                    item.Value.Header.Visible = false;
+                    settingsFieldPanels[item.Key][SettingsPart.Table].Text = "Fields";
+                }
+            }
+        }
 
         private void PrepareTabControl()
         {

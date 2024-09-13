@@ -1,5 +1,4 @@
-﻿using OxLibrary.Dialogs;
-using OxLibrary.Panels;
+﻿using OxLibrary.Panels;
 using OxXMLEngine.ControlFactory;
 using OxXMLEngine.Data.Decorator;
 using OxXMLEngine.Data.Extract;
@@ -471,6 +470,18 @@ namespace OxXMLEngine.Data
             TypeHelper.Register<DAOSettingHelper>();
             SettingsManager.Init();
             initialized = true;
+        }
+
+        public static IDataController? FirstFieldController() =>
+            FieldControllers.FirstOrDefault().Value;
+
+        public static IDataController? Controller(string controllerTypeName)
+        {
+            foreach (var controller in Controllers)
+                if (controller.GetType().Name == controllerTypeName)
+                    return controller;
+
+            return FirstFieldController() ?? null;
         }
     }
 }

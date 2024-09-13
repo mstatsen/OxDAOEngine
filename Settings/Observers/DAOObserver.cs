@@ -13,6 +13,7 @@ namespace OxXMLEngine.Settings.Observers
         public bool QuickFilterTextFieldsChanged { get; internal set; }
         public bool CategoryFieldsChanged { get; internal set; }
         public bool SummaryFieldsChanged { get; internal set; }
+        public bool CurrentViewChanged { get; internal set; }
 
         public DAOObserver() : base() { }
 
@@ -23,7 +24,8 @@ namespace OxXMLEngine.Settings.Observers
             && !QuickFilterFieldsChanged
             && !QuickFilterTextFieldsChanged
             && !CategoryFieldsChanged
-            && !SummaryFieldsChanged;
+            && !SummaryFieldsChanged
+            && !CurrentViewChanged;
 
         public override void RenewChanges()
         {

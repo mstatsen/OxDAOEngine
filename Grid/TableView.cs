@@ -59,10 +59,13 @@ namespace OxXMLEngine.Grid
 
         protected virtual void CurrentItemChangeHandler(object? sender, EventArgs e) 
         {
-            bool calcedBatchUpdateAvailable = Grid.SelectedRows.Count > 1;
+            if (DataManager.ListController<TField, TDAO>().AvailableBatchUpdate)
+            {
+                bool calcedBatchUpdateAvailable = Grid.SelectedRows.Count > 1;
 
-            if (Grid.ToolBar.Actions[OxToolbarAction.Update].Enabled != calcedBatchUpdateAvailable)
-                Grid.ToolBar.Actions[OxToolbarAction.Update].Enabled = calcedBatchUpdateAvailable;
+                if (Grid.ToolBar.Actions[OxToolbarAction.Update].Enabled != calcedBatchUpdateAvailable)
+                    Grid.ToolBar.Actions[OxToolbarAction.Update].Enabled = calcedBatchUpdateAvailable;
+            }
 
             UpdateCurrentItemFullCard();
         }

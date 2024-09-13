@@ -8,6 +8,12 @@ namespace OxXMLEngine.Settings
     {
         public override string Name => "General";
 
+        public string CurrentController
+        {
+            get => (this[GeneralSetting.CurrentController]?.ToString()) ?? "";
+            set => this[GeneralSetting.CurrentController] = value;
+        }
+
         public FormWindowState MainFormState
         {
             get => this[GeneralSetting.MainFormState]?.ToString() == "Maximized"

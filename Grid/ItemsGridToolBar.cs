@@ -1,9 +1,12 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
+using OxXMLEngine.Data;
 
 namespace OxXMLEngine.Grid
 {
-    public class ItemsGridToolBar : OxToolBar
+    public class ItemsGridToolBar<TField, TDAO> : OxToolBar
+        where TField : notnull, Enum
+        where TDAO : RootDAO<TField>, new()
     {
         protected override void AfterCreated()
         {
@@ -15,9 +18,15 @@ namespace OxXMLEngine.Grid
         protected void CreateButtons()
         {
             AddButton(OxToolbarAction.New);
-            AddButton(OxToolbarAction.Copy);
+
+            if (DataManager.ListController<TField, TDAO>().AvailableCopyItems)
+                AddButton(OxToolbarAction.Copy);
+
             AddButton(OxToolbarAction.Edit, true);
-            AddButton(OxToolbarAction.Update);
+
+            if (DataManager.ListController<TField, TDAO>().AvailableBatchUpdate)
+                AddButton(OxToolbarAction.Update);
+
             AddButton(OxToolbarAction.Delete, true);
             AddButton(OxToolbarAction.Export, true, DockStyle.Right);
         }

@@ -51,6 +51,12 @@ namespace OxXMLEngine.Settings
             set => this[DAOSetting.CategoryPanelPinned] = value;
         }
 
+        public ItemsViewsType CurrentView
+        {
+            get => Parse<ItemsViewsType>(DAOSetting.CurrentView);
+            set => this[DAOSetting.CurrentView] = value;
+        }
+
         public bool AutoExpandCategories
         {
             get => BoolValue(DAOSetting.AutoExpandCategories);
@@ -88,8 +94,8 @@ namespace OxXMLEngine.Settings
         }
 
         private T? Parse<T>(DAOSetting setting)
-            where T : Enum => 
-            TypeHelper.Value<T>(this[setting]);
+            where T : Enum =>
+            TypeHelper.Parse<T>(this[setting]!.ToString()!);
 
         public TextFilterOperation QuickFilterTextFieldOperation
         {
@@ -315,15 +321,15 @@ namespace OxXMLEngine.Settings
         protected override object ParseXMLValue(DAOSetting setting, XmlElement parentElement, string elementName) =>
             setting switch
             {
-                DAOSetting.IconClickVariant => 
+                DAOSetting.IconClickVariant =>
                     XmlHelper.Value<IconClickVariant>(parentElement, elementName),
-                DAOSetting.IconsSize => 
+                DAOSetting.IconsSize =>
                     XmlHelper.Value<IconSize>(parentElement, elementName),
-                DAOSetting.SummarySorting => 
+                DAOSetting.SummarySorting =>
                     XmlHelper.Value<ExtractCompareType>(parentElement, elementName),
-                DAOSetting.QuickFilterTextFieldOperation => 
+                DAOSetting.QuickFilterTextFieldOperation =>
                     XmlHelper.Value<TextFilterOperation>(parentElement, elementName),
-                _ => 
+                _ =>
                     base.ParseXMLValue(setting, parentElement, elementName),
             };
 
@@ -358,10 +364,18 @@ namespace OxXMLEngine.Settings
 
         private bool availableSummary = true;
 
-        public bool AvailableSummary 
-        { 
+        public bool AvailableSummary
+        {
             get => availableSummary;
-            set => availableSummary = value; 
+            set => availableSummary = value;
+        }
+
+        private bool availableQuickFilter = true;
+
+        public bool AvailableQuickFilter
+        {
+            get => availableQuickFilter;
+            set => availableQuickFilter = value;
         }
 
         private bool availableCategories = true;
@@ -370,6 +384,22 @@ namespace OxXMLEngine.Settings
         {
             get => availableCategories;
             set => availableCategories = value;
+        }
+
+        private bool availableCards = true;
+
+        public bool AvailableCards
+        {
+            get => availableCards;
+            set => availableCards = value;
+        }
+
+        private bool availableIcons = true;
+
+        public bool AvailableIcons
+        {
+            get => availableIcons;
+            set => availableIcons = value;
         }
 
         protected override bool IsBoolSettings(DAOSetting setting) =>

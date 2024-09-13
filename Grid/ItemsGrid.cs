@@ -305,7 +305,7 @@ namespace OxXMLEngine.Grid
 
         public readonly GridUsage Usage;
 
-        public readonly ItemsGridToolBar ToolBar = new();
+        public readonly ItemsGridToolBar<TField,TDAO> ToolBar = new();
 
         public override void ReAlignControls()
         {

@@ -28,6 +28,7 @@ namespace OxXMLEngine.Settings.Helpers
                 DAOSetting.ItemInfoPanelExpanded => "Item info panel expanded",
                 DAOSetting.QuickFilterPinned => "Quick filter pinned",
                 DAOSetting.QuickFilterExpanded => "Quick filter expanded",
+                DAOSetting.CurrentView => "Current view",
                 _ => string.Empty,
             };
 
@@ -63,6 +64,7 @@ namespace OxXMLEngine.Settings.Helpers
                     ExtractCompareType.Default,
                 DAOSetting.QuickFilterTextFieldOperation =>
                     TextFilterOperation.Contains,
+                DAOSetting.CurrentView => ItemsViewsType.Table,
                 _ => null,
             };
 

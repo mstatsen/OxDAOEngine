@@ -34,6 +34,10 @@ namespace OxXMLEngine.Settings
         IFieldsPanel CreateFieldsPanel(SettingsPart part, Control parent);
         bool AvailableSummary { get; set; }
         bool AvailableCategories { get; set; }
+        bool AvailableQuickFilter { get; set; }
+        bool AvailableCards { get; set; }
+        bool AvailableIcons { get; set; }
+        ItemsViewsType CurrentView { get; set; }
     }
 
     public interface IDAOSettings<TField> : IDAOSettings

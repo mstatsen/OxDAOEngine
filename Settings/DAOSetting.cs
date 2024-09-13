@@ -9,6 +9,7 @@
         IconMapping,
         SummarySorting,
 
+        CurrentView,
         ShowItemInfo,
         CategoryPanelPinned,
         CategoryPanelExpanded,

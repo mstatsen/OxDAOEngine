@@ -14,7 +14,10 @@ namespace OxXMLEngine.Grid
             Items.Add(new ItemsRootGridActionToolStripMenuItem(OxToolbarAction.New));
             Items.Add(new ToolStripSeparator());
             Items.Add(new ItemsRootGridActionToolStripMenuItem(OxToolbarAction.Edit));
-            Items.Add(new ItemsRootGridActionToolStripMenuItem(OxToolbarAction.Copy));
+
+            if (DataManager.ListController<TField,TDAO>().AvailableCopyItems)
+                Items.Add(new ItemsRootGridActionToolStripMenuItem(OxToolbarAction.Copy));
+
             Items.Add(new ToolStripSeparator());
             Items.Add(new ItemsRootGridActionToolStripMenuItem(OxToolbarAction.Delete));
             ItemClicked += ItemClickedHandler;

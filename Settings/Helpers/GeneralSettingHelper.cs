@@ -1,10 +1,14 @@
-﻿namespace OxXMLEngine.Settings.Helpers
+﻿using OxXMLEngine.Data;
+
+namespace OxXMLEngine.Settings.Helpers
 {
     public class GeneralSettingHelper : SettingHelper<GeneralSetting>
     {
         public override object? Default(GeneralSetting setting) =>
             setting switch
             {
+                GeneralSetting.CurrentController =>
+                    DataManager.FirstFieldController(),
                 GeneralSetting.MainFormState =>
                     FormWindowState.Normal,
                 GeneralSetting.ShowCustomizeButtons or
@@ -20,6 +24,7 @@
         public override string GetName(GeneralSetting value) =>
             value switch
             {
+                GeneralSetting.CurrentController => "Current Controller",
                 GeneralSetting.MainFormState => "MainFormState",
                 GeneralSetting.ShowCustomizeButtons => "Show customize button on functional panels",
                 GeneralSetting.ColorizePanels => "Colorize functional panels",

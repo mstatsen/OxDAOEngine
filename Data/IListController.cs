@@ -58,6 +58,11 @@ namespace OxXMLEngine.Data
         FieldSortings<TField, TDAO>? DefaultSorting();
         bool AvailableSummary { get; }
         bool AvailableCategories { get; }
+        bool AvailableQuickFilter { get; }
+        bool AvailableCards { get; }
+        bool AvailableIcons { get; }
+        bool AvailableBatchUpdate { get; }
+        bool AvailableCopyItems { get; }
     }
 
     public interface IListController<TField, TDAO, TFieldGroup>

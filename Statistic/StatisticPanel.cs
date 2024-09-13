@@ -44,7 +44,9 @@ namespace OxXMLEngine.Statistic
         private int Statistic(StatisticType type) => 
             type switch
             {
-                StatisticType.Visible => ListController.VisibleItemsList.FilteredList(QuickFilterPanel.ActiveFilter).Count,
+                StatisticType.Visible => ListController.AvailableQuickFilter 
+                    ? ListController.VisibleItemsList.FilteredList(QuickFilterPanel.ActiveFilter).Count 
+                    : ListController.TotalCount,
                 StatisticType.Selected => Grid.SelectedCount,
                 StatisticType.Modified => ListController.ModifiedCount,
                 StatisticType.Added => ListController.AddedCount,
@@ -104,6 +106,9 @@ namespace OxXMLEngine.Statistic
             {
                 case StatisticType.Category:
                     label.Visible = ListController.AvailableCategories;
+                    break;
+                case StatisticType.Visible:
+                    label.Visible = ListController.AvailableQuickFilter;
                     break;
 
                 case StatisticType.Modified:

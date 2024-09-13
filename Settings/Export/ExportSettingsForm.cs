@@ -27,14 +27,19 @@ namespace OxXMLEngine.Settings
 
         public ExportSettingsForm(ExportSettings<TField, TDAO> exportSettings) 
         {
+            CreateQuickFilter();
+            CreateCategoriesTree();
             settings = exportSettings;
             InitializeComponent();
             Text = "Export";
             BaseColor = EngineStyles.SettingsFormColor;
             CreateExtraSettingsFrames();
 
-            quickFilter.Parent = this;
-            quickFilter.Margins.HorizontalOx = OxSize.Extra;
+            if (ListController.AvailableQuickFilter)
+            { 
+                quickFilter!.Parent = this;
+                quickFilter!.Margins.HorizontalOx = OxSize.Extra;
+            }
 
             PrepareHTMLControls();
 
@@ -53,14 +58,19 @@ namespace OxXMLEngine.Settings
             textSummaryAccessor = CreateSummaryControl(ExportFormat.Text);
 
             GeneralPanel = CreateFrame("General");
+            GeneralPanel.Margins.TopOx = OxSize.Extra;
 
             formatAccessor = Builder.EnumAccessor<ExportFormat>();
             formatAccessor.Value = settings.Format;
             formatAccessor.ValueChangeHandler += FormatChangeHandler;
             SetupGeneralControl(formatAccessor.Control, MainPanel.BaseColor, "Export as");
 
-            categoryControl = CreateButtonEdit(settings.CategoryName, SelectCategory);
-            SetupGeneralControl(categoryControl, MainPanel.Colors.Lighter(1), "Category");
+
+            if (ListController.Settings.AvailableCategories)
+            {
+                categoryControl = CreateButtonEdit(settings.CategoryName, SelectCategory);
+                SetupGeneralControl(categoryControl, MainPanel.Colors.Lighter(1), "Category");
+            }
 
             fileControl = CreateButtonEdit(settings.FileName, ShowFileDialog);
             SetupGeneralControl(fileControl, MainPanel.Colors.Lighter(1), "File name");
@@ -70,6 +80,31 @@ namespace OxXMLEngine.Settings
             MainPanel.SetButtonText(OxDialogButton.OK, "Export");
             MainPanel.DialogButtonStartSpace = 8;
             MainPanel.DialogButtonSpace = 4;
+        }
+
+        private void CreateCategoriesTree()
+        {
+            if (!ListController.AvailableCategories)
+                return;
+
+            categoriesTree = new()
+            {
+                ShowCount = false,
+                IsSimplePanel = true
+            };
+        }
+
+        private void CreateQuickFilter()
+        {
+            if (!ListController.AvailableQuickFilter)
+                return;
+
+            quickFilter = new(QuickFilterVariant.Export)
+            {
+                Dock = DockStyle.Top,
+                IsSimplePanel = true
+            };
+            quickFilter.Margins.BottomOx = OxSize.Extra;
         }
 
         private OxButtonEdit CreateButtonEdit(string? value, EventHandler? onClick)
@@ -157,6 +192,7 @@ namespace OxXMLEngine.Settings
                 BaseColor = MainPanel.BaseColor
             };
             frame.Margins.SetSize(OxSize.Extra);
+            frame.Margins.TopOx = OxSize.None;
             frame.Paddings.SetSize(OxSize.Extra);
             FramesControls.Add(frame, new List<Control>());
             return frame;
@@ -187,8 +223,8 @@ namespace OxXMLEngine.Settings
 
             if (DialogResult == DialogResult.OK)
             {
-                settings.Filter.CopyFrom(quickFilter.ActiveFilter);
-                settings.CategoryName = categoryControl.Value ?? string.Empty;
+                settings.Filter.CopyFrom(quickFilter?.ActiveFilter);
+                settings.CategoryName = categoryControl?.Value ?? string.Empty;
                 settings.Format = formatAccessor.EnumValue;
                 settings.FileName = fileControl.Value ?? string.Empty;
                 settings.HTML.Fields = htmlFieldsPanel.Fields;
@@ -204,8 +240,12 @@ namespace OxXMLEngine.Settings
 
         private void ExportSettingsForm_Shown(object? sender, EventArgs e)
         {
-            quickFilter.RenewFilterControls();
-            quickFilter.ActiveFilter = settings.Filter;
+            if (ListController.AvailableQuickFilter)
+            {
+                quickFilter!.RenewFilterControls();
+                quickFilter!.ActiveFilter = settings.Filter;
+            }
+
             htmlFieldsPanel.Fields = settings.HTML.Fields.Count == 0
                 ? TypeHelper.FieldHelper<TField>()
                     .Columns(FieldsVariant.Html, FieldsFilling.Default)
@@ -367,21 +407,19 @@ namespace OxXMLEngine.Settings
                 CalcFrameSize(frame);
         }
            
-        private void InitCategoriesTree()
-        {
-            categoriesTree.SetContentSize(360, 480);
-            categoriesTree.RefreshCategories(true);
-        }
-
         private void SelectCategory(object? sender, EventArgs e)
         {
-            InitCategoriesTree();
+            if (!ListController.AvailableCategories)
+                return;
+
+            categoriesTree!.SetContentSize(360, 480);
+            categoriesTree!.RefreshCategories(true);
             categoriesTree!.ActiveCategory = 
                 DataManager.ListController<TField, TDAO>().SystemCategories?
-                    .Find(c => c.Name == categoryControl.Value);
+                    .Find(c => c.Name == categoryControl?.Value);
 
             if (categoriesTree.ShowAsDialog(OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK)
-                categoryControl.Value = categoriesTree.ActiveCategory?.Name;
+                categoryControl!.Value = categoriesTree.ActiveCategory?.Name;
         }
 
         private EnumAccessor<TField, TDAO, ExportSummaryType> CreateSummaryControl(ExportFormat format)
@@ -419,12 +457,7 @@ namespace OxXMLEngine.Settings
         }
 
         private readonly ExportSettings<TField, TDAO> settings;
-        private readonly QuickFilterPanel<TField, TDAO> quickFilter = new(QuickFilterVariant.Export)
-        {
-            Dock = DockStyle.Top,
-            IsSimplePanel = true
-        };
-
+        private QuickFilterPanel<TField, TDAO>? quickFilter;
         private readonly OxPanel htmlGeneralPanel = CreateExtraPanel(216);
         private readonly OxPanel htmlsPanel = CreateExtraPanel(144);
         private readonly FieldsPanel<TField, TDAO> htmlFieldsPanel = new(FieldsVariant.Html);
@@ -441,18 +474,15 @@ namespace OxXMLEngine.Settings
         private readonly IControlAccessor textIncludeParamsAccessor;
 
         private readonly OxButtonEdit fileControl;
-        private readonly OxButtonEdit categoryControl;
+        private readonly OxButtonEdit? categoryControl;
         private readonly EnumAccessor<TField, TDAO, ExportFormat> formatAccessor;
 
         private readonly IControlAccessor indentAccessor;
 
         private readonly OxFrame GeneralPanel;
         private readonly Dictionary<ExportFormat, OxFrame> extraSettingsFrames = new();
-        private readonly CategoriesTree<TField, TDAO> categoriesTree = new()
-        {
-            ShowCount = false,
-            IsSimplePanel = true
-        };
+        private CategoriesTree<TField, TDAO>? categoriesTree;
         private readonly Dictionary<OxFrame, List<Control>> FramesControls = new();
+        private readonly IListController<TField, TDAO> ListController = DataManager.ListController<TField, TDAO>();
     }
 }

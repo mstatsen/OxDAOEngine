@@ -375,6 +375,9 @@ namespace OxXMLEngine.Data
             TListController instance = (TListController)DataManager.Register<TField>(new TListController());
             instance.Settings.AvailableSummary = instance.AvailableSummary;
             instance.Settings.AvailableCategories = instance.AvailableCategories;
+            instance.Settings.AvailableQuickFilter = instance.AvailableQuickFilter;
+            instance.Settings.AvailableCards = instance.AvailableCards;
+            instance.Settings.AvailableIcons = instance.AvailableIcons;
             SettingsManager.Register<TField>(instance.Settings, instance);
         }
 
@@ -468,5 +471,10 @@ namespace OxXMLEngine.Data
 
         public virtual bool AvailableSummary => true;
         public virtual bool AvailableCategories => true;
+        public virtual bool AvailableQuickFilter => true;
+        public virtual bool AvailableCards => true;
+        public virtual bool AvailableIcons => true;
+        public virtual bool AvailableBatchUpdate => true;
+        public virtual bool AvailableCopyItems => true;
     }
 }
