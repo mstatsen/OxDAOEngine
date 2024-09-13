@@ -242,7 +242,7 @@ namespace OxXMLEngine
 
             try
             {
-                if (!ListController.AvailableQuickFilter)
+                if (ListController.AvailableQuickFilter)
                     tableView.ApplyQuickFilter(quickFilter.ActiveFilter);
 
                 /*if (actualItemList == null)

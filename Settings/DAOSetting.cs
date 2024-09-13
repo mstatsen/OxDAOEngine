@@ -2,7 +2,6 @@
 {
     public enum DAOSetting
     {
-        Empty,
         AutoExpandCategories,
         HideEmptyCategory,
         IconsSize,

@@ -36,5 +36,6 @@ namespace OxXMLEngine.ControlFactory.Accessors
         int Height { get; set; }
         DockStyle Dock { get; set; }
         AnchorStyles Anchor { get; set; }
+        string SingleStringValue { get; }
     }
 }

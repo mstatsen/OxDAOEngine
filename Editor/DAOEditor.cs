@@ -28,12 +28,15 @@ namespace OxXMLEngine.Editor
             CreateGroups();
             PlaceGroups();
             SetGroupsColor();
+            SetGroupCaptions();
             SetMargins();
             SetPaddings();
             SetHandlers();
             SetParentsVisible(true);
             InvalidateSize();
         }
+
+        protected virtual void SetGroupCaptions() { }
 
         private void SetGroupsColor()
         {
@@ -183,6 +186,7 @@ namespace OxXMLEngine.Editor
         {
             base.OnShown(e);
             SetParentsVisible(false);
+            SetGroupCaptions();
             InvalidateSize();
         }
 

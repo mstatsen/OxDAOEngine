@@ -45,6 +45,9 @@ namespace OxXMLEngine.ControlFactory
         {
             if (!Accessors.TryGetValue(context, out var controlAccessor))
             {
+                if (context is FieldContext<TField, TDAO> fieldContext)
+                    TypeHelper.FieldHelper<TField>().FillAdditionalContext(fieldContext.Field, context);
+
                 controlAccessor = 
                     createFunction != null 
                         ? createFunction(context) 
@@ -85,7 +88,6 @@ namespace OxXMLEngine.ControlFactory
                 Context("SortingListAccessor", FieldType.Custom, additionalContext),
                 c => Factory.CreateSortingListAccessor(c)
             );
-
 
         public FieldContext<TField, TDAO> Context(TField field)
         {

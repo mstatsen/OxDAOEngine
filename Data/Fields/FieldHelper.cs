@@ -1,4 +1,5 @@
 ﻿using OxXMLEngine.ControlFactory;
+using OxXMLEngine.ControlFactory.Context;
 using OxXMLEngine.Data.Filter;
 using OxXMLEngine.Data.Types;
 
@@ -142,5 +143,7 @@ namespace OxXMLEngine.Data.Fields
         public virtual int ColumnWidth(TField field) => 100;
 
         public virtual string ColumnCaption(TField field) => Name(field);
+
+        public virtual void FillAdditionalContext(TField field, IAccessorContext context) { }
     }
 }

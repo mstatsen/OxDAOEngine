@@ -2,7 +2,6 @@
 {
     public enum GeneralSetting
     {
-        Empty,
         ShowCustomizeButtons,
         CurrentView,
         ColorizePanels,

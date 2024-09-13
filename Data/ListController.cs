@@ -12,6 +12,7 @@ using OxXMLEngine.Grid;
 using OxXMLEngine.Settings;
 using OxXMLEngine.Summary;
 using OxXMLEngine.View;
+using OxXMLEngine.XML;
 using System.Xml;
 
 namespace OxXMLEngine.Data
@@ -365,7 +366,7 @@ namespace OxXMLEngine.Data
         }
 
         protected virtual void RegisterHelpers() { }
-        protected string GetFileName() => $"{Name}.xml";
+        protected string GetFileName() => $"{XmlHelper.NormalizeNameString(Name)}.xml";
         public string FileName => GetFileName();
         public abstract string Name { get; }
 

@@ -134,7 +134,10 @@ namespace OxXMLEngine.Editor
         {
             PrepareStyles();
             ColorizeControls();
+            AfterColorizeControls();
         }
+
+        protected virtual void AfterColorizeControls() { }
 
         private void ColorizeControls()
         {

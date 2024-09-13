@@ -6,10 +6,12 @@ namespace OxXMLEngine.XML
 {
     public class XmlHelper
     {
+        public static string NormalizeNameString(string name) => 
+            name.Trim().Replace(" ", "_");
         public static XmlElement? AppendElement(XmlElement parentElement, string name, string? value, bool nullIfEmpty = false)
         {
+            name = NormalizeNameString(name);
             string normalizedValue = value ?? string.Empty;
-
             if (normalizedValue == string.Empty && nullIfEmpty)
                 return null;
 
@@ -22,8 +24,10 @@ namespace OxXMLEngine.XML
             return fieldElement;
         }
 
-        public static XmlElement? AppendElement(XmlElement parentElement, string name, object? value) => 
-            value switch
+        public static XmlElement? AppendElement(XmlElement parentElement, string name, object? value)
+        {
+            name = NormalizeNameString(name);
+            return value switch
             {
                 null => null,
                 Bitmap bitmap =>
@@ -32,12 +36,15 @@ namespace OxXMLEngine.XML
                     ? AppendElement(parentElement, name, TypeHelper.XmlValue(value))
                     : AppendElement(parentElement, name, value?.ToString()),
             };
+        }
 
         public static XmlElement? AppendElement(XmlElement parentElement, string name, bool value) => 
-            AppendElement(parentElement, name, value.ToString());
+            AppendElement(parentElement, NormalizeNameString(name), value.ToString());
 
         public static string Value(XmlElement parentElement, string name)
         {
+            name = NormalizeNameString(name);
+
             foreach (XmlNode node in parentElement.ChildNodes)
                 if (name == node.Name)
                     return node.InnerText;

@@ -116,6 +116,9 @@ namespace OxXMLEngine.ControlFactory.Accessors
                 ? Value.ToString()!
                 : string.Empty;
 
+        public string SingleStringValue =>
+            StringValue.Replace("\n", " ").Replace("  ", " ");
+
         public Control Control => control;
 
         public bool Enabled
