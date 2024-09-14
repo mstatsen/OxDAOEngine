@@ -29,14 +29,14 @@ namespace OxXMLEngine.Data.Filter
             FilterConcat = filterConcat;
 
         public FilterGroup<TField, TDAO> AddGroup(FilterConcat filterConcat) =>
-            ((Count > 0)
-                ? List[Count - 1]
+            (Count > 0 
+                ? List.Last() 
                 : Add())
-            .Add(
-                new FilterGroup<TField, TDAO>()
-                { 
-                    FilterConcat = filterConcat
-                }
+                    .Add(
+                        new FilterGroup<TField, TDAO>()
+                        {
+                            FilterConcat = filterConcat
+                        }
             );
 
         public void Add(Category<TField, TDAO> category)
@@ -49,17 +49,16 @@ namespace OxXMLEngine.Data.Filter
         public FilterGroup<TField, TDAO> GetSuitableGroup(FilterConcat concatToGroup)
         {
             FilterGroup<TField, TDAO>? group = (Count > 0)
-                ? List[Count - 1].First
+                ? List[Count - 1].Last()
                 : null;
-
-            return group != null && group.FilterConcat == concatToGroup
-                ? group
+            return group != null && group.FilterConcat == concatToGroup 
+                ? group 
                 : AddGroup(concatToGroup);
         }
 
         public SimpleFilter<TField, TDAO> AddFilter(
-            SimpleFilter<TField, TDAO> filter, 
-            FilterConcat concatToGroup) =>
+            SimpleFilter<TField, TDAO> filter,
+            FilterConcat concatToGroup)=>
             GetSuitableGroup(concatToGroup).Add(filter);
 
         public SimpleFilter<TField, TDAO> AddFilter(TField field, FilterOperation operation, object? value,

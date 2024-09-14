@@ -19,12 +19,17 @@ namespace OxXMLEngine.Grid
         {
             AddButton(OxToolbarAction.New);
 
-            if (DataManager.ListController<TField, TDAO>().AvailableCopyItems)
+            IListController<TField, TDAO>? listController = null;
+
+            if (DataManager.ListControllerExists<TField, TDAO>())
+                listController = DataManager.ListController<TField, TDAO>();
+
+            if (listController != null && listController.AvailableCopyItems)
                 AddButton(OxToolbarAction.Copy);
 
             AddButton(OxToolbarAction.Edit, true);
 
-            if (DataManager.ListController<TField, TDAO>().AvailableBatchUpdate)
+            if (listController != null && DataManager.ListController<TField, TDAO>().AvailableBatchUpdate)
                 AddButton(OxToolbarAction.Update);
 
             AddButton(OxToolbarAction.Delete, true);

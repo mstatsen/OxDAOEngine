@@ -67,7 +67,7 @@ namespace OxXMLEngine.Grid
                     g => itemUniqueValue.Equals(g[uniqueField]));
 
                 if (foundItem == null)
-                    return;
+                    continue;
 
                 int rowIndex = availableGrid.Grid.GetRowIndex(foundItem);
 

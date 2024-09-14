@@ -1,6 +1,4 @@
 ﻿using OxXMLEngine.XML;
-using System;
-using System.Collections.Generic;
 using System.Xml;
 
 namespace OxXMLEngine.Data.Filter

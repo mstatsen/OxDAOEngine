@@ -91,6 +91,16 @@ namespace OxXMLEngine.Data
                 }
         }
 
+        public static bool ControllerExists<TDataController>()
+            where TDataController : IDataController
+        {
+            foreach (IDataController controller in Controllers)
+                if (controller is TDataController dataController)
+                    return true;
+
+            return false;
+        }
+
         public static TDataController Controller<TDataController>()
             where TDataController : IDataController
         {
@@ -164,6 +174,18 @@ namespace OxXMLEngine.Data
                 throw new KeyNotFoundException($"Builder for {typeof(TDAO).Name}[{typeof(TField).Name}]({scope}) not found");
             }
         }
+
+        public static bool ListControllerExists<TField, TDAO>()
+            where TField : notnull, Enum
+            where TDAO : RootDAO<TField>, new()
+        {
+            foreach (IDataController controller in Controllers)
+                if (controller is IListController<TField, TDAO> dataController)
+                    return true;
+
+            return false;
+        }
+        
 
         public static IListController<TField, TDAO> ListController<TField, TDAO>()
             where TField : notnull, Enum
