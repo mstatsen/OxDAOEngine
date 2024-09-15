@@ -222,11 +222,11 @@ namespace OxXMLEngine.Editor
         private void RecalcGroupsAvailability()
         {
             Editor.SuspendLayout();
-            bool visibleChanged = Editor.SetParentsVisible(true);
-            SetGroupsAvailability();
+            bool parentsVisibleChanged = Editor.SetParentsVisible(true);
+            bool groupsAvailabilityChanged = SetGroupsAvailability(true);
             Editor.Groups.SetGroupsSize();
 
-            if (Editor.SetParentsVisible(false) || visibleChanged)
+            if (Editor.SetParentsVisible(false) || parentsVisibleChanged || groupsAvailabilityChanged)
                 Editor.InvalidateSize();
 
             PrepareStylesInternal();
@@ -234,6 +234,6 @@ namespace OxXMLEngine.Editor
         }
 
         protected virtual bool SyncFieldValues(TField field, bool byUser) => false;
-        protected virtual void SetGroupsAvailability() { }
+        protected virtual bool SetGroupsAvailability(bool afterSyncValues = false) => false;
     }
 }
