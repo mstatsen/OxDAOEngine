@@ -37,5 +37,7 @@ namespace OxXMLEngine.ControlFactory.Accessors
         DockStyle Dock { get; set; }
         AnchorStyles Anchor { get; set; }
         string SingleStringValue { get; }
+        Guid GuidValue { get; }
+        void SetDefaultValue();
     }
 }

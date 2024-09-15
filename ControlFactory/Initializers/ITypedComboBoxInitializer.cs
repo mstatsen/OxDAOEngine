@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace OxXMLEngine.ControlFactory.Initializers
+﻿namespace OxXMLEngine.ControlFactory.Initializers
 {
-    public interface ITypedComboBoxInitializer<TItem> : IInitializer
+    public interface ITypedComboBoxInitializer<TItem> : IComboBoxInitializer
         where TItem : Enum
     {
         bool AvailableValue(TItem value);

@@ -20,10 +20,9 @@ namespace OxXMLEngine.ControlFactory.Accessors
                 : base.CreateControl();
 
         protected virtual bool AvailableValue(TItem value) =>
-            Context == null
-            || Context.Initializer == null
-            || Context.Initializer is not ITypedComboBoxInitializer<TItem> initializer
-            || initializer.AvailableValue(value);
+            base.AvailableValue(value) &&
+            (Context.Initializer is not ITypedComboBoxInitializer<TItem> initializer || 
+                initializer.AvailableValue(value));
 
         private void ClearItems()
         {

@@ -133,7 +133,7 @@ namespace OxXMLEngine.Data.Filter
 
         public bool CheckValueFilled(object? value)
         {
-            switch (value)
+            switch(value)
             {
                 case NullObject _:
                 case null:

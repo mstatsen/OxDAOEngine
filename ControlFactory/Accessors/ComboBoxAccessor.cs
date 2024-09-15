@@ -1,5 +1,6 @@
 ﻿using OxLibrary.Controls;
 using OxXMLEngine.ControlFactory.Context;
+using OxXMLEngine.ControlFactory.Initializers;
 using OxXMLEngine.ControlFactory.ValueAccessors;
 using OxXMLEngine.Data;
 using OxXMLEngine.Data.Types;
@@ -19,6 +20,12 @@ namespace OxXMLEngine.ControlFactory.Accessors
             Context.MultipleValue
                 ? new OxCheckComboBox() 
                 : (Control)new OxComboBox();
+
+        protected virtual bool AvailableValue(object value) =>
+            Context == null
+            || Context.Initializer == null
+            || Context.Initializer is not IComboBoxInitializer initializer
+            || initializer.AvailableValue(value);
 
         protected override void AfterControlCreated()
         {
@@ -96,7 +103,24 @@ namespace OxXMLEngine.ControlFactory.Accessors
 
         public ComboBoxAccessor(IBuilderContext<TField, TDAO> context) : base(context) { }
 
+        protected override void AfterInitControl() 
+        { 
+            foreach (var item in ComboBox.Items)
+                if (!AvailableValue(item))
+                    ComboBox.Items.Remove(item);
+
+            if (ComboBox.Items.Count > 0)
+                ComboBox.SelectedIndex = 0;
+            else ComboBox.SelectedItem = null;
+        }
+
         public override bool IsEmpty => 
             base.IsEmpty || (Value is NullObject);
+
+        public override void SetDefaultValue()
+        {
+            if (ComboBox.Items.Count > 0)
+                ComboBox.SelectedIndex = 0;
+        }
     }
 }

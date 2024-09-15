@@ -72,8 +72,11 @@ namespace OxXMLEngine.ControlFactory.Accessors
             valueAccessor = CreateValueAccessor();
             valueAccessor.SetControl(control);
             Context.InitControl(this);
+            AfterInitControl();
             return this;
         }
+
+        protected virtual void AfterInitControl() { }
 
         public object? Value
         {
@@ -118,6 +121,9 @@ namespace OxXMLEngine.ControlFactory.Accessors
 
         public string SingleStringValue =>
             StringValue.Replace("\n", " ").Replace("  ", " ");
+
+        public Guid GuidValue => 
+            Guid.Parse(StringValue);
 
         public Control Control => control;
 
@@ -230,6 +236,7 @@ namespace OxXMLEngine.ControlFactory.Accessors
                 InitControl();
 
             Context.InitControl(this);
+            AfterInitControl();
             Value = oldValue;
         }
 
@@ -238,5 +245,8 @@ namespace OxXMLEngine.ControlFactory.Accessors
         public void ResumeLayout() => Control?.Parent?.ResumeLayout();
 
         IControlAccessor IControlAccessor.Init() => Init();
+
+        public virtual void SetDefaultValue() =>
+            Clear();
     }
 }
