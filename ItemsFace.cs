@@ -145,7 +145,7 @@ namespace OxXMLEngine
             return itemsView;
         }
 
-        private Dictionary<ItemsViewsType, OxPane> Views = new();
+        private readonly Dictionary<ItemsViewsType, OxPane> Views = new();
 
         private TableView<TField, TDAO> CreateTableView()
         {
@@ -290,7 +290,8 @@ namespace OxXMLEngine
             if (ListController.AvailableQuickFilter)
                 quickFilter.ApplySettings();
 
-            categoriesTree.ApplySettings();
+            if (ListController.AvailableCategories)
+                categoriesTree.ApplySettings();
 
             if (firstLoad)
                 categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;

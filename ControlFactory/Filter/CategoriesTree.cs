@@ -14,8 +14,17 @@ namespace OxXMLEngine.ControlFactory.Filter
     {
         public void RefreshCategories(bool systemOnly = false)
         {
-            LoadCategories(systemOnly);
-            FillTree();
+            categorySelector.Loading = true;
+
+            try
+            {
+                LoadCategories(systemOnly);
+                FillTree();
+            }
+            finally
+            {
+                categorySelector.Loading = false;
+            }
         }
 
         public Category<TField, TDAO>? ActiveCategory
@@ -282,7 +291,7 @@ namespace OxXMLEngine.ControlFactory.Filter
 
         private TreeNode? CreateCategoryTreeNode(Category<TField, TDAO> category)
         {
-            int itemsCount = FullList.FilteredList(category).Count;
+            int itemsCount = ShowCount ? FullList.FilteredList(category).Count : 0;
 
             return
                 ShowCount && Settings.HideEmptyCategory && itemsCount == 0
@@ -295,7 +304,7 @@ namespace OxXMLEngine.ControlFactory.Filter
                         : new CountedTreeNode(category.ToString())
                             {
                                 Tag = category,
-                                Count = itemsCount,
+                                Count = itemsCount
                             };
         }
 

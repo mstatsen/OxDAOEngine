@@ -18,6 +18,9 @@ namespace OxXMLEngine.Data
     {
         RootListDAO<TField, TDAO> FullItemsList { get; }
         RootListDAO<TField, TDAO> VisibleItemsList { get; }
+        DAOImageList<TField, TDAO> ImageList { get; }
+        DAOImage? ImageInfo(Guid imageId);
+        Bitmap? Image(Guid imageId);
         ItemHistoryList<TField, TDAO> History { get; }
 
         TDAO? Item(TField field, object value);
@@ -63,6 +66,10 @@ namespace OxXMLEngine.Data
         bool AvailableIcons { get; }
         bool AvailableBatchUpdate { get; }
         bool AvailableCopyItems { get; }
+        bool UseImageList { get; }
+
+        DAOImage? OnGetImageInfoHandler(Guid imageId);
+        DAOImage OnUpdateImageHanlder(Guid imageId, string name, Bitmap? image);
     }
 
     public interface IListController<TField, TDAO, TFieldGroup>

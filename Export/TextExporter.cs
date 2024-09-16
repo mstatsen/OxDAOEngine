@@ -58,7 +58,7 @@ namespace OxXMLEngine.Export
         private string ItemLine(TDAO item)
         {
             StringBuilder builder = new(
-                string.Join("", Enumerable.Repeat(XmlConsts.DefaultIndent, Settings.Text.Grouping.Count))
+                string.Join(string.Empty, Enumerable.Repeat(XmlConsts.DefaultIndent, Settings.Text.Grouping.Count))
             );
 
             Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.FullInfo, item);
@@ -70,7 +70,7 @@ namespace OxXMLEngine.Export
 
         private string InlineFields(Decorator<TField, TDAO> decorator)
         {
-            StringBuilder builder = new("");
+            StringBuilder builder = new(string.Empty);
             string? fieldValue;
 
             foreach (FieldColumn<TField> column in Settings.Text.Fields)
@@ -101,7 +101,7 @@ namespace OxXMLEngine.Export
             bool needStartGroup = false;
             int groupIndentCount = 0;
             string groupName;
-            StringBuilder builder = new("");
+            StringBuilder builder = new(string.Empty);
             Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.FullInfo, item);
             FieldSortings<TField, TDAO> groupings = SettingsForm.groupByPanel.Sortings;
 
@@ -121,7 +121,7 @@ namespace OxXMLEngine.Export
                             builder.AppendLine();
                     }
 
-                    groupName = string.Join("", Enumerable.Repeat(XmlConsts.DefaultIndent, groupIndentCount));
+                    groupName = string.Join(string.Empty, Enumerable.Repeat(XmlConsts.DefaultIndent, groupIndentCount));
                     object? decorName = decorator[group.Field];
                     groupName += decorName != null ? decorName.ToString() : string.Empty;
                     builder.AppendLine(groupName.ToUpper());
@@ -141,7 +141,7 @@ namespace OxXMLEngine.Export
             if (Settings.Text.Summary == ExportSummaryType.None)
                 return string.Empty;
 
-            StringBuilder summaryBuilder = new("");
+            StringBuilder summaryBuilder = new(string.Empty);
 
             summaryBuilder.AppendLine(HardLineSeparator);
             summaryBuilder.AppendLine("Summary".ToUpper());
@@ -166,7 +166,7 @@ namespace OxXMLEngine.Export
                 true
             );
 
-            StringBuilder valueBuilder = new("");
+            StringBuilder valueBuilder = new(string.Empty);
 
             foreach (var item in extract)
             {
@@ -205,7 +205,7 @@ namespace OxXMLEngine.Export
             if (!Settings.Text.IncludeExportParams)
                 return string.Empty;
 
-            StringBuilder paramsBuilder = new("");
+            StringBuilder paramsBuilder = new(string.Empty);
             paramsBuilder.AppendLine(LineSeparator);
             paramsBuilder.AppendLine("Request".ToUpper());
             paramsBuilder.AppendLine(LineSeparator);
@@ -213,15 +213,15 @@ namespace OxXMLEngine.Export
             foreach (var item in Settings.ParamsValues)
             {
                 paramsBuilder.AppendFormat(ParamTemplate, item.Key, item.Value);
-                paramsBuilder.AppendLine("");
+                paramsBuilder.AppendLine(string.Empty);
             }
 
             Dictionary<string, string> filterValues = Settings.FilterValues;
 
             if (filterValues.Count > 0)
             {
-                paramsBuilder.AppendFormat(ParamTemplate, "Filter", "");
-                paramsBuilder.AppendLine("");
+                paramsBuilder.AppendFormat(ParamTemplate, "Filter", string.Empty);
+                paramsBuilder.AppendLine(string.Empty);
                 bool textFilterExists = false;
 
                 foreach (var item in filterValues)
@@ -233,7 +233,7 @@ namespace OxXMLEngine.Export
                             item.Key,
                             item.Value
                         );
-                        paramsBuilder.AppendLine("");
+                        paramsBuilder.AppendLine(string.Empty);
                     }
 
 
@@ -244,15 +244,15 @@ namespace OxXMLEngine.Export
                     paramsBuilder.AppendFormat("One of item fields need contains '{0}'",
                         filterValues[Consts.QuickFilterTextFieldCaption]
                     );
-                    paramsBuilder.AppendLine("");
+                    paramsBuilder.AppendLine(string.Empty);
                 }
 
                 paramsBuilder.Remove(paramsBuilder.Length - 1, 1);
             }
 
             paramsBuilder.AppendLine(LineSeparator);
-            paramsBuilder.AppendLine("");
-            paramsBuilder.AppendLine("");
+            paramsBuilder.AppendLine(string.Empty);
+            paramsBuilder.AppendLine(string.Empty);
             return paramsBuilder.ToString();
         }
 

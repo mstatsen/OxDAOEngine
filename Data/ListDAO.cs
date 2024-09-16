@@ -126,8 +126,23 @@ namespace OxXMLEngine.Data
             return item;
         }
 
-        public void AddRange(IEnumerable<T> collection) => 
+        protected void ItemsToMembers()
+        {
+            foreach (DAO item in List)
+            {
+                if (!Members.Contains(item))
+                {
+                    AddMember(item);
+                    SetMemberHandlers(item, true);
+                }
+            }
+        }
+
+        public void AddRange(IEnumerable<T> collection)
+        {
             List.AddRange(collection);
+            ItemsToMembers();
+        }
 
         public void RemoveAll(Predicate<T> match)
         {
@@ -256,6 +271,7 @@ namespace OxXMLEngine.Data
         public TListDAO Distinct<TListDAO>(Func<T, TListDAO, bool> CheckUnique)
             where TListDAO : ListDAO<T>, new()
         {
+            //TODO: replce TListDAO with RootListDAO - need for get UseImageList flag
             TListDAO list = new();
 
             foreach (T dao in this)

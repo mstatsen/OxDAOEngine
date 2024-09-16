@@ -95,7 +95,7 @@ namespace OxXMLEngine.Data
             where TDataController : IDataController
         {
             foreach (IDataController controller in Controllers)
-                if (controller is TDataController dataController)
+                if (controller is TDataController)
                     return true;
 
             return false;
@@ -180,7 +180,7 @@ namespace OxXMLEngine.Data
             where TDAO : RootDAO<TField>, new()
         {
             foreach (IDataController controller in Controllers)
-                if (controller is IListController<TField, TDAO> dataController)
+                if (controller is IListController<TField, TDAO>)
                     return true;
 
             return false;
@@ -459,6 +459,49 @@ namespace OxXMLEngine.Data
             catch
             {
                 throw new KeyNotFoundException($"Cannot get item of {typeof(TDAO).Name} because it controller not found");
+            }
+        }
+
+        public static DAOImage? ImageInfo<TField, TDAO>(Guid imageId)
+            where TField : notnull, Enum
+            where TDAO : RootDAO<TField>, new()
+        {
+            try
+            {
+                return ListController<TField, TDAO>().ImageInfo(imageId);
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Cannot get image information of {typeof(TDAO).Name} because it controller not found");
+            }
+
+        }
+
+        public static Bitmap? Image<TField, TDAO>(Guid imageId)
+            where TField : notnull, Enum
+            where TDAO : RootDAO<TField>, new()
+        {
+            try
+            {
+                return ListController<TField, TDAO>().Image(imageId);
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Cannot get image of {typeof(TDAO).Name} because it controller not found");
+            }
+        }
+
+        public static DAOImageList<TField, TDAO> ImageList<TField, TDAO>()
+            where TField : notnull, Enum
+            where TDAO : RootDAO<TField>, new()
+        {
+            try
+            {
+                return ListController<TField, TDAO>().ImageList;
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Cannot get image list of {typeof(TDAO).Name}s because it controller not found");
             }
         }
 

@@ -17,7 +17,7 @@ using System.Xml;
 
 namespace OxXMLEngine.Data
 {
-    public abstract class ListController<TField, TDAO, TFieldGroup, TListController> 
+    public abstract class ListController<TField, TDAO, TFieldGroup, TListController>
         : IListController<TField, TDAO, TFieldGroup>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
@@ -35,11 +35,20 @@ namespace OxXMLEngine.Data
             RegisterHelpers();
             Settings = new DAOSettings<TField, TDAO>();
             fullItemsList = new();
-            SetListHandlers();
+            imageList = new();
         }
 
-        private void AfterLoad() =>
+        public DAOImage? OnGetImageInfoHandler(Guid imageId) => 
+            ImageInfo(imageId);
+
+        public DAOImage OnUpdateImageHanlder(Guid imageId, string name, Bitmap? image) => 
+            ImageList.UpdateImage(imageId, name, image);
+
+        private void AfterLoad()
+        {
+            SetListHandlers();
             OnAfterLoad?.Invoke(this, EventArgs.Empty);
+        }
 
         protected virtual void AfterSave() { }
 
@@ -50,7 +59,12 @@ namespace OxXMLEngine.Data
         public void Save(XmlElement? parentElement)
         {
             BeforeSave();
+
+            if (UseImageList)
+                ImageList.Save(parentElement);
+
             FullItemsList.Save(parentElement);
+
             Sort();
             AfterSave();
         }
@@ -58,13 +72,17 @@ namespace OxXMLEngine.Data
         public void Load(XmlElement? parentElement)
         {
             BeforeLoad();
+
+            if (UseImageList)
+                ImageList.Load(parentElement);
+
             FullItemsList.Load(parentElement);
             AfterLoad();
         }
 
         protected void NotifyAll()
         {
-            if (FullItemsList.Loading)
+            if (FullItemsList.State == DAOState.Loading)
                 return;
 
             ProcessNotifyAll();
@@ -152,7 +170,7 @@ namespace OxXMLEngine.Data
 
         public bool RenewVisibleItems()
         {
-            RootListDAO<TField, TDAO> newVisibleItems = FullItemsList.FilteredList(Category, 
+            RootListDAO<TField, TDAO> newVisibleItems = FullItemsList.FilteredList(Category,
                 Settings.Sortings.SortingsList);
 
             if (newVisibleItems.Equals(visibleItemsList))
@@ -176,7 +194,7 @@ namespace OxXMLEngine.Data
             }
         }
 
-        public void AddItem() => 
+        public void AddItem() =>
             EditNewItem(new());
 
         public void EditItem(TDAO? item)
@@ -259,10 +277,10 @@ namespace OxXMLEngine.Data
         {
             private readonly GridPainter<TField, TDAO>? DAOPainter;
             //TODO: additional columns paint
-            public override DataGridViewCellStyle? GetCellStyle(ItemHistory<TField, TDAO>? item, TField field, bool selected = false) => 
+            public override DataGridViewCellStyle? GetCellStyle(ItemHistory<TField, TDAO>? item, TField field, bool selected = false) =>
                 DAOPainter?.GetCellStyle(item?.DAO, field, selected);
 
-            public HistoryGridPainter(ItemsGrid<TField, ItemHistory<TField, TDAO>> grid) : base(grid.GridFieldColumns) => 
+            public HistoryGridPainter(ItemsGrid<TField, ItemHistory<TField, TDAO>> grid) : base(grid.GridFieldColumns) =>
                 DAOPainter = DataManager.ControlFactory<TField, TDAO>().CreateGridPainter(grid.GridFieldColumns, grid.Usage);
         }
 
@@ -280,8 +298,8 @@ namespace OxXMLEngine.Data
                     new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("Operation",
                         (h) => h.Operation,
                     80),
-                    new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("Field", 
-                        (h) => h is FieldHistory<TField, TDAO> fh ? fieldHelper.Name(fh.Field) : string.Empty, 
+                    new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("Field",
+                        (h) => h is FieldHistory<TField, TDAO> fh ? fieldHelper.Name(fh.Field) : string.Empty,
                     80),
                     new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("Old Value",
                         (h) => h is FieldHistory<TField, TDAO> fh ? fh.OldValue : string.Empty,
@@ -289,7 +307,7 @@ namespace OxXMLEngine.Data
                     new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("New Value",
                         (h) => h is FieldHistory<TField, TDAO> fh ? fh.NewValue : string.Empty,
                     80)
-                }, 
+                },
             };
 
             try
@@ -343,7 +361,7 @@ namespace OxXMLEngine.Data
         public int ModifiedCount => History.DistinctModifiedDAOCount;
         public int AddedCount => History.AddedCount;
         public int RemovedCount => History.RemovedCount;
-        
+
         public void Delete(RootListDAO<TField, TDAO> list)
         {
             string messageBase = "Are you sure you want to delete selected";
@@ -430,7 +448,7 @@ namespace OxXMLEngine.Data
         public EventHandler? OnAfterLoad { get; set; }
 
         public event EventHandler? ItemsSortChangeHandler;
-        public DAOEntityEventHandler? ItemFieldChanged { get; set; } 
+        public DAOEntityEventHandler? ItemFieldChanged { get; set; }
 
         public bool IsSystem => false;
 
@@ -445,7 +463,7 @@ namespace OxXMLEngine.Data
         public ItemsFace<TField, TDAO> Face
         {
             get
-            { 
+            {
                 face ??= new ItemsFace<TField, TDAO>();
                 return face;
             }
@@ -470,6 +488,18 @@ namespace OxXMLEngine.Data
             }
         }
 
+        private readonly DAOImageList<TField, TDAO> imageList;
+        public DAOImageList<TField, TDAO> ImageList => imageList;
+        public DAOImage? ImageInfo(Guid imageId) => 
+            UseImageList 
+                ? ImageList.ImageInfo(imageId)
+                : null;
+
+        public Bitmap? Image(Guid imageId) =>
+            UseImageList
+                ? ImageList.Image(imageId)
+                : null;
+
         public virtual bool AvailableSummary => true;
         public virtual bool AvailableCategories => true;
         public virtual bool AvailableQuickFilter => true;
@@ -477,5 +507,6 @@ namespace OxXMLEngine.Data
         public virtual bool AvailableIcons => true;
         public virtual bool AvailableBatchUpdate => true;
         public virtual bool AvailableCopyItems => true;
+        public virtual bool UseImageList => false;
     }
 }

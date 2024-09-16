@@ -32,7 +32,7 @@ namespace OxXMLEngine.Editor
                 LayoutControls();
                 FillControls();
 
-                if (SyncAllFields())
+                if (SyncAllFields(true))
                     RecalcGroupsAvailability();
             }
         }
@@ -190,7 +190,7 @@ namespace OxXMLEngine.Editor
                 Builder[field].ValueChangeHandler += ValueChangeHandler;
         }
 
-        private bool SyncAllFields()
+        private bool SyncAllFields(bool initialSync = false)
         {
             bool needRecalcGroupsAvailability = false;
 

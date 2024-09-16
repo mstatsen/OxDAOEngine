@@ -13,12 +13,23 @@ namespace OxXMLEngine.Data
 
         public DAO()
         {
-            Init();
-            SetMembersHandlers();
-            Clear();
+            State = DAOState.Creating;
+            try
+            {
+                Init();
+                SetMembersHandlers();
+                Clear();
+            }
+            finally
+            {
+                State = DAOState.Regular;
+            }
         }
 
-        public bool Loading { get; internal set; } = false;
+        public DAOState State { get; private set; } = DAOState.Regular;
+
+        public void StartLoading() => State = DAOState.Loading;
+        public void FinishLoading() => State = DAOState.Regular;
 
         public virtual int CompareTo(DAO? other)
         {
@@ -94,45 +105,57 @@ namespace OxXMLEngine.Data
 
         public void CopyFrom(DAO? item, bool newUnique = false)
         {
-            if (item == null)
-            {
-                Clear();
-                return;
-            }
-
-            if (Equals(item))
-                return;
-
-            XmlDocument document = new();
-            document.AppendChild(document.CreateElement("CopyData"));
-
-            string oldXmlName = xmlName;
-            string oldOtherXmlName = item.XmlName;
-
-            xmlName = string.Empty;
-            item.XmlName = string.Empty;
+            State = DAOState.Coping;
 
             try
             {
-                if (document.DocumentElement != null)
+                if (item == null)
                 {
-                    item.Save(document.DocumentElement, false);
-                    Load(document.DocumentElement);
-
-                    if (newUnique)
-                        InitUniqueCopy();
+                    Clear();
+                    return;
                 }
+
+                if (Equals(item))
+                    return;
+
+                XmlDocument document = new();
+                document.AppendChild(document.CreateElement("CopyData"));
+
+                string oldXmlName = xmlName;
+                string oldOtherXmlName = item.XmlName;
+
+                xmlName = string.Empty;
+                item.XmlName = string.Empty;
+
+                try
+                {
+                    if (document.DocumentElement != null)
+                    {
+                        item.Save(document.DocumentElement, false);
+                        Load(document.DocumentElement);
+
+                        if (newUnique)
+                            InitUniqueCopy();
+
+                        CopyAdditionalInformationFrom(item);
+                    }
+                }
+                finally
+                {
+                    xmlName = oldXmlName;
+                    item.XmlName = oldOtherXmlName;
+                }
+
+                SetMemberHandlers(item);
+                Modified = true;
             }
             finally
             {
-                xmlName = oldXmlName;
-                item.XmlName = oldOtherXmlName;
+                State = DAOState.Regular;
             }
-
-            SetMemberHandlers(item);
-            Modified = true;
         }
 
+        protected virtual void CopyAdditionalInformationFrom(DAO item) { }
         protected virtual void MemberModifiedHandler(DAO dao, DAOModifyEventArgs e) =>
             Modified |= e.Modified;
 
@@ -250,7 +273,7 @@ namespace OxXMLEngine.Data
 
         public void Load(XmlElement? element)
         {
-            Loading = true;
+            State = DAOState.Loading;
 
             try
             {
@@ -277,7 +300,7 @@ namespace OxXMLEngine.Data
             }
             finally
             {
-                Loading = false;
+                State = DAOState.Regular;
             }
         }
 

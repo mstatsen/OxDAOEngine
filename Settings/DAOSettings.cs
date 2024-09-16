@@ -248,7 +248,7 @@ namespace OxXMLEngine.Settings
         {
             FieldColumns<TField> columns = new()
             {
-                XmlName = $"{TypeHelper.Name(part).Replace(" ", "")}Fields"
+                XmlName = $"{TypeHelper.Name(part).Replace(" ", string.Empty)}Fields"
             };
             AddMember(columns);
             fields.Add(part, columns);

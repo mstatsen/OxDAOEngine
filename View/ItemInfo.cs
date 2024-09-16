@@ -19,7 +19,9 @@ namespace OxXMLEngine.View
             get => item;
             set
             {
-                if ((item != null && item.Equals(value)) || (value == null))
+                if ((item != null && item.Equals(value)) 
+                    //|| (value == null)
+                    )
                     return;
 
                 if (item != null)
@@ -155,10 +157,10 @@ namespace OxXMLEngine.View
         }
 
         protected abstract void PrepareLayouts();
-           
 
-        private void SetTitle() =>
-            Text = GetTitle();
+
+        private void SetTitle() => 
+            Text = Item == null ? "" : GetTitle();
 
         protected virtual string? GetTitle() => Item?.ToString();
 
@@ -189,6 +191,14 @@ namespace OxXMLEngine.View
 
             if (Item != null)
                 Builder.FillControls(Item);
+            else
+                foreach (ControlLayout<TField> layout in Layouter.Layouts)
+                {
+                    PlacedControl<TField>? placedControl = Layouter.PlacedControl(layout.Field);
+
+                    if (placedControl != null)
+                        placedControl.Control.Visible = false;
+                }
 
             ClearLayouts();
             PrepareLayoutsInternal();

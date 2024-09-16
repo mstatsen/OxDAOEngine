@@ -83,6 +83,7 @@ namespace OxXMLEngine.Data.Fields
 
         public abstract TField FieldMetaData { get; }
         public abstract TField TitleField { get; }
+        public virtual TField ImageField { get => FieldMetaData; }
         public abstract TField UniqueField { get; }
 
         public List<TField> FullList(FieldsVariant variant) => 

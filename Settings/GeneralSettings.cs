@@ -10,7 +10,7 @@ namespace OxXMLEngine.Settings
 
         public string CurrentController
         {
-            get => (this[GeneralSetting.CurrentController]?.ToString()) ?? "";
+            get => (this[GeneralSetting.CurrentController]?.ToString()) ?? string.Empty;
             set => this[GeneralSetting.CurrentController] = value;
         }
 

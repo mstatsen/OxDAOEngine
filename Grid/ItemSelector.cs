@@ -22,16 +22,21 @@ namespace OxXMLEngine.Grid
         {
             get => Grid.CurrentItem;
             set 
+            {
+                if (!DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
                 {
-                QuickFilter.SetFilter(value);
-                ApplyQuickFilter();
+                    QuickFilter.SetFilter(value);
+                    ApplyQuickFilter();
+                }
             }
         }
 
         protected override void PrepareInnerControls()
         {
             base.PrepareInnerControls();
-            PrepareQuickFilter();
+
+            if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
+                PrepareQuickFilter();
         }
 
         private void GridDoubleClickHandler(object? sender, EventArgs e)
@@ -44,11 +49,16 @@ namespace OxXMLEngine.Grid
         public override void Fill()
         {
             base.Fill();
-            ApplyQuickFilter();
+
+            if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
+                ApplyQuickFilter();
         }
 
         private void PrepareQuickFilter()
         {
+            if (!DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
+                return;
+
             QuickFilter.Parent = ContentContainer;
             QuickFilter.Dock = DockStyle.Top;
             QuickFilter.Margins.BottomOx = OxSize.Large;
@@ -57,8 +67,11 @@ namespace OxXMLEngine.Grid
             QuickFilter.RenewFilterControls();
         }
 
-        private void ApplyQuickFilter() =>
-            Grid?.ApplyQuickFilter(QuickFilter.ActiveFilter);
+        private void ApplyQuickFilter()
+        {
+            if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
+                Grid?.ApplyQuickFilter(QuickFilter.ActiveFilter);
+        }
 
         protected override void AfterCreated()
         {
@@ -69,7 +82,10 @@ namespace OxXMLEngine.Grid
         public override void ReAlignControls()
         {
             base.ReAlignControls();
-            QuickFilter.BringToFront();
+
+            if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
+                QuickFilter.BringToFront();
+
             Grid?.BringToFront();
         }
     }

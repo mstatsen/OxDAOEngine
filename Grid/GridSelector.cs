@@ -24,7 +24,7 @@ namespace OxXMLEngine.Grid
         public GridSelector(DataGridView gridView)
         {
             grid = gridView;
-            savedSelection = new RootListDAO<TField, TDAO>();
+            savedSelection = new();
         }
 
         public void SaveState()

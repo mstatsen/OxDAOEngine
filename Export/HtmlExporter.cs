@@ -47,7 +47,7 @@ namespace OxXMLEngine.Export
 
         private string RequestBody()
         {
-            StringBuilder bodyBuilder = new("");
+            StringBuilder bodyBuilder = new(string.Empty);
 
             foreach (var item in Settings.ParamsValues)
                 bodyBuilder.AppendLine(HtmlExporter<TField, TDAO>.RequestRow(item.Key, item.Value));
@@ -99,7 +99,7 @@ namespace OxXMLEngine.Export
             if (Settings.HTML.Summary == ExportSummaryType.None)
                 return string.Empty;
 
-            StringBuilder summaryBuilder = new("");
+            StringBuilder summaryBuilder = new(string.Empty);
             summaryBuilder.AppendLine(SummaryCard("Summary", GeneralSummary()));
 
             /*
@@ -123,7 +123,7 @@ namespace OxXMLEngine.Export
 
         private static string TrophiesSummary()
         {
-            StringBuilder bodyBuilder = new("");
+            StringBuilder bodyBuilder = new(string.Empty);
 
             /*
             PSNLevelCalculator exportLevel = new PSNLevelCalculator(Games);
@@ -152,7 +152,7 @@ namespace OxXMLEngine.Export
 
         private string ByFieldSummary(TField field)
         {
-            StringBuilder bodyBuilder = new("");
+            StringBuilder bodyBuilder = new(string.Empty);
 
             FieldCountExtract extract = new FieldExtractor<TField, TDAO>(
                 ListController.FullItemsList
@@ -176,7 +176,7 @@ namespace OxXMLEngine.Export
             if (Items.Count == 0)
                 return "<i>No data to display</i>";
 
-            StringBuilder bodyBuilder = new("");
+            StringBuilder bodyBuilder = new(string.Empty);
             bodyBuilder.AppendLine(
                 SummaryRow(ListController.Name, Items.Count, 
                     ListController.TotalCount)
@@ -252,7 +252,7 @@ namespace OxXMLEngine.Export
 
         private string TableBody()
         {
-            StringBuilder builder = new("");
+            StringBuilder builder = new(string.Empty);
 
             foreach (TDAO item in Items)
                 builder.Append(ItemRow(item));
@@ -263,7 +263,7 @@ namespace OxXMLEngine.Export
         private string ItemRow(TDAO item)
         {
             Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.Html, item);
-            StringBuilder rowBuilder = new("");
+            StringBuilder rowBuilder = new(string.Empty);
 
             foreach (FieldColumn<TField> column in Settings.HTML.Fields)
             {

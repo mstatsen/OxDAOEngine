@@ -41,6 +41,7 @@
         public const string IconContentPart = "Part";
         public const string Id = "Id";
         public const string Image = "Image";
+        public const string ImageId = "ImageId";
         public const string IncludeExportParams = "IncludeExportParams";
         public const string Indent = "Indent";
         public const string Language = "Language";
@@ -78,6 +79,7 @@
         public const string TrophysetAccess = "TrophysetAccess";
         public const string Type = "Type";
         public const string URL = "URL";
+        public const string UseImageList = "UseImageList";
         public const string Verified = "Verified";
         public const string Visible = "Visible";
         public const string Width = "Width";

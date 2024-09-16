@@ -45,9 +45,10 @@ namespace OxXMLEngine.Grid
             selectedGrid.Fields = chooserParams.SelectedGridFields;
             selectedGrid.AdditionalColumns = chooserParams.SelectedGridAdditionalColumns;
 
-            availableGrid.QuickFilter.ClearControls();
-            availableGrid.Fill();
+            if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
+                availableGrid.QuickFilter.ClearControls();
 
+            availableGrid.Fill();
             PrepareSelectedGridItems(ChooserParams.InitialSelectedItems);
         }
 
@@ -128,16 +129,19 @@ namespace OxXMLEngine.Grid
             selectedGrid.Parent = selectedPlace;
             selectedGrid.Dock = DockStyle.Fill;
 
-            topPanel.Parent = ContentContainer;
-            topPanel.Dock = DockStyle.Top;
-            topPanel.SetContentSize(1, 
-                availableGrid.QuickFilter.Height 
-                + availableGrid.QuickFilter.Margins.Bottom
-            );
+            if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
+            {
+                topPanel.Parent = ContentContainer;
+                topPanel.Dock = DockStyle.Top;
+                topPanel.SetContentSize(1,
+                    availableGrid.QuickFilter.Height
+                    + availableGrid.QuickFilter.Margins.Bottom
+                );
 
-            availableGrid.QuickFilter.Dock = DockStyle.Left;
-            availableGrid.QuickFilter.Parent = topPanel;
-            //availableGrid.QuickFilter.Margins.BottomOx = OxSize.Extra;
+                availableGrid.QuickFilter.Dock = DockStyle.Left;
+                availableGrid.QuickFilter.Parent = topPanel;
+                //availableGrid.QuickFilter.Margins.BottomOx = OxSize.Extra;
+            }
 
             availableGrid.Grid.GridView.SelectionChanged += (s, e) => selectButton.Enabled = availableGrid.Grid.SelectedCount > 0;
             selectedGrid.GridView.SelectionChanged += (s, e) => unSelectButton.Enabled = selectedGrid.SelectedCount > 0;
@@ -187,7 +191,9 @@ namespace OxXMLEngine.Grid
             dialog.Shown += (s, e) => RecalcGridsSizes();
             dialog.SizeChanged += (s, e) => RecalcGridsSizes();
             availablePlace.SizeChanged += (s, e) => RecalcGridsSizes();
-            availableGrid.QuickFilter.Width = availablePlace.Width;
+
+            if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
+                availableGrid.QuickFilter.Width = availablePlace.Width;
         }
 
         private void RecalcGridsSizes()
@@ -195,7 +201,9 @@ namespace OxXMLEngine.Grid
             selectedPlace.Width = ((PanelViewer != null ? PanelViewer.Width : Width) - buttonsPanel.Width) / 2;
             selectButton.Top = buttonsPanel.Height / 2 - selectButton.Height - 50;
             unSelectButton.Top = selectButton.Bottom + 8;
-            availableGrid.QuickFilter.Width = availablePlace.Width;
+
+            if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
+                availableGrid.QuickFilter.Width = availablePlace.Width;
         }
 
         public static bool ChooseItems(ItemsChooserParams<TField, TDAO> chooserParams, out RootListDAO<TField, TDAO> selection)

@@ -93,7 +93,7 @@ namespace OxXMLEngine.Statistic
 
         private void CreateLabel(StatisticType type)
         {
-            OxButton label = new("", null)
+            OxButton label = new(string.Empty, null)
             {
                 Parent = ContentContainer,
                 Dock = helper.Dock(type),
