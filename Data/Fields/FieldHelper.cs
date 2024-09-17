@@ -146,5 +146,8 @@ namespace OxXMLEngine.Data.Fields
         public virtual string ColumnCaption(TField field) => Name(field);
 
         public virtual void FillAdditionalContext(TField field, IAccessorContext context) { }
+
+        public virtual bool IsImageColumn(TField field) =>
+            GetFieldType(field) == FieldType.Image;
     }
 }

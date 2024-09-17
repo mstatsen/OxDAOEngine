@@ -87,7 +87,7 @@ namespace OxXMLEngine.Grid
         private void CreateColumn(TField field)
         {
             FieldType fieldType = fieldHelper.GetFieldType(field);
-            DataGridViewColumn dataColumn = fieldType == FieldType.Image
+            DataGridViewColumn dataColumn = fieldHelper.IsImageColumn(field) 
                 ? new DataGridViewImageColumn()
                 : new DataGridViewTextBoxColumn();
 
