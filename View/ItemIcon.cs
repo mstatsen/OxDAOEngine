@@ -77,7 +77,7 @@ namespace OxDAOEngine.View
         private static ListDAO<IconMapping<TField>>? Mapping => 
             SettingsManager.DAOSettings<TField, TDAO>().IconMapping;
         private static IconMapping<TField>? PartMapping(IconContent part) =>
-            ItemIcon<TField, TDAO>.Mapping?.Find(p => p.Part.Equals(part));
+            Mapping?.Find(p => p.Part.Equals(part));
 
         private static IconMapping<TField>? ImageMapping => 
             ItemIcon<TField, TDAO>.PartMapping(IconContent.Image);
@@ -96,19 +96,19 @@ namespace OxDAOEngine.View
             FillImageLayout();
             FillTitleLayout();
 
-            if (ItemIcon<TField, TDAO>.LeftMapping != null)
+            if (LeftMapping != null)
                 FillLeftLayout();
 
-            if (ItemIcon<TField, TDAO>.RightMapping != null)
+            if (RightMapping != null)
                 FillRightLayout();
         }
 
         private void FillTitleLayout()
         {
-            if (ItemIcon<TField, TDAO>.TitleMapping == null) 
+            if (TitleMapping == null) 
                 return;
 
-            ControlLayout<TField> titleLayout = layouter.AddFromTemplate(ItemIcon<TField, TDAO>.TitleMapping.Field);
+            ControlLayout<TField> titleLayout = layouter.AddFromTemplate(TitleMapping.Field);
             titleLayout.AutoSize = false;
             titleLayout.Top = IconWidth / 2 - 2;
             titleLayout.Width = IconWidth;
@@ -119,10 +119,10 @@ namespace OxDAOEngine.View
 
         private void FillImageLayout()
         {
-            if (ItemIcon<TField, TDAO>.ImageMapping == null)
+            if (ImageMapping == null)
                 return;
 
-            ControlLayout<TField> imageLayout = layouter.AddFromTemplate(ItemIcon<TField, TDAO>.ImageMapping.Field);
+            ControlLayout<TField> imageLayout = layouter.AddFromTemplate(ImageMapping.Field);
             imageLayout.Top = 1;
             imageLayout.Width = IconWidth;
             imageLayout.Height = IconWidth / 2 - 3;
@@ -130,20 +130,20 @@ namespace OxDAOEngine.View
 
         private void FillLeftLayout()
         {
-            if (ItemIcon<TField, TDAO>.LeftMapping == null)
+            if (LeftMapping == null)
                 return;
 
-            ControlLayout<TField> leftLayout = layouter.AddFromTemplate(ItemIcon<TField, TDAO>.LeftMapping.Field);
+            ControlLayout<TField> leftLayout = layouter.AddFromTemplate(LeftMapping.Field);
             leftLayout.Top = 5;
             leftLayout.FontSize -= sizeHelper.FontSizeDelta(ListController.Settings.IconsSize);
         }
 
         private void FillRightLayout()
         {
-            if (ItemIcon<TField, TDAO>.RightMapping == null)
+            if (RightMapping == null)
                 return;
 
-            ControlLayout<TField> rightLayout = layouter.AddFromTemplate(ItemIcon<TField, TDAO>.RightMapping.Field);
+            ControlLayout<TField> rightLayout = layouter.AddFromTemplate(RightMapping.Field);
             rightLayout.Top = IconWidth / 2 - 20;
             rightLayout.FontSize -= sizeHelper.FontSizeDelta(ListController.Settings.IconsSize);
         }
@@ -171,8 +171,8 @@ namespace OxDAOEngine.View
             layouter.LayoutControls();
             placedControls.Clear();
 
-            if (ItemIcon<TField, TDAO>.Mapping != null)
-                foreach (IconMapping<TField> mapping in ItemIcon<TField, TDAO>.Mapping)
+            if (Mapping != null)
+                foreach (IconMapping<TField> mapping in Mapping)
                 {
                     Control? control = layouter.PlacedControl(mapping.Field)?.Control;
 
@@ -180,9 +180,9 @@ namespace OxDAOEngine.View
                         placedControls.Add(control);
                 }
 
-            if (ItemIcon<TField, TDAO>.LeftMapping != null)
+            if (LeftMapping != null)
             {
-                OxLabel? leftControl = (OxLabel?)layouter.PlacedControl(ItemIcon<TField, TDAO>.LeftMapping.Field)?.Control;
+                OxLabel? leftControl = (OxLabel?)layouter.PlacedControl(LeftMapping.Field)?.Control;
 
                 if (leftControl != null)
                 {
@@ -192,9 +192,9 @@ namespace OxDAOEngine.View
                 }
             }
 
-            if (ItemIcon<TField, TDAO>.RightMapping != null)
+            if (RightMapping != null)
             {
-                OxLabel? rightControl = (OxLabel?)layouter.PlacedControl(ItemIcon<TField, TDAO>.RightMapping.Field)?.Control;
+                OxLabel? rightControl = (OxLabel?)layouter.PlacedControl(RightMapping.Field)?.Control;
 
                 if (rightControl != null)
                 {
@@ -205,9 +205,9 @@ namespace OxDAOEngine.View
                 }
             }
 
-            if (ItemIcon<TField, TDAO>.TitleMapping != null)
+            if (TitleMapping != null)
             {
-                OxLabel? titleControl = ((OxLabel?)layouter.PlacedControl(ItemIcon<TField, TDAO>.TitleMapping.Field)?.Control);
+                OxLabel? titleControl = ((OxLabel?)layouter.PlacedControl(TitleMapping.Field)?.Control);
 
                 if (titleControl != null)
                     titleControl.TextAlign = ContentAlignment.MiddleCenter;
