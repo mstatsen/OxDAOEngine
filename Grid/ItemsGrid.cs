@@ -344,7 +344,7 @@ namespace OxDAOEngine.Grid
         public override Color DefaultColor =>
             new OxColorHelper(EngineStyles.ElementControlColor).Darker(2);
 
-        public event ToolbarActionClick ToolbarActionClick
+        public event OxActionClick<OxToolbarAction> ToolbarActionClick
         {
             add => ToolBar.ToolbarActionClick += value;
             remove => ToolBar.ToolbarActionClick -= value;
