@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 
-namespace OxXMLEngine.Settings
+namespace OxDAOEngine.Settings
 {
     public static class SettingsManager
     {

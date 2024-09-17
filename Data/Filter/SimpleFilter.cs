@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.Data.Types;
-using OxXMLEngine.XML;
+﻿using OxDAOEngine.Data.Types;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Data.Filter
+namespace OxDAOEngine.Data.Filter
 {
     public class SimpleFilter<TField, TDAO> 
         : DAO, IMatcher<TField>, IFieldMapping<TField>

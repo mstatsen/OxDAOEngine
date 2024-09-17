@@ -1,9 +1,9 @@
-﻿using OxXMLEngine.Data.Types;
-using OxXMLEngine.XML;
+﻿using OxDAOEngine.Data.Types;
+using OxDAOEngine.XML;
 using System.Xml;
-using OxXMLEngine.Data.Fields;
+using OxDAOEngine.Data.Fields;
 
-namespace OxXMLEngine.Settings.Export
+namespace OxDAOEngine.Settings.Export
 {
     public abstract class AbstractTextExportSettings<TField> : AbstractExportSettings
         where TField : notnull, Enum

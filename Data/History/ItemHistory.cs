@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace OxXMLEngine.Data.History
+namespace OxDAOEngine.Data.History
 {
     public class ItemHistory<TField, TDAO> : RootDAO<TField>
         where TField : notnull, Enum

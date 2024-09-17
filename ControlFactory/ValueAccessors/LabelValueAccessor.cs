@@ -1,6 +1,6 @@
 ﻿using OxLibrary.Controls;
 
-namespace OxXMLEngine.ControlFactory.ValueAccessors
+namespace OxDAOEngine.ControlFactory.ValueAccessors
 {
     public class LabelValueAccessor : ValueAccessor
     {

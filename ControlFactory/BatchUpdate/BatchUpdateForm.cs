@@ -1,8 +1,8 @@
 ﻿using OxLibrary;
 using OxLibrary.Dialogs;
-using OxXMLEngine.Data;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.BatchUpdate
+namespace OxDAOEngine.ControlFactory.BatchUpdate
 {
     public class BatchUpdateForm<TField, TDAO> : OxDialog
         where TField : notnull, Enum

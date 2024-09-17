@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Types
+﻿namespace OxDAOEngine.Data.Types
 {
     public class TypeObjectList<T> : List<EnumItemObject<T>> where T : Enum { }
 

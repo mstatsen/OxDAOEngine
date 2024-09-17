@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data.Fields;
-using OxXMLEngine.SystemEngine;
+﻿using OxDAOEngine.Data.Fields;
+using OxDAOEngine.SystemEngine;
 
-namespace OxXMLEngine.Settings.ControlFactory
+namespace OxDAOEngine.Settings.ControlFactory
 {
     public class GeneralSettingsControlFactory : SystemControlFactory<GeneralSetting>
     {

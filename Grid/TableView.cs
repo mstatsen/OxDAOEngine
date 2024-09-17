@@ -1,13 +1,13 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Settings;
-using OxXMLEngine.Settings.Observers;
-using OxXMLEngine.View;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Settings;
+using OxDAOEngine.Settings.Observers;
+using OxDAOEngine.View;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class TableView<TField, TDAO> : OxFrame
         where TField : notnull, Enum

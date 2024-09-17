@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data
+﻿namespace OxDAOEngine.Data
 {
     public interface IDataReceiver
     {

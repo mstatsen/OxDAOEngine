@@ -1,7 +1,7 @@
 ﻿using OxLibrary.Controls;
-using OxXMLEngine.Data;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.ValueAccessors
+namespace OxDAOEngine.ControlFactory.ValueAccessors
 {
     public class NumericValueAccessor : ValueAccessor
     {

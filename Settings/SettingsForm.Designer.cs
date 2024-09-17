@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Settings
+﻿namespace OxDAOEngine.Settings
 {
     partial class SettingsForm
     {

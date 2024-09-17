@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Grid
+﻿namespace OxDAOEngine.Grid
 {
     public class GridFieldColumns<TField> : Dictionary<TField, DataGridViewColumn>
         where TField: notnull, Enum

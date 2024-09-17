@@ -1,8 +1,8 @@
 ﻿using OxLibrary;
-using OxXMLEngine.XML;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public class DAOImage : DAO
     {

@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.XML;
+﻿using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Data.Filter
+namespace OxDAOEngine.Data.Filter
 {
     public class FilterRoot<TField, TDAO> 
         : ListDAO<FilterGroups<TField, TDAO>>, IMatcher<TField>, IMatcherList<TField>

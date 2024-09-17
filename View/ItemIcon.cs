@@ -1,13 +1,13 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings;
-using OxXMLEngine.Settings.Data;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings;
+using OxDAOEngine.Settings.Data;
 
-namespace OxXMLEngine.View
+namespace OxDAOEngine.View
 {
     public sealed class ItemIcon<TField, TDAO> : OxClickFrame, IItemView<TField, TDAO>
         where TField : notnull, Enum

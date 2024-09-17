@@ -1,8 +1,8 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory.Context;
-using OxXMLEngine.Data;
+using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public abstract class CustomControl<TField, TDAO, TItem> : OxPane, 
         ICustomControl<TField, TDAO>, IColoredCustomControl

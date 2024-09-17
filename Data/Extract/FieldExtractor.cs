@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Filter;
+﻿using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.Data.Extract
+namespace OxDAOEngine.Data.Extract
 {
     public class FieldExtractor<TField, TDAO>
         where TField : notnull, Enum

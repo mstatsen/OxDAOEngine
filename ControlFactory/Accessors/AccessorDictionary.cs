@@ -1,9 +1,9 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Fields;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
 
-namespace OxXMLEngine.ControlFactory.Accessors
+namespace OxDAOEngine.ControlFactory.Accessors
 {
     public class AccessorDictionary<TField, TDAO> : Dictionary<object, IControlAccessor>
         where TField : notnull, Enum

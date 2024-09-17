@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.Settings.ControlFactory;
-using OxXMLEngine.Settings.Observers;
-using OxXMLEngine.SystemEngine;
+﻿using OxDAOEngine.Settings.ControlFactory;
+using OxDAOEngine.Settings.Observers;
+using OxDAOEngine.SystemEngine;
 
-namespace OxXMLEngine.Settings
+namespace OxDAOEngine.Settings
 {
     public class GeneralSettings : SettingsController<GeneralSetting>
     {

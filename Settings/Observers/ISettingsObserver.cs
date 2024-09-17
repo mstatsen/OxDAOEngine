@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Settings.Observers
+﻿namespace OxDAOEngine.Settings.Observers
 {
     public interface ISettingsObserver
     {

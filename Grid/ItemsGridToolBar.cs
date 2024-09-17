@@ -1,8 +1,8 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxXMLEngine.Data;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class ItemsGridToolBar<TField, TDAO> : OxToolBar
         where TField : notnull, Enum

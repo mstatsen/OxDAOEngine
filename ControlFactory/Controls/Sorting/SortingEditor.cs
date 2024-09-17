@@ -1,11 +1,11 @@
-﻿using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.ControlFactory.Initializers;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.ControlFactory.Initializers;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public partial class SortingEditor<TField, TDAO> : ListItemEditor<FieldSorting<TField, TDAO>, TField, TDAO>
         where TField : notnull, Enum

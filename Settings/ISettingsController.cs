@@ -1,9 +1,9 @@
-﻿using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.Data;
-using OxXMLEngine.Settings.Helpers;
-using OxXMLEngine.Settings.Observers;
+﻿using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
+using OxDAOEngine.Settings.Helpers;
+using OxDAOEngine.Settings.Observers;
 
-namespace OxXMLEngine.Settings
+namespace OxDAOEngine.Settings
 {
     public interface ISettingsController : IDataController
     {

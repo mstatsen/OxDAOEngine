@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.History
+﻿namespace OxDAOEngine.Data.History
 {
     public class FieldHistory<TField, TDAO> : ItemHistory<TField, TDAO>
         where TField : notnull, Enum

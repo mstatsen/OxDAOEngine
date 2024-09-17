@@ -2,14 +2,14 @@
 using OxLibrary.Controls;
 using OxLibrary.Dialogs;
 using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.ControlFactory.Controls;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings.Part;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.ControlFactory.Controls;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings.Part;
 
-namespace OxXMLEngine.Settings
+namespace OxDAOEngine.Settings
 {
     public partial class SettingsForm : OxDialog
     {

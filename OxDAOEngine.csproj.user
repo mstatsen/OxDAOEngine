@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="ControlFactory\BatchUpdate\BatchUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\BatchUpdate\BatchUpdatePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\ButtonEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\CustomControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\CustomListControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\Fields\FieldEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\Fields\FieldListControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\Fields\FieldListPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\ListItemEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\ListItemsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\ListMovableItemsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\Sorting\SortingEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\Sorting\SortingListControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\Sorting\SortingPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Filter\CategoriesTree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Filter\QuickFilterPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Editor\DAOEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Grid\ItemsChooser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Grid\ItemSelector.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Grid\ItemsGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Grid\ItemsGridToolBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Grid\ItemsRootGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Grid\ItemsRootGridActionToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Grid\ItemsRootGridContextMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Grid\ItemsViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Grid\TableView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ItemsFace.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Settings\ControlFactory\Controls\IconContent\IconMappingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Settings\ControlFactory\Controls\IconContent\IconMappingEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Settings\Export\ExportSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Settings\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Statistic\StatisticPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Summary\SummaryPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Summary\SummaryView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="View\ItemCard.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="View\ItemIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="View\ItemInfo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="View\ItemsView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

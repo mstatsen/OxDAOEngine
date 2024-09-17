@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Settings;
+﻿using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public interface IFieldController<TField> : IDataController
         where TField : notnull, Enum

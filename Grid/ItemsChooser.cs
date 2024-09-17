@@ -2,10 +2,10 @@
 using OxLibrary.Controls;
 using OxLibrary.Dialogs;
 using OxLibrary.Panels;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class ItemsChooser<TField, TDAO> : OxPanel
         where TField : notnull, Enum

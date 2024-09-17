@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 using System.Collections;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class GridComparer<TField, TDAO> : IComparer
         where TField : notnull, Enum

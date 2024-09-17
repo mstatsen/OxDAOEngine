@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Decorator
+﻿namespace OxDAOEngine.Data.Decorator
 {
     public abstract class Decorator<TField, TDAO>
         where TField: Enum

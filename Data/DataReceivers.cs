@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Settings;
+﻿using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public static class DataReceivers
     {

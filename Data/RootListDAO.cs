@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Sorting;
+﻿using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Sorting;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public class RootListDAO<TField, TDAO> : ListDAO<TDAO>, IMatcher<TField>, IRootListDAO<TField, TDAO>
         where TField : notnull, Enum

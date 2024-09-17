@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.View
+﻿namespace OxDAOEngine.View
 {
     public enum IconSize
     {

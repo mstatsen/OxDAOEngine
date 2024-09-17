@@ -1,5 +1,5 @@
 ﻿
-namespace OxXMLEngine.Settings.ControlFactory.Controls
+namespace OxDAOEngine.Settings.ControlFactory.Controls
 {
     partial class IconMappingEditor<TField>
     {

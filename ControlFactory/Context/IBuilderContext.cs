@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.ControlFactory.Initializers;
-using OxXMLEngine.Data;
+﻿using OxDAOEngine.ControlFactory.Initializers;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.Context
+namespace OxDAOEngine.ControlFactory.Context
 {
     public interface IBuilderContext<TField, TDAO> : IAccessorContext
         where TField : notnull, Enum

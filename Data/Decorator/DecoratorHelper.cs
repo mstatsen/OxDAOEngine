@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OxXMLEngine.Data.Decorator
+namespace OxDAOEngine.Data.Decorator
 {
     public static class DecoratorHelper
     {

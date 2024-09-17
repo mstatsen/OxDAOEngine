@@ -1,10 +1,10 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.View;
-using OxXMLEngine.XML;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.View;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Settings.Data
+namespace OxDAOEngine.Settings.Data
 {
     public class IconMapping<TField> : DAO
         where TField : notnull, Enum

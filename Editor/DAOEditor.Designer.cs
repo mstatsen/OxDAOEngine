@@ -1,6 +1,6 @@
 ﻿using OxLibrary.Dialogs;
 
-namespace OxXMLEngine.Editor
+namespace OxDAOEngine.Editor
 {
     partial class DAOEditor<TField, TDAO, TFieldGroup>
         : OxDialog

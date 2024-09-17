@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class GridSelector<TField, TDAO>
         where TField : notnull, Enum

@@ -1,6 +1,6 @@
 ﻿using OxLibrary;
 
-namespace OxXMLEngine.Data.Types
+namespace OxDAOEngine.Data.Types
 {
     public interface IStyledTypeHelper
     {

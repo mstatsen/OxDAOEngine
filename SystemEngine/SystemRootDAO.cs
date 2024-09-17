@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 using System.Xml;
 
-namespace OxXMLEngine.SystemEngine
+namespace OxDAOEngine.SystemEngine
 {
     public class SystemRootDAO<TField> : RootDAO<TField>
         where TField : notnull, Enum

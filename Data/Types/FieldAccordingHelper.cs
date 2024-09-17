@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Types
+﻿namespace OxDAOEngine.Data.Types
 {
     public abstract class FieldAccordingHelper<TField, TDepended> : AbstractStyledTypeHelper<TDepended>,
         IDependedHelper<TField, TDepended>

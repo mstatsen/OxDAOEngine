@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Decorator
+﻿namespace OxDAOEngine.Data.Decorator
 {
     public enum DecoratorType
     {

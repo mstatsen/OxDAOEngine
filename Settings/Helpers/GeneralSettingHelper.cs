@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 
-namespace OxXMLEngine.Settings.Helpers
+namespace OxDAOEngine.Settings.Helpers
 {
     public class GeneralSettingHelper : SettingHelper<GeneralSetting>
     {

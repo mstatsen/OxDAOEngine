@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Filter
+﻿namespace OxDAOEngine.Data.Filter
 {
     public class MatchAggregator<TField>
         where TField : notnull, Enum

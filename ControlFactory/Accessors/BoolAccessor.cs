@@ -1,8 +1,8 @@
 ﻿using OxLibrary.Controls;
-using OxXMLEngine.ControlFactory.Context;
-using OxXMLEngine.Data;
+using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.Accessors
+namespace OxDAOEngine.ControlFactory.Accessors
 {
     public class BoolAccessor<TField, TDAO> : ComboBoxAccessor<TField, TDAO>
         where TField : notnull, Enum

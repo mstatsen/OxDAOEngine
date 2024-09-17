@@ -1,11 +1,11 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Export;
-using OxXMLEngine.XML;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Export;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Settings.Export
+namespace OxDAOEngine.Settings.Export
 {
     public class ExportSettings<TField, TDAO> : DAO
         where TField : notnull, Enum

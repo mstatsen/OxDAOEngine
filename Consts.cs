@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine
+﻿namespace OxDAOEngine
 {
     public class Consts
     {

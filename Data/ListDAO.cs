@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 using System.Collections;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public class ListDAO<T> : DAO, IEnumerable<T>, IEnumerable, IListDAO<T>
         where T : DAO, new()

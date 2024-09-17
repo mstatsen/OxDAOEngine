@@ -1,22 +1,22 @@
 ﻿using OxLibrary;
-using OxXMLEngine.ControlFactory.Controls;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Extract;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings.ControlFactory;
-using OxXMLEngine.Settings.Data;
-using OxXMLEngine.Settings.Export;
-using OxXMLEngine.Settings.Observers;
-using OxXMLEngine.Settings.Part;
-using OxXMLEngine.SystemEngine;
-using OxXMLEngine.View;
-using OxXMLEngine.XML;
+using OxDAOEngine.ControlFactory.Controls;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings.ControlFactory;
+using OxDAOEngine.Settings.Data;
+using OxDAOEngine.Settings.Export;
+using OxDAOEngine.Settings.Observers;
+using OxDAOEngine.Settings.Part;
+using OxDAOEngine.SystemEngine;
+using OxDAOEngine.View;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Settings
+namespace OxDAOEngine.Settings
 {
     public class DAOSettings<TField, TDAO> : SettingsController<DAOSetting>, IDAOSettings<TField>
         where TField : notnull, Enum

@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Settings
+﻿namespace OxDAOEngine.Settings
 {
     public class SettingList<TSetting> : List<TSetting>
         where TSetting : Enum

@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.ControlFactory.Controls
+﻿namespace OxDAOEngine.ControlFactory.Controls
 {
     partial class FieldEditor<TField, TDAO>
     {

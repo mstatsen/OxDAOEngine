@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Settings.Export
+﻿namespace OxDAOEngine.Settings.Export
 {
     public enum ExportSummaryType
     {

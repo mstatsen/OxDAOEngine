@@ -1,7 +1,7 @@
 ﻿using OxLibrary;
-using OxXMLEngine.Data.Types;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.View
+namespace OxDAOEngine.View
 {
     public class IconSizeHelper : AbstractTypeHelper<IconSize>
     {

@@ -1,8 +1,8 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Sorting;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Sorting;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public interface ISortingPanel : IOxFrameWithHeader
     {

@@ -1,11 +1,11 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Dialogs;
-using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.ControlFactory.BatchUpdate
+namespace OxDAOEngine.ControlFactory.BatchUpdate
 {
     public class BatchUpdatePanel<TField, TDAO> : OxDialogMainPanel
         where TField : notnull, Enum

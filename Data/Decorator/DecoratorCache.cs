@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Decorator
+﻿namespace OxDAOEngine.Data.Decorator
 {
     internal class DecoratorCache<TField, TDAO> : Dictionary<TDAO, Dictionary<DecoratorType, Decorator<TField, TDAO>>>
         where TField : notnull, Enum

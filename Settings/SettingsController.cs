@@ -1,15 +1,15 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings.Helpers;
-using OxXMLEngine.Settings.Observers;
-using OxXMLEngine.SystemEngine;
-using OxXMLEngine.XML;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings.Helpers;
+using OxDAOEngine.Settings.Observers;
+using OxDAOEngine.SystemEngine;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Settings
+namespace OxDAOEngine.Settings
 {
     public abstract class SettingsController<TSetting> : DAO, ISettingsController<TSetting>
         where TSetting : Enum

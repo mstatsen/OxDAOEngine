@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public interface IListDAO<T> : IEnumerable<T>, IEnumerable
         where T : DAO, new()

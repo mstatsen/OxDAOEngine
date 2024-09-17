@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.XML;
+﻿using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Settings.Export
+namespace OxDAOEngine.Settings.Export
 {
     public class ExportXMLSettings : AbstractExportSettings
     {

@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Summary
+﻿namespace OxDAOEngine.Summary
 {
     public static class SummaryConsts
     {

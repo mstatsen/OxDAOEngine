@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Filter;
+﻿using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.ControlFactory.Filter
+namespace OxDAOEngine.ControlFactory.Filter
 {
     public interface IQuickFilterLayouter<TField>
         where TField : notnull, Enum

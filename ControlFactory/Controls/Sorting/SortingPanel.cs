@@ -1,13 +1,13 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public partial class SortingPanel<TField, TDAO> : FunctionsPanel<TField, TDAO>, ISortingPanel
         where TField : notnull, Enum

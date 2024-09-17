@@ -1,12 +1,12 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory.Filter;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Grid;
+using OxDAOEngine.ControlFactory.Filter;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Grid;
 
-namespace OxXMLEngine.Statistic
+namespace OxDAOEngine.Statistic
 {
     public partial class StatisticPanel<TField, TDAO> : OxFrame
         where TField : notnull, Enum

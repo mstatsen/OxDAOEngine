@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Statistic
+namespace OxDAOEngine.Statistic
 {
     public class StatisticTypeHelper : AbstractTypeHelper<StatisticType>
     {

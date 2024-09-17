@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class CustomGridColumns<TField, TDAO> : Dictionary<CustomGridColumn<TField, TDAO>, DataGridViewColumn>
         where TField : notnull, Enum

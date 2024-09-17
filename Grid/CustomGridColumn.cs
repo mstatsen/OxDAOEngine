@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public delegate object? GetColumnValue<TField, TDAO>(TDAO item);
 

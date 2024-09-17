@@ -1,8 +1,8 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxXMLEngine.Data;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public class ListMovableItemsControl<TList, TItem, TEditor, TField, TDAO> 
         : ListItemsControl<TList, TItem, TEditor, TField, TDAO>

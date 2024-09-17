@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OxXMLEngine.Data.Filter
+namespace OxDAOEngine.Data.Filter
 {
     public class Categories<TField, TDAO> : ListDAO<Category<TField, TDAO>>
         where TField : notnull, Enum

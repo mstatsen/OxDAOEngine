@@ -1,6 +1,6 @@
 ﻿using OxLibrary.Dialogs;
 
-namespace OxXMLEngine.XML
+namespace OxDAOEngine.XML
 {
     public static class XmlView
     {

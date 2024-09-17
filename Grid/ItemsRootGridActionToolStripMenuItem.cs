@@ -1,6 +1,6 @@
 ﻿using OxLibrary.Controls;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class ItemsRootGridActionToolStripMenuItem : ToolStripMenuItem
     {

@@ -1,7 +1,7 @@
 ﻿using OxLibrary;
-using OxXMLEngine.Data;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.View
+namespace OxDAOEngine.View
 {
     public class ItemColorer<TField, TDAO>
         where TField : notnull, Enum

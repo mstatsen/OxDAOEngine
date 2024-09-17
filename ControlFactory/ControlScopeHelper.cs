@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.ControlFactory
+namespace OxDAOEngine.ControlFactory
 {
     public class ControlScopeHelper : AbstractTypeHelper<ControlScope>
     {

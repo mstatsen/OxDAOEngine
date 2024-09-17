@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.ControlFactory.Context;
-using OxXMLEngine.ControlFactory.Initializers;
-using OxXMLEngine.Data;
+﻿using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.ControlFactory.Initializers;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.Accessors
+namespace OxDAOEngine.ControlFactory.Accessors
 {
     public class FieldAccessor<TField, TDAO, TFieldItem>: EnumAccessor<TField, TDAO, TFieldItem>
         where TField : notnull, Enum

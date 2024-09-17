@@ -1,7 +1,7 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.Data.Fields;
+using OxDAOEngine.Data.Fields;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public interface IFieldsPanel : IOxFrameWithHeader
     {

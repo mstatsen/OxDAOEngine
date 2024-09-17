@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace OxXMLEngine.Data.Filter
+namespace OxDAOEngine.Data.Filter
 {
     public class Filter<TField, TDAO> 
         : DAO, IMatcher<TField>

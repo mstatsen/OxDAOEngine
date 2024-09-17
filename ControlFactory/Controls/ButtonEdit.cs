@@ -1,10 +1,10 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Dialogs;
-using OxXMLEngine.ControlFactory.Context;
-using OxXMLEngine.Data;
+using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public class ButtonEdit<TField, TDAO, TItems, TItem, TListControl>
         : CustomListControl<TField, TDAO, TItems, TItem>,

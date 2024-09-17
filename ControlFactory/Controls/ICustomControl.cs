@@ -1,7 +1,7 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.Data;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public interface ICustomControl<TField, TDAO> : IOxPane
         where TField: Enum

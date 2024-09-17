@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.ControlFactory
+﻿namespace OxDAOEngine.ControlFactory
 {
     public enum ControlScope
     {

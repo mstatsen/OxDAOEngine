@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings;
+﻿using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.Data.Fields
+namespace OxDAOEngine.Data.Fields
 {
     public class FieldVariantHelper : AbstractStyledTypeHelper<FieldsVariant>
     {

@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 using System.Drawing;
 
-namespace OxXMLEngine.Data.Sorting
+namespace OxDAOEngine.Data.Sorting
 {
     public class SortingVariantHelper : AbstractStyledTypeHelper<SortingVariant>
     {

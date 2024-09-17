@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.ControlFactory;
+﻿using OxDAOEngine.ControlFactory;
 
-namespace OxXMLEngine.SystemEngine
+namespace OxDAOEngine.SystemEngine
 {
     public abstract class SystemControlFactory<TSetting>
         : ControlFactory<TSetting, SystemRootDAO<TSetting>>

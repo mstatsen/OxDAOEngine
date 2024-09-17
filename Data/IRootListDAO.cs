@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Filter;
+﻿using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public interface IRootListDAO<TField, TDAO> : IMatcher<TField>, IListDAO<TDAO>
         where TField : notnull, Enum

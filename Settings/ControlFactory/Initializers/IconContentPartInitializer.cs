@@ -1,10 +1,10 @@
 ﻿using OxLibrary.Controls;
-using OxXMLEngine.ControlFactory.Initializers;
-using OxXMLEngine.Data;
-using OxXMLEngine.Settings.Data;
-using OxXMLEngine.View;
+using OxDAOEngine.ControlFactory.Initializers;
+using OxDAOEngine.Data;
+using OxDAOEngine.Settings.Data;
+using OxDAOEngine.View;
 
-namespace OxXMLEngine.Settings.ControlFactory.Initializers
+namespace OxDAOEngine.Settings.ControlFactory.Initializers
 {
     public class IconContentPartInitializer<TField> : TypedComboBoxInitializer<IconContent>
         where TField : notnull, Enum

@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Export
+namespace OxDAOEngine.Export
 {
     public class ExportFormatHelper : AbstractTypeHelper<ExportFormat>
     {

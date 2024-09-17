@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.XML
+﻿namespace OxDAOEngine.XML
 {
     public static class XmlConsts
     {

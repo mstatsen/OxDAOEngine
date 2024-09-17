@@ -1,9 +1,9 @@
-﻿using OxXMLEngine.ControlFactory;
-using OxXMLEngine.ControlFactory.Context;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.ControlFactory;
+using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Data.Fields
+namespace OxDAOEngine.Data.Fields
 {
     public class FieldFilterOperation<TField> : FieldDictionary<TField, FilterOperation>
         where TField : notnull, Enum

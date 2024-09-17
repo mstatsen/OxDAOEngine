@@ -1,13 +1,13 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Data.Types;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
 
     public class ItemsGrid<TField, TDAO> : OxPanel

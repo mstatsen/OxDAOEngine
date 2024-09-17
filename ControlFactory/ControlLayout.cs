@@ -2,11 +2,11 @@
 using OxLibrary.Controls;
 using OxLibrary.Dialogs;
 using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory.Controls;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Types;
+using OxDAOEngine.ControlFactory.Controls;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.ControlFactory
+namespace OxDAOEngine.ControlFactory
 {
     public class ControlLayout<TField>
         where TField : notnull, Enum

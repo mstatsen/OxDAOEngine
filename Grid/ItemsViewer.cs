@@ -1,9 +1,9 @@
 ﻿using OxLibrary;
 using OxLibrary.Panels;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class ItemsViewer<TField, TDAO> : OxPanel
         where TField : notnull, Enum

@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Filter;
+﻿using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.Data.Sorting
+namespace OxDAOEngine.Data.Sorting
 {
     public class BySortingsComparer<TField, TDAO> : IComparer<TDAO>
         where TField : notnull, Enum

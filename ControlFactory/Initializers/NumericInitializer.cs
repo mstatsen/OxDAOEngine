@@ -1,6 +1,6 @@
 ﻿using OxLibrary.Controls;
 
-namespace OxXMLEngine.ControlFactory.Initializers
+namespace OxDAOEngine.ControlFactory.Initializers
 {
     public class NumericInitializer : EmptyControlInitializer
     {

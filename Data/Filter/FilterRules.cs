@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Filter
+﻿namespace OxDAOEngine.Data.Filter
 {
     public class FilterRules<TField> : ListDAO<FilterRule<TField>>
         where TField : notnull, Enum

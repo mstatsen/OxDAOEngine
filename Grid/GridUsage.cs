@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Grid
+﻿namespace OxDAOEngine.Grid
 {
     public enum GridUsage
     { 

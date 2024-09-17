@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.ControlFactory.Initializers
+namespace OxDAOEngine.ControlFactory.Initializers
 {
     public class FieldsInitializer<TField> : TypedComboBoxInitializer<TField>
         where TField : notnull, Enum

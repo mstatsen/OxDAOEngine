@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.ControlFactory.Controls;
+﻿using OxDAOEngine.ControlFactory.Controls;
 using OxLibrary.Controls;
 using OxLibrary;
 
-namespace OxXMLEngine.ControlFactory
+namespace OxDAOEngine.ControlFactory
 {
     public static class ControlPainter
     {

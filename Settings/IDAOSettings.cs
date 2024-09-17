@@ -1,12 +1,12 @@
-﻿using OxXMLEngine.ControlFactory.Controls;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Extract;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Settings.Data;
-using OxXMLEngine.View;
+﻿using OxDAOEngine.ControlFactory.Controls;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Settings.Data;
+using OxDAOEngine.View;
 
-namespace OxXMLEngine.Settings
+namespace OxDAOEngine.Settings
 {
     public interface IDAOSettings : ISettingsController<DAOSetting>
     {

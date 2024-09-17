@@ -1,11 +1,11 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Extract;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.Summary
+namespace OxDAOEngine.Summary
 {
     public delegate void SummaryPanelHandler(ISummaryPanel panel);
 

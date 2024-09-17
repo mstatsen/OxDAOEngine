@@ -1,10 +1,10 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.View
+namespace OxDAOEngine.View
 {
     public abstract class ItemCard<TField, TDAO, TFieldGroup>
         : OxCard, IItemCard<TField, TDAO>

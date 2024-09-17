@@ -1,9 +1,9 @@
-﻿using OxXMLEngine.ControlFactory.Context;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.ControlFactory.Accessors
+namespace OxDAOEngine.ControlFactory.Accessors
 {
     public class DependedEnumAccessor<TField, TDAO, TItem> 
         : EnumAccessor<TField, TDAO, TItem>, IDependedControl

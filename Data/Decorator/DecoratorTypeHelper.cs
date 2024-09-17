@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Data.Decorator
+namespace OxDAOEngine.Data.Decorator
 {
     public class DecoratorTypeHelper : AbstractTypeHelper<DecoratorType>
     {

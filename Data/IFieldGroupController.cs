@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Fields;
+﻿using OxDAOEngine.Data.Fields;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public interface IFieldGroupController<TField, TFieldGroup> : IFieldController<TField>
         where TField : notnull, Enum

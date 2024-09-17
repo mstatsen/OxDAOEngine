@@ -1,10 +1,10 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Data.Extract;
-using OxXMLEngine.Data.Filter;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Filter;
 using OxLibrary.Controls;
 
-namespace OxXMLEngine.ControlFactory.Initializers
+namespace OxDAOEngine.ControlFactory.Initializers
 {
     public class ExtractInitializer<TField, TDAO> 
         : EmptyControlInitializer, IFilteredInitializer<TField, TDAO>

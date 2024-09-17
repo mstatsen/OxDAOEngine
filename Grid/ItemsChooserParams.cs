@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public delegate bool CanSelectEvent<TField, TDAO>(TDAO currentItem, RootListDAO<TField, TDAO> selectedList)
         where TField : notnull, Enum

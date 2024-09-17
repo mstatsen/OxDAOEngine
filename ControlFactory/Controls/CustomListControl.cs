@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 using System;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public abstract class CustomListControl<TField, TDAO, TItems, TItem> 
         : CustomControl<TField, TDAO,TItems>

@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Statistic
+﻿namespace OxDAOEngine.Statistic
 {
     public enum StatisticType
     {

@@ -1,9 +1,9 @@
 ﻿using OxLibrary;
-using OxXMLEngine.ControlFactory.Filter;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
+using OxDAOEngine.ControlFactory.Filter;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class ItemSelector<TField, TDAO> : ItemsViewer<TField, TDAO>
         where TField : notnull, Enum

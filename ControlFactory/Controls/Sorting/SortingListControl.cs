@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public class SortingsControl<TField, TDAO>
         : ListMovableItemsControl<

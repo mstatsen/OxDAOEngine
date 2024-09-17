@@ -1,22 +1,22 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data.Decorator;
-using OxXMLEngine.Data.Extract;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Editor;
-using OxXMLEngine.Export;
-using OxXMLEngine.Settings;
-using OxXMLEngine.Settings.Export;
-using OxXMLEngine.Settings.Helpers;
-using OxXMLEngine.Settings.Part;
-using OxXMLEngine.Statistic;
-using OxXMLEngine.View;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data.Decorator;
+using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Editor;
+using OxDAOEngine.Export;
+using OxDAOEngine.Settings;
+using OxDAOEngine.Settings.Export;
+using OxDAOEngine.Settings.Helpers;
+using OxDAOEngine.Settings.Part;
+using OxDAOEngine.Statistic;
+using OxDAOEngine.View;
 using System.Xml;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public static class DataManager
     {

@@ -1,11 +1,11 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data;
-using OxXMLEngine.Settings;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data;
+using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.View
+namespace OxDAOEngine.View
 {
     public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TField, TDAO>, IItemInfo<TField, TDAO>
         where TField : notnull, Enum

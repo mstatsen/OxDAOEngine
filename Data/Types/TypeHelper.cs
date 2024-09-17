@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Fields;
+﻿using OxDAOEngine.Data.Fields;
 
-namespace OxXMLEngine.Data.Types
+namespace OxDAOEngine.Data.Types
 {
     public static class TypeHelper
     {

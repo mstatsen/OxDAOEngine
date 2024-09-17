@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.ControlFactory.Accessors
+﻿namespace OxDAOEngine.ControlFactory.Accessors
 {
     public interface IDependedControl
     {

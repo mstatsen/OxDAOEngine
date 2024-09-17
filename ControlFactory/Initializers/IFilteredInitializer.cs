@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.ControlFactory.Initializers
+namespace OxDAOEngine.ControlFactory.Initializers
 {
     public interface IFilteredInitializer<TField, TDAO> : IInitializer
         where TField : notnull, Enum

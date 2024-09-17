@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OxXMLEngine.Data.Types
+namespace OxDAOEngine.Data.Types
 {
     public interface ITypeHelper
     {

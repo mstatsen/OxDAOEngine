@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.Data.Types;
-using OxXMLEngine.XML;
+﻿using OxDAOEngine.Data.Types;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Data.Fields
+namespace OxDAOEngine.Data.Fields
 {
     public class FieldColumn<TField> : DAO
         where TField: notnull, Enum

@@ -1,7 +1,7 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 
-namespace OxXMLEngine.ControlFactory
+namespace OxDAOEngine.ControlFactory
 {
     public class PlacedControl<TField>
         where TField : notnull, Enum

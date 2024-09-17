@@ -1,21 +1,21 @@
 ﻿using OxLibrary.Dialogs;
 using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data.Decorator;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.History;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Editor;
-using OxXMLEngine.Export;
-using OxXMLEngine.Grid;
-using OxXMLEngine.Settings;
-using OxXMLEngine.Summary;
-using OxXMLEngine.View;
-using OxXMLEngine.XML;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data.Decorator;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.History;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Editor;
+using OxDAOEngine.Export;
+using OxDAOEngine.Grid;
+using OxDAOEngine.Settings;
+using OxDAOEngine.Summary;
+using OxDAOEngine.View;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public abstract class ListController<TField, TDAO, TFieldGroup, TListController>
         : IListController<TField, TDAO, TFieldGroup>

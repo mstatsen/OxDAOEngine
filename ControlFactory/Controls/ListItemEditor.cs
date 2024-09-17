@@ -1,12 +1,12 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Dialogs;
-using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.ControlFactory.Context;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public abstract partial class ListItemEditor<TItem, TField, TDAO> : OxDialog
         where TItem : DAO, new()

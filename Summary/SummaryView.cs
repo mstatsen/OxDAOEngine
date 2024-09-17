@@ -1,9 +1,9 @@
 ﻿using OxLibrary;
 using OxLibrary.Panels;
-using OxXMLEngine.Data;
-using OxXMLEngine.Settings;
+using OxDAOEngine.Data;
+using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.Summary
+namespace OxDAOEngine.Summary
 {
     public partial class SummaryView<TField, TDAO> : OxFrame
         where TField : notnull, Enum

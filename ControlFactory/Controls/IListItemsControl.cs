@@ -1,8 +1,8 @@
 ﻿using OxLibrary.Controls;
 using OxLibrary.Panels;
-using OxXMLEngine.Data;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public interface IListItemsControl<TField, TDAO> : ICustomControl<TField, TDAO>
         where TField : notnull, Enum

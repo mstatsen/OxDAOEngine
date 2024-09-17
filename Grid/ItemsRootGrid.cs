@@ -1,11 +1,11 @@
 ﻿using OxLibrary.Controls;
-using OxXMLEngine.ControlFactory.BatchUpdate;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Decorator;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Sorting;
+using OxDAOEngine.ControlFactory.BatchUpdate;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Decorator;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Sorting;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public partial class ItemsRootGrid<TField, TDAO> : ItemsGrid<TField, TDAO>
         where TField : notnull, Enum

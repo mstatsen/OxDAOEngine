@@ -1,10 +1,10 @@
 ﻿using OxLibrary;
 using OxLibrary.Dialogs;
 using OxLibrary.Panels;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Fields;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
 
-namespace OxXMLEngine.Editor
+namespace OxDAOEngine.Editor
 {
     public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
         where TField : notnull, Enum

@@ -1,16 +1,16 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data.Decorator;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.History;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Editor;
-using OxXMLEngine.Export;
-using OxXMLEngine.Settings;
-using OxXMLEngine.Summary;
-using OxXMLEngine.View;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data.Decorator;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.History;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Editor;
+using OxDAOEngine.Export;
+using OxDAOEngine.Settings;
+using OxDAOEngine.Summary;
+using OxDAOEngine.View;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public interface IListController<TField, TDAO> : IFieldController<TField>
         where TField : notnull, Enum

@@ -1,11 +1,11 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
-using OxXMLEngine.Data;
-using OxXMLEngine.Settings;
-using OxXMLEngine.Settings.Observers;
+using OxDAOEngine.Data;
+using OxDAOEngine.Settings;
+using OxDAOEngine.Settings.Observers;
 
-namespace OxXMLEngine.ControlFactory
+namespace OxDAOEngine.ControlFactory
 {
     public class PinnedChangedEventArgs : EventArgs
     {

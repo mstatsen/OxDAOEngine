@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Settings.Helpers
+namespace OxDAOEngine.Settings.Helpers
 {
     public interface ISettingHelper : ITypeHelper
     {

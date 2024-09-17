@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Grid;
+﻿using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Grid;
 
-namespace OxXMLEngine.Data.Sorting
+namespace OxDAOEngine.Data.Sorting
 {
     public class GridSorting<TField, TDAO> : ISorting<TField, TDAO>
         where TField : notnull, Enum

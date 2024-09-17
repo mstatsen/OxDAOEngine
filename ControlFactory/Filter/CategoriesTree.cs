@@ -1,12 +1,12 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Extract;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.ControlFactory.Filter
+namespace OxDAOEngine.ControlFactory.Filter
 {
     public class CategoriesTree<TField, TDAO> : FunctionsPanel<TField, TDAO>
         where TField : notnull, Enum

@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.Data.Extract;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.View;
+﻿using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.View;
 
-namespace OxXMLEngine.Settings.Helpers
+namespace OxDAOEngine.Settings.Helpers
 {
     public class DAOSettingHelper : SettingHelper<DAOSetting>
     {

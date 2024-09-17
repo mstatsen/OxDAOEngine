@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Data.Filter
+namespace OxDAOEngine.Data.Filter
 {
     public class FilterOperationHelper : AbstractTypeHelper<FilterOperation>
     {

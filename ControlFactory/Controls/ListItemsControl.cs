@@ -1,10 +1,10 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public delegate int GetMaximumCount();
     

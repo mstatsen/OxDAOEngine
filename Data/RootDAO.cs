@@ -1,10 +1,10 @@
-﻿using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.XML;
+﻿using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public class FieldModifiedEventArgs<TField> : EventArgs
         where TField : notnull, Enum

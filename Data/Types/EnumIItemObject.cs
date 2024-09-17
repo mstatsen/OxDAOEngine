@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Types
+﻿namespace OxDAOEngine.Data.Types
 {
     public class EnumItemObject<T> : IComparable 
         where T : Enum

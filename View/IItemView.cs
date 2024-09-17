@@ -1,7 +1,7 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.Data;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.View
+namespace OxDAOEngine.View
 {
     public interface IItemView<TField, TDAO> : IOxFrame
         where TField : notnull, Enum

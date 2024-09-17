@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.XML;
+﻿using OxDAOEngine.XML;
 using System;
 using System.Xml;
 
-namespace OxXMLEngine.Data.Filter
+namespace OxDAOEngine.Data.Filter
 {
     public class Category<TField, TDAO> 
         : DAO, IMatcher<TField>

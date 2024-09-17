@@ -1,11 +1,11 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Settings;
-using OxXMLEngine.Settings.Export;
-using OxXMLEngine.XML;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Settings;
+using OxDAOEngine.Settings.Export;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Export
+namespace OxDAOEngine.Export
 {
     internal class XmlExporter<TField, TDAO> : Exporter<TField, TDAO>
         where TField : notnull, Enum

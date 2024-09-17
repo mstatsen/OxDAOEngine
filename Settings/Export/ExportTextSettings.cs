@@ -1,8 +1,8 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Sorting;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Sorting;
 using System.Xml;
 
-namespace OxXMLEngine.Settings.Export
+namespace OxDAOEngine.Settings.Export
 {
     public class ExportTextSettings<TField, TDAO> : AbstractTextExportSettings<TField>
         where TField : notnull, Enum

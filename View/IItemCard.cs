@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data;
+﻿using OxDAOEngine.Data;
 
-namespace OxXMLEngine.View
+namespace OxDAOEngine.View
 {
     public interface IItemCard<TField, TDAO> : IItemView<TField, TDAO>
         where TField : notnull, Enum

@@ -1,16 +1,16 @@
 ﻿using OxLibrary;
 using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory.Filter;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Grid;
-using OxXMLEngine.Settings;
-using OxXMLEngine.Statistic;
-using OxXMLEngine.Summary;
-using OxXMLEngine.View;
+using OxDAOEngine.ControlFactory.Filter;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Grid;
+using OxDAOEngine.Settings;
+using OxDAOEngine.Statistic;
+using OxDAOEngine.Summary;
+using OxDAOEngine.View;
 
-namespace OxXMLEngine
+namespace OxDAOEngine
 {
     public class ItemsFace<TField, TDAO> : OxPane, IDataReceiver
         where TField : notnull, Enum

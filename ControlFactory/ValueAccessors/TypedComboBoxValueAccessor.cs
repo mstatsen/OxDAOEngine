@@ -1,7 +1,7 @@
 ﻿using OxLibrary.Controls;
-using OxXMLEngine.Data.Types;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.ControlFactory.ValueAccessors
+namespace OxDAOEngine.ControlFactory.ValueAccessors
 {
     public class TypedComboBoxValueAccessor<T> : ValueAccessor
         where T : Enum

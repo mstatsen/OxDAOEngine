@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Filter;
+﻿using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public interface IFieldMapping<TField>
         where TField : notnull, Enum

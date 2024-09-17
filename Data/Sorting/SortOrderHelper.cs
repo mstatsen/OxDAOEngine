@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Data.Sorting
+namespace OxDAOEngine.Data.Sorting
 {
     public class SortOrderHelper : AbstractTypeHelper<SortOrder>
     {

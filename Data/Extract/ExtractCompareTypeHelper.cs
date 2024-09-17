@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Data.Extract
+namespace OxDAOEngine.Data.Extract
 {
     public class ExtractCompareTypeHelper : AbstractTypeHelper<ExtractCompareType>
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace OxXMLEngine.ControlFactory.Initializers
+namespace OxDAOEngine.ControlFactory.Initializers
 {
     public interface IInitializer
     {

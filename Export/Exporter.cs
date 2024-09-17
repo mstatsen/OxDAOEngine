@@ -1,9 +1,9 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Settings;
-using OxXMLEngine.Settings.Export;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Settings;
+using OxDAOEngine.Settings.Export;
 
-namespace OxXMLEngine.Export
+namespace OxDAOEngine.Export
 {
     public abstract class Exporter<TField, TDAO>
         where TField : notnull, Enum

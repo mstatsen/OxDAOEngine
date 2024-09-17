@@ -1,6 +1,6 @@
 ﻿using OxLibrary.Dialogs;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     partial class ListItemEditor<TItem, TField, TDAO> : OxDialog
     {

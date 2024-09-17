@@ -1,11 +1,11 @@
-﻿using OxXMLEngine.ControlFactory.Controls;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings.Data;
-using OxXMLEngine.SystemEngine;
-using OxXMLEngine.View;
+﻿using OxDAOEngine.ControlFactory.Controls;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings.Data;
+using OxDAOEngine.SystemEngine;
+using OxDAOEngine.View;
 
-namespace OxXMLEngine.Settings.ControlFactory.Controls
+namespace OxDAOEngine.Settings.ControlFactory.Controls
 {
     public class IconMappingControl<TField> : ListItemsControl<ListDAO<IconMapping<TField>>, IconMapping<TField>, 
         IconMappingEditor<TField>, DAOSetting, SystemRootDAO<DAOSetting>>

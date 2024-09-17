@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Filter
+﻿namespace OxDAOEngine.Data.Filter
 {
     public interface ISorting<TField, TDAO>
         where TField : notnull, Enum

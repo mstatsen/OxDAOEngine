@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public class DAOImageList<TField, TDAO> : ListDAO<DAOImage>
         where TField : notnull, Enum

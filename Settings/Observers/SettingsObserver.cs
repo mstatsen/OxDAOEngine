@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Settings.Observers
+﻿namespace OxDAOEngine.Settings.Observers
 {
     public class SettingsObserver<TSetting, TSettings> : ISettingsObserver<TSetting>
         where TSetting : Enum

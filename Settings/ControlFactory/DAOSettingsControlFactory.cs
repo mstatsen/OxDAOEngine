@@ -1,16 +1,16 @@
-﻿using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.ControlFactory.Context;
-using OxXMLEngine.ControlFactory.Initializers;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Extract;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Settings.ControlFactory.Controls;
-using OxXMLEngine.Settings.Data;
-using OxXMLEngine.SystemEngine;
-using OxXMLEngine.View;
+﻿using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.ControlFactory.Initializers;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Settings.ControlFactory.Controls;
+using OxDAOEngine.Settings.Data;
+using OxDAOEngine.SystemEngine;
+using OxDAOEngine.View;
 
-namespace OxXMLEngine.Settings.ControlFactory
+namespace OxDAOEngine.Settings.ControlFactory
 {
     public class DAOSettingsControlFactory<TField> : SystemControlFactory<DAOSetting>
         where TField : notnull, Enum

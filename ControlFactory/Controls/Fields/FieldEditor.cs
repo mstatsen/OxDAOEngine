@@ -1,9 +1,9 @@
-﻿using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public partial class FieldEditor<TField, TDAO> 
         : ListItemEditor<FieldColumn<TField>, TField, TDAO>

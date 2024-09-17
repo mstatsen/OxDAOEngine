@@ -1,6 +1,6 @@
 ﻿using OxLibrary.Controls;
 
-namespace OxXMLEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls
 {
     public interface IButtonEdit : IColoredCustomControl
     {

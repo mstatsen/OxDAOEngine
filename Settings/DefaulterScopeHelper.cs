@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Settings
+namespace OxDAOEngine.Settings
 {
     public class DefaulterScopeHelper : AbstractTypeHelper<DefaulterScope>
     {

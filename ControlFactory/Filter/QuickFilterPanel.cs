@@ -1,13 +1,13 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.ControlFactory.Filter
+namespace OxDAOEngine.ControlFactory.Filter
 {
     public partial class QuickFilterPanel<TField, TDAO> : FunctionsPanel<TField, TDAO>
         where TField : notnull, Enum

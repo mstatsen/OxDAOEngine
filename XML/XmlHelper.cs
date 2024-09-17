@@ -1,8 +1,8 @@
 ﻿using OxLibrary;
-using OxXMLEngine.Data.Types;
+using OxDAOEngine.Data.Types;
 using System.Xml;
 
-namespace OxXMLEngine.XML
+namespace OxDAOEngine.XML
 {
     public class XmlHelper
     {

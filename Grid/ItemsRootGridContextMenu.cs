@@ -1,7 +1,7 @@
 ﻿using OxLibrary.Controls;
-using OxXMLEngine.Data;
+using OxDAOEngine.Data;
 
-namespace OxXMLEngine.Grid
+namespace OxDAOEngine.Grid
 {
     public class ItemsRootGridContextMenu<TField, TDAO> : ContextMenuStrip
         where TField : notnull, Enum

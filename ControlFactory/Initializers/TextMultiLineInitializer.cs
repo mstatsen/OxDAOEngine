@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.ControlFactory.Initializers
+﻿namespace OxDAOEngine.ControlFactory.Initializers
 {
     public class TextMultiLineInitializer : EmptyControlInitializer
     {

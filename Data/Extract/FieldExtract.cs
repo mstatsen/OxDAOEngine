@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace OxXMLEngine.Data.Extract
+namespace OxDAOEngine.Data.Extract
 {
     public class FieldExtract<T> : List<T>
     {

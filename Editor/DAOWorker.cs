@@ -1,11 +1,11 @@
 ﻿using OxLibrary.Dialogs;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.ControlFactory.Accessors;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Types;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Editor
+namespace OxDAOEngine.Editor
 {
     public abstract class DAOWorker<TField, TDAO, TFieldGroup>
         where TField : notnull, Enum

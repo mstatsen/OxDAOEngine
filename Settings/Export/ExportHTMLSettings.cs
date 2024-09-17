@@ -1,11 +1,11 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Fields;
-using OxXMLEngine.Data.Sorting;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.XML;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Settings.Export
+namespace OxDAOEngine.Settings.Export
 {
     public class ExportHTMLSettings<TField, TDAO> : AbstractTextExportSettings<TField>
         where TField : notnull, Enum

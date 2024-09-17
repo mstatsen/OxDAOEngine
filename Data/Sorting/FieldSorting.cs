@@ -1,9 +1,9 @@
-﻿using OxXMLEngine.Data.Filter;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.XML;
+﻿using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.XML;
 using System.Xml;
 
-namespace OxXMLEngine.Data.Sorting
+namespace OxDAOEngine.Data.Sorting
 {
     public class FieldSorting<TField, TDAO> : DAO, ISorting<TField, TDAO>
         where TField : notnull, Enum

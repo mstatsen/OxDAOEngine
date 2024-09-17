@@ -1,7 +1,7 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.Data.Types;
+using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Data.Fields
+namespace OxDAOEngine.Data.Fields
 {
     public class FieldGroupFrames<TField, TFieldGroup> : Dictionary<TFieldGroup, OxFrame>
         where TField : notnull, Enum

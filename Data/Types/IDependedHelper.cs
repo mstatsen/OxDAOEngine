@@ -1,4 +1,4 @@
-﻿namespace OxXMLEngine.Data.Types
+﻿namespace OxDAOEngine.Data.Types
 {
     public interface IDependedHelper<TDepended>
         where TDepended : Enum

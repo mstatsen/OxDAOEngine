@@ -16,3 +16,4 @@ bin/Debug/net6.0-windows/OxXMLEngine.deps.json
 bin/Debug/net6.0-windows/OxXMLEngine.exe
 bin/Debug/net6.0-windows/OxXMLEngine.runtimeconfig.json
 obj
+bin/Debug

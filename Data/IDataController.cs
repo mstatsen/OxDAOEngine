@@ -1,8 +1,8 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.Settings;
+using OxDAOEngine.Settings;
 using System.Xml;
 
-namespace OxXMLEngine.Data
+namespace OxDAOEngine.Data
 {
     public interface IDataController
     {

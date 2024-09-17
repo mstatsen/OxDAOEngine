@@ -1,7 +1,7 @@
-﻿using OxXMLEngine.Data;
-using OxXMLEngine.Data.Filter;
+﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Filter;
 
-namespace OxXMLEngine.ControlFactory.Filter
+namespace OxDAOEngine.ControlFactory.Filter
 {
     public delegate void ChangeCategoryHandler<TField, TDAO>(object? sender, CategoryEventArgs<TField, TDAO> eventArgs)
             where TField : notnull, Enum

@@ -1,6 +1,6 @@
 ﻿using OxLibrary.Panels;
 
-namespace OxXMLEngine.Summary
+namespace OxDAOEngine.Summary
 {
     public interface ISummaryPanel : IOxCard
     {

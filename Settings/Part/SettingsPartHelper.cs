@@ -1,6 +1,6 @@
-﻿using OxXMLEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 
-namespace OxXMLEngine.Settings.Part
+namespace OxDAOEngine.Settings.Part
 {
     public class SettingsPartHelper : AbstractTypeHelper<SettingsPart>
     {

@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace OxXMLEngine.Data.Fields
+namespace OxDAOEngine.Data.Fields
 {
     public class FieldColumns<TField> : ListDAO<FieldColumn<TField>>
         where TField: Enum

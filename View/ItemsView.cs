@@ -1,10 +1,10 @@
 ﻿using OxLibrary.Panels;
-using OxXMLEngine.ControlFactory;
-using OxXMLEngine.Data;
-using OxXMLEngine.Data.Types;
-using OxXMLEngine.Settings;
+using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings;
 
-namespace OxXMLEngine.View
+namespace OxDAOEngine.View
 {
     public sealed class ItemsView<TField, TDAO> : OxPanel
         where TField : notnull, Enum
