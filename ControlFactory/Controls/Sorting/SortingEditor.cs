@@ -24,8 +24,6 @@ namespace OxDAOEngine.ControlFactory.Controls
                 }.Fields;
         }
 
-        protected override string Title => "Sorting";
-
         private void CreateFieldControl()
         {
             FieldControl = (FieldAccessor<TField, TDAO>)Context.Builder.Accessor(TypeHelper.FieldHelper<TField>().FieldMetaData);

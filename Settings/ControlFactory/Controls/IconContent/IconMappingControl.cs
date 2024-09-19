@@ -13,6 +13,8 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
     {
         protected override string GetText() => "Icon Mapping";
 
+        protected override string ItemName() => "Icon Mapping";
+
         protected override int MaximumItemsCount => 
             TypeHelper.ItemsCount<IconContent>();
 

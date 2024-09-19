@@ -44,12 +44,13 @@ namespace OxDAOEngine.ControlFactory.Context
             return this;
         }
 
-        IAccessorContext IAccessorContext.SetInitializer(IInitializer initializer) => 
+        IAccessorContext IAccessorContext.SetInitializer(IInitializer initializer) =>
             SetInitializer(initializer);
 
         public void InitControl(IControlAccessor accessor) =>
             Initializer?.InitControl(accessor.Control);
         public EventHandler? InitializerChanged { get; set; }
         public bool MultipleValue { get; set; }
+        public TDAO? Item { get; set; }
     }
 }

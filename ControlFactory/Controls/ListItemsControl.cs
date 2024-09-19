@@ -7,8 +7,8 @@ using OxDAOEngine.Data.Filter;
 namespace OxDAOEngine.ControlFactory.Controls
 {
     public delegate int GetMaximumCount();
-    
-    public class ListItemsControl<TList, TItem, TEditor, TField, TDAO> : 
+
+    public abstract class ListItemsControl<TList, TItem, TEditor, TField, TDAO> : 
         CustomListControl<TField, TDAO, TList, TItem>, 
         IListItemsControl<TField, TDAO>
         where TList : ListDAO<TItem>, new()
@@ -29,6 +29,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             BorderStyle = BorderStyle.None
         };
 
+        protected abstract string ItemName();
+
         public TDAO? ParentItem { get; set; }
 
         private const int ButtonSpace = (int)OxSize.Medium;
@@ -47,6 +49,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             editor.ParentItem = ParentItem;
             editor.ExistingItems = GetExistingItems(type).ObjectList;
             editor.Filter = Filter;
+            editor.Text = ItemName();
             editor.RenewData();
             return editor;
         }
@@ -239,6 +242,9 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected virtual void InitButtons()
         {
+            AddButton.ToolTipText = $"Add {ItemName().ToLower()}";
+            DeleteButton.ToolTipText = $"Delete {ItemName().ToLower()}";
+            EditButton.ToolTipText = $"Edit {ItemName().ToLower()}";
             PrepareEditButton(AddButton, (s, e) => AddItem());
             PrepareEditButton(DeleteButton, (s, e) => RemoveItem(), true);
             PrepareEditButton(EditButton, (s, e) => EditItem(), true);

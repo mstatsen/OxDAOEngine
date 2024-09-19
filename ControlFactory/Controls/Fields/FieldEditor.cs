@@ -23,8 +23,6 @@ namespace OxDAOEngine.ControlFactory.Controls
             }.Fields;
         }
 
-        protected override string Title => "Field";
-
         private void CreateFieldControl()
         {
             FieldControl = (FieldAccessor<TField, TDAO>)Context.Builder

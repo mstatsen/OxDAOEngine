@@ -30,8 +30,6 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
         public IconMappingEditor() => 
             InitializeComponent();
 
-        protected override string Title => "Icon Content Part";
-
         private readonly IconContentPartInitializer<TField> iconContentPartInitializer = new();
 
         private void CreateContentPartControl()

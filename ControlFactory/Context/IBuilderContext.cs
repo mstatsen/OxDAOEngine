@@ -9,5 +9,6 @@ namespace OxDAOEngine.ControlFactory.Context
     {
         ControlBuilder<TField, TDAO> Builder { get; }
         new IBuilderContext<TField, TDAO> SetInitializer(IInitializer initializer);
+        TDAO? Item { get; set; }
     }
 }

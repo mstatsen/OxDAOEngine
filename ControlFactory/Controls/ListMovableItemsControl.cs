@@ -4,7 +4,7 @@ using OxDAOEngine.Data;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    public class ListMovableItemsControl<TList, TItem, TEditor, TField, TDAO> 
+    public abstract class ListMovableItemsControl<TList, TItem, TEditor, TField, TDAO> 
         : ListItemsControl<TList, TItem, TEditor, TField, TDAO>
         where TList : ListDAO<TItem>, new ()
         where TItem : DAO, new ()
@@ -18,6 +18,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected override void InitButtons()
         {
             base.InitButtons();
+            buttonUp.ToolTipText = $"Move {ItemName().ToLower()} up";
+            buttonDown.ToolTipText = $"Move {ItemName().ToLower()} down";
             PrepareEditButton(buttonUp, MoveUpHandler, true);
             PrepareEditButton(buttonDown, MoveDownHandler, true);
         }

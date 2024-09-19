@@ -10,6 +10,7 @@ using OxDAOEngine.Grid;
 using OxDAOEngine.ControlFactory.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Filter;
+using System.Reflection.Metadata.Ecma335;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -140,9 +141,9 @@ namespace OxDAOEngine.ControlFactory
         protected IControlAccessor CreateMultilineAccessor(IBuilderContext<TField, TDAO> context) =>
             new TextAccessor<TField, TDAO>(context);
 
-        protected IControlAccessor CreateImageAccessor(IBuilderContext<TField, TDAO> context) =>
-            context.IsView
-                ? new ImageAccessor<TField, TDAO>(context)
+        protected IControlAccessor CreateImageAccessor(IBuilderContext<TField, TDAO> context) => 
+            context.IsView 
+                ? new ImageAccessor<TField, TDAO>(context) 
                 : new PictureContainerAccessor<TField, TDAO>(context);
 
         protected IControlAccessor CreateNumericAccessor(IBuilderContext<TField, TDAO> context) =>

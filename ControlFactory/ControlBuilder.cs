@@ -46,7 +46,12 @@ namespace OxDAOEngine.ControlFactory
             if (!Accessors.TryGetValue(context, out var controlAccessor))
             {
                 if (context is FieldContext<TField, TDAO> fieldContext)
-                    TypeHelper.FieldHelper<TField>().FillAdditionalContext(fieldContext.Field, context);
+                {
+                    ITypeHelper helper = TypeHelper.Helper(default(TField)!);
+
+                    if (helper is FieldHelper<TField>)
+                        ((FieldHelper<TField>)helper).FillAdditionalContext(fieldContext.Field, context);
+                }
 
                 controlAccessor = 
                     createFunction != null 

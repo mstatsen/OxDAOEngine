@@ -16,6 +16,8 @@ namespace OxDAOEngine.ControlFactory.Controls
     {
         protected override string GetText() => "Sorting";
 
+        protected override string ItemName() => "Sorting field";
+
         protected override int MaximumItemsCount =>
             TypeHelper.FieldHelper<TField>().AvailableFieldsCount(Context.Scope);
     }

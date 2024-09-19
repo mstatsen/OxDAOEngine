@@ -303,7 +303,7 @@ namespace OxDAOEngine.Data
             }
             catch
             {
-                throw new KeyNotFoundException($"Cannot create {typeof(TDAO).Name} because it controller not found");
+                throw new KeyNotFoundException($"Can not create {typeof(TDAO).Name} because it controller not found");
             }
         }
 
@@ -431,6 +431,19 @@ namespace OxDAOEngine.Data
             catch
             {
                 throw new KeyNotFoundException($"Cannot get default sorting for dao of {typeof(TField).Name} because it controller not found");
+            }
+        }
+
+        public static FieldHelper<TField> FieldHelper<TField>()
+            where TField : notnull, Enum
+        {
+            try
+            {
+                return FieldController<TField>().FieldHelper;
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Cannot get helper for {typeof(TField).Name} because it controller not found");
             }
         }
 

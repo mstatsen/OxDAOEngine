@@ -11,6 +11,8 @@ namespace OxDAOEngine.ControlFactory.Controls
     {
         protected override string GetText() => "Fields";
 
+        protected override string ItemName() => "Field";
+
         protected override int MaximumItemsCount =>
             TypeHelper.FieldHelper<TField>().AvailableFieldsCount(Context.Scope);
     }

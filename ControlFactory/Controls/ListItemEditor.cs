@@ -22,7 +22,6 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             Context = context;
             InitializeComponent();
-            SetTitle();
             SetPaddings();
             CreateControls();
             firstLoad = true;
@@ -40,11 +39,6 @@ namespace OxDAOEngine.ControlFactory.Controls
         public virtual void RenewData() { }
 
         protected virtual void SetPaddings() { }
-
-        private void SetTitle() => 
-            Text = Title;
-
-        protected abstract string Title { get; }
 
         public DialogResult Edit(TItem item)
         {
