@@ -46,7 +46,7 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             foreach (Link<TField> link in links)
             {
                 LinkButtonAccessor<TField, TDAO> accessor = (LinkButtonAccessor<TField, TDAO>)Context.Builder
-                    .Accessor( "Link", FieldType.Link, link.Url);
+                    .Accessor("Link", FieldType.Link, link.Type.ToString()! + link.Url);
                 accessor.Value = link;
                 accessor.Parent = LinkButtonList;
                 accessor.ButtonControl.BaseColor = link.LinkColor;
