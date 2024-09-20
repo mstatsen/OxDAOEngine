@@ -46,7 +46,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         private int ButtonTop() =>
             Direction == ButtonListDirection.Horizontal
                 ? 0
-                : LastBottom + ButtonSpace;
+                : LastBottom + ButtonSpace + 1;
 
         private void RecalcButtonsPositions()
         {
@@ -124,7 +124,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         }
 
         private void RecalcHeight() =>
-            MinimumSize = new Size(0, LastBottom + 2);
+            MinimumSize = new Size(0, LastBottom + 3);
 
         private void RecalcWidth()
         {
