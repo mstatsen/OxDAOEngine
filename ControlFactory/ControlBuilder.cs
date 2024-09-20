@@ -49,8 +49,8 @@ namespace OxDAOEngine.ControlFactory
                 {
                     ITypeHelper helper = TypeHelper.Helper(default(TField)!);
 
-                    if (helper is FieldHelper<TField>)
-                        ((FieldHelper<TField>)helper).FillAdditionalContext(fieldContext.Field, context);
+                    if (helper is FieldHelper<TField> fieldHelper)
+                        fieldHelper.FillAdditionalContext(fieldContext.Field, context);
                 }
 
                 controlAccessor = 

@@ -10,7 +10,7 @@ namespace OxDAOEngine.ControlFactory.Initializers
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        private Links<TField> existingLinks = new();
+        private readonly Links<TField> existingLinks = new();
         private List<object>? existingItems;
         public List<object>? ExistingItems 
         { 
