@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Links;
@@ -16,8 +17,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             base.RenewData();
 
-            if (ExistingItems != null)
-                NameControl.Context.InitControl(NameControl);
+            ((LinkNameInitializer<TField, TDAO>)NameControl.Context.Initializer!).ExistingItems = ExistingItems;
+            NameControl.Context.InitControl(NameControl);
         }
 
         private void CreateNameControl()

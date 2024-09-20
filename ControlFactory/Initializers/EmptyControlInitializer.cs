@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace OxDAOEngine.ControlFactory.Initializers
+﻿namespace OxDAOEngine.ControlFactory.Initializers
 {
     public class EmptyControlInitializer : IInitializer
     {

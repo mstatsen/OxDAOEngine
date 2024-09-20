@@ -3,7 +3,6 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Links;
 using OxDAOEngine.Data.Types;
-using OxDAOEngine.Data.Fields;
 
 namespace OxDAOEngine.ControlFactory.Initializers
 {
@@ -11,13 +10,34 @@ namespace OxDAOEngine.ControlFactory.Initializers
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        private readonly Links<TField>? ExistingLinks;
+        private Links<TField> existingLinks = new();
+        private List<object>? existingItems;
+        public List<object>? ExistingItems 
+        { 
+            get => existingItems;
+            set
+            {
+                existingItems = value;
+                FillExistingLinks();
+            }
+        }
+
+        private void FillExistingLinks()
+        {
+            existingLinks.Clear();
+
+            if (existingItems == null)
+                return;
+
+            foreach(object item in existingItems)
+                if (item is Link<TField> link)
+                    existingLinks.Add(link);
+        }
 
         private void AddLinkNameToComboBox(string? linkName)
         {
             if (ComboBox!.Items.IndexOf(linkName) < 0
-                && (ExistingLinks == null ||
-                        !ExistingLinks.Contains(l => l.Name == linkName)))
+                && !existingLinks.Contains(l => l.Name == linkName))
                 ComboBox!.Items.Add(linkName);
         }
 
@@ -45,7 +65,6 @@ namespace OxDAOEngine.ControlFactory.Initializers
                 ComboBox.SelectedIndex = 0;
         }
 
-        public LinkNameInitializer(Links<TField>? existingLinks) =>
-            ExistingLinks = existingLinks;
+        public LinkNameInitializer() { }
     }
 }

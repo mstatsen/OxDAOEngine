@@ -61,7 +61,7 @@ namespace OxDAOEngine.ControlFactory
             }
 
             if (context.Name == "LinkName")
-                return new LinkNameInitializer<TField, TDAO>(null);
+                return new LinkNameInitializer<TField, TDAO>();
 
             return null;
         }
