@@ -1,5 +1,4 @@
-﻿using OxDAOEngine.Data.Fields;
-using OxDAOEngine.Data.Types;
+﻿using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;
 using System.Xml;
 
@@ -15,7 +14,7 @@ namespace OxDAOEngine.Data.Links
             helper = TypeHelper.FieldHelper<TField>()!.GetLinkHelper()!;
 
         public TField Field { get; private set; } = default!;
-        private readonly ITypeHelper helper = default!;
+        private readonly ILinkHelper<TField> helper = default!;
 
 
         public override string DefaultXmlElementName => "Link";

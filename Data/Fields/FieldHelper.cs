@@ -150,14 +150,7 @@ namespace OxDAOEngine.Data.Fields
         public virtual bool IsImageColumn(TField field) =>
             GetFieldType(field) == FieldType.Image;
 
-        public ITypeHelper? GetLinkHelper()
-        {
-            foreach (TField field in All())
-                if (GetFieldType(field) is FieldType.Link or FieldType.LinkList)
-                    return GetHelper(field);
-
-            return null;
-        }
+        public virtual ILinkHelper<TField>? GetLinkHelper() => null;
 
         public TField GetFirstLinksField()
         {

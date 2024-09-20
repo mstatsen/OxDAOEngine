@@ -3,6 +3,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Links;
 using OxDAOEngine.Data.Types;
+using OxDAOEngine.Data.Fields;
 
 namespace OxDAOEngine.ControlFactory.Initializers
 {
@@ -27,11 +28,15 @@ namespace OxDAOEngine.ControlFactory.Initializers
             ComboBox = (OxComboBox)control;
             ComboBox.DropDownStyle = ComboBoxStyle.DropDown;
             ComboBox.Items.Clear();
-            AddLinkNameToComboBox("Stratege");
-            AddLinkNameToComboBox("PSNProfiles");
 
+            ILinkHelper<TField> linkHelper = TypeHelper.FieldHelper<TField>()!.GetLinkHelper()!; 
+
+            foreach (object item in linkHelper.All())
+                if (linkHelper.IsMandatoryLink(item))
+                    AddLinkNameToComboBox(linkHelper.Name(item));
+            
             List<object> linksNames = new FieldExtractor<TField, TDAO>(
-                DataManager.FullItemsList<TField, TDAO>()).Extract(TypeHelper.FieldHelper<TField>()!.GetFirstLinksField(), true);
+                DataManager.FullItemsList<TField, TDAO>()).Extract(linkHelper.ExtractFieldName, true);
 
             foreach (object linkName in linksNames)
                 AddLinkNameToComboBox(linkName.ToString());

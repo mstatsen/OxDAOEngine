@@ -2,13 +2,6 @@
 
 namespace OxDAOEngine.Data.Types
 {
-    public interface IStyledTypeHelper
-    {
-        Color BaseColor(object? value);
-        Color BackColor(object? value);
-        Color FontColor(object? value);
-    }
-
     public abstract class AbstractStyledTypeHelper<T>
         : AbstractTypeHelper<T>, IStyledTypeHelper
         where T : Enum
