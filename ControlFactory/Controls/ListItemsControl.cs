@@ -41,11 +41,9 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private TEditor Editor(TypeOfEditorShow type)
         {
-            editor ??= new TEditor
-                {
-                    BaseColor = Colors.Lighter(Context.Scope == ControlScope.Editor ? 0 : 1)
-                }.Init<TEditor>(Context);
-
+            editor ??= new TEditor().Init<TEditor>(Context);
+            editor.BaseColor = Colors.Lighter(Context.Scope == ControlScope.Editor ? 0 : 1);
+            PrepareEditor(editor);
             editor.ParentItem = ParentItem;
             editor.ExistingItems = GetExistingItems(type).ObjectList;
             editor.Filter = Filter;
@@ -53,6 +51,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             editor.RenewData();
             return editor;
         }
+
+        protected virtual void PrepareEditor(TEditor editor) { }
 
         public IMatcher<TField>? Filter { get; set; }
 

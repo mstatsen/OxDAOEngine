@@ -34,6 +34,8 @@ namespace OxDAOEngine.Data.Decorator
 
                 cache.SetDecorator(dao, type, decorator);
             }
+            //TODO: change cache: exclude dao from cache
+            //decorator.Dao = dao;
 
             return decorator;
         }

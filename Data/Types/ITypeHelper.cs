@@ -15,5 +15,7 @@ namespace OxDAOEngine.Data.Types
         object DefaultValue();
         Type ItemType { get; }
         Type ItemObjectType { get;  }
+
+        List<object> All();
     }
 }

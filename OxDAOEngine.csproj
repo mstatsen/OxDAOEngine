@@ -21,6 +21,18 @@
     <Compile Update="ControlFactory\Controls\Fields\FieldEditor.cs" />
     <Compile Update="ControlFactory\Controls\Fields\FieldListControl.cs" />
     <Compile Update="ControlFactory\Controls\Fields\FieldListPanel.cs" />
+    <Compile Update="ControlFactory\Controls\Links\LinkButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\Links\LinkButtonList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\Links\LinkEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\Links\LinksListControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="ControlFactory\Controls\ListItemEditor.cs" />
     <Compile Update="ControlFactory\Controls\ListItemsControl.cs" />
     <Compile Update="ControlFactory\Controls\ListMovableItemsControl.cs" />

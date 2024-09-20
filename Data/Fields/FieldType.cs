@@ -13,6 +13,8 @@
         Integer,
         String,
         List,
+        Link,
+        LinkList,
         Custom
     }
 }

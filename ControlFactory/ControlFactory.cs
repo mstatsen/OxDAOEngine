@@ -10,7 +10,7 @@ using OxDAOEngine.Grid;
 using OxDAOEngine.ControlFactory.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Filter;
-using System.Reflection.Metadata.Ecma335;
+using OxDAOEngine.Data.Links;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -60,6 +60,9 @@ namespace OxDAOEngine.ControlFactory
                     break;
             }
 
+            if (context.Name == "LinkName")
+                return new LinkNameInitializer<TField, TDAO>(null);
+
             return null;
         }
 
@@ -85,26 +88,47 @@ namespace OxDAOEngine.ControlFactory
             return context.FieldType switch
             {
                 FieldType.Label or
-                FieldType.Guid => 
+                FieldType.Guid =>
                     CreateLabelAccessor(context),
-                FieldType.String => 
+                FieldType.String =>
                     CreateTextBoxAccessor(context),
-                FieldType.Memo => 
+                FieldType.Memo =>
                     CreateMultilineAccessor(context),
-                FieldType.Image => 
+                FieldType.Image =>
                     CreateImageAccessor(context),
-                FieldType.Integer => 
+                FieldType.Integer =>
                     CreateNumericAccessor(context),
-                FieldType.Boolean => 
+                FieldType.Boolean =>
                     CreateBoolAccessor(context),
-                FieldType.Extract => 
+                FieldType.Extract =>
                     CreateExtractAccessor(context),
-                FieldType.MetaData => 
+                FieldType.MetaData =>
                     new FieldAccessor<TField, TDAO>(context),
-                _ => 
+                FieldType.Link => 
+                    CreateLinkButtonAccessor(context),
+                FieldType.LinkList =>
+                    ControlFactory<TField, TDAO>.CreateLinksAccessor(context),
+                _ =>
                     CreateOtherAccessor(context),
             };
         }
+
+        private static IControlAccessor CreateLinkButtonAccessor(IBuilderContext<TField, TDAO> context) =>
+            new LinkButtonAccessor<TField, TDAO>(context);
+
+        private static IControlAccessor CreateLinksAccessor(IBuilderContext<TField, TDAO> context) =>
+            context.Scope switch
+            {
+                ControlScope.Editor =>
+                    new CustomControlAccessor<TField, TDAO, LinksListControl<TField, TDAO>, Links<TField>>(context).Init(),
+                ControlScope.BatchUpdate or
+                ControlScope.QuickFilter =>
+                    new ButtonEditAccessor<TField, TDAO, Links<TField>, Link<TField>, LinksListControl<TField, TDAO>>(context).Init(),
+                ControlScope.FullInfoView =>
+                    new LinkButtonListAccessor<TField, TDAO>(context, ButtonListDirection.Horizontal),
+                _ =>
+                    new LinkButtonListAccessor<TField, TDAO>(context, ButtonListDirection.Vertical)
+            };
 
         public IControlAccessor CreateFieldListAccessor(IBuilderContext<TField, TDAO> context) =>
             new CustomControlAccessor<TField, TDAO, 
@@ -119,9 +143,16 @@ namespace OxDAOEngine.ControlFactory
         protected virtual IControlAccessor? CreateOtherAccessor(IBuilderContext<TField, TDAO> context) => null;
 
         protected virtual IControlAccessor CreateViewAccessor(IBuilderContext<TField, TDAO> context) =>
-            context.FieldType == FieldType.Image
-                ? CreateImageAccessor(context)
-                : CreateLabelAccessor(context);
+            context.FieldType switch
+            {
+                FieldType.Image =>
+                    CreateImageAccessor(context),
+                FieldType.Link =>
+                    CreateLinkButtonAccessor(context),
+                FieldType.LinkList =>
+                    ControlFactory<TField, TDAO>.CreateLinksAccessor(context),
+                _ => CreateLabelAccessor(context)
+            };
 
         protected IControlAccessor CreateLabelAccessor(IBuilderContext<TField, TDAO> context) =>
             new LabelAccessor<TField, TDAO>(context);

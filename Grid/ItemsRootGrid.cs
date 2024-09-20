@@ -4,6 +4,8 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Decorator;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Data.Fields;
+using OxLibrary;
 
 namespace OxDAOEngine.Grid
 {
@@ -153,7 +155,15 @@ namespace OxDAOEngine.Grid
             return decorator;
         }
 
-        protected override object? GetFieldValue(TField field, TDAO item) => Decorator(item)[field];
+        protected override object? GetFieldValue(TField field, TDAO item) => 
+            fieldHelper.GetFieldType(field) == FieldType.Boolean
+                ? OxImageBoxer.BoxingImage(
+                    (bool)item[field]!
+                        ? OxIcons.tick
+                        : new Bitmap(16, 16),
+                    new Size(16, 16)
+                )
+                : Decorator(item)[field];
 
         private readonly IListController<TField, TDAO> ListController = 
             DataManager.ListController<TField, TDAO>();

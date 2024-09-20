@@ -87,7 +87,7 @@ namespace OxDAOEngine.Grid
         private void CreateColumn(TField field)
         {
             FieldType fieldType = fieldHelper.GetFieldType(field);
-            DataGridViewColumn dataColumn = fieldHelper.IsImageColumn(field) 
+            DataGridViewColumn dataColumn = fieldType is FieldType.Boolean or FieldType.Image
                 ? new DataGridViewImageColumn()
                 : new DataGridViewTextBoxColumn();
 
