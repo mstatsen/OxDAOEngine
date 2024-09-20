@@ -17,7 +17,7 @@ namespace OxDAOEngine.Data.Decorator
 
         public Decorator<TField, TDAO> Decorator(DecoratorType type, TDAO dao)
         {
-            Decorator<TField, TDAO>? decorator = cache.GetDecorator(dao, type);
+            Decorator<TField, TDAO>? decorator = cache.GetDecorator(type);
 
             if (decorator == null)
             {
@@ -32,11 +32,9 @@ namespace OxDAOEngine.Data.Decorator
                         _ => Table(dao),
                     };
 
-                cache.SetDecorator(dao, type, decorator);
+                cache.SetDecorator(type, decorator);
             }
-            //TODO: change cache: exclude dao from cache
-            //decorator.Dao = dao;
-
+            decorator.Dao = dao;
             return decorator;
         }
 
