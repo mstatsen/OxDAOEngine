@@ -25,6 +25,16 @@
             return list;
         }
 
+        List<object> ITypeHelper.All()
+        {
+            List<object> list = new();
+
+            foreach (T item in Enum.GetValues(typeof(T)))
+                list.Add(item);
+
+            return list;
+        }
+
         public object Parse(string text)
         {
             foreach (T value in All())
@@ -111,15 +121,5 @@
 
         public U? DependsOnValue<U>(T? value)
             where U : Enum => (U?)DependsOnValue(value);
-
-        List<object> ITypeHelper.All()
-        {
-            List<object> list = new();
-
-            foreach (T item in Enum.GetValues(typeof(T)))
-                list.Add(item);
-
-            return list;
-        }
     }
 }
