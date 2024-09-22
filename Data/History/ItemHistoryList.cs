@@ -4,8 +4,19 @@
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public void ChangeField(TDAO dao, TField field, object? oldValue) =>
-            Add(new FieldHistory<TField, TDAO>(dao, field, oldValue));
+        public void ChangeField(TDAO dao, TField field, object? oldValue)
+        {
+            FieldHistory<TField, TDAO>? fieldHistory = 
+                (FieldHistory<TField, TDAO>?)Find(
+                    (h) => h is FieldHistory<TField, TDAO> f 
+                    && f.DAO == dao
+                    && f.Field.Equals(field)
+                    && f.Operation == DAOOperation.Modify 
+            );
+
+            if (fieldHistory == null)
+                Add(new FieldHistory<TField, TDAO>(dao, field, oldValue));
+        }
 
         public void AddDAO(TDAO dao) =>
             Add(new AddedDAO<TField, TDAO>(dao));

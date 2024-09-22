@@ -65,7 +65,10 @@ namespace OxDAOEngine.Data
             Sort();
 
             foreach (T item in List)
+            {
+                item.State = State;
                 item.Save(element, clearModified);
+            }
         }
 
         public virtual void Sort()
@@ -86,10 +89,14 @@ namespace OxDAOEngine.Data
 
             foreach (XmlNode node in element.ChildNodes)
             {
-                item = new T();
+                item = new T
+                {
+                    SilentChange = SilentChange
+                };
 
                 if (item.WithoutXmlNode || item.XmlElementName == node.Name)
                 {
+                    item.State = State;
                     item.Load((XmlElement)node);
                     Add(item);
                 }
@@ -111,14 +118,21 @@ namespace OxDAOEngine.Data
             }
         }
 
-        public void NotifyAboutItemAdded(T item) =>
-            ItemAddHandler?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Add));
+        public void NotifyAboutItemAdded(T item)
+        {
+            if (!SilentChange)
+                CallItemAddHandler(item, new DAOEntityEventArgs(DAOOperation.Add));
+        }
+
+        protected virtual void CallItemAddHandler(T item, DAOEntityEventArgs args) => 
+            ItemAddHandler?.Invoke(item, args);
 
         public T Add() => Add(new T());
 
         public virtual T Add(T item)
         {
             List.Add(item);
+            item.SilentChange = SilentChange;
             NotifyAboutItemAdded(item);
             AddMember(item);
             SetMemberHandlers(item);
@@ -129,13 +143,11 @@ namespace OxDAOEngine.Data
         protected void ItemsToMembers()
         {
             foreach (DAO item in List)
-            {
                 if (!Members.Contains(item))
                 {
                     AddMember(item);
                     SetMemberHandlers(item, true);
                 }
-            }
         }
 
         public void AddRange(IEnumerable<T> collection)
@@ -154,16 +166,35 @@ namespace OxDAOEngine.Data
 
         public bool Remove(T item)
         {
-            if (List.Remove(item))
+            bool needDisabledSilentChange = !SilentChange;
+
+            if (!SilentChange)
+                SilentChange = true;
+
+            try
             {
-                RemoveMember(item);
-                ItemRemoveHandler?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Remove));
-                Modified = true;
-                return true;
+                DAO oldValue = new ListDAO<T>().CopyFrom(this);
+
+                if (List.Remove(item))
+                {
+                    ModifiedChangeHandler?.Invoke(this, new DAOModifyEventArgs(true, oldValue));
+                    RemoveMember(item);
+                    CallItemRemoveHandler(item, new DAOEntityEventArgs(DAOOperation.Remove));
+                    Modified = true;
+                    return true;
+                }
+                else
+                    return false;
             }
-            else
-                return false;
+            finally
+            {
+                if (needDisabledSilentChange)
+                    SilentChange = false;
+            }
         }
+
+        protected virtual void CallItemRemoveHandler(T item, DAOEntityEventArgs args) =>
+            ItemRemoveHandler?.Invoke(item, args);
 
         public bool Remove(Predicate<T> match)
         {

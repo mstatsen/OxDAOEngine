@@ -1,4 +1,6 @@
-﻿namespace OxDAOEngine.Data.History
+﻿using OxDAOEngine.Data.Decorator;
+
+namespace OxDAOEngine.Data.History
 {
     public class FieldHistory<TField, TDAO> : ItemHistory<TField, TDAO>
         where TField : notnull, Enum
@@ -17,7 +19,9 @@
 
         public TField Field { get; set; } = default!;
 
-        public override object? NewValue { get => this[Field]; }
-        public override object? OldValue { get => oldValue; }
+        public override object? NewValue => 
+            DataManager.DecoratorFactory<TField, TDAO>().Decorator(DecoratorType.Table, DAO!).Value(Field);
+            
+        public override object? OldValue => oldValue;
     }
 }

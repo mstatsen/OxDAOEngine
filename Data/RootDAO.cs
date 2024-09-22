@@ -51,11 +51,25 @@ namespace OxDAOEngine.Data
             FieldMembers.Add(field, member);
         }
 
-        protected T? ModifyValue<T>(TField field, T? oldValue, T? newValue)
+        protected void AddListMember<T>(TField field, ListDAO<T> listDao)
+            where T : DAO, new()
+        {
+            AddMember(field, listDao);
+            listDao.ItemRemoveHandler += (d, e) => ModifiedChangeHandler?.Invoke(d, new DAOModifyEventArgs(true, d));
+            listDao.ItemAddHandler += (d, e) => ModifiedChangeHandler?.Invoke(d, new DAOModifyEventArgs(true, d));
+        }
+
+        protected T? ModifyValue<T>(TField field, T? oldValue, T? newValue, object? oldValueForHistory = null)
         {
             if (CheckValueModified(oldValue, newValue))
             {
-                OnFieldModified(new FieldModifiedEventArgs<TField>(this, field, oldValue));
+                OnFieldModified(
+                    new FieldModifiedEventArgs<TField>(
+                        this, 
+                        field,
+                        oldValueForHistory ?? oldValue
+                    )
+                );
                 Modified = true;
             }
             

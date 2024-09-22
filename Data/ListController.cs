@@ -97,14 +97,22 @@ namespace OxDAOEngine.Data
         public void Sort() =>
             FullItemsList.Sort(Settings.Sortings.SortingsList, true);
 
-        protected void SetListHandlers()
+        private void SetListHandlers()
         {
             FullItemsList.ChangeHandler += ListChangedHandler;
             FullItemsList.ModifiedChangeHandler += ListModifiedChangeHandler;
             FullItemsList.FieldModified += FieldModifiedHanlder;
             FullItemsList.ItemAddHandler += (d, e) => AddHandler?.Invoke(d, e);
-            FullItemsList.ItemRemoveHandler += (d, e) => RemoveHandler?.Invoke(d, e);
+            FullItemsList.ItemRemoveHandler += ItemRemoveHandler;
             FullItemsList.SortChangeHandler += ItemListSortChanger;
+        }
+
+        protected virtual void SetHandlers() { }
+
+        private void ItemRemoveHandler(TDAO dao, DAOEntityEventArgs e)
+        {
+            History.RemoveDAO(dao);
+            RemoveHandler?.Invoke(dao, e);
         }
 
         private void FieldModifiedHanlder(FieldModifiedEventArgs<TField> e)
@@ -303,10 +311,10 @@ namespace OxDAOEngine.Data
                     80),
                     new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("Old Value",
                         (h) => h is FieldHistory<TField, TDAO> fh ? fh.OldValue : string.Empty,
-                    80),
+                    200),
                     new CustomGridColumn<TField, ItemHistory<TField, TDAO>>("New Value",
                         (h) => h is FieldHistory<TField, TDAO> fh ? fh.NewValue : string.Empty,
-                    80)
+                    200)
                 },
             };
 
@@ -376,8 +384,7 @@ namespace OxDAOEngine.Data
             FullItemsList.StartSilentChange();
 
             foreach (TDAO item in list)
-                if (FullItemsList.Remove(item))
-                    History.RemoveDAO(item);
+                FullItemsList.Remove(item);
 
             FullItemsList.FinishSilentChange();
             RenewVisibleItems();
@@ -441,8 +448,8 @@ namespace OxDAOEngine.Data
             }
         }
 
-        public DAOEntityEventHandler? AddHandler { get; set; }
-        public DAOEntityEventHandler? RemoveHandler { get; set; }
+        public DAOEntityEventHandler<TDAO>? AddHandler { get; set; }
+        public DAOEntityEventHandler<TDAO>? RemoveHandler { get; set; }
         public event ModifiedChangeHandler? ModifiedHandler;
         public EventHandler? ListChanged { get; set; }
         public EventHandler? OnAfterLoad { get; set; }

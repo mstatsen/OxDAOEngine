@@ -10,7 +10,17 @@ namespace OxDAOEngine.Data
         public void CallSortChangeHandler() =>
            SortChangeHandler?.Invoke(this, EventArgs.Empty);
 
-        public FieldModified<TField>? FieldModified { get; set; } //TODO: iterate all items and set its handlers after change this
+        private FieldModified<TField>? fieldModified;
+
+        public FieldModified<TField>? FieldModified 
+        { 
+            get => fieldModified;
+            set
+            {
+                fieldModified = value;
+                SetMembersHandlers();
+            }
+        }
 
         private void MemberFieldModified(FieldModifiedEventArgs<TField> e) =>
             FieldModified?.Invoke(e);
@@ -135,6 +145,15 @@ namespace OxDAOEngine.Data
         protected override bool AutoSorting => false;
 
         public bool FilterIsEmpty => Count == 0;
+
+        public new event DAOEntityEventHandler<TDAO>? ItemAddHandler;
+        public new event DAOEntityEventHandler<TDAO>? ItemRemoveHandler;
+
+        protected override void CallItemAddHandler(TDAO item, DAOEntityEventArgs args) =>
+            ItemAddHandler?.Invoke(item, args);
+
+        protected override void CallItemRemoveHandler(TDAO item, DAOEntityEventArgs args) =>
+            ItemRemoveHandler?.Invoke(item, args);
 
     }
 }

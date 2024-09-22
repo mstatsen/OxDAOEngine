@@ -26,10 +26,12 @@ namespace OxDAOEngine.Data
             }
         }
 
-        public DAOState State { get; private set; } = DAOState.Regular;
+        public DAOState State { get; internal set; } = DAOState.Regular;
 
         public void StartLoading() => State = DAOState.Loading;
         public void FinishLoading() => State = DAOState.Regular;
+        public void StartCoping() => State = DAOState.Coping;
+        public void FinishCoping() => State = DAOState.Regular;
 
         public virtual int CompareTo(DAO? other)
         {
@@ -54,7 +56,15 @@ namespace OxDAOEngine.Data
         public bool SilentChange
         {
             get => silentChange;
-            set => silentChange = value;
+            set => SetSilentChange(value);
+        }
+
+        private void SetSilentChange(bool value)
+        {
+            silentChange = value;
+
+            foreach (DAO member in Members)
+                member.SilentChange = silentChange;
         }
 
         private bool modified = false;
@@ -93,30 +103,28 @@ namespace OxDAOEngine.Data
         public void NotifyAll(DAOOperation operation)
         {
             DAOEntityEventArgs e = new(operation);
-
-            if (operation == DAOOperation.Remove)
-                ModifiedChangeHandler?.Invoke(this, new DAOModifyEventArgs(true, this));
-
             ChangeHandler?.Invoke(this, e);
             modified = true;
         }
 
         protected virtual void InitUniqueCopy() { }
 
-        public void CopyFrom(DAO? item, bool newUnique = false)
+        public DAO CopyFrom(DAO? item, bool newUnique = false)
         {
             State = DAOState.Coping;
+
+            item?.StartCoping();
 
             try
             {
                 if (item == null)
                 {
                     Clear();
-                    return;
+                    return this;
                 }
 
                 if (Equals(item))
-                    return;
+                    return this;
 
                 XmlDocument document = new();
                 document.AppendChild(document.CreateElement("CopyData"));
@@ -152,7 +160,11 @@ namespace OxDAOEngine.Data
             finally
             {
                 State = DAOState.Regular;
+
+                item?.FinishCoping();
             }
+
+            return this;
         }
 
         protected virtual void CopyAdditionalInformationFrom(DAO item) { }
@@ -161,9 +173,10 @@ namespace OxDAOEngine.Data
 
         protected virtual void SetMemberHandlers(DAO member, bool set = true)
         {
+            member.ModifiedChangeHandler -= MemberModifiedHandler;
+
             if (set)
                 member.ModifiedChangeHandler += MemberModifiedHandler;
-            else member.ModifiedChangeHandler -= MemberModifiedHandler;
         }
 
         protected T? ModifyValue<T>(T? oldValue, T? newValue)
@@ -273,7 +286,8 @@ namespace OxDAOEngine.Data
 
         public void Load(XmlElement? element)
         {
-            State = DAOState.Loading;
+            if (State != DAOState.Coping)
+                State = DAOState.Loading;
 
             try
             {
@@ -300,7 +314,8 @@ namespace OxDAOEngine.Data
             }
             finally
             {
-                State = DAOState.Regular;
+                if (State == DAOState.Loading)
+                    State = DAOState.Regular;
             }
         }
 

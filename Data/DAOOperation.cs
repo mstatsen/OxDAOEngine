@@ -32,4 +32,6 @@
 
     public delegate void DAOEntityEventHandler(DAO dao, DAOEntityEventArgs e);
     public delegate void ModifiedChangeHandler(DAO dao, DAOModifyEventArgs e);
+    public delegate void DAOEntityEventHandler<TDAO>(TDAO dao, DAOEntityEventArgs e);
+    public delegate void ModifiedChangeHandler<TDAO>(TDAO dao, DAOModifyEventArgs e);
 }

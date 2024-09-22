@@ -7,7 +7,7 @@ namespace OxDAOEngine.Data.History
         where TDAO : RootDAO<TField>, new()
     {
         public virtual DAOOperation Operation { get; }
-        public TDAO? DAO { get; }
+        public TDAO? DAO { get; set; }
 
         public ItemHistory() : base() { }
 
