@@ -38,15 +38,16 @@ namespace OxDAOEngine.Data
             imageList = new();
         }
 
-        public DAOImage? OnGetImageInfoHandler(Guid imageId) => 
+        public DAOImage? GetImageInfo(Guid imageId) => 
             ImageInfo(imageId);
 
-        public DAOImage OnUpdateImageHanlder(Guid imageId, string name, Bitmap? image) => 
+        public DAOImage UpdateImage(Guid imageId, string name, Bitmap? image) => 
             ImageList.UpdateImage(imageId, name, image);
 
         private void AfterLoad()
         {
             SetListHandlers();
+            SetHandlers();
             OnAfterLoad?.Invoke(this, EventArgs.Empty);
         }
 
@@ -76,7 +77,16 @@ namespace OxDAOEngine.Data
             if (UseImageList)
                 ImageList.Load(parentElement);
 
-            FullItemsList.Load(parentElement);
+            FullItemsList.StartSilentChange();
+
+            try
+            {
+                FullItemsList.Load(parentElement);
+            }
+            finally
+            {
+                FullItemsList.FinishSilentChange();
+            }
             AfterLoad();
         }
 

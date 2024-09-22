@@ -8,5 +8,9 @@ namespace OxDAOEngine.Data
     {
         FieldHelper<TField> FieldHelper { get; }
         IDAOSettings<TField> SettingsByField { get; }
+
+        bool UseImageList { get; }
+        DAOImage? GetImageInfo(Guid imageId);
+        DAOImage UpdateImage(Guid imageId, string name, Bitmap? image);
     }
 }

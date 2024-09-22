@@ -41,8 +41,8 @@ namespace OxDAOEngine.Data
         int RemovedCount { get; }
         int AddedCount { get; }
         Category<TField, TDAO>? Category { get; set; }
-        DAOEntityEventHandler? AddHandler { get; set; }
-        DAOEntityEventHandler? RemoveHandler { get; set;  }
+        DAOEntityEventHandler<TDAO>? AddHandler { get; set; }
+        DAOEntityEventHandler<TDAO>? RemoveHandler { get; set;  }
         EventHandler? ListChanged { get; set; }
         EventHandler? OnAfterLoad { get; set; }
 
@@ -66,10 +66,6 @@ namespace OxDAOEngine.Data
         bool AvailableIcons { get; }
         bool AvailableBatchUpdate { get; }
         bool AvailableCopyItems { get; }
-        bool UseImageList { get; }
-
-        DAOImage? OnGetImageInfoHandler(Guid imageId);
-        DAOImage OnUpdateImageHanlder(Guid imageId, string name, Bitmap? image);
     }
 
     public interface IListController<TField, TDAO, TFieldGroup>

@@ -133,6 +133,19 @@ namespace OxDAOEngine.Data
             }
         }
 
+        public static IFieldController<TField>? TryGetFieldController<TField>()
+            where TField : notnull, Enum
+        {
+            try
+            {
+                return Controller<IFieldController<TField>>();
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
+        }
+
         public static ControlFactory<TField, TDAO> ControlFactory<TField, TDAO>()
             where TField : notnull, Enum
             where TDAO : RootDAO<TField>, new()
@@ -560,6 +573,13 @@ namespace OxDAOEngine.Data
                     return controller;
 
             return FirstFieldController() ?? null;
+        }
+
+        public static bool UseImageList<TField>()
+            where TField : notnull, Enum
+        {
+            IFieldController<TField>? fieldController = TryGetFieldController<TField>();
+            return fieldController != null && fieldController.UseImageList;
         }
     }
 }

@@ -42,28 +42,11 @@ namespace OxDAOEngine.Data
 
             if (member is TDAO daoMember)
             {
+                daoMember.FieldModified -= MemberFieldModified;
+
                 if (FieldModified != null)
-                {
                     if (set)
                         daoMember.FieldModified += MemberFieldModified;
-                    else daoMember.FieldModified -= MemberFieldModified;
-                }
-
-                if (ListControllerExists)
-                {
-                    daoMember.UseImageList = ListController!.UseImageList;
-
-                    if (set)
-                    {
-                        daoMember.OnGetImageInfo += ListController.OnGetImageInfoHandler;
-                        daoMember.OnUpdateImage += ListController.OnUpdateImageHanlder;
-                    }
-                    else
-                    {
-                        daoMember.OnGetImageInfo += ListController.OnGetImageInfoHandler;
-                        daoMember.OnUpdateImage += ListController.OnUpdateImageHanlder;
-                    }
-                }
             }
         }
 

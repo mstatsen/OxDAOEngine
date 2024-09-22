@@ -24,9 +24,6 @@ namespace OxDAOEngine.Data
     public delegate void FieldModified<TField>(FieldModifiedEventArgs<TField> e)
         where TField : notnull, Enum;
 
-    public delegate DAOImage? GetImageInfoHandler(Guid imageId);
-    public delegate DAOImage UpdateImageHandler(Guid imageId, string name, Bitmap? image);
-
     public abstract class RootDAO<TField> : DAO, IFieldMapping<TField>
         where TField : notnull, Enum
     {
@@ -157,13 +154,8 @@ namespace OxDAOEngine.Data
 
         protected override void CopyAdditionalInformationFrom(DAO item)
         {
-            if (item is RootDAO<TField> rootItem)
-            {
-                UseImageList = rootItem.UseImageList;
-
-                if (UseImageList)
-                    daoImage = rootItem.DAOImage;
-            }
+            if (UseImageList && item is RootDAO<TField> rootItem)
+                daoImage = rootItem.DAOImage;
         }
 
         public override string ToString() =>
@@ -259,7 +251,7 @@ namespace OxDAOEngine.Data
                     != null)
                     GenerateImageGuid();
 
-                daoImage = OnUpdateImage?.Invoke(ImageId, Name, value);
+                daoImage = DataManager.FieldController<TField>().UpdateImage(ImageId, Name, value);
                 daoImage!.UsageList.Remove(this);
                 daoImage!.UsageList.Add(this);
             }
@@ -276,14 +268,16 @@ namespace OxDAOEngine.Data
         private Bitmap? GetImage()
         {
             if (UseImageList )
-                if (daoImage == null && OnGetImageInfo != null)
+                if (daoImage == null)
                 {
-                    daoImage = OnGetImageInfo(imageId);
+                    daoImage = GetImageInfo();
                     daoImage?.UsageList.Add(this);
                 }
 
             return daoImage?.Image;
         }
+
+        private DAOImage? GetImageInfo() => DataManager.FieldController<TField>().GetImageInfo(imageId);
 
         private void GenerateImageGuid()
         {
@@ -297,18 +291,11 @@ namespace OxDAOEngine.Data
                 GenerateImageGuid();
         }
 
-        private bool useImageList = false;
-        public bool UseImageList 
-        { 
-            get => useImageList; 
-            set => useImageList = value; 
-        }
-        public GetImageInfoHandler? OnGetImageInfo;
-        public UpdateImageHandler? OnUpdateImage;
-
         public override int GetHashCode()
         {
             return name.GetHashCode() + imageId.GetHashCode();
         }
+
+        public readonly bool UseImageList = DataManager.UseImageList<TField>();
     }
 }
