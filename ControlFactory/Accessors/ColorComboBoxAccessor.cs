@@ -1,6 +1,5 @@
 ﻿using OxLibrary.Controls;
 using OxDAOEngine.ControlFactory.Context;
-using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
 
 namespace OxDAOEngine.ControlFactory.Accessors
@@ -9,14 +8,9 @@ namespace OxDAOEngine.ControlFactory.Accessors
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        protected override ValueAccessor CreateValueAccessor() =>
-            Context.MultipleValue
-            ? new CheckComboBoxValueAccessor()
-            : new SimpleComboBoxValueAccessor();
-
         protected override Control CreateControl() =>
             Context.MultipleValue
-                ? new OxCheckComboBox() 
+                ? base.CreateControl() 
                 : new OxColorComboBox();
 
         public OxColorComboBox ColorComboBox =>
