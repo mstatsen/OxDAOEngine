@@ -21,7 +21,7 @@ namespace OxDAOEngine.Settings
         where TDAO : RootDAO<TField>, new()
     {
         public override Bitmap FormIcon =>
-            OxIcons.export;
+            OxIcons.Export;
 
         private static readonly ControlBuilder<TField, TDAO> Builder = DataManager.Builder<TField, TDAO>(ControlScope.Export);
 

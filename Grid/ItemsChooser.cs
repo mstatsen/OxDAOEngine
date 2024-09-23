@@ -15,8 +15,8 @@ namespace OxDAOEngine.Grid
         private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
         private readonly OxPane buttonsPanel = new(new Size(64, 1));
         private readonly OxPane topPanel = new(new Size(1, 100));
-        private readonly OxIconButton selectButton = new(OxIcons.right, 54);
-        private readonly OxIconButton unSelectButton = new(OxIcons.left, 54);
+        private readonly OxIconButton selectButton = new(OxIcons.Right, 54);
+        private readonly OxIconButton unSelectButton = new(OxIcons.Left, 54);
         private readonly ItemsChooserParams<TField, TDAO> ChooserParams;
         private readonly OxFrameWithHeader availablePlace = new()
         { 

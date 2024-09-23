@@ -105,19 +105,19 @@ namespace OxDAOEngine.ControlFactory
         }
 
         public OxPanel Sider { get; } = new(new Size(16, 1));
-        private readonly OxIconButton ExpandButton = new(OxIcons.left, 16)
+        private readonly OxIconButton ExpandButton = new(OxIcons.Left, 16)
         {
             Dock = DockStyle.Fill,
             HiddenBorder = false
         };
 
-        private readonly OxIconButton PinButton = new(OxIcons.unpin, 16)
+        private readonly OxIconButton PinButton = new(OxIcons.Unpin, 16)
         {
             Dock = DockStyle.Left,
             HiddenBorder = false
         };
 
-        private readonly OxIconButton PinButton2 = new(OxIcons.unpin, 16)
+        private readonly OxIconButton PinButton2 = new(OxIcons.Unpin, 16)
         {
             Dock = DockStyle.Right,
             HiddenBorder = false
@@ -178,7 +178,7 @@ namespace OxDAOEngine.ControlFactory
 
         protected virtual SettingsPart SettingsPart => default;
 
-        private readonly OxIconButton CustomizeButton = new(OxIcons.settings, 23)
+        private readonly OxIconButton CustomizeButton = new(OxIcons.Settings, 23)
         {
             Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold),
             HiddenBorder = false
@@ -402,10 +402,10 @@ namespace OxDAOEngine.ControlFactory
         public Bitmap? ExpandButtonIcon =>
             Dock switch
             {
-                DockStyle.Left => expanded ? OxIcons.left : OxIcons.right,
-                DockStyle.Right => expanded ? OxIcons.right : OxIcons.left,
-                DockStyle.Top => expanded ? OxIcons.up : OxIcons.down,
-                DockStyle.Bottom => expanded ? OxIcons.down : OxIcons.up,
+                DockStyle.Left => expanded ? OxIcons.Left : OxIcons.Right,
+                DockStyle.Right => expanded ? OxIcons.Right : OxIcons.Left,
+                DockStyle.Top => expanded ? OxIcons.Up : OxIcons.Down,
+                DockStyle.Bottom => expanded ? OxIcons.Down : OxIcons.Up,
                 _ => null,
             };
 
@@ -430,7 +430,7 @@ namespace OxDAOEngine.ControlFactory
         private void RecalcPinnedButton(OxIconButton button)
         {
             button.FreezeHovered = pinned;
-            button.Icon = pinned ? OxIcons.pin : OxIcons.unpin;
+            button.Icon = pinned ? OxIcons.Pin : OxIcons.Unpin;
         }
 
 

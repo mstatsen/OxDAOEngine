@@ -12,8 +12,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        private readonly OxIconButton buttonUp = CreateButton(OxIcons.up);
-        private readonly OxIconButton buttonDown = CreateButton(OxIcons.down);
+        private readonly OxIconButton buttonUp = CreateButton(OxIcons.Up);
+        private readonly OxIconButton buttonDown = CreateButton(OxIcons.Down);
 
         protected override void InitButtons()
         {

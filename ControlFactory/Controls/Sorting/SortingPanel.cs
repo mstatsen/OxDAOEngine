@@ -88,7 +88,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             ExternalChangeHandler?.Invoke(sortings, new DAOEntityEventArgs(DAOOperation.Modify));
         }
 
-        private readonly OxButton ClearButton = new("Clear", OxIcons.eraser)
+        private readonly OxButton ClearButton = new("Clear", OxIcons.Eraser)
         {
             Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold)
         };

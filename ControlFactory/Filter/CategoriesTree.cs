@@ -99,13 +99,13 @@ namespace OxDAOEngine.ControlFactory.Filter
             categorySelector.SelectedNode?.EnsureVisible();
         }
 
-        private readonly OxIconButton CollapseButton = new(OxIcons.up, 23)
+        private readonly OxIconButton CollapseButton = new(OxIcons.Up, 23)
         {
             Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold),
             HiddenBorder = false
         };
 
-        private readonly OxIconButton ExpandButton = new(OxIcons.down, 23)
+        private readonly OxIconButton ExpandButton = new(OxIcons.Down, 23)
         {
             Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold),
             HiddenBorder = false

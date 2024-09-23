@@ -159,7 +159,7 @@ namespace OxDAOEngine.Grid
             fieldHelper.GetFieldType(field) == FieldType.Boolean
                 ? OxImageBoxer.BoxingImage(
                     (bool)item[field]!
-                        ? OxIcons.tick
+                        ? OxIcons.Tick
                         : new Bitmap(16, 16),
                     new Size(16, 16)
                 )

@@ -44,7 +44,7 @@ namespace OxDAOEngine.Settings
         private class SettingsControls : SettingsDictionary<Dictionary<string, IControlAccessor>, string, IControlAccessor> { }
 
         public override Bitmap FormIcon =>
-            OxIcons.settings;
+            OxIcons.Settings;
 
         public SettingsForm()
         {
@@ -411,7 +411,7 @@ namespace OxDAOEngine.Settings
 
             DefaulterScopeHelper helper = TypeHelper.Helper<DefaulterScopeHelper>();
             left += DefaulterScopeHelper.DefaultButtonsSpace;
-            OxButton button = new(helper.Name(scope), OxIcons.eraser)
+            OxButton button = new(helper.Name(scope), OxIcons.Eraser)
             {
                 Parent = MainPanel.Footer,
                 BaseColor = MainPanel.BaseColor,

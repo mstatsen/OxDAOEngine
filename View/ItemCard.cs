@@ -31,7 +31,7 @@ namespace OxDAOEngine.View
         }
 
         public override Color DefaultColor => EngineStyles.CardColor;
-        private readonly OxIconButton EditorButton = new(OxIcons.pencil, 20);
+        private readonly OxIconButton EditorButton = new(OxIcons.Pencil, 20);
 
         protected override void PrepareColors()
         {

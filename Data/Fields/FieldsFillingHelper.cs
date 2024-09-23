@@ -32,8 +32,8 @@ namespace OxDAOEngine.Data.Fields
         public Bitmap ButtonIcon(FieldsFilling value) => 
             value switch
             {
-                FieldsFilling.Clear => OxIcons.eraser,
-                _ => OxIcons.plus,
+                FieldsFilling.Clear => OxIcons.Eraser,
+                _ => OxIcons.Plus,
             };
     }
 }

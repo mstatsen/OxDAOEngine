@@ -522,7 +522,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private const string QuickFilterTitle = "Quick Filter";
         private readonly ControlBuilder<TField, TDAO> Builder;
         private readonly ControlLayouter<TField, TDAO> Layouter;
-        private readonly OxButton ClearButton = new ("Clear", OxIcons.eraser)
+        private readonly OxButton ClearButton = new ("Clear", OxIcons.Eraser)
         {
             Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold)
         };

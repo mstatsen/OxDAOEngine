@@ -31,7 +31,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         }
 
         public override Bitmap FormIcon =>
-            OxIcons.batch_edit;
+            OxIcons.Batch_edit;
 
         public new BatchUpdatePanel<TField, TDAO> MainPanel
         {

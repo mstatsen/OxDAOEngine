@@ -14,7 +14,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected override void InitButtons()
         {
             base.InitButtons();
-            OxIconButton goButton = CreateButton(OxIcons.go);
+            OxIconButton goButton = CreateButton(OxIcons.Go);
             goButton.ToolTipText = "Follow the link";
             PrepareViewButton(
                 goButton,

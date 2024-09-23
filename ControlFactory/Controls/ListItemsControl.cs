@@ -250,9 +250,9 @@ namespace OxDAOEngine.ControlFactory.Controls
             PrepareEditButton(EditButton, (s, e) => EditItem(), true);
         }
 
-        private readonly OxIconButton AddButton = CreateButton(OxIcons.plus);
-        private readonly OxIconButton DeleteButton = CreateButton(OxIcons.minus);
-        private readonly OxIconButton EditButton = CreateButton(OxIcons.pencil);
+        private readonly OxIconButton AddButton = CreateButton(OxIcons.Plus);
+        private readonly OxIconButton DeleteButton = CreateButton(OxIcons.Minus);
+        private readonly OxIconButton EditButton = CreateButton(OxIcons.Pencil);
 
         private void SetEditButtonVisible(bool value)
         {
