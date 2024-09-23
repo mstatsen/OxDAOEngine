@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OxDAOEngine.Data.Decorator
+﻿namespace OxDAOEngine.Data.Decorator
 {
     public static class DecoratorHelper
     {

@@ -104,14 +104,19 @@ namespace OxDAOEngine.ControlFactory
                     CreateExtractAccessor(context),
                 FieldType.MetaData =>
                     new FieldAccessor<TField, TDAO>(context),
-                FieldType.Link => 
+                FieldType.Link =>
                     CreateLinkButtonAccessor(context),
                 FieldType.LinkList =>
                     ControlFactory<TField, TDAO>.CreateLinksAccessor(context),
+                FieldType.Country =>
+                    CreateCountryAccessor(context),
                 _ =>
                     CreateOtherAccessor(context),
             };
         }
+
+        private IControlAccessor CreateCountryAccessor(IBuilderContext<TField, TDAO> context) => 
+            new CountryComboBoxAccessor<TField, TDAO>(context);
 
         private static IControlAccessor CreateLinkButtonAccessor(IBuilderContext<TField, TDAO> context) =>
             new LinkButtonAccessor<TField, TDAO>(context);

@@ -15,6 +15,7 @@
         List,
         Link,
         LinkList,
+        Country,
         Custom
     }
 }
