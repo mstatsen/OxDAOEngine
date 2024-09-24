@@ -54,8 +54,11 @@ namespace OxDAOEngine.ControlFactory
                     {
                         object? variant = BuilderVariant(context.Builder);
 
-                        return new ExtractInitializer<TField, TDAO>(accessorContext.Field, true,
-                             variant != null && variant.Equals(QuickFilterVariant.Export));
+                        return new ExtractInitializer<TField, TDAO>(
+                            accessorContext.Field, 
+                            addAnyObject: true,
+                            fullExtract: variant != null && variant.Equals(QuickFilterVariant.Export)
+                        );
                     }
                     break;
             }

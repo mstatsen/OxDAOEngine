@@ -16,18 +16,13 @@ namespace OxDAOEngine.ControlFactory.Initializers
 
         public IMatcher<TField>? Filter { get; set; }
 
-        public ExtractInitializer(TField field, bool fullExtract)
-            : this(field, false, fullExtract, null) { }
-
-        public ExtractInitializer(TField field, bool addAnyObject, bool fullExtract) 
-            : this(field, addAnyObject, fullExtract, null) { }
-
-        public ExtractInitializer(TField field, bool addAnyObject, bool fullExtract, IMatcher<TField>? filter)
+        public ExtractInitializer(TField field, bool addAnyObject = false, bool fullExtract = false, bool fixedExtract = false, IMatcher<TField>? filter = null)
         {
             Field = field;
             FullExtract = fullExtract;
             Filter = filter;
             AddAnyObject = addAnyObject;
+            FixedExtract = fixedExtract;
         }
 
         private readonly bool AddAnyObject;
@@ -55,7 +50,10 @@ namespace OxDAOEngine.ControlFactory.Initializers
             if (ComboBox == null)
             {
                 ComboBox = (OxComboBox)control;
-                ComboBox.DropDownStyle = ComboBoxStyle.DropDown;
+                ComboBox.DropDownStyle = 
+                    FixedExtract 
+                        ? ComboBoxStyle.DropDownList 
+                        : ComboBoxStyle.DropDown;
             }
 
             ComboBox.Items.Clear();
@@ -95,5 +93,6 @@ namespace OxDAOEngine.ControlFactory.Initializers
             RenewControl();
 
         private readonly bool FullExtract;
+        private readonly bool FixedExtract;
     }
 }
