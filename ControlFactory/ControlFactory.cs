@@ -112,13 +112,13 @@ namespace OxDAOEngine.ControlFactory
                 FieldType.LinkList =>
                     ControlFactory<TField, TDAO>.CreateLinksAccessor(context),
                 FieldType.Country =>
-                    CreateCountryAccessor(context),
+                    ControlFactory<TField, TDAO>.CreateCountryAccessor(context),
                 _ =>
                     CreateOtherAccessor(context),
             };
         }
 
-        private IControlAccessor CreateCountryAccessor(IBuilderContext<TField, TDAO> context) => 
+        private static IControlAccessor CreateCountryAccessor(IBuilderContext<TField, TDAO> context) => 
             new CountryComboBoxAccessor<TField, TDAO>(context);
 
         private static IControlAccessor CreateLinkButtonAccessor(IBuilderContext<TField, TDAO> context) =>

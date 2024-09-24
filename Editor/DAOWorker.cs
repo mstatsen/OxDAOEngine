@@ -32,7 +32,7 @@ namespace OxDAOEngine.Editor
                 LayoutControls();
                 FillControls();
 
-                if (SyncAllFields(true))
+                if (SyncAllFields())
                     RecalcGroupsAvailability();
             }
         }
@@ -190,7 +190,7 @@ namespace OxDAOEngine.Editor
                 Builder[field].ValueChangeHandler += ValueChangeHandler;
         }
 
-        private bool SyncAllFields(bool initialSync = false)
+        private bool SyncAllFields()
         {
             bool needRecalcGroupsAvailability = false;
 
