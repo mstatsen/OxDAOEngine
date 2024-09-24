@@ -7,19 +7,20 @@ using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
-    public class ComboBoxAccessor<TField, TDAO> : ControlAccessor<TField, TDAO>
+    public class ComboBoxAccessor<TField, TDAO, TItem, TComboBox> : ControlAccessor<TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
+        where TComboBox : OxComboBox<TItem>, new()
     {
         protected override ValueAccessor CreateValueAccessor() =>
             Context.MultipleValue
             ? new CheckComboBoxValueAccessor()
-            : new SimpleComboBoxValueAccessor();
+            : new SimpleComboBoxValueAccessor<TItem, TComboBox>();
 
         protected override Control CreateControl() =>
             Context.MultipleValue
                 ? new OxCheckComboBox() 
-                : (Control)new OxComboBox();
+                : new TComboBox();
 
         protected virtual bool AvailableValue(object value) =>
             Context == null
@@ -93,8 +94,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
             ComboBox.Visible = visible && !readOnly;
         }
 
-        public OxComboBox ComboBox =>
-            (OxComboBox)Control;
+        public TComboBox ComboBox =>
+            (TComboBox)Control;
 
         private readonly OxTextBox ReadOnlyControl = new()
         { 
@@ -121,6 +122,15 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             if (ComboBox.Items.Count > 0)
                 ComboBox.SelectedIndex = 0;
+        }
+    }
+
+    public class ComboBoxAccessor<TField, TDAO> : ComboBoxAccessor<TField, TDAO, object, OxComboBox>
+        where TField : notnull, Enum
+        where TDAO : RootDAO<TField>, new()
+    {
+        public ComboBoxAccessor(IBuilderContext<TField, TDAO> context) : base(context)
+        {
         }
     }
 }

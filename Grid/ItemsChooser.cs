@@ -150,7 +150,7 @@ namespace OxDAOEngine.Grid
         private void MoveSelected(bool select, bool force = false)
         {
             ItemsRootGrid<TField, TDAO> sourceGrid = select ? availableGrid.Grid : selectedGrid;
-            ItemsRootGrid< TField, TDAO > destGrid = select ? selectedGrid : availableGrid.Grid;
+            ItemsRootGrid<TField, TDAO> destGrid = select ? selectedGrid : availableGrid.Grid;
 
             bool? canSelect = true;
 
@@ -169,7 +169,7 @@ namespace OxDAOEngine.Grid
 
                 destGrid.ItemsList.Add(item);
                 sourceGrid.GridView.Rows.RemoveAt(sourceGrid.GetRowIndex(item));
-                sourceGrid.ItemsList.Remove(item);
+                sourceGrid.ItemsList.Remove(item, false);
             }
 
             if (destGrid.ItemsList.Modified)

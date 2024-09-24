@@ -2,10 +2,11 @@
 
 namespace OxDAOEngine.ControlFactory.ValueAccessors
 {
-    public class SimpleComboBoxValueAccessor : ValueAccessor
+    public class SimpleComboBoxValueAccessor<TItem, TComboBox> : ValueAccessor
+        where TComboBox : OxComboBox<TItem>
     {
-        private OxComboBox ComboBox => 
-            (OxComboBox)Control;
+        private TComboBox ComboBox => 
+            (TComboBox)Control;
 
         private static bool IsEmptyValue(object? value) =>
             (value == null) ||

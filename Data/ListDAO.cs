@@ -7,7 +7,6 @@ namespace OxDAOEngine.Data
         where T : DAO, new()
     {
         public readonly List<T> List = new();
-
         public ListDAO() : base() { }
 
         public ListDAO(List<object> list) : base() =>
@@ -156,15 +155,19 @@ namespace OxDAOEngine.Data
             ItemsToMembers();
         }
 
-        public void RemoveAll(Predicate<T> match)
+        public void RemoveAll(Predicate<T> match) => RemoveAll(match, true);
+
+        public void RemoveAll(Predicate<T> match, bool needSaveHistory)
         {
             List<T> removingList = FindAll(match);
 
             foreach (T item in removingList)
-                Remove(item);
+                Remove(item, needSaveHistory);
         }
 
-        public bool Remove(T item)
+        public bool Remove(T item) => Remove(item, true);
+
+        public bool Remove(T item, bool needSaveHistory)
         {
             bool needDisabledSilentChange = !SilentChange;
 
@@ -173,7 +176,7 @@ namespace OxDAOEngine.Data
 
             try
             {
-                DAO oldValue = new ListDAO<T>().CopyFrom(this);
+                DAO? oldValue = needSaveHistory ? new ListDAO<T>().CopyFrom(this) : null;
 
                 if (List.Remove(item))
                 {
@@ -196,10 +199,12 @@ namespace OxDAOEngine.Data
         protected virtual void CallItemRemoveHandler(T item, DAOEntityEventArgs args) =>
             ItemRemoveHandler?.Invoke(item, args);
 
-        public bool Remove(Predicate<T> match)
+        public bool Remove(Predicate<T> match) => Remove(match, true);
+
+        public bool Remove(Predicate<T> match, bool needSaveHistory)
         {
             T? item = Find(match);
-            return item != null && Remove(item);
+            return item != null && Remove(item, needSaveHistory);
         }
 
         public int IndexOf(T? value) => value == null ? -1 : List.IndexOf(value);

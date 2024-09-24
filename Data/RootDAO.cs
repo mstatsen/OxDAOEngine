@@ -120,10 +120,9 @@ namespace OxDAOEngine.Data
 
         public override bool Equals(object? obj) =>
             obj is RootDAO<TField> otherDAO
-            && (base.Equals(obj)
-                    && ImageId.Equals(otherDAO.ImageId)
-                    && Name.Equals(otherDAO.Name)
-            );
+            && base.Equals(obj)
+            && ImageId.Equals(otherDAO.ImageId)
+            && Name.Equals(otherDAO.Name);
                     
 
        public override void Clear()

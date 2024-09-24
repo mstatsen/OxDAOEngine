@@ -14,8 +14,11 @@ namespace OxDAOEngine.Data
         T Add(T item);
         void AddRange(IEnumerable<T> collection);
         void RemoveAll(Predicate<T> match);
+        void RemoveAll(Predicate<T> match, bool needSaveHistory);
         bool Remove(T item);
+        bool Remove(T item, bool needSaveHistory);
         bool Remove(Predicate<T> match);
+        bool Remove(Predicate<T> match, bool needSaveHistory);
         int IndexOf(T? value);
         T? Find(Predicate<T> match);
         List<T> FindAll(Predicate<T> match);

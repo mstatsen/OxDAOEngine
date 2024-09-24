@@ -219,11 +219,13 @@ namespace OxDAOEngine
 
         private bool QuickFilterChanged()
         {
-            //if (!ListController.AvailableQuickFilter)
-                //return true;
-
             RootListDAO<TField, TDAO> newActualItemList = ListController.VisibleItemsList
-                .FilteredList(quickFilter?.ActiveFilter, Settings.Sortings.SortingsList);
+                .FilteredList(
+                    ListController.AvailableQuickFilter 
+                        ? quickFilter?.ActiveFilter 
+                        : null, 
+                    Settings.Sortings.SortingsList
+                );
 
             if (actualItemList != null
                 && actualItemList.Equals(newActualItemList))

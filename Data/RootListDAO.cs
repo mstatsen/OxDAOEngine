@@ -34,7 +34,6 @@ namespace OxDAOEngine.Data
                 return listController;
             }
         }
-        private static readonly bool ListControllerExists = DataManager.ListControllerExists<TField, TDAO>();
 
         protected override void SetMemberHandlers(DAO member, bool set = true)
         {

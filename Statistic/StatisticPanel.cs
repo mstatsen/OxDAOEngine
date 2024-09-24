@@ -145,8 +145,9 @@ namespace OxDAOEngine.Statistic
                                 ? 0
                                 : 2
                         ),
-                    StatisticType.Visible => 
+                    StatisticType.Visible =>
                         QuickFilterColorHelper.Darker(
+                            !ListController.AvailableQuickFilter ||
                             QuickFilterPanel == null ||
                             QuickFilterPanel.ActiveFilter == null ||
                             QuickFilterPanel.ActiveFilter.FilterIsEmpty
