@@ -8,6 +8,10 @@
         private readonly TypeObjectList<T> typeObjects = new();
         public Type ItemType => typeof(T);
         public virtual Type ItemObjectType => typeof(EnumItemObject<T>);
+
+        public virtual bool UseShortNameForControl => false;
+        public virtual bool UseToolTipForControl => false;
+
         public abstract string GetName(T value);
         public virtual string GetShortName(T value) => value.ToString();
         public virtual string GetFullName(T value) => GetName(value);

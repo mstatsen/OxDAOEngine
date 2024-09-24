@@ -14,10 +14,29 @@ namespace OxDAOEngine.ControlFactory.Accessors
     {
         public EnumAccessor(IBuilderContext<TField, TDAO> context) : base(context) { }
 
-        protected override Control CreateControl() =>
-            Context.MultipleValue
-                ? new OxCheckComboBox<EnumItemObject<TItem>>()
+        protected override Control CreateControl() => 
+            Context.MultipleValue 
+                ? new OxCheckComboBox<EnumItemObject<TItem>>() 
                 : base.CreateControl();
+
+        protected override void AfterControlCreated()
+        { 
+            base.AfterControlCreated();
+
+            if (TypeHelper.HelperByItemType<TItem>().UseToolTipForControl)
+                ComboBox.GetToolTip += GetToolTipHandler;
+        }
+
+        private void GetToolTipHandler(object item, out string toolTipTitle, out string toolTipText)
+        {
+            toolTipTitle = string.Empty;
+            toolTipText = string.Empty;
+
+            if (item == null)
+                return;
+
+            toolTipText = TypeHelper.FullName(((EnumItemObject<TItem>)item).Value);
+        }
 
         protected virtual bool AvailableValue(TItem value) =>
             base.AvailableValue(value) &&

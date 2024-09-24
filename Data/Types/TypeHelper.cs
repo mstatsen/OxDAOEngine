@@ -68,6 +68,10 @@ namespace OxDAOEngine.Data.Types
             throw new NotSupportedException();
         }
 
+        public static ITypeHelper HelperByItemType<TItem>()
+            where TItem : notnull, Enum =>
+            Helper(Enum.GetValues(typeof(TItem)).GetValue(0)!);
+
         public static FieldHelper<TField> FieldHelper<TField>()
             where TField : notnull, Enum =>
             (FieldHelper<TField>)Helper(default(TField)!);

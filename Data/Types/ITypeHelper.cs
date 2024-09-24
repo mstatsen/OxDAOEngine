@@ -17,5 +17,8 @@ namespace OxDAOEngine.Data.Types
         Type ItemObjectType { get;  }
 
         List<object> All();
+
+        bool UseShortNameForControl { get; }
+        bool UseToolTipForControl { get; }
     }
 }

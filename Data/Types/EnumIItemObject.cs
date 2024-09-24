@@ -15,7 +15,7 @@
             return Value.CompareTo(otherValue);
         }
 
-        public override string? ToString() =>
-            TypeHelper.Name(Value);
+        public override string? ToString() => 
+            TypeHelper.Helper(this).UseShortNameForControl ? TypeHelper.ShortName(Value) : TypeHelper.Name(Value);
     }
 }

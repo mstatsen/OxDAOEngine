@@ -112,7 +112,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
             if (ComboBox.Items.Count > 0)
                 ComboBox.SelectedIndex = 0;
-            else ComboBox.SelectedItem = null;
+            else ComboBox.SelectedItem = default;
         }
 
         public override bool IsEmpty => 

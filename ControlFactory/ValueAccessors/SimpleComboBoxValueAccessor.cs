@@ -13,11 +13,11 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             ((value is string stringValue) && stringValue == string.Empty);
 
         public override object GetValue() => 
-            ComboBox.SelectedItem ?? ComboBox.Text;
+            ComboBox.SelectedItemObject ?? ComboBox.Text;
 
         public override void SetValue(object? value)
         {
-            ComboBox.SelectedItem =
+            ComboBox.SelectedItemObject =
                 IsEmptyValue(value) ? null : value;
 
             if (ComboBox.SelectedItem == null)
