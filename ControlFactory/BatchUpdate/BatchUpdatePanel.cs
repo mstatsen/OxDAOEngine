@@ -16,8 +16,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         public EventHandler? BatchUpdateCompleted;
 
         public void SetItemsCount() => 
-            countLabel.Text = "Selected items: " + (ItemsGetter != null ? ItemsGetter().Count.ToString() : "N/A");
-
+            countLabel.Text = $"Selected items: {(ItemsGetter != null ? ItemsGetter().Count.ToString() : "N/A")}";
 
         public void UpdateItems()
         {

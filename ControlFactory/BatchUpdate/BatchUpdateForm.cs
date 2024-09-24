@@ -14,14 +14,18 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
             set
             {
                 MainPanel.ItemsGetter += value;
-                MainPanel.SetItemsCount();
+                SetItemsCount();
             }
         }
+
+        private void SetItemsCount() => 
+            MainPanel.SetItemsCount();
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
             SetContentSize(360, 120);
+            SetItemsCount();
         }
 
         public EventHandler? BatchUpdateCompleted
