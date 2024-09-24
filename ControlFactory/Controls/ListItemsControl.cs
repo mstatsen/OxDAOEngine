@@ -182,8 +182,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private bool AllItemsAdded()
         {
-            int maximum = OnGetMaximumCount != null 
-                ? OnGetMaximumCount() 
+            int maximum = GetMaximumCount != null 
+                ? GetMaximumCount() 
                 : MaximumItemsCount;
 
             return ListBox.Items.Count < maximum || maximum == -1;
@@ -369,7 +369,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                     button.BaseColor = BaseColor;
         }
 
-        public GetMaximumCount? OnGetMaximumCount;
+        public GetMaximumCount? GetMaximumCount;
 
         protected virtual int MaximumItemsCount => -1;
 

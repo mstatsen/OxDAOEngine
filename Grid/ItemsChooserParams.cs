@@ -2,7 +2,14 @@
 
 namespace OxDAOEngine.Grid
 {
-    public delegate bool CanSelectEvent<TField, TDAO>(TDAO currentItem, RootListDAO<TField, TDAO> selectedList)
+    public enum CanSelectResult 
+    {
+        Available,
+        Return,
+        Continue
+    }
+
+    public delegate CanSelectResult CanSelectEvent<TField, TDAO>(TDAO currentItem, RootListDAO<TField, TDAO> selectedList)
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new();
 

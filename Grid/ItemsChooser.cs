@@ -152,7 +152,7 @@ namespace OxDAOEngine.Grid
             ItemsRootGrid<TField, TDAO> sourceGrid = select ? availableGrid.Grid : selectedGrid;
             ItemsRootGrid<TField, TDAO> destGrid = select ? selectedGrid : availableGrid.Grid;
 
-            bool? canSelect = true;
+            CanSelectResult canSelect = CanSelectResult.Available;
 
             RootListDAO<TField, TDAO> selectedList = sourceGrid.GetSelectedItems();
             destGrid.ItemsList.Modified = false;
@@ -161,15 +161,25 @@ namespace OxDAOEngine.Grid
             {
                 if (!force)
                     canSelect = select
-                        ? ChooserParams.CanSelectItem?.Invoke(item, selectedList)
-                        : ChooserParams.CanUnselectItem?.Invoke(item, selectedList);
+                        ? ChooserParams.CanSelectItem == null 
+                            ? CanSelectResult.Available 
+                            : ChooserParams.CanSelectItem.Invoke(item, selectedList)
+                        : ChooserParams.CanUnselectItem == null 
+                            ? CanSelectResult.Available 
+                            : ChooserParams.CanUnselectItem.Invoke(item, selectedList);
 
-                if (canSelect != null && canSelect == false)
-                    return;
+                switch (canSelect)
+                {
+                    case CanSelectResult.Return:
+                        return;
+                    case CanSelectResult.Continue:
+                        continue;
+                }
+            
 
                 destGrid.ItemsList.Add(item);
-                sourceGrid.GridView.Rows.RemoveAt(sourceGrid.GetRowIndex(item));
-                sourceGrid.ItemsList.Remove(item, false);
+                    sourceGrid.GridView.Rows.RemoveAt(sourceGrid.GetRowIndex(item));
+                    sourceGrid.ItemsList.Remove(item, false);
             }
 
             if (destGrid.ItemsList.Modified)

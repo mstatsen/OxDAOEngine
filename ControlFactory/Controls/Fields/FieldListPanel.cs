@@ -33,7 +33,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldsControl<TField, TDAO> fieldsControl = (FieldsControl<TField, TDAO>)fieldsAccessor.Control;
             fieldsControl.BaseColor = BaseColor;
             fieldsControl.AllowSorting = variantHelper.Sortable(Variant);
-            fieldsControl.OnGetMaximumCount += GetPossibleItemsCount;
+            fieldsControl.GetMaximumCount += GetPossibleItemsCount;
 
             SetToolButtonsVisible();
         }
