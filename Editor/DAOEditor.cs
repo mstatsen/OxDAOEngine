@@ -98,7 +98,7 @@ namespace OxDAOEngine.Editor
             Worker.CheckMandatoryFields();
 
         public override bool CanCancelClose() => 
-            Worker.Modified || OxMessage.Confirmation("You have unsaved changes. You really want to exit?");
+            !Worker.Modified || OxMessage.Confirmation("You have unsaved changes. You really want to exit?");
 
         private void FormClosedHandler(object? sender, FormClosedEventArgs e)
         {
