@@ -12,8 +12,24 @@ namespace OxDAOEngine.Editor
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
     {
-        public bool Modified =>
-            !initialItem.Equals(Item);
+        public bool Modified
+        {
+            get
+            {
+                TDAO currentItem = new();
+
+                try
+                {
+                    currentItem.CopyFrom(initialItem);
+                    Builder.GrabControls(currentItem);
+                    return !initialItem.Equals(currentItem);
+                }
+                finally
+                {
+                    currentItem.Clear();
+                }
+            }
+        }
 
         public DAOEditor<TField, TDAO, TFieldGroup> Editor =>
             DataManager.Editor<TField, TDAO, TFieldGroup>();
@@ -23,9 +39,6 @@ namespace OxDAOEngine.Editor
             get => item;
             set
             {
-                if (initialItem.Equals(value))
-                    return;
-
                 item = value;
                 initialItem.CopyFrom(item);
                 FillFormCaption(item);

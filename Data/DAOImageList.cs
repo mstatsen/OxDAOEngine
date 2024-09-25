@@ -36,8 +36,30 @@ namespace OxDAOEngine.Data
 
         private void RemoveUnused()
         {
+            IListController<TField, TDAO> listController = DataManager.ListController<TField, TDAO>();
+            RootListDAO<TField, TDAO> fullItemsList = listController.FullItemsList;
+            List<DAOImage> unusedList = new();
+
+            foreach (DAOImage item in FindAll((i) => i.UsageList.Count > 0))
+            {
+                int realUsage = 0;
+
+                foreach (DAO usageDao in item.UsageList)
+                    if (fullItemsList.Contains(usageDao)
+                        && usageDao is RootDAO<TField> rootDao
+                        && item.Id.Equals(rootDao.ImageId))
+                        realUsage++;
+
+                if (realUsage == 0)
+                    unusedList.Add(item);
+            }
+
+            foreach (DAOImage item in unusedList)
+                Remove(item, false);
+
+
             foreach (DAOImage item in FindAll((i) => i.UsageList.Count == 0))
-                Remove(item);
+                Remove(item, false);
         }
 
         private void RemoveEmpty()
@@ -47,7 +69,7 @@ namespace OxDAOEngine.Data
                 foreach (TDAO dao in item.UsageList.Cast<TDAO>())
                     dao[ListController.FieldHelper.ImageField] = Guid.Empty;
 
-                Remove(item);
+                Remove(item, false);
             }
         }
 

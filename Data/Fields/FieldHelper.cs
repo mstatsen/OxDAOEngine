@@ -143,7 +143,8 @@ namespace OxDAOEngine.Data.Fields
 
         public virtual int ColumnWidth(TField field) => 100;
 
-        public virtual string ColumnCaption(TField field) => Name(field);
+        public virtual string ColumnCaption(TField field) => 
+            field.Equals(ImageField) ? string.Empty : Name(field);
 
         public virtual void FillAdditionalContext(TField field, IAccessorContext context) { }
 

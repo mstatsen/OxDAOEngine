@@ -118,14 +118,22 @@ namespace OxDAOEngine.Data
             return null;
         }
 
-        public override bool Equals(object? obj) =>
-            obj is RootDAO<TField> otherDAO
-            && base.Equals(obj)
-            && ImageId.Equals(otherDAO.ImageId)
-            && Name.Equals(otherDAO.Name);
-                    
+        public override bool Equals(object? obj)
+        {
+            if (base.Equals(obj))
+                return true;
 
-       public override void Clear()
+            if (obj is RootDAO<TField> otherDAO)
+                return ImageId.Equals(otherDAO.ImageId)
+                    && (daoImage != null
+                        ? daoImage.Equals(otherDAO.DAOImage)
+                        : otherDAO.DAOImage == null
+                    )
+                    && Name.Equals(otherDAO.Name);
+            else return false;
+        }
+
+        public override void Clear()
         {
             if (State is 
                 DAOState.Creating or 
@@ -241,6 +249,7 @@ namespace OxDAOEngine.Data
 
             if (UseImageList)
             {
+                /*
                 if (DAOImage != null && 
                     UniqueValue != null &&
                     DAOImage.UsageList.Find((d) =>
@@ -248,6 +257,10 @@ namespace OxDAOEngine.Data
                             ((RootDAO<TField>)d).GetFieldValue(UniqueField))
                         )
                     != null)
+                    GenerateImageGuid();
+
+                if (ImageId == Guid.Empty)
+                */
                     GenerateImageGuid();
 
                 daoImage = DataManager.FieldController<TField>().UpdateImage(ImageId, Name, value);

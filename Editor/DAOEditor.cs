@@ -3,6 +3,7 @@ using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
+using OxLibrary.Controls;
 
 namespace OxDAOEngine.Editor
 {
@@ -18,6 +19,7 @@ namespace OxDAOEngine.Editor
             CreatePanels();
             MainPanel.Colors.BaseColorChanged += FormColorChanged;
             FormClosed += FormClosedHandler;
+            MainPanel.Header.AddToolButton(new OxIconButton(OxIcons.Up, 24));
         }
 
         protected virtual void CreatePanels()
