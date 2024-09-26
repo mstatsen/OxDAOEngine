@@ -39,7 +39,7 @@ namespace OxDAOEngine.Export
         }
 
         private bool PrepareToExport() =>
-            settingsForm.ShowDialog() == DialogResult.OK;
+            settingsForm.ShowDialog(DataManager.ListController<TField, TDAO>().Face) == DialogResult.OK;
 
         private static void OpenReadyFile()
         {

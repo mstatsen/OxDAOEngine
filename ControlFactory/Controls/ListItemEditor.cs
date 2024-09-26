@@ -40,11 +40,13 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected virtual void SetPaddings() { }
 
+        public Control? OwnerControl { get; internal set; }
+
         public DialogResult Edit(TItem item)
         {
             PrepareControlColors();
             FillControls(item);
-            DialogResult result = ShowDialog();
+            DialogResult result = ShowDialog(OwnerControl);
 
             if (result == DialogResult.OK)
                 GrabControls(item);

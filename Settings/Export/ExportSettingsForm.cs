@@ -268,7 +268,7 @@ namespace OxDAOEngine.Settings
                 OverwritePrompt = false
             };
 
-            if (saveDialog.ShowDialog() == DialogResult.OK)
+            if (saveDialog.ShowDialog(this) == DialogResult.OK)
                 fileControl.Value = saveDialog.FileName;
         }
 
@@ -418,7 +418,7 @@ namespace OxDAOEngine.Settings
                 DataManager.ListController<TField, TDAO>().SystemCategories?
                     .Find(c => c.Name == categoryControl?.Value);
 
-            if (categoriesTree.ShowAsDialog(OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK)
+            if (categoriesTree.ShowAsDialog(this, OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK)
                 categoryControl!.Value = categoriesTree.ActiveCategory?.Name;
         }
 

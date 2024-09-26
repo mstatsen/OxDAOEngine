@@ -47,7 +47,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         {
             if (MainPanel.FieldIsEmpty)
             {
-                OxMessage.ShowError("Field is empty");
+                OxMessage.ShowError("Field is empty", this);
                 return false;
             }
 

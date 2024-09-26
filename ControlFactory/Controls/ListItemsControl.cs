@@ -42,6 +42,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         private TEditor Editor(TypeOfEditorShow type)
         {
             editor ??= new TEditor().Init<TEditor>(Context);
+            editor.OwnerControl = this;
             editor.BaseColor = Colors.Lighter(Context.Scope == ControlScope.Editor ? 0 : 1);
             PrepareEditor(editor);
             editor.ParentItem = ParentItem;

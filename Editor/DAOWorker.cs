@@ -133,7 +133,7 @@ namespace OxDAOEngine.Editor
 
                 if (accessor.IsEmpty)
                 {
-                    OxMessage.ShowError($"{TypeHelper.Name(field)} is mandatory");
+                    OxMessage.ShowError($"{TypeHelper.Name(field)} is mandatory", Editor);
                     accessor.Control.Focus();
                     return false;
                 }

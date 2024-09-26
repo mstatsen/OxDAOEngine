@@ -217,7 +217,7 @@ namespace OxDAOEngine.Data
 
         private void EditNewItem(TDAO item)
         {
-            if (GetItemEditor(item).ShowDialog() == DialogResult.OK)
+            if (GetItemEditor(item).ShowDialog(Face) == DialogResult.OK)
             {
                 History.AddDAO(item);
                 FullItemsList.NotifyAboutItemAdded(item);
@@ -237,7 +237,7 @@ namespace OxDAOEngine.Data
             if (item == null)
                 return;
 
-            if (GetItemEditor(item, parentGrid).ShowDialog() == DialogResult.OK)
+            if (GetItemEditor(item, parentGrid).ShowDialog(Face) == DialogResult.OK)
             {
                 RenewListsAndNotifyAll();
                 ItemFieldChanged?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Modify));
@@ -253,7 +253,7 @@ namespace OxDAOEngine.Data
             itemSelector.Filter = filter;
             itemSelector.SelectedItem = initialItem;
 
-            bool result = itemSelector.ShowAsDialog(OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK;
+            bool result = itemSelector.ShowAsDialog(Face, OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK;
             selectedItem = result ? itemSelector.SelectedItem : null;
             return result;
         }
@@ -285,7 +285,7 @@ namespace OxDAOEngine.Data
             }
 
             card.Item = item;
-            card.ShowAsDialog();
+            card.ShowAsDialog(Face);
         }
 
         public void ViewItems(TField field, object? value)
@@ -300,7 +300,7 @@ namespace OxDAOEngine.Data
                 else itemsViewer.Text = $"{ListName} where {fieldHelper.Name(field)} = {value}";
 
                 itemsViewer.Filter = new SimpleFilter<TField, TDAO>().AddFilter(field, value);
-                itemsViewer.ShowAsDialog(OxDialogButton.Cancel);
+                itemsViewer.ShowAsDialog(Face, OxDialogButton.Cancel);
             }
             finally
             {
@@ -351,7 +351,7 @@ namespace OxDAOEngine.Data
                 historyGrid.GridView.DoubleClick += (s, e) => ViewItem(historyGrid.CurrentItem?.DAO);
                 historyGrid.SetContentSize(1024, 768);
                 historyGrid.Fill();
-                historyGrid.ShowAsDialog(OxDialogButton.Cancel);
+                historyGrid.ShowAsDialog(Face, OxDialogButton.Cancel);
             }
             finally
             {
@@ -403,7 +403,7 @@ namespace OxDAOEngine.Data
             string messageBase = "Are you sure you want to delete selected";
             string messageSuffix = list.Count > 1 ? $"({list.Count}) items" : "item";
 
-            if (!OxMessage.Confirmation($"{messageBase} {messageSuffix}?"))
+            if (!OxMessage.Confirmation($"{messageBase} {messageSuffix}?", Face))
                 return;
 
             foreach (TDAO item in list)

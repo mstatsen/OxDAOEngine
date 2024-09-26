@@ -72,7 +72,7 @@ namespace OxDAOEngine.Settings
             Text = "Settings";
             FillControls();
 
-            if (ShowDialog() == DialogResult.OK)
+            if (ShowDialog(null) == DialogResult.OK)
                 DataReceivers.ApplySettings();
         }
 
@@ -208,10 +208,9 @@ namespace OxDAOEngine.Settings
 
         private readonly SettingsPartHelper partHelper = TypeHelper.Helper<SettingsPartHelper>();
 
-        private bool AvailablePart(ISettingsController settings, SettingsPart part)
+        private static bool AvailablePart(ISettingsController settings, SettingsPart part)
         {
             if (settings is IDAOSettings daoSettings)
-            {
                 switch (part)
                 {
                     case SettingsPart.Category:
@@ -224,7 +223,6 @@ namespace OxDAOEngine.Settings
                     case SettingsPart.View:
                         return daoSettings.AvailableCards || daoSettings.AvailableIcons;
                 }
-            }
 
             return true;
         }
@@ -325,7 +323,7 @@ namespace OxDAOEngine.Settings
                     }
                     catch
                     {
-                        OxMessage.ShowError($"Can not create control for {setting} setting.");
+                        OxMessage.ShowError($"Can not create control for {setting} setting.", this);
                     }
 
             CreateFieldsPanels();
@@ -455,7 +453,7 @@ namespace OxDAOEngine.Settings
             DefaulterScope scope = defaulters[(OxButton)sender];
 
             if (scope == DefaulterScope.All
-                && !OxMessage.Confirmation("Are you sure you want to reset all settings to the default values?"))
+                && !OxMessage.Confirmation("Are you sure you want to reset all settings to the default values?", this))
                 return;
 
             foreach (var item in settingsPanels)

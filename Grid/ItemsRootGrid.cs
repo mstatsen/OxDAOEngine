@@ -122,7 +122,7 @@ namespace OxDAOEngine.Grid
                     BatchUpdateCompleted = (s, e) => BatchUpdateCompleted?.Invoke(s, e)
                 };
 
-            batchUpdateForm.ShowDialog();
+            batchUpdateForm.ShowDialog(this);
         }
 
         public EventHandler? BatchUpdateCompleted;

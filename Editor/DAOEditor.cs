@@ -168,6 +168,7 @@ namespace OxDAOEngine.Editor
                     "[Apply] - commit changes and continue\n" +
                     "[Discard] - discard changes and continue\n" +
                     "[Cancel] - continue editing the current item",
+                    this,
                     OxDialogButton.Apply | OxDialogButton.Discard | OxDialogButton.Cancel
                 );
 
@@ -203,7 +204,7 @@ namespace OxDAOEngine.Editor
 
         public override bool CanCancelClose() => 
             !Worker.Modified ||
-            OxMessage.Confirmation("All ununcommited changes will be lost.\nDo you really want to leave this form?");
+            OxMessage.Confirmation("All ununcommited changes will be lost.\nDo you really want to leave this form?", this);
 
         private void FormClosedHandler(object? sender, FormClosedEventArgs e)
         {

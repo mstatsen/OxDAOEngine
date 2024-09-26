@@ -184,10 +184,10 @@ namespace OxDAOEngine.Grid
                         canSelect = select
                             ? ChooserParams.CanSelectItem == null
                                 ? CanSelectResult.Available
-                                : ChooserParams.CanSelectItem.Invoke(item, selectedList)
+                                : ChooserParams.CanSelectItem.Invoke(item, selectedList, this)
                             : ChooserParams.CanUnselectItem == null
                                 ? CanSelectResult.Available
-                                : ChooserParams.CanUnselectItem.Invoke(item, selectedList);
+                                : ChooserParams.CanUnselectItem.Invoke(item, selectedList, this);
 
                         switch (canSelect)
                         {
@@ -251,12 +251,12 @@ namespace OxDAOEngine.Grid
 
         public bool Modified { get; private set; }
 
-        public static bool ChooseItems(ItemsChooserParams<TField, TDAO> chooserParams, out RootListDAO<TField, TDAO> selection)
+        public static bool ChooseItems(Control owner, ItemsChooserParams<TField, TDAO> chooserParams, out RootListDAO<TField, TDAO> selection)
         {
             ItemsChooser<TField, TDAO> chooser = new(chooserParams);
 
             selection = new();
-            bool result = chooser.ShowAsDialog(OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK 
+            bool result = chooser.ShowAsDialog(owner, OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK 
                 && chooser.Modified;
 
             if (result)

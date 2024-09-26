@@ -35,7 +35,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                 }
                 catch 
                 {
-                    OxMessage.ShowError("Unable to follw this link. Check the Url please.");
+                    OxMessage.ShowError("Unable to follw this link. Check the Url please.", this);
                 }
             };
         }
