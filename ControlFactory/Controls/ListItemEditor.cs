@@ -92,7 +92,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             CreateLabel(caption, accessor.Control, rightLabel);
 
         private OxLabel CreateLabel(string caption, Control control, bool rightLabel = false) => 
-            (OxLabel)OxControlHelper.AlignByBaseLine(control,
+            OxControlHelper.AlignByBaseLine(control,
                 new OxLabel()
                 {
                     Parent = this,

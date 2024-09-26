@@ -160,7 +160,6 @@ namespace OxDAOEngine.Settings
 
             Control label = (Control)control.Tag;
             label.Parent = control.Parent;
-
             OxControlHelper.AlignByBaseLine(control, label);
         }
 

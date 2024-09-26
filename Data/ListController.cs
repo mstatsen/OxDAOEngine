@@ -290,15 +290,14 @@ namespace OxDAOEngine.Data
 
         public void ViewItems(TField field, object? value)
         {
-            ItemsViewer<TField, TDAO>? itemsViewer = new();
+            ItemsViewer<TField, TDAO>? itemsViewer = new()
+            { 
+                InitialField = field,
+                InitialValue = value
+            };
 
             try
             {
-
-                if (value == null)
-                    itemsViewer.Text = $"{ListName} where {fieldHelper.Name(field)} blank";
-                else itemsViewer.Text = $"{ListName} where {fieldHelper.Name(field)} = {value}";
-
                 itemsViewer.Filter = new SimpleFilter<TField, TDAO>().AddFilter(field, value);
                 itemsViewer.ShowAsDialog(Face, OxDialogButton.Cancel);
             }

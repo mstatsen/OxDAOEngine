@@ -34,7 +34,8 @@ namespace OxDAOEngine.ControlFactory
 
         private void LayoutControl(ControlLayout<TField> layout)
         {
-            layout.SupportClickedLabels = TypeHelper.Helper<ControlScopeHelper>().SupportClickedLabels(Builder.Scope);
+            layout.SupportClickedLabels = 
+                TypeHelper.Helper<ControlScopeHelper>().SupportClickedLabels(Builder.Scope);
             TField field = layout.Field;
 
             if (PlacedControls.TryGetValue(field, out var placedControl))
@@ -46,10 +47,10 @@ namespace OxDAOEngine.ControlFactory
                 PlacedControls.Add(field, placedControl);
             }
 
-            SetLabelClickHander(field, placedControl);
+            SetLabelClickHander(placedControl);
         }
 
-        private void SetLabelClickHander(TField field, PlacedControl<TField> placedControl)
+        private void SetLabelClickHander(PlacedControl<TField> placedControl)
         {
             OxLabel? label = placedControl?.Label;
 
@@ -57,10 +58,7 @@ namespace OxDAOEngine.ControlFactory
                 return;
 
             label.Click -= ExtractLabelClick;
-            FieldType fieldType = TypeHelper.FieldHelper<TField>().GetFieldType(field);
-
-            if (fieldType == FieldType.Extract || fieldType == FieldType.Enum)
-                label.Click += ExtractLabelClick;
+            label.Click += ExtractLabelClick;
         }
 
         private void ExtractLabelClick(object? sender, EventArgs e)
@@ -70,6 +68,7 @@ namespace OxDAOEngine.ControlFactory
             if (label == null)
                 return;
 
+            //TODO: replace foreach with dictionary?
             foreach (var item in PlacedControls)
             {
                 if (item.Value.Label != label)

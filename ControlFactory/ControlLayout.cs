@@ -158,16 +158,11 @@ namespace OxDAOEngine.ControlFactory
 
             if (SupportClickedLabels)
             {
-                FieldType fieldType = TypeHelper.FieldHelper<TField>().GetFieldType(Field);
-
-                if (fieldType == FieldType.Extract || fieldType == FieldType.Enum)
-                {
-                    label.Cursor = Cursors.Hand;
-                    label.MouseEnter -= LabelMouseEnter;
-                    label.MouseEnter += LabelMouseEnter;
-                    label.MouseLeave -= LabelMouseLeave;
-                    label.MouseLeave += LabelMouseLeave;
-                }
+                label.Cursor = Cursors.Hand;
+                label.MouseEnter -= LabelMouseEnter;
+                label.MouseLeave -= LabelMouseLeave;
+                label.MouseEnter += LabelMouseEnter;
+                label.MouseLeave += LabelMouseLeave;
             }
 
             CalcLabel(label, control);
