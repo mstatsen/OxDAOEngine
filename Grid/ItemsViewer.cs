@@ -28,16 +28,29 @@ namespace OxDAOEngine.Grid
             Grid = new ItemsRootGrid<TField, TDAO>(itemList, usage)
             {
                 Parent = ContentContainer,
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                GridContextMenuEnabled = false
             };
             Grid.Paddings.SetSize(OxSize.None);
             ReAlign();
+        }
+
+        public List<TField>? Fields
+        {
+            get => Grid.Fields;
+            set => Grid.Fields = value;
         }
 
         public IRootListDAO<TField, TDAO>? CustomItemsList
         {
             get => Grid.CustomItemsList;
             set => Grid.CustomItemsList = value;
+        }
+
+        public List<CustomGridColumn<TField, TDAO>>? AdditionalColumns
+        {
+            get => Grid.AdditionalColumns;
+            set => Grid.AdditionalColumns = value;
         }
 
         public virtual void Fill() =>
@@ -63,5 +76,15 @@ namespace OxDAOEngine.Grid
             dialog.Sizeble = true;
             dialog.CanMaximize = true;
         }
+
+        public bool SelectItem(Predicate<TDAO> match) => Grid.SelectItem(match);
+
+        public bool SelectItem(TDAO? item) => Grid.SelectItem(item);
+
+        public void ClearSelection() => Grid.GridView.ClearSelection();
+        public void BeginUpdate() => Grid.BeginUpdate();
+        public void EndUpdate() => Grid.EndUpdate();
+        public IRootListDAO<TField, TDAO> ItemsList => Grid.ItemsList;
+
     }
 }

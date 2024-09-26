@@ -178,7 +178,7 @@ namespace OxDAOEngine.Export
 
             StringBuilder bodyBuilder = new(string.Empty);
             bodyBuilder.AppendLine(
-                SummaryRow(ListController.Name, Items.Count, 
+                SummaryRow(ListController.ListName, Items.Count, 
                     ListController.TotalCount)
 
             );

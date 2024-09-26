@@ -176,7 +176,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void LoadCategories(bool systemOnly)
         {
             RootCategory.Clear();
-            RootCategory.Name = $"All {ListController.Name}";
+            RootCategory.Name = $"All {ListController.ListName}";
 
             Categories<TField, TDAO>? systemCategories = ListController.SystemCategories;
 

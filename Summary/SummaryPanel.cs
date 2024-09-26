@@ -19,7 +19,7 @@ namespace OxDAOEngine.Summary
         public SummaryPanel(TField field) : base()
         {
             Field = field;
-            Text = "by " + TypeHelper.Name(field);
+            Text = $"by {TypeHelper.Name(field)}";
         }
 
         public void AlignAccessors() =>

@@ -55,6 +55,12 @@ namespace OxDAOEngine.Grid
             }
         }
 
+        public bool GridContextMenuEnabled
+        { 
+            get => GridView.ContextMenuStrip.Enabled; 
+            set => GridView.ContextMenuStrip.Enabled = value;
+        }
+
         protected override void ApplySortigns(List<ISorting<TField, TDAO>> newSortings)
         {
             base.ApplySortigns(newSortings);
@@ -88,7 +94,7 @@ namespace OxDAOEngine.Grid
                     break;
                 case OxToolbarAction.Edit:
                     if (CurrentItem != null)
-                        ListController.EditItem(CurrentItem); 
+                        ListController.EditItem(CurrentItem, this); 
                     break;
                 case OxToolbarAction.Copy:
                     if (CurrentItem != null)

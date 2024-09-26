@@ -160,7 +160,7 @@ namespace OxDAOEngine.View
 
 
         private void SetTitle() => 
-            Text = Item == null ? "" : GetTitle();
+            Text = Item == null ? string.Empty : GetTitle();
 
         protected virtual string? GetTitle() => Item?.ToString();
 

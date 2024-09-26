@@ -45,7 +45,7 @@ namespace OxDAOEngine.Grid
                 return;
 
             if (topRowIndex > -1
-                && topRowIndex < grid.RowCount 
+                && topRowIndex < grid.RowCount
                 && grid.Rows[topRowIndex].Visible)
                 grid.FirstDisplayedScrollingRowIndex = topRowIndex;
             else
@@ -96,6 +96,48 @@ namespace OxDAOEngine.Grid
 
             if (grid.SelectedRows.Count == 0 && grid.Rows.Count > 0)
                 FocusOnFirstRow();
+        }
+
+        public DataGridViewRow? CurrentRow =>
+            grid.SelectedRows.Count > 0
+                ? grid.SelectedRows[0]
+                : null;
+
+        public int CurrentRowIndex
+        {
+            get
+            {
+                DataGridViewRow? currentRow = CurrentRow;
+                return currentRow == null 
+                    ? -1 
+                    : currentRow.Index;
+            }
+        }
+
+        public TDAO? FocusNextRow()
+        {
+            int currentRowIndex = CurrentRowIndex;
+
+            if (currentRowIndex >= grid.RowCount)
+                return null;
+
+            grid.ClearSelection();
+            DataGridViewRow currentRow = grid.Rows[currentRowIndex + 1];
+            currentRow.Selected = true;
+            return GetDaoFromRow(currentRow);
+        }
+
+        public TDAO? FocusPrevRow()
+        {
+            int currentRowIndex = CurrentRowIndex;
+
+            if (currentRowIndex <= 0)
+                return null;
+
+            grid.ClearSelection();
+            DataGridViewRow currentRow = grid.Rows[currentRowIndex - 1];
+            currentRow.Selected = true;
+            return GetDaoFromRow(currentRow);
         }
     }
 }

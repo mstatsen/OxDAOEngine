@@ -262,7 +262,7 @@ namespace OxDAOEngine.Settings
             SaveFileDialog saveDialog = new()
             {
                 FileName = fileControl.Value == string.Empty
-                    ? DataManager.ListController<TField, TDAO>().Name + helper.FileExt(currentFormat)
+                    ? DataManager.ListController<TField, TDAO>().ListName + helper.FileExt(currentFormat)
                     : fileControl.Value,
                 Filter = helper.FileFilter(currentFormat),
                 OverwritePrompt = false

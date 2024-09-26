@@ -46,7 +46,7 @@ namespace OxDAOEngine
 
         private void PrepareFace()
         {
-            Text = ListController.Name;
+            Text = ListController.ListName;
             Dock = DockStyle.Fill;
             Font = EngineStyles.DefaultFont;
             BaseColor = Colors.Darker(2);

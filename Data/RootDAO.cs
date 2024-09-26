@@ -120,15 +120,16 @@ namespace OxDAOEngine.Data
 
         public override bool Equals(object? obj)
         {
-            if (base.Equals(obj))
+            if (base.Equals(obj)) 
                 return true;
 
             if (obj is RootDAO<TField> otherDAO)
-                return ImageId.Equals(otherDAO.ImageId)
+                return
+                    ImageId.Equals(otherDAO.ImageId)
                     && (daoImage != null
-                        ? daoImage.Equals(otherDAO.DAOImage)
-                        : otherDAO.DAOImage == null
-                    )
+                            ? daoImage.Equals(otherDAO.DAOImage)
+                            : otherDAO.DAOImage == null
+                        )
                     && Name.Equals(otherDAO.Name);
             else return false;
         }

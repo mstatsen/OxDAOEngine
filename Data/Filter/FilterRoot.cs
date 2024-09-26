@@ -28,16 +28,19 @@ namespace OxDAOEngine.Data.Filter
         public FilterRoot(FilterConcat filterConcat) : this() =>
             FilterConcat = filterConcat;
 
-        public FilterGroup<TField, TDAO> AddGroup(FilterConcat filterConcat) =>
-            (Count > 0 
-                ? List.Last() 
-                : Add())
-                    .Add(
-                        new FilterGroup<TField, TDAO>()
-                        {
-                            FilterConcat = filterConcat
-                        }
-            );
+        public FilterGroup<TField, TDAO> AddGroup(FilterConcat filterConcat)
+        {
+            FilterGroups<TField, TDAO> groups = Count > 0 ? List.Last() : Add();
+            groups.FilterConcat = FilterConcat;
+
+            return
+                groups.Add(
+                    new FilterGroup<TField, TDAO>()
+                    {
+                        FilterConcat = filterConcat
+                    }
+                );
+        }
 
         public void Add(Category<TField, TDAO> category)
         {

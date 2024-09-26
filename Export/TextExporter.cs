@@ -146,7 +146,7 @@ namespace OxDAOEngine.Export
             summaryBuilder.AppendLine(HardLineSeparator);
             summaryBuilder.AppendLine("Summary".ToUpper());
             summaryBuilder.AppendLine(HardLineSeparator);
-            summaryBuilder.AppendFormat(ParamTemplate, ListController.Name, ItemsCount());
+            summaryBuilder.AppendFormat(ParamTemplate, ListController.ListName, ItemsCount());
             summaryBuilder.AppendLine();
 //TODO            AppendFieldInfo(summaryBuilder, GameField.Platform);
             summaryBuilder.AppendLine(HardLineSeparator);

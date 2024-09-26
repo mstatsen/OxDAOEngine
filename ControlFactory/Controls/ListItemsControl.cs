@@ -174,12 +174,6 @@ namespace OxDAOEngine.ControlFactory.Controls
             InvokeValueChangeHandler();
         }
 
-        private static void SetButtonEnabled(OxClickFrame button, bool enabled)
-        {
-            button.Enabled = enabled;
-            button.HiddenBorder = !enabled;
-        }
-
         private bool AllItemsAdded()
         {
             int maximum = GetMaximumCount != null 
@@ -197,10 +191,10 @@ namespace OxDAOEngine.ControlFactory.Controls
             AddButton.Visible = !readOnly;
             DeleteButton.Visible = !readOnly;
             RecalcEditButtonVisible();
-            SetButtonEnabled(AddButton, AllItemsAdded());
+            AddButton.Enabled = AllItemsAdded();
 
             foreach (OxClickFrame eControl in EnabledWhenItemSelected)
-                SetButtonEnabled(eControl, ListBox.SelectedIndex > -1);
+                eControl.Enabled = ListBox.SelectedIndex > -1;
         }
 
         protected void PrepareEditButton(OxIconButton button, EventHandler handler,

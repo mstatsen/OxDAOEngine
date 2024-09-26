@@ -18,6 +18,7 @@ namespace OxDAOEngine.Grid
         protected readonly CustomGridColumns<TField, TDAO> customGridColumns = new();
         public EventHandler? GridFillCompleted;
         public EventHandler? CurrentItemChanged;
+        private readonly Dictionary<DAO, DataGridViewRow> itemsDictionary = new();
 
         private List<TField>? fields;
         public List<TField>? Fields
@@ -54,6 +55,9 @@ namespace OxDAOEngine.Grid
             get => painter;
             set
             {
+                if (painter == value)
+                    return;
+
                 if (painter != null)
                     GridView.CellPainting -= painter.CellPainting;
 
@@ -70,7 +74,7 @@ namespace OxDAOEngine.Grid
         {
             DataGridViewColumn dataColumn = new DataGridViewTextBoxColumn
             {
-                Name = "column" + gridColumn.Text,
+                Name = $"column{gridColumn.Text}",
                 HeaderText = gridColumn.Text,
                 SortMode = DataGridViewColumnSortMode.Programmatic,
                 Width = gridColumn.Width + 20,
@@ -91,7 +95,7 @@ namespace OxDAOEngine.Grid
                 ? new DataGridViewImageColumn()
                 : new DataGridViewTextBoxColumn();
 
-            dataColumn.Name = "column" + TypeHelper.ShortName(field);
+            dataColumn.Name = $"column{TypeHelper.ShortName(field)}";
             dataColumn.HeaderText = fieldHelper.ColumnCaption(field);
             dataColumn.SortMode = fieldType == FieldType.Image
                 ? DataGridViewColumnSortMode.NotSortable
@@ -148,8 +152,6 @@ namespace OxDAOEngine.Grid
         {
             this.itemsList = itemsList;
             selector = new GridSelector<TField, TDAO>(GridView);
-            GridView.SelectionChanged += GridSelectionChangedHandler;
-            GridView.SortingChanged += GridSortingChangeHandler;
             GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             GridView.ColumnHeadersHeight = 40;
             GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -216,7 +218,7 @@ namespace OxDAOEngine.Grid
                 return;
             }
 
-            SaveState();
+            BeginUpdate();
             ClearGrid();
             SuspendLayout();
 
@@ -226,7 +228,7 @@ namespace OxDAOEngine.Grid
             }
             finally
             {
-                RestoreState();
+                EndUpdate();
                 ResumeLayout();
                 NotifyAboutFill();
             }
@@ -373,9 +375,21 @@ namespace OxDAOEngine.Grid
         protected override void SetHandlers()
         {
             base.SetHandlers();
-            GridView.SelectionChanged += (s, e) =>
-                ToolBar.AllowEditingActions = GridView.SelectedRows.Count > 0
-                && GridView.SelectedRows[0].Visible;
+            GridView.SelectionChanged += GridSelectionChangedHandler;
+            GridView.SortingChanged += GridSortingChangeHandler;
+
+            if (painter != null)
+                GridView.CellPainting += painter.CellPainting;
+        }
+
+        protected virtual void UnSetHandlers()
+        {
+            base.SetHandlers();
+            GridView.SelectionChanged -= GridSelectionChangedHandler;
+            GridView.SortingChanged -= GridSortingChangeHandler;
+
+            if (painter != null)
+                GridView.CellPainting -= painter.CellPainting;
         }
 
         protected override void PrepareColors()
@@ -418,6 +432,8 @@ namespace OxDAOEngine.Grid
                 ? selector.GetDaoFromRow(GridView.SelectedRows[0])
                 : null;
 
+        public int CurrentItemIndex => GridView.SelectedRows[0].Index;
+
         public RootListDAO<TField, TDAO> GetSelectedItems() =>
             selector.GetSelectedItems();
 
@@ -427,16 +443,60 @@ namespace OxDAOEngine.Grid
         public void SelectFirstItem() =>
             selector.FocusOnFirstRow();
 
-        private void GridSelectionChangedHandler(object? sender, EventArgs e) =>
+        public bool Updating { get; private set; }
+
+        public void BeginUpdate()
+        {
+            if (Updating)
+                return;
+
+            Updating = true;
+            SaveState();
+            UnSetHandlers();
+        }
+
+        public void EndUpdate()
+        {
+            if (!Updating)
+                return;
+
+            SetHandlers();
+            RestoreState();
+            Updating = false;
+        }
+
+        private void GridSelectionChangedHandler(object? sender, EventArgs e)
+        {
             CurrentItemChanged?.Invoke(sender, e);
+
+            if (!ReadOnly)
+                ToolBar.AllowEditingActions = 
+                    GridView.SelectedRows.Count > 0
+                    && GridView.SelectedRows[0].Visible;
+        }
 
         public int GetRowIndex(TDAO item)
         {
-            foreach (DataGridViewRow row in GridView.Rows)
-                if (row.Tag == item)
-                    return row.Index;
+            itemsDictionary.TryGetValue(item, out DataGridViewRow? row);
+            return row != null ? row.Index : -1;
+        }
 
-            return -1;
+        public bool SelectItem(Predicate<TDAO> match) => 
+            SelectItem(ItemsList?.Find(match));
+
+
+        public bool SelectItem(TDAO? item)
+        {
+            if (item == null)
+                return false;
+
+            int rowIndex = GetRowIndex(item);
+
+            if (rowIndex == -1)
+                return false;
+            
+            GridView.Rows[rowIndex].Selected = true;
+            return true;
         }
 
         protected void ItemChanged(DAO dao, DAOEntityEventArgs? e)
@@ -455,6 +515,7 @@ namespace OxDAOEngine.Grid
                     if (rowIndex == -1)
                         AppendItem(tDao);
 
+
                     LocateItem(tDao);
                     break;
                 case DAOOperation.Modify:
@@ -468,6 +529,7 @@ namespace OxDAOEngine.Grid
                     if (rowIndex > -1)
                     {
                         dao.ChangeHandler -= ItemChanged;
+                        itemsDictionary.Remove(dao);
                         GridView.Rows.RemoveAt(rowIndex);
                     }
                     break;
@@ -480,6 +542,7 @@ namespace OxDAOEngine.Grid
             GridView.Rows[rowIndex].Tag = item;
             UpdateValues(rowIndex);
             SetChangeHandler(item);
+            itemsDictionary.Add(item, GridView.Rows[rowIndex]);
             return rowIndex;
         }
 
@@ -580,5 +643,18 @@ namespace OxDAOEngine.Grid
                 ResumeLayout();
             }
         }
+
+        public bool IsFirstRecord =>
+            CurrentItemIndex == 0;
+
+        public bool IsLastRecord =>
+            CurrentItemIndex == GridView.RowCount-1;
+
+        public TDAO? GoNext() => 
+            selector.FocusNextRow();
+
+        public TDAO? GoPrev() =>
+            selector.FocusPrevRow();
+
     }
 }

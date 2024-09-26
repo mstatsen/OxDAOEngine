@@ -231,7 +231,8 @@ namespace OxDAOEngine.Settings
         }
         public ExportSettings<TField, TDAO> ExportSettings => exportSettings;
 
-        public override string Name => DataManager.FieldController<TField>().Name;
+        public override string ListName => DataManager.FieldController<TField>().ListName;
+        public override string ItemName => DataManager.FieldController<TField>().ItemName;
 
         public FieldColumns<TField> GetFields(SettingsPart part) =>
             fields[part];

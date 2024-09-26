@@ -30,9 +30,6 @@ namespace OxDAOEngine.ControlFactory.Controls
             buttonUp.Enabled = ListBox.SelectedIndex > 0;
             buttonDown.Enabled = (ListBox.SelectedIndex > -1) 
                 && (ListBox.SelectedIndex < ListBox.Items.Count - 1);
-
-            buttonUp.HiddenBorder = !buttonUp.Enabled;
-            buttonDown.HiddenBorder = !buttonDown.Enabled;
         }
 
         private void MoveUpHandler(object? sender, EventArgs e)

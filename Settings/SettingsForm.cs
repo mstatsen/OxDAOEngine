@@ -101,7 +101,7 @@ namespace OxDAOEngine.Settings
                 foreach (SettingsPart part in partHelper.MandatoryFields)
                     if (AvailablePart(item.Key, part) && 
                         settingsFieldPanels[item.Key][part].Fields.Count == 0)
-                        return $"{item.Key.Name} {TypeHelper.Name(part)} fields";
+                        return $"{item.Key.ListName} {TypeHelper.Name(part)} fields";
            
             return base.EmptyMandatoryField();
         }
@@ -523,7 +523,7 @@ namespace OxDAOEngine.Settings
                     Font = EngineStyles.DefaultFont,
                     TabHeaderSize = new Size(84, 30),
                     BorderVisible = false,
-                    Text = settings.Name
+                    Text = settings.ListName
                 };
                 tab.Margins.SetSize(OxSize.None);
                 tab.Margins.TopOx = OxSize.Extra;

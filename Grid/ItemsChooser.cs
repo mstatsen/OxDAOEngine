@@ -12,14 +12,17 @@ namespace OxDAOEngine.Grid
         where TDAO : RootDAO<TField>, new()
     {
         private readonly ItemSelector<TField, TDAO> availableGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
-        private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
+        private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems) 
+        {
+            GridContextMenuEnabled = false
+        };
         private readonly OxPane buttonsPanel = new(new Size(64, 1));
         private readonly OxPane topPanel = new(new Size(1, 100));
         private readonly OxIconButton selectButton = new(OxIcons.Right, 54);
         private readonly OxIconButton unSelectButton = new(OxIcons.Left, 54);
         private readonly ItemsChooserParams<TField, TDAO> ChooserParams;
         private readonly OxFrameWithHeader availablePlace = new()
-        { 
+        {
             Text = "Available Items"
         };
         private readonly OxFrameWithHeader selectedPlace = new()
@@ -36,9 +39,11 @@ namespace OxDAOEngine.Grid
             BaseColor = ChooserParams.BaseColor;
             availablePlace.Text = ChooserParams.AvailableTitle;
             selectedPlace.Text = ChooserParams.SelectedTitle;
+            selectButton.ToolTipText = ChooserParams.SelectButtonTip;
+            unSelectButton.ToolTipText = ChooserParams.UnselectButtonTip;
 
-            availableGrid.Grid.Fields = chooserParams.AvailableGridFields;
-            availableGrid.Grid.AdditionalColumns = chooserParams.AvailableGridAdditionalColumns;
+            availableGrid.Fields = chooserParams.AvailableGridFields;
+            availableGrid.AdditionalColumns = chooserParams.AvailableGridAdditionalColumns;
             availableGrid.CustomItemsList = ChooserParams.AvailableItems;
 
             selectedGrid.CustomItemsList = new RootListDAO<TField, TDAO>();
@@ -54,29 +59,29 @@ namespace OxDAOEngine.Grid
 
         private void PrepareSelectedGridItems(RootListDAO<TField, TDAO> selectedItems)
         {
-            availableGrid.Grid.GridView.ClearSelection();
-            TField uniqueField = TypeHelper.FieldHelper<TField>().UniqueField;
+            availableGrid.BeginUpdate();
 
-            foreach (TDAO item in selectedItems)
+            try
             {
-                object? itemUniqueValue = item[uniqueField];
+                availableGrid.ClearSelection();
+                TField uniqueField = TypeHelper.FieldHelper<TField>().UniqueField;
 
-                if (itemUniqueValue == null)
-                    continue;
+                foreach (TDAO item in selectedItems)
+                {
+                    object? itemUniqueValue = item[uniqueField];
 
-                TDAO? foundItem = availableGrid.Grid.ItemsList.Find(
-                    g => itemUniqueValue.Equals(g[uniqueField]));
+                    if (itemUniqueValue == null)
+                        continue;
 
-                if (foundItem == null)
-                    continue;
+                    availableGrid.SelectItem(g => itemUniqueValue.Equals(g[uniqueField]));
+                }
 
-                int rowIndex = availableGrid.Grid.GetRowIndex(foundItem);
-
-                if (rowIndex > -1)
-                    availableGrid.Grid.GridView.Rows[rowIndex].Selected = true;
+                MoveSelected(true, true);
             }
-
-            MoveSelected(true, true);
+            finally
+            {
+                availableGrid.EndUpdate();
+            }
         }
 
         protected override void PrepareColors()
@@ -88,9 +93,6 @@ namespace OxDAOEngine.Grid
             availablePlace.BaseColor = BaseColor;
             selectedPlace.BaseColor = BaseColor;
             topPanel.BaseColor = BaseColor;
-            /*selectButton.BaseColor = Colors.Darker();
-            unSelectButton.BaseColor = Colors.Darker();
-            */
             selectButton.BaseColor = BaseColor;
             unSelectButton.BaseColor = BaseColor;
 
@@ -140,57 +142,86 @@ namespace OxDAOEngine.Grid
 
                 availableGrid.QuickFilter.Dock = DockStyle.Left;
                 availableGrid.QuickFilter.Parent = topPanel;
-                //availableGrid.QuickFilter.Margins.BottomOx = OxSize.Extra;
             }
 
-            availableGrid.Grid.GridView.SelectionChanged += (s, e) => selectButton.Enabled = availableGrid.Grid.SelectedCount > 0;
-            selectedGrid.GridView.SelectionChanged += (s, e) => unSelectButton.Enabled = selectedGrid.SelectedCount > 0;
+            availableGrid.Grid.CurrentItemChanged += AvailableGridCurrentItemChanged;
+            selectedGrid.CurrentItemChanged += SelectedGridCurrentItemChanged;
         }
+
+        private void SelectedGridCurrentItemChanged(object? sender, EventArgs e) => 
+            unSelectButton.Enabled = selectedGrid.SelectedCount > 0;
+
+
+        private void AvailableGridCurrentItemChanged(object? sender, EventArgs e) => 
+            selectButton.Enabled = availableGrid.Grid.SelectedCount > 0;
 
         private void MoveSelected(bool select, bool force = false)
         {
             ItemsRootGrid<TField, TDAO> sourceGrid = select ? availableGrid.Grid : selectedGrid;
             ItemsRootGrid<TField, TDAO> destGrid = select ? selectedGrid : availableGrid.Grid;
 
-            CanSelectResult canSelect = CanSelectResult.Available;
-
             RootListDAO<TField, TDAO> selectedList = sourceGrid.GetSelectedItems();
             destGrid.ItemsList.Modified = false;
+            destGrid.BeginUpdate();
 
-            foreach (TDAO item in selectedList)
+            try
             {
-                if (!force)
-                    canSelect = select
-                        ? ChooserParams.CanSelectItem == null 
-                            ? CanSelectResult.Available 
-                            : ChooserParams.CanSelectItem.Invoke(item, selectedList)
-                        : ChooserParams.CanUnselectItem == null 
-                            ? CanSelectResult.Available 
-                            : ChooserParams.CanUnselectItem.Invoke(item, selectedList);
-
-                switch (canSelect)
+                if (force)
                 {
-                    case CanSelectResult.Return:
-                        return;
-                    case CanSelectResult.Continue:
-                        continue;
+                    destGrid.ItemsList.AddRange(selectedList);
+
+                    foreach (DataGridViewRow row in sourceGrid.GridView.SelectedRows)
+                        sourceGrid.GridView.Rows.RemoveAt(row.Index);
+
+                    sourceGrid.ItemsList.RemoveAll((i) => selectedList.Contains(i), false);
                 }
-            
+                else
+                {
+                    CanSelectResult canSelect = CanSelectResult.Available;
 
-                destGrid.ItemsList.Add(item);
-                    sourceGrid.GridView.Rows.RemoveAt(sourceGrid.GetRowIndex(item));
-                    sourceGrid.ItemsList.Remove(item, false);
+                    foreach (TDAO item in selectedList)
+                    {
+                        canSelect = select
+                            ? ChooserParams.CanSelectItem == null
+                                ? CanSelectResult.Available
+                                : ChooserParams.CanSelectItem.Invoke(item, selectedList)
+                            : ChooserParams.CanUnselectItem == null
+                                ? CanSelectResult.Available
+                                : ChooserParams.CanUnselectItem.Invoke(item, selectedList);
+
+                        switch (canSelect)
+                        {
+                            case CanSelectResult.Return:
+                                return;
+                            case CanSelectResult.Continue:
+                                continue;
+                        }
+
+                        destGrid.ItemsList.Add(item);
+                        sourceGrid.GridView.Rows.RemoveAt(sourceGrid.GetRowIndex(item));
+                        sourceGrid.ItemsList.Remove(item, false);
+                    }
+                }
+
+                if (force || destGrid.ItemsList.Modified)
+                {
+                    destGrid.ItemsList.Sort(DataManager.DefaultSorting<TField, TDAO>()?.SortingsList);
+                    destGrid.Fill();
+                }
             }
-
-            if (destGrid.ItemsList.Modified)
+            finally
             {
-                destGrid.ItemsList.Sort(DataManager.DefaultSorting<TField, TDAO>()?.SortingsList);
-                destGrid.Fill();
+                destGrid.EndUpdate();
             }
 
-            if (select)
-                ChooserParams.CompleteSelect?.Invoke(this, EventArgs.Empty);
-            else ChooserParams.CompleteUnselect?.Invoke(this, EventArgs.Empty);
+            if (!force)
+            {
+                if (select)
+                    ChooserParams.CompleteSelect?.Invoke(this, EventArgs.Empty);
+                else ChooserParams.CompleteUnselect?.Invoke(this, EventArgs.Empty);
+
+                Modified = Modified || !force;
+            }
         }
 
         protected override void PrepareDialog(OxPanelViewer dialog)
@@ -204,6 +235,8 @@ namespace OxDAOEngine.Grid
 
             if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
                 availableGrid.QuickFilter.Width = availablePlace.Width;
+
+            Modified = false;
         }
 
         private void RecalcGridsSizes()
@@ -216,12 +249,15 @@ namespace OxDAOEngine.Grid
                 availableGrid.QuickFilter.Width = availablePlace.Width;
         }
 
+        public bool Modified { get; private set; }
+
         public static bool ChooseItems(ItemsChooserParams<TField, TDAO> chooserParams, out RootListDAO<TField, TDAO> selection)
         {
             ItemsChooser<TField, TDAO> chooser = new(chooserParams);
 
             selection = new();
-            bool result = chooser.ShowAsDialog(OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK;
+            bool result = chooser.ShowAsDialog(OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK 
+                && chooser.Modified;
 
             if (result)
                 selection.LinkedCopyFrom(chooser.selectedGrid.ItemsList);

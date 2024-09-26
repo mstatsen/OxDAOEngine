@@ -66,7 +66,7 @@ namespace OxDAOEngine.Statistic
                 switch (item.Key)
                 {
                     case StatisticType.Total:
-                        item.Value.Text = $"Total {ListController.Name} : {ListController.TotalCount}";
+                        item.Value.Text = $"Total {ListController.ListName} : {ListController.TotalCount}";
                         break;
                     case StatisticType.Category:
                         RenewCategoryValue();

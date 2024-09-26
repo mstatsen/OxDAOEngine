@@ -16,7 +16,7 @@ namespace OxDAOEngine.Settings
     {
         public SettingsController() : base() { }
 
-        public override string DefaultXmlElementName => Name;
+        public override string DefaultXmlElementName => ListName;
 
         public bool BoolValue(TSetting setting) =>
             BoolValue(settings[setting]);
@@ -80,7 +80,8 @@ namespace OxDAOEngine.Settings
 
         public string FileName => "Settings.xml";
 
-        public abstract string Name { get; }
+        public abstract string ListName { get; }
+        public abstract string ItemName { get; }
 
         protected Dictionary<TSetting, object?> settings = new();
 

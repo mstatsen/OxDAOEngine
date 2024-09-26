@@ -6,7 +6,8 @@ namespace OxDAOEngine.Settings
 {
     public class GeneralSettings : SettingsController<GeneralSetting>
     {
-        public override string Name => "General";
+        public override string ListName => "General";
+        public override string ItemName => "General";
 
         public string CurrentController
         {

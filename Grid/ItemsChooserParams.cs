@@ -20,6 +20,8 @@ namespace OxDAOEngine.Grid
         public string Title { get; set; } = "Selecting Items";
         public string AvailableTitle { get; set; } = "Available Items";
         public string SelectedTitle { get; set; } = "Selected Items";
+        public string SelectButtonTip { get; set; } = "Select items";
+        public string UnselectButtonTip { get; set; } = "Unelected items";
         public Color BaseColor { get; set; } = EngineStyles.CardColor;
 
         public RootListDAO<TField, TDAO> InitialSelectedItems;

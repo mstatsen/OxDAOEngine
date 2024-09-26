@@ -11,12 +11,18 @@ namespace OxDAOEngine.ControlFactory.Accessors
     {
         public CheckBoxAccessor(IBuilderContext<TField, TDAO> context) : base(context) { }
 
-        protected override Control CreateControl() => 
+        protected override Control CreateControl() =>
             new OxCheckBox()
             {
                 CheckAlign = ContentAlignment.MiddleRight,
                 Width = 14
             };
+
+        public ContentAlignment CheckAlign 
+        {
+            get => CheckBox.CheckAlign;
+            set => CheckBox.CheckAlign = value;
+        }
 
         protected override ValueAccessor CreateValueAccessor() =>
             new CheckBoxValueAccessor();

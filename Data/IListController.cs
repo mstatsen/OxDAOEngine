@@ -9,6 +9,7 @@ using OxDAOEngine.Export;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Summary;
 using OxDAOEngine.View;
+using OxDAOEngine.Grid;
 
 namespace OxDAOEngine.Data
 {
@@ -26,7 +27,7 @@ namespace OxDAOEngine.Data
         TDAO? Item(TField field, object value);
 
         void AddItem();
-        void EditItem(TDAO? item);
+        void EditItem(TDAO? item, ItemsRootGrid<TField, TDAO>? parentGrid = null);
         void CopyItem(TDAO? item);
         void ViewItem(TDAO? item, ItemViewMode viewMode = ItemViewMode.Simple);
         void ViewItem(TField field, object? value, ItemViewMode viewMode = ItemViewMode.Simple);

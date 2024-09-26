@@ -9,7 +9,8 @@ namespace OxDAOEngine.Data
         void Save(XmlElement? parentElement);
         void Load(XmlElement? parentElement);
         string FileName { get; }
-        string Name { get; }
+        string ListName { get; }
+        string ItemName { get; }
         bool Modified { get; }
         bool IsSystem { get; }
         event ModifiedChangeHandler? ModifiedHandler;

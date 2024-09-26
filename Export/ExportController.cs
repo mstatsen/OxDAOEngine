@@ -28,13 +28,13 @@ namespace OxDAOEngine.Export
         {
             try
             {
-                StreamWriter sw = new(ExportController<TField, TDAO>.Settings.FileName);
-                sw.Write(ExporterFactory.Exporter(ExportController<TField, TDAO>.Settings, settingsForm).Text());
+                StreamWriter sw = new(Settings.FileName);
+                sw.Write(ExporterFactory.Exporter(Settings, settingsForm).Text());
                 sw.Close();
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception: " + e.Message);
+                Console.WriteLine($"Exception: {e.Message}");
             }
         }
 

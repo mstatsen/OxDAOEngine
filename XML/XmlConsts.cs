@@ -12,6 +12,7 @@
         public const string ConsoleId = "ConsoleId";
         public const string Count = "Count";
         public const string Country = "Country";
+        public const string CoverColor = "ColorCover";
         public const string CriticScore = "CriticScore";
         public const string Default = "Default";
         public const string DefaultIndent = "    ";
@@ -82,6 +83,8 @@
         public const string Verified = "Verified";
         public const string Visible = "Visible";
         public const string Width = "Width";
+        public const string WithCover = "WithCover";
+        public const string WithStickCovers = "WithStickCovers";
         public const string Year = "Year";
         public const string ZeroSummary = "ZeroSummary";
     }

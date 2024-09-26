@@ -4,6 +4,7 @@ using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxLibrary.Controls;
+using OxDAOEngine.Grid;
 
 namespace OxDAOEngine.Editor
 {
@@ -19,7 +20,8 @@ namespace OxDAOEngine.Editor
             CreatePanels();
             MainPanel.Colors.BaseColorChanged += FormColorChanged;
             FormClosed += FormClosedHandler;
-            MainPanel.Header.AddToolButton(new OxIconButton(OxIcons.Up, 24));
+            MainPanel.Header.AddToolButton(prevButton);
+            MainPanel.Header.AddToolButton(nextButton);
         }
 
         protected virtual void CreatePanels()
@@ -84,13 +86,113 @@ namespace OxDAOEngine.Editor
             frame.Margins.BottomOx = OxSize.None;
         }
 
+        private static readonly IListController<TField, TDAO> listController 
+            = DataManager.ListController<TField, TDAO>();
+
+        protected OxIconButton prevButton = new(OxIcons.Up, 36)
+        {
+            ToolTipText = $"Prevous {listController.ItemName}"
+        };
+        protected OxIconButton nextButton = new(OxIcons.Down, 36)
+        {
+            ToolTipText = $"Next {listController.ItemName}"
+        };
+
+        private ItemsRootGrid<TField, TDAO>? parentGrid;
+
+        public ItemsRootGrid<TField, TDAO>? ParentGrid 
+        { 
+            get => parentGrid;
+            set => SetParentGrid(value);
+        }
+
+        private void SetParentGrid(ItemsRootGrid<TField, TDAO>? value)
+        {
+            parentGrid = value;
+            PrepareButtons();
+        }
+
+        private void PrepareButtons()
+        {
+            if (parentGrid == null)
+            {
+                prevButton.Visible = false;
+                nextButton.Visible = false;
+                return;
+            }
+
+            prevButton.Click -= PrevClickHandler;
+            prevButton.Click += PrevClickHandler;
+            nextButton.Click -= NextClickHandler;
+            nextButton.Click += NextClickHandler;
+            SetButtonsEnabled();
+        }
+
+        private void SetButtonsEnabled()
+        {
+            if (parentGrid == null)
+                return;
+
+            prevButton.Enabled = !parentGrid.IsFirstRecord;
+            nextButton.Enabled = !parentGrid.IsLastRecord;
+        }
+
+        private void NextClickHandler(object? sender, EventArgs e)
+        {
+            if (parentGrid == null)
+                return;
+
+            if (!ReadyToChangeItem())
+                return;
+
+            Item = parentGrid.GoNext();
+        }
+
+        private void PrevClickHandler(object? sender, EventArgs e)
+        {
+            if (parentGrid == null)
+                return;
+
+            if (!ReadyToChangeItem())
+                return;
+
+            Item = parentGrid.GoPrev();
+        }
+
+        private bool ReadyToChangeItem()
+        {
+            if (Worker.Modified)
+            {
+                DialogResult userConfirm = OxMessage.ShowWarning(
+                    "You have uncommitted changes. Do you want to apply it?\n\n" +
+                    "[Apply] - commit changes and continue\n" +
+                    "[Discard] - discard changes and continue\n" +
+                    "[Cancel] - continue editing the current item",
+                    OxDialogButton.Apply | OxDialogButton.Discard | OxDialogButton.Cancel
+                );
+
+                switch (userConfirm)
+                {
+                    case DialogResult.Cancel:
+                        return false;
+                    case DialogResult.OK:
+                        SaveChanges();
+                        break;
+                }
+            }
+
+            return true;
+        }
+
         public TDAO? Item
         {
             get => Worker.Item;
             set
             {
                 Worker.Item = value;
+                PrepareButtons();
                 Groups.SetGroupsSize();
+                RecalcPanels();
             }
         }
 
@@ -100,31 +202,37 @@ namespace OxDAOEngine.Editor
             Worker.CheckMandatoryFields();
 
         public override bool CanCancelClose() => 
-            !Worker.Modified || OxMessage.Confirmation("You have unsaved changes. You really want to exit?");
+            !Worker.Modified ||
+            OxMessage.Confirmation("All ununcommited changes will be lost.\nDo you really want to leave this form?");
 
         private void FormClosedHandler(object? sender, FormClosedEventArgs e)
         {
             if (DialogResult == DialogResult.OK && Item != null)
-            {
-                DAOEntityEventHandler? savedChangeHandler = Item.ChangeHandler;
-                Item.ChangeHandler = null;
-                Item.StartSilentChange();
-
-                try
-                {
-                    Worker.GrabControls();
-                }
-                finally
-                {
-                    Item.ChangeHandler = savedChangeHandler;
-                    Item.FinishSilentChange();
-                    Item.ChangeHandler?.Invoke(Item, new DAOEntityEventArgs(DAOOperation.Modify));
-                }
-            }
+                SaveChanges();
 
             Worker.UnSetHandlers();
         }
 
+        private void SaveChanges()
+        {
+            if (Item == null)
+                return;
+
+            DAOEntityEventHandler? savedChangeHandler = Item.ChangeHandler;
+            Item.ChangeHandler = null;
+            Item.StartSilentChange();
+
+            try
+            {
+                Worker.GrabControls();
+            }
+            finally
+            {
+                Item.ChangeHandler = savedChangeHandler;
+                Item.FinishSilentChange();
+                Item.ChangeHandler?.Invoke(Item, new DAOEntityEventArgs(DAOOperation.Modify));
+            }
+        }
 
         public DAOWorker<TField, TDAO, TFieldGroup> Worker =>
             DataManager.Worker<TField, TDAO, TFieldGroup>();

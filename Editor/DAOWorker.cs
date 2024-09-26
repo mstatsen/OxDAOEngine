@@ -162,7 +162,7 @@ namespace OxDAOEngine.Editor
         }
 
         protected void FillFormCaption(TDAO? itemForCaption) =>
-            Editor.Text = itemForCaption != null ? itemForCaption.FullTitle() : "Unknown DAO";
+            Editor.Text = itemForCaption != null ? itemForCaption.FullTitle() : "Unknown data object";
 
         private TDAO? item;
         private readonly TDAO initialItem = new();

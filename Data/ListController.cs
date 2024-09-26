@@ -215,12 +215,12 @@ namespace OxDAOEngine.Data
         public void AddItem() =>
             EditNewItem(new());
 
-        public void EditItem(TDAO? item)
+        public void EditItem(TDAO? item, ItemsRootGrid<TField, TDAO>? parentGrid = null)
         {
             if (item == null)
                 return;
 
-            if (GetItemEditor(item).ShowDialog() == DialogResult.OK)
+            if (GetItemEditor(item, parentGrid).ShowDialog() == DialogResult.OK)
             {
                 RenewListsAndNotifyAll();
                 ItemFieldChanged?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Modify));
@@ -279,8 +279,8 @@ namespace OxDAOEngine.Data
             {
 
                 if (value == null)
-                    itemsViewer.Text = $"{Name} where {fieldHelper.Name(field)} blank";
-                else itemsViewer.Text = $"{Name} where {fieldHelper.Name(field)} = {value}";
+                    itemsViewer.Text = $"{ListName} where {fieldHelper.Name(field)} blank";
+                else itemsViewer.Text = $"{ListName} where {fieldHelper.Name(field)} = {value}";
 
                 itemsViewer.Filter = new SimpleFilter<TField, TDAO>().AddFilter(field, value);
                 itemsViewer.ShowAsDialog(OxDialogButton.Cancel);
@@ -354,8 +354,9 @@ namespace OxDAOEngine.Data
             }
         }
 
-        private DAOEditor<TField, TDAO, TFieldGroup> GetItemEditor(TDAO item)
+        private DAOEditor<TField, TDAO, TFieldGroup> GetItemEditor(TDAO item, ItemsRootGrid<TField, TDAO>? parentGrid = null)
         {
+            Editor.ParentGrid = parentGrid;
             Editor.Item = item;
             return Editor;
         }
@@ -401,9 +402,10 @@ namespace OxDAOEngine.Data
         }
 
         protected virtual void RegisterHelpers() { }
-        protected string GetFileName() => $"{XmlHelper.NormalizeNameString(Name)}.xml";
+        protected string GetFileName() => $"{XmlHelper.NormalizeNameString(ListName)}.xml";
         public string FileName => GetFileName();
-        public abstract string Name { get; }
+        public abstract string ListName { get; }
+        public abstract string ItemName { get; }
 
         public static void Init()
         {
