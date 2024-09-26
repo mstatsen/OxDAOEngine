@@ -56,15 +56,7 @@ namespace OxDAOEngine.Data
         public bool SilentChange
         {
             get => silentChange;
-            set => SetSilentChange(value);
-        }
-
-        private void SetSilentChange(bool value)
-        {
-            silentChange = value;
-
-            foreach (DAO member in Members)
-                member.SilentChange = silentChange;
+            set => silentChange = value;
         }
 
         private bool modified = false;
@@ -75,10 +67,26 @@ namespace OxDAOEngine.Data
         public void FinishSilentChange()
         {
             SilentChange = false;
+            FinishMembersSilentChange();
             ModifiedChangeHandler?.Invoke(this, new DAOModifyEventArgs(Modified, null));
 
             if (Modified)
                 NotifyAll(DAOOperation.Modify);
+        }
+
+        private void FinishMembersSilentChange()
+        {
+            SetMembersHandlers(false);
+
+            try
+            {
+                foreach (DAO member in Members)
+                    member.FinishSilentChange();
+            }
+            finally
+            {
+                SetMembersHandlers(true);
+            }
         }
 
         public bool Modified
@@ -197,10 +205,10 @@ namespace OxDAOEngine.Data
 
         public virtual bool IsEmpty => false;
 
-        protected virtual void SetMembersHandlers()
+        protected virtual void SetMembersHandlers(bool set = true)
         {
             foreach (DAO member in Members)
-                SetMemberHandlers(member, true);
+                SetMemberHandlers(member, set);
         }
 
         protected void AddMember(DAO member) =>
