@@ -31,7 +31,11 @@ namespace OxDAOEngine.Data.History
                 DAO[field] = value;
         }
 
+        protected override void NotifyAboutModify(bool oldValue) { }
+
         public virtual object? NewValue { get; }
         public virtual object? OldValue { get; }
+
+        public override bool UseImageList => false;
     }
 }

@@ -73,10 +73,13 @@ namespace OxDAOEngine.Data
         public void Load(XmlElement? parentElement)
         {
             BeforeLoad();
+            LoadImageList(parentElement);
+            LoadFullItemsList(parentElement);
+            AfterLoad();
+        }
 
-            if (UseImageList)
-                ImageList.Load(parentElement);
-
+        private void LoadFullItemsList(XmlElement? parentElement)
+        {
             FullItemsList.StartSilentChange();
 
             try
@@ -87,9 +90,23 @@ namespace OxDAOEngine.Data
             {
                 FullItemsList.FinishSilentChange();
             }
-            AfterLoad();
         }
 
+        private void LoadImageList(XmlElement? parentElement)
+        {
+            if (!UseImageList)
+                return;
+            
+            ImageList.StartSilentChange();
+            try
+            {
+                ImageList.Load(parentElement);
+            }
+            finally
+            {
+                ImageList.FinishSilentChange();
+            }
+        }
         protected void NotifyAll()
         {
             if (FullItemsList.State == DAOState.Loading)
@@ -109,12 +126,12 @@ namespace OxDAOEngine.Data
 
         private void SetListHandlers()
         {
-            FullItemsList.ChangeHandler += ListChangedHandler;
             FullItemsList.ModifiedChangeHandler += ListModifiedChangeHandler;
+            FullItemsList.ChangeHandler += ListChangedHandler;
+            FullItemsList.SortChangeHandler += ItemListSortChanger;
             FullItemsList.FieldModified += FieldModifiedHanlder;
             FullItemsList.ItemAddHandler += (d, e) => AddHandler?.Invoke(d, e);
             FullItemsList.ItemRemoveHandler += ItemRemoveHandler;
-            FullItemsList.SortChangeHandler += ItemListSortChanger;
         }
 
         protected virtual void SetHandlers() { }

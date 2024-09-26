@@ -16,8 +16,6 @@ namespace OxDAOEngine.Data.Links
 
         public TField Field { get; private set; } = default!;
         private readonly ILinkHelper<TField> helper = default!;
-
-
         public override string DefaultXmlElementName => "Link";
 
         public string Name
@@ -34,8 +32,8 @@ namespace OxDAOEngine.Data.Links
 
         public override void Clear()
         {
-            Name = string.Empty;
-            Url = string.Empty;
+            name = string.Empty;
+            url = string.Empty;
         }
 
         public override void Init() { }

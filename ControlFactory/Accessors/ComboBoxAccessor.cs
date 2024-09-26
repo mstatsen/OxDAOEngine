@@ -110,9 +110,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 if (!AvailableValue(item))
                     ComboBox.Items.Remove(item);
 
-            if (ComboBox.Items.Count > 0)
-                ComboBox.SelectedIndex = 0;
-            else ComboBox.SelectedItem = default;
+            SetDefaultValue();
         }
 
         public override bool IsEmpty => 

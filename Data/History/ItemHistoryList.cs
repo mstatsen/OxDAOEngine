@@ -6,6 +6,7 @@
     {
         public void ChangeField(TDAO dao, TField field, object? oldValue)
         {
+            /*
             FieldHistory<TField, TDAO>? fieldHistory = 
                 (FieldHistory<TField, TDAO>?)Find(
                     (h) => h is FieldHistory<TField, TDAO> f 
@@ -15,6 +16,7 @@
             );
 
             if (fieldHistory == null)
+            */
                 Add(new FieldHistory<TField, TDAO>(dao, field, oldValue));
         }
 

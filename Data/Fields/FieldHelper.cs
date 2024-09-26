@@ -129,7 +129,16 @@ namespace OxDAOEngine.Data.Fields
         public FieldColumns<TField> Columns(FieldsVariant variant, FieldsFilling filling)
         {
             FieldColumns<TField> columns = new ();
-            columns.AddRange(GetFields(variant, filling));
+
+            columns.StartSilentChange();
+            try
+            {
+                columns.AddRange(GetFields(variant, filling));
+            }
+            finally
+            {
+                columns.FinishSilentChange();
+            }
             return columns;
         }
 

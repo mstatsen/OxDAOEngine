@@ -84,26 +84,31 @@ namespace OxDAOEngine.Data
         public bool Modified
         {
             get => modified;
-            set
-            {
-                bool oldValue = modified;
-                modified = value;
+            set => SetModified(value);
+        }
 
-                if (!SilentChange)
-                {
-                    if (oldValue != modified)
-                        ModifiedChangeHandler?.Invoke(this, new DAOModifyEventArgs(modified, null));
+        private void SetModified(bool value)
+        {
+            bool oldValue = modified;
+            modified = value;
+            NotifyAboutModify(oldValue);
+        }
 
-                    if (modified)
-                        NotifyAll(DAOOperation.Modify);
-                }
-            }
+        protected virtual void NotifyAboutModify(bool oldValue)
+        {
+            if (oldValue != modified)
+                ModifiedChangeHandler?.Invoke(this, new DAOModifyEventArgs(modified, null));
+
+            if (SilentChange)
+                return;
+
+            if (modified)
+                NotifyAll(DAOOperation.Modify);
         }
 
         public void NotifyAll(DAOOperation operation)
         {
-            DAOEntityEventArgs e = new(operation);
-            ChangeHandler?.Invoke(this, e);
+            ChangeHandler?.Invoke(this, new(operation));
             modified = true;
         }
 

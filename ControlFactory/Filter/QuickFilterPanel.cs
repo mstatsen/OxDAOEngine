@@ -99,6 +99,8 @@ namespace OxDAOEngine.ControlFactory.Filter
             }
         }
 
+        public Filter<TField, TDAO>? activeFilter = null;
+
         public Filter<TField, TDAO>? ActiveFilter
         {
             get
@@ -106,25 +108,9 @@ namespace OxDAOEngine.ControlFactory.Filter
                 if (Builder == null)
                     return null;
 
-                FilterRules<TField> rules = new();
-
-                foreach (TField field in QuickFilterFields)
-                    rules.Add(field);
-
-                SimpleFilter<TField, TDAO> basePart = new();
-                Builder.GrabControls(basePart, rules);
-
-                SimpleFilter<TField, TDAO> textFilter = new(FilterConcat.OR);
-
-                FilterOperation textFilterOperation = TypeHelper.Helper<TextFilterOperationHelper>()
-                    .Operation(Settings.QuickFilterTextFieldOperation);
-
-                foreach (TField field in TextFields)
-                    textFilter.AddFilter(field, textFilterOperation, Builder.Value(TextFilterContainer));
-
-                Filter<TField, TDAO> activeFilter = new();
-                activeFilter.AddFilter(basePart, FilterConcat.AND);
-                activeFilter.AddFilter(textFilter, FilterConcat.AND);
+                if (activeFilter == null)
+                    GrabActiveFilter();
+                
                 return activeFilter;
             }
             set
@@ -150,6 +136,29 @@ namespace OxDAOEngine.ControlFactory.Filter
                                     Builder[field].Value = filteringValue;
                                 }
             }
+        }
+
+        private void GrabActiveFilter()
+        {
+            FilterRules<TField> rules = new();
+
+            foreach (TField field in QuickFilterFields)
+                rules.Add(field);
+
+            SimpleFilter<TField, TDAO> basePart = new();
+            Builder.GrabControls(basePart, rules);
+
+            SimpleFilter<TField, TDAO> textFilter = new(FilterConcat.OR);
+
+            FilterOperation textFilterOperation = TypeHelper.Helper<TextFilterOperationHelper>()
+                .Operation(Settings.QuickFilterTextFieldOperation);
+
+            foreach (TField field in TextFields)
+                textFilter.AddFilter(field, textFilterOperation, Builder.Value(TextFilterContainer));
+
+            activeFilter = new();
+            activeFilter.AddFilter(basePart, FilterConcat.AND);
+            activeFilter.AddFilter(textFilter, FilterConcat.AND);
         }
 
         public void ClearControls()
@@ -317,6 +326,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void FilterControlsChange(object? sender, EventArgs e)
         {
+            activeFilter = null;
             RecolorControls();
             Waiter.Ready = false;
 

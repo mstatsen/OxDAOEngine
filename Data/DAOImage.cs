@@ -39,24 +39,17 @@ namespace OxDAOEngine.Data
 
         public override void Clear()
         {
-            Id = Guid.Empty;
-            Name = string.Empty;
+            id = Guid.Empty;
+            name = string.Empty;
             Image = null;
             imageBase64 = string.Empty;
         }
 
-        private void GenerateGuid() =>
-            id = Guid.NewGuid();
-
-        public override void Init() =>
-            GenerateGuid();
+        public override void Init() { }
 
         protected override void LoadData(XmlElement element)
         {
-            id = XmlHelper.ValueGuid(element, XmlConsts.Id);
-            if (id == Guid.Empty)
-                GenerateGuid();
-
+            id = XmlHelper.ValueGuid(element, XmlConsts.Id, true);
             name = XmlHelper.Value(element, XmlConsts.Name);
             imageBase64 = XmlHelper.Value(element, XmlConsts.Image);
             image = OxBase64.Base64ToBitmap(imageBase64);

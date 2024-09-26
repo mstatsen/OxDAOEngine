@@ -29,10 +29,7 @@ namespace OxDAOEngine.Data
     {
         public FieldModified<TField>? FieldModified;
 
-        public RootDAO(): base() =>
-            GenerateImageGuid();
-
-        public FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();
+        public RootDAO() : base() { }
 
         public object? this[TField field]
         {
@@ -56,21 +53,25 @@ namespace OxDAOEngine.Data
             listDao.ItemAddHandler += (d, e) => ModifiedChangeHandler?.Invoke(d, new DAOModifyEventArgs(true, d));
         }
 
-        protected T? ModifyValue<T>(TField field, T? oldValue, T? newValue, object? oldValueForHistory = null)
+        protected FieldHelper<TField> FieldHelper = DataManager.FieldHelper<TField>();
+
+        public delegate void SetModifiedFieldValue<T>(T? newValue);
+        protected void ModifyValue<T>(TField field, T? oldValue, T? newValue,
+            SetModifiedFieldValue<T> OnSetModifiedFieldValue, object? oldValueForHistory = null)
         {
-            if (CheckValueModified(oldValue, newValue))
-            {
-                OnFieldModified(
-                    new FieldModifiedEventArgs<TField>(
-                        this, 
-                        field,
-                        oldValueForHistory ?? oldValue
-                    )
-                );
-                Modified = true;
-            }
-            
-            return newValue;
+            if (!CheckValueModified(oldValue, newValue))
+                return;
+
+            OnFieldModified(
+                new FieldModifiedEventArgs<TField>(
+                    this,
+                    field,
+                    oldValueForHistory ?? oldValue
+                )
+            );
+
+            OnSetModifiedFieldValue?.Invoke(newValue);
+            Modified = true;
         }
 
         protected override void MemberModifiedHandler(DAO dao, DAOModifyEventArgs e)
@@ -217,7 +218,7 @@ namespace OxDAOEngine.Data
         public Guid ImageId
         {
             get => imageId;
-            set => imageId = GuidValue(ModifyValue(FieldHelper.ImageField, imageId, value));
+            set => ModifyValue(FieldHelper.ImageField, imageId, value, n => imageId = GuidValue(n));
         }
 
         private DAOImage? daoImage;
@@ -258,12 +259,11 @@ namespace OxDAOEngine.Data
                             ((RootDAO<TField>)d).GetFieldValue(UniqueField))
                         )
                     != null)
-                    GenerateImageGuid();
+                    ImageId = Guid.NewGuid();
 
                 if (ImageId == Guid.Empty)
                 */
-                    GenerateImageGuid();
-
+                ImageId = Guid.NewGuid();
                 daoImage = DataManager.FieldController<TField>().UpdateImage(ImageId, Name, value);
                 daoImage!.UsageList.Remove(this);
                 daoImage!.UsageList.Add(this);
@@ -275,7 +275,7 @@ namespace OxDAOEngine.Data
         public string Name
         {
             get => name;
-            set => name = StringValue(ModifyValue(TitleField, name, value));
+            set => ModifyValue(TitleField, name, value, n => name = StringValue(n));
         }
 
         private Bitmap? GetImage()
@@ -292,23 +292,12 @@ namespace OxDAOEngine.Data
 
         private DAOImage? GetImageInfo() => DataManager.FieldController<TField>().GetImageInfo(imageId);
 
-        private void GenerateImageGuid()
-        {
-            if (UseImageList)
-                ImageId = Guid.NewGuid();
-        }
+        public override void Init() { }
 
-        public override void Init()
-        {
-            if (UseImageList)
-                GenerateImageGuid();
-        }
+        public override int GetHashCode() => 
+            name.GetHashCode() ^ imageId.GetHashCode();
 
-        public override int GetHashCode()
-        {
-            return name.GetHashCode() + imageId.GetHashCode();
-        }
-
-        public readonly bool UseImageList = DataManager.UseImageList<TField>();
+        private readonly bool useImageList = DataManager.UseImageList<TField>();
+        public virtual bool UseImageList => useImageList;
     }
 }

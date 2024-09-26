@@ -542,7 +542,7 @@ namespace OxDAOEngine.Grid
             GridView.Rows[rowIndex].Tag = item;
             UpdateValues(rowIndex);
             SetChangeHandler(item);
-            itemsDictionary.Add(item, GridView.Rows[rowIndex]);
+            itemsDictionary[item] = GridView.Rows[rowIndex];
             return rowIndex;
         }
 

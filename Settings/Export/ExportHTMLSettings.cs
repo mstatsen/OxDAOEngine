@@ -21,8 +21,18 @@ namespace OxDAOEngine.Settings.Export
         {
             base.Clear();
             Sorting.Clear();
-            Fields.CopyFrom(TypeHelper.FieldHelper<TField>()
-                .Columns(FieldsVariant.Html, FieldsFilling.Default));
+
+            Fields.StartSilentChange();
+            try
+            {
+                Fields.CopyFrom(TypeHelper.FieldHelper<TField>()
+                    .Columns(FieldsVariant.Html, FieldsFilling.Default));
+            }
+            finally
+            {
+                Fields.FinishSilentChange();
+            }
+
             ZeroSummary = true;
         }
 

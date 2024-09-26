@@ -60,10 +60,12 @@ namespace OxDAOEngine.XML
         public static bool ValueBool(XmlElement parentElement, string name) => 
             bool.TryParse(Value(parentElement, name), out bool value) && value;
 
-        public static Guid ValueGuid(XmlElement parentElement, string name) =>
+        public static Guid ValueGuid(XmlElement parentElement, string name, bool generateGuidIfEmpty = false) =>
             Guid.TryParse(Value(parentElement, name), out Guid id)
                 ? id
-                : Guid.Empty;
+                : generateGuidIfEmpty
+                    ? Guid.NewGuid()
+                    : Guid.Empty;
 
         public static T Value<T>(XmlElement parentElement, string name)
             where T : notnull, Enum => 
