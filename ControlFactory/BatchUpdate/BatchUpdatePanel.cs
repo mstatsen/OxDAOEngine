@@ -15,8 +15,10 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
 
         public EventHandler? BatchUpdateCompleted;
 
+        private readonly string ItemsCaption = DataManager.ListController<TField, TDAO>().ListName;
+
         public void SetItemsCount() => 
-            countLabel.Text = $"Selected items: {(ItemsGetter != null ? ItemsGetter().Count.ToString() : "N/A")}";
+            countLabel.Text = $"Selected {ItemsCaption}: {(ItemsGetter != null ? ItemsGetter().Count.ToString() : "N/A")}";
 
         public void UpdateItems()
         {
