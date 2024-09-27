@@ -113,8 +113,10 @@ namespace OxDAOEngine.ControlFactory.Accessors
             SetDefaultValue();
         }
 
-        public override bool IsEmpty => 
-            base.IsEmpty || (Value is NullObject);
+        public override bool IsEmpty =>
+            base.IsEmpty
+            || (Value is IEmptyChecked e && e.IsEmpty)
+            || (ComboBox.SelectedItem is IEmptyChecked ec && ec.IsEmpty);
 
         public override void SetDefaultValue()
         {

@@ -31,7 +31,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             get =>
                 categorySelector.SelectedNode == null
-                || categorySelector.SelectedNode.Tag is NullObject
+                || (categorySelector.SelectedNode.Tag is IEmptyChecked ec && ec.IsEmpty)
                     ? RootCategory
                     : (Category<TField, TDAO>)categorySelector.SelectedNode.Tag;
             set =>

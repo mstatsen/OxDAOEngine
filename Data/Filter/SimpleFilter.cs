@@ -131,18 +131,14 @@ namespace OxDAOEngine.Data.Filter
                 value
             );
 
-        public bool CheckValueFilled(object? value)
-        {
-            switch(value)
+        public bool CheckValueFilled(object? value) => 
+            value switch
             {
-                case NullObject _:
-                case null:
-                case string stringValue when stringValue == string.Empty:
-                    return false;
-                default:
-                    return true;
-            }
-        }
+                null => false,
+                IEmptyChecked ec when ec.IsEmpty => false,
+                string stringValue when stringValue == string.Empty => false,
+                _ => true,
+            };
 
         public SimpleFilter<TField, TDAO> AddFilter(TField field, FilterOperation operation, object? value)
         {
@@ -156,7 +152,7 @@ namespace OxDAOEngine.Data.Filter
 
             rules.Add(field, operation);
 
-            if (value != null && value is not NullObject)
+            if (value != null && (value is not IEmptyChecked || (value is IEmptyChecked ec && !ec.IsEmpty)))
                 this[field] = value;
 
             return this;

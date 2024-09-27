@@ -98,7 +98,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         }
 
         public override bool IsEmpty => 
-            base.IsEmpty || Value is NullObject;
+            base.IsEmpty || (Value is IEmptyChecked ec && ec.IsEmpty);
 
         public TItem EnumValue =>
             Context.MultipleValue ? default! : EnumValue<TItem>();

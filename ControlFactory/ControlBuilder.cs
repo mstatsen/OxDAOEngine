@@ -259,11 +259,16 @@ namespace OxDAOEngine.ControlFactory
         public void GrabQuickFilterControls(SimpleFilter<TField, TDAO> quickFilter, FilterRules<TField>? rules)
         {
             foreach (TField field in TypeHelper.All<TField>())
+            {
+                if (this[field].IsEmpty)
+                    continue;
+
                 if (rules == null || rules.RuleExist(field))
                     quickFilter.AddFilter(
                         field,
                         Value(field)
                     );
+            }
         }
 
         public IControlAccessor this[TField field] => Accessor(field);

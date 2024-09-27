@@ -1,5 +1,6 @@
 ﻿using OxLibrary.Controls;
 using OxDAOEngine.Data.Types;
+using OxDAOEngine.Data;
 
 namespace OxDAOEngine.ControlFactory.ValueAccessors
 {
@@ -13,7 +14,7 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
 
         public override void SetValue(object? value) =>
             Control.SelectedItem = 
-                (value == null) || (value is NullObject)
+                (value == null) || (value is IEmptyChecked ec && ec.IsEmpty)
                     ? value 
                     : value is string
                         ? TypeHelper.Parse<T>(value.ToString() ?? string.Empty)

@@ -28,6 +28,12 @@ namespace OxDAOEngine.Data.Filter
 
         public bool Match(FilterOperation operation, object? leftObject, object? rightObject)
         {
+            if (leftObject is IEmptyChecked lec && lec.IsEmpty)
+                return true;
+
+            if (rightObject is IEmptyChecked rec && rec.IsEmpty)
+                return true;
+
             string? leftString = leftObject is DAO leftDao ? leftDao.MatchingString() : leftObject?.ToString();
             string? rightString = rightObject is DAO rightDao ? rightDao.MatchingString() : rightObject?.ToString();
 

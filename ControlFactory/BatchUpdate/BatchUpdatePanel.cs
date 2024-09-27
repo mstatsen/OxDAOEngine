@@ -63,9 +63,8 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         }
 
         public bool FieldIsEmpty =>
-            FieldAccessor.Value == null 
-            || FieldAccessor.Value is NullObject;
-
+            FieldAccessor.Value == null
+            || (FieldAccessor.Value is IEmptyChecked ec && ec.IsEmpty);
 
         private void EnabledOKButton() =>
             buttonsDictionary[OxDialogButton.OK].Enabled = !FieldIsEmpty;
