@@ -215,7 +215,7 @@ namespace OxDAOEngine.Data
             return true;
         }
 
-        private void EditNewItem(TDAO item)
+        private void AddItem(TDAO item)
         {
             if (GetItemEditor(item).ShowDialog(Face) == DialogResult.OK)
             {
@@ -230,14 +230,14 @@ namespace OxDAOEngine.Data
         }
 
         public void AddItem() =>
-            EditNewItem(new());
+            AddItem(new());
 
-        public void EditItem(TDAO? item, ItemsRootGrid<TField, TDAO>? parentGrid = null)
+        public void EditItem(TDAO? item, ItemsRootGrid<TField, TDAO>? parentGrid = null, bool readOnly = false)
         {
             if (item == null)
                 return;
 
-            if (GetItemEditor(item, parentGrid).ShowDialog(Face) == DialogResult.OK)
+            if (GetItemEditor(item, parentGrid).ShowDialog(Face, readOnly) == DialogResult.OK)
             {
                 RenewListsAndNotifyAll();
                 ItemFieldChanged?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Modify));
@@ -265,7 +265,7 @@ namespace OxDAOEngine.Data
 
             TDAO newItem = new();
             newItem.CopyFrom(item, true);
-            EditNewItem(newItem);
+            AddItem(newItem);
         }
 
         public void ViewItem(TField field, object? value, ItemViewMode viewMode = ItemViewMode.Simple) =>
@@ -276,6 +276,7 @@ namespace OxDAOEngine.Data
             if (item == null)
                 return;
 
+            //TODO: implent view item in ReadOnlyEditForm
             IItemCard<TField, TDAO>? card = ControlFactory.CreateCard(viewMode);
 
             if (card == null)

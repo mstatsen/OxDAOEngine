@@ -12,10 +12,7 @@ namespace OxDAOEngine.Grid
         where TDAO : RootDAO<TField>, new()
     {
         private readonly ItemSelector<TField, TDAO> availableGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
-        private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems) 
-        {
-            GridContextMenuEnabled = false
-        };
+        private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
         private readonly OxPane buttonsPanel = new(new Size(64, 1));
         private readonly OxPane topPanel = new(new Size(1, 100));
         private readonly OxIconButton selectButton = new(OxIcons.Right, 54);

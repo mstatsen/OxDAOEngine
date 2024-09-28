@@ -299,6 +299,12 @@ namespace OxDAOEngine.Editor
             return visibleChanged;
         }
 
+        public DialogResult ShowDialog(IWin32Window owner, bool readOnly = false)
+        {
+            ReadOnly = readOnly;
+            return base.ShowDialog(owner);
+        }
+
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);

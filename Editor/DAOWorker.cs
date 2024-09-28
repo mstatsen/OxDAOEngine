@@ -15,17 +15,7 @@ namespace OxDAOEngine.Editor
         public bool ReadOnly
         {
             get => readOnly;
-            set
-            {
-                readOnly = value;
-                SetControlsReadOnly(value);
-            }
-        }
-
-        private void SetControlsReadOnly(bool value)
-        {
-            foreach (TField field in DataManager.FieldHelper<TField>().All())
-                Builder[field].ReadOnly = value;
+            set => readOnly = value;
         }
 
         public bool Modified
@@ -110,7 +100,10 @@ namespace OxDAOEngine.Editor
             Layouter.LayoutControls();
             AfterLayoutControls();
             AlignLabels();
-            SetControlsReadOnly(ReadOnly);
+
+            if (readOnly) 
+                foreach (TField field in DataManager.FieldHelper<TField>().All())
+                    Builder[field].ReadOnly = readOnly;
         }
 
         private void FillControls()

@@ -21,10 +21,12 @@ namespace OxDAOEngine.Grid
             ListController.AddHandler += (d, e) => d.ChangeHandler += ItemChanged;
             GridView.DoubleClick += (s, e) => ExecuteAction(OxToolbarAction.Edit);
             GridView.KeyUp += GridView_KeyUp;
-            GridView.ContextMenuStrip = new ItemsRootGridContextMenu<TField, TDAO>(this)
-            {
-                Enabled = Usage == GridUsage.Edit
-            };
+
+            if (usage == GridUsage.Edit)
+                GridView.ContextMenuStrip = new ItemsRootGridContextMenu<TField, TDAO>(this)
+                {
+                    Enabled = Usage == GridUsage.Edit
+                };
             Painter = ListController.ControlFactory.CreateGridPainter(GridFieldColumns, usage);
         }
 
@@ -53,12 +55,6 @@ namespace OxDAOEngine.Grid
                 GridView.ColumnSorting.Add(column, sorting.SortOrder);
                 column.HeaderCell.SortGlyphDirection = sorting.SortOrder;
             }
-        }
-
-        public bool GridContextMenuEnabled
-        { 
-            get => GridView.ContextMenuStrip.Enabled; 
-            set => GridView.ContextMenuStrip.Enabled = value;
         }
 
         protected override void ApplySortigns(List<ISorting<TField, TDAO>> newSortings)

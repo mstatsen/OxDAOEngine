@@ -27,7 +27,7 @@ namespace OxDAOEngine.Data
         TDAO? Item(TField field, object value);
 
         void AddItem();
-        void EditItem(TDAO? item, ItemsRootGrid<TField, TDAO>? parentGrid = null);
+        void EditItem(TDAO? item, ItemsRootGrid<TField, TDAO>? parentGrid = null, bool readOnly = false);
         void CopyItem(TDAO? item);
         void ViewItem(TDAO? item, ItemViewMode viewMode = ItemViewMode.Simple);
         void ViewItem(TField field, object? value, ItemViewMode viewMode = ItemViewMode.Simple);

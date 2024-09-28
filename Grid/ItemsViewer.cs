@@ -32,7 +32,6 @@ namespace OxDAOEngine.Grid
             {
                 Parent = ContentContainer,
                 Dock = DockStyle.Fill,
-                GridContextMenuEnabled = false
             };
             Grid.Paddings.SetSize(OxSize.None);
             ReAlign();

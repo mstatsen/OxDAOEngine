@@ -157,7 +157,7 @@ namespace OxDAOEngine.Grid
             GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             Usage = usage;
             ReadOnly = GridUsageHelper.IsReadOnly(usage);
-            GridView.MultiSelect = Usage != GridUsage.SelectItem;
+            GridView.MultiSelect = Usage == GridUsage.Edit || Usage == GridUsage.ChooseItems;
             PrepareColumns();
         }
 
