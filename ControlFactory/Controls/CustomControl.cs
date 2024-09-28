@@ -1,6 +1,7 @@
 ﻿using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -67,5 +68,19 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected abstract bool GetReadOnly();
         protected abstract void SetReadOnly(bool value);
+
+        private EventHandler? itemEdited;
+
+        public EventHandler? ItemEdited
+        {
+            get => itemEdited;
+            set => SetItemEdited(value);
+        }
+
+        protected virtual void SetItemEdited(EventHandler? value) =>
+            itemEdited = value;
+
+        public virtual object? PrepareValueToReadOnly(TItem? value) =>
+            value;
     }
 }

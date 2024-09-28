@@ -1,5 +1,4 @@
 ﻿using OxDAOEngine.Data;
-using System;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -43,5 +42,60 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected void ResortValue() =>
             SetValue(GetValue());
+
+        protected virtual bool IndentItems => false;
+
+        public override object? PrepareValueToReadOnly(TItems? value)
+        {
+            string readOnlyValue = string.Empty;
+
+            if (value != null)
+            {
+                value.Sort();
+
+                string indent = IndentItems ? "        " : string.Empty;
+                int maxItemLength = 0;
+
+                if (value.Count > 8)
+                    foreach (TItem part in value)
+                        maxItemLength = Math.Max(maxItemLength, part.ToString()!.Length);
+
+                string columnDelimiter;
+
+                for (int i = 0; i < 8; i++)
+                {
+                    if (i == value.Count)
+                        break;
+
+                    columnDelimiter = string.Empty;
+
+                    if (value.Count > 8)
+                        for (int j = 0; j < 10 + ((maxItemLength - value[i].ToString()!.Length) * 2); j++)
+                            columnDelimiter += " ";
+
+                    readOnlyValue += $"{indent}{value[i]}";
+                    int i2 = i;
+
+                    while (i2 + 8 < value.Count - 1)
+                    {
+                        i2 += 8;
+                        readOnlyValue += columnDelimiter + value[i2];
+
+                        columnDelimiter = string.Empty;
+
+                        for (int j = 0; j < 10 + ((maxItemLength - value[i2].ToString()!.Length) * 2); j++)
+                            columnDelimiter += " ";
+                    }
+
+                    readOnlyValue += "\r\n";
+                }
+            }
+
+            if (readOnlyValue == string.Empty)
+                readOnlyValue = "Empty\r\n";
+
+            readOnlyValue = readOnlyValue.Remove(readOnlyValue.Length - 2);
+            return readOnlyValue;
+        }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
+using OxDAOEngine.Data.Types;
+using OxLibrary;
+using OxLibrary.Controls;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -34,8 +37,17 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected object? GetValue() => 
             valueAccessor.GetValue();
 
-        protected void SetValue(object? value) => 
+        protected void SetValue(object? value)
+        {
             valueAccessor.SetValue(value);
+            OnControlValueChanged(value);
+        }
+
+        protected virtual void OnControlValueChanged(object? value)
+        {
+            if (ReadOnlyControl != null)
+                OnControlTextChanged(TypeHelper.Name(value));
+        }
 
         public virtual bool IsEmpty => 
             Value == null || Value.ToString() == string.Empty;
@@ -44,12 +56,131 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             Control.Font = EngineStyles.DefaultFont;
             Control.Height = EngineStyles.DefaultControlHeight;
+
+            Control.SizeChanged += ControlSizeChangeHandler;
+            Control.LocationChanged += ControlLocationChangeHandler;
+            Control.TextChanged += ControlTextChangedHandler;
+            Control.ParentChanged += ControlParentChangedHandler;
+            Control.BackColorChanged += ControlBackColorChangedHandler;
+            Control.FontChanged += ControlFontChangedHandler;
+            Control.ForeColorChanged += ControlForeColorChangedHandler;
+            Control.VisibleChanged += ControlVisibleChangedHandler;
+            Control.DockChanged += ControlDockChangedHandler;
         }
 
+        private void ControlDockChangedHandler(object? sender, EventArgs e)
+        {
+            if (ReadOnlyControl != null)
+                ReadOnlyControl.Dock = Control.Dock;
+        }
+
+        private void ControlVisibleChangedHandler(object? sender, EventArgs e) => OnControlVisibleChanged();
+
+        protected virtual void OnControlVisibleChanged()
+        {
+            if (ReadOnlyControl != null)
+                ReadOnlyControl.Visible = Visible && ReadOnly && !Control.Visible;
+        }
+
+        private void ControlForeColorChangedHandler(object? sender, EventArgs e) => OnControlForeColorChanged();
+
+        protected virtual void OnControlForeColorChanged()
+        {
+            if (ReadOnlyControl != null)
+                ReadOnlyControl.ForeColor = Control.ForeColor;
+        }
+
+        private void ControlFontChangedHandler(object? sender, EventArgs e) => OnControlFontChanged();
+
+        protected virtual void OnControlFontChanged()
+        {
+            if (ReadOnlyControl != null)
+                ReadOnlyControl.Font = new Font(
+                    Control.Font.FontFamily,
+                    Control.Font.Size + (Control.Text == string.Empty ? 0 : 1),
+                    Control.Font.Style 
+                        | (Control.Text == string.Empty
+                            ? FontStyle.Italic
+                            : FontStyle.Regular
+                        )
+                );
+        }
+
+        private void ControlBackColorChangedHandler(object? sender, EventArgs e) => OnControlBackColorChanged();
+
+        protected virtual void OnControlBackColorChanged()
+        {
+            if (ReadOnlyControl != null)
+                try
+                {
+                    ReadOnlyControl.BackColor = new OxColorHelper(Control.BackColor).Lighter();
+                }
+                catch 
+                { 
+                }
+        }
+
+        private void ControlParentChangedHandler(object? sender, EventArgs e) => OnControlParentChanged();
+
+        protected virtual void OnControlParentChanged()
+        {
+            if (ReadOnlyControl != null)
+                ReadOnlyControl.Parent = Control.Parent;
+        }
+
+        private void ControlTextChangedHandler(object? sender, EventArgs e) =>
+            OnControlTextChanged(Control.Text);
+
+        protected virtual void OnControlTextChanged(string? text)
+        {
+            if (ReadOnlyControl == null)
+                return;
+
+            ReadOnlyControl.Text = 
+                string.IsNullOrEmpty(text)
+                    ? "Empty" 
+                    : text;
+
+            OnControlFontChanged();
+        }
+
+        private void ControlLocationChangeHandler(object? sender, EventArgs e) => OnControlLocationChanged();
+
+        protected virtual void OnControlLocationChanged()
+        {
+            if (ReadOnlyControl == null)
+                return;
+            
+            ReadOnlyControl.Left = Control.Left;
+            OxControlHelper.AlignByBaseLine(Control, ReadOnlyControl);
+            ReadOnlyControl.Top += 1;
+        }
+
+        private void ControlSizeChangeHandler(object? sender, EventArgs e) => OnControlSizeChanged();
+
+        protected virtual void OnControlSizeChanged()
+        {
+            if (ReadOnlyControl == null)
+                return;
+
+            ReadOnlyControl.Width = Control.Width;
+            ReadOnlyControl.Height = Control.Height;
+        }
+
+        private bool readOnly = false;
+
+        private bool visible = true;
         protected abstract ValueAccessor CreateValueAccessor();
         protected abstract Control CreateControl();
 
-        protected virtual void AfterControlCreated() { }
+        protected virtual Control? CreateReadOnlyControl() => new OxLabel()
+        { 
+            Font = new Font(Control.Font.FontFamily, Control.Font.Size+1)
+        };
+
+        protected Control? ReadOnlyControl;
+
+        protected virtual void AfterControlsCreated() { }
 
         public readonly IBuilderContext<TField, TDAO> Context;
 
@@ -67,7 +198,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
         public ControlAccessor<TField, TDAO> Init()
         {
             control = CreateControl();
-            AfterControlCreated();
+            ReadOnlyControl = CreateReadOnlyControl();
+            AfterControlsCreated();
             InitControl();
             valueAccessor = CreateValueAccessor();
             valueAccessor.SetControl(control);
@@ -139,11 +271,20 @@ namespace OxDAOEngine.ControlFactory.Accessors
             set => SetReadOnly(value);
         }
 
-        protected virtual void SetReadOnly(bool value) =>
-            Control.Enabled = !value;
+        protected virtual void SetReadOnly(bool value)
+        {
+            readOnly = value;
+
+            if (ReadOnlyControl != null)
+            {
+                Control.Visible = visible && !readOnly;
+                ReadOnlyControl.Visible = visible && readOnly;
+            }
+            else Control.Enabled = !readOnly;
+        }
 
         protected virtual bool GetReadOnly() =>
-            !Control.Enabled;
+            readOnly;
 
         public int Left
         {
@@ -220,11 +361,13 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         IAccessorContext IControlAccessor.Context => Context;
 
-        protected virtual bool GetVisible() => 
-            Control.Visible;
+        protected virtual bool GetVisible() => visible;
 
-        protected virtual void SetVisible(bool value) => 
-            Control.Visible = value;
+        protected virtual void SetVisible(bool value)
+        {
+            visible = value;
+            Control.Visible = visible && !readOnly;
+        }
 
         public abstract void Clear();
 

@@ -14,5 +14,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         void DisableValueChangeHandler();
 
         void EnableValueChangeHandler();
+        public EventHandler? ItemAdded { get; set; }
+        public EventHandler? ItemRemoved { get; set; }
     }
 }

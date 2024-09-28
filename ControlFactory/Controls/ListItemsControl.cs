@@ -85,6 +85,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                 ResortValue();
                 ListBox.SelectedItem = item;
                 InvokeValueChangeHandler();
+                ItemAdded?.Invoke(item, EventArgs.Empty);
             }
         }
 
@@ -127,6 +128,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                     ListBox.Items[selectedIndex] = item;
                     ResortValue();
                     ListBox.SelectedItem = item;
+                    ItemEdited?.Invoke(item, EventArgs.Empty);
                 }
                 finally
                 {
@@ -173,6 +175,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             }
 
             InvokeValueChangeHandler();
+            ItemRemoved?.Invoke(this, EventArgs.Empty);
         }
 
         private bool AllItemsAdded()
@@ -420,5 +423,20 @@ namespace OxDAOEngine.ControlFactory.Controls
         }
 
         private bool readOnly = false;
+
+        public EventHandler? itemAdded;
+        public EventHandler? itemRemoved;
+
+        public EventHandler? ItemAdded 
+        { 
+            get => itemAdded; 
+            set => itemAdded = value; 
+        }
+
+        public EventHandler? ItemRemoved
+        {
+            get => itemRemoved;
+            set => itemRemoved = value;
+        }
     }
 }

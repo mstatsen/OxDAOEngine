@@ -12,6 +12,22 @@ namespace OxDAOEngine.Editor
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
     {
+        public bool ReadOnly
+        {
+            get => readOnly;
+            set
+            {
+                readOnly = value;
+                SetControlsReadOnly(value);
+            }
+        }
+
+        private void SetControlsReadOnly(bool value)
+        {
+            foreach (TField field in DataManager.FieldHelper<TField>().All())
+                Builder[field].ReadOnly = value;
+        }
+
         public bool Modified
         {
             get
@@ -94,6 +110,7 @@ namespace OxDAOEngine.Editor
             Layouter.LayoutControls();
             AfterLayoutControls();
             AlignLabels();
+            SetControlsReadOnly(ReadOnly);
         }
 
         private void FillControls()
@@ -165,6 +182,7 @@ namespace OxDAOEngine.Editor
             Editor.Text = itemForCaption != null ? itemForCaption.FullTitle() : "Unknown data object";
 
         private TDAO? item;
+        private bool readOnly = false;
         private readonly TDAO initialItem = new();
         public DAOWorker()
         {

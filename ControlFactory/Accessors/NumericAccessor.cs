@@ -52,10 +52,40 @@ namespace OxDAOEngine.ControlFactory.Accessors
             set => SpinEdit.Minimum = DAO.IntValue(value);
         }
 
-        protected override void SetReadOnly(bool value) =>
-            SpinEdit.ReadOnly = value;
+        protected override void OnControlLocationChanged()
+        {
+            base.OnControlLocationChanged();
+            RecalcReadOnlyConrtolLeft();
+        }
 
-        protected override bool GetReadOnly() =>
-            SpinEdit.ReadOnly;
+        protected override void OnControlFontChanged()
+        {
+            base.OnControlFontChanged();
+            RecalcReadOnlyConrtolLeft();
+        }
+
+        protected override void OnControlTextChanged(string? text)
+        {
+            base.OnControlTextChanged(text);
+            RecalcReadOnlyConrtolLeft();
+        }
+
+        private void RecalcReadOnlyConrtolLeft()
+        {
+            if (centeredReadonlyText)
+                ReadOnlyControl!.Left = Control.Left + (Control.Width - ReadOnlyControl.Width) / 2;
+        }
+
+        private bool centeredReadonlyText = false;
+
+        public bool CenteredReadonlyText 
+        { 
+            get => centeredReadonlyText;
+            set
+            {
+                centeredReadonlyText = value;
+                RecalcReadOnlyConrtolLeft();
+            }
+        }
     }
 }

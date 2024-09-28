@@ -9,5 +9,6 @@ namespace OxDAOEngine.ControlFactory.Controls
     {
         Control Control { get; }
         bool ReadOnly { get; set; }
+        public EventHandler? ItemEdited { get; set; }
     }
 }

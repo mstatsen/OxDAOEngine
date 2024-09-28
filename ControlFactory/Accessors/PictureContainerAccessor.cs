@@ -22,5 +22,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         public override void Clear() =>
             Value = null;
+
+        protected override Control? CreateReadOnlyControl() => null;
     }
 }

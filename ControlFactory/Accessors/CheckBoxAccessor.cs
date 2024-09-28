@@ -2,6 +2,8 @@
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
+using OxLibrary.Panels;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -11,12 +13,20 @@ namespace OxDAOEngine.ControlFactory.Accessors
     {
         public CheckBoxAccessor(IBuilderContext<TField, TDAO> context) : base(context) { }
 
-        protected override Control CreateControl() =>
-            new OxCheckBox()
+        protected override Control CreateControl()
+        {
+            OxCheckBox checkBox = new OxCheckBox()
             {
                 CheckAlign = ContentAlignment.MiddleRight,
                 Width = 14
             };
+            checkBox.CheckedChanged += SetReadOnlyPictureHandler;
+
+            return checkBox;
+        }
+
+        private void SetReadOnlyPictureHandler(object? sender, EventArgs e) => 
+            OnControlValueChanged(CheckBox.Checked);
 
         public ContentAlignment CheckAlign 
         {
@@ -24,7 +34,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             set => CheckBox.CheckAlign = value;
         }
 
-        protected override ValueAccessor CreateValueAccessor() =>
+        protected override ValueAccessor CreateValueAccessor() => 
             new CheckBoxValueAccessor();
 
         protected override void AssignValueChangeHanlderToControl(EventHandler? value) =>
@@ -39,10 +49,56 @@ namespace OxDAOEngine.ControlFactory.Accessors
         public OxCheckBox CheckBox =>
             (OxCheckBox)Control;
 
-        protected override bool GetReadOnly() => 
-            CheckBox.ReadOnly;
+        private OxLabel ReadOnlyLabel = default!;
+        private readonly OxPicture ReadOnlyPicture = new();
 
-        protected override void SetReadOnly(bool value) => 
-            CheckBox.ReadOnly = value;
+        private readonly int ReadOnlyPictureSize = 16;
+
+        protected override Control? CreateReadOnlyControl()
+        {
+            OxPane readOnlyControl = new();
+            ReadOnlyLabel = (OxLabel)base.CreateReadOnlyControl()!;
+            ReadOnlyLabel.Parent = readOnlyControl;
+            ReadOnlyLabel.AutoSize = true;
+            ReadOnlyPicture.Parent = readOnlyControl;
+            ReadOnlyPicture.Height = ReadOnlyPictureSize;
+            ReadOnlyPicture.Width = ReadOnlyPictureSize;
+            ReadOnlyPicture.MinimumSize = new Size(ReadOnlyPictureSize, ReadOnlyPictureSize);
+            ReadOnlyPicture.Top = 0;
+            ReadOnlyPicture.Left = readOnlyControl.Width - ReadOnlyPictureSize;
+            ReadOnlyPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            ReadOnlyPicture.PictureSize = ReadOnlyPictureSize;
+            ReadOnlyPicture.Image = OxIcons.Tick;
+            return readOnlyControl;
+        }
+
+        protected override void OnControlSizeChanged()
+        {
+            base.OnControlSizeChanged();
+            ReadOnlyControl!.Width = ReadOnlyLabel.Width + ReadOnlyPictureSize;
+            ReadOnlyControl.Height = ReadOnlyPictureSize;
+        }
+
+        protected override void OnControlFontChanged()
+        {
+            base.OnControlFontChanged();
+            ReadOnlyLabel.Font = ReadOnlyControl!.Font;
+        }
+
+        protected override void OnControlValueChanged(object? value)
+        {
+            if (CheckBox.Checked)
+                ReadOnlyPicture.Image = OxIcons.Tick;
+            else ReadOnlyPicture.Image = OxIcons.Cross;
+        }
+
+        protected override void OnControlTextChanged(string? text)
+        {
+            if (ReadOnlyControl == null)
+                return;
+
+            ReadOnlyLabel.Text = Control.Text;
+            OnControlFontChanged();
+        }
     }
 }

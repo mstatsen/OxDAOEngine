@@ -9,9 +9,9 @@ namespace OxDAOEngine.ControlFactory.Accessors
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        protected override void AfterControlCreated()
+        protected override void AfterControlsCreated()
         {
-            base.AfterControlCreated();
+            base.AfterControlsCreated();
             ComboBox.LoadCounties();
         }
 

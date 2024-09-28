@@ -33,11 +33,5 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         public override bool IsEmpty =>
             base.IsEmpty || StringValue.Equals(string.Empty);
-
-        protected override void SetReadOnly(bool value) =>
-            TextBox.ReadOnly = value;
-
-        protected override bool GetReadOnly() =>
-            TextBox.ReadOnly;
     }
 }

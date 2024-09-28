@@ -3,7 +3,7 @@ using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
-using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -28,32 +28,6 @@ namespace OxDAOEngine.ControlFactory.Accessors
             || Context.Initializer is not IComboBoxInitializer initializer
             || initializer.AvailableValue(value);
 
-        protected override void AfterControlCreated()
-        {
-            base.AfterControlCreated();
-            ComboBox.SizeChanged += ComboBoxSizeChangeHandler;
-            ComboBox.LocationChanged += ComboBoxLocationChangeHandler;
-            ComboBox.SelectionChangeCommitted += (s, e) => ReadOnlyControl.Text = ComboBox.Text;
-            ComboBox.TextChanged += (s, e) => ReadOnlyControl.Text = ComboBox.Text;
-            ComboBox.ParentChanged += (s, e) => ReadOnlyControl.Parent = ComboBox.Parent;
-            ComboBox.BackColorChanged += (s, e) => ReadOnlyControl.BackColor = ComboBox.BackColor;
-            ComboBox.FontChanged += (s, e) => ReadOnlyControl.Font = ComboBox.Font;
-            ComboBox.ForeColorChanged += (s, e) => ReadOnlyControl.ForeColor = ComboBox.ForeColor;
-            ComboBox.VisibleChanged += (s, e) => ReadOnlyControl.Visible = visible && ReadOnly && !ComboBox.Visible;
-        }
-
-        private void ComboBoxLocationChangeHandler(object? sender, EventArgs e)
-        {
-            ReadOnlyControl.Left = ComboBox.Left;
-            ReadOnlyControl.Top = ComboBox.Top;
-        }
-
-        private void ComboBoxSizeChangeHandler(object? sender, EventArgs e)
-        {
-            ReadOnlyControl.Width = ComboBox.Width;
-            ReadOnlyControl.Height = ComboBox.Height;
-        }
-
         protected override void AssignValueChangeHanlderToControl(EventHandler? value)
         {
             ComboBox.SelectionChangeCommitted += value;
@@ -73,34 +47,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
             else Value = null;
         }
 
-        private bool readOnly = false;
-
-        protected override void SetReadOnly(bool value)
-        {
-            readOnly = value;
-            ComboBox.Visible = visible && !readOnly;
-            ReadOnlyControl.Visible = visible && readOnly;
-        }
-
-        protected override bool GetReadOnly() => 
-            readOnly;
-
-        private bool visible = true;
-        protected override bool GetVisible() => visible;
-
-        protected override void SetVisible(bool value)
-        {
-            visible = value;
-            ComboBox.Visible = visible && !readOnly;
-        }
-
         public TComboBox ComboBox =>
             (TComboBox)Control;
-
-        private readonly OxTextBox ReadOnlyControl = new()
-        { 
-            ReadOnly = true
-        };
 
         public ComboBoxAccessor(IBuilderContext<TField, TDAO> context) : base(context) { }
 
@@ -110,8 +58,12 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 if (!AvailableValue(item))
                     ComboBox.Items.Remove(item);
 
+            ComboBox.SelectionChangeCommitted += ReadOnlyControlTextChangeHandler;
             SetDefaultValue();
         }
+
+        private void ReadOnlyControlTextChangeHandler(object? sender, EventArgs e) =>
+            OnControlValueChanged(ComboBox.SelectedItem);
 
         public override bool IsEmpty =>
             base.IsEmpty

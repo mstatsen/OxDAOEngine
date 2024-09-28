@@ -13,6 +13,12 @@ namespace OxDAOEngine.Editor
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
     {
+        public bool ReadOnly 
+        { 
+            get => Worker.ReadOnly;
+            set => Worker.ReadOnly = value; 
+        }
+
         public DAOEditor() : base()
         {
             StartPosition = FormStartPosition.CenterScreen;

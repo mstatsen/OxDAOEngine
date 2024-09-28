@@ -10,9 +10,8 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
         public override object? GetValue() => 
             CheckBox.Checked;
 
-        public override void SetValue(object? value) =>
-            CheckBox.Checked =
-                value != null 
+        public override void SetValue(object? value) => 
+            CheckBox.Checked = value != null
                 && (value is int @int
                     ? @int == 1
                     : value is string @string

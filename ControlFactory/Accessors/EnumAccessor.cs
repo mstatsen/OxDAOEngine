@@ -19,9 +19,9 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 ? new OxCheckComboBox<EnumItemObject<TItem>>() 
                 : base.CreateControl();
 
-        protected override void AfterControlCreated()
+        protected override void AfterControlsCreated()
         { 
-            base.AfterControlCreated();
+            base.AfterControlsCreated();
 
             if (TypeHelper.HelperByItemType<TItem>().UseToolTipForControl)
                 ComboBox.GetToolTip += GetToolTipHandler;

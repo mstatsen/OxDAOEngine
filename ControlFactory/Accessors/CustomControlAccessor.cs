@@ -2,6 +2,9 @@
 using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
+using OxLibrary;
+using OxLibrary.Controls;
+using OxLibrary.Panels;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -21,22 +24,84 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected override ValueAccessor CreateValueAccessor() =>
             new CustomControlValueAccessor<TField, TDAO, TControl, TItem>();
 
-        protected override void UnAssignValueChangeHanlderToControl(EventHandler? value) =>
-            CustomControl.ValueChangeHandler -= value;
+        protected override void UnAssignValueChangeHanlderToControl(EventHandler? value)
+        {
+            if (CustomControl != null)
+                CustomControl.ValueChangeHandler -= value;
+        }
 
-        protected override void AssignValueChangeHanlderToControl(EventHandler? value) => 
-            CustomControl.ValueChangeHandler += value;
+        protected override void AssignValueChangeHanlderToControl(EventHandler? value)
+        {
+            if (CustomControl != null)
+                CustomControl.ValueChangeHandler += value;
+        }
+
+        protected override void AfterControlsCreated()
+        {
+            base.AfterControlsCreated();
+
+            if (CustomControl == null)
+                return;
+
+            CustomControl.ItemEdited += ItemEditedHandler;
+
+            if (CustomControl is IListItemsControl<TField, TDAO> listControl)
+            {
+                listControl.ItemAdded += ItemAddedHandler;
+                listControl.ItemRemoved += ItemRemovedHandler;
+            }
+        }
+
+        protected override void OnControlValueChanged(object? value)
+        {
+            if (ReadOnlyControl == null || CustomControl == null)
+                return;
+
+            base.OnControlValueChanged(CustomControl.PrepareValueToReadOnly((TItem?)value));
+        }
+
+        private void ItemRemovedHandler(object? sender, EventArgs e) => 
+            OnControlValueChanged(Value);
+
+        private void ItemAddedHandler(object? sender, EventArgs e) =>
+            OnControlValueChanged(Value);
+
+        private void ItemEditedHandler(object? sender, EventArgs e) =>
+            OnControlValueChanged(Value);
 
         public override void Clear() =>
             Value = null;
 
-        public TControl CustomControl =>
-            (TControl)Control;
+        public TControl? CustomControl =>
+            Control is TControl ? (TControl?)Control : null;
 
-        protected override bool GetReadOnly() =>
-            CustomControl.ReadOnly;
+        protected override void SetReadOnly(bool value)
+        {
+            base.SetReadOnly(value);
 
-        protected override void SetReadOnly(bool value) =>
-            CustomControl.ReadOnly = value;
+            if (CustomControl != null && CustomControl.Parent?.Parent is OxPanel panel)
+            {
+                if (value)
+                {
+                    panel.Paddings.TopOx = OxSize.Medium;
+                    panel.Paddings.BottomOx = OxSize.Medium;
+                    panel.Paddings.LeftOx = OxSize.Extra;
+                    panel.Paddings.RightOx = OxSize.Extra;
+                }
+                else
+                    panel.Paddings.SetSize(OxSize.None);
+            }
+        }
+
+        protected override Control? CreateReadOnlyControl()
+        {
+            return new OxTextBox()
+            { 
+                Multiline = true,
+                ReadOnly = true,
+                ScrollBars = ScrollBars.Vertical,
+                BorderStyle = BorderStyle.None,
+            };
+        }
     }
 }
