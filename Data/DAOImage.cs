@@ -39,7 +39,7 @@ namespace OxDAOEngine.Data
 
         public override void Clear()
         {
-            id = Guid.Empty;
+            id = Guid.NewGuid();
             name = string.Empty;
             Image = null;
             imageBase64 = string.Empty;

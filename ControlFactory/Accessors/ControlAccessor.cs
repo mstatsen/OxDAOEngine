@@ -110,14 +110,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlBackColorChanged()
         {
-            if (ReadOnlyControl != null)
-                try
-                {
-                    ReadOnlyControl.BackColor = new OxColorHelper(Control.BackColor).Lighter();
-                }
-                catch 
-                { 
-                }
+            if (ReadOnlyControl != null && Parent != null)
+                ReadOnlyControl.BackColor = Parent.BackColor;
         }
 
         private void ControlParentChangedHandler(object? sender, EventArgs e) => OnControlParentChanged();
@@ -173,12 +167,15 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected abstract ValueAccessor CreateValueAccessor();
         protected abstract Control CreateControl();
 
-        protected virtual Control? CreateReadOnlyControl() => new OxLabel()
+        protected virtual Control? CreateReadOnlyControl() => new OxTextBox()
         { 
-            Font = new Font(Control.Font.FontFamily, Control.Font.Size+1)
+            Font = new Font(Control.Font.FontFamily, Control.Font.Size+1),
+            BorderStyle = BorderStyle.None,
+            Multiline = true,
+            ReadOnly = true
         };
 
-        protected Control? ReadOnlyControl;
+        public Control? ReadOnlyControl { get; private set; }
 
         protected virtual void AfterControlsCreated() { }
 
@@ -391,5 +388,18 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         public virtual void SetDefaultValue() =>
             Clear();
+
+        public bool CenteredReadonlyText
+        {
+            get => ReadOnlyControl is OxTextBox textBox 
+                && textBox.TextAlign == HorizontalAlignment.Center;
+            set
+            {
+                if (ReadOnlyControl is OxTextBox textBox)
+                    textBox.TextAlign = value 
+                        ? HorizontalAlignment.Center 
+                        : HorizontalAlignment.Left;
+            }
+        }
     }
 }

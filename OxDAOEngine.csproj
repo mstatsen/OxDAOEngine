@@ -43,6 +43,9 @@
     <Compile Update="ControlFactory\Filter\QuickFilterPanel.cs" />
     <Compile Update="ControlFactory\FunctionsPanel.cs" />
     <Compile Update="Editor\DAOEditor.cs" />
+    <Compile Update="Editor\UniqueKeyViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Grid\ItemsGridToolBar.cs" />
     <Compile Update="Grid\TableView.cs" />
     <Compile Update="ItemsFace.cs" />

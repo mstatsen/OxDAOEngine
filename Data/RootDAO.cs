@@ -196,7 +196,7 @@ namespace OxDAOEngine.Data
                     {
                         FieldType.Guid => Guid.NewGuid(),
                         FieldType.Label or FieldType.String => UniqueValue + " (Copy)",
-                        FieldType.Memo => "COPY " + UniqueValue,
+                        FieldType.Memo or FieldType.ShortMemo => "COPY " + UniqueValue,
                         _ =>
                             UniqueValue
                     };
@@ -251,18 +251,6 @@ namespace OxDAOEngine.Data
 
             if (UseImageList)
             {
-                /*
-                if (DAOImage != null && 
-                    UniqueValue != null &&
-                    DAOImage.UsageList.Find((d) =>
-                        !UniqueValue.Equals(
-                            ((RootDAO<TField>)d).GetFieldValue(UniqueField))
-                        )
-                    != null)
-                    ImageId = Guid.NewGuid();
-
-                if (ImageId == Guid.Empty)
-                */
                 ImageId = Guid.NewGuid();
                 daoImage = DataManager.FieldController<TField>().UpdateImage(ImageId, Name, value);
                 daoImage!.UsageList.Remove(this);

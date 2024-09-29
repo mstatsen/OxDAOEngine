@@ -232,12 +232,12 @@ namespace OxDAOEngine.Data
         public void AddItem() =>
             AddItem(new());
 
-        public void EditItem(TDAO? item, ItemsRootGrid<TField, TDAO>? parentGrid = null, bool readOnly = false)
+        public void EditItem(TDAO? item, ItemsRootGrid<TField, TDAO>? parentGrid = null)
         {
             if (item == null)
                 return;
 
-            if (GetItemEditor(item, parentGrid).ShowDialog(Face, readOnly) == DialogResult.OK)
+            if (GetItemEditor(item, parentGrid).ShowDialog(Face) == DialogResult.OK)
             {
                 RenewListsAndNotifyAll();
                 ItemFieldChanged?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Modify));
@@ -276,8 +276,7 @@ namespace OxDAOEngine.Data
             if (item == null)
                 return;
 
-            //TODO: implent view item in ReadOnlyEditForm
-            IItemCard<TField, TDAO>? card = ControlFactory.CreateCard(viewMode);
+            IItemView<TField, TDAO>? card = ControlFactory.CreateCard(viewMode);
 
             if (card == null)
             {
@@ -378,7 +377,6 @@ namespace OxDAOEngine.Data
             return Editor;
         }
 
-
         protected abstract DAOEditor<TField, TDAO, TFieldGroup> CreateEditor();
         protected abstract DAOWorker<TField, TDAO, TFieldGroup> CreateWorker();
 
@@ -391,7 +389,6 @@ namespace OxDAOEngine.Data
                 return worker;
             }
         }
-
         public int TotalCount => FullItemsList.Count;
         public int FilteredCount => VisibleItemsList.Count;
         public int ModifiedCount => History.DistinctModifiedDAOCount;

@@ -39,5 +39,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         string SingleStringValue { get; }
         Guid GuidValue { get; }
         void SetDefaultValue();
+
+        Control? ReadOnlyControl { get; }
     }
 }

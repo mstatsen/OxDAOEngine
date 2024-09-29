@@ -10,6 +10,7 @@
         Label,
         Guid,
         Memo,
+        ShortMemo,
         Integer,
         String,
         List,

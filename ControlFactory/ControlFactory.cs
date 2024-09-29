@@ -46,7 +46,11 @@ namespace OxDAOEngine.ControlFactory
             switch (context.FieldType)
             {
                 case FieldType.Memo:
-                    return new TextMultiLineInitializer(context.AdditionalContext is bool boolContext && boolContext);
+                case FieldType.ShortMemo:
+                    return new TextMultiLineInitializer(
+                        context.AdditionalContext is bool boolContext 
+                        && boolContext, 
+                        context.FieldType == FieldType.Memo);
                 case FieldType.Enum:
                 case FieldType.Boolean:
                 case FieldType.Integer:
@@ -95,7 +99,8 @@ namespace OxDAOEngine.ControlFactory
                     CreateLabelAccessor(context),
                 FieldType.String =>
                     CreateTextBoxAccessor(context),
-                FieldType.Memo =>
+                FieldType.Memo or
+                FieldType.ShortMemo =>
                     CreateMultilineAccessor(context),
                 FieldType.Image =>
                     CreateImageAccessor(context),

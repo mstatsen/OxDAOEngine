@@ -13,10 +13,11 @@ namespace OxDAOEngine.Editor
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
     {
-        public bool ReadOnly 
-        { 
-            get => Worker.ReadOnly;
-            set => Worker.ReadOnly = value; 
+        private bool readOnly = false;
+        public bool ReadOnly
+        {
+            get => readOnly;
+            set => readOnly = value;
         }
 
         public DAOEditor() : base()
@@ -28,7 +29,16 @@ namespace OxDAOEngine.Editor
             FormClosed += FormClosedHandler;
             MainPanel.Header.AddToolButton(prevButton);
             MainPanel.Header.AddToolButton(nextButton);
+            FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
+            OxIconButton idButton = new(OxIcons.Key, 36)
+            {
+                ToolTipText = $"View {fieldHelper.Name(fieldHelper.UniqueField)}"
+            };
+            idButton.Click += (s, e) => uniqueKeyViewer.View(Item, this);
+            MainPanel.Header.AddToolButton(idButton);
         }
+
+        private readonly UniqueKeyViewer<TField, TDAO> uniqueKeyViewer = new();
 
         protected virtual void CreatePanels()
         {
@@ -104,15 +114,15 @@ namespace OxDAOEngine.Editor
             ToolTipText = $"Next {listController.ItemName}"
         };
 
-        private ItemsRootGrid<TField, TDAO>? parentGrid;
+        private ItemsGrid<TField, TDAO>? parentGrid;
 
-        public ItemsRootGrid<TField, TDAO>? ParentGrid 
+        public ItemsGrid<TField, TDAO>? ParentGrid 
         { 
             get => parentGrid;
             set => SetParentGrid(value);
         }
 
-        private void SetParentGrid(ItemsRootGrid<TField, TDAO>? value)
+        private void SetParentGrid(ItemsGrid<TField, TDAO>? value)
         {
             parentGrid = value;
             PrepareButtons();
@@ -241,8 +251,7 @@ namespace OxDAOEngine.Editor
             }
         }
 
-        public DAOWorker<TField, TDAO, TFieldGroup> Worker =>
-            DataManager.Worker<TField, TDAO, TFieldGroup>();
+        public DAOWorker<TField, TDAO, TFieldGroup> Worker => DataManager.Worker<TField, TDAO, TFieldGroup>();
 
         private bool invalidateSizeInProcess = false;
 
@@ -297,12 +306,6 @@ namespace OxDAOEngine.Editor
             }
 
             return visibleChanged;
-        }
-
-        public DialogResult ShowDialog(IWin32Window owner, bool readOnly = false)
-        {
-            ReadOnly = readOnly;
-            return base.ShowDialog(owner);
         }
 
         protected override void OnShown(EventArgs e)
@@ -391,10 +394,12 @@ namespace OxDAOEngine.Editor
             panel.Parent = parent;
             panel.Dock = dock;
             ParentPanels.Add(panel);
-            panel.VisibleChanged += (s, e) => InvalidateSize();
+            panel.VisibleChanged += ParentPanelVisibleChangedHandler;
 
             if (parentForGroups)
                 GroupParents.Add(panel);
         }
+
+        private void ParentPanelVisibleChangedHandler(object? sender, EventArgs e) => InvalidateSize();
     }
 }

@@ -37,8 +37,7 @@ namespace OxDAOEngine.Editor
             }
         }
 
-        public DAOEditor<TField, TDAO, TFieldGroup> Editor =>
-            DataManager.Editor<TField, TDAO, TFieldGroup>();
+        public DAOEditor<TField, TDAO, TFieldGroup> Editor => DataManager.Editor<TField, TDAO, TFieldGroup>();
 
         public TDAO? Item
         {
@@ -50,10 +49,15 @@ namespace OxDAOEngine.Editor
                 FillFormCaption(item);
                 LayoutControls();
                 FillControls();
-
-                if (SyncAllFields())
-                    RecalcGroupsAvailability();
+                SyncFieldsAndRecalcGroups();
+                SetControlsReadonly();
             }
+        }
+
+        private void SyncFieldsAndRecalcGroups()
+        {
+            if (SyncAllFields())
+                RecalcGroupsAvailability();
         }
 
         protected virtual FieldGroupFrames<TField, TFieldGroup> GetFieldGroupFrames() => 
@@ -66,13 +70,12 @@ namespace OxDAOEngine.Editor
         protected abstract EditorLayoutsGenerator<TField, TDAO, TFieldGroup> CreateLayoutsGenerator(
             FieldGroupFrames<TField, TFieldGroup> frames, ControlLayouter<TField, TDAO> layouter);
 
-        private EditorLayoutsGenerator<TField, TDAO, TFieldGroup>? generator;
+        protected EditorLayoutsGenerator<TField, TDAO, TFieldGroup> Generator { get; private set; }
 
         private void GenerateLayouts()
         {
             BeforeGenerateLayouts();
-            generator ??= CreateLayoutsGenerator(GetFieldGroupFrames(), Layouter);
-            generator.GenerateLayouts();
+            Generator!.GenerateLayouts();
             AfterGenerateLayouts();
         }
 
@@ -100,10 +103,6 @@ namespace OxDAOEngine.Editor
             Layouter.LayoutControls();
             AfterLayoutControls();
             AlignLabels();
-
-            if (readOnly) 
-                foreach (TField field in DataManager.FieldHelper<TField>().All())
-                    Builder[field].ReadOnly = readOnly;
         }
 
         private void FillControls()
@@ -177,13 +176,22 @@ namespace OxDAOEngine.Editor
         private TDAO? item;
         private bool readOnly = false;
         private readonly TDAO initialItem = new();
+
         public DAOWorker()
         {
-            Builder = controlFactory.Builder(ControlScope.Editor);
             Layouter = Builder.Layouter;
+            Generator = CreateLayoutsGenerator(GetFieldGroupFrames(), Layouter);
         }
 
-        protected readonly ControlBuilder<TField, TDAO> Builder;
+        private ControlBuilder<TField, TDAO> builder = default!;
+        protected ControlBuilder<TField, TDAO> Builder
+        {
+            get
+            { 
+                builder ??= controlFactory.Builder(ControlScope.Editor);
+                return builder;
+            }
+        }
 
         protected readonly ControlLayouter<TField, TDAO> Layouter;
 
@@ -227,6 +235,13 @@ namespace OxDAOEngine.Editor
             return needRecalcGroupsAvailability;
         }
 
+        private void SetControlsReadonly()
+        {
+            if (ReadOnly)
+                foreach (TField field in fieldHelper.All())
+                    Builder[field].ReadOnly = true;
+        }
+
         private void ValueChangeHandler(object? sender, EventArgs e) 
         {
             Builder.ApplyDependencies();
@@ -259,5 +274,14 @@ namespace OxDAOEngine.Editor
 
         protected virtual bool SyncFieldValues(TField field, bool byUser) => false;
         protected virtual bool SetGroupsAvailability(bool afterSyncValues = false) => false;
+
+        internal void Renew()
+        {
+            FillFormCaption(item);
+            LayoutControls();
+            FillControls();
+            SyncFieldsAndRecalcGroups();
+            SetControlsReadonly();
+        }
     }
 }
