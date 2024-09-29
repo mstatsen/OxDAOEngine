@@ -77,7 +77,7 @@ namespace OxDAOEngine.Editor
             ((OxTextBox)uniqueKeyAccessor.ReadOnlyControl!).Multiline = false;
 
             copyButton.Parent = this;
-            copyButton.Top = 6;
+            copyButton.Top = 8;
             copyButton.SetContentSize(64, 24);
             copyButton.Left = 336;
             copyButton.Click += CopyHandler;
@@ -90,7 +90,7 @@ namespace OxDAOEngine.Editor
         }
 
         private readonly int ContentWidth = 410;
-        private readonly int ContentHeight = 40;
+        private readonly int ContentHeight = 44;
 
         private IControlAccessor uniqueKeyAccessor = default!;
         private readonly OxButton copyButton = new("Copy", OxIcons.Copy);
