@@ -71,7 +71,7 @@ namespace OxDAOEngine.Editor
             uniqueKeyAccessor.Parent = this;
             uniqueKeyAccessor.Left = 12;
             uniqueKeyAccessor.Top = 12;
-            uniqueKeyAccessor.Width = 312;
+            uniqueKeyAccessor.Width = 340;
             uniqueKeyAccessor.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             uniqueKeyAccessor.ReadOnly = true;
             ((OxTextBox)uniqueKeyAccessor.ReadOnlyControl!).Multiline = false;
