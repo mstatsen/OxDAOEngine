@@ -9,9 +9,13 @@ namespace OxDAOEngine.ControlFactory.Accessors
         where TDAO : RootDAO<TField>, new()
     {
         public ExtractAccessor(FieldContext<TField, TDAO> context, bool forQuickFilter, bool fullExtract)
-            : base(context.SetInitializer(
-                new ExtractInitializer<TField, TDAO>(context.Field, addAnyObject: forQuickFilter, fullExtract: fullExtract)
-            )) => 
+            : base(
+                  context.Initializer != null 
+                    ? context 
+                  : context.SetInitializer(
+                        new ExtractInitializer<TField, TDAO>(context.Field, addAnyObject: forQuickFilter, fullExtract: fullExtract)
+                    )
+            ) => 
             ForQuickFilter = forQuickFilter;
 
         public override void Clear()
