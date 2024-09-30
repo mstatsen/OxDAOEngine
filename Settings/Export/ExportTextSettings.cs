@@ -19,11 +19,6 @@ namespace OxDAOEngine.Settings.Export
             Grouping.Clear();
         }
 
-        public override void Init()
-        {
-            base.Init();
-        }
-
         protected override void LoadData(XmlElement element)
         {
             base.LoadData(element);

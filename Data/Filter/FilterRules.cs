@@ -28,5 +28,18 @@
             if (rule != null)
                 Remove(rule);
         }
+
+        public List<TField> Fields
+        {
+            get 
+            {
+                List<TField> fieldList = new();
+
+                foreach (FilterRule<TField> rule in this)
+                    fieldList.Add(rule.Field);
+
+                return fieldList;
+            }
+        }
     }
 }

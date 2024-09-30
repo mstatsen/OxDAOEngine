@@ -15,11 +15,14 @@ namespace OxDAOEngine.Export
             SettingsForm = settingsForm;
 
             Items = new RootListDAO<TField, TDAO>();
-            Items.CopyFrom(ListController.FullItemsList
-                .FilteredList(
-                    ListController.SystemCategories?
-                        .Find(c => c.Name == Settings.CategoryName))
-                .FilteredList(Settings.Filter));
+            Items.CopyFrom(
+                SettingsForm.SelectedItems
+                    ?? ListController.FullItemsList
+                        .FilteredList(
+                            ListController.SystemCategories?
+                                .Find(c => c.Name == Settings.CategoryName))
+                        .FilteredList(Settings.Filter)
+            );
             Items.Sort(Sortings()?.SortingsList);
         }
 

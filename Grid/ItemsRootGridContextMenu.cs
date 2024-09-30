@@ -20,6 +20,8 @@ namespace OxDAOEngine.Grid
 
             Items.Add(new ToolStripSeparator());
             Items.Add(new ItemsRootGridActionToolStripMenuItem(OxToolbarAction.Delete));
+            Items.Add(new ToolStripSeparator());
+            Items.Add(new ItemsRootGridActionToolStripMenuItem(OxToolbarAction.ExportSelected));
             ItemClicked += ItemClickedHandler;
         }
 

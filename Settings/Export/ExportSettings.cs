@@ -84,9 +84,8 @@ namespace OxDAOEngine.Settings.Export
                 SimpleFilter<TField, TDAO>? fieldsFilter = Filter?.Root[0][0][0];
 
                 if (fieldsFilter != null)
-                    foreach (FilterRule<TField> rule in fieldsFilter.Rules)
+                    foreach (TField field in fieldsFilter.Rules.Fields)
                     {
-                        TField field = rule.Field;
                         object? value = fieldsFilter[field];
 
                         if (value == null)

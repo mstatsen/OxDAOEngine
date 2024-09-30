@@ -13,6 +13,7 @@ using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Export;
 using OxDAOEngine.Settings.Export;
+using OxDAOEngine.Grid;
 
 namespace OxDAOEngine.Settings
 {
@@ -57,6 +58,10 @@ namespace OxDAOEngine.Settings
             textIncludeParamsAccessor = CreateIncludeParamsControl(ExportFormat.Text);
             textSummaryAccessor = CreateSummaryControl(ExportFormat.Text);
 
+            selectedItemsPanel = CreateFrame($"Selected {DataManager.ListController<TField, TDAO>().ListName}", false);
+            PrepareSelectedItemsPanel();
+            PrepareSelectedItemsGrid();
+
             GeneralPanel = CreateFrame("General");
             GeneralPanel.Margins.TopOx = OxSize.Extra;
 
@@ -74,12 +79,79 @@ namespace OxDAOEngine.Settings
 
             fileControl = CreateButtonEdit(settings.FileName, ShowFileDialog);
             SetupGeneralControl(fileControl, MainPanel.Colors.Lighter(1), "File name");
-
             CalcFramesSizes();
             ActualizeFormatSettings();
             MainPanel.SetButtonText(OxDialogButton.OK, "Export");
             MainPanel.DialogButtonStartSpace = 8;
             MainPanel.DialogButtonSpace = 4;
+        }
+
+        private void PrepareSelectedItemsPanel()
+        {
+            selectedItemsPanel.Parent = this;
+            selectedItemsPanel.SetContentSize(100, 200);
+            selectedItemsPanel.Visible = false;
+            selectedItemsPanel.Paddings.SetSize(OxSize.None);
+        }
+
+        private void PrepareSelectedItemsGrid()
+        {
+            selectedGrid.Parent = selectedItemsPanel;
+            selectedGrid.BorderStyle = BorderStyle.None;
+            selectedGrid.GridView.RowTemplate.Height = 20;
+            selectedGrid.GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            selectedGrid.GridView.ColumnHeadersHeight = 20;
+            selectedGrid.GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+        }
+
+        private void FillSelectedItemsPanel()
+        {
+            if (selectedItems != null)
+            {
+                selectedGrid.ItemsList = selectedItems.Reverse();
+                selectedGrid.Fill();
+            }
+            else
+                selectedGrid.ClearGrid();
+        }
+
+        private RootListDAO<TField, TDAO>? selectedItems;
+        public RootListDAO<TField, TDAO>? SelectedItems 
+        { 
+            get => selectedItems;
+            set => SetSelectedItems(value);
+        }
+
+        private void SetSelectedItems(RootListDAO<TField, TDAO>? value)
+        {
+            selectedItems = value;
+
+            if (quickFilter != null)
+                quickFilter.Visible = value == null;
+
+            if (categoryControl != null)
+            {
+                if (value != null)
+                {
+                    categoryControl.Visible = false;
+                    ((OxLabel)categoryControl.Tag).Visible = false;
+                    fileControl.Top = categoryControl.Top;
+                }
+                else
+                {
+                    categoryControl.Visible = true;
+                    ((OxLabel)categoryControl.Tag).Visible = true;
+                    fileControl.Top = categoryControl.Bottom + 8;
+                    
+                }
+                OxControlHelper.AlignByBaseLine(fileControl, (OxLabel)fileControl.Tag);
+                CalcFrameSize(GeneralPanel);
+            }
+
+            selectedItemsPanel.Visible = value != null;
+
+            if (value != null)
+                FillSelectedItemsPanel();
         }
 
         private void CreateCategoriesTree()
@@ -119,12 +191,11 @@ namespace OxDAOEngine.Settings
             return buttonEdit;
         }
 
-        private static OxPanel CreateExtraPanel(int height) =>
-            new()
-            {
-                Dock = DockStyle.Top,
-                Height = height
-            };
+        private static OxPanel CreateExtraPanel(int height) => new()
+        {
+            Dock = DockStyle.Top,
+            Height = height
+        };
 
         private void PrepareExtraPanel(OxPanel panel, ExportFormat format)
         {
@@ -149,11 +220,9 @@ namespace OxDAOEngine.Settings
                     ? settings.HTML.IncludeExportParams
                     : settings.Text.IncludeExportParams;
             accessor.Text = $"Add export parameters info to {TypeHelper.Name(format).ToLower()}";
-
             OxPane parentPane = format == ExportFormat.Html 
                 ? htmlGeneralPanel 
                 : textGeneralPanel;
-
             SetupControl(accessor.Control, format, parentPane, MainPanel.Colors.Lighter(1));
             return accessor;
         }
@@ -163,7 +232,6 @@ namespace OxDAOEngine.Settings
             PrepareExtraPanel(htmlsPanel, ExportFormat.Html);
             PrepareExtraPanel(htmlGeneralPanel, ExportFormat.Html);
             PrepareFieldsPanel(htmlFieldsPanel, htmlsPanel, OxDock.Right);
-
             htmlSortingPanel.Sortings = settings.HTML.Sorting;
             htmlSortingPanel.Parent = htmlsPanel;
             htmlSortingPanel.Dock = DockStyle.Right;
@@ -174,7 +242,6 @@ namespace OxDAOEngine.Settings
 
         private IControlAccessor CreateZeroSummaryAccessor()
         {
-
             IControlAccessor accessor = Builder.Accessor("ZeroSummary", FieldType.Boolean);
             accessor.Value = settings.HTML.ZeroSummary;
             accessor.Text = "Show summary with zero count";
@@ -182,7 +249,7 @@ namespace OxDAOEngine.Settings
             return accessor;
         }
 
-        private OxFrame CreateFrame(string Caption)
+        private OxFrame CreateFrame(string Caption, bool caledSize = true)
         {
             OxFrame frame = new OxFrameWithHeader()
             {
@@ -194,7 +261,10 @@ namespace OxDAOEngine.Settings
             frame.Margins.SetSize(OxSize.Extra);
             frame.Margins.TopOx = OxSize.None;
             frame.Paddings.SetSize(OxSize.Extra);
-            FramesControls.Add(frame, new List<Control>());
+
+            if (caledSize)
+                FramesControls.Add(frame, new List<Control>());
+
             return frame;
         }
 
@@ -206,13 +276,10 @@ namespace OxDAOEngine.Settings
                 );
         }
 
-        protected override string EmptyMandatoryField()
-        {
-            if (fileControl.IsEmpty)
-                return "File name";
-
-            return base.EmptyMandatoryField();
-        }
+        protected override string EmptyMandatoryField() => 
+            fileControl.IsEmpty 
+                ? "File name" 
+                : base.EmptyMandatoryField();
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -316,6 +383,7 @@ namespace OxDAOEngine.Settings
                 };
 
                 control.Left = label.Right + 12;
+                control.Tag = label;
                 OxControlHelper.AlignByBaseLine(control, label);
             }
 
@@ -360,7 +428,6 @@ namespace OxDAOEngine.Settings
         {
             CalcExtraPanelSize(frame);
             List<Control> frameControls = FramesControls[frame];
-
             int lastControlBottom = 24;
 
             if (frame == extraSettingsFrames[ExportFormat.Html])
@@ -458,6 +525,11 @@ namespace OxDAOEngine.Settings
 
         private readonly ExportSettings<TField, TDAO> settings;
         private QuickFilterPanel<TField, TDAO>? quickFilter;
+        private readonly OxFrame selectedItemsPanel;
+        private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(GridUsage.ViewItems)
+        { 
+            Dock = DockStyle.Fill,
+        };
         private readonly OxPanel htmlGeneralPanel = CreateExtraPanel(216);
         private readonly OxPanel htmlsPanel = CreateExtraPanel(144);
         private readonly FieldsPanel<TField, TDAO> htmlFieldsPanel = new(FieldsVariant.Html);

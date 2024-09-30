@@ -39,11 +39,9 @@ namespace OxDAOEngine.Export
                 IndentChars = XmlConsts.DefaultIndent,
                 NewLineChars = Environment.NewLine
             };
-
             XmlWriter xmlWriter = XmlWriter.Create(stringWriter, writerSettings);
             document.Save(xmlWriter);
             xmlWriter.Flush();
-
             return stringWriter.ToString();
         }
     }

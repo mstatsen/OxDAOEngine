@@ -101,9 +101,9 @@ namespace OxDAOEngine.Grid
                 ? DataGridViewColumnSortMode.NotSortable
                 : DataGridViewColumnSortMode.Programmatic;
             dataColumn.Width = fieldHelper.ColumnWidth(field) + 20;
-            dataColumn.Frozen =
-                (GridView.ColumnCount == 0 || GridView.Columns[GridView.Columns.Count - 1].Frozen) &&
-                fieldHelper.MandatoryFields.Contains(field);
+            dataColumn.Frozen = Usage == GridUsage.Edit
+                && (GridView.ColumnCount == 0 || GridView.Columns[GridView.Columns.Count - 1].Frozen) 
+                && fieldHelper.MandatoryFields.Contains(field);
             dataColumn.DefaultCellStyle.ApplyStyle(fieldHelper.ColumnStyle(field));
             dataColumn.HeaderCell.Style.ApplyStyle(fieldHelper.ColumnStyle(field));
             dataColumn.HeaderCell.Style.BackColor = EngineStyles.ElementControlColor;
@@ -614,7 +614,23 @@ namespace OxDAOEngine.Grid
                 return;
 
             foreach (TField field in GridFieldColumns.Keys)
-                GridView[GridFieldColumns[field].Index, rowIndex].Value = GetFieldValue(field, item) ?? string.Empty;
+            {
+                object? value = GetFieldValue(field, item) ?? string.Empty;
+
+                if (fieldHelper.GetFieldType(field) == FieldType.Image)
+                {
+                    if (value is Bitmap image && image.Height > GridView.RowTemplate.Height)
+                        value = OxImageBoxer.BoxingImage(
+                            image,
+                            new()
+                            {
+                                Height = GridView.RowTemplate.Height,
+                                Width = Width * (image.Height / GridView.RowTemplate.Height)
+                            });
+                }
+
+                GridView[GridFieldColumns[field].Index, rowIndex].Value = value;
+            }
 
             foreach (var column in customGridColumns)
                 GridView[column.Value.Index, rowIndex].Value = column.Key.ValueGetter(item) ?? string.Empty;

@@ -25,16 +25,6 @@ namespace OxDAOEngine.Data
         private void MemberFieldModified(FieldModifiedEventArgs<TField> e) =>
             FieldModified?.Invoke(e);
 
-        private IListController<TField, TDAO>? listController;
-        private IListController<TField, TDAO>? ListController
-        {
-            get
-            {
-                listController ??= DataManager.ListController<TField, TDAO>();
-                return listController;
-            }
-        }
-
         protected override void SetMemberHandlers(DAO member, bool set = true)
         {
             base.SetMemberHandlers(member, set);
@@ -136,6 +126,12 @@ namespace OxDAOEngine.Data
 
         protected override void CallItemRemoveHandler(TDAO item, DAOEntityEventArgs args) =>
             ItemRemoveHandler?.Invoke(item, args);
+
+        public RootListDAO<TField, TDAO> Reverse()
+        {
+            List.Reverse();
+            return this;
+        }
 
     }
 }

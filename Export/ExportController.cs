@@ -15,9 +15,9 @@ namespace OxDAOEngine.Export
         public ExportController() => 
             settingsForm = new ExportSettingsForm<TField, TDAO>(Settings);
 
-        public void Export()
+        public void Export(RootListDAO<TField, TDAO>? selectedItems = null)
         {
-            if (!PrepareToExport())
+            if (!PrepareToExport(selectedItems))
                 return;
 
             SaveFile();
@@ -38,8 +38,11 @@ namespace OxDAOEngine.Export
             }
         }
 
-        private bool PrepareToExport() =>
-            settingsForm.ShowDialog(DataManager.ListController<TField, TDAO>().Face) == DialogResult.OK;
+        private bool PrepareToExport(RootListDAO<TField, TDAO>? selectedItems = null)
+        {
+            settingsForm.SelectedItems = selectedItems;
+            return settingsForm.ShowDialog(DataManager.ListController<TField, TDAO>().Face) == DialogResult.OK;
+        }
 
         private static void OpenReadyFile()
         {

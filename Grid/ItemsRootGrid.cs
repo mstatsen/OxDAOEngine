@@ -105,6 +105,9 @@ namespace OxDAOEngine.Grid
                 case OxToolbarAction.Export:
                     ListController.ExportController.Export();
                     break;
+                case OxToolbarAction.ExportSelected:
+                    ListController.ExportController.Export(GetSelectedItems());
+                    break;
             }
         }
 

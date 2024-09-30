@@ -60,9 +60,7 @@ namespace OxDAOEngine.Export
             StringBuilder builder = new(
                 string.Join(string.Empty, Enumerable.Repeat(XmlConsts.DefaultIndent, Settings.Text.Grouping.Count))
             );
-
             Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.FullInfo, item);
-
             builder.Append(decorator[TypeHelper.FieldHelper<TField>().TitleField]);
             builder.Append(InlineFields(decorator));
             return builder.ToString();
@@ -126,7 +124,6 @@ namespace OxDAOEngine.Export
                     groupName += decorName != null ? decorName.ToString() : string.Empty;
                     builder.AppendLine(groupName.ToUpper());
                     builder.AppendLine();
-
                     needStartGroup = true;
                 }
 
