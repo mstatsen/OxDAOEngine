@@ -52,8 +52,8 @@ namespace OxDAOEngine.Editor
             SetMargins();
             SetPaddings();
             SetHandlers();
-            SetParentsVisible(true);
-            InvalidateSize();
+            //SetParentsVisible(true);
+            //InvalidateSize();
         }
 
         protected virtual void SetGroupCaptions() { }
