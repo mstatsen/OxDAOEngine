@@ -40,6 +40,10 @@ namespace OxDAOEngine.Editor
 
         public virtual List<TField>? OffsettingFields() => null;
 
+        public virtual List<TField> TitleAccordionFields() => default!;
+
+        public virtual TField BackColorField => default!;
+
         public bool IsWithoutLabelField(TField field)
         {
             List<TField>? fields = ControlsWithoutLabel();

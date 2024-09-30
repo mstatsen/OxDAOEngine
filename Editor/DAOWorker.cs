@@ -4,6 +4,7 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.Editor
 {
@@ -46,7 +47,6 @@ namespace OxDAOEngine.Editor
             {
                 item = value;
                 initialItem.CopyFrom(item);
-                FillFormCaption(item);
                 LayoutControls();
                 FillControls();
                 SyncFieldsAndRecalcGroups();
@@ -56,6 +56,8 @@ namespace OxDAOEngine.Editor
 
         private void SyncFieldsAndRecalcGroups()
         {
+            FillFormCaption();
+
             if (SyncAllFields())
                 RecalcGroupsAvailability();
         }
@@ -151,12 +153,22 @@ namespace OxDAOEngine.Editor
             return true;
         }
 
-        protected abstract void PrepareStyles();
+        protected virtual void PrepareStyles() { }
+
         private void PrepareStylesInternal()
         {
+            SetMainPanelColor();
             PrepareStyles();
             ColorizeControls();
             AfterColorizeControls();
+        }
+
+        private void SetMainPanelColor()
+        {
+            if (!Generator.BackColorField.Equals(default!))
+                Editor.MainPanel.BaseColor = new OxColorHelper(
+                    TypeHelper.BackColor(Builder[Generator.BackColorField].Value)
+                ).Darker(7);
         }
 
         protected virtual void AfterColorizeControls() { }
@@ -170,8 +182,15 @@ namespace OxDAOEngine.Editor
                 );
         }
 
-        protected void FillFormCaption(TDAO? itemForCaption) =>
-            Editor.Text = itemForCaption != null ? itemForCaption.FullTitle() : "Unknown data object";
+        private void FillFormCaption()
+        {
+            TDAO itemForCaption = new();
+
+            foreach (TField field in Generator!.TitleAccordionFields())
+                itemForCaption[field] = Builder[field].Value;
+
+            Editor.Text = itemForCaption.FullTitle();
+        }
 
         private TDAO? item;
         private bool readOnly = false;
@@ -250,8 +269,13 @@ namespace OxDAOEngine.Editor
 
             foreach (TField field in EditingFields)
                 if (Builder.Control(field) == sender)
-                    needRecalcGroupsAvailability |= 
+                {
+                    if (Generator!.TitleAccordionFields().Contains(field))
+                        FillFormCaption();
+
+                    needRecalcGroupsAvailability |=
                         SyncFieldValues(field, true);
+                }
 
             if (needRecalcGroupsAvailability)
                 RecalcGroupsAvailability();
@@ -274,14 +298,5 @@ namespace OxDAOEngine.Editor
 
         protected virtual bool SyncFieldValues(TField field, bool byUser) => false;
         protected virtual bool SetGroupsAvailability(bool afterSyncValues = false) => false;
-
-        internal void Renew()
-        {
-            FillFormCaption(item);
-            LayoutControls();
-            FillControls();
-            SyncFieldsAndRecalcGroups();
-            SetControlsReadonly();
-        }
     }
 }
