@@ -119,21 +119,14 @@ namespace OxDAOEngine.Data
             return null;
         }
 
-        public override bool Equals(object? obj)
-        {
-            if (base.Equals(obj)) 
-                return true;
-
-            if (obj is RootDAO<TField> otherDAO)
-                return
-                    ImageId.Equals(otherDAO.ImageId)
+        public override bool Equals(object? obj) => 
+            base.Equals(obj)
+                || (obj is RootDAO<TField> otherDAO
+                    && ImageId.Equals(otherDAO.ImageId)
                     && (daoImage != null
-                            ? daoImage.Equals(otherDAO.DAOImage)
-                            : otherDAO.DAOImage == null
-                        )
-                    && Name.Equals(otherDAO.Name);
-            else return false;
-        }
+                        ? daoImage.Equals(otherDAO.DAOImage)
+                        : otherDAO.DAOImage == null)
+                    && Name.Equals(otherDAO.Name));
 
         public override void Clear()
         {

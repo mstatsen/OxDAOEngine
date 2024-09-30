@@ -143,7 +143,7 @@ namespace OxDAOEngine.ControlFactory
             if (label.IsDisposed)
                 return null;
 
-            label.Text = TypeHelper.Name(Field);
+            label.Text = TypeHelper.Caption(Field);
             label.Parent = Parent;
             label.ForeColor = LabelColor;
 

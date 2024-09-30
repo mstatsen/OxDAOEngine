@@ -30,6 +30,8 @@
         public const string FilterOperation = "FilterOperation";
         public const string FiltrationType = "FiltrationType";
         public const string Firmware = "Firmware";
+        public const string FirmwareName = "FirmwareName";
+        public const string FirmwareVersion = "FirmwareVersion";
         public const string Folder = "Folder";
         public const string Format = "Format";
         public const string FromDLC = "FromDLC";
@@ -50,6 +52,7 @@
         public const string Login = "Login";
         public const string Mode = "Mode";
         public const string Model = "Model";
+        public const string ModelCode = "ModelCode";
         public const string Name = "Name";
         public const string Net = "Net";
         public const string Owner = "Owner";

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OxDAOEngine.Data.Types
+﻿namespace OxDAOEngine.Data.Types
 {
     public interface ITypeHelper
     {
@@ -17,7 +15,9 @@ namespace OxDAOEngine.Data.Types
         Type ItemObjectType { get;  }
 
         List<object> All();
+        string Caption(object value);
 
+        bool UseFullNameForControl { get; }
         bool UseShortNameForControl { get; }
         bool UseToolTipForControl { get; }
     }

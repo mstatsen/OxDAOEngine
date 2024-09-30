@@ -98,7 +98,6 @@ namespace OxDAOEngine.Data.Types
                 ? string.Empty
                 : IsTypeHelpered(value)
                     ? Helper(value).ShortName(value)
-
                     : value.ToString()!;
         public static string FullName(object? value) =>
             value == null
@@ -213,5 +212,12 @@ namespace OxDAOEngine.Data.Types
 
             return default;
         }
+
+        public static string Caption(object? value) =>
+            value == null
+                ? string.Empty
+                : IsTypeHelpered(value)
+                    ? Helper(value).Caption(value)
+                    : value.ToString()!;
     }
 }
