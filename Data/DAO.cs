@@ -321,6 +321,7 @@ namespace OxDAOEngine.Data
                 {
                     LoadData(element);
                     LoadMembersData(element);
+                    AfterLoad();
                 }
 
                 Modified = false;
@@ -331,6 +332,8 @@ namespace OxDAOEngine.Data
                     State = DAOState.Regular;
             }
         }
+
+        protected virtual void AfterLoad() { }
 
         public virtual string FullTitle() => XmlElementName;
 

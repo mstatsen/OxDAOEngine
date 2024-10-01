@@ -24,18 +24,18 @@ namespace OxDAOEngine.XML
             return fieldElement;
         }
 
-        public static XmlElement? AppendElement(XmlElement parentElement, string name, object? value)
+        public static void AppendElement(XmlElement parentElement, string name, object? value)
         {
-            name = NormalizeNameString(name);
-            return value switch
-            {
-                null => null,
-                Bitmap bitmap =>
-                    AppendElement(parentElement, name, OxBase64.BitmapToBase64(bitmap)),
-                _ => TypeHelper.IsTypeHelpered(value)
-                    ? AppendElement(parentElement, name, TypeHelper.XmlValue(value))
-                    : AppendElement(parentElement, name, value?.ToString()),
-            };
+            if (value == null)
+                return;
+
+            if (value is Bitmap bitmap)
+                value = OxBase64.BitmapToBase64(bitmap);
+
+            AppendElement(
+                parentElement,
+                NormalizeNameString(name),
+                TypeHelper.IsTypeHelpered(value) ? TypeHelper.XmlValue(value) : value?.ToString());
         }
 
         public static XmlElement? AppendElement(XmlElement parentElement, string name, bool value) => 
