@@ -135,7 +135,7 @@ namespace OxDAOEngine.View
 
             ControlLayout<TField> leftLayout = layouter.AddFromTemplate(LeftMapping.Field);
             leftLayout.Top = 5;
-            leftLayout.FontSize -= sizeHelper.FontSizeDelta(ListController.Settings.IconsSize);
+            leftLayout.FontSize -= IconSizeHelper.FontSizeDelta(ListController.Settings.IconsSize);
         }
 
         private void FillRightLayout()
@@ -145,7 +145,7 @@ namespace OxDAOEngine.View
 
             ControlLayout<TField> rightLayout = layouter.AddFromTemplate(RightMapping.Field);
             rightLayout.Top = IconWidth / 2 - 20;
-            rightLayout.FontSize -= sizeHelper.FontSizeDelta(ListController.Settings.IconsSize);
+            rightLayout.FontSize -= IconSizeHelper.FontSizeDelta(ListController.Settings.IconsSize);
         }
 
         private void ClearLayoutTemplate()
@@ -153,14 +153,14 @@ namespace OxDAOEngine.View
             layouter.Template.Parent = this;
             layouter.Template.Left = 0;
             layouter.Template.Top = 0;
-            layouter.Template.Width = sizeHelper.AddInfoWidth(ListController.Settings.IconsSize);
+            layouter.Template.Width = IconSizeHelper.AddInfoWidth(ListController.Settings.IconsSize);
             layouter.Template.CaptionVariant = ControlCaptionVariant.None;
             layouter.Template.WrapLabel = true;
             layouter.Template.MaximumLabelWidth = 80;
             layouter.Template.BackColor = BackColor;
             layouter.Template.FontColor = fontColors.BaseColor;
             layouter.Template.FontStyle = FontStyle.Bold | FontStyle.Italic;
-            layouter.Template.FontSize = sizeHelper.FontSize(ListController.Settings.IconsSize);
+            layouter.Template.FontSize = IconSizeHelper.FontSize(ListController.Settings.IconsSize);
             layouter.Template.LabelColor = fontColors.Lighter(1);
             layouter.Template.LabelStyle = FontStyle.Italic;
             layouter.Template.AutoSize = true;
@@ -186,7 +186,7 @@ namespace OxDAOEngine.View
 
                 if (leftControl != null)
                 {
-                    leftControl.Left = 12 - sizeHelper.LeftDelta(ListController.Settings.IconsSize);
+                    leftControl.Left = 12 - IconSizeHelper.LeftDelta(ListController.Settings.IconsSize);
                     leftControl.TextAlign = ContentAlignment.MiddleLeft;
                     leftControl.BringToFront();
                 }
@@ -199,7 +199,7 @@ namespace OxDAOEngine.View
                 if (rightControl != null)
                 {
                     rightControl.Left = IconWidth - rightControl.Width - 12
-                        + sizeHelper.LeftDelta(ListController.Settings.IconsSize);
+                        + IconSizeHelper.LeftDelta(ListController.Settings.IconsSize);
                     rightControl.TextAlign = ContentAlignment.MiddleLeft;
                     rightControl.BringToFront();
                 }
@@ -232,10 +232,10 @@ namespace OxDAOEngine.View
         public void ApplySettings() { }
 
         private int IconWidth =>
-            sizeHelper.Width(ListController.Settings.IconsSize);
+            IconSizeHelper.Width(ListController.Settings.IconsSize);
 
         private int IconHeight =>
-            sizeHelper.Height(ListController.Settings.IconsSize);
+            IconSizeHelper.Height(ListController.Settings.IconsSize);
 
         public TDAO? Item
         {

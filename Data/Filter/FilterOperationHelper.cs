@@ -23,7 +23,7 @@ namespace OxDAOEngine.Data.Filter
                 _ => string.Empty,
             };
 
-        public bool IsUnaryOperation(FilterOperation operation) =>
+        public static bool IsUnaryOperation(FilterOperation operation) =>
             FilterOperations.UnaryOperations.Contains(operation);
 
         public bool Match(FilterOperation operation, object? leftObject, object? rightObject)

@@ -16,7 +16,7 @@ namespace OxDAOEngine.Data.Filter
                 _ => string.Empty,
             };
 
-        public FilterOperation Operation(TextFilterOperation value) => 
+        public static FilterOperation Operation(TextFilterOperation value) => 
             value switch
             {
                 TextFilterOperation.StartsWith => FilterOperation.StartsWith,
@@ -24,7 +24,7 @@ namespace OxDAOEngine.Data.Filter
                 _ => FilterOperation.Contains,
             };
 
-        public string DisplaySQLText(TextFilterOperation operation, object? value) => 
+        public static string DisplaySQLText(TextFilterOperation operation, object? value) =>
             operation switch
             {
                 TextFilterOperation.StartsWith => $"{value}%",

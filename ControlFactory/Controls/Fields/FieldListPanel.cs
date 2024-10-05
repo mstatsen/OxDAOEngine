@@ -32,7 +32,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
             FieldsControl<TField, TDAO> fieldsControl = (FieldsControl<TField, TDAO>)fieldsAccessor.Control;
             fieldsControl.BaseColor = BaseColor;
-            fieldsControl.AllowSorting = variantHelper.Sortable(Variant);
+            fieldsControl.AllowSorting = FieldVariantHelper.Sortable(Variant);
             fieldsControl.GetMaximumCount += GetPossibleItemsCount;
 
             SetToolButtonsVisible();
@@ -65,12 +65,12 @@ namespace OxDAOEngine.ControlFactory.Controls
         private void CreateToolButton(FieldsFilling filling)
         {
             FieldsFillingHelper helper = TypeHelper.Helper<FieldsFillingHelper>();
-            OxButton button = new(helper.Name(filling), helper.ButtonIcon(filling))
+            OxButton button = new(helper.Name(filling), FieldsFillingHelper.ButtonIcon(filling))
             {
                 Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold)
             };
 
-            button.SetContentSize(helper.ButtonWidth(filling), 23);
+            button.SetContentSize(FieldsFillingHelper.ButtonWidth(filling), 23);
             button.Click += ToolButtonClick;
             button.Tag = filling;
             toolButtons.Add(filling, button);

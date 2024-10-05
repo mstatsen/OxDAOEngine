@@ -16,7 +16,7 @@ namespace OxDAOEngine.View
                 _ => string.Empty,
             };
 
-        public int Width(IconSize size) => 
+        public static int Width(IconSize size) =>
             size switch
             {
                 IconSize.Small => 125,
@@ -25,10 +25,10 @@ namespace OxDAOEngine.View
                 _ => 0,
             };
 
-        public int Height(IconSize size) =>
+        public static int Height(IconSize size) =>
             Width(size) / 25 * 18;
 
-        public int LeftDelta(IconSize size) => 
+        public static int LeftDelta(IconSize size) => 
             size switch
             {
                 IconSize.Small => 6,
@@ -36,7 +36,7 @@ namespace OxDAOEngine.View
                 _ => 0,
             };
 
-        public int AddInfoWidth(IconSize size) =>
+        public static int AddInfoWidth(IconSize size) =>
             size switch
             {
                 IconSize.Small => 36,
@@ -45,7 +45,7 @@ namespace OxDAOEngine.View
                 _ => 0,
             };
 
-        public float FontSize(IconSize size) => 
+        public static float FontSize(IconSize size) =>
             size switch
             {
                 IconSize.Small => Styles.DefaultFontSize - 3,
@@ -53,7 +53,7 @@ namespace OxDAOEngine.View
                 _ => Styles.DefaultFontSize,
             };
 
-        public int FontSizeDelta(IconSize size) => 
+        public static int FontSizeDelta(IconSize size) => 
             size switch
             {
                 IconSize.Small or IconSize.Medium => 1,

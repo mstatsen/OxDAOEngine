@@ -4,15 +4,15 @@ namespace OxDAOEngine.ControlFactory
 {
     public class ControlScopeHelper : AbstractTypeHelper<ControlScope>
     {
-        public bool IsQuickFilter(ControlScope scope) =>
+        public static bool IsQuickFilter(ControlScope scope) =>
             scope == ControlScope.QuickFilter;
 
-        public bool IsView(ControlScope scope) =>
-            scope == ControlScope.CardView
-            || scope == ControlScope.IconView
-            || scope == ControlScope.FullInfoView;
+        public static bool IsView(ControlScope scope) =>
+            scope is ControlScope.CardView
+            or ControlScope.IconView
+            or ControlScope.FullInfoView;
 
-        public bool IsSorting(ControlScope scope) =>
+        public static bool IsSorting(ControlScope scope) =>
             scope == ControlScope.Sorting
             || scope == ControlScope.Grouping;
 
@@ -39,7 +39,7 @@ namespace OxDAOEngine.ControlFactory
                 _ => "Unknown",
             };
 
-        public bool SupportClickedLabels(ControlScope scope) => 
+        public static bool SupportClickedLabels(ControlScope scope) =>
             scope == ControlScope.CardView ||
             scope == ControlScope.Editor ||
             scope == ControlScope.FullInfoView ||

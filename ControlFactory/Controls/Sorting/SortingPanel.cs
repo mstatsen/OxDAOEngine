@@ -18,7 +18,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             Variant = variant;
             Scope = scope;
             Text = variantHelper.Name(variant);
-            ClearButton.Text = variantHelper.ClearButtonText(variant);
+            ClearButton.Text = SortingVariantHelper.ClearButtonText(variant);
             BaseColor = variantHelper.BaseColor(variant);
 
             sortingControlAccessor = DataManager.Builder<TField, TDAO>(Scope).SortingListAccessor();

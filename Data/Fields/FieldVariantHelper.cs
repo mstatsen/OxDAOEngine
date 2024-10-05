@@ -33,11 +33,11 @@ namespace OxDAOEngine.Data.Fields
                 _ => "Fields",
             };
 
-        public bool Sortable(FieldsVariant variant) =>
+        public static bool Sortable(FieldsVariant variant) =>
             variant != FieldsVariant.QuickFilter
             && variant != FieldsVariant.QuickFilterText;
 
-        public FieldsVariant Variant(SettingsPart part) => 
+        public FieldsVariant Variant(SettingsPart part) =>
             part switch
             {
                 SettingsPart.Table => FieldsVariant.Table,

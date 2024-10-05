@@ -115,7 +115,7 @@ namespace OxDAOEngine.Settings.Export
                             TypeHelper.Name(field),
                             TypeHelper.IsTypeHelpered(value)
                                 ? TypeHelper.Name(value)
-                                : helper.DisplaySQLText(SettingsManager.DAOSettings<TField>().QuickFilterTextFieldOperation, value)
+                                : TextFilterOperationHelper.DisplaySQLText(SettingsManager.DAOSettings<TField>().QuickFilterTextFieldOperation, value)
                         );
                     }
 

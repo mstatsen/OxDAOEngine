@@ -16,7 +16,7 @@ namespace OxDAOEngine.Export
                 _ => string.Empty,
             };
 
-        public string FileExt(ExportFormat value) => 
+        public static string FileExt(ExportFormat value) => 
             value switch
             {
                 ExportFormat.Html => ".html",

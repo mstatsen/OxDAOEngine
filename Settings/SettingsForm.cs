@@ -98,7 +98,7 @@ namespace OxDAOEngine.Settings
         protected override string EmptyMandatoryField()
         {
             foreach (var item in settingsFieldPanels)
-                foreach (SettingsPart part in partHelper.MandatoryFields)
+                foreach (SettingsPart part in SettingsPartHelper.MandatoryFields)
                     if (AvailablePart(item.Key, part) && 
                         settingsFieldPanels[item.Key][part].Fields.Count == 0)
                         return $"{item.Key.ListName} {TypeHelper.Name(part)} fields";
@@ -202,8 +202,8 @@ namespace OxDAOEngine.Settings
 
         private List<SettingsPart> PartList(ISettingsController settings) =>
             settings is IDAOSettings
-                ? partHelper.VisibleDAOSettings
-                : partHelper.VisibleGeneralSettings;
+                ? SettingsPartHelper.VisibleDAOSettings
+                : SettingsPartHelper.VisibleGeneralSettings;
 
         private readonly SettingsPartHelper partHelper = TypeHelper.Helper<SettingsPartHelper>();
 
@@ -303,7 +303,7 @@ namespace OxDAOEngine.Settings
         {
             foreach (ISettingsController settings in SettingsManager.Controllers)
                 if (settings is IDAOSettings daoSettings)
-                    foreach (SettingsPart part in partHelper.FieldsSettings)
+                    foreach (SettingsPart part in SettingsPartHelper.FieldsSettings)
                     {
                         if (!AvailablePart(settings, part))
                             continue;
@@ -419,7 +419,7 @@ namespace OxDAOEngine.Settings
             };
 
             button.SetContentSize(
-                helper.Width(scope),
+                DefaulterScopeHelper.Width(scope),
                 DefaulterScopeHelper.DefaultButtonHeight);
             button.Click += DefaultButtonClickHandler;
             defaulters.Add(button, scope);
@@ -437,7 +437,7 @@ namespace OxDAOEngine.Settings
                 if (settings.Helper.Part(item.Key) == part)
                     item.Value.Value = settings.GetDefault(item.Key);
 
-            if (partHelper.IsFieldsSettings(part))
+            if (SettingsPartHelper.IsFieldsSettings(part))
                 settingsFieldPanels[settings][part].ResetFields();
 
             if (part == SettingsPart.QuickFilter)

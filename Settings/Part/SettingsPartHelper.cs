@@ -18,7 +18,7 @@ namespace OxDAOEngine.Settings.Part
                 _ => string.Empty,
             };
 
-        public List<SettingsPart> VisibleDAOSettings =>
+        public static List<SettingsPart> VisibleDAOSettings =>
             new()
             {
                 SettingsPart.Table,
@@ -28,14 +28,14 @@ namespace OxDAOEngine.Settings.Part
                 SettingsPart.Summary
             };
 
-        public List<SettingsPart> VisibleGeneralSettings =>
+        public static List<SettingsPart> VisibleGeneralSettings =>
             new()
             {
                 SettingsPart.Main,
                 SettingsPart.Styles
             };
 
-        public List<SettingsPart> FieldsSettings =>
+        public static List<SettingsPart> FieldsSettings =>
             new()
             {
                 SettingsPart.Table,
@@ -45,14 +45,14 @@ namespace OxDAOEngine.Settings.Part
                 SettingsPart.Summary
             };
 
-        public List<SettingsPart> MandatoryFields =>
+        public static List<SettingsPart> MandatoryFields =>
             new()
             {
                 SettingsPart.Table,
                 SettingsPart.QuickFilterText,
             };
 
-        public bool IsFieldsSettings(SettingsPart part) =>
+        public static bool IsFieldsSettings(SettingsPart part) =>
             FieldsSettings.Contains(part);
 
         public override SettingsPart EmptyValue() =>

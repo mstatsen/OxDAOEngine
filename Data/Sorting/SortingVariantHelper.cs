@@ -15,7 +15,7 @@ namespace OxDAOEngine.Data.Sorting
         public override string GetName(SortingVariant value) =>
             value == SortingVariant.GroupBy ? "Group by" : "Sorting";
 
-        public string ClearButtonText(SortingVariant value) =>
+        public static string ClearButtonText(SortingVariant value) =>
             value == SortingVariant.GroupBy ? "Clear" : "Default";
     }
 }

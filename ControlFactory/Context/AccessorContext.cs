@@ -31,11 +31,11 @@ namespace OxDAOEngine.ControlFactory.Context
 
         public object? AdditionalContext { get; set; }
 
-        public bool IsQuickFilter => scopeHelper.IsQuickFilter(Scope);
+        public bool IsQuickFilter => ControlScopeHelper.IsQuickFilter(Scope);
 
         public bool IsBatchUpdate => Scope == ControlScope.BatchUpdate;
 
-        public bool IsView => scopeHelper.IsView(Scope);
+        public bool IsView => ControlScopeHelper.IsView(Scope);
 
         private readonly ControlScopeHelper scopeHelper = TypeHelper.Helper<ControlScopeHelper>();
 

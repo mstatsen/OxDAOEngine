@@ -18,7 +18,7 @@ namespace OxDAOEngine.Statistic
                 _ => string.Empty
             };
 
-        public DockStyle Dock(StatisticType type) =>
+        public static DockStyle Dock(StatisticType type) =>
             type switch
             {
                 StatisticType.Modified or
@@ -29,7 +29,7 @@ namespace OxDAOEngine.Statistic
                     DockStyle.Left
             };
 
-        public int Width(StatisticType type) =>
+        public static int Width(StatisticType type) =>
             type switch
             {
                 StatisticType.Total =>

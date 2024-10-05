@@ -214,7 +214,7 @@ namespace OxDAOEngine.ControlFactory
 
             ControlScopeHelper scopeHelper = TypeHelper.Helper<ControlScopeHelper>();
 
-            if (scopeHelper.IsView(Scope))
+            if (ControlScopeHelper.IsView(Scope))
                 return;
 
             FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
