@@ -46,7 +46,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
 
         private void CreateFieldControl()
         {
-            FieldControl = Context.Builder.Accessor("IconMappingField", FieldType.Custom);
+            FieldControl = Context.Accessor("IconMapping:Field", FieldType.Custom);
             FieldControl.Parent = this;
             FieldControl.Left = ContentPartControl!.Left;
             FieldControl.Top = ContentPartControl.Bottom + 8;

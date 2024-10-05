@@ -4,7 +4,6 @@ using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
 using OxLibrary.Panels;
 using OxLibrary;
-using System.Threading;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {

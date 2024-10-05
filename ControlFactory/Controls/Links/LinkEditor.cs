@@ -36,7 +36,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void CreateUrlControl()
         {
-            UrlControl = Context.Builder.Accessor("LinkUrl", FieldType.Memo, true);
+            UrlControl = Context.Accessor("Link:Url", FieldType.Memo, true);
             UrlControl.Parent = this;
             UrlControl.Left = 60;
             UrlControl.Top = NameControl.Bottom + 8;

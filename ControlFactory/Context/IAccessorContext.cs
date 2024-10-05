@@ -6,6 +6,7 @@ namespace OxDAOEngine.ControlFactory.Context
 {
     public interface IAccessorContext
     {
+        string Key { get; }
         string Name { get; }
         IInitializer? Initializer { get; set; }
         FieldType FieldType { get; }
@@ -18,5 +19,6 @@ namespace OxDAOEngine.ControlFactory.Context
         bool MultipleValue { get; set; }
         IAccessorContext SetInitializer(IInitializer initializer);
         EventHandler? InitializerChanged { get; set; }
+        IControlAccessor Accessor(string name, FieldType fieldType, object? additionalContext = null);
     }
 }

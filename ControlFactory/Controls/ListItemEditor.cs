@@ -24,11 +24,11 @@ namespace OxDAOEngine.ControlFactory.Controls
             InitializeComponent();
             SetPaddings();
             CreateControls();
-            firstLoad = true;
+            FirstLoad = true;
             return (TEditor)this;
         }
 
-        private bool firstLoad;
+        protected bool FirstLoad { get; private set; }
 
         public TDAO? ParentItem { get; set; }
 
@@ -66,15 +66,20 @@ namespace OxDAOEngine.ControlFactory.Controls
             MainPanel.ContentContainer.BackColor = MainPanel.Colors.Lighter(8);
         }
 
+        protected override void OnShown(EventArgs e) => 
+            RecalcSize();
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            int height = ContentHeight + (firstLoad ? 0 : 6);
-            SetContentSize(ContentWidth, height);
+            RecalcSize();
 
-            if (firstLoad)
-                firstLoad = false;
+            if (FirstLoad)
+                FirstLoad = false;
         }
+
+        protected virtual void RecalcSize() => 
+            SetContentSize(ContentWidth, ContentHeight + (FirstLoad ? 0 : 6));
 
         protected virtual void CreateControls() { }
 

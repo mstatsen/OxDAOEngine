@@ -8,8 +8,9 @@ namespace OxDAOEngine.ControlFactory.Context
         where TDAO : RootDAO<TField>, new()
     {
         public FieldContext(ControlBuilder<TField, TDAO> builder, TField field): base(
-            builder, 
-            TypeHelper.FullName(field), 
+            builder,
+            TypeHelper.FullName(field),
+            TypeHelper.FullName(field),
             builder.Factory.GetFieldControlType(field)) => 
             Field = field;
 

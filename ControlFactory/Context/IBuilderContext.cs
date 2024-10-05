@@ -1,4 +1,5 @@
-﻿using OxDAOEngine.ControlFactory.Initializers;
+﻿using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 
 namespace OxDAOEngine.ControlFactory.Context
@@ -10,5 +11,6 @@ namespace OxDAOEngine.ControlFactory.Context
         ControlBuilder<TField, TDAO> Builder { get; }
         new IBuilderContext<TField, TDAO> SetInitializer(IInitializer initializer);
         TDAO? Item { get; set; }
+        IControlAccessor Accessor(TField field);
     }
 }

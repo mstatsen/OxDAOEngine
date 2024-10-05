@@ -108,20 +108,25 @@ namespace OxDAOEngine.ControlFactory
             return context;
         }
 
-        public IBuilderContext<TField, TDAO> Context(string name, FieldType fieldType, object? additionalContext)
+        public IBuilderContext<TField, TDAO> Context(string key, FieldType fieldType, object? additionalContext)
         {
-            string key = $"{name}_{fieldType}";
+            string hashKey = $"{key}_{fieldType}";
 
             if (additionalContext != null)
-                key += $"_{additionalContext}";
+                hashKey += $"_{additionalContext}";
 
-            if (!SimpleContexts.TryGetValue(key, out var context))
+            if (!SimpleContexts.TryGetValue(hashKey, out var context))
             {
-                context = new AccessorContext<TField, TDAO>(this, name, fieldType)
+                string name = key;
+
+                if (name.IndexOf(":") > 0)
+                    name = name[(name.IndexOf(":") + 1)..];
+
+                context = new AccessorContext<TField, TDAO>(this, key, name, fieldType)
                 {
                     AdditionalContext = additionalContext
                 };
-                SimpleContexts.Add(key, context);
+                SimpleContexts.Add(hashKey, context);
             }
 
             return context;

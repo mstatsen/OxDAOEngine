@@ -26,7 +26,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void CreateFieldControl()
         {
-            FieldControl = (FieldAccessor<TField, TDAO>)Context.Builder.Accessor(TypeHelper.FieldHelper<TField>().FieldMetaData);
+            FieldControl = (FieldAccessor<TField, TDAO>)Context.Accessor(TypeHelper.FieldHelper<TField>().FieldMetaData);
             FieldControl.Parent = this;
             FieldControl.Left = 80;
             FieldControl.Top = 8;

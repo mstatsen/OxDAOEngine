@@ -10,9 +10,10 @@ namespace OxDAOEngine.ControlFactory.Context
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public AccessorContext(ControlBuilder<TField, TDAO> builder, string name, FieldType fieldType)
+        public AccessorContext(ControlBuilder<TField, TDAO> builder, string key, string name, FieldType fieldType)
         {
             Builder = builder;
+            Key = key;
             Name = name;
             FieldType = fieldType;
         }
@@ -22,6 +23,7 @@ namespace OxDAOEngine.ControlFactory.Context
         public ControlBuilder<TField, TDAO> Builder { get; internal set; }
 
         public string Name { get; internal set; }
+        public string Key { get; internal set; }
 
         public IInitializer? Initializer { get; set; }
 
@@ -52,5 +54,11 @@ namespace OxDAOEngine.ControlFactory.Context
         public EventHandler? InitializerChanged { get; set; }
         public bool MultipleValue { get; set; }
         public TDAO? Item { get; set; }
+
+        public IControlAccessor Accessor(string name, FieldType fieldType, object? additionalContext = null) => 
+            Builder.Accessor(name, fieldType, additionalContext);
+
+        public IControlAccessor Accessor(TField field) => 
+            Builder.Accessor(field);
     }
 }

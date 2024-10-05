@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+﻿using OxLibrary.Controls;
 
 namespace OxDAOEngine.ControlFactory.Initializers
 {
@@ -10,6 +10,6 @@ namespace OxDAOEngine.ControlFactory.Initializers
             Caption = caption;
 
         public override void InitControl(Control control) => 
-            ((CheckBox)control).Text = Caption;
+            ((OxCheckBox)control).Text = Caption;
     }
 }
