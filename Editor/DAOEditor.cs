@@ -323,15 +323,13 @@ namespace OxDAOEngine.Editor
 
         private OxFrame CreateGroup(TFieldGroup group)
         {
-            OxFrameWithHeader groupFrame = new OxCard()
+            OxFrameWithHeader groupFrame = new()
             {
                 Text = FieldGroupHelper.Name(group),
                 Dock = Groups.Dock(group),
-                UseDisabledStyles = false
+                UseDisabledStyles = false,
+                BlurredBorder = true
             };
-            ((OxCard)groupFrame).ExpandButtonVisible = false;
-
-            groupFrame.BlurredBorder = true;
             AddFrameToParent(group, groupFrame);
             Groups.Add(group, groupFrame);
             return groupFrame;

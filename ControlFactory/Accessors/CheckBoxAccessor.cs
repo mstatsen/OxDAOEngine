@@ -4,6 +4,7 @@ using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
 using OxLibrary.Panels;
 using OxLibrary;
+using System.Threading;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -100,6 +101,16 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
             ReadOnlyLabel.Text = Control.Text;
             OnControlFontChanged();
+        }
+
+        public override object? MaximumValue
+        {
+            get => CheckBox.Enabled;
+            set
+            {
+                CheckBox.Checked = DAO.IntValue(value) > 0;
+                CheckBox.Enabled = DAO.IntValue(value) > 0;
+            }
         }
     }
 }

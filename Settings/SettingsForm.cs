@@ -268,7 +268,7 @@ namespace OxDAOEngine.Settings
             MagnetLabelWithControl(accessor.Control);
             accessor.Control.LocationChanged += ControlLocationChangeHandler;
             accessor.Control.ParentChanged += ControlLocationChangeHandler;
-            ControlPainter.ColorizeControl(accessor.Control, MainPanel.BaseColor);
+            ControlPainter.ColorizeControl(accessor, MainPanel.BaseColor);
             settingsPartControls[settings][settingsPart].Add(accessor);
             settingsControls[settings].Add(setting, accessor);
         }

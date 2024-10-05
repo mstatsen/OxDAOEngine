@@ -1,10 +1,9 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Controls;
-using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
+using OxDAOEngine.Data;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -77,7 +76,7 @@ namespace OxDAOEngine.ControlFactory
             ApplyLayoutToControl(control);
             control.Tag = ApplyLayoutToLabel(null, control);
 
-            OxLabel? label = (OxLabel?)control.Tag;
+            OxLabel? label = control.Tag as OxLabel;
 
             if (label != null)
                 label.Tag = control;

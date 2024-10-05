@@ -1,11 +1,15 @@
 ﻿using OxDAOEngine.ControlFactory.Controls;
 using OxLibrary.Controls;
 using OxLibrary;
+using OxDAOEngine.ControlFactory.Accessors;
 
 namespace OxDAOEngine.ControlFactory
 {
     public static class ControlPainter
     {
+        public static void ColorizeControl(IControlAccessor accessor, Color baseColor) =>
+            ColorizeControl(accessor.Control, baseColor);
+
         public static void ColorizeControl(Control control, Color baseColor)
         {
             switch (control)

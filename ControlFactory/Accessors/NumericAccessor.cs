@@ -51,5 +51,11 @@ namespace OxDAOEngine.ControlFactory.Accessors
             get => SpinEdit.Minimum;
             set => SpinEdit.Minimum = DAO.IntValue(value);
         }
+
+        public bool ShowStepButtons
+        {
+            get => SpinEdit.ShowStepButtons;
+            set => SpinEdit.ShowStepButtons = value;
+        }
     }
 }

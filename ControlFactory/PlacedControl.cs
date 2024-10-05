@@ -15,7 +15,7 @@ namespace OxDAOEngine.ControlFactory
 
         public int LabelLeft
         {
-            get => Label == null ? int.MaxValue : Label.Left;
+            get => Label != null ? Label.Left : int.MaxValue;
             set
             {
                 if (Label != null)

@@ -2,6 +2,8 @@
 {
     public static class XmlConsts
     {
+        public const string AccountId = "AccountId";
+        public const string Aqcuired = "Aquired";
         public const string FreeSize = "FreeSize";
         public const string Bronze = "Bronze";
         public const string CategoryName = "CategoryName";
@@ -34,7 +36,6 @@
         public const string FirmwareVersion = "FirmwareVersion";
         public const string Folder = "Folder";
         public const string Format = "Format";
-        public const string FromDLC = "FromDLC";
         public const string Frozen = "Frozen";
         public const string GameId = "GameId";
         public const string Generation = "Generation";
