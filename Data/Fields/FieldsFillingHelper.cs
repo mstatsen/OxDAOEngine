@@ -19,6 +19,16 @@ namespace OxDAOEngine.Data.Fields
                 _ => string.Empty,
             };
 
+        public override string GetFullName(FieldsFilling value) =>
+            value switch
+            {
+                FieldsFilling.Full => "Add all fields",
+                FieldsFilling.Default => "Add default field set",
+                FieldsFilling.Min => "Add minimum field set",
+                FieldsFilling.Clear => "Clear list",
+                _ => string.Empty,
+            };
+
         public static int ButtonWidth(FieldsFilling value) => 
             value switch
             {
