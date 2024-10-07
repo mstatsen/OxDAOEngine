@@ -26,7 +26,7 @@ namespace OxDAOEngine.Data.Filter
         public static bool IsUnaryOperation(FilterOperation operation) =>
             FilterOperations.UnaryOperations.Contains(operation);
 
-        public bool Match(FilterOperation operation, object? leftObject, object? rightObject)
+        public static bool Match(FilterOperation operation, object? leftObject, object? rightObject)
         {
             if (leftObject is IEmptyChecked lec && lec.IsEmpty)
                 return true;

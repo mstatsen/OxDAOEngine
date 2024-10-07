@@ -37,8 +37,6 @@ namespace OxDAOEngine.ControlFactory.Context
 
         public bool IsView => ControlScopeHelper.IsView(Scope);
 
-        private readonly ControlScopeHelper scopeHelper = TypeHelper.Helper<ControlScopeHelper>();
-
         public IBuilderContext<TField, TDAO> SetInitializer(IInitializer initializer)
         {
             Initializer = initializer;

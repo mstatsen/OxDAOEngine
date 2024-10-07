@@ -146,7 +146,7 @@ namespace OxDAOEngine.Data.Filter
                 (value == null || value.ToString() == string.Empty))
                 operation = FilterOperation.Blank;
 
-            if (!TypeHelper.Helper<FilterOperationHelper>().IsUnaryOperation(operation))
+            if (!FilterOperationHelper.IsUnaryOperation(operation))
                 if (!CheckValueFilled(value))
                     return this;
 

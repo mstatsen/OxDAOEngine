@@ -268,8 +268,6 @@ namespace OxDAOEngine.Settings
             AddMember(exportSettings);
         }
 
-        private readonly SettingsPartHelper partHelper = TypeHelper.Helper<SettingsPartHelper>();
-
         public override void Clear()
         {
             base.Clear();
@@ -283,7 +281,7 @@ namespace OxDAOEngine.Settings
                 item.Value.CopyFrom(
                     TypeHelper.FieldHelper<TField>()
                         .Columns(
-                            TypeHelper.Helper<FieldVariantHelper>().Variant(item.Key),
+                            FieldVariantHelper.Variant(item.Key),
                             FieldsFilling.Default
                         )
                 );
@@ -343,7 +341,7 @@ namespace OxDAOEngine.Settings
         public IFieldsPanel CreateFieldsPanel(SettingsPart part, Control parent)
         {
             IFieldsPanel fieldsPanel =
-                new FieldsPanel<TField, TDAO>(TypeHelper.Helper<FieldVariantHelper>().Variant(part))
+                new FieldsPanel<TField, TDAO>(FieldVariantHelper.Variant(part))
                 {
                     Parent = parent,
                     Dock = part == SettingsPart.QuickFilterText ? DockStyle.Bottom : DockStyle.Fill

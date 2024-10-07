@@ -62,8 +62,7 @@ namespace OxDAOEngine.Data
         }
 
         public RootListDAO<TField, TDAO> FilteredList(IMatcher<TField>? filter) =>
-
-                FilteredList<RootListDAO<TField, TDAO>>(filter);
+            FilteredList<RootListDAO<TField, TDAO>>(filter);
 
         public void Iterate(Func<TDAO, int> iterator, IMatcher<TField>? filter)
         {
@@ -132,6 +131,5 @@ namespace OxDAOEngine.Data
             List.Reverse();
             return this;
         }
-
     }
 }

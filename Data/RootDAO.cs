@@ -83,7 +83,6 @@ namespace OxDAOEngine.Data
 
             base.MemberModifiedHandler(dao, e);
         }
-            
 
         protected virtual void OnFieldModified(FieldModifiedEventArgs<TField> e) => 
             FieldModified?.Invoke(e);
@@ -121,12 +120,12 @@ namespace OxDAOEngine.Data
 
         public override bool Equals(object? obj) => 
             base.Equals(obj)
-                || (obj is RootDAO<TField> otherDAO
-                    && ImageId.Equals(otherDAO.ImageId)
-                    && (daoImage != null
-                        ? daoImage.Equals(otherDAO.DAOImage)
-                        : otherDAO.DAOImage == null)
-                    && Name.Equals(otherDAO.Name));
+            || (obj is RootDAO<TField> otherDAO
+                && ImageId.Equals(otherDAO.ImageId)
+                && (daoImage != null
+                    ? daoImage.Equals(otherDAO.DAOImage)
+                    : otherDAO.DAOImage == null)
+                && Name.Equals(otherDAO.Name));
 
         public override void Clear()
         {
@@ -222,6 +221,7 @@ namespace OxDAOEngine.Data
             {
                 daoImage = value;
                 ImageId = daoImage != null ? daoImage.Id : Guid.Empty;
+                AddImageUsage(daoImage);
             } 
         }
 
@@ -244,10 +244,12 @@ namespace OxDAOEngine.Data
 
             if (UseImageList)
             {
+                daoImage = DataManager.FieldController<TField>().GetImageInfo(ImageId);
+                daoImage?.UsageList.Remove(this);
+
                 ImageId = Guid.NewGuid();
                 daoImage = DataManager.FieldController<TField>().UpdateImage(ImageId, Name, value);
-                daoImage!.UsageList.Remove(this);
-                daoImage!.UsageList.Add(this);
+                AddImageUsage(daoImage);
             }
         }
 
@@ -265,10 +267,22 @@ namespace OxDAOEngine.Data
                 if (daoImage == null)
                 {
                     daoImage = GetImageInfo();
-                    daoImage?.UsageList.Add(this);
+                    AddImageUsage(daoImage);
                 }
 
             return daoImage?.Image;
+        }
+
+        protected virtual bool AlwaysSaveImage => false;
+
+        private void AddImageUsage(DAOImage? image)
+        {
+            if (image == null)
+                return;
+
+            image.FixUsage = AlwaysSaveImage;
+            image.UsageList.Remove(this);
+            image.UsageList.Add(this);
         }
 
         private DAOImage? GetImageInfo() => DataManager.FieldController<TField>().GetImageInfo(imageId);

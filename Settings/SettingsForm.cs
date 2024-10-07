@@ -200,12 +200,10 @@ namespace OxDAOEngine.Settings
             settingsTabs[settings].ActivePage = settingsPanels[settings][part];
         }
 
-        private List<SettingsPart> PartList(ISettingsController settings) =>
+        private static List<SettingsPart> PartList(ISettingsController settings) =>
             settings is IDAOSettings
                 ? SettingsPartHelper.VisibleDAOSettings
                 : SettingsPartHelper.VisibleGeneralSettings;
-
-        private readonly SettingsPartHelper partHelper = TypeHelper.Helper<SettingsPartHelper>();
 
         private static bool AvailablePart(ISettingsController settings, SettingsPart part)
         {

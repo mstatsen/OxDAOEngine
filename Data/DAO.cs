@@ -211,12 +211,16 @@ namespace OxDAOEngine.Data
                 SetMemberHandlers(member, set);
         }
 
-        protected void AddMember(DAO member) =>
+        protected void AddMember(DAO member)
+        {
             Members.Add(member);
+            member.OwnerDAO = this;
+        }
 
         protected void RemoveMember(DAO member)
         {
             member.ModifiedChangeHandler -= MemberModifiedHandler;
+            member.OwnerDAO = null;
             Members.Remove(member);
         }
 
@@ -253,6 +257,8 @@ namespace OxDAOEngine.Data
         protected abstract void LoadData(XmlElement element);
 
         public bool WithoutXmlNode { get; protected set; } = false;
+
+        public DAO? OwnerDAO { get; private set; }
 
         public virtual void Save(XmlElement? parentElement, bool clearModified = true)
         {

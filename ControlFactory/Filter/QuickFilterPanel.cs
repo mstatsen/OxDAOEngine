@@ -118,22 +118,22 @@ namespace OxDAOEngine.ControlFactory.Filter
                 if (value == null)
                     return;
 
-                foreach (TField field in QuickFilterFields)
+                foreach (TField @field in QuickFilterFields)
                     foreach (FilterGroups<TField, TDAO> groups in value.Root)
                         foreach (FilterGroup<TField, TDAO> group in groups)
                             foreach (SimpleFilter<TField, TDAO> simpleFilter in group)
-                                if (simpleFilter.Rules.Contains(r => r.Field.Equals(field)))
+                                if (simpleFilter.Rules.Contains(r => r.Field.Equals(@field)))
                                 {
-                                    object? filteringValue = fieldHelper.IsCalcedField(field)
-                                        ? simpleFilter.CalcedValues.ContainsKey(field) 
-                                            ? simpleFilter.CalcedValues[field]
+                                    object? filteringValue = fieldHelper.IsCalcedField(@field)
+                                        ? simpleFilter.CalcedValues.ContainsKey(@field) 
+                                            ? simpleFilter.CalcedValues[@field]
                                             : null
-                                        : filteringValue = simpleFilter[field];
+                                        : filteringValue = simpleFilter[@field];
 
-                                    if (TypeHelper.FieldIsTypeHelpered(field))
+                                    if (TypeHelper.FieldIsTypeHelpered(@field))
                                         filteringValue = TypeHelper.TypeObject(filteringValue);
 
-                                    Builder[field].Value = filteringValue;
+                                    Builder[@field].Value = filteringValue;
                                 }
             }
         }
@@ -150,7 +150,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             SimpleFilter<TField, TDAO> textFilter = new(FilterConcat.OR);
 
-            FilterOperation textFilterOperation = TypeHelper.Helper<TextFilterOperationHelper>()
+            FilterOperation textFilterOperation = TextFilterOperationHelper
                 .Operation(Settings.QuickFilterTextFieldOperation);
 
             foreach (TField field in TextFields)

@@ -37,7 +37,7 @@ namespace OxDAOEngine.Data.Fields
             variant != FieldsVariant.QuickFilter
             && variant != FieldsVariant.QuickFilterText;
 
-        public FieldsVariant Variant(SettingsPart part) =>
+        public static FieldsVariant Variant(SettingsPart part) =>
             part switch
             {
                 SettingsPart.Table => FieldsVariant.Table,

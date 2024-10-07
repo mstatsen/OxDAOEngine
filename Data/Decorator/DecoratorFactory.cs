@@ -11,7 +11,7 @@ namespace OxDAOEngine.Data.Decorator
 
         public Decorator<TField, TDAO> Decorator(ControlScope scope, TDAO dao) =>
             Decorator(
-                TypeHelper.Helper<DecoratorTypeHelper>().DecoratorTypeByScope(scope),
+                DecoratorTypeHelper.DecoratorTypeByScope(scope),
                 dao
             );
 

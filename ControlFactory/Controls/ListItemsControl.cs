@@ -328,9 +328,10 @@ namespace OxDAOEngine.ControlFactory.Controls
 
             foreach (object item in ListBox.Items)
             {
-                TItem newItem = new();
-                newItem.CopyFrom((TItem)item);
-                list.Add(newItem);
+                //TItem newItem = new();
+                //newItem.CopyFrom((TItem)item);
+                //list.Add(newItem);
+                list.Add((TItem)item);
             }
         }
 

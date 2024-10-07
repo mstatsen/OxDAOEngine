@@ -65,6 +65,9 @@ namespace OxDAOEngine.Data
 
             foreach (T item in List)
             {
+                if (item.IsEmpty)
+                    continue;
+
                 item.State = State;
                 item.Save(element, clearModified);
             }

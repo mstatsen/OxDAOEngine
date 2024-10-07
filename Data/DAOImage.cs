@@ -12,6 +12,7 @@ namespace OxDAOEngine.Data
         private string imageBase64 = string.Empty;
         private Bitmap? image = null;
         private string name = string.Empty;
+        public bool FixUsage { get; set; }
 
         public Guid Id
         {

@@ -212,8 +212,6 @@ namespace OxDAOEngine.ControlFactory
             if (BuildOnly)
                 return;
 
-            ControlScopeHelper scopeHelper = TypeHelper.Helper<ControlScopeHelper>();
-
             if (ControlScopeHelper.IsView(Scope))
                 return;
 

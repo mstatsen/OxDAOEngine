@@ -44,13 +44,13 @@ namespace OxDAOEngine.Data
             {
                 int realUsage = 0;
 
-                foreach (DAO usageDao in item.UsageList)
-                    if (fullItemsList.Contains(usageDao)
-                        && usageDao is RootDAO<TField> rootDao
-                        && item.Id.Equals(rootDao.ImageId))
-                        realUsage++;
+                if (!item.FixUsage)
+                    foreach (DAO usageDao in item.UsageList)
+                        if (fullItemsList.Contains(usageDao)
+                            && usageDao is RootDAO<TField> rootDao)
+                            realUsage++;
 
-                if (realUsage == 0)
+                if (!item.FixUsage && realUsage == 0)
                     unusedList.Add(item);
             }
 
@@ -66,18 +66,19 @@ namespace OxDAOEngine.Data
         {
             foreach (DAOImage item in FindAll((i) => i.Image == null || i.Id == Guid.Empty))
             {
-                foreach (TDAO dao in item.UsageList.Cast<TDAO>())
+                foreach (RootDAO<TField> dao in item.UsageList.Cast<RootDAO<TField>>())
                     dao[ListController.FieldHelper.ImageField] = Guid.Empty;
 
                 Remove(item, false);
             }
         }
 
-        private static readonly IListController<TField, TDAO> ListController = DataManager.ListController<TField, TDAO>();
+        private static readonly IListController<TField, TDAO> ListController = 
+            DataManager.ListController<TField, TDAO>();
 
         public void MergeDuplicates()
         {
-            Dictionary<DAOImage, List<Guid>> UsingImagesMap = new();
+            List<DAOImage> UsingImagesMap = new();
 
             foreach (DAOImage item in this)
             {
@@ -86,7 +87,7 @@ namespace OxDAOEngine.Data
 
                 DAOImage mergeToItem = item;
 
-                foreach (DAOImage existItem in UsingImagesMap.Keys)
+                foreach (DAOImage existItem in UsingImagesMap)
                     if (!existItem.Id.Equals(item.Id) &&
                         existItem.ImageBase64.Equals(item.ImageBase64))
                     {
@@ -96,20 +97,22 @@ namespace OxDAOEngine.Data
 
                 if (mergeToItem == item)
                 {
-                    UsingImagesMap[item] = new();
+                    UsingImagesMap.Add(item);
                     continue;
                 }
                 
                 mergeToItem.UsageList.AddRange(item.UsageList);
-                UsingImagesMap[mergeToItem].Add(item.Id);
 
-                foreach (TDAO dao in item.UsageList.Cast<TDAO>())
+                foreach (DAO dao in item.UsageList)
                 {
-                    DAOImage? oldDaoImage = dao.DAOImage;
+                    if (dao is not RootDAO<TField> rootDAO)
+                        continue;
+
+                    DAOImage? oldDaoImage = rootDAO.DAOImage;
                     if (oldDaoImage != null && oldDaoImage != item)
                         oldDaoImage.UsageList.Clear();
 
-                    dao.DAOImage = mergeToItem;
+                    rootDAO.DAOImage = mergeToItem;
                 }
 
                 item.UsageList.Clear();
