@@ -49,7 +49,7 @@ namespace OxDAOEngine.ControlFactory
                 case FieldType.ShortMemo:
                     return new TextMultiLineInitializer(
                         context.AdditionalContext is bool boolContext 
-                        && boolContext, 
+                        && boolContext,
                         context.FieldType == FieldType.Memo);
                 case FieldType.Enum:
                 case FieldType.Boolean:
