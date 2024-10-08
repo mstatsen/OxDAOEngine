@@ -61,7 +61,7 @@ namespace OxDAOEngine.Editor
         private void SetGroupsColor()
         {
             foreach (OxFrame frame in Groups.Values)
-                frame.BaseColor = MainPanel.Colors.Lighter(1);
+                frame.BaseColor = MainPanel.Colors.Lighter();
         }
 
         private void PlaceGroups()
@@ -220,7 +220,7 @@ namespace OxDAOEngine.Editor
 
         public override bool CanCancelClose() => 
             !Worker.Modified ||
-            OxMessage.Confirmation("All ununcommited changes will be lost.\nDo you really want to leave this form?", this);
+            OxMessage.Confirmation("All uncommited changes will be lost.\nDo you really want to leave this form?", this);
 
         private void FormClosedHandler(object? sender, FormClosedEventArgs e)
         {
@@ -353,7 +353,7 @@ namespace OxDAOEngine.Editor
         { 
             foreach (OxPanel panel in ParentPanels.Cast<OxPanel>())
                 if (panel != MainPanel)
-                    panel.BaseColor = MainPanel.Colors.Lighter(1);
+                    panel.BaseColor = MainPanel.Colors.Lighter();
         }
 
         protected virtual List<TFieldGroup> EditedGroups =>

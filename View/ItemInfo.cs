@@ -145,7 +145,7 @@ namespace OxDAOEngine.View
             Layouter.Template.BackColor = Color.Transparent;
             Layouter.Template.FontColor = FontColors.BaseColor;
             Layouter.Template.FontStyle = FontStyle.Bold;
-            Layouter.Template.LabelColor = FontColors.Lighter(1);
+            Layouter.Template.LabelColor = FontColors.Lighter();
             Layouter.Template.LabelStyle = FontStyle.Italic;
             Layouter.Template.AutoSize = true;
         }

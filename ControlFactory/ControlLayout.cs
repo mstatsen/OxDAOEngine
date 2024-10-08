@@ -189,7 +189,7 @@ namespace OxDAOEngine.ControlFactory
                 return;
 
             label.Font = new Font(label.Font, label.Font.Style | FontStyle.Underline);
-            label.ForeColor = new OxColorHelper(label.ForeColor).HLighter(1).Bluer(1);
+            label.ForeColor = new OxColorHelper(label.ForeColor).HLighter().Bluer();
         }
 
         private void CalcLabel(OxLabel? label, Control? control)

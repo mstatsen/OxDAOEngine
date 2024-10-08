@@ -165,7 +165,7 @@ namespace OxDAOEngine.ControlFactory
             loadingPanel.BaseColor = BaseColor;
 
             if (GeneralSettings.DarkerHeaders)
-                Header.BaseColor = Colors.Darker(1);
+                Header.BaseColor = Colors.Darker();
 
             ExpandButton.BaseColor = Colors.Darker(GeneralSettings.DarkerHeaders ? 1 : 0);
             PinButton.BaseColor = ExpandButton.BaseColor;

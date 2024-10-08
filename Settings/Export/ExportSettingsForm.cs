@@ -51,7 +51,7 @@ namespace OxDAOEngine.Settings
             indentAccessor = Builder.Accessor("XmlIndent", FieldType.Boolean);
             indentAccessor.Text = "Indent XML elements";
             indentAccessor.Value = settings.XML.Indent;
-            SetupControl(indentAccessor.Control, ExportFormat.Xml, null, MainPanel.Colors.Lighter(1));
+            SetupControl(indentAccessor.Control, ExportFormat.Xml, null, MainPanel.Colors.Lighter());
 
             PrepareTextControls();
 
@@ -74,11 +74,11 @@ namespace OxDAOEngine.Settings
             if (ListController.Settings.AvailableCategories)
             {
                 categoryControl = CreateButtonEdit(settings.CategoryName, SelectCategory);
-                SetupGeneralControl(categoryControl, MainPanel.Colors.Lighter(1), "Category");
+                SetupGeneralControl(categoryControl, MainPanel.Colors.Lighter(), "Category");
             }
 
             fileControl = CreateButtonEdit(settings.FileName, ShowFileDialog);
-            SetupGeneralControl(fileControl, MainPanel.Colors.Lighter(1), "File name");
+            SetupGeneralControl(fileControl, MainPanel.Colors.Lighter(), "File name");
             CalcFramesSizes();
             ActualizeFormatSettings();
             MainPanel.SetButtonText(OxDialogButton.OK, "Export");
@@ -223,7 +223,7 @@ namespace OxDAOEngine.Settings
             OxPane parentPane = format == ExportFormat.Html 
                 ? htmlGeneralPanel 
                 : textGeneralPanel;
-            SetupControl(accessor.Control, format, parentPane, MainPanel.Colors.Lighter(1));
+            SetupControl(accessor.Control, format, parentPane, MainPanel.Colors.Lighter());
             return accessor;
         }
 
@@ -245,7 +245,7 @@ namespace OxDAOEngine.Settings
             IControlAccessor accessor = Builder.Accessor("ZeroSummary", FieldType.Boolean);
             accessor.Value = settings.HTML.ZeroSummary;
             accessor.Text = "Show summary with zero count";
-            SetupControl(accessor.Control, ExportFormat.Html, htmlGeneralPanel, MainPanel.Colors.Lighter(1));
+            SetupControl(accessor.Control, ExportFormat.Html, htmlGeneralPanel, MainPanel.Colors.Lighter());
             return accessor;
         }
 

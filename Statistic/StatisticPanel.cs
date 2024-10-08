@@ -158,8 +158,8 @@ namespace OxDAOEngine.Statistic
                          (type == StatisticType.Modified
                           || type == StatisticType.Added
                           || type == StatisticType.Deleted)
-                            ? Colors.HDarker(1).Redder(6)
-                            : Colors.HDarker(1).Lighter(1),
+                            ? Colors.HDarker().Redder(6)
+                            : Colors.HDarker().Lighter(),
                 };
 
         private void AccessHandlers()

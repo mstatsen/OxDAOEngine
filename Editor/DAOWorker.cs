@@ -13,31 +13,10 @@ namespace OxDAOEngine.Editor
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
     {
-        public bool ReadOnly
-        {
-            get => readOnly;
-            set => readOnly = value;
-        }
+        public bool Modified => !InitialItem.Equals(CurrentItem);
 
-        public bool Modified
-        {
-            get
-            {
-                TDAO currentItem = new();
 
-                try
-                {
-                    currentItem.CopyFrom(initialItem);
-                    Builder.GrabControls(currentItem);
-                    return !initialItem.Equals(currentItem);
-                }
-                finally
-                {
-                    currentItem.Clear();
-                }
-            }
-        }
-
+        private readonly TDAO CurrentItem = new();
         public DAOEditor<TField, TDAO, TFieldGroup> Editor => DataManager.Editor<TField, TDAO, TFieldGroup>();
 
         public TDAO? Item
@@ -46,11 +25,11 @@ namespace OxDAOEngine.Editor
             set
             {
                 item = value;
-                initialItem.CopyFrom(item);
+                InitialItem.CopyFrom(item);
+                CurrentItem.CopyFrom(item);
                 LayoutControls();
                 FillControls();
                 SyncFieldsAndRecalcGroups();
-                SetControlsReadonly();
             }
         }
 
@@ -107,14 +86,11 @@ namespace OxDAOEngine.Editor
             AlignLabels();
         }
 
-        private void FillControls()
+        protected void FillControls()
         {
             UnSetHandlers();
             BeforeFillControls();
-
-            if (Item != null)
-                Builder.FillControls(Item);
-
+            Builder.FillControls(CurrentItem);
             AfterFillControls();
             SetHandlers();
             AfterFillControlsAndSetHandlers();
@@ -193,8 +169,7 @@ namespace OxDAOEngine.Editor
         }
 
         private TDAO? item;
-        private bool readOnly = false;
-        private readonly TDAO initialItem = new();
+        private readonly TDAO InitialItem = new();
 
         public DAOWorker()
         {
@@ -216,14 +191,14 @@ namespace OxDAOEngine.Editor
 
         public void GrabControls()
         {
-            if (Item != null)
+            if (item != null)
             {
                 BeforeGrabControls();
-                Builder.GrabControls(Item);
+                Builder.GrabControls(item);
                 AfterGrabControls();
             }
 
-            initialItem.CopyFrom(Item);
+            InitialItem.CopyFrom(item);
         }
 
         protected virtual void AfterGrabControls() { }
@@ -247,18 +222,11 @@ namespace OxDAOEngine.Editor
 
             foreach (TField field in EditingFields)
                 needRecalcGroupsAvailability |= 
-                    SyncFieldValues(field, false);
+                    SyncFieldValue(field, false);
 
             Builder.ApplyDependencies();
             PrepareStylesInternal();
             return needRecalcGroupsAvailability;
-        }
-
-        private void SetControlsReadonly()
-        {
-            if (ReadOnly)
-                foreach (TField field in fieldHelper.All())
-                    Builder[field].ReadOnly = true;
         }
 
         private void ValueChangeHandler(object? sender, EventArgs e) 
@@ -274,12 +242,14 @@ namespace OxDAOEngine.Editor
                         FillFormCaption();
 
                     needRecalcGroupsAvailability |=
-                        SyncFieldValues(field, true);
+                        SyncFieldValue(field, true);
                 }
 
             if (needRecalcGroupsAvailability)
                 RecalcGroupsAvailability();
             else PrepareStylesInternal();
+
+            Builder.GrabControls(CurrentItem);
         }
 
         private void RecalcGroupsAvailability()
@@ -296,7 +266,7 @@ namespace OxDAOEngine.Editor
             Editor.ResumeLayout();
         }
 
-        protected virtual bool SyncFieldValues(TField field, bool byUser) => false;
+        protected virtual bool SyncFieldValue(TField field, bool byUser) => false;
         protected virtual bool SetGroupsAvailability(bool afterSyncValues = false) => false;
     }
 }

@@ -69,7 +69,7 @@ namespace OxDAOEngine.Grid
             base.PrepareColors();
 
             if (Grid != null)
-                Grid.BaseColor = Colors.Lighter(1);
+                Grid.BaseColor = Colors.Lighter();
         }
 
         protected override void PrepareDialog(OxPanelViewer dialog)

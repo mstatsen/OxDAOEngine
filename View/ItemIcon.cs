@@ -161,7 +161,7 @@ namespace OxDAOEngine.View
             layouter.Template.FontColor = fontColors.BaseColor;
             layouter.Template.FontStyle = FontStyle.Bold | FontStyle.Italic;
             layouter.Template.FontSize = IconSizeHelper.FontSize(ListController.Settings.IconsSize);
-            layouter.Template.LabelColor = fontColors.Lighter(1);
+            layouter.Template.LabelColor = fontColors.Lighter();
             layouter.Template.LabelStyle = FontStyle.Italic;
             layouter.Template.AutoSize = true;
         }

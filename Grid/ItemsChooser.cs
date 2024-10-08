@@ -84,7 +84,7 @@ namespace OxDAOEngine.Grid
         protected override void PrepareColors()
         {
             base.PrepareColors();
-            availableGrid.BaseColor = Colors.Darker(1);
+            availableGrid.BaseColor = Colors.Darker();
             selectedGrid.BaseColor = BaseColor;
             buttonsPanel.BaseColor = BaseColor;
             availablePlace.BaseColor = BaseColor;
