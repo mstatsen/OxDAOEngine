@@ -102,9 +102,13 @@ namespace OxDAOEngine.Grid
             }
 
             string leftToRightField = $"{(LeftItemGrid.SelectionExists ? TypeHelper.Name(LeftItemGrid.SelectedField) : string.Empty)} value";
-            LeftToRightButton.ToolTipText = $"Copy {leftToRightField} \n\tfrom {LeftItem.FullTitle()}\n\tto {RightItem.FullTitle()}";
+            LeftToRightButton.ToolTipText = $@"Copy {leftToRightField} 
+	            from {LeftItem.FullTitle()}
+	            to {RightItem.FullTitle()}";
             string rightToRightField = $"{(RightItemGrid.SelectionExists ? TypeHelper.Name(RightItemGrid.SelectedField) : string.Empty)} value";
-            RightToLeftButton.ToolTipText = $"Copy {rightToRightField}\n\tfrom {RightItem.FullTitle()}\n\tto {LeftItem.FullTitle()}";
+            RightToLeftButton.ToolTipText = $@"Copy {rightToRightField}
+	            from {RightItem.FullTitle()}
+	            to {LeftItem.FullTitle()}";
         }
 
         private void LeftScrollHandler(object? sender, EventArgs e) =>
