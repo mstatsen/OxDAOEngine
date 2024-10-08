@@ -2,6 +2,7 @@
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;
+using OxLibrary;
 using System.Xml;
 
 namespace OxDAOEngine.Data
@@ -294,5 +295,8 @@ namespace OxDAOEngine.Data
 
         private readonly bool useImageList = DataManager.UseImageList<TField>();
         public virtual bool UseImageList => useImageList;
+
+        public virtual Color BaseColor => Styles.DefaultGridRowColor;
+        public Color BackColor => new OxColorHelper(BaseColor).Darker(7);
     }
 }

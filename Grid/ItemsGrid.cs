@@ -671,6 +671,5 @@ namespace OxDAOEngine.Grid
 
         public TDAO? GoPrev() =>
             selector.FocusPrevRow();
-
     }
 }

@@ -75,6 +75,10 @@ namespace OxDAOEngine.Data.Fields
         public List<TField> FullInfoFields => GetFullInfoFields();
         public List<TField> CardFields => GetCardFields();
         public List<TField> GroupByFields => GetGroupByFields();
+        public List<TField> SynchronizedFields => GetSynchronizedFields();
+
+        protected virtual List<TField> GetSynchronizedFields() => EditingFields;
+
         public FieldFilterOperations<TField> AvailableFilterOperations => GetAvailableFilterOperations();
 
         public FilterOperation DefaultFilterOperation(TField field) => GetDefaultFilterOperation(field);

@@ -52,6 +52,9 @@
     <Compile Update="Editor\DAOEditor.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Grid\OneItemGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Grid\ItemsChooser.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -71,6 +74,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="Grid\ItemsRootGridContextMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Grid\ItemsSynchronizer.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="Grid\ItemsViewer.cs">
