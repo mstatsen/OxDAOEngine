@@ -67,7 +67,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldsFillingHelper helper = TypeHelper.Helper<FieldsFillingHelper>();
             OxButton button = new(helper.Name(filling), FieldsFillingHelper.ButtonIcon(filling))
             {
-                Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold),
+                Font = Styles.Font(-1, FontStyle.Bold),
                 ToolTipText = helper.FullName(filling)
             };
 

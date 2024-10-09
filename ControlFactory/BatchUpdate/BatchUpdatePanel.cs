@@ -168,7 +168,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
             Text = "Value",
             AutoSize = true,
             Visible = false,
-            Font = EngineStyles.DefaultFont
+            Font = Styles.DefaultFont
         };
 
         private readonly OxLabel countLabel = new()
@@ -178,7 +178,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
             Left = 24,
             AutoSize = true,
             Visible = true,
-            Font = EngineStyles.DefaultFont
+            Font = Styles.DefaultFont
         };
     }
 }

@@ -534,7 +534,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly ControlLayouter<TField, TDAO> Layouter;
         private readonly OxButton ClearButton = new ("Clear", OxIcons.Eraser)
         {
-            Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold)
+            Font = Styles.Font(-1, FontStyle.Bold)
         };
         private bool updating = false;
         private readonly OxWaiter Waiter;

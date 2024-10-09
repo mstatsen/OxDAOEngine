@@ -36,7 +36,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 Parent = parent,
                 Left = location.X,
                 Text = caption,
-                Font = new Font(Styles.FontFamily, Styles.DefaultFontSize, FontStyle.Italic),
+                Font = Styles.Font(FontStyle.Italic),
                 TextAlign = ContentAlignment.MiddleCenter,
                 AutoSize = true
             };
@@ -50,7 +50,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             accessor.Top = location.Y;
             accessor.Parent = parent;
             accessor.Value = value;
-            accessor.Control.Font = new Font(Styles.FontFamily, Styles.DefaultFontSize, FontStyle.Bold);
+            accessor.Control.Font = Styles.Font(FontStyle.Bold);
             OxControlHelper.AlignByBaseLine(accessor.Control, captionLabel);
             Add(key, accessor);
             return accessor;

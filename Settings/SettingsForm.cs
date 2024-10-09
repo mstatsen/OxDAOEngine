@@ -257,7 +257,7 @@ namespace OxDAOEngine.Settings
             {
                 Parent = accessor.Parent,
                 Left = 12 + 150 * columnNum,
-                Font = EngineStyles.DefaultFont,
+                Font = Styles.DefaultFont,
                 Text = $"{settings.Helper.Name(setting)}",
                 Tag = accessor.Control
             };
@@ -412,7 +412,7 @@ namespace OxDAOEngine.Settings
                 BaseColor = MainPanel.BaseColor,
                 Top = (MainPanel.Footer.Height - DefaulterScopeHelper.DefaultButtonHeight) / 2,
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
-                Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Regular),
+                Font = Styles.Font(-1, FontStyle.Regular),
                 Left = left
             };
 
@@ -499,7 +499,7 @@ namespace OxDAOEngine.Settings
             tabControl.Parent = this;
             tabControl.Dock = DockStyle.Fill;
             tabControl.BaseColor = MainPanel.BaseColor;
-            tabControl.Font = EngineStyles.DefaultFont;
+            tabControl.Font = Styles.DefaultFont;
             tabControl.TabHeaderSize = new Size(124, 32);
             tabControl.BorderVisible = false;
             tabControl.Margins.SetSize(OxSize.None);
@@ -515,7 +515,7 @@ namespace OxDAOEngine.Settings
                     Parent = this,
                     Dock = DockStyle.Fill,
                     BaseColor = MainPanel.BaseColor,
-                    Font = EngineStyles.DefaultFont,
+                    Font = Styles.DefaultFont,
                     TabHeaderSize = new Size(84, 30),
                     BorderVisible = false,
                     Text = settings.ListName

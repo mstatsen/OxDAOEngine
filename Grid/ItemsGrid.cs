@@ -80,8 +80,8 @@ namespace OxDAOEngine.Grid
                 Width = gridColumn.Width + 20,
                 Frozen = false
             };
-            dataColumn.DefaultCellStyle.ApplyStyle(EngineStyles.Cell_Default);
-            dataColumn.HeaderCell.Style.ApplyStyle(EngineStyles.Cell_Default);
+            dataColumn.DefaultCellStyle.ApplyStyle(Styles.Cell_Default);
+            dataColumn.HeaderCell.Style.ApplyStyle(Styles.Cell_Default);
             dataColumn.HeaderCell.Style.BackColor = EngineStyles.ElementControlColor;
             dataColumn.HeaderCell.Style.SelectionBackColor = EngineStyles.ElementControlColor;
             GridView.Columns.Add(dataColumn);

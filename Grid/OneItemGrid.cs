@@ -45,8 +45,8 @@ namespace OxDAOEngine.Grid
             internal static DataGridViewCellStyle Style(GridColumn column) =>
                 column switch
                 {
-                    GridColumn.Field => EngineStyles.Cell_LeftAlignment,
-                    _ => EngineStyles.Cell_Default
+                    GridColumn.Field => Styles.Cell_LeftAlignment,
+                    _ => Styles.Cell_Default
                 };
         }
 
@@ -88,7 +88,7 @@ namespace OxDAOEngine.Grid
                     SelectionBackColor = new OxColorHelper(backColor).Darker(),
                     ForeColor = foreColor,
                     SelectionForeColor = selectionForeColor,
-                    Font = new Font(Styles.FontFamily, Styles.DefaultFontSize, FontStyle.Regular)
+                    Font = Styles.DefaultFont
                 }
             );
         }

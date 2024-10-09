@@ -104,7 +104,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                     AutoSize = true,
                     Left = (rightLabel ? control.Right : 0) + 8,
                     Text = caption,
-                    Font = new Font(EngineStyles.DefaultFont, FontStyle.Regular)
+                    Font = Styles.DefaultFont
                 }
             )!;
 

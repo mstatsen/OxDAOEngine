@@ -2,6 +2,7 @@
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.Data.Fields
 {
@@ -151,8 +152,8 @@ namespace OxDAOEngine.Data.Fields
 
         public DataGridViewCellStyle ColumnStyle(TField field) =>
             ColumnAlign(field) == DataGridViewContentAlignment.MiddleLeft
-                ? EngineStyles.Cell_LeftAlignment
-                : EngineStyles.Cell_Default;
+                ? Styles.Cell_LeftAlignment
+                : Styles.Cell_Default;
 
         public virtual int ColumnWidth(TField field) => 100;
 

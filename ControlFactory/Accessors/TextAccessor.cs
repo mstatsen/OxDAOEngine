@@ -2,6 +2,7 @@
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -13,7 +14,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected override Control CreateControl() => 
             new OxTextBox
             {
-                Font = EngineStyles.DefaultFont
+                Font = Styles.DefaultFont
             };
 
         protected override ValueAccessor CreateValueAccessor() => 

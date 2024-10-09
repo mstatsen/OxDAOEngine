@@ -87,7 +87,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             Width = 200,
             Height = 128,
             Dock = DockStyle.Fill,
-            Font = EngineStyles.DefaultFont
+            Font = Styles.DefaultFont
         };
         private readonly Category<TField, TDAO> RootCategory = new();
 
@@ -101,13 +101,13 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private readonly OxIconButton CollapseButton = new(OxIcons.Up, 23)
         {
-            Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold),
+            Font = Styles.Font(-1, FontStyle.Bold),
             HiddenBorder = false
         };
 
         private readonly OxIconButton ExpandButton = new(OxIcons.Down, 23)
         {
-            Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold),
+            Font = Styles.Font(-1, FontStyle.Bold),
             HiddenBorder = false
         };
 

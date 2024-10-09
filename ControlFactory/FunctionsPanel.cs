@@ -180,7 +180,7 @@ namespace OxDAOEngine.ControlFactory
 
         private readonly OxIconButton CustomizeButton = new(OxIcons.Settings, 23)
         {
-            Font = new Font(Styles.FontFamily, Styles.DefaultFontSize - 1, FontStyle.Bold),
+            Font = Styles.Font(-1, FontStyle.Bold),
             HiddenBorder = false
         };
 
