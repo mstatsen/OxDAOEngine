@@ -21,6 +21,7 @@
         public const string DefaultIndent = "    ";
         public const string Description = "Description";
         public const string Developer = "Developer";
+        public const string Device = "Device";
         public const string Difficult = "Difficult";
         public const string DLC = "DLC";
         public const string Edition = "Edition";
