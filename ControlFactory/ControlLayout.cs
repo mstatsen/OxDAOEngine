@@ -221,7 +221,7 @@ namespace OxDAOEngine.ControlFactory
             }
         }
 
-        private static OxLabel CreateLabel() => new();
+        private OxLabel CreateLabel() => new();
 
         public ControlLayout() => Clear();
 

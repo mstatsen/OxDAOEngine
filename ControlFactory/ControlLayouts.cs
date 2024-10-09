@@ -5,11 +5,11 @@
     {
         public ControlLayout<TField> Template = new();
 
-        private static ControlLayout<TField> NewLayout(TField field) => new(field);
+        private ControlLayout<TField> NewLayout(TField field) => new(field);
 
         public ControlLayout<TField> AddFromTemplate(TField field, int verticalOffset)
         {
-            ControlLayout<TField> layout = ControlLayouts<TField>.NewLayout(field);
+            ControlLayout<TField> layout = NewLayout(field);
             layout.CopyFrom(Template);
             Add(layout, verticalOffset);
             return layout;
@@ -18,7 +18,7 @@
         public virtual ControlLayout<TField> AddFromTemplate(TField field, 
             bool autoOffset = false, bool offsetWithMargins = true)
         {
-            ControlLayout<TField> layout = ControlLayouts<TField>.NewLayout(field);
+            ControlLayout<TField> layout = NewLayout(field);
             layout.CopyFrom(Template);
             Add(layout, autoOffset, offsetWithMargins);
             return layout;

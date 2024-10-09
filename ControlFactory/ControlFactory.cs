@@ -115,21 +115,21 @@ namespace OxDAOEngine.ControlFactory
                 FieldType.Link =>
                     CreateLinkButtonAccessor(context),
                 FieldType.LinkList =>
-                    ControlFactory<TField, TDAO>.CreateLinksAccessor(context),
+                    CreateLinksAccessor(context),
                 FieldType.Country =>
-                    ControlFactory<TField, TDAO>.CreateCountryAccessor(context),
+                    CreateCountryAccessor(context),
                 _ =>
                     CreateOtherAccessor(context),
             };
         }
 
-        private static IControlAccessor CreateCountryAccessor(IBuilderContext<TField, TDAO> context) => 
+        private IControlAccessor CreateCountryAccessor(IBuilderContext<TField, TDAO> context) => 
             new CountryComboBoxAccessor<TField, TDAO>(context);
 
-        private static IControlAccessor CreateLinkButtonAccessor(IBuilderContext<TField, TDAO> context) =>
+        private IControlAccessor CreateLinkButtonAccessor(IBuilderContext<TField, TDAO> context) =>
             new LinkButtonAccessor<TField, TDAO>(context);
 
-        private static IControlAccessor CreateLinksAccessor(IBuilderContext<TField, TDAO> context) =>
+        private IControlAccessor CreateLinksAccessor(IBuilderContext<TField, TDAO> context) =>
             context.Scope switch
             {
                 ControlScope.Editor =>
@@ -163,7 +163,7 @@ namespace OxDAOEngine.ControlFactory
                 FieldType.Link =>
                     CreateLinkButtonAccessor(context),
                 FieldType.LinkList =>
-                    ControlFactory<TField, TDAO>.CreateLinksAccessor(context),
+                    CreateLinksAccessor(context),
                 _ => CreateLabelAccessor(context)
             };
 

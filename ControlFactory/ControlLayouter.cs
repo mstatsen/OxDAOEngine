@@ -34,8 +34,8 @@ namespace OxDAOEngine.ControlFactory
 
         private void LayoutControl(ControlLayout<TField> layout)
         {
-            layout.SupportClickedLabels = 
-                ControlScopeHelper.SupportClickedLabels(Builder.Scope);
+            layout.SupportClickedLabels =
+                TypeHelper.Helper<ControlScopeHelper>().SupportClickedLabels(Builder.Scope);
             TField field = layout.Field;
 
             if (PlacedControls.TryGetValue(field, out var placedControl))

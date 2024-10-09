@@ -31,11 +31,13 @@ namespace OxDAOEngine.ControlFactory.Context
 
         public object? AdditionalContext { get; set; }
 
-        public bool IsQuickFilter => ControlScopeHelper.IsQuickFilter(Scope);
+        private ControlScopeHelper scopeHelper = TypeHelper.Helper<ControlScopeHelper>();
+
+        public bool IsQuickFilter => scopeHelper.IsQuickFilter(Scope);
 
         public bool IsBatchUpdate => Scope == ControlScope.BatchUpdate;
 
-        public bool IsView => ControlScopeHelper.IsView(Scope);
+        public bool IsView => scopeHelper.IsView(Scope);
 
         public IBuilderContext<TField, TDAO> SetInitializer(IInitializer initializer)
         {

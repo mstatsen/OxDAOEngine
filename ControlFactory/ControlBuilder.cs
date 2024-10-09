@@ -212,7 +212,7 @@ namespace OxDAOEngine.ControlFactory
             if (BuildOnly)
                 return;
 
-            if (ControlScopeHelper.IsView(Scope))
+            if (TypeHelper.Helper<ControlScopeHelper>().IsView(Scope))
                 return;
 
             FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
@@ -228,14 +228,14 @@ namespace OxDAOEngine.ControlFactory
             }
         }
 
-        private static bool CheckFilter(FilterRules<TField>? rules, TField field) =>
+        private bool CheckFilter(FilterRules<TField>? rules, TField field) =>
             rules == null || rules.RuleExist(field);
 
         private void GrabEditorControls(IFieldMapping<TField> item, FilterRules<TField>? rules)
         {
             foreach (TField field in TypeHelper.FieldHelper<TField>().EditingFields)
             {
-                if (!ControlBuilder<TField, TDAO>.CheckFilter(rules, field))
+                if (!CheckFilter(rules, field))
                     continue;
 
                 item[field] = Accessor(field).Value;
