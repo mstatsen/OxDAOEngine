@@ -162,9 +162,6 @@ namespace OxDAOEngine.Data.Fields
 
         public virtual void FillAdditionalContext(TField field, IAccessorContext context) { }
 
-        public virtual bool IsImageColumn(TField field) =>
-            GetFieldType(field) == FieldType.Image;
-
         public virtual ILinkHelper<TField>? GetLinkHelper() => null;
 
         public TField GetFirstLinksField()

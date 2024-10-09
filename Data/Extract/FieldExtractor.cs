@@ -1,4 +1,5 @@
-﻿using OxDAOEngine.Data.Filter;
+﻿using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
 
 namespace OxDAOEngine.Data.Extract
 {
@@ -33,13 +34,14 @@ namespace OxDAOEngine.Data.Extract
             return result;
         }
 
-        private static bool NeedIgnore(bool ignoreEmpty, object? value) =>
+        private bool NeedIgnore(bool ignoreEmpty, object? value) =>
             ignoreEmpty
             && (value == null
                 ||
                 (value is string
                 && value.ToString() == string.Empty));
 
+        private FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
 
         public FieldExtract Extract(TField field, IMatcher<TField>? filter, 
             bool ignoreDubles, bool ignoreEmpty = false)
@@ -53,19 +55,27 @@ namespace OxDAOEngine.Data.Extract
             {
                 object? value = item[field];
 
-                if (FieldExtractor<TField, TDAO>.NeedIgnore(ignoreEmpty, value))
-                    continue;
-
-                if (value == null)
-                    continue;
-
-                if (ignoreDubles && result.Contains(value))
-                    continue;
-
-                result.Add(value);
+                if (value is List<DAO> listDAO)
+                    foreach (DAO valuePart in listDAO)
+                        AddValue(valuePart, result, ignoreEmpty, ignoreDubles);
+                else AddValue(value, result, ignoreEmpty, ignoreDubles);
             }
 
             return result.Sort();
+        }
+
+        private void AddValue(object? value, FieldExtract extract, bool ignoreEmpty, bool ignoreDubles)
+        {
+            if (NeedIgnore(ignoreEmpty, value))
+                return;
+
+            if (value == null)
+                return;
+
+            if (ignoreDubles && extract.Contains(value))
+                return;
+
+            extract.Add(value);
         }
 
         public FieldCountExtract CountExtract(TField field, bool ignoreDubles,

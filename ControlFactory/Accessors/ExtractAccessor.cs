@@ -12,7 +12,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             : base(
                   context.Initializer != null 
                     ? context 
-                  : context.SetInitializer(
+                    : context.SetInitializer(
                         new ExtractInitializer<TField, TDAO>(context.Field, addAnyObject: forQuickFilter, fullExtract: fullExtract)
                     )
             ) => 
