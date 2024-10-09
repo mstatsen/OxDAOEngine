@@ -12,7 +12,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected override void AfterControlsCreated()
         {
             base.AfterControlsCreated();
-            ComboBox.LoadCounties();
+            ComboBox.LoadCountries(CountryField.IsPSN, true);
         }
 
         public CountryComboBoxAccessor(IBuilderContext<TField, TDAO> context) : base(context) { }

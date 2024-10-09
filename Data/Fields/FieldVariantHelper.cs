@@ -74,7 +74,7 @@ namespace OxDAOEngine.Data.Fields
                 _ => EngineStyles.FieldsColor,
             };
 
-        public override Color GetFontColor(FieldsVariant value) =>
-            throw new System.NotImplementedException();
+        public override Color GetFontColor(FieldsVariant value) => 
+            default!;
     }
 }

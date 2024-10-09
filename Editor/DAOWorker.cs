@@ -16,7 +16,7 @@ namespace OxDAOEngine.Editor
         public bool Modified => !InitialItem.Equals(CurrentItem);
 
 
-        private readonly TDAO CurrentItem = new();
+        protected readonly TDAO CurrentItem = new();
         public DAOEditor<TField, TDAO, TFieldGroup> Editor => DataManager.Editor<TField, TDAO, TFieldGroup>();
 
         public TDAO? Item
