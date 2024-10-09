@@ -67,6 +67,7 @@
         public const string PSNProfilesLink = "PSNProfilesLink";
         public const string Publisher = "Publisher";
         public const string Region = "Region";
+        public const string RelatedGame = "RelatedGame";
         public const string ROMs = "ROMs";
         public const string Screen = "Screen";
         public const string Series = "Series";
