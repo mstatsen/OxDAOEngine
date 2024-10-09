@@ -84,5 +84,11 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected override void SetReadOnly(bool value) => 
             buttonEditControl.ReadOnly = value;
+
+        protected override void SetControlColor(Color value)
+        {
+            if (buttonEditControl != null)
+                buttonEditControl.BaseColor = new OxColorHelper(value).Darker(6);
+        }
     }
 }

@@ -374,10 +374,10 @@ namespace OxDAOEngine.Data
                 ? value.ToString()!
                 : string.Empty;
 
-        public static Guid GuidValue(object? value) =>
-            value != null && 
-            value.ToString() != string.Empty
-                ? (Guid)value
-                : Guid.Empty;
+        public static Guid GuidValue(object? value)
+        {
+            Guid.TryParse(value?.ToString(), out var guid);
+            return guid;
+        }
     }
 }

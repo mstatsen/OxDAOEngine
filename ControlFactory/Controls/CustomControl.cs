@@ -1,7 +1,6 @@
 ﻿using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
-using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
