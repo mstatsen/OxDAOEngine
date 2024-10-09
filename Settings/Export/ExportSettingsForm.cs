@@ -81,7 +81,7 @@ namespace OxDAOEngine.Settings
             SetupGeneralControl(fileControl, MainPanel.Colors.Lighter(), "File name");
             CalcFramesSizes();
             ActualizeFormatSettings();
-            MainPanel.SetButtonText(OxDialogButton.OK, "Export");
+            MainPanel.SetFooterButtonText(OxDialogButton.OK, "Export");
             MainPanel.DialogButtonStartSpace = 8;
             MainPanel.DialogButtonSpace = 4;
         }

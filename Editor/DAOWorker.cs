@@ -120,7 +120,7 @@ namespace OxDAOEngine.Editor
 
                 if (accessor.IsEmpty)
                 {
-                    OxMessage.ShowError($"{TypeHelper.Name(field)} is mandatory", Editor);
+                    OxMessage.ShowError($"{TypeHelper.Name(field)} is a required field", Editor);
                     accessor.Control.Focus();
                     return false;
                 }
