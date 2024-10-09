@@ -31,7 +31,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
         {
             this.SuspendLayout();
             // 
-            // GameModeEditor
+            // IconMappingEditor
             // 
             this.ClientSize = new System.Drawing.Size(404, 327);
             this.MaximumSize = new System.Drawing.Size(404, 327);

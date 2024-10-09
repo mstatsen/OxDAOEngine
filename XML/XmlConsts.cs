@@ -7,6 +7,7 @@
         public const string FreeSize = "FreeSize";
         public const string Bronze = "Bronze";
         public const string CategoryName = "CategoryName";
+        public const string CoachMultiplayer = "CoachMultiplayer";
         public const string Code = "Code";
         public const string Color = "Color";
         public const string Column = "Column";
@@ -56,6 +57,7 @@
         public const string ModelCode = "ModelCode";
         public const string Name = "Name";
         public const string Net = "Net";
+        public const string OnlineMultiplayer = "OnlineMultiplayer";
         public const string Owner = "Owner";
         public const string Password = "Password";
         public const string PEGI = "PEGI";
@@ -70,6 +72,7 @@
         public const string Series = "Series";
         public const string Settings = "Settings";
         public const string Silver = "Silver";
+        public const string SinglePlayer = "SinglePlayer";
         public const string Size = "Size";
         public const string Sorting = "Sorting";
         public const string Sortings = "Sortings";

@@ -77,7 +77,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             base.OnControlSizeChanged();
             ReadOnlyControl!.Width = ReadOnlyLabel.Width + ReadOnlyPictureSize;
-            ReadOnlyControl.Height = ReadOnlyPictureSize;
+            ReadOnlyControl.Height = ReadOnlyPictureSize + 2;
         }
 
         protected override void OnControlFontChanged()
