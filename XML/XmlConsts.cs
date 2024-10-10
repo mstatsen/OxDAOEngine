@@ -53,6 +53,7 @@
         public const string Language = "Language";
         public const string Licensed = "Licensed";
         public const string Login = "Login";
+        public const string MaximumPlayers = "MaximumPlayers";
         public const string Mode = "Mode";
         public const string Model = "Model";
         public const string ModelCode = "ModelCode";
