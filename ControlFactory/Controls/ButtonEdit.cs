@@ -48,6 +48,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             editor.Init(Context);
             editor.BaseColor = dialogBaseColor;
             editor.Value = internalValue;
+            dialog.FirstFocusControl = editor.Control;
+            dialog.SetKeyUpHandler(editor.Control);
             dialog.SetContentSize(360, 240);
             dialog.Text = editor.Text;
             dialog.BaseColor = dialogBaseColor;

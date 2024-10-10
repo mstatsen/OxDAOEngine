@@ -31,8 +31,6 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected abstract string ItemName();
 
-        public TDAO? ParentItem { get; set; }
-
         private const int ButtonSpace = (int)OxSize.Medium;
         private const int ButtonWidth = 28;
         private const int ButtonHeight = 20;

@@ -81,5 +81,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         public virtual object? PrepareValueToReadOnly(TItem? value) =>
             value;
+
+        public TDAO? ParentItem { get; set; }
     }
 }

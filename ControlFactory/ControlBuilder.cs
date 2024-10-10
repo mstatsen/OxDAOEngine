@@ -6,6 +6,7 @@ using OxDAOEngine.Data.Decorator;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Types;
+using OxDAOEngine.ControlFactory.Controls;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -191,6 +192,9 @@ namespace OxDAOEngine.ControlFactory
 
                 try
                 {
+                    if (accessor.Control is ICustomControl<TField, TDAO> listControl)
+                        listControl.ParentItem = item;
+
                     accessor.RenewControl();
 
                     if (accessor is IDependedControl dependedAccessor)
