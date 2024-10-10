@@ -75,13 +75,19 @@ namespace OxDAOEngine.ControlFactory
         public IControlAccessor Accessor(string name, FieldType fieldType, object? additionalContext = null) =>
             Accessor(Context(name, fieldType, additionalContext));
 
-        public EnumAccessor<TField, TDAO, TItem> EnumAccessor<TItem>(object? additionalContext = null)
+        public EnumAccessor<TField, TDAO, TItem> Accessor<TItem>(object? additionalContext = null)
             where TItem : Enum => 
             (EnumAccessor<TField, TDAO, TItem>)
                 Accessor(
                     Context(typeof(TItem).Name, FieldType.Enum, additionalContext),
                     (c) => Factory.CreateEnumAccessor<TItem>(c)
                 );
+
+        public EnumAccessor<TField, TDAO, TItem> Accessor<TItem>(string name, FieldType fieldType, 
+            object? additionalContext = null)
+            where TItem : Enum =>
+            (EnumAccessor<TField, TDAO, TItem>)Accessor(Context(name, fieldType, additionalContext));
+
 
         public IControlAccessor FieldListAccessor(object? additionalContext = null) =>
             Accessor(
@@ -94,6 +100,10 @@ namespace OxDAOEngine.ControlFactory
                 Context("SortingListAccessor", FieldType.Custom, additionalContext),
                 c => Factory.CreateSortingListAccessor(c)
             );
+
+        public T Control<T>(TField field)
+            where T : Control =>
+            (T)Accessor(field).Control;
 
         public FieldContext<TField, TDAO> Context(TField field)
         {
@@ -298,10 +308,7 @@ namespace OxDAOEngine.ControlFactory
                 label.Visible = visible;
         }
 
-        public T Control<T>(TField field) where T : Control => 
-            (T)this[field].Control;
-
-        public Control Control(TField field) => 
+        public Control GetControl(TField field) => 
             this[field].Control;
 
         public void ClearValueConstraints(TField field) => 

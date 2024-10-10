@@ -65,7 +65,7 @@ namespace OxDAOEngine.Settings
             GeneralPanel = CreateFrame("General");
             GeneralPanel.Margins.TopOx = OxSize.Extra;
 
-            formatAccessor = Builder.EnumAccessor<ExportFormat>();
+            formatAccessor = Builder.Accessor<ExportFormat>();
             formatAccessor.Value = settings.Format;
             formatAccessor.ValueChangeHandler += FormatChangeHandler;
             SetupGeneralControl(formatAccessor.Control, MainPanel.BaseColor, "Export as");
@@ -491,7 +491,7 @@ namespace OxDAOEngine.Settings
 
         private EnumAccessor<TField, TDAO, ExportSummaryType> CreateSummaryControl(ExportFormat format)
         {
-            EnumAccessor<TField, TDAO, ExportSummaryType> accessor = Builder.EnumAccessor<ExportSummaryType>(format);
+            EnumAccessor<TField, TDAO, ExportSummaryType> accessor = Builder.Accessor<ExportSummaryType>(format);
             
             accessor.Value = format == ExportFormat.Html 
                 ? settings.HTML.Summary 

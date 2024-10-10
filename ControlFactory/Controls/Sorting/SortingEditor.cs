@@ -39,7 +39,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void CreateDirectionControl()
         {
-            DirectionControl = Context.Builder.EnumAccessor<SortOrder>();
+            DirectionControl = Context.Builder.Accessor<SortOrder>();
             DirectionControl.Parent = this;
             DirectionControl.Left = 80;
             DirectionControl.Top = FieldControl!.Bottom + 8;

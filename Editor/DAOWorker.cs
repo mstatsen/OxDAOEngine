@@ -153,7 +153,7 @@ namespace OxDAOEngine.Editor
         {
             foreach (TField field in EditingFields)
                 ControlPainter.ColorizeControl(
-                    Builder.Control(field),
+                    Builder.GetControl(field),
                     Editor.MainPanel.BaseColor
                 );
         }
@@ -236,7 +236,7 @@ namespace OxDAOEngine.Editor
             bool needRecalcGroupsAvailability = false;
 
             foreach (TField field in EditingFields)
-                if (Builder.Control(field) == sender)
+                if (Builder.GetControl(field) == sender)
                 {
                     if (Generator!.TitleAccordionFields().Contains(field))
                         FillFormCaption();

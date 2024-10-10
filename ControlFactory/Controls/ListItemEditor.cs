@@ -14,6 +14,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         where TDAO : RootDAO<TField>, new()
     {
         public IBuilderContext<TField, TDAO> Context { get; private set; } = default!;
+        public ControlBuilder<TField, TDAO> Builder => Context.Builder;
 
         public ListItemEditor() { }
 

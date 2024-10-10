@@ -34,7 +34,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
 
         private void CreateContentPartControl()
         {
-            ContentPartControl = Context.Builder.EnumAccessor<IconContent>();
+            ContentPartControl = Context.Builder.Accessor<IconContent>();
             ContentPartControl.Context.SetInitializer(iconContentPartInitializer);
             ContentPartControl.Parent = this;
             ContentPartControl.Left = 64;

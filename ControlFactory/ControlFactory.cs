@@ -11,6 +11,7 @@ using OxDAOEngine.ControlFactory.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Links;
+using System;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -40,6 +41,14 @@ namespace OxDAOEngine.ControlFactory
 
         protected virtual bool IsMetaDataField(TField field) => 
             field.Equals(TypeHelper.FieldHelper<TField>().FieldMetaData);
+
+        protected virtual IInitializer CreateExtractInitializer(TField field,
+            bool fullExtract = true, bool fixedExtract = true) =>
+            new ExtractInitializer<TField, TDAO>(
+                field,
+                fullExtract: true,
+                fixedExtract: true
+            );
 
         protected virtual IInitializer? Initializer(IBuilderContext<TField, TDAO> context)
         {
