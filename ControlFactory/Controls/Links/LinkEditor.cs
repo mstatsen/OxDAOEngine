@@ -3,6 +3,7 @@ using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Links;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -12,6 +13,7 @@ namespace OxDAOEngine.ControlFactory.Controls
     {
         private ComboBoxAccessor<TField, TDAO> NameControl = default!;
         private IControlAccessor UrlControl = default!;
+        public override Bitmap FormIcon => OxIcons.Link;
 
         public override void RenewData()
         {

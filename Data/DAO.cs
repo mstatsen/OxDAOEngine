@@ -379,5 +379,7 @@ namespace OxDAOEngine.Data
             Guid.TryParse(value?.ToString(), out var guid);
             return guid;
         }
+
+        public virtual string ShortString => ToString() ?? string.Empty;
     }
 }

@@ -126,7 +126,7 @@ namespace OxDAOEngine.Data
                 CallItemAddHandler(item, new DAOEntityEventArgs(DAOOperation.Add));
         }
 
-        protected virtual void CallItemAddHandler(T item, DAOEntityEventArgs args) => 
+        protected virtual void CallItemAddHandler(T item, DAOEntityEventArgs args) =>
             ItemAddHandler?.Invoke(item, args);
 
         public T Add() => Add(new T());
@@ -243,7 +243,7 @@ namespace OxDAOEngine.Data
             return true;
         }
 
-        public override int GetHashCode() => 
+        public override int GetHashCode() =>
             EqualityComparer<List<T>>.Default.GetHashCode(List);
 
 
@@ -260,8 +260,26 @@ namespace OxDAOEngine.Data
 
         public int ModifiedCount => List.FindAll(d => d.Modified).Count;
 
-        public override string ToString() => 
+        public override string ToString() =>
             string.Join(", ", List);
+
+        public override string ShortString
+        {
+            get
+            {
+                string result = string.Empty;
+
+                foreach (T item in this)
+                {
+                    if (result != string.Empty)
+                        result += ", ";
+
+                    result += item.ShortString;
+                }
+
+                return result;
+            }
+        }
 
         public override string? MatchingString()
         {

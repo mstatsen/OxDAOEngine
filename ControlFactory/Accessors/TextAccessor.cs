@@ -33,6 +33,6 @@ namespace OxDAOEngine.ControlFactory.Accessors
             (OxTextBox)Control;
 
         public override bool IsEmpty =>
-            base.IsEmpty || StringValue.Equals(string.Empty);
+            base.IsEmpty || StringValue.Trim().Equals(string.Empty);
     }
 }

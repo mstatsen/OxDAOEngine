@@ -75,6 +75,9 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (readOnly)
                 return;
 
+            if (AllItemsAdded)
+                return;
+
             TItem? item = Editor(TypeOfEditorShow.Add).Add();
 
             if (item != null)
@@ -159,6 +162,10 @@ namespace OxDAOEngine.ControlFactory.Controls
             try
             {
                 int removeIndex = ListBox.SelectedIndex;
+
+                if (removeIndex < 0)
+                    return;
+
                 ListBox.Items.RemoveAt(removeIndex);
 
                 if (removeIndex == ListBox.Items.Count)
@@ -176,14 +183,12 @@ namespace OxDAOEngine.ControlFactory.Controls
             ItemRemoved?.Invoke(this, EventArgs.Empty);
         }
 
-        private bool AllItemsAdded()
-        {
-            int maximum = GetMaximumCount != null 
-                ? GetMaximumCount() 
-                : MaximumItemsCount;
-
-            return ListBox.Items.Count < maximum || maximum == -1;
-        }
+        private bool AllItemsAdded => 
+            ListBox.Items.Count == (
+                GetMaximumCount != null
+                    ? GetMaximumCount()
+                    : MaximumItemsCount
+            );
 
         protected virtual void EnableControls()
         {
@@ -193,7 +198,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             AddButton.Visible = !readOnly;
             DeleteButton.Visible = !readOnly;
             RecalcEditButtonVisible();
-            AddButton.Enabled = AllItemsAdded();
+            AddButton.Enabled = !AllItemsAdded;
 
             foreach (OxClickFrame eControl in EnabledWhenItemSelected)
                 eControl.Enabled = ListBox.SelectedIndex > -1;
@@ -306,6 +311,26 @@ namespace OxDAOEngine.ControlFactory.Controls
             ListBox.SelectedIndexChanged += (s, e) => EnableControls();
             ListBox.DoubleClick += (s, e) => EditItem();
             ListBox.Click += ListClickHandler;
+            ListBox.KeyUp += ListBoxKeyUpHandler;
+        }
+
+        private void ListBoxKeyUpHandler(object? sender, KeyEventArgs e)
+        {
+            if (e.Handled)
+                return;
+
+            switch (e.KeyCode)
+            {
+                case Keys.Delete:
+                    RemoveItem();
+                    break;
+                case Keys.Insert:
+                    AddItem();
+                    break;
+                case Keys.Enter:
+                    EditItem();
+                    break;
+            }
         }
 
         private void ListClickHandler(object? sender, EventArgs e)

@@ -43,10 +43,12 @@ namespace OxDAOEngine.ControlFactory.Controls
             TListControl editor = new()
             {
                 Parent = dialog,
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                ParentItem = ParentItem,
+                Font = Font,
+                BaseColor = dialogBaseColor
             };
             editor.Init(Context);
-            editor.BaseColor = dialogBaseColor;
             editor.Value = internalValue;
             dialog.FirstFocusControl = editor.Control;
             dialog.SetKeyUpHandler(editor.Control);
@@ -73,7 +75,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             list.CopyFrom(internalValue);
 
         private void FillTextBox() => 
-            buttonEditControl.Value = internalValue.ToString();
+            buttonEditControl.Value = internalValue.ShortString;
 
         protected override void AfterSetValue()
         {
