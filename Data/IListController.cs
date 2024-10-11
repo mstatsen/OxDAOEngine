@@ -22,6 +22,8 @@ namespace OxDAOEngine.Data
         DAOImageList<TField, TDAO> ImageList { get; }
         DAOImage? ImageInfo(Guid imageId);
         Bitmap? Image(Guid imageId);
+        Bitmap? Icon { get; }
+
         ItemHistoryList<TField, TDAO> History { get; }
 
         TDAO? Item(TField field, object value);

@@ -533,6 +533,10 @@ namespace OxDAOEngine.Data
                 ? ImageList.Image(imageId)
                 : null;
 
+        public Bitmap? Icon => GetIcon();
+
+        protected abstract Bitmap? GetIcon();
+
         public virtual bool AvailableSummary => true;
         public virtual bool AvailableCategories => true;
         public virtual bool AvailableQuickFilter => true;

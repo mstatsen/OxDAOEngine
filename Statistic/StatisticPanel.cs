@@ -22,6 +22,7 @@ namespace OxDAOEngine.Statistic
             SetStatisticText();
             Borders.SetSize(OxSize.None);
             Borders.TopOx = OxSize.Small;
+            DarkerColorHelper = new OxColorHelper(BaseColor);
         }
 
         protected override void PrepareInnerControls()
@@ -30,9 +31,14 @@ namespace OxDAOEngine.Statistic
             CreateLabels();
         }
 
+        private readonly OxColorHelper DarkerColorHelper;
+
         protected override void PrepareColors()
         {
             base.PrepareColors();
+
+            if (DarkerColorHelper != null)
+                DarkerColorHelper.BaseColor = Colors.Darker();
 
             foreach (StatisticType statisticType in Labels.Keys)
                 PrepareStatisticColor(statisticType, 0);
@@ -154,12 +160,11 @@ namespace OxDAOEngine.Statistic
                                 ? 0
                                 : 2
                         ),
-                    _ => (statistic > 0) &&
-                         (type == StatisticType.Modified
-                          || type == StatisticType.Added
-                          || type == StatisticType.Deleted)
-                            ? Colors.HDarker().Redder(6)
-                            : Colors.HDarker().Lighter(),
+                    StatisticType.Modified or
+                    StatisticType.Added or
+                    StatisticType.Deleted when statistic > 0 =>
+                        DarkerColorHelper.Redder(6),
+                    _ => BaseColor
                 };
 
         private void AccessHandlers()

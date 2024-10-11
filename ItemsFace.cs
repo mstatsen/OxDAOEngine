@@ -12,7 +12,7 @@ using OxDAOEngine.View;
 
 namespace OxDAOEngine
 {
-    public class ItemsFace<TField, TDAO> : OxPane, IDataReceiver
+    public class ItemsFace<TField, TDAO> : OxPane, IDataReceiver, IOxWithIcon
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -508,6 +508,8 @@ namespace OxDAOEngine
         public SettingsPart ActiveSettingsPart => tabControl.ActivePage != tableView 
             ? SettingsPart.View
             : SettingsPart.Table;
+
+        public Bitmap? Icon => ListController.Icon;
 
         private readonly TableView<TField, TDAO> tableView;
         private readonly ItemsView<TField, TDAO>? cardsView;
