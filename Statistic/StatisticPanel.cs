@@ -90,8 +90,8 @@ namespace OxDAOEngine.Statistic
         private void RenewCategoryValue() => 
             Labels[StatisticType.Category].Text =
                 ListController.Category != null &&
-                ListController.Category?.Name != null &&
-                ListController.Category?.Name != string.Empty
+                ListController.Category.Name != null &&
+                ListController.Category.Name != string.Empty
                     ? $"{ListController.Category?.Name} : {ListController.FilteredCount}"
                     : string.Empty;
 
