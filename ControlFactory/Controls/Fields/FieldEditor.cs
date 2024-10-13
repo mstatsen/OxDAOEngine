@@ -2,6 +2,7 @@
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -22,6 +23,8 @@ namespace OxDAOEngine.ControlFactory.Controls
                 ObjectList = ExistingItems
             }.Fields;
         }
+
+        public override Bitmap? FormIcon => OxIcons.Field;
 
         private void CreateFieldControl()
         {

@@ -518,11 +518,11 @@ namespace OxDAOEngine.Settings
                     Font = Styles.DefaultFont,
                     TabHeaderSize = new Size(84, 30),
                     BorderVisible = false,
-                    Text = settings.ListName
+                    Text = settings.ListName,
                 };
                 tab.Margins.SetSize(OxSize.None);
                 tab.Margins.TopOx = OxSize.Extra;
-                tabControl.AddPage(tab);
+                tabControl.AddPage(tab, settings.Icon);
                 settingsTabs.Add(settings, tab);
                 settingsPanels.Add(settings);
                 settingsPartControls.Add(settings);

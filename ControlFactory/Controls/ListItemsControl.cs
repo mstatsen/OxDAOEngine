@@ -201,7 +201,9 @@ namespace OxDAOEngine.ControlFactory.Controls
             AddButton.Enabled = !AllItemsAdded;
 
             foreach (OxClickFrame eControl in EnabledWhenItemSelected)
-                eControl.Enabled = ListBox.SelectedIndex > -1;
+                eControl.Enabled = ListBox.SelectedIndex > -1 
+                    && (FixedItems == null 
+                        || !FixedItems.Contains(ListBox.SelectedItem));
         }
 
         protected void PrepareEditButton(OxIconButton button, EventHandler handler,

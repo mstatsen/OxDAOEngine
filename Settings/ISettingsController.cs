@@ -2,10 +2,11 @@
 using OxDAOEngine.Data;
 using OxDAOEngine.Settings.Helpers;
 using OxDAOEngine.Settings.Observers;
+using OxLibrary.Panels;
 
 namespace OxDAOEngine.Settings
 {
-    public interface ISettingsController : IDataController
+    public interface ISettingsController : IDataController, IOxWithIcon
     {
         object? this[string setting] { get; set; }
         ISettingHelper Helper { get; }

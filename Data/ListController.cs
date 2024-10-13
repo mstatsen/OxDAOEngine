@@ -33,7 +33,10 @@ namespace OxDAOEngine.Data
             fieldHelper = RegisterFieldHelper();
             fieldGroupHelper = RegisterFieldGroupHelper();
             RegisterHelpers();
-            Settings = new DAOSettings<TField, TDAO>();
+            Settings = new DAOSettings<TField, TDAO>
+            {
+                Icon = Icon
+            };
             fullItemsList = new();
             imageList = new();
         }

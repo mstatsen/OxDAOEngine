@@ -17,6 +17,7 @@
         Link,
         LinkList,
         Country,
+        Color,
         Custom
     }
 }

@@ -210,5 +210,11 @@ namespace OxDAOEngine.Settings
         public ISettingsController Settings => this;
 
         public OxPane? Face => null;
+        private Bitmap? icon;
+        public Bitmap? Icon 
+        { 
+            get => icon;
+            set => icon = value;
+        }
     }
 }

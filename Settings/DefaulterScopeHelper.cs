@@ -15,8 +15,8 @@ namespace OxDAOEngine.Settings
         public static int Width(DefaulterScope scope) => 
             scope switch
             {
-                DefaulterScope.CurrentPage => 140,
-                _ => 80,
+                DefaulterScope.CurrentPage => 160,
+                _ => 86,
             };
 
         public override DefaulterScope EmptyValue() =>

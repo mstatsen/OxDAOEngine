@@ -120,17 +120,26 @@ namespace OxDAOEngine.ControlFactory
                 FieldType.Extract =>
                     CreateExtractAccessor(context),
                 FieldType.MetaData =>
-                    new FieldAccessor<TField, TDAO>(context),
+                    CreateMetaDataAccessor(context),
                 FieldType.Link =>
                     CreateLinkButtonAccessor(context),
                 FieldType.LinkList =>
                     CreateLinksAccessor(context),
                 FieldType.Country =>
                     CreateCountryAccessor(context),
+                FieldType.Color =>
+                    CreateColorAccessor(context),
+                //TODO: may be abstract of enum and list accessors?
                 _ =>
                     CreateOtherAccessor(context),
             };
         }
+
+        private IControlAccessor CreateColorAccessor(IBuilderContext<TField, TDAO> context) =>
+            new ColorComboBoxAccessor<TField, TDAO>(context);
+
+        private IControlAccessor CreateMetaDataAccessor(IBuilderContext<TField, TDAO> context) =>
+            new FieldAccessor<TField, TDAO>(context);
 
         private IControlAccessor CreateCountryAccessor(IBuilderContext<TField, TDAO> context) => 
             new CountryComboBoxAccessor<TField, TDAO>(context);

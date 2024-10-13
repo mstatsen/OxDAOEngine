@@ -28,6 +28,7 @@ namespace OxDAOEngine.View
             Paddings.SetSize(OxSize.Large);
             Header.SetContentSize(Header.Width, 28);
             SetContentSize(CardWidth, CardHeight);
+            Header.Icon = Icon;
         }
 
         public override Color DefaultColor => EngineStyles.CardColor;
@@ -147,5 +148,7 @@ namespace OxDAOEngine.View
         protected readonly ControlBuilder<TField, TDAO> Builder;
         protected readonly ControlLayouter<TField, TDAO> Layouter;
         private readonly OxColorHelper fontColors = new(default);
+
+        protected override Bitmap? GetIcon() => DataManager.ListController<TField, TDAO>().Icon;
     }
 }

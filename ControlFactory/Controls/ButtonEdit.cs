@@ -50,6 +50,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             };
             editor.Init(Context);
             editor.Value = internalValue;
+            editor.FixedItems = FixedItems;
             dialog.FirstFocusControl = editor.Control;
             dialog.SetKeyUpHandler(editor.Control);
             dialog.SetContentSize(360, 240);
@@ -60,6 +61,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             {
                 internalValue.CopyFrom(editor.Value);
                 FillTextBox();
+                ValueChangeHandler?.Invoke(this, EventArgs.Empty);
             }
 
             dialog.Dispose();
@@ -93,6 +95,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             if (buttonEditControl != null)
                 buttonEditControl.BaseColor = new OxColorHelper(value).Darker(6);
+
+            OnBackColorChanged(EventArgs.Empty);
         }
     }
 }

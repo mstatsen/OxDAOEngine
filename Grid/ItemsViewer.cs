@@ -3,8 +3,6 @@ using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Decorator;
-using OxDAOEngine.Data.Fields;
-using OxDAOEngine.View;
 
 namespace OxDAOEngine.Grid
 {
@@ -12,6 +10,7 @@ namespace OxDAOEngine.Grid
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
+        protected override Bitmap? GetIcon() => OxIcons.Eye;
         public readonly ItemsRootGrid<TField, TDAO> Grid;
         private IMatcher<TField>? filter;
 

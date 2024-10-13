@@ -3,7 +3,7 @@
 namespace OxDAOEngine.ControlFactory.Controls
 {
     public abstract class CustomListControl<TField, TDAO, TItems, TItem> 
-        : CustomControl<TField, TDAO,TItems>
+        : CustomControl<TField, TDAO, TItems>, ICustomListControl<TItem, TItems>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
         where TItems : ListDAO<TItem>, new()
@@ -14,6 +14,20 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected abstract void SetValuePart(TItem valuePart);
 
         protected abstract void GrabList(TItems list);
+
+        private TItems? fixedItems;
+
+        public TItems? FixedItems 
+        { 
+            get => fixedItems;
+            set
+            {
+                fixedItems = value;
+                OnSetFixedItems();
+            } 
+        }
+
+        protected virtual void OnSetFixedItems() { }
 
         protected sealed override TItems GetValue()
         {

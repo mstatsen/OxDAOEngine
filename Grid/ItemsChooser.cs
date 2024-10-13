@@ -27,6 +27,8 @@ namespace OxDAOEngine.Grid
             Text = "Selected Items"
         };
 
+        protected override Bitmap? GetIcon() => OxIcons.Replace;
+
         public ItemsChooser(
             ItemsChooserParams<TField, TDAO> chooserParams) : base(new Size(1280, 800))
         {

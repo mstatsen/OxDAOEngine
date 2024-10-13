@@ -57,6 +57,7 @@ namespace OxDAOEngine.View
             SetSizes();
             FontColors = new OxColorHelper(DefaultForeColor);
             SettingsAvailable = false;
+            Header.Icon = Icon;
         }
 
         protected override void OnExpandedChanged(ExpandedChangedEventArgs e)
@@ -249,5 +250,7 @@ namespace OxDAOEngine.View
         protected readonly Dictionary<OxPane, OxHeader> Headers = new();
         protected readonly List<OxPanel> panels = new();
         protected readonly List<ControlLayouts<TField>> LayoutsLists = new();
+
+        protected override Bitmap? GetIcon() => DataManager.ListController<TField, TDAO>().Icon;
     }
 }

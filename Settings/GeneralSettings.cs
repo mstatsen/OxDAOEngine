@@ -1,6 +1,7 @@
 ﻿using OxDAOEngine.Settings.ControlFactory;
 using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.SystemEngine;
+using OxLibrary;
 
 namespace OxDAOEngine.Settings
 {
@@ -69,5 +70,8 @@ namespace OxDAOEngine.Settings
 
         protected override SystemControlFactory<GeneralSetting> CreateControlFactory() =>
             new GeneralSettingsControlFactory();
+
+        public GeneralSettings() => 
+            Icon = OxIcons.General;
     }
 }

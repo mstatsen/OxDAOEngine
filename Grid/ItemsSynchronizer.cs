@@ -27,6 +27,7 @@ namespace OxDAOEngine.Grid
         private readonly OxPane ButtonsPanel = new(new Size(64, 1));
         private readonly List<TField> EqualFields = new();
 
+        protected override Bitmap? GetIcon() => OxIcons.Replace;
         public ItemsSynchronizer(TDAO leftObject, TDAO rightObject) : base(new Size(1280, 800))
         {
             LeftItem = leftObject;

@@ -54,10 +54,13 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected override void OnControlValueChanged(object? value)
         {
-            if (ReadOnlyControl == null || CustomControl == null)
+            if (ReadOnlyControl == null)
                 return;
 
-            base.OnControlValueChanged(CustomControl.PrepareValueToReadOnly((TItem?)value));
+            base.OnControlValueChanged(
+                CustomControl == null 
+                    ? value
+                    : CustomControl.PrepareValueToReadOnly((TItem?)value));
         }
 
         private void ItemRemovedHandler(object? sender, EventArgs e) => 
@@ -93,15 +96,13 @@ namespace OxDAOEngine.ControlFactory.Accessors
             }
         }
 
-        protected override Control? CreateReadOnlyControl()
-        {
-            return new OxTextBox()
-            { 
+        protected override Control? CreateReadOnlyControl() => 
+            new OxTextBox()
+            {
                 Multiline = true,
                 ReadOnly = true,
                 ScrollBars = ScrollBars.Vertical,
                 BorderStyle = BorderStyle.None,
             };
-        }
     }
 }
