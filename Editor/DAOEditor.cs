@@ -27,16 +27,13 @@ namespace OxDAOEngine.Editor
             CreatePanels();
             MainPanel.Colors.BaseColorChanged += FormColorChanged;
             FormClosed += FormClosedHandler;
-            prevButton.SetContentSize(36, 28);
             MainPanel.Header.AddToolButton(prevButton);
-            nextButton.SetContentSize(36, 28);
             MainPanel.Header.AddToolButton(nextButton);
             FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
             OxIconButton idButton = new(OxIcons.Key, 28)
             {
                 ToolTipText = $"View {fieldHelper.Name(fieldHelper.UniqueField)}"
             };
-            idButton.SetContentSize(36, 28);
             idButton.Click += (s, e) => uniqueKeyViewer.View(Item, this);
             MainPanel.Header.AddToolButton(idButton);
             MainPanel.SetHeaderContentSize(35);
