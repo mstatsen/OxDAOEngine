@@ -27,15 +27,19 @@ namespace OxDAOEngine.Editor
             CreatePanels();
             MainPanel.Colors.BaseColorChanged += FormColorChanged;
             FormClosed += FormClosedHandler;
+            prevButton.SetContentSize(36, 28);
             MainPanel.Header.AddToolButton(prevButton);
+            nextButton.SetContentSize(36, 28);
             MainPanel.Header.AddToolButton(nextButton);
             FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
-            OxIconButton idButton = new(OxIcons.Key, 36)
+            OxIconButton idButton = new(OxIcons.Key, 28)
             {
                 ToolTipText = $"View {fieldHelper.Name(fieldHelper.UniqueField)}"
             };
+            idButton.SetContentSize(36, 28);
             idButton.Click += (s, e) => uniqueKeyViewer.View(Item, this);
             MainPanel.Header.AddToolButton(idButton);
+            MainPanel.SetHeaderContentSize(35);
         }
 
         private readonly UniqueKeyViewer<TField, TDAO> uniqueKeyViewer = new();
@@ -105,11 +109,11 @@ namespace OxDAOEngine.Editor
         private static readonly IListController<TField, TDAO> listController 
             = DataManager.ListController<TField, TDAO>();
 
-        protected OxIconButton prevButton = new(OxIcons.Up, 36)
+        protected OxIconButton prevButton = new(OxIcons.Up, 28)
         {
             ToolTipText = $"Prevous {listController.ItemName}"
         };
-        protected OxIconButton nextButton = new(OxIcons.Down, 36)
+        protected OxIconButton nextButton = new(OxIcons.Down, 28)
         {
             ToolTipText = $"Next {listController.ItemName}"
         };
@@ -255,7 +259,7 @@ namespace OxDAOEngine.Editor
 
         private bool invalidateSizeInProcess = false;
 
-        public void InvalidateSize()
+        public void InvalidateSize(bool centerForm = false)
         {
             if (invalidateSizeInProcess)
                 return;
@@ -270,7 +274,10 @@ namespace OxDAOEngine.Editor
                     Groups.SetGroupsSize();
                     RecalcPanels();
                     MainPanel.ReAlign();
-                    OxControlHelper.CenterForm(this);
+
+                    if (centerForm)
+                        OxControlHelper.CenterForm(this);
+
                     Invalidate();
                 }
                 finally
@@ -313,7 +320,7 @@ namespace OxDAOEngine.Editor
             base.OnShown(e);
             SetParentsVisible(false);
             SetGroupCaptions();
-            InvalidateSize();
+            InvalidateSize(true);
         }
 
         protected abstract void RecalcPanels();
