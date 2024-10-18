@@ -107,25 +107,17 @@ namespace OxDAOEngine.Data
                 }
             }
         }
-
-        protected virtual object? GetFieldValue(TField field) 
-        {
-            if (field.Equals(FieldHelper.TitleField))
-                return Name;
-
-            if (field.Equals(FieldHelper.ImageField))
-                return Image;
-
-            return null;
-        }
+        protected virtual object? GetFieldValue(TField field) => 
+            field.Equals(FieldHelper.TitleField)
+                ? Name
+                : field.Equals(FieldHelper.ImageField)
+                    ? Image
+                    : (object?)null;
 
         public override bool Equals(object? obj) => 
             base.Equals(obj)
             || (obj is RootDAO<TField> otherDAO
                 && ImageId.Equals(otherDAO.ImageId)
-                && (daoImage != null
-                    ? daoImage.Equals(otherDAO.DAOImage)
-                    : otherDAO.DAOImage == null)
                 && Name.Equals(otherDAO.Name));
 
         public override void Clear()
@@ -144,7 +136,8 @@ namespace OxDAOEngine.Data
         {
             XmlHelper.AppendElement(element, XmlConsts.Name, name);
 
-            if (UseImageList)
+            if (UseImageList && 
+                !imageId.Equals(Guid.Empty))
                 XmlHelper.AppendElement(element, XmlConsts.ImageId, imageId);
         }
 
@@ -152,12 +145,27 @@ namespace OxDAOEngine.Data
         {
             name = XmlHelper.Value(element, XmlConsts.Name);
             imageId = XmlHelper.ValueGuid(element, XmlConsts.ImageId);
+            AddImageUsage();
         }
+
+        public bool IsListControllerDAO =>
+            DataManager.FieldController<TField>().FullItemsList.Equals(TopOwnerDAO);
 
         protected override void CopyAdditionalInformationFrom(DAO item)
         {
-            if (UseImageList && item is RootDAO<TField> rootItem)
-                daoImage = rootItem.DAOImage;
+            /*
+            if (!UseImageList
+                || item is not RootDAO<TField> rootItem 
+                || OwnerDAO == null
+                || !IsListControllerDAO)
+                return;
+
+            daoImage?.UsageList.Remove(this);
+            DAOImage = rootItem.DAOImage;
+            AddImageUsage(daoImage);
+            */
+
+            AddImageUsage();
         }
 
         public override string ToString() =>
@@ -169,12 +177,20 @@ namespace OxDAOEngine.Data
                 field.Equals(FieldHelper.ImageField))
                 return StringValue(this[field]).CompareTo(StringValue(y[field]));
 
-            string? thisString = (this[field] == null) ? string.Empty : this[field]?.ToString();
-            return thisString != null ? thisString.CompareTo(y[field]?.ToString()) : y[field] == null ? 0 : -1;
+            string? thisString = (this[field] == null) 
+                ? string.Empty 
+                : this[field]?.ToString();
+
+            return thisString != null 
+                ? thisString.CompareTo(y[field]?.ToString()) 
+                : y[field] == null 
+                    ? 0 
+                    : -1;
         }
 
         public virtual object ParseCaldedValue(TField field, string value) =>
             value;
+
         public FilterOperation DefaultFilterOperation(TField field) =>
             TypeHelper.FieldHelper<TField>().DefaultFilterOperation(field);
 
@@ -199,6 +215,7 @@ namespace OxDAOEngine.Data
         }
 
         private TField UniqueField => FieldHelper.UniqueField;
+
         private object? UniqueValue
         { 
             get => this[UniqueField];
@@ -211,19 +228,32 @@ namespace OxDAOEngine.Data
         public Guid ImageId
         {
             get => imageId;
-            set => ModifyValue(FieldHelper.ImageField, imageId, value, n => imageId = GuidValue(n));
-        }
-
-        private DAOImage? daoImage;
-        public DAOImage? DAOImage 
-        {
-            get => daoImage;
             set
             {
+                if (!UseImageList)
+                    return;
+
+                DAOImage?.UsageList.Remove(this);
+                ModifyValue(FieldHelper.ImageField, imageId, value, n => imageId = GuidValue(n));
+                AddImageUsage();
+            }
+        }
+
+        //private DAOImage? daoImage;
+        public DAOImage? DAOImage 
+        {
+            get => DataManager.FieldController<TField>().GetImageInfo(imageId);
+            /*
+            set
+            {
+                if (!UseImageList)
+                    return;
+
                 daoImage = value;
                 ImageId = daoImage != null ? daoImage.Id : Guid.Empty;
                 AddImageUsage(daoImage);
             } 
+            */
         }
 
         public Bitmap? Image
@@ -232,26 +262,34 @@ namespace OxDAOEngine.Data
             set => UpdateImage(value);
         }
 
+        private DAOImage? GetSuitableDAOImage(Bitmap? bitmap) =>
+            DataManager.FieldController<TField>().SuitableImage(bitmap);
+
+        private Guid GetSuitableDAOImageId(Bitmap? bitmap)
+        {
+            DAOImage? suitableDAOImage = GetSuitableDAOImage(bitmap);
+            return
+                suitableDAOImage == null
+                    ? Guid.NewGuid()
+                    : suitableDAOImage.Id;
+        }
+
         private void UpdateImage(Bitmap? value)
         {
-            if (Image == null && value == null)
+            if (!UseImageList
+                || (Image == null && value == null)
+                || (Image != null && Image.Equals(value))
+                || (value != null && value.Equals(Image))
+            )
                 return;
 
-            if (Image != null && Image.Equals(value))
-                return;
+            DAOImage? daoImage = GetSuitableDAOImage(value);
+            ImageId = daoImage != null ? daoImage.Id : Guid.NewGuid();
 
-            if (value != null && value.Equals(Image))
-                return;
+            if (daoImage == null)
+                DataManager.FieldController<TField>().UpdateImage(ImageId, value);
 
-            if (UseImageList)
-            {
-                daoImage = DataManager.FieldController<TField>().GetImageInfo(ImageId);
-                daoImage?.UsageList.Remove(this);
-
-                ImageId = Guid.NewGuid();
-                daoImage = DataManager.FieldController<TField>().UpdateImage(ImageId, Name, value);
-                AddImageUsage(daoImage);
-            }
+            AddImageUsage();
         }
 
         private string name = string.Empty;
@@ -264,26 +302,31 @@ namespace OxDAOEngine.Data
 
         private Bitmap? GetImage()
         {
-            if (UseImageList )
-                if (daoImage == null)
-                {
-                    daoImage = GetImageInfo();
-                    AddImageUsage(daoImage);
+            /*
+            if (UseImageList 
+                && DAOImage == null)
+                { 
+                    AddImageUsage(DAOImage);
                 }
+            */
 
-            return daoImage?.Image;
+            AddImageUsage();
+            return DAOImage?.Image;
         }
 
         protected virtual bool AlwaysSaveImage => false;
 
-        private void AddImageUsage(DAOImage? image)
+        private void AddImageUsage()
         {
-            if (image == null)
+            if (!UseImageList
+                || DAOImage == null
+                //|| OwnerDAO == null
+                //|| !IsListControllerDAO
+                )
                 return;
 
-            image.FixUsage = AlwaysSaveImage;
-            image.UsageList.Remove(this);
-            image.UsageList.Add(this);
+            DAOImage.FixUsage = AlwaysSaveImage;
+            DAOImage.UsageList.Add(this);
         }
 
         private DAOImage? GetImageInfo() => DataManager.FieldController<TField>().GetImageInfo(imageId);
@@ -293,8 +336,16 @@ namespace OxDAOEngine.Data
         public override int GetHashCode() => 
             name.GetHashCode() ^ imageId.GetHashCode();
 
-        private readonly bool useImageList = DataManager.UseImageList<TField>();
-        public virtual bool UseImageList => useImageList;
+        private bool IsFiltrationDao = false;
+        internal RootDAO<TField> MarkAsFiltration()
+        {
+            IsFiltrationDao = true;
+            return this;
+        }
+       
+        public virtual bool UseImageList =>
+            DataManager.UseImageList<TField>()
+            && !IsFiltrationDao;
 
         public virtual Color BaseColor => Styles.DefaultGridRowColor;
         public Color BackColor => new OxColorHelper(BaseColor).Darker(7);

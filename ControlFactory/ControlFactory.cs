@@ -76,10 +76,9 @@ namespace OxDAOEngine.ControlFactory
                     break;
             }
 
-            if (context.Name == "LinkName")
-                return new LinkNameInitializer<TField, TDAO>();
-
-            return null;
+            return context.Name == "LinkName"
+                ? new LinkNameInitializer<TField, TDAO>() 
+                : (IInitializer?)null;
         }
 
         protected readonly Dictionary<BuilderKey, ControlBuilder<TField, TDAO>> builders = new();
@@ -213,19 +212,18 @@ namespace OxDAOEngine.ControlFactory
                 ? CreateExtractAccessor(context)
                 : new NumericAccessor<TField, TDAO>(context);
 
-        protected IControlAccessor CreateBoolAccessor(IBuilderContext<TField, TDAO> context)
-        {
-            if (context.IsBatchUpdate || context.IsQuickFilter)
-                return new BoolAccessor<TField, TDAO>(context);
-
-            return new CheckBoxAccessor<TField, TDAO>(context.SetInitializer(
-                new CheckBoxInitializer(context.Name)));
-        }
+        protected IControlAccessor CreateBoolAccessor(IBuilderContext<TField, TDAO> context) => 
+            context.IsBatchUpdate 
+            || context.IsQuickFilter
+                ? new BoolAccessor<TField, TDAO>(context)
+                : new CheckBoxAccessor<TField, TDAO>(context.SetInitializer(
+                    new CheckBoxInitializer(context.Name))
+                );
 
         public IControlAccessor CreateEnumAccessor<TItem>(IBuilderContext<TField, TDAO> context)
             where TItem : Enum =>
-
-            (context is FieldContext<TField, TDAO> accessorContext && accessorContext.AvailableDependencies)
+            (context is FieldContext<TField, TDAO> accessorContext 
+            && accessorContext.AvailableDependencies)
                 ? !context.IsQuickFilter
                     ? (IControlAccessor)new DependedEnumAccessor<TField, TDAO, TItem>(accessorContext)
                     : new ComboBoxAccessor<TField, TDAO>(context)
@@ -246,8 +244,8 @@ namespace OxDAOEngine.ControlFactory
                 ? new CustomControlAccessor<TField, TDAO, TListControl, TList>(context).Init()
                 : CreateButtonEditAccessor<TItem, TList, TListControl>(context);
 
-        protected IControlAccessor CreateListAccessor<
-            TItem, TList, TListControl>(IBuilderContext<TField, TDAO> context, 
+        protected IControlAccessor CreateListAccessor<TItem, TList, TListControl>(
+            IBuilderContext<TField, TDAO> context, 
             ControlScope simpleControlScope)
             where TItem : DAO, new()
             where TList : ListDAO<TItem>, new()
@@ -256,8 +254,8 @@ namespace OxDAOEngine.ControlFactory
                 context, new List<ControlScope>() { simpleControlScope }
             );
 
-        protected IControlAccessor CreateListAccessor<
-            TItem, TList, TListControl>(IBuilderContext<TField, TDAO> context)
+        protected IControlAccessor CreateListAccessor<TItem, TList, TListControl>(
+            IBuilderContext<TField, TDAO> context)
             where TItem : DAO, new()
             where TList : ListDAO<TItem>, new()
             where TListControl : CustomListControl<TField, TDAO, TList, TItem>, new() =>

@@ -88,7 +88,6 @@ namespace OxDAOEngine.ControlFactory
             where TItem : Enum =>
             (EnumAccessor<TField, TDAO, TItem>)Accessor(Context(name, fieldType, additionalContext));
 
-
         public IControlAccessor FieldListAccessor(object? additionalContext = null) =>
             Accessor(
                 Context("FieldListAccessor", FieldType.Custom, additionalContext),
@@ -242,18 +241,10 @@ namespace OxDAOEngine.ControlFactory
             }
         }
 
-        private bool CheckFilter(FilterRules<TField>? rules, TField field) =>
-            rules == null || rules.RuleExist(field);
-
-        private void GrabEditorControls(IFieldMapping<TField> item, FilterRules<TField>? rules)
+        private void GrabEditorControls(IFieldMapping<TField> item)
         {
             foreach (TField field in TypeHelper.FieldHelper<TField>().EditingFields)
-            {
-                if (!CheckFilter(rules, field))
-                    continue;
-
                 item[field] = Accessor(field).Value;
-            }
         }
 
         public void GrabControls(IFieldMapping<TField> item, FilterRules<TField>? rules = null)
@@ -264,11 +255,10 @@ namespace OxDAOEngine.ControlFactory
             switch (Scope)
             {
                 case ControlScope.Editor:
-                    GrabEditorControls(item, rules);
+                    GrabEditorControls(item);
                     break;
-                case ControlScope.QuickFilter:
-                    if (item is SimpleFilter<TField, TDAO> filter)
-                        GrabQuickFilterControls(filter, rules);
+                case ControlScope.QuickFilter when item is SimpleFilter<TField, TDAO> filter:
+                    GrabQuickFilterControls(filter, rules);
                     break;
             }
         }
@@ -290,9 +280,9 @@ namespace OxDAOEngine.ControlFactory
 
         public IControlAccessor this[TField field] => Accessor(field);
 
-        public T? Value<T>(TField field) => 
-            (T?)(this[field].Value == null || 
-                    (this[field].Value is not T)
+        public T? Value<T>(TField field) =>
+            (T?)(this[field].Value is null
+                or not T
                 ? default(T)
                 : this[field].Value);
 
@@ -308,19 +298,10 @@ namespace OxDAOEngine.ControlFactory
                 label.Visible = visible;
         }
 
-        public Control GetControl(TField field) => 
+        public Control Control(TField field) =>
             this[field].Control;
 
-        public void ClearValueConstraints(TField field) => 
-            this[field].ClearValueConstraints();
-
         public ControlFactory<TField, TDAO> Factory { get; set; }
-
-        public void DetachControlsFromParent()
-        {
-            foreach (IControlAccessor accessor in Accessors.Values)
-                accessor.Parent = null;
-        }
 
         public readonly ControlLayouter<TField, TDAO> Layouter;
         public bool BuildOnly = false;

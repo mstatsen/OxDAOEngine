@@ -126,21 +126,8 @@ namespace OxDAOEngine.Grid
 
         public EventHandler? BatchUpdateCompleted;
 
-
-        protected override bool IsAvailableColumn(TField field)
-        {
-            if (Fields != null)
-                return Fields.Contains(field);
-
-            return Usage switch
-            {
-                GridUsage.SelectItem or
-                GridUsage.ChooseItems =>
-                    fieldHelper.MandatoryFields.Contains(field),
-                _ =>
-                    ListController.Settings.TableFields.Fields.Contains(field),
-            };
-        }
+        protected override List<TField> SettingsTableFields =>
+            ListController.Settings.TableFields.Fields;
 
         public override void Fill(IMatcher<TField>? filter = null, bool force = false)
         {

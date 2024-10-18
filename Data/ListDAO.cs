@@ -42,10 +42,18 @@ namespace OxDAOEngine.Data
                 CopyFrom(null);
             else
             {
-                Clear();
+                StartCoping();
+                try
+                {
+                    Clear();
 
-                foreach (T item in otherList)
-                    Add(item);
+                    foreach (T item in otherList)
+                        Add(item);
+                }
+                finally
+                {
+                    FinishCoping();
+                }
             }
         }
 
@@ -91,16 +99,16 @@ namespace OxDAOEngine.Data
 
             foreach (XmlNode node in element.ChildNodes)
             {
-                item = new T
-                {
-                    SilentChange = SilentChange
-                };
+                item =  Add(new T
+                    {
+                        SilentChange = SilentChange
+                    }
+                );
 
                 if (item.WithoutXmlNode || item.XmlElementName == node.Name)
                 {
                     item.State = State;
                     item.Load((XmlElement)node);
-                    Add(item);
                 }
             }
 

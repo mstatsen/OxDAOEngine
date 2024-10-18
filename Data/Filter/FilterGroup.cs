@@ -6,7 +6,7 @@ namespace OxDAOEngine.Data.Filter
     public class FilterGroup<TField, TDAO> : ListDAO<SimpleFilter<TField, TDAO>>, 
         IMatcher<TField>, IMatcherList<TField>
         where TField : notnull, Enum
-        where TDAO : DAO, IFieldMapping<TField>, new()
+        where TDAO : RootDAO<TField>, IFieldMapping<TField>, new()
     {
         public FilterConcat FilterConcat { get; internal set; } = FilterConcat.OR;
 

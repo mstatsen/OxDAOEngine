@@ -3,7 +3,6 @@ using OxLibrary.Controls;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.Data.Types;
-using OxDAOEngine.Data;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -32,7 +31,6 @@ namespace OxDAOEngine.ControlFactory
         public FontStyle LabelStyle { get; set; }
         public int MaximumLabelWidth { get; set; }
         public bool AutoSize { get; set; }
-
         public bool SupportClickedLabels { get; set; } = false;
 
         public int Right => Left + Width;

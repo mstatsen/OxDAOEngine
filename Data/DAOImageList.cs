@@ -12,7 +12,7 @@ namespace OxDAOEngine.Data
         public Bitmap? Image(Guid imageId) =>
             ImageInfo(imageId)?.Image;
 
-        public DAOImage UpdateImage(Guid id, string name, Bitmap? image)
+        public DAOImage UpdateImage(Guid id, Bitmap? image)
         {
             DAOImage? imageInfo = ImageInfo(id);
 
@@ -21,7 +21,6 @@ namespace OxDAOEngine.Data
                 imageInfo = Add();
                 imageInfo.Id = id;
             }
-            imageInfo.Name = name;
             imageInfo.Image = image;
             return imageInfo;
         }
@@ -54,12 +53,8 @@ namespace OxDAOEngine.Data
                     unusedList.Add(item);
             }
 
-            foreach (DAOImage item in unusedList)
-                Remove(item, false);
-
-
-            foreach (DAOImage item in FindAll((i) => i.UsageList.Count == 0))
-                Remove(item, false);
+            Remove(i => unusedList.Contains(i), false);
+            Remove(i => i.UsageList.Count == 0, false);
         }
 
         private void RemoveEmpty()
@@ -105,14 +100,16 @@ namespace OxDAOEngine.Data
 
                 foreach (DAO dao in item.UsageList)
                 {
-                    if (dao is not RootDAO<TField> rootDAO)
+                    if (dao.OwnerDAO == null || 
+                        dao is not RootDAO<TField> rootDAO)
                         continue;
 
                     DAOImage? oldDaoImage = rootDAO.DAOImage;
+
                     if (oldDaoImage != null && oldDaoImage != item)
                         oldDaoImage.UsageList.Clear();
 
-                    rootDAO.DAOImage = mergeToItem;
+                    rootDAO.ImageId = mergeToItem.Id;
                 }
 
                 item.UsageList.Clear();

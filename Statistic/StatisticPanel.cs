@@ -102,11 +102,11 @@ namespace OxDAOEngine.Statistic
             OxButton label = new(string.Empty, null)
             {
                 Parent = ContentContainer,
-                Dock = StatisticTypeHelper.Dock(type),
+                Dock = helper.Dock(type),
                 ReadOnly = true
             };
             Labels.Add(type, label);
-            label.SetContentSize(StatisticTypeHelper.Width(type), 1);
+            label.SetContentSize(helper.Width(type), 1);
 
             switch (type)
             {

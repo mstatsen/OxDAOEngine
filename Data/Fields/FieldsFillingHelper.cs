@@ -29,7 +29,7 @@ namespace OxDAOEngine.Data.Fields
                 _ => string.Empty,
             };
 
-        public static int ButtonWidth(FieldsFilling value) => 
+        public int ButtonWidth(FieldsFilling value) => 
             value switch
             {
                 FieldsFilling.Full or 
@@ -39,7 +39,7 @@ namespace OxDAOEngine.Data.Fields
                     80,
             };
 
-        public static Bitmap ButtonIcon(FieldsFilling value) =>
+        public Bitmap ButtonIcon(FieldsFilling value) =>
             value switch
             {
                 FieldsFilling.Clear => OxIcons.Eraser,

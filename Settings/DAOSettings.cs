@@ -261,7 +261,7 @@ namespace OxDAOEngine.Settings
             AddMember(sortings);
 
             foreach (SettingsPart part in TypeHelper.All<SettingsPart>())
-                if (SettingsPartHelper.IsFieldsSettings(part))
+                if (TypeHelper.Helper<SettingsPartHelper>().IsFieldsSettings(part))
                     AddFields(part);
 
             AddMember(filter);

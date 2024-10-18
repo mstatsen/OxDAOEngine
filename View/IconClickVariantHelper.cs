@@ -13,14 +13,6 @@ namespace OxDAOEngine.View
                 IconClickVariant.ShowCard => "Show item card",
                 IconClickVariant.ShowEditor => "Edit item",
                 IconClickVariant.Custom => "Custom",
-                /*
-    case IconClickVariant.GoToStratege:
-    return "Go to Stratege.ru";
-    case IconClickVariant.GoToPSNProfiles:
-    return "Go to PSNProfiles.com";
-    case IconClickVariant.GoToFirstWalk:
-    return "Go to walktrough";
-    */
                 _ => "Do nothing",
             };
 
@@ -30,14 +22,6 @@ namespace OxDAOEngine.View
                 IconClickVariant.ShowCard => "Card",
                 IconClickVariant.ShowEditor => "Editor",
                 IconClickVariant.Custom => "Custom",
-                /*
-    case IconClickVariant.GoToStratege:
-    return "Stratege";
-    case IconClickVariant.GoToPSNProfiles:
-    return "PSNProfiles";
-    case IconClickVariant.GoToFirstWalk:
-    return "Walktrough";
-    */
                 _ => "Nothing",
             };
     }

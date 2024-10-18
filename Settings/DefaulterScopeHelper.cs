@@ -12,7 +12,7 @@ namespace OxDAOEngine.Settings
                 _ => "Reset to defaults",
             };
 
-        public static int Width(DefaulterScope scope) => 
+        public int Width(DefaulterScope scope) => 
             scope switch
             {
                 DefaulterScope.CurrentPage => 160,

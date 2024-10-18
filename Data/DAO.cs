@@ -122,6 +122,14 @@ namespace OxDAOEngine.Data
 
         protected virtual void InitUniqueCopy() { }
 
+        public TDAO GetCopy<TDAO>()
+            where TDAO : DAO, new()
+        {
+            TDAO newItem = new();
+            newItem.CopyFrom(this);
+            return newItem;
+        }    
+
         public DAO CopyFrom(DAO? item, bool newUnique = false)
         {
             State = DAOState.Coping;
@@ -136,35 +144,42 @@ namespace OxDAOEngine.Data
                     return this;
                 }
 
-                if (Equals(item))
-                    return this;
-
-                XmlDocument document = new();
-                document.AppendChild(document.CreateElement("CopyData"));
-
-                string oldXmlName = xmlName;
-                string oldOtherXmlName = item.XmlName;
-
-                xmlName = string.Empty;
-                item.XmlName = string.Empty;
-
                 try
                 {
-                    if (document.DocumentElement != null)
+                    if (Equals(item)
+                        && ((OwnerDAO == null && item.OwnerDAO == null)
+                            || (OwnerDAO != null && OwnerDAO.Equals(item.OwnerDAO))))
+                        return this;
+
+                    XmlDocument document = new();
+                    document.AppendChild(document.CreateElement("CopyData"));
+
+                    string oldXmlName = xmlName;
+                    string oldOtherXmlName = item.XmlName;
+
+                    xmlName = string.Empty;
+                    item.XmlName = string.Empty;
+
+                    try
                     {
-                        item.Save(document.DocumentElement, false);
-                        Load(document.DocumentElement);
+                        if (document.DocumentElement != null)
+                        {
+                            item.Save(document.DocumentElement, false);
+                            Load(document.DocumentElement);
 
-                        if (newUnique)
-                            InitUniqueCopy();
-
-                        CopyAdditionalInformationFrom(item);
+                            if (newUnique)
+                                InitUniqueCopy();
+                        }
+                    }
+                    finally
+                    {
+                        xmlName = oldXmlName;
+                        item.XmlName = oldOtherXmlName;
                     }
                 }
                 finally
                 {
-                    xmlName = oldXmlName;
-                    item.XmlName = oldOtherXmlName;
+                    CopyAdditionalInformationFrom(item);
                 }
 
                 SetMemberHandlers(item);
@@ -222,6 +237,19 @@ namespace OxDAOEngine.Data
             member.ModifiedChangeHandler -= MemberModifiedHandler;
             member.OwnerDAO = null;
             Members.Remove(member);
+        }
+
+        public DAO TopOwnerDAO
+        { 
+            get 
+            {
+                DAO topOwnerDAO = this;
+
+                while (topOwnerDAO.OwnerDAO != null)
+                    topOwnerDAO = topOwnerDAO.OwnerDAO;
+
+                return topOwnerDAO;
+            }
         }
 
         public abstract void Init();

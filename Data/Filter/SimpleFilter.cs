@@ -7,19 +7,15 @@ namespace OxDAOEngine.Data.Filter
     public class SimpleFilter<TField, TDAO> 
         : DAO, IMatcher<TField>, IFieldMapping<TField>
         where TField : notnull, Enum
-        where TDAO : DAO, IFieldMapping<TField>, new()
+        where TDAO : RootDAO<TField>, IFieldMapping<TField>, new()
     {
         private FilterConcat concat = FilterConcat.AND;
         private readonly FilterRules<TField> rules = new();
         private readonly Dictionary<TField, object?> calcedValues = new();
 
-        private TDAO itemDAO = new();
+        private readonly TDAO itemDAO = (TDAO)new TDAO().MarkAsFiltration();
 
-        public TDAO ItemDAO
-        {
-            get => itemDAO;
-            set => itemDAO = value;
-        }
+        public TDAO ItemDAO => itemDAO;
 
         public SimpleFilter() { }
 
@@ -146,13 +142,17 @@ namespace OxDAOEngine.Data.Filter
                 (value == null || value.ToString() == string.Empty))
                 operation = FilterOperation.Blank;
 
-            if (!FilterOperationHelper.IsUnaryOperation(operation))
-                if (!CheckValueFilled(value))
+            if (!TypeHelper.Helper<FilterOperationHelper>().
+                    IsUnaryOperation(operation)
+                    && !CheckValueFilled(value))
                     return this;
 
             rules.Add(field, operation);
 
-            if (value != null && (value is not IEmptyChecked || (value is IEmptyChecked ec && !ec.IsEmpty)))
+            if (value != null 
+                && (value is not IEmptyChecked 
+                    || (value is IEmptyChecked ec 
+                        && !ec.IsEmpty)))
                 this[field] = value;
 
             return this;

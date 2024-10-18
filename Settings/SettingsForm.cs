@@ -95,10 +95,12 @@ namespace OxDAOEngine.Settings
                 GrabControls();
         }
 
+        private SettingsPartHelper partHelper = TypeHelper.Helper<SettingsPartHelper>();
+
         protected override string EmptyMandatoryField()
         {
             foreach (var item in settingsFieldPanels)
-                foreach (SettingsPart part in SettingsPartHelper.MandatoryFields)
+                foreach (SettingsPart part in partHelper.MandatoryFields)
                     if (AvailablePart(item.Key, part) && 
                         settingsFieldPanels[item.Key][part].Fields.Count == 0)
                         return $"{item.Key.ListName} {TypeHelper.Name(part)} fields";
@@ -200,29 +202,26 @@ namespace OxDAOEngine.Settings
             settingsTabs[settings].ActivePage = settingsPanels[settings][part];
         }
 
-        private static List<SettingsPart> PartList(ISettingsController settings) =>
+        private List<SettingsPart> PartList(ISettingsController settings) =>
             settings is IDAOSettings
-                ? SettingsPartHelper.VisibleDAOSettings
-                : SettingsPartHelper.VisibleGeneralSettings;
+                ? partHelper.VisibleDAOSettings
+                : partHelper.VisibleGeneralSettings;
 
-        private static bool AvailablePart(ISettingsController settings, SettingsPart part)
-        {
-            if (settings is IDAOSettings daoSettings)
-                switch (part)
+        private static bool AvailablePart(ISettingsController settings, SettingsPart part) => 
+            settings is not IDAOSettings daoSettings 
+            || part switch
                 {
-                    case SettingsPart.Category:
-                        return daoSettings.AvailableCategories;
-                    case SettingsPart.Summary:
-                        return daoSettings.AvailableSummary;
-                    case SettingsPart.QuickFilter:
-                    case SettingsPart.QuickFilterText:
-                        return daoSettings.AvailableQuickFilter;
-                    case SettingsPart.View:
-                        return daoSettings.AvailableCards || daoSettings.AvailableIcons;
-                }
-
-            return true;
-        }
+                    SettingsPart.Category =>
+                        daoSettings.AvailableCategories,
+                    SettingsPart.Summary =>
+                        daoSettings.AvailableSummary,
+                    SettingsPart.QuickFilter or
+                    SettingsPart.QuickFilterText =>
+                        daoSettings.AvailableQuickFilter,
+                    SettingsPart.View =>
+                        daoSettings.AvailableCards || daoSettings.AvailableIcons,
+                    _ => true
+                };
 
         private void CreatePanels()
         {
@@ -301,7 +300,7 @@ namespace OxDAOEngine.Settings
         {
             foreach (ISettingsController settings in SettingsManager.Controllers)
                 if (settings is IDAOSettings daoSettings)
-                    foreach (SettingsPart part in SettingsPartHelper.FieldsSettings)
+                    foreach (SettingsPart part in partHelper.FieldsSettings)
                     {
                         if (!AvailablePart(settings, part))
                             continue;
@@ -417,7 +416,7 @@ namespace OxDAOEngine.Settings
             };
 
             button.SetContentSize(
-                DefaulterScopeHelper.Width(scope),
+                helper.Width(scope),
                 DefaulterScopeHelper.DefaultButtonHeight);
             button.Click += DefaultButtonClickHandler;
             defaulters.Add(button, scope);
@@ -435,7 +434,7 @@ namespace OxDAOEngine.Settings
                 if (settings.Helper.Part(item.Key) == part)
                     item.Value.Value = settings.GetDefault(item.Key);
 
-            if (SettingsPartHelper.IsFieldsSettings(part))
+            if (partHelper.IsFieldsSettings(part))
                 settingsFieldPanels[settings][part].ResetFields();
 
             if (part == SettingsPart.QuickFilter)

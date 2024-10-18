@@ -25,7 +25,7 @@ namespace OxDAOEngine.Data
             name = element.InnerText;
 
         protected sealed override void SaveData(XmlElement element, bool clearModified = true) =>
-            XmlHelper.AppendElement(element, XmlName, Name);
+            XmlHelper.AppendElement(element, XmlElementName, Name);
 
         public sealed override string ToString() =>
             Name;

@@ -150,7 +150,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             SimpleFilter<TField, TDAO> textFilter = new(FilterConcat.OR);
 
-            FilterOperation textFilterOperation = TextFilterOperationHelper
+            FilterOperation textFilterOperation = TypeHelper.Helper<TextFilterOperationHelper>()
                 .Operation(Settings.QuickFilterTextFieldOperation);
 
             foreach (TField field in TextFields)

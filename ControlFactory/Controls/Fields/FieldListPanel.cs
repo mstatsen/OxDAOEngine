@@ -65,13 +65,13 @@ namespace OxDAOEngine.ControlFactory.Controls
         private void CreateToolButton(FieldsFilling filling)
         {
             FieldsFillingHelper helper = TypeHelper.Helper<FieldsFillingHelper>();
-            OxButton button = new(helper.Name(filling), FieldsFillingHelper.ButtonIcon(filling))
+            OxButton button = new(helper.Name(filling), helper.ButtonIcon(filling))
             {
                 Font = Styles.Font(-1, FontStyle.Bold),
                 ToolTipText = helper.FullName(filling)
             };
 
-            button.SetContentSize(FieldsFillingHelper.ButtonWidth(filling), 23);
+            button.SetContentSize(helper.ButtonWidth(filling), 23);
             button.Click += ToolButtonClick;
             button.Tag = filling;
             toolButtons.Add(filling, button);

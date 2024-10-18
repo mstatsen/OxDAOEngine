@@ -5,7 +5,7 @@ namespace OxDAOEngine.Data.Filter
     public class Filter<TField, TDAO> 
         : DAO, IMatcher<TField>
         where TField : notnull, Enum
-        where TDAO : DAO, IFieldMapping<TField>, new()
+        where TDAO : RootDAO<TField>, IFieldMapping<TField>, new()
     {
         public Filter(FilterConcat filterConcat = FilterConcat.AND) : base() =>
             Root.FilterConcat = filterConcat;

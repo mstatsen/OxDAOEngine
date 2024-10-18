@@ -20,23 +20,34 @@ namespace OxDAOEngine.Editor
             set => readOnly = value;
         }
 
+        protected bool CreatingProcess = false;
+
         public DAOEditor() : base()
         {
-            StartPosition = FormStartPosition.CenterScreen;
-            InitializeComponent();
-            CreatePanels();
-            MainPanel.Colors.BaseColorChanged += FormColorChanged;
-            FormClosed += FormClosedHandler;
-            MainPanel.Header.AddToolButton(prevButton);
-            MainPanel.Header.AddToolButton(nextButton);
-            FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
-            OxIconButton idButton = new(OxIcons.Key, 28)
+            CreatingProcess = true;
+
+            try
             {
-                ToolTipText = $"View {fieldHelper.Name(fieldHelper.UniqueField)}"
-            };
-            idButton.Click += (s, e) => uniqueKeyViewer.View(Item, this);
-            MainPanel.Header.AddToolButton(idButton);
-            MainPanel.SetHeaderContentSize(35);
+                StartPosition = FormStartPosition.CenterScreen;
+                InitializeComponent();
+                CreatePanels();
+                MainPanel.Colors.BaseColorChanged += FormColorChanged;
+                FormClosed += FormClosedHandler;
+                MainPanel.Header.AddToolButton(prevButton);
+                MainPanel.Header.AddToolButton(nextButton);
+                FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
+                OxIconButton idButton = new(OxIcons.Key, 28)
+                {
+                    ToolTipText = $"View {fieldHelper.Name(fieldHelper.UniqueField)}"
+                };
+                idButton.Click += (s, e) => uniqueKeyViewer.View(Item, this);
+                MainPanel.Header.AddToolButton(idButton);
+                MainPanel.SetHeaderContentSize(35);
+            }
+            finally
+            {
+                CreatingProcess = false;
+            }
         }
 
         private readonly UniqueKeyViewer<TField, TDAO> uniqueKeyViewer = new();
@@ -261,31 +272,25 @@ namespace OxDAOEngine.Editor
             if (invalidateSizeInProcess)
                 return;
 
+            invalidateSizeInProcess = true;
             SuspendLayout();
             MainPanel.SuspendLayout();
             try
             {
-                invalidateSizeInProcess = true;
-                try
-                {
-                    Groups.SetGroupsSize();
-                    RecalcPanels();
-                    MainPanel.ReAlign();
+                Groups.SetGroupsSize();
+                RecalcPanels();
+                MainPanel.ReAlign();
 
-                    if (centerForm)
-                        OxControlHelper.CenterForm(this);
+                if (centerForm)
+                    OxControlHelper.CenterForm(this);
 
-                    Invalidate();
-                }
-                finally
-                {
-                    invalidateSizeInProcess = false;
-                }
+                Invalidate();
             }
             finally
             {
                 MainPanel.ResumeLayout();
                 ResumeLayout();
+                invalidateSizeInProcess = false;
             }
         }
 

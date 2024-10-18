@@ -1,6 +1,7 @@
 ﻿using OxLibrary;
 using OxDAOEngine.XML;
 using System.Xml;
+using OxLibrary.Data;
 
 namespace OxDAOEngine.Data
 {
@@ -11,19 +12,12 @@ namespace OxDAOEngine.Data
         private Guid id = Guid.Empty;
         private string imageBase64 = string.Empty;
         private Bitmap? image = null;
-        private string name = string.Empty;
         public bool FixUsage { get; set; }
 
         public Guid Id
         {
             get => id;
             set => id = GuidValue(ModifyValue(id, value));
-        }
-
-        public string Name
-        {
-            get => name;
-            set => name = StringValue(ModifyValue(name, value));
         }
 
         public Bitmap? Image
@@ -41,7 +35,6 @@ namespace OxDAOEngine.Data
         public override void Clear()
         {
             id = Guid.NewGuid();
-            name = string.Empty;
             Image = null;
             imageBase64 = string.Empty;
         }
@@ -51,7 +44,6 @@ namespace OxDAOEngine.Data
         protected override void LoadData(XmlElement element)
         {
             id = XmlHelper.ValueGuid(element, XmlConsts.Id, true);
-            name = XmlHelper.Value(element, XmlConsts.Name);
             imageBase64 = XmlHelper.Value(element, XmlConsts.Image);
             image = OxBase64.Base64ToBitmap(imageBase64);
         }
@@ -59,14 +51,13 @@ namespace OxDAOEngine.Data
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
             XmlHelper.AppendElement(element, XmlConsts.Id, id);
-            XmlHelper.AppendElement(element, XmlConsts.Name, name);
 
             if (imageBase64 != string.Empty)
                 XmlHelper.AppendElement(element, XmlConsts.Image, imageBase64);
         }
 
         public override string ToString() => 
-            Name;
+            Id.ToString();
 
         public override bool Equals(object? obj) =>
             obj is DAOImage otherImage
@@ -76,6 +67,6 @@ namespace OxDAOEngine.Data
         public override int GetHashCode() =>
             id.GetHashCode();
 
-        public readonly List<DAO> UsageList = new();
+        public readonly UniqueList<DAO> UsageList = new();
     }
 }

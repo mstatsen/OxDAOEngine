@@ -10,6 +10,8 @@ namespace OxDAOEngine.Data
         IDAOSettings<TField> SettingsByField { get; }
         bool UseImageList { get; }
         DAOImage? GetImageInfo(Guid imageId);
-        DAOImage UpdateImage(Guid imageId, string name, Bitmap? image);
+        DAOImage? SuitableImage(Bitmap? value);
+        DAOImage UpdateImage(Guid imageId, Bitmap? image);
+        IListDAO FullItemsList { get; }
     }
 }

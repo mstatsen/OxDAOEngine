@@ -17,7 +17,7 @@ namespace OxDAOEngine.Data
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        RootListDAO<TField, TDAO> FullItemsList { get; }
+        new RootListDAO<TField, TDAO> FullItemsList { get; }
         RootListDAO<TField, TDAO> VisibleItemsList { get; }
         DAOImageList<TField, TDAO> ImageList { get; }
         DAOImage? ImageInfo(Guid imageId);

@@ -6,7 +6,7 @@ namespace OxDAOEngine.Data.Filter
     public class FilterGroups<TField, TDAO>
         : ListDAO<FilterGroup<TField, TDAO>>, IMatcher<TField>, IMatcherList<TField>
         where TField : notnull, Enum
-        where TDAO : DAO, IFieldMapping<TField>, new()
+        where TDAO : RootDAO<TField>, IFieldMapping<TField>, new()
     {
         public bool FilterIsEmpty =>
             MatchAggregator<TField>.IsEmpty(this);

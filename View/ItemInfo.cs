@@ -4,6 +4,7 @@ using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data;
 using OxDAOEngine.Settings;
+using OxDAOEngine.ControlFactory.Accessors;
 
 namespace OxDAOEngine.View
 {
@@ -195,7 +196,7 @@ namespace OxDAOEngine.View
             else
                 foreach (ControlLayout<TField> layout in Layouter.Layouts)
                 {
-                    PlacedControl<TField>? placedControl = Layouter.PlacedControl(layout.Field);
+                    IControlAccessor placedControl = Builder[layout.Field];
 
                     if (placedControl != null)
                         placedControl.Control.Visible = false;

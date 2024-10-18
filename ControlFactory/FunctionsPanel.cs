@@ -67,12 +67,7 @@ namespace OxDAOEngine.ControlFactory
             Header.AddToolButton(CustomizeButton);
 
             base.PrepareInnerControls();
-            loadingPanel.Parent = ContentContainer;
-            loadingPanel.FontSize = 18;
-            loadingPanel.Margins.SetSize(OxSize.None);
-            loadingPanel.Borders.SetSize(OxSize.None);
-            loadingPanel.Borders.LeftOx = OxSize.None;
-            loadingPanel.BringToFront();
+            PrepareLoadingPanel();
 
             Sider.Parent = this;
             ExpandButton.Parent = Sider;
@@ -80,6 +75,16 @@ namespace OxDAOEngine.ControlFactory
             PreparePinButton(PinButton);
             PreparePinButton(PinButton2);
             PinButton2.VisibleChanged += PinButton2VisibleChanged;
+        }
+
+        private void PrepareLoadingPanel()
+        {
+            loadingPanel.Parent = ContentContainer;
+            loadingPanel.FontSize = 18;
+            loadingPanel.Margins.SetSize(OxSize.None);
+            loadingPanel.Borders.SetSize(OxSize.None);
+            loadingPanel.Borders.LeftOx = OxSize.None;
+            loadingPanel.BringToFront();
         }
 
         private void PinButton2VisibleChanged(object? sender, EventArgs e) =>

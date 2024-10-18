@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OxDAOEngine.ControlFactory.Accessors
+﻿namespace OxDAOEngine.ControlFactory.Accessors
 {
     public class ControlAccessorList : List<IControlAccessor>
     {

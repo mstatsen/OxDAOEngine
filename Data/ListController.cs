@@ -14,6 +14,7 @@ using OxDAOEngine.Summary;
 using OxDAOEngine.View;
 using OxDAOEngine.XML;
 using System.Xml;
+using OxLibrary;
 
 namespace OxDAOEngine.Data
 {
@@ -44,8 +45,8 @@ namespace OxDAOEngine.Data
         public DAOImage? GetImageInfo(Guid imageId) => 
             ImageInfo(imageId);
 
-        public DAOImage UpdateImage(Guid imageId, string name, Bitmap? image) => 
-            ImageList.UpdateImage(imageId, name, image);
+        public DAOImage UpdateImage(Guid imageId, Bitmap? image) => 
+            ImageList.UpdateImage(imageId, image);
 
         private void AfterLoad()
         {
@@ -536,6 +537,9 @@ namespace OxDAOEngine.Data
                 ? ImageList.Image(imageId)
                 : null;
 
+        public DAOImage? SuitableImage(Bitmap? value) => 
+            ImageList.Find(i => i.ImageBase64 == OxBase64.BitmapToBase64(value));
+
         public Bitmap? Icon => GetIcon();
 
         protected abstract Bitmap? GetIcon();
@@ -548,5 +552,8 @@ namespace OxDAOEngine.Data
         public virtual bool AvailableBatchUpdate => true;
         public virtual bool AvailableCopyItems => true;
         public virtual bool UseImageList => false;
+
+        IListDAO IFieldController<TField>.FullItemsList => 
+            FullItemsList;
     }
 }

@@ -7,7 +7,7 @@ namespace OxDAOEngine.Data.Filter
     public class Category<TField, TDAO> 
         : DAO, IMatcher<TField>
         where TField : notnull, Enum
-        where TDAO : DAO, IFieldMapping<TField>, new()
+        where TDAO : RootDAO<TField>, IFieldMapping<TField>, new()
     {
         public readonly Filter<TField, TDAO> Filter = new();
         public FiltrationType Filtration { get; set; } = FiltrationType.StandAlone;

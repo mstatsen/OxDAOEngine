@@ -19,7 +19,7 @@ namespace OxDAOEngine.Data.Decorator
                 _ => string.Empty,
             };
 
-        public static DecoratorType DecoratorTypeByScope(ControlScope scope) => 
+        public DecoratorType DecoratorTypeByScope(ControlScope scope) => 
             scope switch
             {
                 ControlScope.Table => DecoratorType.Table,

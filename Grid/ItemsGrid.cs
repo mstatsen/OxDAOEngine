@@ -90,6 +90,9 @@ namespace OxDAOEngine.Grid
 
         private void CreateColumn(TField field)
         {
+            if (GridFieldColumns.TryGetValue(field, out var _))
+                return;
+
             FieldType fieldType = fieldHelper.GetFieldType(field);
             DataGridViewColumn dataColumn = fieldType is FieldType.Boolean or FieldType.Image
                 ? new DataGridViewImageColumn()
@@ -119,32 +122,25 @@ namespace OxDAOEngine.Grid
             customGridColumns.Clear();
             GridView.Columns.Clear();
 
-            foreach (TField field in fieldHelper.FullList(FieldsVariant.Table))
-                if (IsAvailableColumn(field))
-                    CreateColumn(field);
+            foreach (TField field in fieldHelper.MandatoryFields)
+                CreateColumn(field);
 
-            if (additionalColumns != null)
-                foreach (CustomGridColumn<TField, TDAO> gridColumn in additionalColumns)
-                    CreateAdditionalColumn(gridColumn);
+            foreach (TField field in UsageFieldList())
+                CreateColumn(field);
 
             GridView.EnableHeadersVisualStyles = false;
             return rowsCount > 0;
         }
 
-        protected virtual bool IsAvailableColumn(TField field)
-        {
-            if (fields != null)
-                return fields.Contains(field);
-
-            return Usage switch
+        private List<TField> UsageFieldList() => 
+            fields ?? Usage switch
             {
                 GridUsage.SelectItem or
                 GridUsage.ChooseItems =>
-                    fieldHelper.MandatoryFields.Contains(field),
+                    fieldHelper.MandatoryFields,
                 _ =>
-                    true,
+                    SettingsTableFields
             };
-        }
 
         public ItemsGrid(GridUsage usage = GridUsage.Edit) : this(null, usage) { }
 
@@ -617,23 +613,24 @@ namespace OxDAOEngine.Grid
             {
                 object? value = GetFieldValue(field, item) ?? string.Empty;
 
-                if (fieldHelper.GetFieldType(field) == FieldType.Image)
-                {
-                    if (value is Bitmap image && image.Height > GridView.RowTemplate.Height)
-                        value = OxImageBoxer.BoxingImage(
-                            image,
-                            new()
-                            {
-                                Height = GridView.RowTemplate.Height,
-                                Width = Width * (image.Height / GridView.RowTemplate.Height)
-                            });
-                }
+                if (fieldHelper.GetFieldType(field) == FieldType.Image
+                    && value is Bitmap image 
+                    && image.Height > GridView.RowTemplate.Height)
+                    value = OxImageBoxer.BoxingImage(
+                        image,
+                        new()
+                        {
+                            Height = GridView.RowTemplate.Height,
+                            Width = Width * (image.Height / GridView.RowTemplate.Height)
+                        }
+                    );
 
                 GridView[GridFieldColumns[field].Index, rowIndex].Value = value;
             }
 
             foreach (var column in customGridColumns)
-                GridView[column.Value.Index, rowIndex].Value = column.Key.ValueGetter(item) ?? string.Empty;
+                GridView[column.Value.Index, rowIndex].Value = 
+                    column.Key.ValueGetter(item) ?? string.Empty;
         }
 
         public virtual IRootListDAO<TField, TDAO>? ItemsList
@@ -665,6 +662,9 @@ namespace OxDAOEngine.Grid
 
         public bool IsLastRecord =>
             CurrentItemIndex == GridView.RowCount-1;
+
+        protected virtual List<TField> SettingsTableFields => 
+            fieldHelper.FullList(FieldsVariant.Table);
 
         public TDAO? GoNext() => 
             selector.FocusNextRow();

@@ -23,10 +23,10 @@ namespace OxDAOEngine.Data.Filter
                 _ => string.Empty,
             };
 
-        public static bool IsUnaryOperation(FilterOperation operation) =>
+        public bool IsUnaryOperation(FilterOperation operation) =>
             FilterOperations.UnaryOperations.Contains(operation);
 
-        public static bool Match(FilterOperation operation, object? leftObject, object? rightObject)
+        public bool Match(FilterOperation operation, object? leftObject, object? rightObject)
         {
             if (leftObject is IEmptyChecked lec && lec.IsEmpty)
                 return true;
