@@ -80,6 +80,12 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected override void SetReadOnly(bool value)
         {
+            if (CustomControl != null && CustomControl.ReadonlyMode == ReadonlyMode.EditAsReadonly)
+            {
+                CustomControl.ReadOnly = value;
+                return;
+            }
+
             base.SetReadOnly(value);
 
             if (CustomControl != null && CustomControl.Parent?.Parent is OxPanel panel)

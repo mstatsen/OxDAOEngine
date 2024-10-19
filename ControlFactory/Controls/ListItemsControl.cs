@@ -111,7 +111,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void EditItem()
         {
-            if (readOnly)
+            if (readOnly && ReadonlyMode == ReadonlyMode.ViewAsReadonly)
                 return;
 
             TItem item = SelectedItem;
@@ -119,7 +119,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (item == null)
                 return;
 
-            if (Editor(TypeOfEditorShow.Edit).Edit(item) == DialogResult.OK)
+            if (Editor(TypeOfEditorShow.Edit).Edit(item, readOnly) == DialogResult.OK)
             {
                 int selectedIndex = ListBox.SelectedIndex;
                 ListBox.BeginUpdate();
@@ -192,8 +192,9 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected virtual void EnableControls()
         {
-            ButtonsPanel.Visible = !readOnly ||
-               ButtonEffects.ContainsValue(ListControlButtonEffect.View);
+            ButtonsPanel.Visible = 
+                !(readOnly && ReadonlyMode == ReadonlyMode.ViewAsReadonly) 
+                || ButtonEffects.ContainsValue(ListControlButtonEffect.View);
 
             AddButton.Visible = !readOnly;
             DeleteButton.Visible = !readOnly;
@@ -352,9 +353,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             list.Clear();
 
             foreach (object item in ListBox.Items)
-            {
                 list.Add(((TItem)item).GetCopy<TItem>());
-            }
         }
 
         protected override Control GetControl() => ListBox;
@@ -407,7 +406,10 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (ButtonsPanel == null)
                 return;
 
-            SetEditButtonVisible(!readOnly && (CalcedButtonsHeight <= ButtonsPanel.Height));
+            SetEditButtonVisible(
+                !(readOnly && ReadonlyMode == ReadonlyMode.ViewAsReadonly) 
+                && (CalcedButtonsHeight <= ButtonsPanel.Height)
+            );
             LayoutButtons();
         }
 

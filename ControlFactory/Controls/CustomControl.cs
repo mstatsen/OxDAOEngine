@@ -83,5 +83,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             value;
 
         public TDAO? ParentItem { get; set; }
+
+        public virtual ReadonlyMode ReadonlyMode => ReadonlyMode.ViewAsReadonly;
     }
 }

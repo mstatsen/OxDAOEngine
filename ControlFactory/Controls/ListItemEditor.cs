@@ -43,8 +43,11 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         public IListItemsControl<TField,TDAO>? OwnerControl { get; internal set; }
 
-        public DialogResult Edit(TItem item)
+        protected bool ReadOnly { get; set; }
+        public DialogResult Edit(TItem item, bool readOnly = false)
         {
+            ReadOnly = readOnly;
+            PrepareReadonly();
             PrepareControlColors();
             FillControls(item);
             DialogResult result = ShowDialog(OwnerControl);
@@ -54,6 +57,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
             return result;
         }
+
+        protected virtual void PrepareReadonly() { }
 
         protected virtual void PrepareControlColors() 
         {
