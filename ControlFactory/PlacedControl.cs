@@ -10,6 +10,18 @@ namespace OxDAOEngine.ControlFactory
         public OxLabel? Label { get; internal set; }
         public ControlLayout<TField> Layout { get; internal set; }
 
+        public bool Visible
+        {
+            get => Control.Visible;
+            set
+            { 
+                Control.Visible = value;
+
+                if (Label != null)
+                    Label.Visible = value;
+            }
+        }
+
         public void RecalcLabel() =>
             Layout.RecalcLabel(this);
 

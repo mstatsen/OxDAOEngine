@@ -130,7 +130,7 @@ namespace OxDAOEngine.View
         {
             AlignControls();
 
-            foreach (ControlLayouts<TField> list in LayoutsLists)
+            foreach (ControlLayouts<TField> list in LayoutsLists.Values)
                 Layouter.AlignLabels(list);
         }
 
@@ -155,6 +155,7 @@ namespace OxDAOEngine.View
         private void PrepareLayoutsInternal()
         {
             ClearLayoutTemplate();
+            LayoutsLists.Clear();
             PrepareLayouts();
         }
 
@@ -205,7 +206,44 @@ namespace OxDAOEngine.View
             ClearLayouts();
             PrepareLayoutsInternal();
             LayoutControls();
+            RecalcControlsVisible();
             AfterControlLayout();
+        }
+
+        private void RecalcControlsVisible()
+        {
+            foreach (OxPanel parentPanel in LayoutsLists.Keys)
+            {
+                Headers.TryGetValue(parentPanel, out var header);
+
+                int lastBottom = header == null ? 0 : 8;
+                bool visibleControlsExists = false;
+
+                foreach (ControlLayout<TField> layout in LayoutsLists[parentPanel])
+                {
+                    bool controlVisible = !Builder[layout.Field].IsEmpty;
+                    PlacedControl<TField>? placedControl = Layouter.PlacedControl(layout.Field);
+
+                    if (placedControl == null)
+                        continue;
+
+                    placedControl.Visible = controlVisible;
+
+                    if (controlVisible)
+                    {
+                        visibleControlsExists = true;
+                        placedControl.Control.Top = lastBottom + 8;
+                        OxControlHelper.AlignByBaseLine(placedControl.Control, placedControl.Label!);
+                        lastBottom = placedControl.Control.Bottom;
+                    }
+                }
+
+                parentPanel.Height = lastBottom + 36;
+                parentPanel.Visible = visibleControlsExists;
+
+                if (header != null)
+                    header.Visible = visibleControlsExists;
+            }
         }
 
         protected virtual void AfterControlLayout() { }
@@ -250,7 +288,7 @@ namespace OxDAOEngine.View
         protected OxColorHelper FontColors;
         protected readonly Dictionary<OxPane, OxHeader> Headers = new();
         protected readonly List<OxPanel> panels = new();
-        protected readonly List<ControlLayouts<TField>> LayoutsLists = new();
+        protected readonly Dictionary<OxPanel, ControlLayouts<TField>> LayoutsLists = new();
 
         protected override Bitmap? GetIcon() => DataManager.ListController<TField, TDAO>().Icon;
     }
