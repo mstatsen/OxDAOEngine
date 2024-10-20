@@ -309,10 +309,10 @@ namespace OxDAOEngine.ControlFactory.Filter
             else
             {
                 layoutTextFilter.CaptionVariant = ControlCaptionVariant.Left;
-                layoutTextFilter.Left = 50;
+                layoutTextFilter.Left = 56;
                 layoutTextFilter.Height = 26;
-                layoutTextFilter.Width = Width - layoutTextFilter.Left - 10;
-                layoutTextFilter.Anchors = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+                layoutTextFilter.Width = Layouter.Last!.Right - layoutTextFilter.Left;
+                layoutTextFilter.Anchors = AnchorStyles.Top | AnchorStyles.Left;
             }
         }
 
@@ -454,6 +454,23 @@ namespace OxDAOEngine.ControlFactory.Filter
                 calcedWidth += 8;
                 SetContentSize(calcedWidth, calcedHeight);
             }
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+
+            if (QuickFilterFields.Count == 0
+                || Layouter == null)
+                return;
+
+            PlacedControl<TField>? FilterTextControl = Layouter.PlacedControl(TextFilterContainer);
+
+            if (FilterTextControl == null)
+                return;
+
+            FilterTextControl.Control.Width = Layouter[QuickFilterFields.Last()]!.Right
+                - FilterTextControl.Control.Left;
         }
 
         private void SetTextFilterBorder()

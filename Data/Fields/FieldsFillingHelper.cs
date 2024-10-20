@@ -34,7 +34,7 @@ namespace OxDAOEngine.Data.Fields
             {
                 FieldsFilling.Full or 
                 FieldsFilling.Min => 
-                    50,
+                    54,
                 _ => 
                     80,
             };
