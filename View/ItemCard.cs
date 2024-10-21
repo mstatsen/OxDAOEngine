@@ -101,7 +101,7 @@ namespace OxDAOEngine.View
         private void ClearLayoutsInternal()
         {
             ClearLayouts();
-            Layouter?.Layouts.Clear();
+            Layouter?.Clear();
         }
 
         protected virtual void ClearLayouts() { }
