@@ -41,8 +41,6 @@ namespace OxDAOEngine.Data.Extract
                 (value is string
                 && value.ToString() == string.Empty));
 
-        private FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
-
         public FieldExtract Extract(TField field, IMatcher<TField>? filter, 
             bool ignoreDubles, bool ignoreEmpty = false)
         {
