@@ -62,6 +62,8 @@ namespace OxDAOEngine.Data
         void Sort();
         List<ISummaryPanel>? GeneralSummaries { get; }
         FieldSortings<TField, TDAO>? DefaultSorting();
+        List<ToolStripMenuItem>? MenuItems(TDAO? item);
+
         bool AvailableSummary { get; }
         bool AvailableCategories { get; }
         bool AvailableQuickFilter { get; }

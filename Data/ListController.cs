@@ -544,6 +544,8 @@ namespace OxDAOEngine.Data
 
         protected abstract Bitmap? GetIcon();
 
+        public virtual List<ToolStripMenuItem>? MenuItems(TDAO? item) => null;
+
         public virtual bool AvailableSummary => true;
         public virtual bool AvailableCategories => true;
         public virtual bool AvailableQuickFilter => true;
