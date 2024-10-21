@@ -62,7 +62,6 @@ namespace OxDAOEngine.Data
         ExportController<TField, TDAO> ExportController { get; }
         new DAOSettings<TField, TDAO> Settings { get; }
         void Sort();
-        List<ISummaryPanel>? GeneralSummaries { get; }
         FieldSortings<TField, TDAO>? DefaultSorting();
         List<ToolStripMenuItem>? MenuItems(TDAO? item);
 

@@ -2,6 +2,9 @@
 using OxLibrary.Controls;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Types;
+using System.Reflection.Metadata.Ecma335;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -28,7 +31,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         private const int HorizontalSpace = 8;
 
-        public IControlAccessor CreateAccessor(object key, Control parent, 
+        public IControlAccessor CreateAccessor(TField field, object key, Control parent, 
             string? caption, object value, Point location)
         {
             OxLabel captionLabel = new()
@@ -38,8 +41,26 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 Text = caption,
                 Font = Styles.Font(FontStyle.Italic),
                 TextAlign = ContentAlignment.MiddleCenter,
-                AutoSize = true
+                AutoSize = true,
+                Cursor = Cursors.Hand
             };
+            captionLabel.Click += (s, e) =>
+            {
+                FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
+
+                if (fieldHelper.GetFieldType(field) == FieldType.Enum
+                    && key is string stringValue)
+                {
+                    ITypeHelper? helper = fieldHelper.GetHelper(field);
+
+                    if (helper != null)
+                        key = helper.Parse(stringValue);
+                }
+
+                DataManager.ViewItems<TField, TDAO>(field, key);
+            };
+            captionLabel.MouseEnter += LabelMouseEnter;
+            captionLabel.MouseLeave += LabelMouseLeave;
 
             IControlAccessor accessor = DataManager.Builder<TField, TDAO>(ControlScope.Inline)
                 .Accessor(
@@ -54,6 +75,28 @@ namespace OxDAOEngine.ControlFactory.Accessors
             OxControlHelper.AlignByBaseLine(accessor.Control, captionLabel);
             Add(key, accessor);
             return accessor;
+        }
+
+        private void LabelMouseLeave(object? sender, EventArgs e)
+        {
+            OxLabel? label = (OxLabel?)sender;
+
+            if (label == null)
+                return;
+
+            label.Font = new Font(label.Font, label.Font.Style & ~FontStyle.Underline);
+            label.ForeColor = new OxColorHelper(label.ForeColor).HDarker().Browner();
+        }
+
+        private void LabelMouseEnter(object? sender, EventArgs e)
+        {
+            OxLabel? label = (OxLabel?)sender;
+
+            if (label == null)
+                return;
+
+            label.Font = new Font(label.Font, label.Font.Style | FontStyle.Underline);
+            label.ForeColor = new OxColorHelper(label.ForeColor).HLighter().Bluer();
         }
 
         private void ClearAccessorsParent()

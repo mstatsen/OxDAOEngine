@@ -512,8 +512,6 @@ namespace OxDAOEngine.Data
         ISettingsController IDataController.Settings => Settings;
         OxPane? IDataController.Face => Face;
 
-        public virtual List<ISummaryPanel>? GeneralSummaries => null;
-
         public ExportController<TField, TDAO>? exportController;
 
         public ExportController<TField, TDAO> ExportController

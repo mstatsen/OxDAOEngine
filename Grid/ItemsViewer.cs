@@ -3,6 +3,7 @@ using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Decorator;
+using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.Grid
 {
@@ -12,17 +13,8 @@ namespace OxDAOEngine.Grid
     {
         protected override Bitmap? GetIcon() => OxIcons.Eye;
         public readonly ItemsRootGrid<TField, TDAO> Grid;
-        private IMatcher<TField>? filter;
 
-        public IMatcher<TField>? Filter
-        {
-            get => filter;
-            set
-            {
-                filter = value;
-                Fill();
-            }
-        }
+        public IMatcher<TField>? Filter { get; set; }
 
         public ItemsViewer(RootListDAO<TField, TDAO>? itemList = null, GridUsage usage = GridUsage.ViewItems)
             : base(new Size(1024, 768))
@@ -76,7 +68,11 @@ namespace OxDAOEngine.Grid
             base.PrepareDialog(dialog);
             dialog.Sizeble = true;
             dialog.CanMaximize = true;
+            dialog.Shown += DialogShownHandler;
         }
+
+        private void DialogShownHandler(object? sender, EventArgs e) => 
+            Fill();
 
         public bool SelectItem(Predicate<TDAO> match) => Grid.SelectItem(match);
         public bool SelectItem(TDAO? item) => Grid.SelectItem(item);
@@ -102,8 +98,13 @@ namespace OxDAOEngine.Grid
             captionDao[InitialField] = InitialValue;
 
             if (InitialValue != null)
-                InitialValue = DataManager.DecoratorFactory<TField, TDAO>()
-                    .Decorator(DecoratorType.Table, captionDao)[InitialField];
+            {
+                InitialValue = 
+                    TypeHelper.IsTypeHelpered(InitialValue)
+                        ? TypeHelper.Name(InitialValue)
+                        : DataManager.DecoratorFactory<TField, TDAO>()
+                            .Decorator(DecoratorType.Table, captionDao)[InitialField];
+            }
 
             string? caption = 
                 InitialValue == null 

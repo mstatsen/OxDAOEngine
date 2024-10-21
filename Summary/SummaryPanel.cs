@@ -19,8 +19,14 @@ namespace OxDAOEngine.Summary
         public SummaryPanel(TField field) : base()
         {
             Field = field;
-            Text = $"by {TypeHelper.Name(field)}";
+            Text = IsGeneralSummaryPanel
+                ? $"Total {DataManager.ListController<TField, TDAO>().ListName}"
+                : $"by {TypeHelper.Name(field)}";
+            Paddings.Horizontal = 24;
         }
+
+        public bool IsGeneralSummaryPanel =>
+            DataManager.FieldHelper<TField>().FieldMetaData.Equals(Field);
 
         public void AlignAccessors() =>
             ValueAccessors.AlignAccessors();
@@ -45,14 +51,24 @@ namespace OxDAOEngine.Summary
         public void FillAccessors()
         {
             ClearAccessors();
-            CreateAccessors(
-                new FieldExtractor<TField, TDAO>(
-                    DataManager.VisibleItemsList<TField, TDAO>()).CountExtract(
-                    Field, 
-                    true,
-                    SettingsManager.DAOSettings<TField>().SummarySorting
-                )
-            );
+
+            if (IsGeneralSummaryPanel)
+                CreateAccessors(
+                    new Dictionary<object, int>()
+                    {
+                        [string.Empty]
+                        = DataManager.FullItemsList<TField, TDAO>().Count
+                    }
+                    );
+            else
+                CreateAccessors(
+                    new FieldExtractor<TField, TDAO>(
+                        DataManager.FullItemsList<TField, TDAO>()).CountExtract(
+                        Field,
+                        true,
+                        SettingsManager.DAOSettings<TField>().SummarySorting
+                    )
+                );
         }
 
         public override Color DefaultColor => EngineStyles.SummaryColor;
@@ -73,6 +89,7 @@ namespace OxDAOEngine.Summary
             foreach (var extractItem in extraction)
             {
                 IControlAccessor accessor = ValueAccessors.CreateAccessor(
+                    Field,
                     extractItem.Key,
                     ContentContainer,
                     TypeHelper.Name(extractItem.Key),

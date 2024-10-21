@@ -2,6 +2,7 @@
 using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Settings;
+using OxDAOEngine.Data.Fields;
 
 namespace OxDAOEngine.Summary
 {
@@ -49,19 +50,9 @@ namespace OxDAOEngine.Summary
 
         private void PrepareDictionaries()
         {
-            List<ISummaryPanel>? generalSummaries = DataManager.ListController<TField, TDAO>().GeneralSummaries;
-            if (generalSummaries != null)
-                SummaryPanels.AddRange(generalSummaries);
-
-            /*
-                new GeneralSummary()
-                {
-                    Parent = ContentContainer,
-                    Text = "General"
-                }
-            
+            SummaryPanels.Add(
+                new SummaryPanel<TField, TDAO>(DataManager.FieldHelper<TField>().FieldMetaData)
             );
-            */
 
             foreach (TField field in SettingsManager.DAOSettings<TField>().SummaryFields.Fields)
                 SummaryPanels.Add(
@@ -90,8 +81,7 @@ namespace OxDAOEngine.Summary
             IterateSummaryPanels(
                 (panel) =>
                 {
-                    panel.Margins.Left = panel.Expanded ? 0 : 12;
-                    panel.Margins.Right = panel.Expanded ? 0 : 12;
+                    panel.Margins.Horizontal = panel.Expanded ? 0 : 8;
                     panel.Borders[OxDock.Top].Visible = !prevExpanded;
                     panel.Header.UnderlineVisible = panel.Expanded || panel == SummaryPanels.Last();
                     prevExpanded = panel.Expanded;
