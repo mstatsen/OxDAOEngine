@@ -561,14 +561,17 @@ namespace OxDAOEngine.Data
             }
         }
 
-        public void ViewItems(Predicate<TDAO> predicate, string caption)
+        public void ViewItems(Predicate<TDAO> predicate, string? caption = "")
         {
             ItemsViewer<TField, TDAO>? itemsViewer = new(FullItemsList.FindAllRoot(predicate));
 
             try
             {
-                itemsViewer.Text = caption;
-                itemsViewer.UseCustomCaption = true;
+                if (caption != string.Empty)
+                {
+                    itemsViewer.Text = caption;
+                    itemsViewer.UseCustomCaption = true;
+                }
                 itemsViewer.Fill();
                 itemsViewer.ShowAsDialog(Face, OxDialogButton.Cancel);
             }
