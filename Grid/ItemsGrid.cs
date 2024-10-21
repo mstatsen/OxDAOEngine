@@ -6,6 +6,7 @@ using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
+using System.Windows.Forms;
 
 namespace OxDAOEngine.Grid
 {
@@ -151,10 +152,21 @@ namespace OxDAOEngine.Grid
             GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             GridView.ColumnHeadersHeight = 40;
             GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            GridView.MouseDown += GridViewMouseDownHandler;
             Usage = usage;
             ReadOnly = GridUsageHelper.IsReadOnly(usage);
             GridView.MultiSelect = Usage == GridUsage.Edit || Usage == GridUsage.ChooseItems;
             PrepareColumns();
+        }
+
+        private void GridViewMouseDownHandler(object? sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hitTest = GridView.HitTest(e.X, e.Y);
+                GridView.ClearSelection();
+                GridView.Rows[hitTest.RowIndex].Selected = true;
+            }
         }
 
         protected virtual void ApplySortigns(List<ISorting<TField, TDAO>> newSortings)

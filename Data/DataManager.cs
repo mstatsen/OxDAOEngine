@@ -405,6 +405,34 @@ namespace OxDAOEngine.Data
             }
         }
 
+        public static void ViewItems<TField, TDAO>(IMatcher<TField> filter)
+            where TField : notnull, Enum
+            where TDAO : RootDAO<TField>, new()
+        {
+            try
+            {
+                ListController<TField, TDAO>().ViewItems(filter);
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Cannot view items because it controller not found");
+            }
+        }
+
+        public static void ViewItems<TField, TDAO>(Predicate<TDAO> predicate, string caption)
+            where TField : notnull, Enum
+            where TDAO : RootDAO<TField>, new()
+        {
+            try
+            {
+                ListController<TField, TDAO>().ViewItems(predicate, caption);
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Cannot view items because it controller not found");
+            }
+        }
+
         public static RootListDAO<TField, TDAO> FullItemsList<TField, TDAO>()
             where TField : notnull, Enum
             where TDAO : RootDAO<TField>, new ()

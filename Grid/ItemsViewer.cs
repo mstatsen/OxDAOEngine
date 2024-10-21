@@ -88,9 +88,11 @@ namespace OxDAOEngine.Grid
         public TField? InitialField { get; set; }
         public object? InitialValue { get; set; }
 
+        public bool UseCustomCaption { get; set; } = false;
+
         protected override void PrepareDialogCaption(out string? dialogCaption)
         {
-            if (InitialField == null)
+            if (UseCustomCaption || InitialField == null)
             { 
                 base.PrepareDialogCaption(out dialogCaption);
                 return;

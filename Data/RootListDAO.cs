@@ -22,6 +22,18 @@ namespace OxDAOEngine.Data
             }
         }
 
+        public RootListDAO<TField, TDAO> FindAllRoot(Predicate<TDAO> match)
+        {
+            List<TDAO> list = List.FindAll(match);
+
+            RootListDAO<TField, TDAO> result = new();
+
+            foreach (TDAO t in list)
+                result.Add(t);
+
+            return result;
+        }
+
         private void MemberFieldModified(FieldModifiedEventArgs<TField> e) =>
             FieldModified?.Invoke(e);
 

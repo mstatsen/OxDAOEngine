@@ -546,6 +546,38 @@ namespace OxDAOEngine.Data
 
         public virtual List<ToolStripMenuItem>? MenuItems(TDAO? item) => null;
 
+        public void ViewItems(IMatcher<TField> filter)
+        {
+            ItemsViewer<TField, TDAO>? itemsViewer = new();
+
+            try
+            {
+                itemsViewer.Filter = filter;
+                itemsViewer.ShowAsDialog(Face, OxDialogButton.Cancel);
+            }
+            finally
+            {
+                itemsViewer.Dispose();
+            }
+        }
+
+        public void ViewItems(Predicate<TDAO> predicate, string caption)
+        {
+            ItemsViewer<TField, TDAO>? itemsViewer = new(FullItemsList.FindAllRoot(predicate));
+
+            try
+            {
+                itemsViewer.Text = caption;
+                itemsViewer.UseCustomCaption = true;
+                itemsViewer.Fill();
+                itemsViewer.ShowAsDialog(Face, OxDialogButton.Cancel);
+            }
+            finally
+            {
+                itemsViewer.Dispose();
+            }
+        }
+
         public virtual bool AvailableSummary => true;
         public virtual bool AvailableCategories => true;
         public virtual bool AvailableQuickFilter => true;
