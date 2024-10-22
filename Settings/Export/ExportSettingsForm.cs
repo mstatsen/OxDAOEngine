@@ -4,16 +4,17 @@ using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Accessors;
-using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.ControlFactory.Filter;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
-using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Export;
 using OxDAOEngine.Settings.Export;
 using OxDAOEngine.Grid;
+using OxDAOEngine.Data.Sorting.Types;
+using OxDAOEngine.ControlFactory.Controls.Fields;
+using OxDAOEngine.ControlFactory.Controls.Sorting;
 
 namespace OxDAOEngine.Settings
 {

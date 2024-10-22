@@ -2,7 +2,7 @@
 using OxLibrary.Dialogs;
 using System.Diagnostics;
 
-namespace OxDAOEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls.Links
 {
     public class LinkButton : OxButton
     {
@@ -33,7 +33,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                         }
                     );
                 }
-                catch 
+                catch
                 {
                     OxMessage.ShowError("Unable to follw this link. Check the Url please.", this);
                 }

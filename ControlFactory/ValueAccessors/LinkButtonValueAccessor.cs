@@ -1,4 +1,4 @@
-﻿using OxDAOEngine.ControlFactory.Controls;
+﻿using OxDAOEngine.ControlFactory.Controls.Links;
 using OxDAOEngine.Data.Links;
 
 namespace OxDAOEngine.ControlFactory.ValueAccessors

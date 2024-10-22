@@ -6,6 +6,7 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.ControlFactory.Initializers;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.SystemEngine;
+using OxDAOEngine.View.Types;
 
 namespace OxDAOEngine.Settings.ControlFactory.Controls
 {

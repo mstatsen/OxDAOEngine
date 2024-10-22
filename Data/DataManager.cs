@@ -15,6 +15,9 @@ using OxDAOEngine.Settings.Part;
 using OxDAOEngine.Statistic;
 using OxDAOEngine.View;
 using System.Xml;
+using OxDAOEngine.View.Types;
+using OxDAOEngine.Data.Sorting.Types;
+using OxDAOEngine.Data.Filter.Types;
 
 namespace OxDAOEngine.Data
 {

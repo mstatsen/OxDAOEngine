@@ -15,6 +15,7 @@ using OxDAOEngine.XML;
 using System.Xml;
 using OxLibrary;
 using OxDAOEngine.Data.Types;
+using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.Data
 {

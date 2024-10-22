@@ -5,6 +5,7 @@ using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
+using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {

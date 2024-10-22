@@ -1,4 +1,6 @@
-﻿namespace OxDAOEngine.Data.Filter
+﻿using OxDAOEngine.Data.Filter.Types;
+
+namespace OxDAOEngine.Data.Filter
 {
     public class FilterRules<TField> : ListDAO<FilterRule<TField>>
         where TField : notnull, Enum

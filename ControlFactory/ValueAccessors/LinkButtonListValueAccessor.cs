@@ -1,6 +1,6 @@
 ﻿using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.ControlFactory.Context;
-using OxDAOEngine.ControlFactory.Controls;
+using OxDAOEngine.ControlFactory.Controls.Links;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Links;

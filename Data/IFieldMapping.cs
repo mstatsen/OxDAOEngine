@@ -1,4 +1,4 @@
-﻿using OxDAOEngine.Data.Filter;
+﻿using OxDAOEngine.Data.Filter.Types;
 
 namespace OxDAOEngine.Data
 {

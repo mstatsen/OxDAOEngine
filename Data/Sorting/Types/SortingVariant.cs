@@ -1,4 +1,4 @@
-﻿namespace OxDAOEngine.Data.Sorting
+﻿namespace OxDAOEngine.Data.Sorting.Types
 {
     public enum SortingVariant
     {

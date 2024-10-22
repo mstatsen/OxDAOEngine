@@ -1,7 +1,6 @@
 ﻿using OxDAOEngine.Data.Types;
-using System.Drawing;
 
-namespace OxDAOEngine.Data.Sorting
+namespace OxDAOEngine.Data.Sorting.Types
 {
     public class SortingVariantHelper : AbstractStyledTypeHelper<SortingVariant>
     {

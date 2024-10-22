@@ -2,7 +2,7 @@
 using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 using OxDAOEngine.Settings.Data;
-using OxDAOEngine.Data.Types;
+using OxDAOEngine.View.Types;
 
 namespace OxDAOEngine.Settings.ControlFactory.Initializers
 {

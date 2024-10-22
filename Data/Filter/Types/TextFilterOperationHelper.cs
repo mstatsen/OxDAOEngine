@@ -1,13 +1,13 @@
 ﻿using OxDAOEngine.Data.Types;
 
-namespace OxDAOEngine.Data.Filter
+namespace OxDAOEngine.Data.Filter.Types
 {
     public class TextFilterOperationHelper : AbstractTypeHelper<TextFilterOperation>
     {
         public override TextFilterOperation EmptyValue() =>
             TextFilterOperation.Contains;
 
-        public override string GetName(TextFilterOperation value) => 
+        public override string GetName(TextFilterOperation value) =>
             value switch
             {
                 TextFilterOperation.Contains => "Contains",
@@ -16,7 +16,7 @@ namespace OxDAOEngine.Data.Filter
                 _ => string.Empty,
             };
 
-        public FilterOperation Operation(TextFilterOperation value) => 
+        public FilterOperation Operation(TextFilterOperation value) =>
             value switch
             {
                 TextFilterOperation.StartsWith => FilterOperation.StartsWith,

@@ -1,9 +1,9 @@
-﻿namespace OxDAOEngine.Data.Filter
+﻿namespace OxDAOEngine.Data.Filter.Types
 {
     public enum FiltrationType
     {
         StandAlone,
-        IncludeParent, 
+        IncludeParent,
         BaseOnChilds
     }
 }

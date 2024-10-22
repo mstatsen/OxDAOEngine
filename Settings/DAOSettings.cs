@@ -14,6 +14,9 @@ using OxDAOEngine.Settings.Part;
 using OxDAOEngine.SystemEngine;
 using OxDAOEngine.XML;
 using System.Xml;
+using OxDAOEngine.View.Types;
+using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.ControlFactory.Controls.Fields;
 
 namespace OxDAOEngine.Settings
 {

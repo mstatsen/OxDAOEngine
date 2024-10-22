@@ -4,6 +4,7 @@ using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Observers;
+using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.ControlFactory
 {

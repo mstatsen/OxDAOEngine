@@ -2,13 +2,13 @@
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
 
-namespace OxDAOEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls.Sorting
 {
     public class SortingsControl<TField, TDAO>
         : ListMovableItemsControl<
-            FieldSortings<TField, TDAO>, 
-            FieldSorting<TField, TDAO>, 
-            SortingEditor<TField, TDAO>, 
+            FieldSortings<TField, TDAO>,
+            FieldSorting<TField, TDAO>,
+            SortingEditor<TField, TDAO>,
             TField,
             TDAO>
         where TField : notnull, Enum

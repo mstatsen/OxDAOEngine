@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.Data;
+using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.Settings.Helpers
 {

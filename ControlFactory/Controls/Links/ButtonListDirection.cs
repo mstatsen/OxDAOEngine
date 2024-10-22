@@ -1,4 +1,4 @@
-﻿namespace OxDAOEngine.ControlFactory.Controls
+﻿namespace OxDAOEngine.ControlFactory.Controls.Links
 {
     public enum ButtonListDirection
     {

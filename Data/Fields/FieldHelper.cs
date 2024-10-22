@@ -1,6 +1,7 @@
 ﻿using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
 using OxLibrary;
 

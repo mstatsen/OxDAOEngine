@@ -1,5 +1,6 @@
 ﻿using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
+using OxDAOEngine.View.Types;
 using OxDAOEngine.XML;
 using System.Xml;
 

@@ -1,4 +1,4 @@
-﻿namespace OxDAOEngine.Settings
+﻿namespace OxDAOEngine.Settings.Part
 {
     public enum SettingsPart
     {

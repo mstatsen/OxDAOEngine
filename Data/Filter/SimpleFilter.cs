@@ -1,4 +1,5 @@
-﻿using OxDAOEngine.Data.Types;
+﻿using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;
 using System.Xml;
 

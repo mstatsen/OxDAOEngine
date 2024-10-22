@@ -5,7 +5,7 @@ using OxLibrary.Controls;
 using OxDAOEngine.Data.Links;
 using OxLibrary.Dialogs;
 
-namespace OxDAOEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls.Links
 {
     public class LinksListControl<TField, TDAO> : ListItemsControl<Links<TField>, Link<TField>, LinkEditor<TField, TDAO>, TField, TDAO>
         where TField : notnull, Enum
@@ -34,8 +34,8 @@ namespace OxDAOEngine.ControlFactory.Controls
                     {
                         OxMessage.ShowError("Unable to follw this link. Check the Url please.", this);
                     }
-                  
-                }, 
+
+                },
                 true);
         }
 

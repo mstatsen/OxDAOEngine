@@ -12,6 +12,10 @@ using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Links;
 using System;
+using OxDAOEngine.View.Types;
+using OxDAOEngine.ControlFactory.Controls.Fields;
+using OxDAOEngine.ControlFactory.Controls.Links;
+using OxDAOEngine.ControlFactory.Controls.Sorting;
 
 namespace OxDAOEngine.ControlFactory
 {

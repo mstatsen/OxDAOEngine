@@ -1,10 +1,11 @@
-﻿using OxDAOEngine.ControlFactory.Controls;
+﻿using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Fields;
-using OxDAOEngine.Data.Filter;
-using OxDAOEngine.Data.Types;
+using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Data;
+using OxDAOEngine.Settings.Part;
+using OxDAOEngine.View.Types;
 
 namespace OxDAOEngine.Settings
 {

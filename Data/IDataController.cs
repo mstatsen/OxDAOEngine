@@ -1,6 +1,7 @@
 ﻿using OxLibrary.Panels;
 using OxDAOEngine.Settings;
 using System.Xml;
+using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.Data
 {

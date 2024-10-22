@@ -5,11 +5,11 @@ using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Fields;
-using OxDAOEngine.Data.Filter;
-using OxDAOEngine.Data.Types;
+using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.ControlFactory.Controls;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.SystemEngine;
+using OxDAOEngine.View.Types;
 using System.Windows.Forms;
 
 namespace OxDAOEngine.Settings.ControlFactory

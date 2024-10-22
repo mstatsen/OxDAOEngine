@@ -1,4 +1,4 @@
-﻿namespace OxDAOEngine.Data.Types
+﻿namespace OxDAOEngine.View.Types
 {
     public enum IconContent
     {

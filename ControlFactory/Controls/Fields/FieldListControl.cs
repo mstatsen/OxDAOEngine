@@ -2,7 +2,7 @@
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
 
-namespace OxDAOEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls.Fields
 {
     public class FieldsControl<TField, TDAO>
         : ListMovableItemsControl<FieldColumns<TField>, FieldColumn<TField>, FieldEditor<TField, TDAO>, TField, TDAO>

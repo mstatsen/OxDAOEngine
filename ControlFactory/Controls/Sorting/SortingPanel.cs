@@ -2,12 +2,11 @@
 using OxLibrary.Controls;
 using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
-using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
-using OxDAOEngine.Settings;
+using OxDAOEngine.Data.Sorting.Types;
 
-namespace OxDAOEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls.Sorting
 {
     public partial class SortingPanel<TField, TDAO> : FunctionsPanel<TField, TDAO>, ISortingPanel
         where TField : notnull, Enum
@@ -81,7 +80,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (sortingControlAccessor != null)
                 ((SortingsControl<TField, TDAO>)sortingControlAccessor.Control).BaseColor = BaseColor;
         }
-        
+
         private void ChangeSortingHandler(object? sender, EventArgs e)
         {
             sortings.CopyFrom((FieldSortings<TField, TDAO>?)sortingControlAccessor.Value);
@@ -104,7 +103,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         public FieldSortings<TField, TDAO> Sortings
         {
-            get 
+            get
             {
                 FieldSortings<TField, TDAO> result = new();
                 result.CopyFrom(sortings);

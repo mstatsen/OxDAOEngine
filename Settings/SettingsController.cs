@@ -8,6 +8,7 @@ using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.SystemEngine;
 using OxDAOEngine.XML;
 using System.Xml;
+using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.Settings
 {

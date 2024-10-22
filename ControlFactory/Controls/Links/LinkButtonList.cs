@@ -1,7 +1,7 @@
 ﻿using OxLibrary;
 using OxLibrary.Panels;
 
-namespace OxDAOEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls.Links
 {
     public class LinkButtonList : OxPanel
     {
@@ -129,9 +129,9 @@ namespace OxDAOEngine.ControlFactory.Controls
         private void RecalcWidth()
         {
             MinimumSize = new Size(
-                OxDockHelper.IsVertical(OxDockHelper.Dock(Dock)) 
-                    ? Width 
-                    : LastRight, 
+                OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
+                    ? Width
+                    : LastRight,
                 40
             );
         }

@@ -1,4 +1,6 @@
-﻿namespace OxDAOEngine.Data.Types
+﻿using OxDAOEngine.Data.Types;
+
+namespace OxDAOEngine.View.Types
 {
     public class IconClickVariantHelper : AbstractTypeHelper<IconClickVariant>
     {

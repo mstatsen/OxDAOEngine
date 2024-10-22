@@ -4,10 +4,10 @@ using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Accessors;
-using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Part;
+using OxDAOEngine.ControlFactory.Controls.Fields;
 
 namespace OxDAOEngine.Settings
 {

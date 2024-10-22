@@ -1,6 +1,6 @@
 ﻿using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data.Types;
-using OxDAOEngine.Settings;
+using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.Data.Fields
 {

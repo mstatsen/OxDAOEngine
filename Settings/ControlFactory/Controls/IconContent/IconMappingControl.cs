@@ -3,6 +3,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.SystemEngine;
+using OxDAOEngine.View.Types;
 
 namespace OxDAOEngine.Settings.ControlFactory.Controls
 {

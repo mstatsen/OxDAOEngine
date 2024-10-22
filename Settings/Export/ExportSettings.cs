@@ -1,5 +1,6 @@
 ﻿using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Export;
 using OxDAOEngine.XML;
@@ -84,21 +85,21 @@ namespace OxDAOEngine.Settings.Export
                 SimpleFilter<TField, TDAO>? fieldsFilter = Filter?.Root[0][0][0];
 
                 if (fieldsFilter != null)
-                    foreach (TField field in fieldsFilter.Rules.Fields)
+                    foreach (TField @field in fieldsFilter.Rules.Fields)
                     {
-                        object? value = fieldsFilter[field];
+                        object? value = fieldsFilter[@field];
 
                         if (value == null)
                             continue;
 
                         if (TypeHelper.IsTypeHelpered(value))
-                            filterValues.Add(TypeHelper.Name(field), TypeHelper.Name(value));
+                            filterValues.Add(TypeHelper.Name(@field), TypeHelper.Name(value));
                         else
                         {
                             string? stringValue = value.ToString();
 
                             if (stringValue != null)
-                                filterValues.Add(TypeHelper.Name(field), stringValue);
+                                filterValues.Add(TypeHelper.Name(@field), stringValue);
                         }
                     }
 
@@ -108,11 +109,11 @@ namespace OxDAOEngine.Settings.Export
                 if (textFilter != null)
                     foreach (FilterRule<TField> rule in textFilter.Rules)
                     {
-                        TField field = rule.Field;
-                        object? value = textFilter[field];
+                        TField @field = rule.Field;
+                        object? value = textFilter[@field];
 
                         filterValues.Add(
-                            TypeHelper.Name(field),
+                            TypeHelper.Name(@field),
                             TypeHelper.IsTypeHelpered(value)
                                 ? TypeHelper.Name(value)
                                 : helper.DisplaySQLText(SettingsManager.DAOSettings<TField>().QuickFilterTextFieldOperation, value)

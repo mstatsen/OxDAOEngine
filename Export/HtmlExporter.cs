@@ -9,6 +9,7 @@ using OxDAOEngine.Settings;
 using System.Text;
 using OxDAOEngine.View;
 using OxDAOEngine.Settings.Export;
+using OxDAOEngine.Data.Filter.Types;
 
 namespace OxDAOEngine.Export
 {

@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Sorting.Types;
 using OxDAOEngine.XML;
 
 namespace OxDAOEngine.Data.Sorting

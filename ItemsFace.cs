@@ -9,6 +9,8 @@ using OxDAOEngine.Settings;
 using OxDAOEngine.Statistic;
 using OxDAOEngine.Summary;
 using OxDAOEngine.View;
+using OxDAOEngine.View.Types;
+using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine
 {

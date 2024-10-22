@@ -6,7 +6,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
 
-namespace OxDAOEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls.Fields
 {
     public partial class FieldsPanel<TField, TDAO> : OxFunctionsPanel, IFieldsPanel
         where TField : notnull, Enum
@@ -18,7 +18,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             set => fieldsAccessor.Value = value;
         }
 
-        public FieldsPanel(FieldsVariant variant) : base(new Size(240, 86)) 
+        public FieldsPanel(FieldsVariant variant) : base(new Size(240, 86))
         {
             Variant = variant;
             SetTitle();
@@ -104,8 +104,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         List<object> IFieldsPanel.Fields
         {
             get => Fields.ObjectList;
-            set => 
-                fieldsAccessor.Value = 
+            set =>
+                fieldsAccessor.Value =
                     new FieldColumns<TField>
                     {
                         ObjectList = value
