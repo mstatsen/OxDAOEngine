@@ -83,7 +83,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 return;
 
             label.Font = new Font(label.Font, label.Font.Style & ~FontStyle.Underline);
-            label.ForeColor = new OxColorHelper(label.ForeColor).HDarker().Browner();
+            label.ForeColor = new OxColorHelper(label.ForeColor).HBluer(-6).Lighter(4);
         }
 
         private void LabelMouseEnter(object? sender, EventArgs e)
@@ -94,7 +94,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 return;
 
             label.Font = new Font(label.Font, label.Font.Style | FontStyle.Underline);
-            label.ForeColor = new OxColorHelper(label.ForeColor).HLighter().Bluer();
+            label.ForeColor = new OxColorHelper(label.ForeColor).HDarker(4).Bluer(6);
         }
 
         private void ClearAccessorsParent()

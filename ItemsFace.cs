@@ -178,7 +178,7 @@ namespace OxDAOEngine
             {
                 Dock = DockStyle.Fill,
                 Text = itemsViewsTypeHelper.Name(ItemsViewsType.Summary),
-                BaseColor = BaseColor
+                BaseColor = new OxColorHelper(EngineStyles.SummaryColor).BaseColor
             };
             result.Paddings.LeftOx = OxSize.Medium;
             tabControl.AddPage(result);

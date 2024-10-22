@@ -85,7 +85,7 @@ namespace OxDAOEngine.Summary
                     if (trueExtract.Count == 0)
                         trueExtract.Add(true, 0);
 
-                    nextTop = CreateAccessors(trueExtract, field, nextTop);
+                    nextTop = CreateAccessors(trueExtract, field, nextTop, 4);
                 }
                     
             }
@@ -109,10 +109,10 @@ namespace OxDAOEngine.Summary
             Dock = DockStyle.Top;
         }
 
-        private int CreateAccessors(Dictionary<object, int> extraction, TField field, int newTop = SummaryConsts.VerticalSpace)
+        private int CreateAccessors(Dictionary<object, int> extraction, TField field, int newTop = SummaryConsts.VerticalSpace, int indent = 1)
         {
             Point nextLocation = new(
-                SummaryConsts.HorizontalSpace, 
+                SummaryConsts.HorizontalSpace * indent, 
                 newTop
             );
 

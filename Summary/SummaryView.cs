@@ -50,11 +50,6 @@ namespace OxDAOEngine.Summary
 
         private void PrepareDictionaries()
         {
-            SummaryPanel<TField, TDAO> generalSummaryPanel = 
-                new(DataManager.FieldHelper<TField>().FieldMetaData);
-            generalSummaryPanel.GetExtractItemCaption += DataManager.ListController<TField, TDAO>().GetExtractItemCaption;
-            SummaryPanels.Add(generalSummaryPanel);
-
             FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
             foreach (TField field in fieldHelper.SummaryFields)
             {
@@ -62,6 +57,12 @@ namespace OxDAOEngine.Summary
                 summaryPanel.GetExtractItemCaption += DataManager.ListController<TField, TDAO>().GetExtractItemCaption;
                 SummaryPanels.Add(summaryPanel);
             }
+
+            SummaryPanel<TField, TDAO> generalSummaryPanel =
+                new(DataManager.FieldHelper<TField>().FieldMetaData);
+            generalSummaryPanel.GetExtractItemCaption += DataManager.ListController<TField, TDAO>().GetExtractItemCaption;
+            SummaryPanels.Add(generalSummaryPanel);
+            SummaryPanels.Reverse();
 
             IterateSummaryPanels(
                 (panel) =>
@@ -85,7 +86,7 @@ namespace OxDAOEngine.Summary
             IterateSummaryPanels(
                 (panel) =>
                 {
-                    panel.Margins.Horizontal = panel.Expanded ? 0 : 8;
+                    panel.Margins.Horizontal = panel.Expanded ? 12 : 32;
                     panel.Borders[OxDock.Top].Visible = !prevExpanded;
                     panel.Header.UnderlineVisible = panel.Expanded || panel == SummaryPanels.Last();
                     prevExpanded = panel.Expanded;
