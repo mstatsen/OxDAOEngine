@@ -1,5 +1,5 @@
 ﻿using OxDAOEngine.Data;
-using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Fields.Types;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;

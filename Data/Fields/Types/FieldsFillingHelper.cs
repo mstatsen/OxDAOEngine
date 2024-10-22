@@ -1,15 +1,13 @@
-﻿using System.Drawing;
-using OxLibrary;
-using OxLibrary.Controls;
+﻿using OxLibrary;
 using OxDAOEngine.Data.Types;
 
-namespace OxDAOEngine.Data.Fields
+namespace OxDAOEngine.Data.Fields.Types
 {
     public class FieldsFillingHelper : AbstractTypeHelper<FieldsFilling>
     {
         public override FieldsFilling EmptyValue() => FieldsFilling.Full;
 
-        public override string GetName(FieldsFilling value) => 
+        public override string GetName(FieldsFilling value) =>
             value switch
             {
                 FieldsFilling.Full => "All",
@@ -29,13 +27,13 @@ namespace OxDAOEngine.Data.Fields
                 _ => string.Empty,
             };
 
-        public int ButtonWidth(FieldsFilling value) => 
+        public int ButtonWidth(FieldsFilling value) =>
             value switch
             {
-                FieldsFilling.Full or 
-                FieldsFilling.Min => 
+                FieldsFilling.Full or
+                FieldsFilling.Min =>
                     54,
-                _ => 
+                _ =>
                     80,
             };
 

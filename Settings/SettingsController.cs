@@ -145,7 +145,7 @@ namespace OxDAOEngine.Settings
             {
                 if (IsDAOSetting(item.Key))
                 {
-                    if (item.Value is DAO dao && item.Value == null)
+                    if (item.Value is DAO dao && item.Value != null)
                         dao.Save(element);
                 }
                 else

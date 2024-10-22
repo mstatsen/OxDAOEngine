@@ -52,7 +52,7 @@ namespace OxDAOEngine.Settings.ControlFactory
                         null,
                 }
                 : context.Key == "IconMapping:Field" 
-                    ? new FieldAccessor<DAOSetting, SystemRootDAO<DAOSetting>, TField>(context) 
+                    ? new FieldAccessor<DAOSetting, SystemRootDAO<DAOSetting>, TField>(context)
                     : (IControlAccessor?)null;
 
         private IControlAccessor CreateIconMappingAccessor(IBuilderContext<DAOSetting, SystemRootDAO<DAOSetting>> context)
@@ -76,6 +76,7 @@ namespace OxDAOEngine.Settings.ControlFactory
                     _ => 
                         base.Initializer(context),
                 }
-                : base.Initializer(context);
+                //: context.Key == "IconMapping:Field" ?
+                    : base.Initializer(context);
     }
 }

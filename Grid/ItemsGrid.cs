@@ -7,6 +7,7 @@ using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
 using System.Windows.Forms;
+using OxDAOEngine.Data.Fields.Types;
 
 namespace OxDAOEngine.Grid
 {

@@ -1,5 +1,7 @@
-﻿using OxDAOEngine.ControlFactory.Accessors;
+﻿using OxDAOEngine.ControlFactory;
+using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.ControlFactory.Controls;
+using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
@@ -46,7 +48,8 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
 
         private void CreateFieldControl()
         {
-            FieldControl = Context.Accessor("IconMapping:Field", FieldType.Custom);
+            FieldControl = Context.Accessor("IconMapping:Field", FieldType.Enum);
+            ((FieldsInitializer<TField>)FieldControl.Context.Initializer!).SetControlScope(ControlScope.IconView);
             FieldControl.Parent = this;
             FieldControl.Left = ContentPartControl!.Left;
             FieldControl.Top = ContentPartControl.Bottom + 8;

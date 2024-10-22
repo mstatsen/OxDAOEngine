@@ -2,7 +2,7 @@
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Part;
 
-namespace OxDAOEngine.Data.Fields
+namespace OxDAOEngine.Data.Fields.Types
 {
     public class FieldVariantHelper : AbstractStyledTypeHelper<FieldsVariant>
     {
@@ -18,7 +18,7 @@ namespace OxDAOEngine.Data.Fields
                 [FieldsVariant.BatchUpdate] = ControlScope.BatchUpdate
             };
 
-        public override string GetName(FieldsVariant variant) => 
+        public override string GetName(FieldsVariant variant) =>
             variant switch
             {
                 FieldsVariant.Table => "Table fields",
@@ -60,7 +60,7 @@ namespace OxDAOEngine.Data.Fields
         public override FieldsVariant EmptyValue() =>
             FieldsVariant.Table;
 
-        public override Color GetBaseColor(FieldsVariant value) => 
+        public override Color GetBaseColor(FieldsVariant value) =>
             value switch
             {
                 FieldsVariant.QuickFilter => EngineStyles.QuickFilterColor,
@@ -70,7 +70,7 @@ namespace OxDAOEngine.Data.Fields
                 _ => EngineStyles.FieldsColor,
             };
 
-        public override Color GetFontColor(FieldsVariant value) => 
+        public override Color GetFontColor(FieldsVariant value) =>
             default!;
     }
 }

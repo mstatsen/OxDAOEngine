@@ -1,5 +1,6 @@
 ﻿using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.Data.Fields.Types;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
@@ -70,25 +71,53 @@ namespace OxDAOEngine.Data.Fields
             return availableFields != null ? availableFields.Count : 0;
         }
 
-        public bool AvailableField(ControlScope scope, TField field) => 
+        public bool AvailableField(ControlScope scope, TField field) =>
             scope switch
             {
-                ControlScope.BatchUpdate or 
-                ControlScope.QuickFilter or 
-                ControlScope.Sorting or 
-                ControlScope.Table or 
-                ControlScope.Html or 
-                ControlScope.Category or 
-                ControlScope.Inline =>
+                ControlScope.BatchUpdate or
+                ControlScope.QuickFilter or
+                ControlScope.Sorting or
+                ControlScope.Table or
+                ControlScope.Html or
+                ControlScope.Category or
+                ControlScope.Inline or
+                ControlScope.IconView =>
                     AvailableFields(scope) != null && AvailableFields(scope)!.Contains(field),
-                ControlScope.Grouping => 
+                ControlScope.Grouping =>
                     IsGroupByField(field),
                 _ => true,
             };
 
         public List<TField> MandatoryFields => GetMandatoryFields();
         public List<TField> CalcedFields => GetCalcedFields();
-        public List<TField> IconFields => GetIconFields();
+
+        private List<TField> iconFields = default!;
+        public List<TField> IconFields
+        {
+            get
+            {
+                if (iconFields == null)
+                {
+                    iconFields = new();
+
+                    foreach (TField field in All())
+                        switch (GetFieldType(field))
+                        {
+                            case FieldType.Enum:
+                            case FieldType.Extract:
+                            case FieldType.Image:
+                            case FieldType.Label:
+                            case FieldType.String:
+                            case FieldType.Country:
+                                iconFields.Add(field);
+                                break;
+                        }
+                }
+
+                return iconFields;
+            }
+        }
+
         public List<TField> EditingFields => GetEditingFields();
         public List<TField> EditingFieldsExtended => GetEditedFieldsExtended();
         public List<TField> FullInfoFields => GetFullInfoFields();
@@ -133,7 +162,6 @@ namespace OxDAOEngine.Data.Fields
 
         protected abstract List<TField> GetMandatoryFields();
         protected abstract List<TField> GetCalcedFields();
-        protected abstract List<TField> GetIconFields();
         protected abstract List<TField> GetEditingFields();
         protected abstract List<TField> GetEditedFieldsExtended();
         protected abstract List<TField> GetFullInfoFields();

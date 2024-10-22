@@ -1,4 +1,4 @@
-﻿namespace OxDAOEngine.Data.Fields
+﻿namespace OxDAOEngine.Data.Fields.Types
 {
     public enum FieldsVariant
     {

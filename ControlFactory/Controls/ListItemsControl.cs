@@ -205,7 +205,17 @@ namespace OxDAOEngine.ControlFactory.Controls
             foreach (OxClickFrame eControl in EnabledWhenItemSelected)
                 eControl.Enabled = ListBox.SelectedIndex > -1 
                     && (FixedItems == null 
-                        || !FixedItems.Contains(s => s.Equals(ListBox.SelectedItem)));
+                        || !FixedItems.Contains(ListBox.SelectedItem));
+        }
+
+        protected override void OnSetFixedItems()
+        {
+            base.OnSetFixedItems();
+            ListBox.FixedItems.Clear();
+
+            if (FixedItems != null)
+                foreach (TItem item in FixedItems)
+                    ListBox.FixedItems.Add(item);
         }
 
         protected void PrepareEditButton(OxIconButton button, EventHandler handler,
@@ -393,8 +403,6 @@ namespace OxDAOEngine.ControlFactory.Controls
         public GetMaximumCount? GetMaximumCount;
 
         protected virtual int MaximumItemsCount => -1;
-
-        public ListItemsControl() : base() { }
 
         protected override void OnSizeChanged(EventArgs e)
         {

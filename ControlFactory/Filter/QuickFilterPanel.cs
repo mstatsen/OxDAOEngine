@@ -8,6 +8,7 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Part;
+using OxDAOEngine.Data.Fields.Types;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {

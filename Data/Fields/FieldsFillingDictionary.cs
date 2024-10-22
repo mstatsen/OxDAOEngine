@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using OxDAOEngine.Data.Fields.Types;
 
 namespace OxDAOEngine.Data.Fields
 {

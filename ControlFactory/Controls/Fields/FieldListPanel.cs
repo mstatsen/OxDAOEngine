@@ -5,6 +5,7 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
+using OxDAOEngine.Data.Fields.Types;
 
 namespace OxDAOEngine.ControlFactory.Controls.Fields
 {

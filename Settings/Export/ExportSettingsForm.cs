@@ -15,6 +15,7 @@ using OxDAOEngine.Grid;
 using OxDAOEngine.Data.Sorting.Types;
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.ControlFactory.Controls.Sorting;
+using OxDAOEngine.Data.Fields.Types;
 
 namespace OxDAOEngine.Settings
 {
