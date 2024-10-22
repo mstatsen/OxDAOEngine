@@ -3,7 +3,7 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Types;
-using OxDAOEngine.Settings;
+using OxDAOEngine.Data.Fields;
 
 namespace OxDAOEngine.Summary
 {
@@ -13,20 +13,23 @@ namespace OxDAOEngine.Summary
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public TField Field { get; internal set; }
-        public AccessorDictionary<TField, TDAO> ValueAccessors = new();
+        public readonly TField Field;
+        public readonly AccessorDictionary<TField, TDAO> ValueAccessors = new();
 
         public SummaryPanel(TField field) : base()
         {
             Field = field;
             Text = IsGeneralSummaryPanel
-                ? $"Total {DataManager.ListController<TField, TDAO>().ListName}"
+                ? "General"
                 : $"by {TypeHelper.Name(field)}";
             Paddings.Horizontal = 24;
         }
 
+        private readonly FieldHelper<TField> FieldHelper = 
+            DataManager.FieldHelper<TField>();
+
         public bool IsGeneralSummaryPanel =>
-            DataManager.FieldHelper<TField>().FieldMetaData.Equals(Field);
+            FieldHelper.FieldMetaData.Equals(Field);
 
         public void AlignAccessors() =>
             ValueAccessors.AlignAccessors();
@@ -44,7 +47,7 @@ namespace OxDAOEngine.Summary
             Header.SetContentSize(SummaryConsts.CardWidth, SummaryConsts.CardHeaderHeight);
             SetContentSize(
                 SummaryConsts.CardWidth,
-                Math.Max(SummaryConsts.CardHeight, maxBottom + SummaryConsts.CardHeaderHeight)
+                Math.Max(SummaryConsts.CardHeight, maxBottom + SummaryConsts.CardHeaderHeight * 2)
             );
         }
 
@@ -53,21 +56,48 @@ namespace OxDAOEngine.Summary
             ClearAccessors();
 
             if (IsGeneralSummaryPanel)
-                CreateAccessors(
+            {
+                int nextTop = CreateAccessors(
                     new Dictionary<object, int>()
                     {
-                        [string.Empty]
+                        [$"Total {DataManager.ListController<TField, TDAO>().ListName}"]
                         = DataManager.FullItemsList<TField, TDAO>().Count
-                    }
+                    },
+                    Field
+                );
+
+                foreach (TField field in FieldHelper.GeneralSummaryFields)
+                {
+                    Dictionary<object, int> extract = new FieldExtractor<TField, TDAO>(
+                        DataManager.FullItemsList<TField, TDAO>()).CountExtract(
+                        field,
+                        true,
+                        ExtractCompareType.Count
                     );
+                    FieldCountExtract trueExtract = new();
+
+                    if (extract.ContainsKey(true))
+                        trueExtract.Add(true, extract[true]);
+
+                    if (trueExtract.Count == 0 && extract.ContainsKey(1))
+                        trueExtract.Add(true, extract[1]);
+
+                    if (trueExtract.Count == 0)
+                        trueExtract.Add(true, 0);
+
+                    nextTop = CreateAccessors(trueExtract, field, nextTop);
+                }
+                    
+            }
             else
                 CreateAccessors(
                     new FieldExtractor<TField, TDAO>(
                         DataManager.FullItemsList<TField, TDAO>()).CountExtract(
                         Field,
                         true,
-                        SettingsManager.DAOSettings<TField>().SummarySorting
-                    )
+                        ExtractCompareType.Count
+                    ),
+                    Field
                 );
         }
 
@@ -79,26 +109,44 @@ namespace OxDAOEngine.Summary
             Dock = DockStyle.Top;
         }
 
-        private void CreateAccessors(Dictionary<object, int> extraction)
+        private int CreateAccessors(Dictionary<object, int> extraction, TField field, int newTop = SummaryConsts.VerticalSpace)
         {
             Point nextLocation = new(
                 SummaryConsts.HorizontalSpace, 
-                SummaryConsts.VerticalSpace
+                newTop
             );
 
             foreach (var extractItem in extraction)
             {
                 IControlAccessor accessor = ValueAccessors.CreateAccessor(
-                    Field,
+                    field,
                     extractItem.Key,
                     ContentContainer,
-                    TypeHelper.Name(extractItem.Key),
+                    ExtractItemCaptionHandler(field, extractItem.Key),
                     extractItem.Value,
                     nextLocation
                 );
 
                 nextLocation.Y = accessor.Bottom + SummaryConsts.VerticalSpace / 3;
             }
+
+            return nextLocation.Y;
         }
+
+        private string ExtractItemCaptionHandler(TField field, object? value)
+        {
+            if (GetExtractItemCaption != null)
+                return GetExtractItemCaption(field, value);
+
+            return 
+                value is bool boolValue
+                    ? (boolValue ? "Yes" : "No")
+                    : TypeHelper.Name(value);
+        }
+
+        public GetExtractItemCaption<TField>? GetExtractItemCaption;
     }
+
+    public delegate string GetExtractItemCaption<TField>(TField field, object? value)
+        where TField : notnull, Enum;
 }

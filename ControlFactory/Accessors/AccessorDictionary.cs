@@ -3,8 +3,6 @@ using OxLibrary.Controls;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
-using System.Reflection.Metadata.Ecma335;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -29,7 +27,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             base.Clear();
         }
 
-        private const int HorizontalSpace = 8;
+        private const int HorizontalSpace = 28;
 
         public IControlAccessor CreateAccessor(TField field, object key, Control parent, 
             string? caption, object value, Point location)
@@ -73,7 +71,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             accessor.Value = value;
             accessor.Control.Font = Styles.Font(FontStyle.Bold);
             OxControlHelper.AlignByBaseLine(accessor.Control, captionLabel);
-            Add(key, accessor);
+            Add(new KeyValuePair<TField, object>(field, key), accessor);
             return accessor;
         }
 

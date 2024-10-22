@@ -1,7 +1,7 @@
 ﻿using OxLibrary;
 using OxLibrary.Panels;
 using OxDAOEngine.Data;
-using OxDAOEngine.Settings;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.Data.Fields;
 
 namespace OxDAOEngine.Summary
@@ -50,14 +50,18 @@ namespace OxDAOEngine.Summary
 
         private void PrepareDictionaries()
         {
-            SummaryPanels.Add(
-                new SummaryPanel<TField, TDAO>(DataManager.FieldHelper<TField>().FieldMetaData)
-            );
+            SummaryPanel<TField, TDAO> generalSummaryPanel = 
+                new(DataManager.FieldHelper<TField>().FieldMetaData);
+            generalSummaryPanel.GetExtractItemCaption += DataManager.ListController<TField, TDAO>().GetExtractItemCaption;
+            SummaryPanels.Add(generalSummaryPanel);
 
-            foreach (TField field in SettingsManager.DAOSettings<TField>().SummaryFields.Fields)
-                SummaryPanels.Add(
-                    new SummaryPanel<TField, TDAO>(field)
-                );
+            FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
+            foreach (TField field in fieldHelper.SummaryFields)
+            {
+                SummaryPanel<TField, TDAO> summaryPanel = new(field);
+                summaryPanel.GetExtractItemCaption += DataManager.ListController<TField, TDAO>().GetExtractItemCaption;
+                SummaryPanels.Add(summaryPanel);
+            }
 
             IterateSummaryPanels(
                 (panel) =>

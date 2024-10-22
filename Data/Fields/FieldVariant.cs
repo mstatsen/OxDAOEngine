@@ -7,7 +7,6 @@
         QuickFilter,
         QuickFilterText,
         Category,
-        Summary,
         Inline,
         BatchUpdate
     }

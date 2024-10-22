@@ -24,6 +24,24 @@ namespace OxDAOEngine.Data.Fields
     public abstract class FieldHelper<TField> : AbstractTypeHelper<TField>
         where TField : notnull, Enum
     {
+        private class FieldComparer : IComparer<TField>
+        {
+            public FieldComparer(FieldHelper<TField> helper) =>
+                Helper = helper;
+
+            private FieldHelper<TField> Helper;
+            public int Compare(TField? x, TField? y) =>
+                Helper.Name(x).CompareTo(Helper.Name(y));
+        }
+
+        public List<TField> AllSorted()
+        {
+            List<TField> result = All();
+
+            result.Sort(new FieldComparer(this));
+            return result;
+        }
+
         public override Type ItemObjectType => typeof(FieldObject<TField>); 
 
         public abstract FieldType GetFieldType(TField field);
@@ -60,7 +78,6 @@ namespace OxDAOEngine.Data.Fields
                 ControlScope.Table or 
                 ControlScope.Html or 
                 ControlScope.Category or 
-                ControlScope.Summary or
                 ControlScope.Inline =>
                     AvailableFields(scope) != null && AvailableFields(scope)!.Contains(field),
                 ControlScope.Grouping => 
@@ -77,6 +94,25 @@ namespace OxDAOEngine.Data.Fields
         public List<TField> CardFields => GetCardFields();
         public List<TField> GroupByFields => GetGroupByFields();
         public List<TField> SynchronizedFields => GetSynchronizedFields();
+        public List<TField> SummaryFields => GetInternalSummaryFields();
+
+        private List<TField> GetInternalSummaryFields()
+        {
+            List<TField> result = GetSummaryFields();
+            result.RemoveAll(f => GetFieldType(f) == FieldType.Boolean);
+            return result;
+        }
+
+        public List<TField> GeneralSummaryFields => GetGeneralSummaryFields();
+
+        private List<TField> GetGeneralSummaryFields()
+        {
+            List<TField> result = GetSummaryFields();
+            result.RemoveAll(f => GetFieldType(f) != FieldType.Boolean);
+            return result;
+        }
+
+        protected virtual List<TField> GetSummaryFields() => new();
 
         protected virtual List<TField> GetSynchronizedFields() => EditingFields;
 

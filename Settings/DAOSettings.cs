@@ -12,7 +12,6 @@ using OxDAOEngine.Settings.Export;
 using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.SystemEngine;
-using OxDAOEngine.View;
 using OxDAOEngine.XML;
 using System.Xml;
 
@@ -139,12 +138,6 @@ namespace OxDAOEngine.Settings
             set => this[DAOSetting.IconsSize] = value;
         }
 
-        public ExtractCompareType SummarySorting
-        {
-            get => Parse<ExtractCompareType>(DAOSetting.SummarySorting);
-            set => this[DAOSetting.SummarySorting] = value;
-        }
-
         public Filter<TField, TDAO>? Filter
         {
             get => filter;
@@ -224,11 +217,6 @@ namespace OxDAOEngine.Settings
             set => SetFields(SettingsPart.Category, value);
         }
 
-        public FieldColumns<TField> SummaryFields
-        {
-            get => GetFields(SettingsPart.Summary);
-            set => SetFields(SettingsPart.Summary, value);
-        }
         public ExportSettings<TField, TDAO> ExportSettings => exportSettings;
 
         public override string ListName => DataManager.FieldController<TField>().ListName;
@@ -307,9 +295,6 @@ namespace OxDAOEngine.Settings
                     case DAOSetting.IconsSize:
                         settings[setting] = XmlHelper.Value<IconSize>(element, node.Name);
                         break;
-                    case DAOSetting.SummarySorting:
-                        settings[setting] = XmlHelper.Value<ExtractCompareType>(element, node.Name);
-                        break;
                     case DAOSetting.QuickFilterTextFieldOperation:
                         settings[setting] = XmlHelper.Value<TextFilterOperation>(element, node.Name);
                         break;
@@ -324,8 +309,6 @@ namespace OxDAOEngine.Settings
                     XmlHelper.Value<IconClickVariant>(parentElement, elementName),
                 DAOSetting.IconsSize =>
                     XmlHelper.Value<IconSize>(parentElement, elementName),
-                DAOSetting.SummarySorting =>
-                    XmlHelper.Value<ExtractCompareType>(parentElement, elementName),
                 DAOSetting.QuickFilterTextFieldOperation =>
                     XmlHelper.Value<TextFilterOperation>(parentElement, elementName),
                 _ =>
@@ -444,28 +427,19 @@ namespace OxDAOEngine.Settings
         private static DAO DefaultIconMapping()
         {
             FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
-            ListDAO<IconMapping<TField>> result = new();
-
-            foreach (TField field in fieldHelper.All())
-                if (fieldHelper.GetFieldType(field) == FieldType.Image)
+            ListDAO<IconMapping<TField>> result = new()
+            {
+                new()
                 {
-                    result.Add(
-                        new()
-                        {
-                            Part = IconContent.Image,
-                            Field = field
-                        }
-                    );
-                    break;
-                }
-
-            result.Add(
+                    Part = IconContent.Image,
+                    Field = fieldHelper.ImageField
+                },
                 new()
                 {
                     Part = IconContent.Title,
                     Field = fieldHelper.TitleField
                 }
-            );
+            };
 
             return result;
         }

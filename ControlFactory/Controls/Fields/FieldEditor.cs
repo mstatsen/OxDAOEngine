@@ -18,10 +18,10 @@ namespace OxDAOEngine.ControlFactory.Controls
             base.RenewData();
 
             if (ExistingItems != null)
-            FieldControl.ExcludedList = new FieldColumns<TField>
-            {
-                ObjectList = ExistingItems
-            }.Fields;
+                FieldControl.ExcludedList = new FieldColumns<TField>
+                {
+                    ObjectList = ExistingItems
+                }.Fields;
         }
 
         public override Bitmap? FormIcon => OxIcons.Field;

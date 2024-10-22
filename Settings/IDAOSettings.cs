@@ -3,8 +3,8 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Data;
-using OxDAOEngine.View;
 
 namespace OxDAOEngine.Settings
 {
@@ -27,7 +27,6 @@ namespace OxDAOEngine.Settings
         bool QuickFilterExpanded { get; set; }
         IconClickVariant IconClickVariant { get; set; }
         IconSize IconsSize { get; set; }
-        ExtractCompareType SummarySorting { get; set; }
         //ExportSettings ExportSettings { get; }
         List<object> GetFields(SettingsPart part);
         void SetFields(SettingsPart part, List<object> value);
@@ -48,7 +47,6 @@ namespace OxDAOEngine.Settings
         FieldColumns<TField> QuickFilterFields { get; set; }
         FieldColumns<TField> QuickFilterTextFields { get; set; }
         FieldColumns<TField> CategoryFields { get; set; }
-        FieldColumns<TField> SummaryFields { get; set; }
         ListDAO<IconMapping<TField>>? IconMapping { get; set; }
     }
 }

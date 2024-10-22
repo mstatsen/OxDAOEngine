@@ -12,7 +12,6 @@ namespace OxDAOEngine.Settings.Observers
         public bool QuickFilterFieldsChanged { get; internal set; }
         public bool QuickFilterTextFieldsChanged { get; internal set; }
         public bool CategoryFieldsChanged { get; internal set; }
-        public bool SummaryFieldsChanged { get; internal set; }
         public bool CurrentViewChanged { get; internal set; }
 
         public DAOObserver() : base() { }
@@ -24,7 +23,6 @@ namespace OxDAOEngine.Settings.Observers
             && !QuickFilterFieldsChanged
             && !QuickFilterTextFieldsChanged
             && !CategoryFieldsChanged
-            && !SummaryFieldsChanged
             && !CurrentViewChanged;
 
         public override void RenewChanges()
@@ -41,8 +39,6 @@ namespace OxDAOEngine.Settings.Observers
                 !OldValues.Fields[SettingsPart.QuickFilterText].Equals(Controller.QuickFilterTextFields);
             CategoryFieldsChanged = fullApplies ||
                 !OldValues.Fields[SettingsPart.Category].Equals(Controller.CategoryFields);
-            SummaryFieldsChanged = fullApplies ||
-                !OldValues.Fields[SettingsPart.Summary].Equals(Controller.SummaryFields);
         }
 
         protected override void Clear()
@@ -52,7 +48,6 @@ namespace OxDAOEngine.Settings.Observers
             QuickFilterFieldsChanged = false;
             QuickFilterTextFieldsChanged = false;
             CategoryFieldsChanged = false;
-            SummaryFieldsChanged = false;
             base.Clear();
         }
     }

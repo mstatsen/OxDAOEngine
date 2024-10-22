@@ -10,11 +10,11 @@ using OxDAOEngine.Editor;
 using OxDAOEngine.Export;
 using OxDAOEngine.Grid;
 using OxDAOEngine.Settings;
-using OxDAOEngine.Summary;
 using OxDAOEngine.View;
 using OxDAOEngine.XML;
 using System.Xml;
 using OxLibrary;
+using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.Data
 {
@@ -578,6 +578,14 @@ namespace OxDAOEngine.Data
                 itemsViewer.Dispose();
             }
         }
+
+        public virtual string GetExtractItemCaption(TField field, object? value) => 
+            value is bool boolValue
+                ? (boolValue ? "Yes" : "No")
+                : TypeHelper.Name(value);
+
+        public void ShowItemKey(TDAO? item) => 
+            new UniqueKeyViewer<TField, TDAO>().View(item, Face);
 
         public virtual bool AvailableSummary => true;
         public virtual bool AvailableCategories => true;

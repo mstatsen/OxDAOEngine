@@ -29,7 +29,7 @@ namespace OxDAOEngine.Editor
         private void FillControls(TDAO? item)
         {
             FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
-            Text = fieldHelper.Name(fieldHelper.UniqueField);
+            Text = $"{(item != null ? $"{item[fieldHelper.TitleField]} " : string.Empty)}{fieldHelper.Name(fieldHelper.UniqueField)}";
             uniqueKeyAccessor.Value = item == null ? "Empty" : item[fieldHelper.UniqueField];
         }
 

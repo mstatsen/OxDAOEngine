@@ -46,6 +46,9 @@ namespace OxDAOEngine.View
         {
             switch (ListController.Settings.IconClickVariant)
             {
+                case IconClickVariant.ShowKey:
+                    ListController.ShowItemKey(item);
+                    break;
                 case IconClickVariant.ShowCard:
                     ListController.ViewItem(item, ItemViewMode.WithEditLink);
                     break;

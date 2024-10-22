@@ -6,7 +6,6 @@
         HideEmptyCategory,
         IconsSize,
         IconMapping,
-        SummarySorting,
 
         CurrentView,
         ShowItemInfo,

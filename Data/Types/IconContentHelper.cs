@@ -1,6 +1,4 @@
-﻿using OxDAOEngine.Data.Types;
-
-namespace OxDAOEngine.View
+﻿namespace OxDAOEngine.Data.Types
 {
     public class IconContentHelper : AbstractTypeHelper<IconContent>
     {

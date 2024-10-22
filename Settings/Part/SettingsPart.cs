@@ -5,7 +5,6 @@
         Full,
         Table,
         View,
-        Summary,
         Category,
         QuickFilter,
         QuickFilterText,

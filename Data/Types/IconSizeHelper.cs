@@ -1,13 +1,12 @@
 ﻿using OxLibrary;
-using OxDAOEngine.Data.Types;
 
-namespace OxDAOEngine.View
+namespace OxDAOEngine.Data.Types
 {
     public class IconSizeHelper : AbstractTypeHelper<IconSize>
     {
         public override IconSize EmptyValue() => IconSize.Large;
 
-        public override string GetName(IconSize value) => 
+        public override string GetName(IconSize value) =>
             value switch
             {
                 IconSize.Small => "Small",
@@ -28,7 +27,7 @@ namespace OxDAOEngine.View
         public int Height(IconSize size) =>
             Width(size) / 25 * 18;
 
-        public int LeftDelta(IconSize size) => 
+        public int LeftDelta(IconSize size) =>
             size switch
             {
                 IconSize.Small => 6,
@@ -53,7 +52,7 @@ namespace OxDAOEngine.View
                 _ => Styles.DefaultFontSize,
             };
 
-        public int FontSizeDelta(IconSize size) => 
+        public int FontSizeDelta(IconSize size) =>
             size switch
             {
                 IconSize.Small or IconSize.Medium => 1,

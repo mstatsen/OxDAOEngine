@@ -12,7 +12,6 @@ namespace OxDAOEngine.Settings.Part
                 SettingsPart.QuickFilter => "Quick filter",
                 SettingsPart.QuickFilterText => "Text filter",
                 SettingsPart.View => "Views",
-                SettingsPart.Summary => "Summary",
                 SettingsPart.Styles => "Styles",
                 SettingsPart.Main => "Main",
                 _ => string.Empty,
@@ -25,7 +24,6 @@ namespace OxDAOEngine.Settings.Part
                 SettingsPart.View,
                 SettingsPart.Category,
                 SettingsPart.QuickFilter,
-                SettingsPart.Summary
             };
 
         public List<SettingsPart> VisibleGeneralSettings =>
@@ -41,8 +39,7 @@ namespace OxDAOEngine.Settings.Part
                 SettingsPart.Table,
                 SettingsPart.QuickFilter,
                 SettingsPart.QuickFilterText,
-                SettingsPart.Category,
-                SettingsPart.Summary
+                SettingsPart.Category
             };
 
         public List<SettingsPart> MandatoryFields =>

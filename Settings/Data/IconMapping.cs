@@ -1,6 +1,5 @@
 ﻿using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
-using OxDAOEngine.View;
 using OxDAOEngine.XML;
 using System.Xml;
 
@@ -13,8 +12,8 @@ namespace OxDAOEngine.Settings.Data
 
         public TField Field
         {
-            get => field;
-            set => field = EnumValue<TField>(ModifyValue(field, value));
+            get => @field;
+            set => @field = EnumValue<TField>(ModifyValue(@field, value));
         }
 
         private IconContent part = default;
@@ -58,12 +57,22 @@ namespace OxDAOEngine.Settings.Data
 
                 return part switch
                 {
-                    IconContent.Image => otherPart == IconContent.Image
-                        ? 0 : -1,
-                    IconContent.Title => otherPart == IconContent.Image
-                        ? 1 : otherPart == IconContent.Title ? 0 : -1,
-                    IconContent.Left => otherPart == IconContent.Image || otherPart == IconContent.Title
-                        ? 1 : otherPart == IconContent.Left ? 0 : -1,
+                    IconContent.Image => 
+                        otherPart == 
+                            IconContent.Image 
+                                ? 0 
+                                : -1,
+                    IconContent.Title => 
+                        otherPart == IconContent.Image 
+                            ? 1 
+                            : otherPart == IconContent.Title ? 0 : -1,
+                    IconContent.Left => 
+                        otherPart == IconContent.Image 
+                        || otherPart == IconContent.Title
+                            ? 1 
+                            : otherPart == IconContent.Left 
+                                ? 0 
+                                : -1,
                     _ => //IconContent.Right
                         1
                 };
@@ -71,5 +80,14 @@ namespace OxDAOEngine.Settings.Data
 
             return base.CompareTo(other);
         }
+
+        public override bool Equals(object? obj) => 
+            base.Equals(obj)
+            || (obj is IconMapping<TField> otherMapping
+                && Part.Equals(otherMapping.Part)
+                && Field.Equals(otherMapping.Field));
+
+        public override int GetHashCode() => 
+            Part.GetHashCode() ^ Field.GetHashCode();
     }
 }

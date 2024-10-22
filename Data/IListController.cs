@@ -64,7 +64,8 @@ namespace OxDAOEngine.Data
         void Sort();
         FieldSortings<TField, TDAO>? DefaultSorting();
         List<ToolStripMenuItem>? MenuItems(TDAO? item);
-
+        string GetExtractItemCaption(TField field, object? value);
+        void ShowItemKey(TDAO? item);
         bool AvailableSummary { get; }
         bool AvailableCategories { get; }
         bool AvailableQuickFilter { get; }

@@ -324,11 +324,6 @@ namespace OxDAOEngine
                 cardsView!.ApplySettings();
             }
 
-            if (ListController.AvailableSummary && 
-                !firstLoad && 
-                Settings.Observer.SummaryFieldsChanged)
-                summaryView!.RefreshData();
-
             SetTabButtonsVisible();
         }
 

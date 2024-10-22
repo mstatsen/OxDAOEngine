@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OxDAOEngine.Data.Extract
+﻿namespace OxDAOEngine.Data.Extract
 {
     public class CountExtractComparer : IComparer<object>
     {

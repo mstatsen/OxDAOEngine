@@ -1,6 +1,6 @@
 ﻿using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Filter;
-using OxDAOEngine.View;
+using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.Settings.Helpers
 {
@@ -20,7 +20,6 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.ShowItemInfo => "Show info panel",
                 DAOSetting.ShowIcons => "Show Icons view",
                 DAOSetting.ShowCards => "Show Cards view",
-                DAOSetting.SummarySorting => "Summary Sorting",
                 DAOSetting.QuickFilterTextFieldOperation => "'Text' field filtering operation",
                 DAOSetting.CategoryPanelPinned => "Category panel pinned",
                 DAOSetting.CategoryPanelExpanded => "Category panel expanded",
@@ -60,8 +59,6 @@ namespace OxDAOEngine.Settings.Helpers
                     30,
                 DAOSetting.IconClickVariant =>
                     IconClickVariant.ShowCard,
-                DAOSetting.SummarySorting =>
-                    ExtractCompareType.Default,
                 DAOSetting.QuickFilterTextFieldOperation =>
                     TextFilterOperation.Contains,
                 DAOSetting.CurrentView => ItemsViewsType.Table,
@@ -88,8 +85,6 @@ namespace OxDAOEngine.Settings.Helpers
                     SettingsPart.View,
                 DAOSetting.QuickFilterTextFieldOperation =>
                     SettingsPart.QuickFilter,
-                DAOSetting.SummarySorting =>
-                    SettingsPart.Summary,
                 _ => SettingsPart.Full,
             };
 
@@ -133,7 +128,6 @@ namespace OxDAOEngine.Settings.Helpers
             setting switch
             {
                 DAOSetting.IconClickVariant => 160,
-                DAOSetting.SummarySorting => 110,
                 DAOSetting.IconsSize => 80,
                 DAOSetting.IconMapping => 200,
                 DAOSetting.QuickFilterTextFieldOperation => 90,

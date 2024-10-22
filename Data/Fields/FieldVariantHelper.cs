@@ -14,7 +14,6 @@ namespace OxDAOEngine.Data.Fields
                 [FieldsVariant.QuickFilter] = ControlScope.QuickFilter,
                 [FieldsVariant.QuickFilterText] = ControlScope.QuickFilter,
                 [FieldsVariant.Category] = ControlScope.Category,
-                [FieldsVariant.Summary] = ControlScope.Summary,
                 [FieldsVariant.Inline] = ControlScope.Inline,
                 [FieldsVariant.BatchUpdate] = ControlScope.BatchUpdate
             };
@@ -26,7 +25,6 @@ namespace OxDAOEngine.Data.Fields
                 FieldsVariant.QuickFilter => "Quick filter fields",
                 FieldsVariant.QuickFilterText => "Text filter",
                 FieldsVariant.Category => "Add categories, grouped by",
-                FieldsVariant.Summary => "Show quantity summary by",
                 FieldsVariant.Inline => "Inline fields",
                 FieldsVariant.Html => "Fields",
                 FieldsVariant.BatchUpdate => "Update batch",
@@ -44,7 +42,6 @@ namespace OxDAOEngine.Data.Fields
                 SettingsPart.QuickFilter => FieldsVariant.QuickFilter,
                 SettingsPart.QuickFilterText => FieldsVariant.QuickFilterText,
                 SettingsPart.Category => FieldsVariant.Category,
-                SettingsPart.Summary => FieldsVariant.Summary,
                 _ => FieldsVariant.Table,
             };
 
@@ -69,7 +66,6 @@ namespace OxDAOEngine.Data.Fields
                 FieldsVariant.QuickFilter => EngineStyles.QuickFilterColor,
                 FieldsVariant.QuickFilterText => EngineStyles.QuickFilterTextColor,
                 FieldsVariant.Category => EngineStyles.CategoryColor,
-                FieldsVariant.Summary => EngineStyles.SummaryColor,
                 FieldsVariant.Inline => EngineStyles.InlineColor,
                 _ => EngineStyles.FieldsColor,
             };

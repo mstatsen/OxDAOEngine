@@ -33,7 +33,6 @@ namespace OxDAOEngine.ControlFactory
                 ControlScope.CardView => "Game card",
                 ControlScope.IconView => "Game icon",
                 ControlScope.Category => "Categories",
-                ControlScope.Summary => "Summary",
                 ControlScope.Export => "Export",
                 ControlScope.Inline => "Inline",
                 _ => "Unknown",
@@ -42,7 +41,6 @@ namespace OxDAOEngine.ControlFactory
         public bool SupportClickedLabels(ControlScope scope) =>
             scope == ControlScope.CardView ||
             scope == ControlScope.Editor ||
-            scope == ControlScope.FullInfoView ||
-            scope == ControlScope.Summary;
+            scope == ControlScope.FullInfoView;
     }
 }

@@ -213,8 +213,6 @@ namespace OxDAOEngine.Settings
                 {
                     SettingsPart.Category =>
                         daoSettings.AvailableCategories,
-                    SettingsPart.Summary =>
-                        daoSettings.AvailableSummary,
                     SettingsPart.QuickFilter or
                     SettingsPart.QuickFilterText =>
                         daoSettings.AvailableQuickFilter,

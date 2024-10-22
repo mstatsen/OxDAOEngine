@@ -1,27 +1,25 @@
-﻿using OxDAOEngine.Data.Types;
-
-namespace OxDAOEngine.View
+﻿namespace OxDAOEngine.Data.Types
 {
     public class IconClickVariantHelper : AbstractTypeHelper<IconClickVariant>
     {
         public override IconClickVariant EmptyValue() => IconClickVariant.Nothing;
         public override IconClickVariant DefaultValue() => IconClickVariant.ShowCard;
 
-        public override string GetName(IconClickVariant value) => 
+        public override string GetName(IconClickVariant value) =>
             value switch
             {
+                IconClickVariant.ShowKey => "Show item key",
                 IconClickVariant.ShowCard => "Show item card",
                 IconClickVariant.ShowEditor => "Edit item",
-                IconClickVariant.Custom => "Custom",
                 _ => "Do nothing",
             };
 
-        public override string GetShortName(IconClickVariant value) => 
+        public override string GetShortName(IconClickVariant value) =>
             value switch
             {
+                IconClickVariant.ShowKey => "Key",
                 IconClickVariant.ShowCard => "Card",
                 IconClickVariant.ShowEditor => "Editor",
-                IconClickVariant.Custom => "Custom",
                 _ => "Nothing",
             };
     }

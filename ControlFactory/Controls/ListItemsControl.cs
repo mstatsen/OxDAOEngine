@@ -72,10 +72,9 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void AddItem()
         {
-            if (readOnly)
-                return;
-
-            if (AllItemsAdded)
+            if (!AddButton.Enabled 
+                || readOnly 
+                || AllItemsAdded)
                 return;
 
             TItem? item = Editor(TypeOfEditorShow.Add).Add();
@@ -111,7 +110,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void EditItem()
         {
-            if (readOnly && ReadonlyMode == ReadonlyMode.ViewAsReadonly)
+            if (!EditButton.Enabled || 
+                (readOnly && ReadonlyMode == ReadonlyMode.ViewAsReadonly))
                 return;
 
             TItem item = SelectedItem;
@@ -154,7 +154,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void RemoveItem()
         {
-            if (readOnly)
+            if (!DeleteButton.Enabled || 
+                readOnly)
                 return;
 
             ListBox.BeginUpdate();
@@ -204,7 +205,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             foreach (OxClickFrame eControl in EnabledWhenItemSelected)
                 eControl.Enabled = ListBox.SelectedIndex > -1 
                     && (FixedItems == null 
-                        || !FixedItems.Contains(ListBox.SelectedItem));
+                        || !FixedItems.Contains(s => s.Equals(ListBox.SelectedItem)));
         }
 
         protected void PrepareEditButton(OxIconButton button, EventHandler handler,

@@ -1,4 +1,4 @@
-﻿namespace OxDAOEngine.View
+﻿namespace OxDAOEngine.Data.Types
 {
     public enum ItemsViewsType
     {
