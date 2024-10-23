@@ -105,13 +105,18 @@ namespace OxDAOEngine.Data.Fields
                         {
                             case FieldType.Enum:
                             case FieldType.Extract:
-                            case FieldType.Image:
                             case FieldType.Label:
                             case FieldType.String:
                             case FieldType.Country:
                                 iconFields.Add(field);
                                 break;
                         }
+
+                    if (!iconFields.Contains(ImageField))
+                        iconFields.Add(ImageField);
+
+                    if (!iconFields.Contains(TitleField))
+                        iconFields.Add(TitleField);
                 }
 
                 return iconFields;

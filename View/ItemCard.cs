@@ -51,6 +51,14 @@ namespace OxDAOEngine.View
 
         protected virtual void AlignControls() { }
 
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+
+            if (IsControlsReady)
+                AfterLayoutControls();
+        }
+
         protected void ClearLayoutTemplate()
         {
             Layouter.Template.Parent = this;
@@ -88,14 +96,24 @@ namespace OxDAOEngine.View
             fontColors.BaseColor = itemColorer.ForeColor(item);
         }
 
+        private bool IsControlsReady = false;
         private void PrepareControls()
         {
-            SetColors();
-            SetTitle();
-            FillControls();
-            ClearLayoutsInternal();
-            PrepareLayoutsInternal();
-            LayoutControls();
+            IsControlsReady = false;
+
+            try
+            {
+                SetColors();
+                SetTitle();
+                FillControls();
+                ClearLayoutsInternal();
+                PrepareLayoutsInternal();
+                LayoutControls();
+            }
+            finally
+            {
+                IsControlsReady = true;
+            }
         }
 
         private void ClearLayoutsInternal()

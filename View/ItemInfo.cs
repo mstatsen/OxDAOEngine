@@ -20,9 +20,7 @@ namespace OxDAOEngine.View
             get => item;
             set
             {
-                if ((item != null && item.Equals(value)) 
-                    //|| (value == null)
-                    )
+                if (item != null && item.Equals(value))
                     return;
 
                 if (item != null)
@@ -218,6 +216,7 @@ namespace OxDAOEngine.View
 
                 int lastBottom = header == null ? 0 : 8;
                 bool visibleControlsExists = false;
+                ControlLayout<TField>? prevLayout = null;
 
                 foreach (ControlLayout<TField> layout in LayoutsLists[parentPanel])
                 {
@@ -232,10 +231,11 @@ namespace OxDAOEngine.View
                     if (controlVisible)
                     {
                         visibleControlsExists = true;
-                        placedControl.Control.Top = lastBottom + 8;
+                        placedControl.Control.Top = lastBottom + (prevLayout != null ? (layout.Top - prevLayout.Bottom) : 8);
                         OxControlHelper.AlignByBaseLine(placedControl.Control, placedControl.Label!);
                         lastBottom = placedControl.Control.Bottom;
                     }
+                    prevLayout = layout;
                 }
 
                 parentPanel.Height = lastBottom + 36;
