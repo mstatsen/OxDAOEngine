@@ -192,8 +192,13 @@ namespace OxDAOEngine.Data
         protected void RenewListsAndNotifyAll()
         {
             if (RenewVisibleItems())
+            {
+                RenewAdditionalLists();
                 NotifyAll();
+            }
         }
+
+        protected virtual void RenewAdditionalLists() { }
 
         private RootListDAO<TField, TDAO>? visibleItemsList;
 
