@@ -208,16 +208,6 @@ namespace OxDAOEngine.ControlFactory.Controls
                         || !FixedItems.Contains(ListBox.SelectedItem));
         }
 
-        protected override void OnSetFixedItems()
-        {
-            base.OnSetFixedItems();
-            ListBox.FixedItems.Clear();
-
-            if (FixedItems != null)
-                foreach (TItem item in FixedItems)
-                    ListBox.FixedItems.Add(item);
-        }
-
         protected void PrepareEditButton(OxIconButton button, EventHandler handler,
             bool onlyForSelectedItem = false, int index = -1) =>
             PrepareButton(button, handler, ListControlButtonEffect.Edit, onlyForSelectedItem, index);
@@ -326,7 +316,20 @@ namespace OxDAOEngine.ControlFactory.Controls
             ListBox.DoubleClick += (s, e) => EditItem();
             ListBox.Click += ListClickHandler;
             ListBox.KeyUp += ListBoxKeyUpHandler;
+            ListBox.CheckIsHighPriorityItem += ListBoxCheckIsHighPriorityItemHandler;
+            ListBox.CheckIsMandatoryItem += ListBoxCheckIsMandatoryItemHandler;
         }
+
+        private bool ListBoxCheckIsMandatoryItemHandler(object item) =>
+            IsMandatoryItem((TItem)item);
+
+        private bool ListBoxCheckIsHighPriorityItemHandler(object item) => 
+            IsHighPriorityItem((TItem)item);
+
+        protected virtual bool IsMandatoryItem(TItem item) =>
+            FixedItems != null && FixedItems.Contains(item);
+
+        protected virtual bool IsHighPriorityItem(TItem item) => false;
 
         private void ListBoxKeyUpHandler(object? sender, KeyEventArgs e)
         {
