@@ -64,8 +64,6 @@ namespace OxDAOEngine.Editor
             SetMargins();
             SetPaddings();
             SetHandlers();
-            //SetParentsVisible(true);
-            //InvalidateSize();
         }
 
         protected virtual void SetGroupCaptions() { }
@@ -390,8 +388,7 @@ namespace OxDAOEngine.Editor
             int result = 0;
 
             foreach (OxFrame container in GroupParents[parentControl].Cast<OxFrame>())
-                if (container.Visible)
-                    result += container.Height;
+                result += (container.Visible ? container.Height : 0);
 
             return result;
         }

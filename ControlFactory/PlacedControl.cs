@@ -35,6 +35,9 @@ namespace OxDAOEngine.ControlFactory
             }
         }
 
+        public int LabelRight =>
+            Label != null ? Label.Right : 0;
+
         public PlacedControl(Control control, OxLabel? label, ControlLayout<TField> layout)
         {
             Control = control;

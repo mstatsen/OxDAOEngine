@@ -131,10 +131,15 @@ namespace OxDAOEngine.ControlFactory
                     PlacedControls[layout.Field].LabelLeft = left;
         }
 
-        public void AlignLabels(ControlLayouts<TField> layouts) => 
+        public void AlignLabels(ControlLayouts<TField> layouts, int moveControlColserBy = 0)
+        {
             SetLabelsLeft(layouts, GetMinimumLabelLeft(layouts));
 
-        public void AlignLabels(List<TField> fields)
+            if (moveControlColserBy > 0)
+                MovePlacedControlsToLeft(layouts, moveControlColserBy);
+        }
+
+        public void AlignLabels(List<TField> fields, int moveControlColserBy = 0)
         {
             ControlLayouts<TField> layouts = new();
 
@@ -146,7 +151,7 @@ namespace OxDAOEngine.ControlFactory
                     layouts.Add(layout);
             }
 
-            AlignLabels(layouts);
+            AlignLabels(layouts, moveControlColserBy);
         }
 
         public ControlLayout<TField> AddFromTemplate(TField field, bool autoOffset = false, bool offsetWithMargins = true) =>
@@ -156,5 +161,16 @@ namespace OxDAOEngine.ControlFactory
             Layouts.AddFromTemplate(field, verticalOffset);
 
         public ControlLayout<TField>? this[TField field] => Layouts[field];
+
+        public void MovePlacedControlsToLeft(ControlLayouts<TField> layouts, int offset)
+        {
+            foreach (TField field in layouts.Fields)
+            {
+                PlacedControl<TField>? placedControl = PlacedControl(field);
+
+                if (placedControl != null)
+                    placedControl.Control.Left -= offset;
+            }
+        }
     }
 }
