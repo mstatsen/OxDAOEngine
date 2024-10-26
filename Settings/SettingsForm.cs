@@ -250,19 +250,23 @@ namespace OxDAOEngine.Settings
             if (accessor.Control is not OxCheckBox)
                 accessor.Width = settings.Helper.ControlWidth(setting);
 
-            OxLabel label = new()
+            if (!settings.Helper.WithoutLabel(setting))
             {
-                Parent = accessor.Parent,
-                Left = 12 + 150 * columnNum,
-                Font = Styles.DefaultFont,
-                Text = $"{settings.Helper.Name(setting)}",
-                Tag = accessor.Control
-            };
-            label.Click += ControlLabelClick;
-            accessor.Control.Tag = label;
-            MagnetLabelWithControl(accessor.Control);
-            accessor.Control.LocationChanged += ControlLocationChangeHandler;
-            accessor.Control.ParentChanged += ControlLocationChangeHandler;
+                OxLabel label = new()
+                {
+                    Parent = accessor.Parent,
+                    Left = 12 + 150 * columnNum,
+                    Font = Styles.DefaultFont,
+                    Text = $"{settings.Helper.Name(setting)}",
+                    Tag = accessor.Control
+                };
+                label.Click += ControlLabelClick;
+                accessor.Control.Tag = label;
+                MagnetLabelWithControl(accessor.Control);
+                accessor.Control.LocationChanged += ControlLocationChangeHandler;
+                accessor.Control.ParentChanged += ControlLocationChangeHandler;
+            }
+
             ControlPainter.ColorizeControl(accessor, MainPanel.BaseColor);
             settingsPartControls[settings][settingsPart].Add(accessor);
             settingsControls[settings].Add(setting, accessor);
@@ -342,7 +346,7 @@ namespace OxDAOEngine.Settings
             return frame;
         }
 
-        private void RelocateControls(ISettingsController settings, SettingsPart part, 
+        private void RelocateControls(ISettingsController settings, SettingsPart part,
             List<string>? settingList = null, string caption = "")
         {
             if (!AvailablePart(settings, part))
@@ -361,15 +365,21 @@ namespace OxDAOEngine.Settings
             {
                 settingsControls[settings][setting].Parent = frame;
                 settingsControls[settings][setting].Top = CalcAcessorTop(lastAccessor);
-                maxLabelWidth = Math.Max(
-                    maxLabelWidth,
-                    ((OxLabel)settingsControls[settings][setting].Control.Tag).Width
-                );
+
+                if (!settings.Helper.WithoutLabel(setting))
+                    maxLabelWidth = Math.Max(
+                        maxLabelWidth,
+                        ((OxLabel)settingsControls[settings][setting].Control.Tag).Width
+                    );
+
                 lastAccessor = settingsControls[settings][setting];
             }
 
             foreach (string setting in settingList)
-                settingsControls[settings][setting].Control.Left = maxLabelWidth + 24;
+                settingsControls[settings][setting].Control.Left = 
+                    settings.Helper.WithoutLabel(setting) 
+                        ? 8 
+                        : maxLabelWidth + 24;
 
             frame.SetContentSize(
                 frame.Width,

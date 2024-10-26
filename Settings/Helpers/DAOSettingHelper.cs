@@ -140,5 +140,10 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.QuickFilterTextFieldOperation => 90,
                 _ => base.ControlWidth(setting),
             };
+
+        public override bool WithoutLabel(DAOSetting setting) => 
+            setting is 
+                DAOSetting.ShowItemInfo or 
+                DAOSetting.ShowCategories;
     }
 }

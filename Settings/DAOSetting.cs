@@ -2,8 +2,6 @@
 {
     public enum DAOSetting
     {
-        AutoExpandCategories,
-        HideEmptyCategory,
         IconsSize,
         IconMapping,
 
@@ -16,6 +14,8 @@
         QuickFilterPinned,
         QuickFilterExpanded,
         ShowCategories,
+        AutoExpandCategories,
+        HideEmptyCategory,
         ShowCards,
         CardsPageSize,
         ShowIcons,

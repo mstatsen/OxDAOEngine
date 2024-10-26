@@ -69,5 +69,9 @@ namespace OxDAOEngine.Settings.Helpers
         public bool IsDAOSetting(string setting) => IsDAOSetting(ParseSetting(setting));
 
         public virtual bool IsDAOSetting(TSetting? setting) => false;
+
+        public virtual bool WithoutLabel(TSetting? setting) => false;
+
+        public bool WithoutLabel(string setting) => WithoutLabel(ParseSetting(setting));
     }
 }

@@ -14,5 +14,6 @@ namespace OxDAOEngine.Settings.Helpers
         string Name(string value);
         int ControlWidth(string setting);
         bool IsDAOSetting(string setting);
+        bool WithoutLabel(string setting);
     }
 }
