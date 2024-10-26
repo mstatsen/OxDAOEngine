@@ -578,6 +578,7 @@ namespace OxDAOEngine.Data
             TypeHelper.Register<SortingVariantHelper>();
             TypeHelper.Register<ControlCaptionVariantHelper>();
             TypeHelper.Register<ControlScopeHelper>();
+            TypeHelper.Register<FunctionalPanelVisibleHelper>();
             TypeHelper.Register<ExtractCompareTypeHelper>();
             TypeHelper.Register<TextFilterOperationHelper>();
             TypeHelper.Register<ExportFormatHelper>();

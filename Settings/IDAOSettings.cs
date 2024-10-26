@@ -1,6 +1,6 @@
-﻿using OxDAOEngine.ControlFactory.Controls.Fields;
+﻿using OxDAOEngine.ControlFactory;
+using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.Data;
-using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Data;
@@ -17,8 +17,8 @@ namespace OxDAOEngine.Settings
         bool CategoryPanelExpanded { get; set; }
         bool AutoExpandCategories { get; set; }
         bool HideEmptyCategory { get; set; }
-        bool ShowCategories { get; set; }
-        bool ShowItemInfo { get; set; }
+        FunctionalPanelVisible ShowCategories { get; set; }
+        FunctionalPanelVisible ShowItemInfo { get; set; }
         bool ShowIcons { get; set; }
         bool ShowCards { get; set; }
         TextFilterOperation QuickFilterTextFieldOperation { get; set; }

@@ -234,16 +234,20 @@ namespace OxDAOEngine.ControlFactory
 
         protected override int GetCalcedWidth() => 
             !OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
-                ? Sider.CalcedWidth + (Expanded
-                    ? base.GetCalcedWidth()
-                    : Margins[OxDock.Left].CalcedWidth + Margins[OxDock.Right].CalcedWidth)
+                ? (isFixedPanel ? 0 : Sider.CalcedWidth)
+                    + (Expanded
+                        ? base.GetCalcedWidth()
+                        : Margins[OxDock.Left].CalcedWidth + Margins[OxDock.Right].CalcedWidth
+                    )
                 : base.GetCalcedWidth();
 
         protected override int GetCalcedHeight() => 
             OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
-                ? Sider.CalcedHeight + (Expanded
-                    ? base.GetCalcedHeight()
-                    : Margins[OxDock.Top].CalcedHeight + Margins[OxDock.Bottom].CalcedHeight)
+                ? (isFixedPanel ? 0 : Sider.CalcedHeight) 
+                    + (Expanded
+                        ? base.GetCalcedHeight()
+                        : Margins[OxDock.Top].CalcedHeight + Margins[OxDock.Bottom].CalcedHeight
+                    )
                 : base.GetCalcedHeight();
 
         public override void ReAlignControls()
@@ -261,8 +265,8 @@ namespace OxDAOEngine.ControlFactory
         {
             OxDock oxDock = OxDockHelper.Dock(Dock);
             Sider.Dock = OxDockHelper.Dock(OxDockHelper.Opposite(oxDock));
-            Borders[OxDockHelper.Dock(Sider.Dock)].Visible = IsSimplePanel;
-            Sider.Visible = !IsSimplePanel && Dock != DockStyle.Fill && Dock != DockStyle.None;
+            Borders[OxDockHelper.Dock(Sider.Dock)].Visible = isFixedPanel;
+            Sider.Visible = !isFixedPanel && Dock != DockStyle.Fill && Dock != DockStyle.None;
 
             if (OxDockHelper.IsVertical(oxDock))
             {
@@ -305,6 +309,7 @@ namespace OxDAOEngine.ControlFactory
             if (!Expandable)
                 return;
 
+            value = isFixedPanel || value;
             OnExpandedChanging(new ExpandedChangedEventArgs(expanded, value));
             expanded = value;
 
@@ -399,11 +404,11 @@ namespace OxDAOEngine.ControlFactory
 
         public bool Expanded
         {
-            get => expanded;
+            get => isFixedPanel || expanded;
             set => SetExpanded(value);
         }
 
-        private bool Expandable => IsVariableWidth || IsVariableHeight;
+        private bool Expandable => (IsVariableWidth || IsVariableHeight);
 
         public Bitmap? ExpandButtonIcon =>
             Dock switch
@@ -425,10 +430,10 @@ namespace OxDAOEngine.ControlFactory
         private bool pinned = false;
         public bool Pinned
         {
-            get => pinned;
+            get => isFixedPanel || pinned;
             set
             {
-                pinned = value;
+                pinned = isFixedPanel || value;
                 RecalcPinned();
             }
         }
@@ -438,7 +443,6 @@ namespace OxDAOEngine.ControlFactory
             button.FreezeHovered = pinned;
             button.Icon = pinned ? OxIcons.Pin : OxIcons.Unpin;
         }
-
 
         public void RecalcPinned()
         {
@@ -533,7 +537,7 @@ namespace OxDAOEngine.ControlFactory
 
             if (fakePadding != null)
             {
-                if (!Visible)
+                if (!base.Visible)
                 {
                     fakePadding.Visible = false;
                     return;
@@ -572,13 +576,13 @@ namespace OxDAOEngine.ControlFactory
         private void MouseEnterHandler(object? sender, EventArgs e)
         {
             waiter.Start();
-            waiter.Ready = Visible && !Expanded && !pinned;
+            waiter.Ready = base.Visible && !Expanded && !pinned;
         }
 
         private readonly OxWaiter waiter;
 
         private void MouseLeaveHandler(object? sender, EventArgs e) => 
-            waiter.Ready = Visible && Expanded && !pinned;
+            waiter.Ready = base.Visible && Expanded && !pinned;
 
         private void CheckExpandedState()
         {
@@ -602,22 +606,36 @@ namespace OxDAOEngine.ControlFactory
             return 0;
         }
 
-        private bool isSimplePanel = false;
-        public bool IsSimplePanel
+        private bool isFixedPanel = false;
+        private void SetAsFixedPanel(bool fixedPanel)
         {
-            get => isSimplePanel;
+            if (isFixedPanel == fixedPanel)
+                return;
+
+            isFixedPanel = fixedPanel;
+            Sider.Visible = !isFixedPanel;
+                
+            if (isFixedPanel)
+            {
+                waiter.Stop();
+                Pinned = true;
+                Expanded = true;
+            }
+
+            OnDockChanged(EventArgs.Empty);
+        }
+
+        public new FunctionalPanelVisible Visible
+        {
+            get => !base.Visible 
+                ? FunctionalPanelVisible.Hidden 
+                : isFixedPanel 
+                    ? FunctionalPanelVisible.Fixed 
+                    : FunctionalPanelVisible.Float;
             set
             {
-                isSimplePanel = value;
-                Sider.Visible = !isSimplePanel;
-
-                if (isSimplePanel)
-                {
-                    waiter.Stop();
-                    Pinned = true;
-                    Expanded = true;
-                    Borders[OxDockHelper.Dock(Sider.Dock)].Visible = IsSimplePanel;
-                }
+                base.Visible = value != FunctionalPanelVisible.Hidden;
+                SetAsFixedPanel(value == FunctionalPanelVisible.Fixed);
             }
         }
     }

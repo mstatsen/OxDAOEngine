@@ -120,11 +120,10 @@ namespace OxDAOEngine.Grid
         public virtual void ApplySettings() 
         {
 
-            if (Observer[DAOSetting.ShowItemInfo])
-            {
-                if (CurrentInfoCard != null && CurrentInfoCard.Visible != Settings.ShowItemInfo)
-                    CurrentInfoCard.Visible = Settings.ShowItemInfo;
-            }
+            if (Observer[DAOSetting.ShowItemInfo] 
+                && CurrentInfoCard != null 
+                && CurrentInfoCard.Visible != Settings.ShowItemInfo)
+                CurrentInfoCard.Visible = Settings.ShowItemInfo;
 
             if (Observer[DAOSetting.ItemInfoPanelExpanded])
             {

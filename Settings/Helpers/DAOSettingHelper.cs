@@ -1,4 +1,5 @@
-﻿using OxDAOEngine.Data.Extract;
+﻿using OxDAOEngine.ControlFactory;
+using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.View.Types;
@@ -38,9 +39,7 @@ namespace OxDAOEngine.Settings.Helpers
         public override object? Default(DAOSetting setting) =>
             setting switch
             {
-                DAOSetting.ShowCategories or
                 DAOSetting.HideEmptyCategory or
-                DAOSetting.ShowItemInfo or
                 DAOSetting.ShowIcons or
                 DAOSetting.ShowCards =>
                     true,
@@ -62,7 +61,11 @@ namespace OxDAOEngine.Settings.Helpers
                     IconClickVariant.ShowCard,
                 DAOSetting.QuickFilterTextFieldOperation =>
                     TextFilterOperation.Contains,
-                DAOSetting.CurrentView => ItemsViewsType.Table,
+                DAOSetting.CurrentView => 
+                    ItemsViewsType.Table,
+                DAOSetting.ShowCategories or
+                DAOSetting.ShowItemInfo =>
+                    FunctionalPanelVisible.Float,
                 _ => null,
             };
 
@@ -131,6 +134,9 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.IconClickVariant => 160,
                 DAOSetting.IconsSize => 80,
                 DAOSetting.IconMapping => 200,
+                DAOSetting.ShowCategories or
+                DAOSetting.ShowItemInfo =>
+                    148,
                 DAOSetting.QuickFilterTextFieldOperation => 90,
                 _ => base.ControlWidth(setting),
             };

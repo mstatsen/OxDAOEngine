@@ -597,7 +597,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.OnVisibleChanged(e);
 
-            if (Visible)
+            if (Visible != FunctionalPanelVisible.Hidden)
                 RecolorControls();
         }
 

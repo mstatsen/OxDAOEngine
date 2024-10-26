@@ -9,8 +9,11 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
     {
         public new OxComboBox Control => (OxComboBox)base.Control;
 
-        public override object? GetValue() => 
-            TypeHelper.Value(Control.SelectedItem);
+        public override object? GetValue() =>
+            Control.SelectedItem is IEmptyChecked ec 
+            && ec.IsEmpty 
+                ? null 
+                : TypeHelper.Value(Control.SelectedItem);
 
         public override void SetValue(object? value) =>
             Control.SelectedItem = 

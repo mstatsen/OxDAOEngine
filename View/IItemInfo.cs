@@ -1,5 +1,6 @@
 ﻿using OxLibrary.Panels;
 using OxDAOEngine.Data;
+using OxDAOEngine.ControlFactory;
 
 namespace OxDAOEngine.View
 {
@@ -13,5 +14,6 @@ namespace OxDAOEngine.View
         bool SiderEnabled { get; set; }
         void ApplySettings();
         void SaveSettings();
+        new FunctionalPanelVisible Visible { get; set; }
     }
 }

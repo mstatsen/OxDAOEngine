@@ -28,16 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // SettingsForm
             // 
-            this.ClientSize = new System.Drawing.Size(487, 447);
-            this.Name = "SettingsForm";
-            this.Text = "Settings";
-            this.Shown += new System.EventHandler(this.SettingsForm_Shown);
-            this.ResumeLayout(false);
-
+            ClientSize = new Size(349, 0);
+            Location = new Point(0, 0);
+            MaximumSize = new Size(349, 0);
+            MinimumSize = new Size(349, 0);
+            Name = "SettingsForm";
+            Text = "Settings";
+            Shown += SettingsForm_Shown;
+            ResumeLayout(false);
         }
 
         #endregion

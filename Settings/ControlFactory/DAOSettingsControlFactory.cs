@@ -1,16 +1,15 @@
-﻿using OxDAOEngine.ControlFactory.Accessors;
+﻿using OxDAOEngine.ControlFactory;
+using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
-using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.ControlFactory.Controls;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.SystemEngine;
 using OxDAOEngine.View.Types;
-using System.Windows.Forms;
 
 namespace OxDAOEngine.Settings.ControlFactory
 {
@@ -22,8 +21,6 @@ namespace OxDAOEngine.Settings.ControlFactory
             {
                 DAOSetting.HideEmptyCategory or
                 DAOSetting.AutoExpandCategories or
-                DAOSetting.ShowCategories or
-                DAOSetting.ShowItemInfo or
                 DAOSetting.ShowIcons or
                 DAOSetting.ShowCards =>
                     FieldType.Boolean,
@@ -48,6 +45,9 @@ namespace OxDAOEngine.Settings.ControlFactory
                     DAOSetting.IconMapping =>
                         CreateIconMappingAccessor(context),
                     DAOSetting.QuickFilterTextFieldOperation => CreateEnumAccessor<TextFilterOperation>(context),
+                    DAOSetting.ShowCategories or
+                    DAOSetting.ShowItemInfo =>
+                        CreateEnumAccessor<FunctionalPanelVisible>(context),
                     _ => 
                         null,
                 }

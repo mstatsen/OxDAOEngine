@@ -129,7 +129,7 @@ namespace OxDAOEngine.Settings
             selectedItems = value;
 
             if (quickFilter != null)
-                quickFilter.Visible = value == null;
+                quickFilter.Visible = value == null ? FunctionalPanelVisible.Fixed : FunctionalPanelVisible.Hidden;
 
             if (categoryControl != null)
             {
@@ -164,7 +164,7 @@ namespace OxDAOEngine.Settings
             categoriesTree = new()
             {
                 ShowCount = false,
-                IsSimplePanel = true
+                Visible = FunctionalPanelVisible.Fixed
             };
         }
 
@@ -176,7 +176,7 @@ namespace OxDAOEngine.Settings
             quickFilter = new(QuickFilterVariant.Export)
             {
                 Dock = DockStyle.Top,
-                IsSimplePanel = true
+                Visible = FunctionalPanelVisible.Fixed
             };
             quickFilter.Margins.BottomOx = OxSize.Extra;
         }
@@ -239,7 +239,7 @@ namespace OxDAOEngine.Settings
             htmlSortingPanel.Dock = DockStyle.Right;
             htmlSortingPanel.Paddings.HorizontalOx = OxSize.Medium;
             htmlSortingPanel.SetContentSize(168, htmlSortingPanel.SavedHeight);
-            htmlSortingPanel.IsSimplePanel = true;
+            htmlSortingPanel.Visible = FunctionalPanelVisible.Fixed;
         }
 
         private IControlAccessor CreateZeroSummaryAccessor()
@@ -356,7 +356,7 @@ namespace OxDAOEngine.Settings
             groupByPanel.Dock = DockStyle.Left;
             groupByPanel.Paddings.HorizontalOx = OxSize.Medium;
             groupByPanel.SetContentSize(200, groupByPanel.SavedHeight);
-            groupByPanel.IsSimplePanel = true;
+            groupByPanel.Visible = FunctionalPanelVisible.Fixed;
         }
 
         private void SetupControl(Control control, ExportFormat format, OxPane? parent, Color baseColor, string caption = "") =>

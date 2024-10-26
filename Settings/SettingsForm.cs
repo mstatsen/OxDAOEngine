@@ -374,7 +374,8 @@ namespace OxDAOEngine.Settings
             frame.SetContentSize(
                 frame.Width,
                 (lastAccessor != null ? lastAccessor.Bottom : 0)
-                + (caption != string.Empty ? 22 : -8)
+                + (caption != string.Empty ? frame.Header.Height : 0)
+                + 16
             );
         }
 

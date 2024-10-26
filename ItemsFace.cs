@@ -11,6 +11,7 @@ using OxDAOEngine.Summary;
 using OxDAOEngine.View;
 using OxDAOEngine.View.Types;
 using OxDAOEngine.Settings.Part;
+using OxDAOEngine.ControlFactory;
 
 namespace OxDAOEngine
 {
@@ -292,10 +293,16 @@ namespace OxDAOEngine
             //sortingPanel.ApplySettings();
 
             if (ListController.AvailableQuickFilter)
+            {
                 quickFilter.ApplySettings();
+                quickFilter.Visible = FunctionalPanelVisible.Float;
+            }
 
             if (ListController.AvailableCategories)
+            {
                 categoriesTree.ApplySettings();
+                categoriesTree.Visible = Settings.ShowCategories;
+            }
 
             if (firstLoad)
                 categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;

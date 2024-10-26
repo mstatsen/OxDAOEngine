@@ -2,6 +2,7 @@
 using OxDAOEngine.ControlFactory.Filter;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
+using OxDAOEngine.ControlFactory;
 
 namespace OxDAOEngine.Grid
 {
@@ -11,7 +12,7 @@ namespace OxDAOEngine.Grid
     {
         public readonly QuickFilterPanel<TField, TDAO> QuickFilter = new(QuickFilterVariant.Select)
         {
-            IsSimplePanel = true
+            Visible = FunctionalPanelVisible.Fixed
         };
 
         public ItemSelector(RootListDAO<TField, TDAO>? itemList = null, GridUsage usage = GridUsage.SelectItem)

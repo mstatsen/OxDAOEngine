@@ -1,7 +1,5 @@
 ﻿using OxLibrary;
-using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.Data;
-using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
@@ -18,6 +16,7 @@ using OxDAOEngine.View.Types;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.Data.Fields.Types;
+using OxDAOEngine.ControlFactory;
 
 namespace OxDAOEngine.Settings
 {
@@ -72,15 +71,20 @@ namespace OxDAOEngine.Settings
             set => this[DAOSetting.HideEmptyCategory] = value;
         }
 
-        public bool ShowCategories
+        public FunctionalPanelVisible ShowCategories
         {
-            get => AvailableCategories && BoolValue(DAOSetting.ShowCategories);
-            set => this[DAOSetting.ShowCategories] = AvailableCategories && value;
+            get => AvailableCategories ?
+                Parse<FunctionalPanelVisible>(DAOSetting.ShowCategories) :
+                FunctionalPanelVisible.Hidden;
+
+            set => this[DAOSetting.ShowCategories] = AvailableCategories
+                ? value :
+                (object)FunctionalPanelVisible.Hidden;
         }
 
-        public bool ShowItemInfo
+        public FunctionalPanelVisible ShowItemInfo
         {
-            get => BoolValue(DAOSetting.ShowItemInfo);
+            get => Parse<FunctionalPanelVisible>(DAOSetting.ShowItemInfo);
             set => this[DAOSetting.ShowItemInfo] = value;
         }
 
@@ -393,14 +397,12 @@ namespace OxDAOEngine.Settings
             {
                 DAOSetting.AutoExpandCategories or 
                 DAOSetting.HideEmptyCategory or 
-                DAOSetting.ShowItemInfo or 
                 DAOSetting.CategoryPanelPinned or
                 DAOSetting.CategoryPanelExpanded or
                 DAOSetting.ItemInfoPanelPinned or
                 DAOSetting.ItemInfoPanelExpanded or
                 DAOSetting.QuickFilterPinned or
                 DAOSetting.QuickFilterExpanded or
-                DAOSetting.ShowCategories or 
                 DAOSetting.ShowCards or 
                 DAOSetting.ShowIcons =>
                     true,
