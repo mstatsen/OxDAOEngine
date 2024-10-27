@@ -251,17 +251,15 @@ namespace OxDAOEngine.View
         private void ClearLayouts() =>
             Layouter?.Clear();
 
+        protected override DAOSetting VisibleSetting => DAOSetting.ShowItemInfo;
+
+        protected override DAOSetting PinnedSetting => DAOSetting.ItemInfoPanelPinned;
+
+        protected override DAOSetting ExpandedSetting => DAOSetting.ItemInfoPanelExpanded;
+
         protected override void ApplySettingsInternal()
         {
-            if (Observer[DAOSetting.ShowItemInfo])
-                Visible = Settings.ShowItemInfo;
-
-            if (Observer[DAOSetting.ItemInfoPanelPinned])
-                Pinned = Settings.ItemInfoPanelPinned;
-
-            if (Observer[DAOSetting.ItemInfoPanelPinned] || 
-                Observer[DAOSetting.ItemInfoPanelExpanded])
-                Expanded = Pinned && Settings.ItemInfoPanelExpanded;
+            base.ApplySettingsInternal();
 
             if (SettingsManager.Settings<GeneralSettings>().Observer[GeneralSetting.DarkerHeaders])
                 PrepareColors();

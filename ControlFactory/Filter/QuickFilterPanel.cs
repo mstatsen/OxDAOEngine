@@ -563,15 +563,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         protected override void ApplySettingsInternal()
         {
-            if (Observer[DAOSetting.ShowQuickFilter])
-                Visible = Settings.ShowQuickFilter;
-
-            if (Observer[DAOSetting.QuickFilterPinned])
-                Pinned = Settings.QuickFilterPinned;
-
-            if (Observer[DAOSetting.QuickFilterPinned] 
-                || Observer[DAOSetting.QuickFilterExpanded])
-                Expanded = Pinned && Settings.QuickFilterExpanded;
+            base.ApplySettingsInternal();
 
             if (Observer.QuickFilterFieldsChanged 
                 || Observer.QuickFilterTextFieldsChanged)
@@ -597,6 +589,11 @@ namespace OxDAOEngine.ControlFactory.Filter
                     Settings.QuickFilterFields.Fields,
             };
 
+        protected override DAOSetting VisibleSetting => DAOSetting.ShowQuickFilter;
+
+        protected override DAOSetting PinnedSetting => DAOSetting.QuickFilterPinned;
+
+        protected override DAOSetting ExpandedSetting => DAOSetting.QuickFilterExpanded;
 
         protected override void OnVisibleChanged(EventArgs e)
         {

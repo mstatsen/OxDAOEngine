@@ -655,5 +655,34 @@ namespace OxDAOEngine.ControlFactory
         where TDAO : RootDAO<TField>, IFieldMapping<TField>, new()
     {
         protected DAOObserver<TField, TDAO> Observer => Settings.Observer;
+        protected abstract DAOSetting VisibleSetting { get; }
+        protected abstract DAOSetting PinnedSetting { get; }
+        protected abstract DAOSetting ExpandedSetting { get; }
+
+        protected override void ApplySettingsInternal()
+        {
+            if (Observer[VisibleSetting])
+            {
+                FunctionalPanelVisible? settingVisible = (FunctionalPanelVisible?)Settings[VisibleSetting];
+                Visible = (FunctionalPanelVisible)(
+                    settingVisible != null
+                        ? settingVisible
+                        : FunctionalPanelVisible.Float
+                );
+            }
+
+            if (Observer[PinnedSetting])
+            {
+                bool? settingPinned = (bool?)Settings[PinnedSetting];
+                Pinned = (bool)(settingPinned != null ? settingPinned : false);
+            }
+
+            if (Observer[PinnedSetting]
+                || Observer[ExpandedSetting])
+            {
+                bool? settingExpanded = (bool?)Settings[ExpandedSetting];
+                Expanded = Pinned && (bool)(settingExpanded != null ? settingExpanded : false);
+            }
+        }
     }
 }

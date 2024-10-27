@@ -309,17 +309,15 @@ namespace OxDAOEngine.ControlFactory.Filter
                             };
         }
 
+        protected override DAOSetting VisibleSetting => DAOSetting.ShowCategories;
+
+        protected override DAOSetting PinnedSetting => DAOSetting.CategoryPanelPinned;
+
+        protected override DAOSetting ExpandedSetting => DAOSetting.CategoryPanelExpanded;
+
         protected override void ApplySettingsInternal()
         {
-            if (Observer[DAOSetting.ShowCategories])
-                Visible = Settings.ShowCategories;
-
-            if (Observer[DAOSetting.CategoryPanelPinned])
-                Pinned = Settings.CategoryPanelPinned;
-
-            if (Observer[DAOSetting.CategoryPanelPinned] || 
-                Observer[DAOSetting.CategoryPanelExpanded])
-                Expanded = Pinned && Settings.CategoryPanelExpanded;
+            base.ApplySettingsInternal();
 
             if (Observer.CategoryFieldsChanged
                 || Observer[DAOSetting.AutoExpandCategories]

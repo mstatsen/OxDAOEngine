@@ -5,6 +5,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Data.Sorting.Types;
+using OxDAOEngine.Settings;
 
 namespace OxDAOEngine.ControlFactory.Controls.Sorting
 {
@@ -115,6 +116,12 @@ namespace OxDAOEngine.ControlFactory.Controls.Sorting
                 RenewControls();
             }
         }
+
+        protected override DAOSetting VisibleSetting => DAOSetting.ShowQuickFilter;
+
+        protected override DAOSetting PinnedSetting => DAOSetting.QuickFilterPinned;
+
+        protected override DAOSetting ExpandedSetting => DAOSetting.QuickFilterExpanded;
 
         protected override void ApplySettingsInternal()
         {
