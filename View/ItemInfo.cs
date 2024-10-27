@@ -83,9 +83,6 @@ namespace OxDAOEngine.View
         protected override void PrepareColors()
         {
             base.PrepareColors();
-            Header.BaseColor = Colors.Darker(
-                SettingsManager.Settings<GeneralSettings>().DarkerHeaders ? 1 : 0
-            );
 
             if (FontColors != null)
                 Header.Label.ForeColor = FontColors.BaseColor;
