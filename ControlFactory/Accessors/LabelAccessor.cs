@@ -22,5 +22,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         public override void Clear() => 
             Value = string.Empty;
+
+        public override object? ObjectValue => ((LabelValueAccessor)ValueAccessor).ObjectValue;
     }
 }

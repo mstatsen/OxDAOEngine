@@ -212,6 +212,7 @@ namespace OxDAOEngine.View
                 Headers.TryGetValue(parentPanel, out var header);
 
                 int lastBottom = header == null ? 0 : 8;
+                int maxBottom = lastBottom;
                 bool visibleControlsExists = false;
                 ControlLayout<TField>? prevLayout = null;
 
@@ -231,11 +232,13 @@ namespace OxDAOEngine.View
                         placedControl.Control.Top = lastBottom + (prevLayout != null ? (layout.Top - prevLayout.Bottom) : 8);
                         OxControlHelper.AlignByBaseLine(placedControl.Control, placedControl.Label!);
                         lastBottom = placedControl.Control.Bottom;
+                        maxBottom = Math.Max(maxBottom, lastBottom);
                     }
+
                     prevLayout = layout;
                 }
 
-                parentPanel.Height = lastBottom + 36;
+                parentPanel.Height = maxBottom + 36;
                 parentPanel.Visible = visibleControlsExists;
 
                 if (header != null)

@@ -7,10 +7,15 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
         private OxLabel Label =>
             (OxLabel)Control;
 
+        public object? ObjectValue { get; private set; }
+
         public override object? GetValue() =>
             Label.Text;
 
-        public override void SetValue(object? value) =>
+        public override void SetValue(object? value)
+        {
+            ObjectValue = value;
             Label.Text = value?.ToString();
+        }
     }
 }

@@ -142,6 +142,8 @@ namespace OxDAOEngine.ControlFactory
             return context;
         }
 
+        private Dictionary<TField, object?> ViewAccessorsValues = new();
+
 
         public void FillControls(TDAO item)
         {
@@ -288,6 +290,9 @@ namespace OxDAOEngine.ControlFactory
 
         public object? Value(TField field) => 
             this[field].Value;
+
+        public object? ObjectValue(TField field) =>
+            this[field].ObjectValue;
 
         public void SetVisible(TField field, bool visible)
         {

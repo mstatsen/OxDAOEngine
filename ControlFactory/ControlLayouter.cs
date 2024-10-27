@@ -14,6 +14,7 @@ namespace OxDAOEngine.ControlFactory
         public ControlBuilder<TField, TDAO> Builder;
 
         private readonly Dictionary<TField, PlacedControl<TField>> PlacedControls = new();
+        private readonly Dictionary<OxLabel, TField> PlacedLabels = new();
 
         public PlacedControl<TField>? PlacedControl(TField field)
         {
@@ -26,6 +27,8 @@ namespace OxDAOEngine.ControlFactory
             foreach (PlacedControl<TField> placedControl in PlacedControls.Values)
                 placedControl.DetachParent();
 
+            PlacedControls.Clear();
+            PlacedLabels.Clear();
             Layouts.Clear();
         }
 
@@ -35,7 +38,8 @@ namespace OxDAOEngine.ControlFactory
         private void LayoutControl(ControlLayout<TField> layout)
         {
             layout.SupportClickedLabels =
-                TypeHelper.Helper<ControlScopeHelper>().SupportClickedLabels(Builder.Scope);
+                TypeHelper.Helper<ControlScopeHelper>().SupportClickedLabels(Builder.Scope) &&
+                FieldSupportLabelClick(layout.Field);
             TField field = layout.Field;
 
             if (PlacedControls.TryGetValue(field, out var placedControl))
@@ -45,10 +49,18 @@ namespace OxDAOEngine.ControlFactory
                 ControlAccessor<TField, TDAO> controlAccessor = (ControlAccessor<TField, TDAO>)Builder[field];
                 placedControl = controlAccessor.LayoutControl(layout);
                 PlacedControls.Add(field, placedControl);
+
+                if (placedControl.Label != null)
+                    PlacedLabels.Add(placedControl.Label, layout.Field);
             }
 
-            SetLabelClickHander(placedControl);
+            if (FieldSupportLabelClick(layout.Field))
+                SetLabelClickHander(placedControl);
         }
+
+        private bool FieldSupportLabelClick(TField field) =>
+            !Builder.Context(field).IsView
+            || fieldHelper.GetFieldType(field) != FieldType.List;
 
         private void SetLabelClickHander(PlacedControl<TField> placedControl)
         {
@@ -61,6 +73,8 @@ namespace OxDAOEngine.ControlFactory
             label.Click += ExtractLabelClick;
         }
 
+        FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
+
         private void ExtractLabelClick(object? sender, EventArgs e)
         {
             OxLabel? label = (OxLabel?)sender;
@@ -68,27 +82,25 @@ namespace OxDAOEngine.ControlFactory
             if (label == null)
                 return;
 
-            //TODO: replace foreach with dictionary?
-            foreach (var item in PlacedControls)
+            if (!PlacedLabels.TryGetValue(label, out TField? field))
+                return;
+
+            object? value = Builder.ObjectValue(field);
+
+            if (fieldHelper.GetFieldType(field) == FieldType.List
+                && value is string)
+                return;
+
+            if (fieldHelper.GetFieldType(field) == FieldType.Enum
+                && value is string stringValue)
             {
-                if (item.Value.Label != label)
-                    continue;
+                ITypeHelper? helper = fieldHelper.GetHelper(field);
 
-                object? value = Builder.Value(item.Key);
-                FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
-
-                if (fieldHelper.GetFieldType(item.Key) == FieldType.Enum
-                    && value is string stringValue)
-                {
-                    ITypeHelper? helper = fieldHelper.GetHelper(item.Key);
-
-                    if (helper != null)
-                        value = helper.Parse(stringValue);
-                }
-
-                DataManager.ViewItems<TField, TDAO>(item.Key, value);
-                break;
+                if (helper != null)
+                    value = helper.Parse(stringValue);
             }
+
+            DataManager.ViewItems<TField, TDAO>(field, value);
         }
 
         public ControlLayout<TField> Template => Layouts.Template;

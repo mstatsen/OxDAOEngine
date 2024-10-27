@@ -12,7 +12,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         where TDAO : RootDAO<TField>, new()
     {
         private Control control = default!;
-        private ValueAccessor valueAccessor = default!;
+        protected ValueAccessor ValueAccessor { get; private set; } = default!;
         private EventHandler? valueChangeHandler;
 
         public event EventHandler? ValueChangeHandler
@@ -35,11 +35,13 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected virtual void UnAssignValueChangeHanlderToControl(EventHandler? value) { }
 
         protected object? GetValue() => 
-            valueAccessor.GetValue();
+            ValueAccessor.GetValue();
+
+        public virtual object? ObjectValue => Value;
 
         protected void SetValue(object? value)
         {
-            valueAccessor.SetValue(value);
+            ValueAccessor.SetValue(value);
             OnControlValueChanged(value);
         }
 
@@ -198,8 +200,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
             ReadOnlyControl = CreateReadOnlyControl();
             AfterControlsCreated();
             InitControl();
-            valueAccessor = CreateValueAccessor();
-            valueAccessor.SetControl(control);
+            ValueAccessor = CreateValueAccessor();
+            ValueAccessor.SetControl(control);
             Context.InitControl(this);
             AfterInitControl();
             return this;

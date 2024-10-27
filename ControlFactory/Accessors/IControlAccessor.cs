@@ -17,6 +17,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         T? DAOValue<T>() where T : DAO;
         T? EnumValue<T>() where T : Enum;
         object? Value { get; set; }
+        object? ObjectValue { get; }
         bool BoolValue { get; }
         int IntValue { get; }
         string StringValue { get; }
