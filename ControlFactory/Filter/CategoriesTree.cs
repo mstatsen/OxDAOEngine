@@ -314,12 +314,11 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (Observer[DAOSetting.ShowCategories])
                 Visible = Settings.ShowCategories;
 
-            if (Observer[DAOSetting.CategoryPanelPinned] &&
-                (Pinned != Settings.CategoryPanelPinned))
+            if (Observer[DAOSetting.CategoryPanelPinned])
                 Pinned = Settings.CategoryPanelPinned;
 
-            if ((Observer[DAOSetting.CategoryPanelPinned] || Observer[DAOSetting.CategoryPanelExpanded])
-                && (Expanded != (Pinned && Settings.CategoryPanelExpanded)))
+            if (Observer[DAOSetting.CategoryPanelPinned] || 
+                Observer[DAOSetting.CategoryPanelExpanded])
                 Expanded = Pinned && Settings.CategoryPanelExpanded;
 
             if (Observer.CategoryFieldsChanged

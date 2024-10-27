@@ -365,8 +365,8 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetMouseHandlers()
         {
-            if (mouseHandlersSetted != null && 
-                mouseHandlersSetted == pinned)
+            if (mouseHandlersSetted != null 
+                && mouseHandlersSetted == pinned)
                 return;
 
             SetMouseHandler(this);
@@ -434,6 +434,13 @@ namespace OxDAOEngine.ControlFactory
             set
             {
                 pinned = isFixedPanel || value;
+                waiter.Enabled = !pinned;
+
+                if (pinned)
+                {
+                    StopWaiter();
+                    waiter.Stop();
+                }
                 RecalcPinned();
             }
         }
@@ -586,6 +593,9 @@ namespace OxDAOEngine.ControlFactory
 
         private void CheckExpandedState()
         {
+            if (pinned)
+                return;
+
             bool onPanel = ClientRectangle.Contains(PointToClient(MousePosition));
 
             if (Expanded != onPanel)

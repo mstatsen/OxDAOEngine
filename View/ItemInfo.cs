@@ -254,17 +254,13 @@ namespace OxDAOEngine.View
         protected override void ApplySettingsInternal()
         {
             if (Observer[DAOSetting.ShowItemInfo])
-            {
-                if (Visible != Settings.ShowItemInfo)
-                    Visible = Settings.ShowItemInfo;
-            }
+                Visible = Settings.ShowItemInfo;
 
-            if (Observer[DAOSetting.ItemInfoPanelPinned] &&
-                (Pinned != Settings.ItemInfoPanelPinned))
+            if (Observer[DAOSetting.ItemInfoPanelPinned])
                 Pinned = Settings.ItemInfoPanelPinned;
 
-            if ((Observer[DAOSetting.ItemInfoPanelPinned] || Observer[DAOSetting.ItemInfoPanelExpanded])
-                && (Expanded != (Pinned && Settings.ItemInfoPanelExpanded)))
+            if (Observer[DAOSetting.ItemInfoPanelPinned] || 
+                Observer[DAOSetting.ItemInfoPanelExpanded])
                 Expanded = Pinned && Settings.ItemInfoPanelExpanded;
 
             if (SettingsManager.Settings<GeneralSettings>().Observer[GeneralSetting.DarkerHeaders])

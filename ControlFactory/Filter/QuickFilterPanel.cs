@@ -566,15 +566,15 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (Observer[DAOSetting.ShowQuickFilter])
                 Visible = Settings.ShowQuickFilter;
 
-            if (Observer[DAOSetting.QuickFilterPinned] &&
-                (Pinned != Settings.QuickFilterPinned))
+            if (Observer[DAOSetting.QuickFilterPinned])
                 Pinned = Settings.QuickFilterPinned;
 
-            if ((Observer[DAOSetting.QuickFilterPinned] || Observer[DAOSetting.QuickFilterExpanded])
-                && (Expanded != (Pinned && Settings.QuickFilterExpanded)))
+            if (Observer[DAOSetting.QuickFilterPinned] 
+                || Observer[DAOSetting.QuickFilterExpanded])
                 Expanded = Pinned && Settings.QuickFilterExpanded;
 
-            if (Observer.QuickFilterFieldsChanged || Observer.QuickFilterTextFieldsChanged)
+            if (Observer.QuickFilterFieldsChanged 
+                || Observer.QuickFilterTextFieldsChanged)
                 RenewFilterControls();
 
             ActiveFilter = Settings.Filter;
@@ -584,15 +584,17 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.SaveSettings();
             Settings.Filter = ActiveFilter;
-            Settings.CategoryPanelPinned = Pinned;
-            Settings.CategoryPanelExpanded = Expanded;
+            Settings.QuickFilterPinned = Pinned;
+            Settings.QuickFilterExpanded = Expanded;
         }
 
         protected List<TField> QuickFilterFields => 
             Variant switch
             {
-                QuickFilterVariant.Select => fieldHelper.SelectQuickFilterFields,
-                _ => Settings.QuickFilterFields.Fields,
+                QuickFilterVariant.Select => 
+                    fieldHelper.SelectQuickFilterFields,
+                _ => 
+                    Settings.QuickFilterFields.Fields,
             };
 
 
