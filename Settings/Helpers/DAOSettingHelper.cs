@@ -22,6 +22,7 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.ShowItemInfo => "Show info panel",
                 DAOSetting.ShowIcons => "Show Icons view",
                 DAOSetting.ShowCards => "Show Cards view",
+                DAOSetting.ShowQuickFilter => "Show info panel",
                 DAOSetting.QuickFilterTextFieldOperation => "'Text' field filtering operation",
                 DAOSetting.CategoryPanelPinned => "Category panel pinned",
                 DAOSetting.CategoryPanelExpanded => "Category panel expanded",
@@ -64,7 +65,8 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.CurrentView => 
                     ItemsViewsType.Table,
                 DAOSetting.ShowCategories or
-                DAOSetting.ShowItemInfo =>
+                DAOSetting.ShowItemInfo or 
+                DAOSetting.ShowQuickFilter=>
                     FunctionalPanelVisible.Float,
                 _ => null,
             };
@@ -87,6 +89,7 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.IconMapping or
                 DAOSetting.IconClickVariant =>
                     SettingsPart.View,
+                DAOSetting.ShowQuickFilter or
                 DAOSetting.QuickFilterTextFieldOperation =>
                     SettingsPart.QuickFilter,
                 _ => SettingsPart.Full,
@@ -106,6 +109,7 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.IconMapping or
                 DAOSetting.IconsSize or
                 DAOSetting.IconClickVariant or
+                DAOSetting.ShowQuickFilter or
                 DAOSetting.QuickFilterTextFieldOperation =>
                     true,//case DAOSetting.SummarySorting:
                 _ => false,
@@ -131,19 +135,26 @@ namespace OxDAOEngine.Settings.Helpers
         public override int ControlWidth(DAOSetting setting) =>
             setting switch
             {
-                DAOSetting.IconClickVariant => 160,
-                DAOSetting.IconsSize => 80,
-                DAOSetting.IconMapping => 200,
+                DAOSetting.IconClickVariant => 
+                    160,
+                DAOSetting.IconsSize => 
+                    80,
+                DAOSetting.IconMapping => 
+                    200,
                 DAOSetting.ShowCategories or
-                DAOSetting.ShowItemInfo =>
+                DAOSetting.ShowItemInfo or
+                DAOSetting.ShowQuickFilter =>
                     148,
-                DAOSetting.QuickFilterTextFieldOperation => 90,
-                _ => base.ControlWidth(setting),
+                DAOSetting.QuickFilterTextFieldOperation => 
+                    90,
+                _ => 
+                    base.ControlWidth(setting),
             };
 
         public override bool WithoutLabel(DAOSetting setting) => 
             setting is 
                 DAOSetting.ShowItemInfo or 
-                DAOSetting.ShowCategories;
+                DAOSetting.ShowCategories or
+                DAOSetting.ShowQuickFilter;
     }
 }

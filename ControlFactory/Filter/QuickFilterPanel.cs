@@ -563,6 +563,9 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         protected override void ApplySettingsInternal()
         {
+            if (Observer[DAOSetting.ShowQuickFilter])
+                Visible = Settings.ShowQuickFilter;
+
             if (Observer[DAOSetting.QuickFilterPinned] &&
                 (Pinned != Settings.QuickFilterPinned))
                 Pinned = Settings.QuickFilterPinned;

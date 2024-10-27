@@ -46,7 +46,8 @@ namespace OxDAOEngine.Settings.ControlFactory
                         CreateIconMappingAccessor(context),
                     DAOSetting.QuickFilterTextFieldOperation => CreateEnumAccessor<TextFilterOperation>(context),
                     DAOSetting.ShowCategories or
-                    DAOSetting.ShowItemInfo =>
+                    DAOSetting.ShowItemInfo or
+                    DAOSetting.ShowQuickFilter =>
                         CreateEnumAccessor<FunctionalPanelVisible>(context),
                     _ => 
                         null,

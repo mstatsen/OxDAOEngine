@@ -73,13 +73,24 @@ namespace OxDAOEngine.Settings
 
         public FunctionalPanelVisible ShowCategories
         {
-            get => AvailableCategories ?
-                Parse<FunctionalPanelVisible>(DAOSetting.ShowCategories) :
-                FunctionalPanelVisible.Hidden;
+            get => AvailableCategories 
+                ? Parse<FunctionalPanelVisible>(DAOSetting.ShowCategories) 
+                : FunctionalPanelVisible.Hidden;
 
             set => this[DAOSetting.ShowCategories] = AvailableCategories
-                ? value :
-                (object)FunctionalPanelVisible.Hidden;
+                ? value 
+                : (object) FunctionalPanelVisible.Hidden;
+        }
+
+        public FunctionalPanelVisible ShowQuickFilter
+        {
+            get => AvailableQuickFilter 
+                ? Parse<FunctionalPanelVisible>(DAOSetting.ShowQuickFilter)
+                : FunctionalPanelVisible.Hidden;
+
+            set => this[DAOSetting.ShowQuickFilter] = AvailableQuickFilter
+                ? value 
+                : (object)FunctionalPanelVisible.Hidden;
         }
 
         public FunctionalPanelVisible ShowItemInfo
@@ -305,6 +316,11 @@ namespace OxDAOEngine.Settings
                         break;
                     case DAOSetting.QuickFilterTextFieldOperation:
                         settings[setting] = XmlHelper.Value<TextFilterOperation>(element, node.Name);
+                        break;
+                    case DAOSetting.ShowCategories:
+                    case DAOSetting.ShowItemInfo:
+                    case DAOSetting.ShowQuickFilter:
+                        settings[setting] = XmlHelper.Value<FunctionalPanelVisible>(element, node.Name);
                         break;
                 }
             }

@@ -21,6 +21,7 @@
         ShowIcons,
         IconsPageSize,
         IconClickVariant,
+        ShowQuickFilter,
         QuickFilterTextFieldOperation,
     }
 }

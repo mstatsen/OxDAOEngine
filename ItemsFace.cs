@@ -295,7 +295,7 @@ namespace OxDAOEngine
             if (ListController.AvailableQuickFilter)
             {
                 quickFilter.ApplySettings();
-                quickFilter.Visible = FunctionalPanelVisible.Float;
+                quickFilter.Visible = Settings.ShowQuickFilter;
             }
 
             if (ListController.AvailableCategories)
