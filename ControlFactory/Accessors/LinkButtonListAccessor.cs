@@ -16,6 +16,12 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected override Control CreateControl() =>
             new LinkButtonList();
 
+        protected override void InitControl()
+        {
+            base.InitControl();
+            LinkButtonListControl.RecalcButtonsSizeAndPositions();
+        }
+
         public override void Clear() =>
             LinkButtonListControl.Clear();
 

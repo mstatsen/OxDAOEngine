@@ -48,13 +48,17 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                 ? 0
                 : LastBottom + ButtonSpace + 1;
 
+        public void RecalcButtonsSizeAndPositions()
+        {
+            RecalcButtonsSize();
+            RecalcButtonsPositions();
+        }
+
         private void RecalcButtonsPositions()
         {
             if (Direction == ButtonListDirection.Horizontal)
-            {
                 foreach (LinkButton button in Buttons)
                     button.Left = Buttons.IndexOf(button) * (button.Width + ButtonSpace);
-            }
         }
 
         private void RecalcButtonsSize()
@@ -80,13 +84,13 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
             button.Top = ButtonTop();
             Buttons.Add(button);
             SetButtonsSize();
-            RecalcButtonsSize();
-            RecalcButtonsPositions();
+            RecalcButtonsSizeAndPositions();
         }
 
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
+            RecalcButtonsSize();
             SetButtonsSize();
             RecalcButtonsPositions();
         }
