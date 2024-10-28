@@ -103,6 +103,9 @@
     <Compile Update="Statistic\StatisticPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Statistic\RootStatisticPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Summary\SummaryPanel.cs">
       <SubType>Component</SubType>
     </Compile>

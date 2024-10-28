@@ -56,7 +56,7 @@
     <Compile Update="Settings\ControlFactory\Controls\IconContent\IconMappingEditor.cs" />
     <Compile Update="Settings\Export\ExportSettingsForm.cs" />
     <Compile Update="Settings\SettingsForm.cs" />
-    <Compile Update="Statistic\StatisticPanel.cs" />
+    <Compile Update="Statistic\RootStatisticPanel.cs" />
     <Compile Update="Summary\SummaryPanel.cs" />
     <Compile Update="Summary\SummaryView.cs" />
     <Compile Update="View\ItemCard.cs" />

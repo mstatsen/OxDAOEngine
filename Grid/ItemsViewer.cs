@@ -4,6 +4,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Decorator;
 using OxDAOEngine.Data.Types;
+using OxDAOEngine.Statistic;
 
 namespace OxDAOEngine.Grid
 {
@@ -25,6 +26,7 @@ namespace OxDAOEngine.Grid
                 Dock = DockStyle.Fill,
             };
             Grid.Paddings.SetSize(OxSize.None);
+            statisticPanel = CreateStatisticPanel();
             ReAlign();
         }
 
@@ -46,8 +48,18 @@ namespace OxDAOEngine.Grid
             set => Grid.AdditionalColumns = value;
         }
 
-        public virtual void Fill() =>
+        public virtual void Fill()
+        {
             Grid.Fill(Filter, true);
+            statisticPanel.Renew();
+        }
+
+        private StatisticPanel<TField, TDAO> CreateStatisticPanel() =>
+            new(Grid)
+            {
+                Dock = DockStyle.Bottom,
+                Parent = ContentContainer
+            };
 
         protected override void AfterCreated()
         {
@@ -61,6 +73,9 @@ namespace OxDAOEngine.Grid
 
             if (Grid != null)
                 Grid.BaseColor = Colors.Lighter();
+
+            if (statisticPanel != null)
+                statisticPanel.BaseColor = BaseColor;
         }
 
         protected override void PrepareDialog(OxPanelViewer dialog)
@@ -115,5 +130,7 @@ namespace OxDAOEngine.Grid
             IListController<TField, TDAO> listController = DataManager.ListController<TField, TDAO>();
             dialogCaption = $"{listController.ListName}, where {listController.FieldHelper.Name(InitialField)} {caption}";
         }
+
+        private readonly StatisticPanel<TField, TDAO> statisticPanel;
     }
 }

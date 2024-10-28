@@ -6,7 +6,6 @@ using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
-using System.Windows.Forms;
 using OxDAOEngine.Data.Fields.Types;
 
 namespace OxDAOEngine.Grid
@@ -116,6 +115,8 @@ namespace OxDAOEngine.Grid
             GridView.Columns.Add(dataColumn);
             GridFieldColumns.Add(field, dataColumn);
         }
+
+        public int RowCount => GridView.RowCount;
 
         private bool PrepareColumns()
         {

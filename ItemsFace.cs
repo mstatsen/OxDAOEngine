@@ -11,7 +11,6 @@ using OxDAOEngine.Summary;
 using OxDAOEngine.View;
 using OxDAOEngine.View.Types;
 using OxDAOEngine.Settings.Part;
-using OxDAOEngine.ControlFactory;
 
 namespace OxDAOEngine
 {
@@ -81,7 +80,7 @@ namespace OxDAOEngine
             tabControlPanel.Dock = DockStyle.Fill;
         }
 
-        private StatisticPanel<TField, TDAO> CreateStatisticPanel() =>
+        private RootStatisticPanel<TField, TDAO> CreateStatisticPanel() =>
             new(tableView.Grid, quickFilter)
             {
                 Dock = DockStyle.Bottom,
@@ -526,6 +525,6 @@ namespace OxDAOEngine
         private RootListDAO<TField, TDAO>? actualItemList;
         private readonly OxTabControl tabControl;
         private readonly OxPane tabControlPanel = new();
-        private readonly StatisticPanel<TField, TDAO> statisticPanel;
+        private readonly RootStatisticPanel<TField, TDAO> statisticPanel;
     }
 }
