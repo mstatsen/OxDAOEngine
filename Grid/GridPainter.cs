@@ -11,10 +11,8 @@ namespace OxDAOEngine.Grid
 
         public void CellPainting(object? sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (sender == null)
-                return;
-
-            if (e.RowIndex < 0)
+            if (sender == null || 
+                e.RowIndex < 0)
                 return;
 
             TDAO? item = (TDAO?)((DataGridView)sender).Rows[e.RowIndex].Tag;
@@ -26,6 +24,7 @@ namespace OxDAOEngine.Grid
         }
 
         public abstract DataGridViewCellStyle? GetCellStyle(TDAO? item, TField field, bool selected = false);
+
         private  void SetCellStyle(TDAO item, DataGridViewCellPaintingEventArgs e) =>
             e.CellStyle.ApplyStyle(
                 GetCellStyle(

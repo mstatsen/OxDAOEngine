@@ -52,7 +52,6 @@ namespace OxDAOEngine.Data
         EventHandler? OnAfterLoad { get; set; }
 
         event EventHandler? ItemsSortChangeHandler;
-        Categories<TField, TDAO>? SystemCategories { get; }
         new ItemsFace<TField, TDAO> Face { get; }
         DAOEntityEventHandler? ItemFieldChanged { get; set; }
 

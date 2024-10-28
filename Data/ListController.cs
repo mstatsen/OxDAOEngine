@@ -501,8 +501,6 @@ namespace OxDAOEngine.Data
 
         public virtual FieldSortings<TField, TDAO>? DefaultSorting() => null;
 
-        public virtual Categories<TField, TDAO>? SystemCategories => null;
-
         public ItemsFace<TField, TDAO> Face
         {
             get

@@ -167,17 +167,17 @@ namespace OxDAOEngine.Grid
         {
             NotEqualsButton.FreezeHovered = !NotEqualsButton.FreezeHovered;
 
-            if (!NotEqualsButton.FreezeHovered)
-            {
-                NotEqualsButton.ToolTipText = "Show only difference";
-                LeftItemGrid.ShowAllFields();
-                RightItemGrid.ShowAllFields();
-            }
-            else
+            if (NotEqualsButton.FreezeHovered)
             {
                 NotEqualsButton.ToolTipText = "Show all";
                 LeftItemGrid.HideFields(EqualFields);
                 RightItemGrid.HideFields(EqualFields);
+            }
+            else
+            {
+                NotEqualsButton.ToolTipText = "Show only difference";
+                LeftItemGrid.ShowAllFields();
+                RightItemGrid.ShowAllFields();
             }
         }
 

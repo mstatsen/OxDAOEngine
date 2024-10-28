@@ -24,7 +24,8 @@ namespace OxDAOEngine.Grid
             if (DataManager.ListControllerExists<TField, TDAO>())
                 listController = DataManager.ListController<TField, TDAO>();
 
-            if (listController != null && listController.AvailableCopyItems)
+            if (listController != null && 
+                listController.AvailableCopyItems)
                 AddButton(OxToolbarAction.Copy);
 
             AddButton(OxToolbarAction.Edit, true);

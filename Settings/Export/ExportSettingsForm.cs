@@ -482,10 +482,7 @@ namespace OxDAOEngine.Settings
                 return;
 
             categoriesTree!.SetContentSize(360, 480);
-            categoriesTree!.RefreshCategories(true);
-            categoriesTree!.ActiveCategory = 
-                DataManager.ListController<TField, TDAO>().SystemCategories?
-                    .Find(c => c.Name == categoryControl?.Value);
+            categoriesTree!.RefreshCategories();
 
             if (categoriesTree.ShowAsDialog(this, OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK)
                 categoryControl!.Value = categoriesTree.ActiveCategory?.Name;

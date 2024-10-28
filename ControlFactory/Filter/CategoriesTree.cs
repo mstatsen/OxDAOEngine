@@ -1,9 +1,7 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxDAOEngine.Data;
-using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Filter;
-using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Part;
 
@@ -13,13 +11,13 @@ namespace OxDAOEngine.ControlFactory.Filter
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public void RefreshCategories(bool systemOnly = false)
+        public void RefreshCategories()
         {
             categorySelector.Loading = true;
 
             try
             {
-                LoadCategories(systemOnly);
+                LoadCategories();
                 FillTree();
             }
             finally
@@ -92,7 +90,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         };
         private readonly Category<TField, TDAO> RootCategory = new();
 
-        private static Category<TField, TDAO> CreateCategory(string name) => new(name);
+        //private static Category<TField, TDAO> CreateCategory(string name) => new(name);
 
         private void ExpandAllClick(object? sender, EventArgs e)
         {
@@ -115,6 +113,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         protected override SettingsPart SettingsPart => 
             SettingsPart.Category; 
 
+        /*
         private Category<TField, TDAO>? FieldCategory(TField field)
         {
             try
@@ -155,45 +154,12 @@ namespace OxDAOEngine.ControlFactory.Filter
                 return null;
             }
         }
+        */
 
-        private Category<TField, TDAO>? ByFieldsCategory()
-        {
-            if (FieldsByFields.Count == 0 && Settings.HideEmptyCategory)
-                return null;
-
-            Category<TField, TDAO> byFieldsCategory = CreateCategory("By Fields");
-
-            foreach (TField field in FieldsByFields)
-            {
-                Category<TField, TDAO>? fieldCategory = FieldCategory(field);
-
-                if (fieldCategory != null)
-                    byFieldsCategory.AddChild(fieldCategory);
-            }
-
-            return byFieldsCategory;
-        }
-
-        private void LoadCategories(bool systemOnly)
+        private void LoadCategories()
         {
             RootCategory.Clear();
             RootCategory.Name = $"All {ListController.ListName}";
-
-            Categories<TField, TDAO>? systemCategories = ListController.SystemCategories;
-
-            if (systemCategories?.Count > 0)
-            {
-                foreach (Category<TField, TDAO> category in systemCategories)
-                    RootCategory.AddChild(category);
-            }
-
-            if (!systemOnly)
-            {
-                Category<TField, TDAO>? byFields = ByFieldsCategory();
-
-                if (byFields?.Childs?.Count > 0)
-                    RootCategory.AddChild(byFields);
-            }
         }
 
         private void PrepareCategorySelector()

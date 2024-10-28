@@ -13,14 +13,10 @@ namespace OxDAOEngine.Export
         {
             Settings = exportSettings;
             SettingsForm = settingsForm;
-
             Items = new RootListDAO<TField, TDAO>();
             Items.CopyFrom(
                 SettingsForm.SelectedItems
                     ?? ListController.FullItemsList
-                        .FilteredList(
-                            ListController.SystemCategories?
-                                .Find(c => c.Name == Settings.CategoryName))
                         .FilteredList(Settings.Filter)
             );
             Items.Sort(Sortings()?.SortingsList);
@@ -31,7 +27,6 @@ namespace OxDAOEngine.Export
         public abstract string Text();
 
         protected abstract FieldSortings<TField, TDAO>? Sortings();
-
         protected readonly RootListDAO<TField, TDAO> Items;
         protected readonly ExportSettings<TField, TDAO> Settings;
         protected readonly ExportSettingsForm<TField, TDAO> SettingsForm;
