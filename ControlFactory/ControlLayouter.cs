@@ -60,6 +60,7 @@ namespace OxDAOEngine.ControlFactory
 
         private bool FieldSupportLabelClick(TField field) =>
             !Builder.Context(field).IsView
+            || fieldHelper == null 
             || fieldHelper.GetFieldType(field) != FieldType.List;
 
         private void SetLabelClickHander(PlacedControl<TField> placedControl)
@@ -73,7 +74,7 @@ namespace OxDAOEngine.ControlFactory
             label.Click += ExtractLabelClick;
         }
 
-        FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
+        private readonly FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
 
         private void ExtractLabelClick(object? sender, EventArgs e)
         {

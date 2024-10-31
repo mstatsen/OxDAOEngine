@@ -1,4 +1,6 @@
 ﻿using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.Settings.Helpers
@@ -20,6 +22,28 @@ namespace OxDAOEngine.Settings.Helpers
                     false,
                 _ =>
                     null,
+            };
+
+        public override FieldType GetFieldType(GeneralSetting field) =>
+            field switch
+            {
+                GeneralSetting.ShowCustomizeButtons or
+                GeneralSetting.ColorizePanels or
+                GeneralSetting.DarkerHeaders or
+                GeneralSetting.DoublePinButtons => 
+                    FieldType.Boolean,
+                GeneralSetting.CurrentView or
+                GeneralSetting.MainFormState => 
+                    FieldType.Enum,
+                GeneralSetting.CurrentController =>
+                    FieldType.Custom,
+                _ => FieldType.String,
+            };
+
+        public override ITypeHelper? GetHelper(GeneralSetting field) =>
+            field switch
+            {
+                _ => null,
             };
 
         public override string GetName(GeneralSetting value) =>

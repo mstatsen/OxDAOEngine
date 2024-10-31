@@ -1,9 +1,12 @@
-﻿using OxDAOEngine.Data.Types;
+﻿using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Fields.Types;
+using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.Settings.Helpers
 {
-    public abstract class SettingHelper<TSetting> : AbstractTypeHelper<TSetting>, ISettingHelper
+    public abstract class SettingHelper<TSetting> : FieldHelper<TSetting>, ISettingHelper
         where TSetting : Enum
     {
         public abstract object? Default(TSetting? setting);
@@ -73,5 +76,34 @@ namespace OxDAOEngine.Settings.Helpers
         public virtual bool WithoutLabel(TSetting? setting) => false;
 
         public bool WithoutLabel(string setting) => WithoutLabel(ParseSetting(setting));
+
+        public override TSetting FieldMetaData => default!;
+
+        public override TSetting TitleField => default!;
+
+        public override TSetting UniqueField => default!;
+
+        protected override FieldFilterOperations<TSetting> GetAvailableFilterOperations() => new();
+
+        protected override List<TSetting> GetCalcedFields() => new();
+
+        protected override List<TSetting> GetCardFields() => new();
+
+        protected override FilterOperation GetDefaultFilterOperation(TSetting field) =>
+            FilterOperation.Equals;
+
+        protected override List<TSetting> GetEditedFieldsExtended() => new();
+
+        protected override List<TSetting> GetEditingFields() => new();
+
+        protected override List<TSetting> GetFullInfoFields() => new();
+
+        protected override List<TSetting> GetGroupByFields() => new();
+
+        protected override List<TSetting> GetMandatoryFields() => new();
+
+        protected override List<TSetting> GetSelectQuickFilterFields() => new();
+
+        public override List<TSetting>? GetFieldsInternal(FieldsVariant variant, FieldsFilling filling) => All();
     }
 }

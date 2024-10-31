@@ -95,7 +95,7 @@ namespace OxDAOEngine.Settings
                 GrabControls();
         }
 
-        private SettingsPartHelper partHelper = TypeHelper.Helper<SettingsPartHelper>();
+        private readonly SettingsPartHelper partHelper = TypeHelper.Helper<SettingsPartHelper>();
 
         protected override string EmptyMandatoryField()
         {

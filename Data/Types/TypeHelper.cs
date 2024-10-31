@@ -74,7 +74,7 @@ namespace OxDAOEngine.Data.Types
 
         public static FieldHelper<TField> FieldHelper<TField>()
             where TField : notnull, Enum =>
-            (FieldHelper<TField>)Helper(default(TField)!);
+            (FieldHelper<TField>)Helper(default(TField)!)!;
 
         public static FieldGroupHelper<TField, TFieldGroup> FieldGroupHelper<TField, TFieldGroup>()
             where TField : notnull, Enum

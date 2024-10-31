@@ -44,7 +44,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             };
             captionLabel.Click += (s, e) =>
             {
-                FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
+                FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>()!;
 
                 if (fieldHelper.GetFieldType(field) == FieldType.Enum
                     && key is string stringValue)

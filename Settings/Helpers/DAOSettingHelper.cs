@@ -1,6 +1,7 @@
 ﻿using OxDAOEngine.ControlFactory;
-using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.View.Types;
 
@@ -16,13 +17,13 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.IconsSize => "Icons' size",
                 DAOSetting.IconMapping => "Icon mapping",
                 DAOSetting.IconClickVariant => "When click on icon",
-                DAOSetting.ShowCategories => "Show Categories",
+                DAOSetting.ShowCategories => "Categories",
                 DAOSetting.HideEmptyCategory => "Hide empty categories",
                 DAOSetting.AutoExpandCategories => "Auto expand categories",
-                DAOSetting.ShowItemInfo => "Show info panel",
+                DAOSetting.ShowItemInfo => "Info panel",
                 DAOSetting.ShowIcons => "Show Icons view",
                 DAOSetting.ShowCards => "Show Cards view",
-                DAOSetting.ShowQuickFilter => "Show info panel",
+                DAOSetting.ShowQuickFilter => "Quick Filter",
                 DAOSetting.QuickFilterTextFieldOperation => "'Text' field filtering operation",
                 DAOSetting.CategoryPanelPinned => "Category panel pinned",
                 DAOSetting.CategoryPanelExpanded => "Category panel expanded",
@@ -153,8 +154,52 @@ namespace OxDAOEngine.Settings.Helpers
 
         public override bool WithoutLabel(DAOSetting setting) => 
             setting is 
-                DAOSetting.ShowItemInfo or 
                 DAOSetting.ShowCategories or
                 DAOSetting.ShowQuickFilter;
+
+        public override FieldType GetFieldType(DAOSetting field) =>
+            field switch
+            {
+                DAOSetting.IconMapping =>
+                    FieldType.List,
+                DAOSetting.CategoryPanelPinned or
+                DAOSetting.CategoryPanelExpanded or
+                DAOSetting.ItemInfoPanelPinned or
+                DAOSetting.ItemInfoPanelExpanded or
+                DAOSetting.QuickFilterPinned or
+                DAOSetting.QuickFilterExpanded or
+                DAOSetting.AutoExpandCategories or
+                DAOSetting.HideEmptyCategory or
+                DAOSetting.ShowIcons or
+                DAOSetting.ShowCards =>
+                    FieldType.Boolean,
+                DAOSetting.CardsPageSize or
+                DAOSetting.IconsPageSize =>
+                    FieldType.Integer,
+                DAOSetting.CurrentView or
+                DAOSetting.ShowItemInfo or
+                DAOSetting.IconsSize or
+                DAOSetting.ShowCategories or
+                DAOSetting.ShowQuickFilter or
+                DAOSetting.IconClickVariant or
+                DAOSetting.QuickFilterTextFieldOperation =>
+                    FieldType.Enum,
+                _ => FieldType.String,
+            };
+
+        public override ITypeHelper? GetHelper(DAOSetting field) =>
+            field switch
+            {
+                DAOSetting.IconsSize =>
+                    TypeHelper.Helper<IconSizeHelper>(),
+                DAOSetting.ShowQuickFilter or
+                DAOSetting.ShowItemInfo or
+                DAOSetting.ShowCategories =>
+                    TypeHelper.Helper<FunctionalPanelVisibleHelper>(),
+                DAOSetting.IconClickVariant =>
+                    TypeHelper.Helper<IconClickVariantHelper>(),
+                DAOSetting.QuickFilterTextFieldOperation => TypeHelper.Helper<FilterOperationHelper>(),
+                _ => null,
+            };
     }
 }

@@ -142,9 +142,6 @@ namespace OxDAOEngine.ControlFactory
             return context;
         }
 
-        private Dictionary<TField, object?> ViewAccessorsValues = new();
-
-
         public void FillControls(TDAO item)
         {
             if (BuildOnly)
