@@ -2,7 +2,7 @@
 
 namespace OxDAOEngine.SystemEngine
 {
-    public abstract class SystemControlFactory<TSetting>
+    public class SystemControlFactory<TSetting>
         : ControlFactory<TSetting, SystemRootDAO<TSetting>>
         where TSetting : Enum
     {

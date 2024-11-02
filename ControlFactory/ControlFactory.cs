@@ -37,10 +37,7 @@ namespace OxDAOEngine.ControlFactory
         public FieldType GetFieldControlType(TField field) =>
             IsMetaDataField(field)
                 ? FieldType.MetaData
-                : GetFieldControlTypeInternal(field);
-
-        protected virtual FieldType GetFieldControlTypeInternal(TField field) =>
-            TypeHelper.FieldHelper<TField>().GetFieldType(field);
+                : TypeHelper.FieldHelper<TField>().GetFieldType(field);
 
         protected virtual bool IsMetaDataField(TField field) => 
             field.Equals(TypeHelper.FieldHelper<TField>().FieldMetaData);

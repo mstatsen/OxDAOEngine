@@ -16,24 +16,6 @@ namespace OxDAOEngine.Settings.ControlFactory
     public class DAOSettingsControlFactory<TField> : SystemControlFactory<DAOSetting>
         where TField : notnull, Enum
     {
-        protected override FieldType GetFieldControlTypeInternal(DAOSetting field) => 
-            field switch
-            {
-                DAOSetting.HideEmptyCategory or
-                DAOSetting.AutoExpandCategories or
-                DAOSetting.ShowIcons or
-                DAOSetting.ShowCards =>
-                    FieldType.Boolean,
-                DAOSetting.CardsPageSize or
-                DAOSetting.IconsPageSize =>
-                    FieldType.Integer,
-                DAOSetting.IconsSize or
-                DAOSetting.IconClickVariant or
-                DAOSetting.QuickFilterTextFieldOperation =>
-                    FieldType.Enum,
-                _ => FieldType.Custom,
-            };
-
         protected override IControlAccessor? CreateOtherAccessor(IBuilderContext<DAOSetting, SystemRootDAO<DAOSetting>> context) => 
             context is FieldContext<DAOSetting, SystemRootDAO<DAOSetting>> fieldContext
                 ? fieldContext.Field switch
@@ -44,7 +26,8 @@ namespace OxDAOEngine.Settings.ControlFactory
                         CreateEnumAccessor<IconClickVariant>(context),
                     DAOSetting.IconMapping =>
                         CreateIconMappingAccessor(context),
-                    DAOSetting.QuickFilterTextFieldOperation => CreateEnumAccessor<TextFilterOperation>(context),
+                    DAOSetting.QuickFilterTextFieldOperation => 
+                        CreateEnumAccessor<TextFilterOperation>(context),
                     DAOSetting.ShowCategories or
                     DAOSetting.ShowItemInfo or
                     DAOSetting.ShowQuickFilter =>
@@ -77,7 +60,6 @@ namespace OxDAOEngine.Settings.ControlFactory
                     _ => 
                         base.Initializer(context),
                 }
-                //: context.Key == "IconMapping:Field" ?
-                    : base.Initializer(context);
+                : base.Initializer(context);
     }
 }
