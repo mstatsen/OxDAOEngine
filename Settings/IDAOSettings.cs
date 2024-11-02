@@ -1,8 +1,8 @@
 ﻿using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Controls.Fields;
+using OxDAOEngine.ControlFactory.Filter;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
-using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.Settings.Part;
@@ -33,6 +33,7 @@ namespace OxDAOEngine.Settings
         List<object> GetFields(SettingsPart part);
         void SetFields(SettingsPart part, List<object> value);
         IFieldsPanel CreateFieldsPanel(SettingsPart part, Control parent);
+        ICategoriesPanel CreateCategoriesPanel(Control parent);
         bool AvailableSummary { get; set; }
         bool AvailableCategories { get; set; }
         bool AvailableQuickFilter { get; set; }

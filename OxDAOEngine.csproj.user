@@ -43,6 +43,9 @@
     <Compile Update="ControlFactory\Controls\Sorting\SortingPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="ControlFactory\Filter\CategoriesPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="ControlFactory\Filter\CategoriesTree.cs">
       <SubType>Component</SubType>
     </Compile>

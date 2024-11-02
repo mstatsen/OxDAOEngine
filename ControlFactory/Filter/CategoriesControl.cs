@@ -1,7 +1,7 @@
 ﻿using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
 
-namespace OxDAOEngine.ControlFactory.Controls.Links
+namespace OxDAOEngine.ControlFactory.Controls.Filter
 {
     public class CategoriesControl<TField, TDAO> : 
         ListItemsControl<Categories<TField, TDAO>, Category<TField, TDAO>, CategoryEditor<TField, TDAO>, TField, TDAO>

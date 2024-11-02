@@ -15,6 +15,9 @@ using OxDAOEngine.View.Types;
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.ControlFactory.Controls.Links;
 using OxDAOEngine.ControlFactory.Controls.Sorting;
+using OxDAOEngine.ControlFactory.Controls.Filter;
+using OxDAOEngine.Settings;
+using OxDAOEngine.SystemEngine;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -156,6 +159,11 @@ namespace OxDAOEngine.ControlFactory
             new CustomControlAccessor<TField, TDAO, 
                 FieldsControl<TField, TDAO>, FieldColumns<TField>>(context)
             .Init();
+
+        public IControlAccessor CreateCategoriesAccessor(IBuilderContext<TField, TDAO> context) =>
+            new CustomControlAccessor<TField, TDAO, CategoriesControl<TField, TDAO>, Categories<TField, TDAO>>(
+                context
+                ).Init();
 
         public IControlAccessor CreateSortingListAccessor(IBuilderContext<TField, TDAO> context) =>
             new CustomControlAccessor<TField, TDAO,

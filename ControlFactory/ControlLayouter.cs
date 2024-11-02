@@ -80,10 +80,8 @@ namespace OxDAOEngine.ControlFactory
         {
             OxLabel? label = (OxLabel?)sender;
 
-            if (label == null)
-                return;
-
-            if (!PlacedLabels.TryGetValue(label, out TField? field))
+            if (label == null || 
+                !PlacedLabels.TryGetValue(label, out TField? field))
                 return;
 
             object? value = Builder.ObjectValue(field);

@@ -1,4 +1,4 @@
-﻿namespace OxDAOEngine.ControlFactory.Controls
+﻿namespace OxDAOEngine.ControlFactory.Controls.Filter
 {
     partial class CategoryEditor<TField, TDAO>
     {

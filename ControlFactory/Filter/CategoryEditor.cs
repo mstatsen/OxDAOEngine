@@ -1,30 +1,21 @@
 ﻿using OxDAOEngine.ControlFactory.Accessors;
-using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxLibrary;
 
-namespace OxDAOEngine.ControlFactory.Controls
+namespace OxDAOEngine.ControlFactory.Controls.Filter
 {
     public partial class CategoryEditor<TField, TDAO> : ListItemEditor<Category<TField, TDAO>, TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        private ComboBoxAccessor<TField, TDAO> NameControl = default!;
+        private TextAccessor<TField, TDAO> NameControl = default!;
         public override Bitmap FormIcon => OxIcons.Link;
-
-        public override void RenewData()
-        {
-            base.RenewData();
-
-            ((LinkNameInitializer<TField, TDAO>)NameControl.Context.Initializer!).ExistingItems = ExistingItems;
-            NameControl.Context.InitControl(NameControl);
-        }
 
         private void CreateNameControl()
         {
-            NameControl = (ComboBoxAccessor<TField, TDAO>)Context.Builder
+            NameControl = (TextAccessor<TField, TDAO>)Context.Builder
                 .Accessor("CategoryName", FieldType.String);
             NameControl.Parent = this;
             NameControl.Left = 60;

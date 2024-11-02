@@ -8,6 +8,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.ControlFactory.Controls.Fields;
+using OxDAOEngine.ControlFactory.Filter;
 
 namespace OxDAOEngine.Settings
 {
@@ -41,6 +42,7 @@ namespace OxDAOEngine.Settings
         private class SettingsPanels : SettingsDictionray<SettingsPartPanels, OxPanel> { }
         private class SettingsPartControls : SettingsDictionray<SettingsPartDictionary<ControlAccessorList>, ControlAccessorList> { }
         private class SettingsFieldPanels : SettingsDictionray<SettingsPartDictionary<IFieldsPanel>, IFieldsPanel> { }
+
         private class SettingsControls : SettingsDictionary<Dictionary<string, IControlAccessor>, string, IControlAccessor> { }
 
         public override Bitmap FormIcon =>
@@ -284,6 +286,26 @@ namespace OxDAOEngine.Settings
         private static int CalcAcessorTop(IControlAccessor? prevAccessor) =>
             (prevAccessor != null ? prevAccessor.Bottom : 4) + 4;
 
+        private void CreateCategoriesPanel(IDAOSettings settings)
+        {
+            if (!AvailablePart(settings, SettingsPart.Category))
+                return;
+
+            settingsCategoriesPanels.Add(
+                settings, 
+                settings.CreateCategoriesPanel(
+                    settingsPanels[settings][SettingsPart.Category]
+                )
+            );
+        }
+
+        private void CreateCategoriesPanels()
+        {
+            foreach (ISettingsController settings in SettingsManager.Controllers)
+                if (settings is IDAOSettings daoSettings)
+                    CreateCategoriesPanel(daoSettings);
+        }
+
         private void CreateFieldsPanel(IDAOSettings settings, SettingsPart part)
         {
             if (!AvailablePart(settings, part))
@@ -303,12 +325,7 @@ namespace OxDAOEngine.Settings
             foreach (ISettingsController settings in SettingsManager.Controllers)
                 if (settings is IDAOSettings daoSettings)
                     foreach (SettingsPart part in partHelper.FieldsSettings)
-                    {
-                        if (!AvailablePart(settings, part))
-                            continue;
-
                         CreateFieldsPanel(daoSettings, part);
-                    }
         }
 
         private void CreateControls()
@@ -325,6 +342,7 @@ namespace OxDAOEngine.Settings
                     }
 
             CreateFieldsPanels();
+            CreateCategoriesPanels();
             CreateFramesForControls();
             CreateDefaultButtons();
         }
@@ -476,6 +494,7 @@ namespace OxDAOEngine.Settings
         private readonly SettingsPartControls settingsPartControls = new();
         private readonly SettingsControls settingsControls = new();
         private readonly SettingsFieldPanels settingsFieldPanels = new();
+        private readonly Dictionary<ISettingsController, ICategoriesPanel> settingsCategoriesPanels = new();
         private readonly Dictionary<OxButton, DefaulterScope> defaulters = new();
 
         private void SettingsForm_Shown(object? sender, EventArgs e) =>

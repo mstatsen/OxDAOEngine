@@ -94,6 +94,12 @@ namespace OxDAOEngine.ControlFactory
                 c => Factory.CreateFieldListAccessor(c)
             );
 
+        public IControlAccessor CategoriesAccessor(object? additionalContext = null) =>
+            Accessor(
+                Context("CetegoriesAccessor", FieldType.Custom, additionalContext),
+                c => Factory.CreateCategoriesAccessor(c)
+            );
+
         public IControlAccessor SortingListAccessor(object? additionalContext = null) =>
             Accessor(
                 Context("SortingListAccessor", FieldType.Custom, additionalContext),

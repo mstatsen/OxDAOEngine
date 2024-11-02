@@ -17,6 +17,8 @@ using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.Data.Fields.Types;
 using OxDAOEngine.ControlFactory;
+using OxDAOEngine.ControlFactory.Filter;
+using OxDAOEngine.ControlFactory.Controls.Filter;
 
 namespace OxDAOEngine.Settings
 {
@@ -360,7 +362,6 @@ namespace OxDAOEngine.Settings
             if (part == SettingsPart.QuickFilterText)
                 fieldsPanel.SetContentSize(fieldsPanel.Width, 78);
 
-
             return fieldsPanel;
         }
 
@@ -476,5 +477,18 @@ namespace OxDAOEngine.Settings
                 DAOSetting.IconMapping => DefaultIconMapping(),
                 _ => base.DAODefault(setting),
             };
+
+        public ICategoriesPanel CreateCategoriesPanel(Control parent)
+        {
+            ICategoriesPanel categoriesPanel =
+                new CategroiesPanel<TField, TDAO>()
+                {
+                    Parent = parent,
+                    Dock = DockStyle.Fill
+                };
+            categoriesPanel.Margins.SetSize(OxSize.Large);
+            categoriesPanel.Paddings.HorizontalOx = OxSize.Medium;
+            return categoriesPanel; 
+        }
     }
 }

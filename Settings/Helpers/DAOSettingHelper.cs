@@ -17,7 +17,8 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.IconsSize => "Icons' size",
                 DAOSetting.IconMapping => "Icon mapping",
                 DAOSetting.IconClickVariant => "When click on icon",
-                DAOSetting.ShowCategories => "Categories",
+                DAOSetting.ShowCategories => "Show Categories",
+                DAOSetting.Categories => "Categories",
                 DAOSetting.HideEmptyCategory => "Hide empty categories",
                 DAOSetting.AutoExpandCategories => "Auto expand categories",
                 DAOSetting.ShowItemInfo => "Info panel",
@@ -79,7 +80,7 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.ShowCategories or
                 DAOSetting.HideEmptyCategory or
                 DAOSetting.AutoExpandCategories or
-                DAOSetting.Categories=>
+                DAOSetting.Categories =>
                     SettingsPart.Category,
                 DAOSetting.ShowItemInfo =>
                     SettingsPart.Table,
@@ -112,8 +113,7 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.IconsSize or
                 DAOSetting.IconClickVariant or
                 DAOSetting.ShowQuickFilter or
-                DAOSetting.QuickFilterTextFieldOperation or
-                DAOSetting.Categories =>
+                DAOSetting.QuickFilterTextFieldOperation =>
                     true,//case DAOSetting.SummarySorting:
                 _ => false,
             };

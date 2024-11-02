@@ -2,12 +2,9 @@
 using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.Controls;
-using OxDAOEngine.ControlFactory.Controls.Links;
 using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
-using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
-using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.ControlFactory.Controls;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.SystemEngine;
@@ -35,21 +32,12 @@ namespace OxDAOEngine.Settings.ControlFactory
                     DAOSetting.ShowItemInfo or
                     DAOSetting.ShowQuickFilter =>
                         CreateEnumAccessor<FunctionalPanelVisible>(context),
-                    DAOSetting.Categories =>
-                        CreateCategoriesAccessor(context),
                     _ => 
                         null,
                 }
                 : context.Key == "IconMapping:Field" 
                     ? new FieldAccessor<DAOSetting, SystemRootDAO<DAOSetting>, TField>(context)
                     : (IControlAccessor?)null;
-
-        private IControlAccessor CreateCategoriesAccessor(IBuilderContext<DAOSetting, SystemRootDAO<DAOSetting>> context) =>
-            new CustomControlAccessor<TField, TDAO, CategoriesControl<TField, TDAO>, Categories<TField, TDAO>>(
-                new FieldContext<TField, TDAO>(
-                    DataManager.Builder<TField, TDAO>(ControlScope.Category),
-                    TypeHelper.FieldHelper<TField>().FieldMetaData)
-                ).Init();
 
         private IControlAccessor CreateIconMappingAccessor(IBuilderContext<DAOSetting, SystemRootDAO<DAOSetting>> context)
         {
