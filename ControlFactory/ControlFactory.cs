@@ -4,7 +4,6 @@ using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
-using OxDAOEngine.Data.Types;
 using OxDAOEngine.View;
 using OxDAOEngine.Grid;
 using OxDAOEngine.ControlFactory.Filter;
@@ -16,8 +15,7 @@ using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.ControlFactory.Controls.Links;
 using OxDAOEngine.ControlFactory.Controls.Sorting;
 using OxDAOEngine.ControlFactory.Controls.Filter;
-using OxDAOEngine.Settings;
-using OxDAOEngine.SystemEngine;
+using OxDAOEngine.Data.Filter.Types;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -65,7 +63,9 @@ namespace OxDAOEngine.ControlFactory
                         return new ExtractInitializer<TField, TDAO>(
                             accessorContext.Field, 
                             addAnyObject: true,
-                            fullExtract: variant != null && variant.Equals(QuickFilterVariant.Export)
+                            fullExtract: 
+                                variant != null 
+                                && variant.Equals(QuickFilterVariant.Export)
                         );
                     }
                     break;
@@ -95,37 +95,42 @@ namespace OxDAOEngine.ControlFactory
 
             context.Initializer = Initializer(context);
 
-            return context.FieldType switch
+            return context.Key switch
             {
-                FieldType.Label or
-                FieldType.Guid =>
-                    CreateLabelAccessor(context),
-                FieldType.String =>
-                    CreateTextBoxAccessor(context),
-                FieldType.Memo or
-                FieldType.ShortMemo =>
-                    CreateMultilineAccessor(context),
-                FieldType.Image =>
-                    CreateImageAccessor(context),
-                FieldType.Integer =>
-                    CreateNumericAccessor(context),
-                FieldType.Boolean =>
-                    CreateBoolAccessor(context),
-                FieldType.Extract =>
-                    CreateExtractAccessor(context),
-                FieldType.MetaData =>
-                    CreateMetaDataAccessor(context),
-                FieldType.Link =>
-                    CreateLinkButtonAccessor(context),
-                FieldType.LinkList =>
-                    CreateLinksAccessor(context),
-                FieldType.Country =>
-                    CreateCountryAccessor(context),
-                FieldType.Color =>
-                    CreateColorAccessor(context),
-                //TODO: may be abstract of enum and list accessors?
-                _ =>
-                    CreateOtherAccessor(context),
+                "Category:Type" => 
+                    CreateEnumAccessor<CategoryType>(context),
+                _ => context.FieldType switch
+                {
+                    FieldType.Label or
+                    FieldType.Guid =>
+                        CreateLabelAccessor(context),
+                    FieldType.String =>
+                        CreateTextBoxAccessor(context),
+                    FieldType.Memo or
+                    FieldType.ShortMemo =>
+                        CreateMultilineAccessor(context),
+                    FieldType.Image =>
+                        CreateImageAccessor(context),
+                    FieldType.Integer =>
+                        CreateNumericAccessor(context),
+                    FieldType.Boolean =>
+                        CreateBoolAccessor(context),
+                    FieldType.Extract =>
+                        CreateExtractAccessor(context),
+                    FieldType.MetaData =>
+                        CreateMetaDataAccessor(context),
+                    FieldType.Link =>
+                        CreateLinkButtonAccessor(context),
+                    FieldType.LinkList =>
+                        CreateLinksAccessor(context),
+                    FieldType.Country =>
+                        CreateCountryAccessor(context),
+                    FieldType.Color =>
+                        CreateColorAccessor(context),
+                    //TODO: may be abstract of enum and list accessors?
+                    _ =>
+                        CreateOtherAccessor(context),
+                }
             };
         }
 

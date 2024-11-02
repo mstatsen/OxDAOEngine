@@ -569,6 +569,7 @@ namespace OxDAOEngine.Data
             if (initialized)
                 return;
 
+            TypeHelper.Register<CategoryTypeHelper>();
             TypeHelper.Register<FiltrationTypeHelper>();
             TypeHelper.Register<FilterConcatHelper>();
             TypeHelper.Register<FieldsFillingHelper>();

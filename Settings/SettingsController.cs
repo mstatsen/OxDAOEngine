@@ -156,16 +156,12 @@ namespace OxDAOEngine.Settings
         protected virtual bool IsBoolSettings(TSetting setting) => false;
         protected virtual bool IsIntSettings(TSetting setting) => false;
 
-        protected virtual object ParseXMLValue(TSetting setting, XmlElement parentElement, string elementName)
-        {
-            if (IsBoolSettings(setting))
-                return XmlHelper.ValueBool(parentElement, elementName);
-            else
-            if (IsIntSettings(setting))
-                return XmlHelper.ValueInt(parentElement, elementName);
-
-            return XmlHelper.Value(parentElement, elementName);
-        }
+        protected virtual object ParseXMLValue(TSetting setting, XmlElement parentElement, string elementName) => 
+            IsBoolSettings(setting)
+                ? XmlHelper.ValueBool(parentElement, elementName)
+                : IsIntSettings(setting)
+                    ? XmlHelper.ValueInt(parentElement, elementName)
+                    : XmlHelper.Value(parentElement, elementName);
 
         protected override void LoadData(XmlElement? element)
         {

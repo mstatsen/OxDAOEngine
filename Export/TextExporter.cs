@@ -1,8 +1,6 @@
 ﻿using OxDAOEngine.Data;
 using OxDAOEngine.Data.Decorator;
-using OxDAOEngine.Data.Extract;
 using OxDAOEngine.Data.Fields;
-using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;

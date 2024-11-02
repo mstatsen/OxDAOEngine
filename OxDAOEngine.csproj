@@ -20,7 +20,7 @@
     <Compile Update="ControlFactory\Controls\CustomListControl.cs" />
     <Compile Update="ControlFactory\Controls\Fields\FieldEditor.cs" />
     <Compile Update="ControlFactory\Controls\Fields\FieldListControl.cs" />
-    <Compile Update="ControlFactory\Controls\Fields\FieldListPanel.cs" />
+    <Compile Update="ControlFactory\Controls\Fields\FieldsPanel.cs" />
     <Compile Update="ControlFactory\Controls\Links\LinkButton.cs">
       <SubType>Component</SubType>
     </Compile>

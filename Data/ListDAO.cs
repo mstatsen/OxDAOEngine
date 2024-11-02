@@ -39,21 +39,23 @@ namespace OxDAOEngine.Data
         public void LinkedCopyFrom(IListDAO<T>? otherList)
         {
             if (otherList == null)
-                CopyFrom(null);
-            else
             {
-                StartCoping();
-                try
-                {
-                    Clear();
+                CopyFrom(null);
+                return;
+            }
+            
+            
+            StartCoping();
+            try
+            {
+                Clear();
 
-                    foreach (T item in otherList)
-                        Add(item);
-                }
-                finally
-                {
-                    FinishCoping();
-                }
+                foreach (T item in otherList)
+                    Add(item);
+            }
+            finally
+            {
+                FinishCoping();
             }
         }
 
@@ -61,7 +63,8 @@ namespace OxDAOEngine.Data
 
         public override void Save(XmlElement? parentElement, bool clearModified = true)
         {
-            if (!SaveEmptyList && Count == 0)
+            if (!SaveEmptyList 
+                && Count == 0)
                 return;
 
             base.Save(parentElement, clearModified);

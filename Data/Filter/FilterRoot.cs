@@ -24,10 +24,8 @@ namespace OxDAOEngine.Data.Filter
         public bool FilterIsEmpty =>
             MatchAggregator<TField>.IsEmpty(this);
 
-        public FilterRoot() { }
-
-        public FilterRoot(FilterConcat filterConcat) : this() =>
-            FilterConcat = filterConcat;
+        public FilterRoot() =>
+            SaveEmptyList = false;
 
         public FilterGroup<TField, TDAO> AddGroup(FilterConcat filterConcat)
         {

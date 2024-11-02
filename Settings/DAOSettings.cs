@@ -274,6 +274,7 @@ namespace OxDAOEngine.Settings
                 if (TypeHelper.Helper<SettingsPartHelper>().IsFieldsSettings(part))
                     AddFields(part);
 
+            AddMember(categories);
             AddMember(filter);
             AddMember(exportSettings);
         }
@@ -284,6 +285,7 @@ namespace OxDAOEngine.Settings
             sortings.Clear();
             filter.Clear();
             exportSettings.Clear();
+            categories.Clear();
 
             foreach (var item in fields)
             {
@@ -440,16 +442,10 @@ namespace OxDAOEngine.Settings
         protected override SystemControlFactory<DAOSetting> CreateControlFactory() =>
             new DAOSettingsControlFactory<TField, TDAO>();
 
-        protected override DAO? CreateDAO(DAOSetting setting)
-        {
-            if (setting == DAOSetting.IconMapping)
-                return new ListDAO<IconMapping<TField>>();
-
-            if (setting == DAOSetting.Categories)
-                return new Categories<TField, TDAO>();
-
-            return base.CreateDAO(setting);
-        }
+        protected override DAO? CreateDAO(DAOSetting setting) => 
+            setting == DAOSetting.IconMapping 
+                ? new ListDAO<IconMapping<TField>>() 
+                : base.CreateDAO(setting);
 
         private static DAO DefaultIconMapping()
         {

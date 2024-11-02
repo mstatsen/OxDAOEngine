@@ -39,6 +39,7 @@ namespace OxDAOEngine.Data.Filter
             Childs.Remove(childCategory);
 
         public string Name { get; internal set; } = string.Empty;
+        public CategoryType Type { get; internal set; } = CategoryType.Filter;
 
         public bool FilterIsEmpty =>
             FullFilter.FilterIsEmpty;

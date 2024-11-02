@@ -18,6 +18,6 @@ namespace OxDAOEngine.Settings.Export
             FileName = XmlHelper.Value(element, XmlConsts.FileName);
 
         protected override void SaveData(XmlElement element, bool clearModified = true) =>
-            XmlHelper.AppendElement(element, XmlConsts.FileName, FileName);
+            XmlHelper.AppendElement(element, XmlConsts.FileName, FileName, true);
     }
 }

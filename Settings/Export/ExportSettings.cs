@@ -26,7 +26,6 @@ namespace OxDAOEngine.Settings.Export
         public string FileName
         {
             get => GetFileName(Format);
-
             set
             {
                 switch (Format)
@@ -69,6 +68,10 @@ namespace OxDAOEngine.Settings.Export
             XML.XmlName = TypeHelper.Name(ExportFormat.Xml);
             Text.XmlName = TypeHelper.Name(ExportFormat.Text);
             Format = ExportFormat.Html;
+            AddMember(HTML);
+            AddMember(XML);
+            AddMember(Text);
+            AddMember(Filter);
         }
 
         public Dictionary<string, string?> ParamsValues => new()
@@ -128,21 +131,12 @@ namespace OxDAOEngine.Settings.Export
         {
             CategoryName = XmlHelper.Value(element, XmlConsts.CategoryName);
             Format = XmlHelper.Value<ExportFormat>(element, XmlConsts.ExportFormat);
-            HTML.Load(element);
-            XML.Load(element);
-            Text.Load(element);
-            Filter.Load(element);
         }
 
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
             XmlHelper.AppendElement(element, XmlConsts.CategoryName, CategoryName);
             XmlHelper.AppendElement(element, XmlConsts.ExportFormat, Format);
-            Filter.Save(element, clearModified);
-
-            HTML.Save(element, clearModified);
-            XML.Save(element, clearModified);
-            Text.Save(element, clearModified);
         }
     }
 }

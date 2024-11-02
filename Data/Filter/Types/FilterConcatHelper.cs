@@ -2,8 +2,7 @@
 
 namespace OxDAOEngine.Data.Filter.Types
 {
-    public class FilterConcatHelper
-        : AbstractTypeHelper<FilterConcat>
+    public class FilterConcatHelper : AbstractTypeHelper<FilterConcat>
     {
         public override FilterConcat EmptyValue() =>
             FilterConcat.AND;

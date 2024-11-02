@@ -10,7 +10,8 @@ namespace OxDAOEngine.Settings.Export
     {
         public FieldSortings<TField, TDAO> Grouping { get; internal set; } = new()
         {
-            XmlName = "Grouping"
+            XmlName = "Grouping",
+            SaveEmptyList = false
         };
 
         public override void Clear()

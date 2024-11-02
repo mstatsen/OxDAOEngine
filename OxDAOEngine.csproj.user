@@ -22,7 +22,7 @@
     <Compile Update="ControlFactory\Controls\Fields\FieldListControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="ControlFactory\Controls\Fields\FieldListPanel.cs">
+    <Compile Update="ControlFactory\Controls\Fields\FieldsPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="ControlFactory\Controls\ListItemEditor.cs">
