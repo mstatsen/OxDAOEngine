@@ -37,7 +37,7 @@ namespace OxDAOEngine.Data.Sorting
             Field = TypeHelper.DefaultValue<TField>();
         }
 
-        public override int CompareTo(DAO? other)
+        public override int CompareTo(IDAO? other)
         {
             FieldSorting<TField, TDAO>? otherSorting = (FieldSorting<TField, TDAO>?)other;
             return otherSorting == null ? 1 : Field.CompareTo(otherSorting.Field);

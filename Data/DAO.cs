@@ -1,9 +1,10 @@
 ﻿using OxDAOEngine.XML;
+using System.Diagnostics.Eventing.Reader;
 using System.Xml;
 
 namespace OxDAOEngine.Data
 {
-    public abstract class DAO : IComparable
+    public abstract class DAO : IDAO
     {
         //TODO: add "event" directive
         public DAOEntityEventHandler? ChangeHandler { get; set; }
@@ -26,14 +27,14 @@ namespace OxDAOEngine.Data
             }
         }
 
-        public DAOState State { get; internal set; } = DAOState.Regular;
+        public DAOState State { get; set; } = DAOState.Regular;
 
         public void StartLoading() => State = DAOState.Loading;
         public void FinishLoading() => State = DAOState.Regular;
         public void StartCoping() => State = DAOState.Coping;
         public void FinishCoping() => State = DAOState.Regular;
 
-        public virtual int CompareTo(DAO? other)
+        public virtual int CompareTo(IDAO? other)
         {
             string? thisString = ToString();
             string? otherString = other?.ToString();
@@ -123,14 +124,14 @@ namespace OxDAOEngine.Data
         protected virtual void InitUniqueCopy() { }
 
         public TDAO GetCopy<TDAO>()
-            where TDAO : DAO, new()
+            where TDAO : IDAO, new()
         {
             TDAO newItem = new();
             newItem.CopyFrom(this);
             return newItem;
         }    
 
-        public DAO CopyFrom(DAO? item, bool newUnique = false)
+        public IDAO CopyFrom(IDAO? item, bool newUnique = false)
         {
             State = DAOState.Coping;
 
@@ -195,11 +196,11 @@ namespace OxDAOEngine.Data
             return this;
         }
 
-        protected virtual void CopyAdditionalInformationFrom(DAO item) { }
+        protected virtual void CopyAdditionalInformationFrom(IDAO item) { }
         protected virtual void MemberModifiedHandler(DAO dao, DAOModifyEventArgs e) =>
             Modified |= e.Modified;
 
-        protected virtual void SetMemberHandlers(DAO member, bool set = true)
+        protected virtual void SetMemberHandlers(IDAO member, bool set = true)
         {
             member.ModifiedChangeHandler -= MemberModifiedHandler;
 
@@ -239,11 +240,11 @@ namespace OxDAOEngine.Data
             Members.Remove(member);
         }
 
-        public DAO TopOwnerDAO
+        public IDAO TopOwnerDAO
         { 
             get 
             {
-                DAO topOwnerDAO = this;
+                IDAO topOwnerDAO = this;
 
                 while (topOwnerDAO.OwnerDAO != null)
                     topOwnerDAO = topOwnerDAO.OwnerDAO;
@@ -284,9 +285,9 @@ namespace OxDAOEngine.Data
         protected abstract void SaveData(XmlElement element, bool clearModified = true);
         protected abstract void LoadData(XmlElement element);
 
-        public bool WithoutXmlNode { get; protected set; } = false;
+        public bool WithoutXmlNode { get; set; } = false;
 
-        public DAO? OwnerDAO { get; private set; }
+        public IDAO? OwnerDAO { get; set; }
 
         public virtual void Save(XmlElement? parentElement, bool clearModified = true)
         {
@@ -402,11 +403,8 @@ namespace OxDAOEngine.Data
                 ? value.ToString()!
                 : string.Empty;
 
-        public static Guid GuidValue(object? value)
-        {
-            Guid.TryParse(value?.ToString(), out var guid);
-            return guid;
-        }
+        public static Guid GuidValue(object? value) => 
+            Guid.TryParse(value?.ToString(), out Guid guid) ? guid : Guid.Empty;
 
         public virtual string ShortString => ToString() ?? string.Empty;
     }

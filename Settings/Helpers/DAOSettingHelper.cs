@@ -202,7 +202,8 @@ namespace OxDAOEngine.Settings.Helpers
                     TypeHelper.Helper<FunctionalPanelVisibleHelper>(),
                 DAOSetting.IconClickVariant =>
                     TypeHelper.Helper<IconClickVariantHelper>(),
-                DAOSetting.QuickFilterTextFieldOperation => TypeHelper.Helper<FilterOperationHelper>(),
+                DAOSetting.QuickFilterTextFieldOperation => 
+                    TypeHelper.Helper<FilterOperationHelper>(),
                 _ => null,
             };
     }

@@ -2,6 +2,7 @@
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.Settings.Part;
@@ -47,7 +48,7 @@ namespace OxDAOEngine.Settings
         FieldColumns<TField> TableFields { get; set; }
         FieldColumns<TField> QuickFilterFields { get; set; }
         FieldColumns<TField> QuickFilterTextFields { get; set; }
-        FieldColumns<TField> CategoryFields { get; set; }
+        IListDAO Categories { get; set; }
         ListDAO<IconMapping<TField>>? IconMapping { get; set; }
     }
 }

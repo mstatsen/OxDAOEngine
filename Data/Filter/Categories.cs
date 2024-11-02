@@ -2,7 +2,7 @@
 {
     public class Categories<TField, TDAO> : ListDAO<Category<TField, TDAO>>
         where TField : notnull, Enum
-        where TDAO : RootDAO<TField>, IFieldMapping<TField>, new()
+        where TDAO : RootDAO<TField>, new()
     {
         protected override bool AutoSorting => false;
     }

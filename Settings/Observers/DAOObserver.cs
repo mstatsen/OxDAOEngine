@@ -12,7 +12,7 @@ namespace OxDAOEngine.Settings.Observers
         public bool SortingFieldsChanged { get; internal set; }
         public bool QuickFilterFieldsChanged { get; internal set; }
         public bool QuickFilterTextFieldsChanged { get; internal set; }
-        public bool CategoryFieldsChanged { get; internal set; }
+        public bool CategoriesChanged { get; internal set; }
         public bool CurrentViewChanged { get; internal set; }
 
         public DAOObserver() : base() { }
@@ -23,23 +23,29 @@ namespace OxDAOEngine.Settings.Observers
             && !SortingFieldsChanged
             && !QuickFilterFieldsChanged
             && !QuickFilterTextFieldsChanged
-            && !CategoryFieldsChanged
+            && !CategoriesChanged
             && !CurrentViewChanged;
 
         public override void RenewChanges()
         {
             base.RenewChanges();
 
-            SortingFieldsChanged = fullApplies ||
-                !OldValues.Sortings.Equals(Controller.Sortings);
-            TableFieldsChanged = fullApplies ||
-                !OldValues.Fields[SettingsPart.Table].Equals(Controller.TableFields);
-            QuickFilterFieldsChanged = fullApplies ||
-                !OldValues.Fields[SettingsPart.QuickFilter].Equals(Controller.QuickFilterFields);
-            QuickFilterTextFieldsChanged = fullApplies ||
-                !OldValues.Fields[SettingsPart.QuickFilterText].Equals(Controller.QuickFilterTextFields);
-            CategoryFieldsChanged = fullApplies ||
-                !OldValues.Fields[SettingsPart.Category].Equals(Controller.CategoryFields);
+            if (fullApplies)
+            {
+                SortingFieldsChanged = true;
+                TableFieldsChanged = true;
+                QuickFilterFieldsChanged = true;
+                QuickFilterTextFieldsChanged = true;
+                CategoriesChanged = true;
+            }
+            else
+            {
+                SortingFieldsChanged = !OldValues.Sortings.Equals(Controller.Sortings);
+                TableFieldsChanged = !OldValues.Fields[SettingsPart.Table].Equals(Controller.TableFields);
+                QuickFilterFieldsChanged = !OldValues.Fields[SettingsPart.QuickFilter].Equals(Controller.QuickFilterFields);
+                QuickFilterTextFieldsChanged = !OldValues.Fields[SettingsPart.QuickFilterText].Equals(Controller.QuickFilterTextFields);
+                CategoriesChanged = !OldValues.Categories.Equals(Controller.Categories);
+            }
         }
 
         protected override void Clear()
@@ -48,7 +54,7 @@ namespace OxDAOEngine.Settings.Observers
             SortingFieldsChanged = false;
             QuickFilterFieldsChanged = false;
             QuickFilterTextFieldsChanged = false;
-            CategoryFieldsChanged = false;
+            CategoriesChanged = false;
             base.Clear();
         }
     }

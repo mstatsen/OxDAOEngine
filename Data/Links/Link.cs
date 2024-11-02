@@ -63,7 +63,7 @@ namespace OxDAOEngine.Data.Links
 
         public object Type => helper.Parse(Name);
 
-        public override int CompareTo(DAO? other)
+        public override int CompareTo(IDAO? other)
         {
             if (Equals(other))
                 return 0;

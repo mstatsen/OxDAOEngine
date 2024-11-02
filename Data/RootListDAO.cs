@@ -37,7 +37,7 @@ namespace OxDAOEngine.Data
         private void MemberFieldModified(FieldModifiedEventArgs<TField> e) =>
             FieldModified?.Invoke(e);
 
-        protected override void SetMemberHandlers(DAO member, bool set = true)
+        protected override void SetMemberHandlers(IDAO member, bool set = true)
         {
             base.SetMemberHandlers(member, set);
 

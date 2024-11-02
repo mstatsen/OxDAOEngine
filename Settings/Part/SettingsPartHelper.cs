@@ -38,8 +38,7 @@ namespace OxDAOEngine.Settings.Part
             {
                 SettingsPart.Table,
                 SettingsPart.QuickFilter,
-                SettingsPart.QuickFilterText,
-                SettingsPart.Category
+                SettingsPart.QuickFilterText
             };
 
         public List<SettingsPart> MandatoryFields =>

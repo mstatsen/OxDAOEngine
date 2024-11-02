@@ -50,7 +50,7 @@ namespace OxDAOEngine.Settings.Data
         public override string ToString() =>
             $"{TypeHelper.Name(part)}: {TypeHelper.Name(field)}";
 
-        public override int CompareTo(DAO? other)
+        public override int CompareTo(IDAO? other)
         {
             if (other is IconMapping<TField> otherMapping)
             {

@@ -16,6 +16,5 @@ namespace OxDAOEngine.Data
             where TList : ListDAO<TDAO>, new();
         RootListDAO<TField, TDAO> FilteredList(IMatcher<TField>? filter, List<ISorting<TField, TDAO>> sortings);
         RootListDAO<TField, TDAO> Distinct(Func<TDAO, RootListDAO<TField, TDAO>, bool> CheckUnique);
-        bool Modified { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace OxDAOEngine.Data
     public delegate void FieldModified<TField>(FieldModifiedEventArgs<TField> e)
         where TField : notnull, Enum;
 
-    public abstract class RootDAO<TField> : DAO, IFieldMapping<TField>
+    public abstract class RootDAO<TField> : DAO, IDAO, IFieldMapping<TField>
         where TField : notnull, Enum
     {
         public FieldModified<TField>? FieldModified;
@@ -151,7 +151,7 @@ namespace OxDAOEngine.Data
         public bool IsListControllerDAO =>
             DataManager.FieldController<TField>().FullItemsList.Equals(TopOwnerDAO);
 
-        protected override void CopyAdditionalInformationFrom(DAO item)
+        protected override void CopyAdditionalInformationFrom(IDAO item)
         {
             /*
             if (!UseImageList

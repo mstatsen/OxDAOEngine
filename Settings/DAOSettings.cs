@@ -230,10 +230,11 @@ namespace OxDAOEngine.Settings
             set => SetFields(SettingsPart.QuickFilterText, value);
         }
 
-        public FieldColumns<TField> CategoryFields
+        private readonly Categories<TField, TDAO> categories = new();
+        public IListDAO Categories
         {
-            get => GetFields(SettingsPart.Category);
-            set => SetFields(SettingsPart.Category, value);
+            get => categories;
+            set => categories.CopyFrom(value);
         }
 
         public ExportSettings<TField, TDAO> ExportSettings => exportSettings;

@@ -285,7 +285,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.ApplySettingsInternal();
 
-            if (Observer.CategoryFieldsChanged
+            if (Observer.CategoriesChanged
                 || Observer[DAOSetting.AutoExpandCategories]
                 || Observer[DAOSetting.HideEmptyCategory]
                 || Observer[DAOSetting.ShowCategories])
@@ -331,8 +331,5 @@ namespace OxDAOEngine.ControlFactory.Filter
                 else categorySelector.SelectedNode.Expand();
             }
         }
-
-        public List<TField> FieldsByFields => 
-            Settings.CategoryFields.Fields;
     }
 }

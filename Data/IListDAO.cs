@@ -2,7 +2,7 @@
 
 namespace OxDAOEngine.Data
 {
-    public interface IListDAO : IEnumerable
+    public interface IListDAO : IDAO, IEnumerable
     {
         bool SaveEmptyList { get; set; }
         void Sort();
@@ -16,28 +16,28 @@ namespace OxDAOEngine.Data
         List<object> ObjectList { get; set; }
     }
 
-    public interface IListDAO<T> : IEnumerable<T>, IListDAO
-        where T : DAO, new()
+    public interface IListDAO<TDAO> : IEnumerable<TDAO>, IListDAO
+        where TDAO : IDAO, new()
     {
-        void LinkedCopyFrom(IListDAO<T>? otherList);
-        void NotifyAboutItemAdded(T item);
-        T Add();
-        T Add(T item);
-        void AddRange(IEnumerable<T> collection);
-        void RemoveAll(Predicate<T> match);
-        void RemoveAll(Predicate<T> match, bool needSaveHistory);
-        bool Remove(T item);
-        bool Remove(T item, bool needSaveHistory);
-        bool Remove(Predicate<T> match);
-        bool Remove(Predicate<T> match, bool needSaveHistory);
-        int IndexOf(T? value);
-        T? Find(Predicate<T> match);
-        List<T> FindAll(Predicate<T> match);
-        bool Contains(Predicate<T> match);
-        bool Contains(T item);
-        T? First { get; }
-        TListDAO Distinct<TListDAO>(Func<T, TListDAO, bool> CheckUnique)
-            where TListDAO : ListDAO<T>, new();
-        ListDAO<T> Distinct<ListDAO>(Func<T, ListDAO<T>, bool> CheckUnique);
+        void LinkedCopyFrom(IListDAO<TDAO>? otherList);
+        void NotifyAboutItemAdded(TDAO item);
+        TDAO Add();
+        TDAO Add(TDAO item);
+        void AddRange(IEnumerable<TDAO> collection);
+        void RemoveAll(Predicate<TDAO> match);
+        void RemoveAll(Predicate<TDAO> match, bool needSaveHistory);
+        bool Remove(TDAO item);
+        bool Remove(TDAO item, bool needSaveHistory);
+        bool Remove(Predicate<TDAO> match);
+        bool Remove(Predicate<TDAO> match, bool needSaveHistory);
+        int IndexOf(TDAO? value);
+        TDAO? Find(Predicate<TDAO> match);
+        List<TDAO> FindAll(Predicate<TDAO> match);
+        bool Contains(Predicate<TDAO> match);
+        bool Contains(TDAO item);
+        TDAO? First { get; }
+        TListDAO Distinct<TListDAO>(Func<TDAO, TListDAO, bool> CheckUnique)
+            where TListDAO : IListDAO<TDAO>, new();
+        IListDAO<TDAO> Distinct<ListDAO>(Func<TDAO, IListDAO<TDAO>, bool> CheckUnique);
     }
 }

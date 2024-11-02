@@ -187,7 +187,7 @@ namespace OxDAOEngine.Data
 
             try
             {
-                DAO? oldValue = needSaveHistory ? new ListDAO<T>().CopyFrom(this) : null;
+                IDAO? oldValue = needSaveHistory ? new ListDAO<T>().CopyFrom(this) : null;
 
                 if (List.Remove(item))
                 {
@@ -334,7 +334,7 @@ namespace OxDAOEngine.Data
         }
 
         public TListDAO Distinct<TListDAO>(Func<T, TListDAO, bool> CheckUnique)
-            where TListDAO : ListDAO<T>, new()
+            where TListDAO : IListDAO<T>, new()
         {
             //TODO: replce TListDAO with RootListDAO - need for get UseImageList flag
             TListDAO list = new();
@@ -346,7 +346,7 @@ namespace OxDAOEngine.Data
             return list;
         }
 
-        public ListDAO<T> Distinct<ListDAO>(Func<T, ListDAO<T>, bool> CheckUnique) => 
+        public IListDAO<T> Distinct<ListDAO>(Func<T, IListDAO<T>, bool> CheckUnique) => 
             Distinct<ListDAO>(CheckUnique);
     }
 }
