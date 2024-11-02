@@ -23,5 +23,6 @@
         IconClickVariant,
         ShowQuickFilter,
         QuickFilterTextFieldOperation,
+        Categories
     }
 }

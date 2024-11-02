@@ -40,6 +40,12 @@
     <Compile Update="ControlFactory\Controls\Sorting\SortingListControl.cs" />
     <Compile Update="ControlFactory\Controls\Sorting\SortingPanel.cs" />
     <Compile Update="ControlFactory\Filter\CategoriesTree.cs" />
+    <Compile Update="ControlFactory\Filter\CategoryEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Filter\CategoriesControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="ControlFactory\Filter\QuickFilterPanel.cs" />
     <Compile Update="ControlFactory\FunctionsPanel.cs" />
     <Compile Update="Editor\DAOEditor.cs" />

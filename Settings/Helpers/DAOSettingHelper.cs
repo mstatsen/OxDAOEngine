@@ -78,7 +78,8 @@ namespace OxDAOEngine.Settings.Helpers
             {
                 DAOSetting.ShowCategories or
                 DAOSetting.HideEmptyCategory or
-                DAOSetting.AutoExpandCategories =>
+                DAOSetting.AutoExpandCategories or
+                DAOSetting.Categories=>
                     SettingsPart.Category,
                 DAOSetting.ShowItemInfo =>
                     SettingsPart.Table,
@@ -111,7 +112,8 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.IconsSize or
                 DAOSetting.IconClickVariant or
                 DAOSetting.ShowQuickFilter or
-                DAOSetting.QuickFilterTextFieldOperation =>
+                DAOSetting.QuickFilterTextFieldOperation or
+                DAOSetting.Categories =>
                     true,//case DAOSetting.SummarySorting:
                 _ => false,
             };
@@ -155,12 +157,14 @@ namespace OxDAOEngine.Settings.Helpers
         public override bool WithoutLabel(DAOSetting setting) => 
             setting is 
                 DAOSetting.ShowCategories or
-                DAOSetting.ShowQuickFilter;
+                DAOSetting.ShowQuickFilter or
+                DAOSetting.Categories;
 
         public override FieldType GetFieldType(DAOSetting field) =>
             field switch
             {
-                DAOSetting.IconMapping =>
+                DAOSetting.IconMapping or
+                DAOSetting.Categories =>
                     FieldType.List,
                 DAOSetting.CategoryPanelPinned or
                 DAOSetting.CategoryPanelExpanded or

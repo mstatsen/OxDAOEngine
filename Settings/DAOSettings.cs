@@ -436,12 +436,15 @@ namespace OxDAOEngine.Settings
             };
 
         protected override SystemControlFactory<DAOSetting> CreateControlFactory() =>
-            new DAOSettingsControlFactory<TField>();
+            new DAOSettingsControlFactory<TField, TDAO>();
 
         protected override DAO? CreateDAO(DAOSetting setting)
         {
             if (setting == DAOSetting.IconMapping)
                 return new ListDAO<IconMapping<TField>>();
+
+            if (setting == DAOSetting.Categories)
+                return new Categories<TField, TDAO>();
 
             return base.CreateDAO(setting);
         }
