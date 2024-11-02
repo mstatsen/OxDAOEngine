@@ -110,7 +110,7 @@ namespace OxDAOEngine.Editor
         {
             foreach (TField field in fieldHelper.MandatoryFields)
             {
-                if (controlFactory.GetFieldControlType(field) == FieldType.Image)
+                if (fieldHelper.GetFieldType(field).Equals(FieldType.Image))
                     continue;
 
                 IControlAccessor accessor = Builder[field];

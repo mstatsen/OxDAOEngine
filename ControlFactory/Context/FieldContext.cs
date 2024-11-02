@@ -11,7 +11,7 @@ namespace OxDAOEngine.ControlFactory.Context
             builder,
             TypeHelper.FullName(field),
             TypeHelper.FullName(field),
-            builder.Factory.GetFieldControlType(field)) => 
+            TypeHelper.FieldHelper<TField>().GetFieldType(field)) => 
             Field = field;
 
         public bool AvailableDependencies { get; set; } = true;

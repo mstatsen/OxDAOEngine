@@ -34,14 +34,6 @@ namespace OxDAOEngine.ControlFactory
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public FieldType GetFieldControlType(TField field) =>
-            IsMetaDataField(field)
-                ? FieldType.MetaData
-                : TypeHelper.FieldHelper<TField>().GetFieldType(field);
-
-        protected virtual bool IsMetaDataField(TField field) => 
-            field.Equals(TypeHelper.FieldHelper<TField>().FieldMetaData);
-
         protected virtual IInitializer CreateExtractInitializer(TField field,
             bool fullExtract = true, bool fixedExtract = true) =>
             new ExtractInitializer<TField, TDAO>(

@@ -14,7 +14,5 @@ namespace OxDAOEngine.SystemEngine
             builder.BuildOnly = true;
             return builder;
         }
-
-        protected override bool IsMetaDataField(TSetting field) => false;
     }
 }
