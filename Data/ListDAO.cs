@@ -102,7 +102,7 @@ namespace OxDAOEngine.Data
 
             foreach (XmlNode node in element.ChildNodes)
             {
-                item =  Add(new T
+                item = Add(new T
                     {
                         SilentChange = SilentChange
                     }

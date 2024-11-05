@@ -44,7 +44,10 @@ namespace OxDAOEngine.Data.Filter
 
         public FilterGroup<TField, TDAO> GetSuitableGroup(FilterConcat concatToGroup)
         {
-            FilterGroup<TField, TDAO>? group = List.Last();
+            FilterGroup<TField, TDAO>? group =
+                Count == 0
+                    ? null
+                    : group = List.Last();
 
             return group != null
                 && group.FilterConcat == concatToGroup

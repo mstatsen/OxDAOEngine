@@ -189,7 +189,6 @@ namespace OxDAOEngine.Data
             finally
             {
                 State = DAOState.Regular;
-
                 item?.FinishCoping();
             }
 
@@ -352,7 +351,8 @@ namespace OxDAOEngine.Data
                             break;
                         }
 
-                if (WithoutXmlNode || element.Name == XmlElementName)
+                if (WithoutXmlNode 
+                    || element.Name == XmlElementName)
                 {
                     LoadData(element);
                     LoadMembersData(element);
