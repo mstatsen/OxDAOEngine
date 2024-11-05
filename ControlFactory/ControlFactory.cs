@@ -14,7 +14,6 @@ using OxDAOEngine.View.Types;
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.ControlFactory.Controls.Links;
 using OxDAOEngine.ControlFactory.Controls.Sorting;
-using OxDAOEngine.ControlFactory.Controls.Filter;
 using OxDAOEngine.Data.Filter.Types;
 
 namespace OxDAOEngine.ControlFactory
@@ -94,12 +93,10 @@ namespace OxDAOEngine.ControlFactory
                 return CreateViewAccessor(context);
 
             context.Initializer = Initializer(context);
+            IControlAccessor? result = CreateAccessorByKey(context);
 
-            return context.Key switch
-            {
-                "Category:Type" => 
-                    CreateEnumAccessor<CategoryType>(context),
-                _ => context.FieldType switch
+            return result 
+                ?? context.FieldType switch
                 {
                     FieldType.Label or
                     FieldType.Guid =>
@@ -130,9 +127,23 @@ namespace OxDAOEngine.ControlFactory
                     //TODO: may be abstract of enum and list accessors?
                     _ =>
                         CreateOtherAccessor(context),
-                }
-            };
+                };
         }
+
+        private IControlAccessor? CreateAccessorByKey(IBuilderContext<TField, TDAO> context) =>
+            context.Key switch
+            {
+                "Category:Type" =>
+                    CreateEnumAccessor<CategoryType>(context),
+                "Category:Filtration" =>
+                    CreateEnumAccessor<FiltrationType>(context),
+                "FilterGroup:Concat" or
+                "Filter:Concat" =>
+                    CreateEnumAccessor<FilterConcat>(context),
+                "SimpleFilter:Operation" =>
+                    CreateEnumAccessor<FilterOperation>(context),
+                _ => null,
+            };
 
         private IControlAccessor CreateColorAccessor(IBuilderContext<TField, TDAO> context) =>
             new ColorComboBoxAccessor<TField, TDAO>(context);

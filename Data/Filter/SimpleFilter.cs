@@ -45,7 +45,7 @@ namespace OxDAOEngine.Data.Filter
         {
             itemDAO.Load(element);
             rules.Load(element);
-            concat = XmlHelper.Value<FilterConcat>(element, XmlConsts.FilterConcat);
+            concat = XmlHelper.Value<FilterConcat>(element, XmlConsts.Concatenation);
             calcedValues.Clear();
 
             XmlElement? calcedValuesElement = null;
@@ -71,7 +71,7 @@ namespace OxDAOEngine.Data.Filter
         {
             itemDAO.Save(element, clearModified);
             rules.Save(element, clearModified);
-            XmlHelper.AppendElement(element, XmlConsts.FilterConcat, Concat);
+            XmlHelper.AppendElement(element, XmlConsts.Concatenation, Concat);
 
             if (calcedValues.Count == 0)
                 return;

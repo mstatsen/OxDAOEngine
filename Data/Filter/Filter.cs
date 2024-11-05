@@ -16,6 +16,9 @@ namespace OxDAOEngine.Data.Filter
         public FilterGroup<TField, TDAO> AddGroup(FilterConcat filterConcat) =>
             Root.AddGroup(filterConcat);
 
+        public FilterGroup<TField, TDAO> AddGroup(FilterGroup<TField, TDAO> group) =>
+            Root.Add(group);
+
         public SimpleFilter<TField, TDAO> AddFilter(SimpleFilter<TField, TDAO> filter, FilterConcat concatToGroup) =>
             Root.AddFilter(filter, concatToGroup);
 
@@ -46,7 +49,8 @@ namespace OxDAOEngine.Data.Filter
 
         public override bool Equals(object? obj) =>
             obj is Filter<TField, TDAO> otherFilter
-            && (base.Equals(obj) || Root.Equals(otherFilter.Root));
+            && (base.Equals(obj) 
+                || Root.Equals(otherFilter.Root));
 
         public override int GetHashCode() => 
             Root.GetHashCode();

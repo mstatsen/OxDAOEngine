@@ -28,13 +28,13 @@ namespace OxDAOEngine.Data.Filter
 
         protected override void LoadData(XmlElement element)
         {
-            Operation = XmlHelper.Value<FilterOperation>(element, XmlConsts.FilterOperation);
+            Operation = XmlHelper.Value<FilterOperation>(element, XmlConsts.Operation);
             Field = XmlHelper.Value<TField>(element, XmlConsts.Field);
         }
 
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
-            XmlHelper.AppendElement(element, XmlConsts.FilterOperation, Operation);
+            XmlHelper.AppendElement(element, XmlConsts.Operation, Operation);
             XmlHelper.AppendElement(element, XmlConsts.Field, Field);
         }
 

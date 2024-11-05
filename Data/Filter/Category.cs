@@ -1,16 +1,32 @@
 ﻿using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;
 using System.Xml;
 
 namespace OxDAOEngine.Data.Filter
 {
-    public class Category<TField, TDAO> 
-        : DAO, IMatcher<TField>
+    public class Category<TField, TDAO> : DAO, IMatcher<TField>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public readonly Filter<TField, TDAO> Filter = new();
+        public string Name { get; internal set; } = string.Empty;
+        public CategoryType Type { get; internal set; } = CategoryType.Filter;
+
+        public TField Field { get; internal set; } = default!;
+
         public FiltrationType Filtration { get; set; } = FiltrationType.StandAlone;
+
+        private readonly Filter<TField, TDAO> filter = new();
+
+        public Filter<TField, TDAO> Filter
+        { 
+            get => filter;
+            set
+            {
+                filter.Clear();
+                filter.CopyFrom(value);
+            }
+        }
 
         public Category<TField, TDAO>? ParentCategory { get; set; }
 
@@ -38,9 +54,6 @@ namespace OxDAOEngine.Data.Filter
         public void RemoveChild(Category<TField, TDAO> childCategory) =>
             Childs.Remove(childCategory);
 
-        public string Name { get; internal set; } = string.Empty;
-        public CategoryType Type { get; internal set; } = CategoryType.Filter;
-
         public bool FilterIsEmpty =>
             FullFilter.FilterIsEmpty;
 
@@ -55,62 +68,6 @@ namespace OxDAOEngine.Data.Filter
             FilterConcat concatToGroup = FilterConcat.OR)
         {
             Filter.AddFilter(field, value, concatToGroup);
-            return this;
-        }
-
-        public Category<TField, TDAO> AddFilterBlank(TField field,
-            FilterConcat concatToGroup = FilterConcat.OR)
-        {
-            Filter.AddFilter(field, FilterOperation.Blank, null, concatToGroup);
-            return this;
-        }
-
-        public Category<TField, TDAO> AddFilterNotBlank(TField field,
-            FilterConcat concatToGroup = FilterConcat.OR)
-        {
-            Filter.AddFilter(field, FilterOperation.NotBlank, null, concatToGroup);
-            return this;
-        }
-
-        public Category<TField, TDAO> AddFilterEquals(TField field, object value,
-            FilterConcat concatToGroup = FilterConcat.OR)
-        {
-            Filter.AddFilter(field, FilterOperation.Equals, value, concatToGroup);
-            return this;
-        }
-
-        public Category<TField, TDAO> AddFilterNotEquals(TField field, object value,
-            FilterConcat concatToGroup = FilterConcat.OR)
-        {
-            Filter.AddFilter(field, FilterOperation.NotEquals, value, concatToGroup);
-            return this;
-        }
-
-        public Category<TField, TDAO> AddFilterGreater(TField field, object value,
-            FilterConcat concatToGroup = FilterConcat.OR)
-        {
-            Filter.AddFilter(field, FilterOperation.Greater, value, concatToGroup);
-            return this;
-        }
-
-        public Category<TField, TDAO> AddFilterLower(TField field, object value,
-            FilterConcat concatToGroup = FilterConcat.OR)
-        {
-            Filter.AddFilter(field, FilterOperation.Lower, value, concatToGroup);
-            return this;
-        }
-
-        public Category<TField, TDAO> AddFilterContains(TField field, object value,
-            FilterConcat concatToGroup = FilterConcat.OR)
-        {
-            Filter.AddFilter(field, FilterOperation.Contains, value, concatToGroup);
-            return this;
-        }
-
-        public Category<TField, TDAO> AddFilterNotContains(TField field, object value,
-            FilterConcat concatToGroup = FilterConcat.OR)
-        {
-            Filter.AddFilter(field, FilterOperation.NotContains, value, concatToGroup);
             return this;
         }
 
@@ -167,9 +124,17 @@ namespace OxDAOEngine.Data.Filter
 
         protected override void LoadData(XmlElement element)
         {
-            Name = XmlHelper.Value(element, XmlConsts.Name);
-            Filtration = XmlHelper.Value<FiltrationType>(element, XmlConsts.FiltrationType);
-            Filter.Load(element);
+            Type = XmlHelper.Value<CategoryType>(element, XmlConsts.Type);
+            Filtration = XmlHelper.Value<FiltrationType>(element, XmlConsts.Filtration);
+
+            if (Type == CategoryType.Filter)
+            {
+                Name = XmlHelper.Value(element, XmlConsts.Name);
+                Filter.Load(element);
+            }
+            else
+                Field = (TField?)TypeHelper.Value(XmlHelper.Value(element, XmlConsts.Field))!;
+
             Childs.Load(element);
 
             foreach (Category<TField, TDAO> child in Childs)
@@ -179,8 +144,14 @@ namespace OxDAOEngine.Data.Filter
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
             XmlHelper.AppendElement(element, XmlConsts.Name, Name);
-            XmlHelper.AppendElement(element, XmlConsts.FiltrationType, Filtration);
-            Filter.Save(element, clearModified);
+            XmlHelper.AppendElement(element, XmlConsts.Type, Type);
+            XmlHelper.AppendElement(element, XmlConsts.Filtration, Filtration);
+
+            if (Type == CategoryType.FieldExtraction)
+                XmlHelper.AppendElement(element, XmlConsts.Field, Field);
+            else
+                Filter.Save(element, clearModified);
+
             Childs.Save(element, clearModified);
         }
 

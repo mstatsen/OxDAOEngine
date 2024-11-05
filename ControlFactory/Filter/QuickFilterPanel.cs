@@ -122,22 +122,21 @@ namespace OxDAOEngine.ControlFactory.Filter
                     return;
 
                 foreach (TField @field in QuickFilterFields)
-                    foreach (FilterGroups<TField, TDAO> groups in value.Root)
-                        foreach (FilterGroup<TField, TDAO> group in groups)
-                            foreach (SimpleFilter<TField, TDAO> simpleFilter in group)
-                                if (simpleFilter.Rules.Contains(r => r.Field.Equals(@field)))
-                                {
-                                    object? filteringValue = fieldHelper.IsCalcedField(@field)
-                                        ? simpleFilter.CalcedValues.ContainsKey(@field) 
-                                            ? simpleFilter.CalcedValues[@field]
-                                            : null
-                                        : filteringValue = simpleFilter[@field];
+                    foreach (FilterGroup<TField, TDAO> group in value.Root)
+                        foreach (SimpleFilter<TField, TDAO> simpleFilter in group)
+                            if (simpleFilter.Rules.Contains(r => r.Field.Equals(@field)))
+                            {
+                                object? filteringValue = fieldHelper.IsCalcedField(@field)
+                                    ? simpleFilter.CalcedValues.ContainsKey(@field) 
+                                        ? simpleFilter.CalcedValues[@field]
+                                        : null
+                                    : filteringValue = simpleFilter[@field];
 
-                                    if (TypeHelper.FieldIsTypeHelpered(@field))
-                                        filteringValue = TypeHelper.TypeObject(filteringValue);
+                                if (TypeHelper.FieldIsTypeHelpered(@field))
+                                    filteringValue = TypeHelper.TypeObject(filteringValue);
 
-                                    Builder[@field].Value = filteringValue;
-                                }
+                                Builder[@field].Value = filteringValue;
+                            }
             }
         }
 

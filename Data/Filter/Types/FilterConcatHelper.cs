@@ -10,8 +10,8 @@ namespace OxDAOEngine.Data.Filter.Types
         public override string GetName(FilterConcat value) =>
             value switch
             {
-                FilterConcat.AND => "and",
-                FilterConcat.OR => "or",
+                FilterConcat.AND => "AND",
+                FilterConcat.OR => "OR",
                 _ => string.Empty,
             };
     }

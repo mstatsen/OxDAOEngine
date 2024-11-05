@@ -5,7 +5,7 @@ using System.Xml;
 namespace OxDAOEngine.Data.Filter
 {
     public class FilterRoot<TField, TDAO> 
-        : ListDAO<FilterGroups<TField, TDAO>>, IMatcher<TField>, IMatcherList<TField>
+        : ListDAO<FilterGroup<TField, TDAO>>, IMatcher<TField>, IMatcherList<TField>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, IFieldMapping<TField>, new()
     {
@@ -27,34 +27,28 @@ namespace OxDAOEngine.Data.Filter
         public FilterRoot() =>
             SaveEmptyList = false;
 
-        public FilterGroup<TField, TDAO> AddGroup(FilterConcat filterConcat)
-        {
-            FilterGroups<TField, TDAO> groups = Count > 0 ? List.Last() : Add();
-            groups.FilterConcat = FilterConcat;
-
-            return
-                groups.Add(
-                    new FilterGroup<TField, TDAO>()
-                    {
-                        FilterConcat = filterConcat
-                    }
-                );
-        }
+        public FilterGroup<TField, TDAO> AddGroup(FilterConcat filterConcat) => 
+            Add(
+                new FilterGroup<TField, TDAO>()
+                {
+                    FilterConcat = filterConcat
+                }
+            );
 
         public void Add(Category<TField, TDAO> category)
         {
-            foreach (FilterGroups<TField, TDAO> otherListItem in category.Filter.Root)
+            foreach (FilterGroup<TField, TDAO> otherListItem in category.Filter.Root)
                 if (!otherListItem.FilterIsEmpty)
                     Add(otherListItem);
         }
 
         public FilterGroup<TField, TDAO> GetSuitableGroup(FilterConcat concatToGroup)
         {
-            FilterGroup<TField, TDAO>? group = (Count > 0)
-                ? List[Count - 1].Last()
-                : null;
-            return group != null && group.FilterConcat == concatToGroup 
-                ? group 
+            FilterGroup<TField, TDAO>? group = List.Last();
+
+            return group != null
+                && group.FilterConcat == concatToGroup
+                ? group
                 : AddGroup(concatToGroup);
         }
 
@@ -77,13 +71,13 @@ namespace OxDAOEngine.Data.Filter
         protected override void LoadData(XmlElement element)
         {
             base.LoadData(element);
-            FilterConcat = XmlHelper.Value<FilterConcat>(element, XmlConsts.FilterConcat);
+            FilterConcat = XmlHelper.Value<FilterConcat>(element, XmlConsts.Concatenation);
         }
 
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
             base.SaveData(element, clearModified);
-            XmlHelper.AppendElement(element, XmlConsts.FilterConcat, FilterConcat);
+            XmlHelper.AppendElement(element, XmlConsts.Concatenation, FilterConcat);
         }
     }
 }

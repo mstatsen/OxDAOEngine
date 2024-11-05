@@ -72,8 +72,8 @@ namespace OxDAOEngine.ControlFactory
         public IControlAccessor Accessor(TField field) =>
             Accessor(Context(field));
 
-        public IControlAccessor Accessor(string name, FieldType fieldType, object? additionalContext = null) =>
-            Accessor(Context(name, fieldType, additionalContext));
+        public IControlAccessor Accessor(string key, FieldType fieldType, object? additionalContext = null) =>
+            Accessor(Context(key, fieldType, additionalContext));
 
         public EnumAccessor<TField, TDAO, TItem> Accessor<TItem>(object? additionalContext = null)
             where TItem : Enum => 

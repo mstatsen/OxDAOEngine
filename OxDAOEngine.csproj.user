@@ -49,7 +49,16 @@
     <Compile Update="ControlFactory\Filter\CategoriesTree.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="ControlFactory\Filter\FilterGroupPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Filter\FilterPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="ControlFactory\Filter\QuickFilterPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Filter\SimpleFilterPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="Editor\DAOEditor.cs">

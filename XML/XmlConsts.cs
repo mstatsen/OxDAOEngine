@@ -12,6 +12,7 @@
         public const string Color = "Color";
         public const string Column = "Column";
         public const string CompleteTime = "CompleteTime";
+        public const string Concatenation = "Concatination";
         public const string ConsoleId = "ConsoleId";
         public const string Count = "Count";
         public const string Country = "Country";
@@ -30,9 +31,7 @@
         public const string ExportFormat = "Format";
         public const string FileName = "FileName";
         public const string Field = "Field";
-        public const string FilterConcat = "FilterConcat";
-        public const string FilterOperation = "FilterOperation";
-        public const string FiltrationType = "FiltrationType";
+        public const string Filtration = "Filtration";
         public const string Firmware = "Firmware";
         public const string FirmwareName = "FirmwareName";
         public const string FirmwareVersion = "FirmwareVersion";
@@ -60,6 +59,7 @@
         public const string Name = "Name";
         public const string Net = "Net";
         public const string OnlineMultiplayer = "OnlineMultiplayer";
+        public const string Operation = "Operation";
         public const string Owner = "Owner";
         public const string Password = "Password";
         public const string PEGI = "PEGI";

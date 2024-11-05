@@ -27,13 +27,13 @@ namespace OxDAOEngine.Data.Filter
         protected override void LoadData(XmlElement element)
         {
             base.LoadData(element);
-            FilterConcat = XmlHelper.Value<FilterConcat>(element, XmlConsts.FilterConcat);
+            FilterConcat = XmlHelper.Value<FilterConcat>(element, XmlConsts.Concatenation);
         }
 
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
             base.SaveData(element, clearModified);
-            XmlHelper.AppendElement(element, XmlConsts.FilterConcat, FilterConcat);
+            XmlHelper.AppendElement(element, XmlConsts.Concatenation, FilterConcat);
         }
 
         public bool Match(IFieldMapping<TField>? dao) =>
