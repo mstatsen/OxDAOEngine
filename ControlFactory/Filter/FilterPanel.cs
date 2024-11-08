@@ -41,6 +41,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void FillFilter(Filter<TField, TDAO> value)
         {
             Clear();
+            ConcatControl.Value = value.Root.FilterConcat;
 
             if (value.Root.Count == 0)
                 value.AddGroup(ConcatControl.EnumValue<FilterConcat>());
@@ -52,6 +53,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private Filter<TField, TDAO> GrabFilter()
         {
             Filter<TField, TDAO> result = new();
+            result.Root.FilterConcat = ConcatControl.EnumValue<FilterConcat>();
 
             foreach (FilterGroupPanel<TField, TDAO> groupPanel in groupsPanels)
                 result.AddGroup(groupPanel.Group);

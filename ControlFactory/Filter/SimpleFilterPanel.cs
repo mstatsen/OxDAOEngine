@@ -8,7 +8,7 @@ using OxLibrary.Controls;
 using OxLibrary;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Context;
-using OxDAOEngine.ControlFactory.ValueAccessors;
+using OxDAOEngine.ControlFactory.Initializers;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -20,7 +20,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly int GroupNumber;
         private readonly ControlBuilder<TField, TDAO> Builder;
         private readonly FieldAccessor<TField, TDAO> FieldControl = default!;
-        private readonly IControlAccessor OperationControl;
+        private readonly EnumAccessor<TField, TDAO, FilterOperation> OperationControl;
         private IControlAccessor? ValueAccessor;
 
         private readonly OxIconButton RemoveRuleButton = new(OxIcons.Minus, 20);
@@ -59,18 +59,19 @@ namespace OxDAOEngine.ControlFactory.Filter
             LayoutValueControl();
 
             if (ValueAccessor != null)
-                ValueAccessor.Value = value.GetFieldValue(FieldControl.EnumValue);
+                ValueAccessor.Value = value[FieldControl.EnumValue];
         }
 
         private SimpleFilter<TField, TDAO> GrabRule()
         {
             SimpleFilter<TField, TDAO> result = new();
-            FilterRule<TField> rule = result.Rules.Add(
-                (TField)FieldControl.Value!,
-                OperationControl.EnumValue<FilterOperation>()
+            result.Rules.Add(
+                FieldControl.EnumValue,
+                OperationControl.EnumValue
             );
 
-            //TODO: grab field value into rule
+            if (ValueAccessor != null)
+                result[FieldControl.EnumValue] = ValueAccessor.Value;
 
             return result;
         }
@@ -85,7 +86,8 @@ namespace OxDAOEngine.ControlFactory.Filter
             FieldControl = (FieldAccessor<TField,TDAO>)
                 CreateSimpleControl("SimpleFilter:Field", FieldType.MetaData, 24, 160);
             FieldControl.ValueChangeHandler += FieldControlValueChangeHandler;
-            OperationControl = CreateSimpleControl("SimpleFilter:Operation", FieldType.Enum, 188, 110);
+            OperationControl = (EnumAccessor<TField, TDAO, FilterOperation>)
+                CreateSimpleControl("SimpleFilter:Operation", FieldType.Enum, 188, 110);
             PrepareRemoveRuleButton();
             Rule = rule;
         }
@@ -98,8 +100,11 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void FieldControlValueChangeHandler(object? sender, EventArgs e)
         {
-            OperationControl.Value = FieldHelper.DefaultFilterOperation((TField)FieldControl.Value!);
-            //TODO: renew OperationControl with initializer
+            if (OperationControl.Context.Initializer is FilterOperationInitializer<TField> initializer)
+            {
+                initializer.Field = FieldControl.EnumValue;
+                OperationControl.RenewControl(true);
+            }
 
             LayoutValueControl();
         }
@@ -117,7 +122,6 @@ namespace OxDAOEngine.ControlFactory.Filter
                 220);
             ValueAccessor.Control.Parent = this;
             ValueAccessor.Control.Top = OperationControl.Top;
-
             ValueAccessor.Control.Height = 
                 FieldHelper.GetFieldType(FieldControl.EnumValue) switch
                 {
@@ -130,6 +134,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 };
             
             ValueAccessor.Visible = true;
+            ValueAccessor.Clear();
             PrepareColors();
         }
 

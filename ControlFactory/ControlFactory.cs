@@ -49,7 +49,7 @@ namespace OxDAOEngine.ControlFactory
                 case FieldType.Memo:
                 case FieldType.ShortMemo:
                     return new TextMultiLineInitializer(
-                        context.AdditionalContext is bool boolContext 
+                        context.AdditionalContext is bool boolContext
                         && boolContext,
                         context.FieldType == FieldType.Memo);
                 case FieldType.Enum:
@@ -60,20 +60,27 @@ namespace OxDAOEngine.ControlFactory
                         object? variant = BuilderVariant(context.Builder);
 
                         return new ExtractInitializer<TField, TDAO>(
-                            accessorContext.Field, 
+                            accessorContext.Field,
                             addAnyObject: true,
-                            fullExtract: 
-                                variant != null 
+                            fullExtract:
+                                variant != null
                                 && variant.Equals(QuickFilterVariant.Export)
                         );
                     }
                     break;
             }
 
-            return context.Name == "LinkName"
-                ? new LinkNameInitializer<TField, TDAO>() 
-                : (IInitializer?)null;
+            return context.Key switch
+            {
+                "LinkEditor:LinkName" =>
+                    new LinkNameInitializer<TField, TDAO>(),
+                "SimpleFilter:Operation" =>
+                    new FilterOperationInitializer<TField>(),
+                _ =>
+                    null
+            };
         }
+
 
         protected readonly Dictionary<BuilderKey, ControlBuilder<TField, TDAO>> builders = new();
         protected readonly List<BuilderKey> buildersKeys = new();

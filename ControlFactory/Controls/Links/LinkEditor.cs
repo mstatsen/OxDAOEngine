@@ -26,7 +26,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         private void CreateNameControl()
         {
             NameControl = (ComboBoxAccessor<TField, TDAO>)Context.Builder
-                .Accessor("LinkName", FieldType.Extract, true);
+                .Accessor("LinkEditor:LinkName", FieldType.Extract, true);
             NameControl.Parent = this;
             NameControl.Left = 60;
             NameControl.Top = 8;

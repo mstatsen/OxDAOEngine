@@ -6,6 +6,7 @@ using OxLibrary.Panels;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxLibrary.Dialogs;
+using OxDAOEngine.Data.Filter.Types;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -31,6 +32,8 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void FillGroup(FilterGroup<TField, TDAO> value)
         {
+            ConcatControl.Value = value.FilterConcat;
+
             if (value.Count == 0)
                 value.Add(new SimpleFilter<TField, TDAO>());
 
@@ -40,7 +43,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private FilterGroup<TField, TDAO> GrabGroup()
         {
-            FilterGroup<TField, TDAO> result = new();
+            FilterGroup<TField, TDAO> result = new(ConcatControl.EnumValue<FilterConcat>());
 
             foreach (SimpleFilterPanel<TField, TDAO> simpleFilterPanel in RulesPanels)
                 result.Add(simpleFilterPanel.Rule);
