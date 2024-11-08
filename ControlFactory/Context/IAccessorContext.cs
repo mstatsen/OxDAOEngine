@@ -13,6 +13,7 @@ namespace OxDAOEngine.ControlFactory.Context
         ControlScope Scope { get; }
         bool IsQuickFilter { get; }
         bool IsBatchUpdate { get; }
+        bool IsCategory { get; }
         bool IsView { get; }
         void InitControl(IControlAccessor accessor);
         object? AdditionalContext { get; set; }

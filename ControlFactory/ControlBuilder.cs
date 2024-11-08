@@ -96,7 +96,7 @@ namespace OxDAOEngine.ControlFactory
 
         public IControlAccessor CategoriesAccessor(object? additionalContext = null) =>
             Accessor(
-                Context("CetegoriesAccessor", FieldType.Custom, additionalContext),
+                Context("CategoriesAccessor", FieldType.Custom, additionalContext),
                 c => Factory.CreateCategoriesAccessor(c)
             );
 

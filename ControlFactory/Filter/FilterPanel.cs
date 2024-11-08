@@ -6,6 +6,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
+using OxLibrary.Dialogs;
 
 
 namespace OxDAOEngine.ControlFactory.Filter
@@ -64,15 +65,15 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             try
             {
-                FilterGroupPanel<TField, TDAO> groupPanel = new(group, Builder, groupsPanels.Count)
+                FilterGroupPanel<TField, TDAO> groupPanel = new(this, group, Builder, groupsPanels.Count)
                 {
                     Parent = ContentContainer,
                     Dock = DockStyle.Top
                 };
                 groupPanel.RuleAdded += GroupPanelRuleAddedHandler;
+                groupPanel.RemoveGroup += GroupPanelRemoveGroupHandler;
                 groupsPanels.Insert(0, groupPanel);
                 PrepareColors();
-                RecalcSize();
 
                 foreach (FilterGroupPanel<TField, TDAO> panel in groupsPanels)
                 {
@@ -86,7 +87,27 @@ namespace OxDAOEngine.ControlFactory.Filter
             finally
             {
                 ResumeLayout();
+                RecalcSize();
             }
+        }
+
+        public int GroupsCount => groupsPanels.Count;
+
+        private void GroupPanelRemoveGroupHandler(object? sender, EventArgs e)
+        {
+            if (groupsPanels.Count == 1)
+            {
+                OxMessage.ShowError("You can't delete last group", this);
+                return;
+            }
+
+            if (sender is not FilterGroupPanel<TField, TDAO> groupPanel)
+                return;
+
+            groupPanel.Parent = null;
+            groupsPanels.Remove(groupPanel);
+            RecalcSize();
+            //TODO: dispose group panel
         }
 
         private void GroupPanelRuleAddedHandler(object? sender, EventArgs e)
@@ -153,24 +174,11 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             IControlAccessor result = Builder.Accessor("Filter:Concat", FieldType.Enum);
             result.Parent = ConcatControlParent;
-            result.Left = 0;
-            result.Top = 0;
-            result.Width = 58;
-            result.Height = 20;
-            OxControlHelper.AlignByBaseLine(
-                result.Control,
-                new OxLabel()
-                {
-                    Parent = ConcatControlParent,
-                    AutoSize = true,
-                    Left = 64,
-                    Text = "concatenation",
-                    Font = new Font(Styles.DefaultFont, FontStyle.Italic)
-                }
-            );
+            result.Left = -1;
+            result.Top = -1;
+            result.Width = 108;
+            result.Height = 18;
             ConcatControlParent.Parent = this;
-            ConcatControlParent.Paddings.LeftOx = OxSize.Extra;
-            ConcatControlParent.Paddings.TopOx = OxSize.Extra;
             ConcatControlParent.SetContentSize(1, result.Height);
             ConcatControlParent.Dock = DockStyle.Top;
             return result;

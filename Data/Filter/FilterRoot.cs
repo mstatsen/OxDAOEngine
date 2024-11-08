@@ -47,7 +47,7 @@ namespace OxDAOEngine.Data.Filter
             FilterGroup<TField, TDAO>? group =
                 Count == 0
                     ? null
-                    : group = List.Last();
+                    : List.Last();
 
             return group != null
                 && group.FilterConcat == concatToGroup

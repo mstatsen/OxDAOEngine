@@ -124,10 +124,10 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
                 return;
 
             LayoutValueControl();
-            SetFirstGameValue();
+            SetFirstItemValue();
         }
 
-        private void SetFirstGameValue()
+        private void SetFirstItemValue()
         {
             TDAO? firstItem = ItemsGetter?.Invoke().First;
 

@@ -93,7 +93,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             RecalcSize();
         }
 
-        protected override int ContentWidth => 540;
+        protected override int ContentWidth => 600;
 
         protected override int ContentHeight =>
             IsFilterCategory

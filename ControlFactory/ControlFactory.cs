@@ -142,8 +142,18 @@ namespace OxDAOEngine.ControlFactory
                     CreateEnumAccessor<FilterConcat>(context),
                 "SimpleFilter:Operation" =>
                     CreateEnumAccessor<FilterOperation>(context),
+                "SimpleFilter:Value" =>
+                    CraeteFieldAccoringAccesorWithAdditinalContext(context),
                 _ => null,
             };
+
+        private IControlAccessor? CraeteFieldAccoringAccesorWithAdditinalContext(
+            IBuilderContext<TField, TDAO> context) =>
+            context.AdditionalContext is FieldAdditionalContext<TField> fieldAdditionalContext
+                ? CreateAccessor(new FieldContext<TField, TDAO>(
+                    context.Builder,
+                    fieldAdditionalContext.Field))
+                : null;
 
         private IControlAccessor CreateColorAccessor(IBuilderContext<TField, TDAO> context) =>
             new ColorComboBoxAccessor<TField, TDAO>(context);
@@ -229,7 +239,8 @@ namespace OxDAOEngine.ControlFactory
                 : new NumericAccessor<TField, TDAO>(context);
 
         protected IControlAccessor CreateBoolAccessor(IBuilderContext<TField, TDAO> context) => 
-            context.IsBatchUpdate 
+            context.IsBatchUpdate
+            || context.IsCategory
             || context.IsQuickFilter
                 ? new BoolAccessor<TField, TDAO>(context)
                 : new CheckBoxAccessor<TField, TDAO>(context.SetInitializer(

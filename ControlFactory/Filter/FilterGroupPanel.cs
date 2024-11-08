@@ -5,6 +5,7 @@ using OxLibrary;
 using OxLibrary.Panels;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
+using OxLibrary.Dialogs;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -17,9 +18,12 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly OxPanel ConcatControlParent = new();
         private readonly OxPanel AddRuleButtonParent = new();
         private readonly OxButton AddRuleButton = new("Add rule", OxIcons.Plus);
+        private readonly OxIconButton RemoveGroupButton = new(OxIcons.Trash, 16);
+        private readonly FilterPanel<TField, TDAO> ParentFilterPanel;
         private readonly int Number;
         private readonly List<SimpleFilterPanel<TField, TDAO>> RulesPanels = new();
-        public FilterGroup<TField, TDAO> Group 
+
+        public FilterGroup<TField, TDAO> Group
         {
             get => GrabGroup();
             set => FillGroup(value);
@@ -29,12 +33,11 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             if (value.Count == 0)
                 value.Add(new SimpleFilter<TField, TDAO>());
-            
+
             foreach (SimpleFilter<TField, TDAO> rule in value)
                 AddRule(rule);
         }
 
-        
         private FilterGroup<TField, TDAO> GrabGroup()
         {
             FilterGroup<TField, TDAO> result = new();
@@ -45,8 +48,13 @@ namespace OxDAOEngine.ControlFactory.Filter
             return result;
         }
 
-        public FilterGroupPanel(FilterGroup<TField, TDAO> group, ControlBuilder<TField, TDAO> builder, int number) : base()
+        public FilterGroupPanel(
+            FilterPanel<TField, TDAO> parentFilterPanel,
+            FilterGroup<TField, TDAO> group, 
+            ControlBuilder<TField, TDAO> builder, 
+            int number) : base()
         {
+            ParentFilterPanel = parentFilterPanel;
             Builder = builder;
             Number = number;
             ConcatControl = CreateConcatControl();
@@ -56,31 +64,34 @@ namespace OxDAOEngine.ControlFactory.Filter
             Margins.Left = 24;
             Group = group;
             PrepareAddRuleButton();
+            PrepareRemoveGroupButton();
             RecalcSize();
         }
+
+        private void PrepareRemoveGroupButton()
+        {
+            RemoveGroupButton.Parent = ConcatControlParent;
+            RemoveGroupButton.ToolTipText = "Remove group";
+            RemoveGroupButton.Top = 1;
+            RemoveGroupButton.Left = ConcatControlParent.Right - RemoveGroupButton.Width - 1;
+            RemoveGroupButton.Anchor = AnchorStyles.Right;
+            RemoveGroupButton.Click += RemoveGroupButtonClickHandler;
+        }
+
+        public EventHandler? RemoveGroup;
+
+        private void RemoveGroupButtonClickHandler(object? sender, EventArgs e) =>
+            RemoveGroup?.Invoke(this, EventArgs.Empty);
 
         private IControlAccessor CreateConcatControl()
         {
             IControlAccessor result = Builder.Accessor($"FilterGroup:Concat", FieldType.Enum, Number);
             result.Parent = ConcatControlParent;
-            result.Left = 0;
-            result.Top = 0;
-            result.Width = 58;
+            result.Left = -1;
+            result.Top = -1;
+            result.Width = 60;
             result.Height = 18;
-            OxControlHelper.AlignByBaseLine(
-                result.Control,
-                new OxLabel()
-                {
-                    Parent = ConcatControlParent,
-                    AutoSize = true,
-                    Left = 64,
-                    Text = "concatenation",
-                    Font = new Font(Styles.DefaultFont, FontStyle.Italic)
-                }
-            );
             ConcatControlParent.Parent = this;
-            ConcatControlParent.Paddings.LeftOx = OxSize.Extra;
-            ConcatControlParent.Paddings.TopOx = OxSize.Extra;
             ConcatControlParent.SetContentSize(1, result.Height);
             ConcatControlParent.Dock = DockStyle.Top;
             return result;
@@ -95,6 +106,34 @@ namespace OxDAOEngine.ControlFactory.Filter
             AddRuleButtonParent.Dock = DockStyle.Bottom;
             AddRuleButtonParent.Paddings.SetSize(OxSize.Extra);
             AddRuleButtonParent.SetContentSize(1, AddRuleButton.Height);
+        }
+
+        private void RulePanelRemoveRuleHandler(object? sender, EventArgs e)
+        {
+            if (RulesPanels.Count == 1)
+            {
+                if (ParentFilterPanel.GroupsCount == 1)
+                {
+                    OxMessage.ShowError("You can't delete last rule in last group", this);
+                    return;
+                }
+                
+                if (OxMessage.ShowConfirm("Are you shore you want to delete last rule in this group?", this) != DialogResult.Yes)
+                    return;
+            }
+                
+                    
+            if (sender is not SimpleFilterPanel<TField, TDAO> rulePanel)
+                return;
+
+            rulePanel.Parent = null;
+            RulesPanels.Remove(rulePanel);
+            //TODO: dispose
+
+            if (RulesPanels.Count == 0)
+                RemoveGroup?.Invoke(this, EventArgs.Empty);
+            else
+                RecalcSize();
         }
 
         private void AddRuleButtonClickHandler(object? sender, EventArgs e) => 
@@ -114,6 +153,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 RulesPanels.Insert(0, simpleFilterPanel);
                 PrepareColors();
                 RecalcSize();
+                simpleFilterPanel.RemoveRule += RulePanelRemoveRuleHandler;
 
                 foreach (SimpleFilterPanel<TField, TDAO> panel in RulesPanels)
                 {
@@ -148,7 +188,10 @@ namespace OxDAOEngine.ControlFactory.Filter
                 AddRuleButtonParent.BaseColor = BaseColor;
 
             if (AddRuleButton != null)
-                ControlPainter.ColorizeControl(AddRuleButton, BaseColor);
+                AddRuleButton.BaseColor = BaseColor;
+
+            if (RemoveGroupButton != null)
+                RemoveGroupButton.BaseColor = BaseColor;
 
             foreach (SimpleFilterPanel<TField, TDAO> rulePanel in RulesPanels)
                 rulePanel.BaseColor = BaseColor;
