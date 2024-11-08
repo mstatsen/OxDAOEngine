@@ -18,7 +18,6 @@ using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.Data.Fields.Types;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Filter;
-using OxDAOEngine.ControlFactory.Controls.Filter;
 
 namespace OxDAOEngine.Settings
 {

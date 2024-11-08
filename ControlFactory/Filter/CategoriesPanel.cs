@@ -4,10 +4,9 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Data.Fields.Types;
-using OxDAOEngine.ControlFactory.Filter;
 using OxDAOEngine.Data.Filter;
 
-namespace OxDAOEngine.ControlFactory.Controls.Filter
+namespace OxDAOEngine.ControlFactory.Filter
 {
     public partial class CategroiesPanel<TField, TDAO> : OxFunctionsPanel, ICategoriesPanel
         where TField : notnull, Enum
@@ -15,7 +14,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Filter
     {
         public Categories<TField, TDAO> Categories
         {
-            get => (Categories<TField,TDAO>)categoriesAccessor.Value!;
+            get => (Categories<TField, TDAO>)categoriesAccessor.Value!;
             set => categoriesAccessor.Value = value;
         }
 

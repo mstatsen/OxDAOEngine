@@ -13,7 +13,7 @@ namespace OxDAOEngine.ControlFactory.Initializers
         public override bool AvailableValue(FilterOperation value) => 
             FieldHelper.AvailableFilterOperations[Field].Contains(value);
 
-        private FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();
+        private readonly FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();
 
         public override void InitControl(Control control)
         {
