@@ -13,7 +13,7 @@ using OxDAOEngine.ControlFactory.ValueAccessors;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
-    public class SimpleFilterPanel<TField, TDAO> : OxPane
+    public class RulePanel<TField, TDAO> : OxPane
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -26,7 +26,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private readonly OxIconButton RemoveRuleButton = new(OxIcons.Minus, 20);
 
-        public SimpleFilter<TField, TDAO> Rule 
+        public FilterRule<TField> Rule 
         {
             get => GrabRule();
             set => FillRule(value);
@@ -47,29 +47,29 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void RemoveRuleButtonClickHandler(object? sender, EventArgs e) =>
             RemoveRule?.Invoke(this, EventArgs.Empty);
 
-        private void FillRule(SimpleFilter<TField, TDAO> value)
+        private void FillRule(FilterRule<TField>? value)
         {
-            if (value.Rules.Count == 0)
+            if (value == null)
                 FieldControl.Value = ((OxComboBox)FieldControl.Control).Items[0];
             else
             {
-                FieldControl.Value = value.Rules.First!.Field;
-                OperationControl.Value = value.Rules.First!.Operation;
+                FieldControl.Value = value.Field;
+                OperationControl.Value = value.Operation;
             }
 
             LayoutValueControl();
 
             if (ValueAccessor != null)
-                ValueAccessor.Value = value[FieldControl.EnumValue];
+                ValueAccessor.Value = value?[FieldControl.EnumValue];
         }
 
-        private SimpleFilter<TField, TDAO> GrabRule()
+        private FilterRule<TField> GrabRule()
         {
-            SimpleFilter<TField, TDAO> result = new();
-            result.Rules.Add(
-                FieldControl.EnumValue,
-                OperationControl.EnumValue
-            );
+            FilterRule<TField> result = new()
+            {
+                Field = FieldControl.EnumValue,
+                Operation = OperationControl.EnumValue
+            };
 
             if (ValueAccessor != null)
                 result[FieldControl.EnumValue] = ValueAccessor.Value;
@@ -77,7 +77,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             return result;
         }
 
-        public SimpleFilterPanel(SimpleFilter<TField, TDAO> rule, ControlBuilder<TField, TDAO> builder, int groupNumber, int number) 
+        public RulePanel(FilterRule<TField> rule, ControlBuilder<TField, TDAO> builder, int groupNumber, int number) 
             : base(new Size(1, 32))
         { 
             Builder = builder;

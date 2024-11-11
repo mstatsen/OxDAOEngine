@@ -252,7 +252,7 @@ namespace OxDAOEngine.ControlFactory
                 item[field] = Accessor(field).Value;
         }
 
-        public void GrabControls(IFieldMapping<TField> item, FilterRules<TField>? rules = null)
+        public void GrabControls(IFieldMapping<TField> item, List<TField>? fields = null)
         {
             if (BuildOnly)
                 return;
@@ -262,24 +262,21 @@ namespace OxDAOEngine.ControlFactory
                 case ControlScope.Editor:
                     GrabEditorControls(item);
                     break;
-                case ControlScope.QuickFilter when item is SimpleFilter<TField, TDAO> filter:
-                    GrabQuickFilterControls(filter, rules);
+                case ControlScope.QuickFilter when item is FilterGroup<TField, TDAO> filterGroup:
+                    GrabQuickFilterControls(filterGroup, fields);
                     break;
             }
         }
 
-        public void GrabQuickFilterControls(SimpleFilter<TField, TDAO> quickFilter, FilterRules<TField>? rules)
+        public void GrabQuickFilterControls(FilterGroup<TField, TDAO> filterGroup, List<TField> fields)
         {
-            foreach (TField field in TypeHelper.All<TField>())
+            foreach (TField field in fields)
             {
                 if (this[field].IsEmpty)
                     continue;
 
-                if (rules == null || rules.RuleExist(field))
-                    quickFilter.AddFilter(
-                        field,
-                        Value(field)
-                    );
+                filterGroup.Add(field, Value(field)
+                );
             }
         }
 

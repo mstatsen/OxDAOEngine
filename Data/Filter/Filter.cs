@@ -58,16 +58,16 @@ namespace OxDAOEngine.Data.Filter
                 : AddGroup(concatToGroup);
         }
 
-        public SimpleFilter<TField, TDAO> AddFilter(
-            SimpleFilter<TField, TDAO> filter,
+        public FilterRule<TField> AddFilter(
+            FilterRule<TField> filter,
             FilterConcat concatToGroup)=>
             GetSuitableGroup(concatToGroup).Add(filter);
 
-        public SimpleFilter<TField, TDAO> AddFilter(TField field, FilterOperation operation, object? value,
+        public FilterRule<TField> AddFilter(TField field, FilterOperation operation, object? value,
             FilterConcat concatToGroup = FilterConcat.OR) =>
             GetSuitableGroup(concatToGroup).Add(field, operation, value);
 
-        public SimpleFilter<TField, TDAO> AddFilter(TField field, object value,
+        public FilterRule<TField> AddFilter(TField field, object value,
             FilterConcat concatToGroup = FilterConcat.OR) =>
             GetSuitableGroup(concatToGroup).Add(field, value);
 

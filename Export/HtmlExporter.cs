@@ -159,7 +159,7 @@ namespace OxDAOEngine.Export
                     SummaryRow(
                         TypeHelper.Name(item.Key),
                         ListController.FullItemsList
-                            .FilteredList(new SimpleFilter<TField, TDAO>(field, FilterOperation.Equals, item.Key)).Count,
+                            .FilteredList(new FilterRule<TField>(field, FilterOperation.Equals, item.Key)).Count,
                         item.Value
                     )
                 );

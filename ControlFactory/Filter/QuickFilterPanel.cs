@@ -121,46 +121,38 @@ namespace OxDAOEngine.ControlFactory.Filter
                 if (value == null)
                     return;
 
-                foreach (TField @field in QuickFilterFields)
-                    foreach (FilterGroup<TField, TDAO> group in value)
-                        foreach (SimpleFilter<TField, TDAO> simpleFilter in group)
-                            if (simpleFilter.Rules.Contains(r => r.Field.Equals(@field)))
-                            {
-                                object? filteringValue = fieldHelper.IsCalcedField(@field)
-                                    ? simpleFilter.CalcedValues.ContainsKey(@field) 
-                                        ? simpleFilter.CalcedValues[@field]
-                                        : null
-                                    : filteringValue = simpleFilter[@field];
-
-                                if (TypeHelper.FieldIsTypeHelpered(@field))
-                                    filteringValue = TypeHelper.TypeObject(filteringValue);
-
-                                Builder[@field].Value = filteringValue;
-                            }
+                foreach (FilterGroup<TField, TDAO> group in value)
+                    foreach (FilterRule<TField> rule in group)
+                        Builder[rule.Field].Value = 
+                            TypeHelper.FieldIsTypeHelpered(rule.Field) 
+                            ? TypeHelper.TypeObject(rule.Value) 
+                            : rule.Value;
             }
         }
 
         private void GrabActiveFilter()
         {
-            FilterRules<TField> rules = new();
+            FilterGroup<TField, TDAO> basePart = new(FilterConcat.AND);
+            Builder.GrabControls(basePart, QuickFilterFields);
 
-            foreach (TField field in QuickFilterFields)
-                rules.Add(field);
+            FilterGroup<TField, TDAO> textPart = new(FilterConcat.OR);
 
-            SimpleFilter<TField, TDAO> basePart = new();
-            Builder.GrabControls(basePart, rules);
+            if (Builder.Value(TextFilterContainer) != null &&
+                Builder.Value(TextFilterContainer)?.ToString() != string.Empty)
+            {
 
-            SimpleFilter<TField, TDAO> textFilter = new(FilterConcat.OR);
+                FilterOperation textFilterOperation = TypeHelper.Helper<TextFilterOperationHelper>()
+                    .Operation(Settings.QuickFilterTextFieldOperation);
 
-            FilterOperation textFilterOperation = TypeHelper.Helper<TextFilterOperationHelper>()
-                .Operation(Settings.QuickFilterTextFieldOperation);
+                foreach (TField field in TextFields)
+                    textPart.Add(field, textFilterOperation, Builder.Value(TextFilterContainer));
+            }
 
-            foreach (TField field in TextFields)
-                textFilter.AddFilter(field, textFilterOperation, Builder.Value(TextFilterContainer));
-
-            activeFilter = new(FilterConcat.AND);
-            activeFilter.AddFilter(basePart, FilterConcat.AND);
-            activeFilter.AddFilter(textFilter, FilterConcat.AND);
+            activeFilter = new(FilterConcat.AND)
+            {
+                basePart,
+                textPart
+            };
         }
 
         public void ClearControls()

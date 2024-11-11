@@ -58,7 +58,7 @@
     <Compile Update="ControlFactory\Filter\QuickFilterPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="ControlFactory\Filter\SimpleFilterPanel.cs">
+    <Compile Update="ControlFactory\Filter\RulePanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="Editor\DAOEditor.cs">

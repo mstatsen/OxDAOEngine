@@ -308,7 +308,7 @@ namespace OxDAOEngine.Data
 
             try
             {
-                itemsViewer.Filter = new SimpleFilter<TField, TDAO>().AddFilter(field, value);
+                itemsViewer.Filter = new FilterRule<TField>(field, value);
                 itemsViewer.ShowAsDialog(Face, OxDialogButton.Cancel);
             }
             finally

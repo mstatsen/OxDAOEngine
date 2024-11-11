@@ -85,10 +85,10 @@ namespace OxDAOEngine.Settings.Export
             get
             {
                 Dictionary<string, string> filterValues = new();
-                SimpleFilter<TField, TDAO>? fieldsFilter = Filter?[0][0];
+                FilterGroup<TField, TDAO>? fieldsFilter = Filter?[0];
 
                 if (fieldsFilter != null)
-                    foreach (TField @field in fieldsFilter.Rules.Fields)
+                    foreach (TField @field in fieldsFilter.Fields)
                     {
                         object? value = fieldsFilter[@field];
 
@@ -107,7 +107,7 @@ namespace OxDAOEngine.Settings.Export
                     }
 
                 TextFilterOperationHelper helper = TypeHelper.Helper<TextFilterOperationHelper>();
-                SimpleFilter<TField, TDAO>? textFilter = Filter?[0][1];
+                FilterGroup<TField, TDAO>? textFilter = Filter?[1];
 
                 if (textFilter != null)
                     foreach (FilterRule<TField> rule in textFilter.Rules)

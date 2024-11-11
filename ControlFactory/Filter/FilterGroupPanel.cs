@@ -22,7 +22,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly OxIconButton RemoveGroupButton = new(OxIcons.Trash, 16);
         private readonly FilterPanel<TField, TDAO> ParentFilterPanel;
         private readonly int Number;
-        private readonly List<SimpleFilterPanel<TField, TDAO>> RulesPanels = new();
+        private readonly List<RulePanel<TField, TDAO>> RulesPanels = new();
 
         public FilterGroup<TField, TDAO> Group
         {
@@ -35,9 +35,9 @@ namespace OxDAOEngine.ControlFactory.Filter
             ConcatControl.Value = value.FilterConcat;
 
             if (value.Count == 0)
-                value.Add(new SimpleFilter<TField, TDAO>());
+                value.Add(new FilterRule<TField>());
 
-            foreach (SimpleFilter<TField, TDAO> rule in value)
+            foreach (FilterRule<TField> rule in value)
                 AddRule(rule);
         }
 
@@ -45,7 +45,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             FilterGroup<TField, TDAO> result = new(ConcatControl.EnumValue<FilterConcat>());
 
-            foreach (SimpleFilterPanel<TField, TDAO> simpleFilterPanel in RulesPanels)
+            foreach (RulePanel<TField, TDAO> simpleFilterPanel in RulesPanels)
                 result.Add(simpleFilterPanel.Rule);
 
             return result;
@@ -126,7 +126,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             }
                 
                     
-            if (sender is not SimpleFilterPanel<TField, TDAO> rulePanel)
+            if (sender is not RulePanel<TField, TDAO> rulePanel)
                 return;
 
             rulePanel.Parent = null;
@@ -140,15 +140,15 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         private void AddRuleButtonClickHandler(object? sender, EventArgs e) => 
-            AddRule(new SimpleFilter<TField, TDAO>());
+            AddRule(new FilterRule<TField>());
 
-        private void AddRule(SimpleFilter<TField, TDAO> rule)
+        private void AddRule(FilterRule<TField> rule)
         {
             SuspendLayout();
 
             try
             {
-                SimpleFilterPanel<TField, TDAO> simpleFilterPanel = new(rule, Builder, Number, RulesPanels.Count)
+                RulePanel<TField, TDAO> simpleFilterPanel = new(rule, Builder, Number, RulesPanels.Count)
                 {
                     Parent = ContentContainer,
                     Dock = DockStyle.Top
@@ -158,7 +158,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 RecalcSize();
                 simpleFilterPanel.RemoveRule += RulePanelRemoveRuleHandler;
 
-                foreach (SimpleFilterPanel<TField, TDAO> panel in RulesPanels)
+                foreach (RulePanel<TField, TDAO> panel in RulesPanels)
                 {
                     panel.Dock = DockStyle.None;
                     panel.Dock = DockStyle.Top;
@@ -196,7 +196,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (RemoveGroupButton != null)
                 RemoveGroupButton.BaseColor = BaseColor;
 
-            foreach (SimpleFilterPanel<TField, TDAO> rulePanel in RulesPanels)
+            foreach (RulePanel<TField, TDAO> rulePanel in RulesPanels)
                 rulePanel.BaseColor = BaseColor;
         }
 
@@ -213,7 +213,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             int result = 0;
 
-            foreach (SimpleFilterPanel<TField, TDAO> panel in RulesPanels)
+            foreach (RulePanel<TField, TDAO> panel in RulesPanels)
                 result += panel.Height;
 
             return result;
