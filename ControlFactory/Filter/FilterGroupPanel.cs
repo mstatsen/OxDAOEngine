@@ -135,8 +135,8 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             if (RulesPanels.Count == 0)
                 RemoveGroup?.Invoke(this, EventArgs.Empty);
-            else
-                RecalcSize();
+
+            RecalcSize();
         }
 
         private void AddRuleButtonClickHandler(object? sender, EventArgs e) => 

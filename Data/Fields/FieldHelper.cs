@@ -31,7 +31,7 @@ namespace OxDAOEngine.Data.Fields
             public FieldComparer(FieldHelper<TField> helper) =>
                 Helper = helper;
 
-            private FieldHelper<TField> Helper;
+            private readonly FieldHelper<TField> Helper;
             public int Compare(TField? x, TField? y) =>
                 Helper.Name(x).CompareTo(Helper.Name(y));
         }
@@ -100,15 +100,15 @@ namespace OxDAOEngine.Data.Fields
                 {
                     iconFields = new();
 
-                    foreach (TField field in All())
-                        switch (GetFieldType(field))
+                    foreach (TField @field in All())
+                        switch (GetFieldType(@field))
                         {
                             case FieldType.Enum:
                             case FieldType.Extract:
                             case FieldType.Label:
                             case FieldType.String:
                             case FieldType.Country:
-                                iconFields.Add(field);
+                                iconFields.Add(@field);
                                 break;
                         }
 

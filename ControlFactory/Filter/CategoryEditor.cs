@@ -4,6 +4,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.Data.Types;
 using OxLibrary;
 using OxLibrary.Controls;
 
@@ -52,7 +53,6 @@ namespace OxDAOEngine.ControlFactory.Filter
             FilterPanel = new(Builder)
             {
                 Parent = this,
-                Top = FiltrationControl.Bottom + 4,
                 Dock = DockStyle.Bottom
             };
             FilterPanel.SizeChanged += FilterPanelSizeChangedHandler;
@@ -75,30 +75,43 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             if (IsFilterCategory)
             {
-                NameControl.Visible = true;
                 FiltrationControl.Visible = true;
                 ((OxLabel)FiltrationControl.Control.Tag).Visible = true;
+                NameControl.Visible = true;
+                ((OxLabel)NameControl.Control.Tag).Visible = true;
                 FilterPanel.Visible = true;
                 FieldControl.Visible = false;
+                ((OxLabel)FieldControl.Control.Tag).Visible = false;
             }
             else
             {
-                NameControl.Visible = false;
                 FiltrationControl.Visible = false;
                 ((OxLabel)FiltrationControl.Control.Tag).Visible = false;
+                NameControl.Visible = false;
+                ((OxLabel)NameControl.Control.Tag).Visible = false;
                 FilterPanel.Visible = false;
                 FieldControl.Visible = true;
+                ((OxLabel)FieldControl.Control.Tag).Visible = true;
             }
-
+            
             RecalcSize();
         }
 
         protected override int ContentWidth => 600;
 
-        protected override int ContentHeight =>
-            IsFilterCategory
-                ? FiltrationControl.Bottom + FilterPanel.Height
-                : (FieldControl.Bottom + 8);
+        protected override int ContentHeight
+        {
+            get
+            {
+                if (IsFilterCategory)
+                {
+                    FilterPanel.RecalcSize();
+                    return FiltrationControl.Bottom + FilterPanel.Height + 4;
+                }
+                
+                return FieldControl.Bottom + 8;
+            }
+        }
 
         protected override void FillControls(Category<TField, TDAO> item)
         {
@@ -112,8 +125,8 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         protected override void GrabControls(Category<TField, TDAO> item)
         {
-            item.Type = TypeControl.EnumValue<CategoryType>();
-            item.Name = NameControl.StringValue;
+            item.Type = Type;
+            item.Name = IsFilterCategory ? NameControl.StringValue : $"By {TypeHelper.Name(FieldControl.Value)}";
             item.Field = (TField)FieldControl.Value!;
             item.Filtration = FiltrationControl.EnumValue<FiltrationType>();
             item.Filter = FilterPanel.Filter;

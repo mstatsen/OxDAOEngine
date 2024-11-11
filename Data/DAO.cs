@@ -1,5 +1,4 @@
 ﻿using OxDAOEngine.XML;
-using System.Diagnostics.Eventing.Reader;
 using System.Xml;
 
 namespace OxDAOEngine.Data

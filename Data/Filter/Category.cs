@@ -16,7 +16,7 @@ namespace OxDAOEngine.Data.Filter
 
         public FiltrationType Filtration { get; set; } = FiltrationType.StandAlone;
 
-        private readonly Filter<TField, TDAO> filter = new();
+        private readonly Filter<TField, TDAO> filter = new(FilterConcat.AND);
 
         public Filter<TField, TDAO> Filter
         { 
@@ -83,22 +83,21 @@ namespace OxDAOEngine.Data.Filter
                             ParentCategory.FilterIsEmpty)
                             return Filter;
 
-                        Filter<TField, TDAO> withParentFilter = new();
-                        withParentFilter.Root.FilterConcat = FilterConcat.AND;
-                        withParentFilter.Root.Add(this);
-                        withParentFilter.Root.Add(ParentCategory);
-                        return withParentFilter;
+                        return new Filter<TField, TDAO>(FilterConcat.AND)
+                        {
+                            this,
+                            ParentCategory
+                        };
                     case FiltrationType.BaseOnChilds:
                         {
-                            Filter<TField, TDAO> byChildsFilter = new();
-                            byChildsFilter.Root.FilterConcat = FilterConcat.OR;
+                            Filter<TField, TDAO> byChildsFilter = new(FilterConcat.OR);
 
                             foreach (Category<TField, TDAO> child in Childs)
                             {
-                                byChildsFilter.Root.Add(child);
+                                byChildsFilter.Add(child);
 
                                 foreach (Category<TField, TDAO> childsChild in child.Childs)
-                                    byChildsFilter.Root.Add(childsChild);
+                                    byChildsFilter.Add(childsChild);
                             }
 
                             return byChildsFilter;
@@ -126,14 +125,9 @@ namespace OxDAOEngine.Data.Filter
         {
             Type = XmlHelper.Value<CategoryType>(element, XmlConsts.Type);
             Filtration = XmlHelper.Value<FiltrationType>(element, XmlConsts.Filtration);
-
-            if (Type == CategoryType.Filter)
-            {
-                Name = XmlHelper.Value(element, XmlConsts.Name);
-                Filter.Load(element);
-            }
-            else
-                Field = (TField?)TypeHelper.Value(XmlHelper.Value(element, XmlConsts.Field))!;
+            Name = XmlHelper.Value(element, XmlConsts.Name);
+            if (Type == CategoryType.FieldExtraction)
+                Field = XmlHelper.Value<TField>(element, XmlConsts.Field);
 
             Childs.Load(element);
 
@@ -143,16 +137,18 @@ namespace OxDAOEngine.Data.Filter
 
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
-            XmlHelper.AppendElement(element, XmlConsts.Name, Name);
             XmlHelper.AppendElement(element, XmlConsts.Type, Type);
             XmlHelper.AppendElement(element, XmlConsts.Filtration, Filtration);
 
             if (Type == CategoryType.FieldExtraction)
+            {
+                XmlHelper.AppendElement(element, XmlConsts.Name, $"By {TypeHelper.Name(Field)}");
                 XmlHelper.AppendElement(element, XmlConsts.Field, Field);
+            }
             else
-                Filter.Save(element, clearModified);
-
-            Childs.Save(element, clearModified);
+            {
+                XmlHelper.AppendElement(element, XmlConsts.Name, Name);
+            }
         }
 
         public override string ToString() =>

@@ -9,6 +9,7 @@ using OxLibrary;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.Initializers;
+using OxDAOEngine.ControlFactory.ValueAccessors;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -132,7 +133,19 @@ namespace OxDAOEngine.ControlFactory.Filter
                     _ =>
                         22,
                 };
-            
+
+            ValueAccessor.Control.Width =
+                FieldHelper.GetFieldType(FieldControl.EnumValue) switch
+                {
+                    FieldType.Boolean or
+                    FieldType.Integer =>
+                        80,
+                FieldType.Enum =>
+                        120,
+                    _ =>
+                        220,
+                };
+
             ValueAccessor.Visible = true;
             ValueAccessor.Clear();
             PrepareColors();

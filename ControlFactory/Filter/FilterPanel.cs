@@ -41,22 +41,21 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void FillFilter(Filter<TField, TDAO> value)
         {
             Clear();
-            ConcatControl.Value = value.Root.FilterConcat;
+            ConcatControl.Value = value.FilterConcat;
 
-            if (value.Root.Count == 0)
+            if (value.Count == 0)
                 value.AddGroup(ConcatControl.EnumValue<FilterConcat>());
 
-            foreach(FilterGroup<TField, TDAO> group in value.Root)
+            foreach(FilterGroup<TField, TDAO> group in value)
                 AddGroup(group);
         }
 
         private Filter<TField, TDAO> GrabFilter()
         {
-            Filter<TField, TDAO> result = new();
-            result.Root.FilterConcat = ConcatControl.EnumValue<FilterConcat>();
+            Filter<TField, TDAO> result = new(ConcatControl.EnumValue<FilterConcat>());
 
             foreach (FilterGroupPanel<TField, TDAO> groupPanel in groupsPanels)
-                result.AddGroup(groupPanel.Group);
+                result.Add(groupPanel.Group);
 
             return result;
         }
@@ -136,7 +135,9 @@ namespace OxDAOEngine.ControlFactory.Filter
             + Paddings.Bottom
             + ConcatControlParent.CalcedHeight
             + GroupPanelsHeight()
-            + AddGroupButtonParent.CalcedHeight;
+            + AddGroupButton.Height
+            + AddGroupButtonParent.Paddings.Top
+            + AddGroupButtonParent.Paddings.Bottom;
 
 
         private void PrepareAddGroupButton()

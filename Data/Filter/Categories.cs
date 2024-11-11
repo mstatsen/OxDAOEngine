@@ -4,6 +4,6 @@
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        protected override bool AutoSorting => false;
+        public override string DefaultXmlElementName => "Categories";
     }
 }

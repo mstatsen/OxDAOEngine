@@ -122,7 +122,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                     return;
 
                 foreach (TField @field in QuickFilterFields)
-                    foreach (FilterGroup<TField, TDAO> group in value.Root)
+                    foreach (FilterGroup<TField, TDAO> group in value)
                         foreach (SimpleFilter<TField, TDAO> simpleFilter in group)
                             if (simpleFilter.Rules.Contains(r => r.Field.Equals(@field)))
                             {
@@ -158,7 +158,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             foreach (TField field in TextFields)
                 textFilter.AddFilter(field, textFilterOperation, Builder.Value(TextFilterContainer));
 
-            activeFilter = new();
+            activeFilter = new(FilterConcat.AND);
             activeFilter.AddFilter(basePart, FilterConcat.AND);
             activeFilter.AddFilter(textFilter, FilterConcat.AND);
         }

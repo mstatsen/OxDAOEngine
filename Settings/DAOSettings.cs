@@ -251,7 +251,7 @@ namespace OxDAOEngine.Settings
 
         private readonly Dictionary<SettingsPart, FieldColumns<TField>> fields = new();
         private readonly ExportSettings<TField, TDAO> exportSettings = new();
-        private readonly Filter<TField, TDAO> filter = new();
+        private readonly Filter<TField, TDAO> filter = new(FilterConcat.AND);
 
 
         private void AddFields(SettingsPart part)

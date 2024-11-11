@@ -22,7 +22,6 @@
         IconsPageSize,
         IconClickVariant,
         ShowQuickFilter,
-        QuickFilterTextFieldOperation,
-        Categories
+        QuickFilterTextFieldOperation
     }
 }

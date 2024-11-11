@@ -6,11 +6,10 @@ using System.Xml;
 namespace OxDAOEngine.Data.Filter
 {
     public class SimpleFilter<TField, TDAO> 
-        : DAO, IMatcher<TField>, IFieldMapping<TField>
+        : AbstractFilterPart<TField, TDAO>, IMatcher<TField>, IFieldMapping<TField>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, IFieldMapping<TField>, new()
     {
-        private FilterConcat concat = FilterConcat.AND;
         private readonly FilterRules<TField> rules = new();
         private readonly Dictionary<TField, object?> calcedValues = new();
 
@@ -27,7 +26,7 @@ namespace OxDAOEngine.Data.Filter
             AddFilter(field, value);
 
         public SimpleFilter(FilterConcat concat) : this() =>
-            this.concat = concat;
+            FilterConcat = concat;
 
         public override void Clear()
         {
@@ -43,9 +42,9 @@ namespace OxDAOEngine.Data.Filter
 
         protected override void LoadData(XmlElement element)
         {
+            base.LoadData(element);
             itemDAO.Load(element);
             rules.Load(element);
-            concat = XmlHelper.Value<FilterConcat>(element, XmlConsts.Concatenation);
             calcedValues.Clear();
 
             XmlElement? calcedValuesElement = null;
@@ -69,9 +68,12 @@ namespace OxDAOEngine.Data.Filter
         }
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
-            itemDAO.Save(element, clearModified);
+            base.SaveData(element, clearModified);
+
+            if (rules.Contains(r => !IsCalcedField(r.Field)))
+                itemDAO.Save(element, clearModified);
+
             rules.Save(element, clearModified);
-            XmlHelper.AppendElement(element, XmlConsts.Concatenation, Concat);
 
             if (calcedValues.Count == 0)
                 return;
@@ -89,7 +91,6 @@ namespace OxDAOEngine.Data.Filter
         public bool FilterIsEmpty =>
             rules.IsEmpty;
 
-        public FilterConcat Concat { get => concat; set => concat = value; }
         public FilterRules<TField> Rules => rules;
 
         public Dictionary<TField, object?> CalcedValues => calcedValues;
@@ -108,7 +109,7 @@ namespace OxDAOEngine.Data.Filter
             if (FilterIsEmpty)
                 return true;
 
-            MatchAggregator<TField> aggregator = new(concat);
+            MatchAggregator<TField> aggregator = new(FilterConcat);
 
             foreach (FilterRule<TField> rule in rules)
             {
@@ -199,15 +200,13 @@ namespace OxDAOEngine.Data.Filter
             itemDAO.IsCalcedField(field);
 
         public override bool Equals(object? obj) =>
-            obj is SimpleFilter<TField, TDAO> otherFilter
-            && (base.Equals(obj) || 
-                (Concat.Equals(otherFilter.Concat)
-                && Rules.Equals(otherFilter.Rules)
-                && CalcedValues.Equals(otherFilter.CalcedValues)
-                && ItemDAO.Equals(otherFilter.ItemDAO)
-            ));
+            base.Equals(obj) 
+            && obj is SimpleFilter<TField, TDAO> otherFilter
+            && Rules.Equals(otherFilter.Rules)
+            && CalcedValues.Equals(otherFilter.CalcedValues)
+            && ItemDAO.Equals(otherFilter.ItemDAO);
 
         public override int GetHashCode() =>
-            HashCode.Combine(Concat, Rules.GetHashCode(), CalcedValues.GetHashCode(), ItemDAO.GetHashCode());
+            HashCode.Combine(base.GetHashCode(), Rules.GetHashCode(), CalcedValues.GetHashCode(), ItemDAO.GetHashCode());
     }
 }

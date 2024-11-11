@@ -140,6 +140,9 @@ namespace OxDAOEngine.Settings
                 {
                     foreach (var item in settingsFieldPanels[settings])
                         item.Value.Fields = daoSettings.GetFields(item.Key);
+
+                    if (daoSettings.AvailableCategories)
+                        settingsCategoriesPanels[settings].Categories = daoSettings.Categories;
                 }
             }
         }
@@ -152,8 +155,13 @@ namespace OxDAOEngine.Settings
                     settings[item.Key] = item.Value.Value;
 
                 if (settings is IDAOSettings daoSettings)
+                {
                     foreach (var item in settingsFieldPanels[settings])
                         daoSettings.SetFields(item.Key, item.Value.Fields);
+
+                    if (daoSettings.AvailableCategories)
+                        daoSettings.Categories = settingsCategoriesPanels[settings].Categories;
+                }
             }
         }
 

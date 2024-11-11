@@ -18,7 +18,7 @@ namespace OxDAOEngine.Settings.Export
         public ExportXMLSettings XML { get; internal set; } = new();
         public ExportTextSettings<TField, TDAO> Text { get; internal set; } = new();
 
-        public Filter<TField, TDAO> Filter { get; internal set; } = new();
+        public Filter<TField, TDAO> Filter { get; internal set; } = new(FilterConcat.AND);
         public ExportFormat Format { get; set; }
 
         public string? CategoryName { get; set; }
@@ -85,7 +85,7 @@ namespace OxDAOEngine.Settings.Export
             get
             {
                 Dictionary<string, string> filterValues = new();
-                SimpleFilter<TField, TDAO>? fieldsFilter = Filter?.Root[0][0];
+                SimpleFilter<TField, TDAO>? fieldsFilter = Filter?[0][0];
 
                 if (fieldsFilter != null)
                     foreach (TField @field in fieldsFilter.Rules.Fields)
@@ -107,7 +107,7 @@ namespace OxDAOEngine.Settings.Export
                     }
 
                 TextFilterOperationHelper helper = TypeHelper.Helper<TextFilterOperationHelper>();
-                SimpleFilter<TField, TDAO>? textFilter = Filter?.Root[0][1];
+                SimpleFilter<TField, TDAO>? textFilter = Filter?[0][1];
 
                 if (textFilter != null)
                     foreach (FilterRule<TField> rule in textFilter.Rules)

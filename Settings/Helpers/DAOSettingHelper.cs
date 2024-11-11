@@ -18,7 +18,6 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.IconMapping => "Icon mapping",
                 DAOSetting.IconClickVariant => "When click on icon",
                 DAOSetting.ShowCategories => "Show Categories",
-                DAOSetting.Categories => "Categories",
                 DAOSetting.HideEmptyCategory => "Hide empty categories",
                 DAOSetting.AutoExpandCategories => "Auto expand categories",
                 DAOSetting.ShowItemInfo => "Info panel",
@@ -79,8 +78,7 @@ namespace OxDAOEngine.Settings.Helpers
             {
                 DAOSetting.ShowCategories or
                 DAOSetting.HideEmptyCategory or
-                DAOSetting.AutoExpandCategories or
-                DAOSetting.Categories =>
+                DAOSetting.AutoExpandCategories =>
                     SettingsPart.Category,
                 DAOSetting.ShowItemInfo =>
                     SettingsPart.Table,
@@ -154,17 +152,15 @@ namespace OxDAOEngine.Settings.Helpers
                     base.ControlWidth(setting),
             };
 
-        public override bool WithoutLabel(DAOSetting setting) => 
-            setting is 
+        public override bool WithoutLabel(DAOSetting setting) =>
+            setting is
                 DAOSetting.ShowCategories or
-                DAOSetting.ShowQuickFilter or
-                DAOSetting.Categories;
+                DAOSetting.ShowQuickFilter;
 
         public override FieldType GetFieldType(DAOSetting field) =>
             field switch
             {
-                DAOSetting.IconMapping or
-                DAOSetting.Categories =>
+                DAOSetting.IconMapping =>
                     FieldType.List,
                 DAOSetting.CategoryPanelPinned or
                 DAOSetting.CategoryPanelExpanded or

@@ -37,15 +37,10 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         public FieldsVariant Variant { get; private set; }
 
-        List<object> ICategoriesPanel.Categories
+        IListDAO ICategoriesPanel.Categories
         {
-            get => Categories.ObjectList;
-            set =>
-                categoriesAccessor.Value =
-                    new Categories<TField, TDAO>
-                    {
-                        ObjectList = value
-                    };
+            get => Categories;
+            set => categoriesAccessor.Value = value;
         }
     }
 }

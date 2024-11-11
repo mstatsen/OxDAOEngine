@@ -40,6 +40,7 @@ namespace OxDAOEngine.Settings
         bool AvailableCards { get; set; }
         bool AvailableIcons { get; set; }
         ItemsViewsType CurrentView { get; set; }
+        IListDAO Categories { get; set; }
     }
 
     public interface IDAOSettings<TField> : IDAOSettings
@@ -49,7 +50,6 @@ namespace OxDAOEngine.Settings
         FieldColumns<TField> TableFields { get; set; }
         FieldColumns<TField> QuickFilterFields { get; set; }
         FieldColumns<TField> QuickFilterTextFields { get; set; }
-        IListDAO Categories { get; set; }
         ListDAO<IconMapping<TField>>? IconMapping { get; set; }
     }
 }

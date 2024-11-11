@@ -1,9 +1,10 @@
-﻿using OxLibrary.Panels;
+﻿using OxDAOEngine.Data;
+using OxLibrary.Panels;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
     public interface ICategoriesPanel : IOxFrameWithHeader
     {
-        List<object> Categories { get; set; }
+        IListDAO Categories { get; set; }
     }
 }

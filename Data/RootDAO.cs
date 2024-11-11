@@ -3,6 +3,7 @@ using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;
 using OxLibrary;
+using System.Drawing;
 using System.Xml;
 
 namespace OxDAOEngine.Data
@@ -262,18 +263,6 @@ namespace OxDAOEngine.Data
             set => UpdateImage(value);
         }
 
-        private DAOImage? GetSuitableDAOImage(Bitmap? bitmap) =>
-            DataManager.FieldController<TField>().SuitableImage(bitmap);
-
-        private Guid GetSuitableDAOImageId(Bitmap? bitmap)
-        {
-            DAOImage? suitableDAOImage = GetSuitableDAOImage(bitmap);
-            return
-                suitableDAOImage == null
-                    ? Guid.NewGuid()
-                    : suitableDAOImage.Id;
-        }
-
         private void UpdateImage(Bitmap? value)
         {
             if (!UseImageList
@@ -283,7 +272,7 @@ namespace OxDAOEngine.Data
             )
                 return;
 
-            DAOImage? daoImage = GetSuitableDAOImage(value);
+            DAOImage? daoImage = DataManager.FieldController<TField>().SuitableImage(value);
             ImageId = daoImage != null ? daoImage.Id : Guid.NewGuid();
 
             if (daoImage == null)
@@ -320,16 +309,12 @@ namespace OxDAOEngine.Data
         {
             if (!UseImageList
                 || DAOImage == null
-                //|| OwnerDAO == null
-                //|| !IsListControllerDAO
                 )
                 return;
 
             DAOImage.FixUsage = AlwaysSaveImage;
             DAOImage.UsageList.Add(this);
         }
-
-        private DAOImage? GetImageInfo() => DataManager.FieldController<TField>().GetImageInfo(imageId);
 
         public override void Init() { }
 
