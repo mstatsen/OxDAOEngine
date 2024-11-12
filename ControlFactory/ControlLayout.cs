@@ -196,7 +196,7 @@ namespace OxDAOEngine.ControlFactory
                 return;
 
             if (WrapLabel)
-                label.MaximumSize = new Size(MaximumLabelWidth, 0);
+                label.MaximumSize = new(MaximumLabelWidth, 0);
 
             label.AutoSize = true;
             label.Visible = Visible && CaptionVariant != ControlCaptionVariant.None; 

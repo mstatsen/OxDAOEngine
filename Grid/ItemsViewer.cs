@@ -18,7 +18,7 @@ namespace OxDAOEngine.Grid
         public IMatcher<TField>? Filter { get; set; }
 
         public ItemsViewer(RootListDAO<TField, TDAO>? itemList = null, GridUsage usage = GridUsage.ViewItems)
-            : base(new Size(1024, 768))
+            : base(new(1024, 768))
         {
             Grid = new ItemsRootGrid<TField, TDAO>(itemList, usage)
             {
@@ -113,13 +113,11 @@ namespace OxDAOEngine.Grid
             captionDao[InitialField] = InitialValue;
 
             if (InitialValue != null)
-            {
                 InitialValue = 
                     TypeHelper.IsTypeHelpered(InitialValue)
                         ? TypeHelper.Name(InitialValue)
                         : DataManager.DecoratorFactory<TField, TDAO>()
                             .Decorator(DecoratorType.Table, captionDao)[InitialField];
-            }
 
             string? caption = 
                 InitialValue == null 

@@ -153,7 +153,7 @@ namespace OxDAOEngine.Grid
                     (bool)item[field]!
                         ? OxIcons.Tick
                         : new Bitmap(16, 16),
-                    new Size(16, 16)
+                    new(16, 16)
                 )
                 : Decorator(item)[field];
 

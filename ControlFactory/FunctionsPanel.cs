@@ -110,7 +110,7 @@ namespace OxDAOEngine.ControlFactory
                 PinButton.Hovered = PinButton2.Hovered;
         }
 
-        public OxPanel Sider { get; } = new(new Size(16, 1));
+        public OxPanel Sider { get; } = new(new(16, 1));
         private readonly OxIconButton ExpandButton = new(OxIcons.Left, 16)
         {
             Dock = DockStyle.Fill,

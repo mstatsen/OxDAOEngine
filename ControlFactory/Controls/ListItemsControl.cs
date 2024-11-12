@@ -79,14 +79,14 @@ namespace OxDAOEngine.ControlFactory.Controls
 
             TItem? item = Editor(TypeOfEditorShow.Add).Add();
 
-            if (item != null)
-            {
-                SetValuePart(item);
-                ResortValue();
-                ListBox.SelectedItem = item;
-                InvokeValueChangeHandler();
-                ItemAdded?.Invoke(item, EventArgs.Empty);
-            }
+            if (item == null)
+                return;
+
+            SetValuePart(item);
+            ResortValue();
+            ListBox.SelectedItem = item;
+            InvokeValueChangeHandler();
+            ItemAdded?.Invoke(item, EventArgs.Empty);
         }
 
         private bool valueChangeHandlerEnabled = true;
@@ -119,24 +119,25 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (item == null)
                 return;
 
-            if (Editor(TypeOfEditorShow.Edit).Edit(item, readOnly) == DialogResult.OK)
+            if (Editor(TypeOfEditorShow.Edit).Edit(item, readOnly) != DialogResult.OK)
+                return;
+            
+            int selectedIndex = ListBox.SelectedIndex;
+            ListBox.BeginUpdate();
+            try
             {
-                int selectedIndex = ListBox.SelectedIndex;
-                ListBox.BeginUpdate();
-                try
-                {
-                    ListBox.ClearSelected();
-                    ListBox.Items[selectedIndex] = item;
-                    ResortValue();
-                    ListBox.SelectedItem = item;
-                    ItemEdited?.Invoke(item, EventArgs.Empty);
-                }
-                finally
-                {
-                    ListBox.EndUpdate();
-                }
-                InvokeValueChangeHandler();
+                ListBox.ClearSelected();
+                ListBox.Items[selectedIndex] = item;
+                ResortValue();
+                ListBox.SelectedItem = item;
+                ItemEdited?.Invoke(item, EventArgs.Empty);
             }
+            finally
+            {
+                ListBox.EndUpdate();
+            }
+
+            InvokeValueChangeHandler();
         }
 
         protected new void ResortValue()
@@ -261,10 +262,12 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void SetEditButtonVisible(bool value)
         {
-            if (EditButton == null || EditButton.Visible == value)
+            if (EditButton == null 
+                || EditButton.Visible == value)
                 return;
 
-            if (!readOnly || !value)
+            if (!readOnly 
+                || !value)
                 EditButton.Visible = value;
         }
 
@@ -273,7 +276,6 @@ namespace OxDAOEngine.ControlFactory.Controls
             ButtonsPanel.Parent = this;
             ButtonsPanel.Dock = DockStyle.Right;
             ButtonsPanel.Width = ButtonWidth + ButtonSpace * 2;
-
             OxBorder.NewTop(ButtonsPanel, Color.Transparent, ButtonSpace);
             InitButtons();
             LayoutButtons();
@@ -399,9 +401,11 @@ namespace OxDAOEngine.ControlFactory.Controls
             SetPaneBaseColor(ButtonsPanel, BaseColor);
             SetControlBackColor(ListBox, Colors.Lighter(7));
 
-            if (Buttons != null)
-                foreach (OxIconButton button in Buttons.Cast<OxIconButton>())
-                    button.BaseColor = BaseColor;
+            if (Buttons == null)
+                return;
+
+            foreach (OxIconButton button in Buttons.Cast<OxIconButton>())
+                button.BaseColor = BaseColor;
         }
 
         public GetMaximumCount? GetMaximumCount;
@@ -442,7 +446,6 @@ namespace OxDAOEngine.ControlFactory.Controls
                 return calcedHeight;
             }
         }
-
 
         protected override void OnVisibleChanged(EventArgs e)
         {

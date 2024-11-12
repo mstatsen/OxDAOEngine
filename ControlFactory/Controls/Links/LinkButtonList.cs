@@ -128,16 +128,14 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         }
 
         private void RecalcHeight() =>
-            MinimumSize = new Size(0, LastBottom + 3);
+            MinimumSize = new(0, LastBottom + 3);
 
-        private void RecalcWidth()
-        {
-            MinimumSize = new Size(
+        private void RecalcWidth() => 
+            MinimumSize = new(
                 OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
                     ? Width
                     : LastRight,
                 40
             );
-        }
     }
 }

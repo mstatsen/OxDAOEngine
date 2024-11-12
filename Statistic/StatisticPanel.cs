@@ -11,7 +11,7 @@ namespace OxDAOEngine.Statistic
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public StatisticPanel(ItemsRootGrid<TField, TDAO> grid) : base(new Size(100, 24))
+        public StatisticPanel(ItemsRootGrid<TField, TDAO> grid) : base(new(100, 24))
         {
             Grid = grid;
             Borders.SetSize(OxSize.None);

@@ -535,7 +535,7 @@ namespace OxDAOEngine.Settings
             tabControl.Dock = DockStyle.Fill;
             tabControl.BaseColor = MainPanel.BaseColor;
             tabControl.Font = Styles.DefaultFont;
-            tabControl.TabHeaderSize = new Size(124, 32);
+            tabControl.TabHeaderSize = new(124, 32);
             tabControl.BorderVisible = false;
             tabControl.Margins.SetSize(OxSize.None);
             tabControl.Margins.TopOx = OxSize.Extra;
@@ -551,7 +551,7 @@ namespace OxDAOEngine.Settings
                     Dock = DockStyle.Fill,
                     BaseColor = MainPanel.BaseColor,
                     Font = Styles.DefaultFont,
-                    TabHeaderSize = new Size(84, 30),
+                    TabHeaderSize = new(84, 30),
                     BorderVisible = false,
                     Text = settings.ListName,
                 };

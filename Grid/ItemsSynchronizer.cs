@@ -24,11 +24,11 @@ namespace OxDAOEngine.Grid
         private readonly OxIconButton LeftToRightButton = new(OxIcons.Right, 54);
         private readonly OxIconButton RightToLeftButton = new(OxIcons.Left, 54);
 
-        private readonly OxPane ButtonsPanel = new(new Size(64, 1));
+        private readonly OxPane ButtonsPanel = new(new(64, 1));
         private readonly List<TField> EqualFields = new();
 
         protected override Bitmap? GetIcon() => OxIcons.Replace;
-        public ItemsSynchronizer(TDAO leftObject, TDAO rightObject) : base(new Size(1280, 800))
+        public ItemsSynchronizer(TDAO leftObject, TDAO rightObject) : base(new(1280, 800))
         {
             LeftItem = leftObject;
             RightItem = rightObject;

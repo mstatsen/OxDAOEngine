@@ -19,7 +19,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
             set => fieldsAccessor.Value = value;
         }
 
-        public FieldsPanel(FieldsVariant variant) : base(new Size(240, 86))
+        public FieldsPanel(FieldsVariant variant) : base(new(240, 86))
         {
             Variant = variant;
             SetTitle();

@@ -188,7 +188,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private Category<TField, TDAO>? LastCategory;
 
         public CategoriesTree() : base() =>
-            SetContentSize(new Size(280, 1));
+            SetContentSize(new(280, 1));
 
         private void FillTree()
         {

@@ -78,7 +78,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         public RulePanel(FilterRule<TField> rule, ControlBuilder<TField, TDAO> builder, int groupNumber, int number) 
-            : base(new Size(1, 32))
+            : base(new(1, 32))
         { 
             Builder = builder;
             GroupNumber = groupNumber;

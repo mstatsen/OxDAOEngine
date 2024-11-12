@@ -9,7 +9,7 @@ namespace OxDAOEngine.XML
             OxDialog form = new()
             {
                 DialogButtons = OxDialogButton.OK,
-                MinimumSize = new Size(800, 600),
+                MinimumSize = new(800, 600),
                 Text = "XML Viewer"
             };
             _ = new RichTextBox

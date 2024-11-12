@@ -52,7 +52,7 @@ namespace OxDAOEngine.Grid
 
         private readonly bool ShowFlagColumn;
 
-        public OneItemGrid(bool showFlagColumn = false) : base(new Size(640, 480))
+        public OneItemGrid(bool showFlagColumn = false) : base(new(640, 480))
         {
             ShowFlagColumn = showFlagColumn;
             PrepareColumns();

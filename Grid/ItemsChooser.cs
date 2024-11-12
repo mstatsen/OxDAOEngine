@@ -13,8 +13,8 @@ namespace OxDAOEngine.Grid
     {
         private readonly ItemSelector<TField, TDAO> availableGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
         private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
-        private readonly OxPane buttonsPanel = new(new Size(64, 1));
-        private readonly OxPane topPanel = new(new Size(1, 100));
+        private readonly OxPane buttonsPanel = new(new(64, 1));
+        private readonly OxPane topPanel = new(new(1, 100));
         private readonly OxIconButton selectButton = new(OxIcons.Right, 54);
         private readonly OxIconButton unSelectButton = new(OxIcons.Left, 54);
         private readonly ItemsChooserParams<TField, TDAO> ChooserParams;
@@ -30,7 +30,7 @@ namespace OxDAOEngine.Grid
         protected override Bitmap? GetIcon() => OxIcons.Replace;
 
         public ItemsChooser(
-            ItemsChooserParams<TField, TDAO> chooserParams) : base(new Size(1280, 800))
+            ItemsChooserParams<TField, TDAO> chooserParams) : base(new(1280, 800))
         {
             ChooserParams = chooserParams;
 
@@ -150,7 +150,6 @@ namespace OxDAOEngine.Grid
         private void SelectedGridCurrentItemChanged(object? sender, EventArgs e) => 
             unSelectButton.Enabled = selectedGrid.SelectedCount > 0;
 
-
         private void AvailableGridCurrentItemChanged(object? sender, EventArgs e) => 
             selectButton.Enabled = availableGrid.Grid.SelectedCount > 0;
 
@@ -255,6 +254,7 @@ namespace OxDAOEngine.Grid
             ItemsChooser<TField, TDAO> chooser = new(chooserParams);
 
             selection = new();
+
             bool result = chooser.ShowAsDialog(owner, OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK 
                 && chooser.Modified;
 

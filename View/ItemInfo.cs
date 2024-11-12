@@ -107,18 +107,18 @@ namespace OxDAOEngine.View
         protected virtual void WrapTextControls() { }
 
         protected void WrapControl(TField field) =>
-            WrapControl(field, new Size(360, 60));
+            WrapControl(field, new(360, 60));
         
         private void WrapControl(TField field, Size size)
         {
             OxLabel? control = 
                 (OxLabel?)Layouter.PlacedControl(field)?.Control;
 
-            if (control != null)
-            {
-                control.MaximumSize = size;
-                control.TextAlign = ContentAlignment.TopLeft;
-            }
+            if (control == null)
+                return;
+            
+            control.MaximumSize = size;
+            control.TextAlign = ContentAlignment.TopLeft;
         }
 
         private void AlignControlInternal()
@@ -158,7 +158,9 @@ namespace OxDAOEngine.View
 
 
         private void SetTitle() => 
-            Text = Item == null ? string.Empty : GetTitle();
+            Text = Item == null 
+                ? string.Empty 
+                : GetTitle();
 
         protected virtual string? GetTitle() => Item?.ToString();
 
@@ -283,7 +285,6 @@ namespace OxDAOEngine.View
         protected readonly Dictionary<OxPane, OxHeader> Headers = new();
         protected readonly List<OxPanel> panels = new();
         protected readonly Dictionary<OxPanel, ControlLayouts<TField>> LayoutsLists = new();
-
         protected override Bitmap? GetIcon() => DataManager.ListController<TField, TDAO>().Icon;
     }
 }

@@ -63,7 +63,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             ReadOnlyPicture.Parent = readOnlyControl;
             ReadOnlyPicture.Height = ReadOnlyPictureSize;
             ReadOnlyPicture.Width = ReadOnlyPictureSize;
-            ReadOnlyPicture.MinimumSize = new Size(ReadOnlyPictureSize, ReadOnlyPictureSize);
+            ReadOnlyPicture.MinimumSize = new(ReadOnlyPictureSize, ReadOnlyPictureSize);
             ReadOnlyPicture.Top = 0;
             ReadOnlyPicture.Left = readOnlyControl.Width - ReadOnlyPictureSize;
             ReadOnlyPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
