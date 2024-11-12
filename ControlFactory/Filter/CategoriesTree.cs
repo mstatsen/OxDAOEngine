@@ -30,9 +30,9 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             get =>
                 categorySelector.SelectedNode == null
-                || (categorySelector.SelectedNode.Tag is IEmptyChecked ec && ec.IsEmpty)
+                || (categorySelector.SelectedItem is IEmptyChecked ec && ec.IsEmpty)
                     ? RootCategory
-                    : (Category<TField, TDAO>)categorySelector.SelectedNode.Tag;
+                    : (Category<TField, TDAO>?)categorySelector.SelectedItem;
             set =>
                 SelectCategory(value);
         }
@@ -190,27 +190,6 @@ namespace OxDAOEngine.ControlFactory.Filter
         public CategoriesTree() : base() =>
             SetContentSize(new Size(280, 1));
 
-        private TreeNode? GetNodeByTag(object tag, TreeNodeCollection? treeNodes = null)
-        {
-            treeNodes ??= categorySelector.Nodes;
-
-            foreach (TreeNode node in treeNodes)
-            {
-                if (node.Tag.Equals(tag))
-                    return node;
-
-                if (node.Nodes.Count == 0)
-                    continue;
-                
-                TreeNode? findNode = GetNodeByTag(tag, node.Nodes);
-
-                if (findNode != null)
-                    return findNode;
-            }
-
-            return null;
-        }
-
         private void FillTree()
         {
             StartLoading();
@@ -218,11 +197,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             try
             {
-                Category<TField, TDAO>? selectedNodeTag = null;
-
-                if (categorySelector.SelectedNode != null)
-                    selectedNodeTag = (Category<TField, TDAO>)categorySelector.SelectedNode.Tag;
-
+                Category<TField, TDAO>? selectedNodeTag = (Category<TField, TDAO>?)categorySelector.SelectedItem;
                 categorySelector.Nodes.Clear();
                 AddCategoryToSelector(RootCategory, null);
 
@@ -251,11 +226,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (categorySelector.VisibleCount == 0)
                 return;
 
-            categorySelector.SelectedNode = 
-                (category == null
-                    ? null
-                    : GetNodeByTag(category)) 
-                ?? categorySelector.Nodes[0];
+            categorySelector.SelectedItem = category;
         }
 
         private RootListDAO<TField, TDAO> FullList => ListController.FullItemsList;
@@ -334,12 +305,12 @@ namespace OxDAOEngine.ControlFactory.Filter
             ActiveCategoryChanged?.Invoke(this, new CategoryEventArgs<TField, TDAO>(LastCategory, ActiveCategory));
             LastCategory = ActiveCategory;
 
-            if (categorySelector.SelectedNode != null)
-            {
-                if (categorySelector.SelectedNode.IsExpanded)
-                    categorySelector.SelectedNode.Collapse();
-                else categorySelector.SelectedNode.Expand();
-            }
+            if (categorySelector.SelectedNode == null)
+                return;
+
+            if (categorySelector.SelectedNode.IsExpanded)
+                categorySelector.SelectedNode.Collapse();
+            else categorySelector.SelectedNode.Expand();
         }
     }
 }
