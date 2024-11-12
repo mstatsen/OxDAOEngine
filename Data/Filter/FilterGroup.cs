@@ -63,9 +63,6 @@ namespace OxDAOEngine.Data.Filter
 
         public int Count => Rules.Count;
 
-        //TODO:
-        public FilterRule<TField> Current =>
-            Rules.First;
 
         public IEnumerator<FilterRule<TField>> GetEnumerator() =>
             Rules.GetEnumerator();

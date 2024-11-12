@@ -268,15 +268,17 @@ namespace OxDAOEngine.ControlFactory
             }
         }
 
-        public void GrabQuickFilterControls(FilterGroup<TField, TDAO> filterGroup, List<TField> fields)
+        public void GrabQuickFilterControls(FilterGroup<TField, TDAO> filterGroup, List<TField>? fields)
         {
+            if (fields == null)
+                return;
+
             foreach (TField field in fields)
             {
                 if (this[field].IsEmpty)
                     continue;
 
-                filterGroup.Add(field, Value(field)
-                );
+                filterGroup.Add(field, Value(field));
             }
         }
 
