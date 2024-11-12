@@ -123,10 +123,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 foreach (FilterGroup<TField, TDAO> group in value)
                     foreach (FilterRule<TField> rule in group)
-                        Builder[rule.Field].Value = 
-                            TypeHelper.FieldIsTypeHelpered(rule.Field) 
-                            ? TypeHelper.TypeObject(rule.Value) 
-                            : rule.Value;
+                        Builder[rule.Field].Value = rule.Value;
             }
         }
 
@@ -134,25 +131,22 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             FilterGroup<TField, TDAO> basePart = new(FilterConcat.AND);
             Builder.GrabControls(basePart, QuickFilterFields);
-
-            FilterGroup<TField, TDAO> textPart = new(FilterConcat.OR);
-
-            if (Builder.Value(TextFilterContainer) != null &&
-                Builder.Value(TextFilterContainer)?.ToString() != string.Empty)
+            activeFilter = new(FilterConcat.AND)
             {
+                basePart
+            };
 
+            if (!Builder[TextFilterContainer].IsEmpty)
+            {
+                FilterGroup<TField, TDAO> textPart = new(FilterConcat.OR);
                 FilterOperation textFilterOperation = TypeHelper.Helper<TextFilterOperationHelper>()
                     .Operation(Settings.QuickFilterTextFieldOperation);
 
                 foreach (TField field in TextFields)
                     textPart.Add(field, textFilterOperation, Builder.Value(TextFilterContainer));
-            }
 
-            activeFilter = new(FilterConcat.AND)
-            {
-                basePart,
-                textPart
-            };
+                activeFilter.Add(textPart);
+            }
         }
 
         public void ClearControls()
@@ -161,11 +155,8 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             try
             {
-                List<TField>? fields = fieldHelper.FullList(FieldsVariant.QuickFilter);
-
-                if (fields != null)
-                    foreach (TField field in fields)
-                        Builder[field].Clear();
+                foreach (TField field in fieldHelper.FullList(FieldsVariant.QuickFilter))
+                    Builder[field].Clear();
 
                 Builder[TextFilterContainer].Clear();
                 RecolorControls();

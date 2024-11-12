@@ -89,7 +89,7 @@ namespace OxDAOEngine.Data.Types
         public static string Name(object? value) => 
             value == null 
                 ? string.Empty 
-                : IsTypeHelpered(value) 
+                : IsTypeHelpered(value)
                     ? Helper(value).Name(value) 
                     : value.ToString()!;
 
@@ -113,14 +113,20 @@ namespace OxDAOEngine.Data.Types
                     ? Helper(value).XmlValue(value)
                     : value.ToString()!;
 
-        public static object? Value(object? typeObject) => 
-            typeObject == null ? null : Helper(typeObject).Value(typeObject);
+        public static object? Value(object? typeObject) =>
+            typeObject == null
+                ? null
+                : IsTypeHelpered(typeObject)
+                    ? Helper(typeObject).Value(typeObject)
+                    : typeObject;
 
         public static TItem Value<TItem>(object? typeObject) 
             where TItem : notnull, Enum
         {
             object? value = Value(typeObject);
-            return value != null ? (TItem)value : default!;
+            return value != null 
+                ? (TItem)value 
+                : default!;
         }
 
         public static EnumItemObject<TItem>? TypeObject<TItem>(object value) 

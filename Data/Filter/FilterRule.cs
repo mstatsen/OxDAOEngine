@@ -57,7 +57,7 @@ namespace OxDAOEngine.Data.Filter
 
         public bool Match(IFieldMapping<TField>? leftObject) =>
             TypeHelper.Helper<FilterOperationHelper>().
-                Match(Operation, leftObject?[Field], Value);
+                Match(Operation, leftObject?[Field], TypeHelper.Value(Value));
 
         public override bool Equals(object? obj) =>
             obj is FilterRule<TField> otherRule

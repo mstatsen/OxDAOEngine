@@ -47,6 +47,9 @@ namespace OxDAOEngine.Data.Filter
 
         public static bool Match(IMatcherList<TField> matcher, IFieldMapping<TField>? dao)
         {
+            if (matcher.FilterIsEmpty)
+                return true;
+
             MatchAggregator<TField> aggregator = new(matcher.FilterConcat);
 
             foreach (IMatcher<TField> matcherItem in matcher.MatchList)
