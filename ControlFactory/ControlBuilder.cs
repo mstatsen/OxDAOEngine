@@ -249,7 +249,7 @@ namespace OxDAOEngine.ControlFactory
         private void GrabEditorControls(IFieldMapping<TField> item)
         {
             foreach (TField field in TypeHelper.FieldHelper<TField>().EditingFields)
-                item[field] = Accessor(field).Value;
+                item[field] = Value(field);
         }
 
         public void GrabControls(IFieldMapping<TField> item, List<TField>? fields = null)
@@ -257,15 +257,10 @@ namespace OxDAOEngine.ControlFactory
             if (BuildOnly)
                 return;
 
-            switch (Scope)
-            {
-                case ControlScope.Editor:
-                    GrabEditorControls(item);
-                    break;
-                case ControlScope.QuickFilter when item is FilterGroup<TField, TDAO> filterGroup:
-                    GrabQuickFilterControls(filterGroup, fields);
-                    break;
-            }
+            if (item is FilterGroup<TField, TDAO> filterGroup)
+                GrabQuickFilterControls(filterGroup, fields);
+            else
+                GrabEditorControls(item);
         }
 
         public void GrabQuickFilterControls(FilterGroup<TField, TDAO> filterGroup, List<TField>? fields)
