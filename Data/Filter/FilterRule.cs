@@ -45,7 +45,17 @@ namespace OxDAOEngine.Data.Filter
         {
             Operation = XmlHelper.Value<FilterOperation>(element, XmlConsts.Operation);
             Field = XmlHelper.Value<TField>(element, XmlConsts.Field);
-            Value = XmlHelper.Value(element, XmlConsts.Value);
+            Value = FieldHelper.GetFieldType(Field) switch
+            {
+                FieldType.Boolean =>
+                    XmlHelper.ValueBool(element, XmlConsts.Value),
+                FieldType.Guid =>
+                    XmlHelper.ValueGuid(element, XmlConsts.Value),
+                FieldType.Integer =>
+                    XmlHelper.ValueInt(element, XmlConsts.Value),
+                _ =>
+                    XmlHelper.Value(element, XmlConsts.Value),
+            };
         }
 
         protected override void SaveData(XmlElement element, bool clearModified = true)
@@ -61,9 +71,11 @@ namespace OxDAOEngine.Data.Filter
 
         public override bool Equals(object? obj) =>
             obj is FilterRule<TField> otherRule
-            && (base.Equals(obj) ||
-                (Field.Equals(otherRule.Field)
-                && Operation.Equals(otherRule.Operation))
+            && (base.Equals(obj) 
+                || (Field.Equals(otherRule.Field)
+                    && Operation.Equals(otherRule.Operation)
+                    && (Value == null ? otherRule.Value == null : Value.Equals(otherRule.Value))
+                )
             );
 
         public override int GetHashCode() =>

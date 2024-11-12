@@ -21,7 +21,6 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 Width = 14
             };
             checkBox.CheckedChanged += SetReadOnlyPictureHandler;
-
             return checkBox;
         }
 
@@ -86,12 +85,10 @@ namespace OxDAOEngine.ControlFactory.Accessors
             ReadOnlyLabel.Font = ReadOnlyControl!.Font;
         }
 
-        protected override void OnControlValueChanged(object? value)
-        {
-            if (CheckBox.Checked)
-                ReadOnlyPicture.Image = OxIcons.Tick;
-            else ReadOnlyPicture.Image = OxIcons.Cross;
-        }
+        protected override void OnControlValueChanged(object? value) => 
+            ReadOnlyPicture.Image = CheckBox.Checked 
+                ? OxIcons.Tick 
+                : (Image)OxIcons.Cross;
 
         protected override void OnControlTextChanged(string? text)
         {

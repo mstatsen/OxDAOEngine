@@ -4,7 +4,7 @@
     {
         public const string AccountId = "AccountId";
         public const string Aqcuired = "Aquired";
-        public const string FreeSize = "FreeSize";
+        public const string BaseOnChilds = "BaseOnChilds";
         public const string Bronze = "Bronze";
         public const string CategoryName = "CategoryName";
         public const string CoachMultiplayer = "CoachMultiplayer";
@@ -37,6 +37,7 @@
         public const string FirmwareVersion = "FirmwareVersion";
         public const string Folder = "Folder";
         public const string Format = "Format";
+        public const string FreeSize = "FreeSize";
         public const string Frozen = "Frozen";
         public const string GameId = "GameId";
         public const string Generation = "Generation";

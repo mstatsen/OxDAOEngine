@@ -90,8 +90,6 @@ namespace OxDAOEngine.ControlFactory.Filter
         };
         private readonly Category<TField, TDAO> RootCategory = new();
 
-        //private static Category<TField, TDAO> CreateCategory(string name) => new(name);
-
         private void ExpandAllClick(object? sender, EventArgs e)
         {
             categorySelector.ExpandAll();
@@ -160,6 +158,9 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             RootCategory.Clear();
             RootCategory.Name = $"All {ListController.ListName}";
+
+            foreach (Category<TField, TDAO> category in Settings.Categories)
+                RootCategory.AddChild(category);
         }
 
         private void PrepareCategorySelector()
@@ -250,25 +251,34 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (categorySelector.VisibleCount == 0)
                 return;
 
-            TreeNode? selectedNode = category == null ? null : GetNodeByTag(category);
-            categorySelector.SelectedNode = selectedNode ?? categorySelector.Nodes[0];
+            categorySelector.SelectedNode = 
+                (category == null
+                    ? null
+                    : GetNodeByTag(category)) 
+                ?? categorySelector.Nodes[0];
         }
 
         private RootListDAO<TField, TDAO> FullList => ListController.FullItemsList;
 
         private TreeNode? CreateCategoryTreeNode(Category<TField, TDAO> category)
         {
-            int itemsCount = ShowCount ? FullList.FilteredList(category).Count : 0;
+            int itemsCount = 
+                ShowCount 
+                    ? FullList.FilteredList(category).Count 
+                    : 0;
 
             return
-                ShowCount && Settings.HideEmptyCategory && itemsCount == 0
+                ShowCount && 
+                Settings.HideEmptyCategory 
+                && itemsCount == 0
                     ? null
-                    : !ShowCount || category.FilterIsEmpty
-                        ? new TreeNode(category.ToString())
+                    : !ShowCount 
+                        || category.FilterIsEmpty
+                        ? new TreeNode(category.Name)
                             {
                                 Tag = category
                             }
-                        : new CountedTreeNode(category.ToString())
+                        : new CountedTreeNode(category.Name)
                             {
                                 Tag = category,
                                 Count = itemsCount

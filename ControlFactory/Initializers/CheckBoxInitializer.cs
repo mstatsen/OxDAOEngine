@@ -8,7 +8,7 @@ namespace OxDAOEngine.ControlFactory.Initializers
 
         public CheckBoxInitializer(string caption) => 
             Caption = caption;
-
+        
         public override void InitControl(Control control) => 
             ((OxCheckBox)control).Text = Caption;
     }

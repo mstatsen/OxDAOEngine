@@ -142,8 +142,8 @@ namespace OxDAOEngine.ControlFactory
             {
                 "Category:Type" =>
                     CreateEnumAccessor<CategoryType>(context),
-                "Category:Filtration" =>
-                    CreateEnumAccessor<FiltrationType>(context),
+                "Category:BaseOnChilds" =>
+                    CreateCheckBoxAccessor(context),
                 "FilterGroup:Concat" or
                 "Filter:Concat" =>
                     CreateEnumAccessor<FilterConcat>(context),
@@ -245,14 +245,17 @@ namespace OxDAOEngine.ControlFactory
                 ? CreateExtractAccessor(context)
                 : new NumericAccessor<TField, TDAO>(context);
 
-        protected IControlAccessor CreateBoolAccessor(IBuilderContext<TField, TDAO> context) => 
+        protected IControlAccessor CreateBoolAccessor(IBuilderContext<TField, TDAO> context) =>
             context.IsBatchUpdate
             || context.IsCategory
             || context.IsQuickFilter
                 ? new BoolAccessor<TField, TDAO>(context)
-                : new CheckBoxAccessor<TField, TDAO>(context.SetInitializer(
-                    new CheckBoxInitializer(context.Name))
-                );
+                : CreateCheckBoxAccessor(context);
+
+        protected IControlAccessor CreateCheckBoxAccessor(IBuilderContext<TField, TDAO> context) =>
+            new CheckBoxAccessor<TField, TDAO>(context.SetInitializer(
+                new CheckBoxInitializer(context.Name))
+            );
 
         public IControlAccessor CreateEnumAccessor<TItem>(IBuilderContext<TField, TDAO> context)
             where TItem : Enum =>

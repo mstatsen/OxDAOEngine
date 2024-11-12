@@ -6,7 +6,6 @@ namespace OxDAOEngine.Data.Filter
         where TField : notnull, Enum
     {
         IMatcher<TField> Filter { get; set; }
-        FiltrationType Filtration { get; set; }
 
         ICategory<TField>? ParentCategory { get; set; }
 

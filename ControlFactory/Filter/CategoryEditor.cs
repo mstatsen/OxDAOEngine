@@ -17,7 +17,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private IControlAccessor TypeControl = default!;
         private IControlAccessor NameControl = default!;
         private IControlAccessor FieldControl = default!;
-        private IControlAccessor FiltrationControl = default!;
+        private IControlAccessor BaseOnChildsControl = default!;
         private FilterPanel<TField, TDAO> FilterPanel = default!;
 
         public override Bitmap FormIcon => OxIcons.Link;
@@ -29,17 +29,22 @@ namespace OxDAOEngine.ControlFactory.Filter
             result.Left = 74;
             result.Top = top;
 
-            if (width == -1)
+            if (!fieldType.Equals(FieldType.Boolean))
             {
-                result.Width = MainPanel.ContentContainer.Width - result.Left - 8;
-                result.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                if (width == -1)
+                {
+                    result.Width = MainPanel.ContentContainer.Width - result.Left - 8;
+                    result.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                }
+                else
+                    result.Width = width;
             }
-            else
-                result.Width = width;
-
 
             result.Height = 24;
-            result.Control.Tag = CreateLabel(caption, result);
+
+            if (caption != string.Empty)
+                result.Control.Tag = CreateLabel(caption, result);
+
             return result;
         }
 
@@ -49,7 +54,12 @@ namespace OxDAOEngine.ControlFactory.Filter
             TypeControl.ValueChangeHandler += TypeChangedHandler;
             NameControl = CreateSimpleControl("Category:Name", FieldType.String, "Name", TypeControl.Bottom + 4);
             FieldControl = CreateSimpleControl("Category:Field", FieldType.MetaData, "Field", NameControl.Top);
-            FiltrationControl = CreateSimpleControl("Category:Filtration", FieldType.Enum, "Filtration", NameControl.Bottom + 4);
+            BaseOnChildsControl = CreateSimpleControl("Category:BaseOnChilds", FieldType.Boolean, string.Empty, NameControl.Bottom + 4);
+            ((OxCheckBox)BaseOnChildsControl.Control).AutoSize = true;
+            BaseOnChildsControl.Left = 8;
+            BaseOnChildsControl.Text = "Base on childs";
+            BaseOnChildsControl.ValueChangeHandler += BaseOnChildsControlValueChangeHandler;
+
             FilterPanel = new(Builder)
             {
                 Parent = this,
@@ -58,6 +68,9 @@ namespace OxDAOEngine.ControlFactory.Filter
             FilterPanel.SizeChanged += FilterPanelSizeChangedHandler;
             RecalcSize();
         }
+
+        private void BaseOnChildsControlValueChangeHandler(object? sender, EventArgs e) =>
+            SetControlsVisible();
 
         private void FilterPanelSizeChangedHandler(object? sender, EventArgs e) =>
             RecalcSize();
@@ -75,18 +88,16 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             if (IsFilterCategory)
             {
-                FiltrationControl.Visible = true;
-                ((OxLabel)FiltrationControl.Control.Tag).Visible = true;
+                BaseOnChildsControl.Visible = true;
                 NameControl.Visible = true;
                 ((OxLabel)NameControl.Control.Tag).Visible = true;
-                FilterPanel.Visible = true;
+                FilterPanel.Visible = !BaseOnChildsControl.BoolValue;
                 FieldControl.Visible = false;
                 ((OxLabel)FieldControl.Control.Tag).Visible = false;
             }
             else
             {
-                FiltrationControl.Visible = false;
-                ((OxLabel)FiltrationControl.Control.Tag).Visible = false;
+                BaseOnChildsControl.Visible = false;
                 NameControl.Visible = false;
                 ((OxLabel)NameControl.Control.Tag).Visible = false;
                 FilterPanel.Visible = false;
@@ -105,8 +116,13 @@ namespace OxDAOEngine.ControlFactory.Filter
             {
                 if (IsFilterCategory)
                 {
-                    FilterPanel.RecalcSize();
-                    return FiltrationControl.Bottom + FilterPanel.Height + 4;
+                    if (BaseOnChildsControl.BoolValue)
+                        return BaseOnChildsControl.Bottom + 8;
+                    else
+                    {
+                        FilterPanel.RecalcSize();
+                        return BaseOnChildsControl.Bottom + FilterPanel.Height + 4;
+                    }
                 }
                 
                 return FieldControl.Bottom + 8;
@@ -118,7 +134,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             TypeControl.Value = item.Type;
             NameControl.Value = item.Name;
             FieldControl.Value = item.Field;
-            FiltrationControl.Value = item.Filtration;
+            BaseOnChildsControl.Value = item.BaseOnChilds;
             FilterPanel.Filter = item.Filter;
             SetControlsVisible();
         }
@@ -128,7 +144,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             item.Type = Type;
             item.Name = IsFilterCategory ? NameControl.StringValue : $"By {TypeHelper.Name(FieldControl.Value)}";
             item.Field = (TField)FieldControl.Value!;
-            item.Filtration = FiltrationControl.EnumValue<FiltrationType>();
+            item.BaseOnChilds = BaseOnChildsControl.BoolValue;
             item.Filter = FilterPanel.Filter;
         }
 

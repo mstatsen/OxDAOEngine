@@ -89,8 +89,19 @@ namespace OxDAOEngine.ControlFactory.Filter
             FieldControl.ValueChangeHandler += FieldControlValueChangeHandler;
             OperationControl = (EnumAccessor<TField, TDAO, FilterOperation>)
                 CreateSimpleControl("SimpleFilter:Operation", FieldType.Enum, 188, 110);
+            OperationControl.ValueChangeHandler += OperationControlValueChangeHandler;
             PrepareRemoveRuleButton();
             Rule = rule;
+        }
+
+        private readonly FilterOperationHelper FilterOperationHelper = TypeHelper.Helper<FilterOperationHelper>();
+
+        private void OperationControlValueChangeHandler(object? sender, EventArgs e)
+        {
+            if (ValueAccessor == null)
+                return;
+
+            ValueAccessor.Visible = !FilterOperationHelper.IsUnaryOperation(OperationControl.EnumValue);
         }
 
         private readonly FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();

@@ -35,7 +35,8 @@ namespace OxDAOEngine.XML
             AppendElement(
                 parentElement,
                 NormalizeNameString(name),
-                TypeHelper.IsTypeHelpered(value) 
+                TypeHelper.IsTypeHelpered(value) &&
+                value is not bool
                     ? TypeHelper.XmlValue(value) 
                     : value?.ToString());
         }

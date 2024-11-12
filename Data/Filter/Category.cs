@@ -14,7 +14,7 @@ namespace OxDAOEngine.Data.Filter
 
         public TField Field { get; internal set; } = default!;
 
-        public FiltrationType Filtration { get; set; } = FiltrationType.StandAlone;
+        public bool BaseOnChilds { get; set; } = false;
 
         private readonly Filter<TField, TDAO> filter = new(FilterConcat.AND);
 
@@ -33,12 +33,6 @@ namespace OxDAOEngine.Data.Filter
         public readonly Categories<TField, TDAO> Childs = new();
 
         public Category() : base() { }
-
-        public Category(string name, FiltrationType filtration = FiltrationType.StandAlone) : base()
-        {
-            Name = name;
-            Filtration = filtration;
-        }
 
         public Category<TField, TDAO> AddChild(Category<TField, TDAO> childCategory)
         {
@@ -75,36 +69,30 @@ namespace OxDAOEngine.Data.Filter
         {
             get
             {
-                switch (Filtration)
+                if (BaseOnChilds)
                 {
-                    case FiltrationType.IncludeParent:
-                        if (ParentCategory == null ||
-                            ParentCategory.Filtration == FiltrationType.BaseOnChilds ||
-                            ParentCategory.FilterIsEmpty)
-                            return Filter;
+                    Filter<TField, TDAO> byChildsFilter = new(FilterConcat.OR);
 
-                        return new Filter<TField, TDAO>(FilterConcat.AND)
+                    foreach (Category<TField, TDAO> child in Childs)
+                    {
+                        byChildsFilter.Add(child);
+
+                        foreach (Category<TField, TDAO> childsChild in child.Childs)
+                            byChildsFilter.Add(childsChild);
+                    }
+
+                    return byChildsFilter;
+                }
+                else
+                    return ParentCategory == null ||
+                        ParentCategory.BaseOnChilds ||
+                        ParentCategory.FilterIsEmpty
+                        ? Filter
+                        : new Filter<TField, TDAO>(FilterConcat.AND)
                         {
                             this,
                             ParentCategory
                         };
-                    case FiltrationType.BaseOnChilds:
-                        {
-                            Filter<TField, TDAO> byChildsFilter = new(FilterConcat.OR);
-
-                            foreach (Category<TField, TDAO> child in Childs)
-                            {
-                                byChildsFilter.Add(child);
-
-                                foreach (Category<TField, TDAO> childsChild in child.Childs)
-                                    byChildsFilter.Add(childsChild);
-                            }
-
-                            return byChildsFilter;
-                        }
-                    default:
-                        return Filter;
-                }
             }
         }
 
@@ -124,7 +112,7 @@ namespace OxDAOEngine.Data.Filter
         protected override void LoadData(XmlElement element)
         {
             Type = XmlHelper.Value<CategoryType>(element, XmlConsts.Type);
-            Filtration = XmlHelper.Value<FiltrationType>(element, XmlConsts.Filtration);
+            BaseOnChilds = XmlHelper.ValueBool(element, XmlConsts.BaseOnChilds);
             Name = XmlHelper.Value(element, XmlConsts.Name);
             if (Type == CategoryType.FieldExtraction)
                 Field = XmlHelper.Value<TField>(element, XmlConsts.Field);
@@ -138,7 +126,7 @@ namespace OxDAOEngine.Data.Filter
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
             XmlHelper.AppendElement(element, XmlConsts.Type, Type);
-            XmlHelper.AppendElement(element, XmlConsts.Filtration, Filtration);
+            XmlHelper.AppendElement(element, XmlConsts.BaseOnChilds, BaseOnChilds);
 
             if (Type == CategoryType.FieldExtraction)
             {
@@ -158,12 +146,12 @@ namespace OxDAOEngine.Data.Filter
             base.Equals(obj)
             || ((obj is Category<TField, TDAO> other)
                     && Name.Equals(other.Name)
-                    && Filtration.Equals(other.Filtration)
+                    && BaseOnChilds.Equals(other.BaseOnChilds)
                 );
 
         public override int GetHashCode() =>
             base.GetHashCode()
                 + Name.GetHashCode()
-                + Filtration.GetHashCode();
+                + BaseOnChilds.GetHashCode();
     }
 }
