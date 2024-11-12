@@ -102,7 +102,7 @@ namespace OxDAOEngine.ControlFactory
             control.Visible = Visible;
             control.ForeColor = FontColor;
             control.Dock = Dock;
-            control.Font = new Font(FontFamily, FontSize, FontStyle);
+            control.Font = new(FontFamily, FontSize, FontStyle);
             control.AutoSize = AutoSize;
             control.Anchor = Anchors;
             SetControlBackColor(control);
@@ -151,7 +151,7 @@ namespace OxDAOEngine.ControlFactory
 
             label.BackColor = Color.Transparent;
             label.Visible = Visible;
-            label.Font = new Font(FontFamily, FontSize - 1, LabelStyle);
+            label.Font = new(FontFamily, FontSize - 1, LabelStyle);
 
             if (SupportClickedLabels)
             {
@@ -175,7 +175,7 @@ namespace OxDAOEngine.ControlFactory
             if (label == null)
                 return;
 
-            label.Font = new Font(label.Font, label.Font.Style & ~FontStyle.Underline);
+            label.Font = new(label.Font, label.Font.Style & ~FontStyle.Underline);
             label.ForeColor = LabelsForeColors[label];
         }
 
@@ -186,7 +186,7 @@ namespace OxDAOEngine.ControlFactory
             if (label == null)
                 return;
 
-            label.Font = new Font(label.Font, label.Font.Style | FontStyle.Underline);
+            label.Font = new(label.Font, label.Font.Style | FontStyle.Underline);
             label.ForeColor = new OxColorHelper(label.ForeColor).HLighter().Bluer();
         }
 

@@ -82,7 +82,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             if (label == null)
                 return;
 
-            label.Font = new Font(label.Font, label.Font.Style & ~FontStyle.Underline);
+            label.Font = new(label.Font, label.Font.Style & ~FontStyle.Underline);
             label.ForeColor = new OxColorHelper(label.ForeColor).HBluer(-6).Lighter(4);
         }
 
@@ -93,7 +93,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             if (label == null)
                 return;
 
-            label.Font = new Font(label.Font, label.Font.Style | FontStyle.Underline);
+            label.Font = new(label.Font, label.Font.Style | FontStyle.Underline);
             label.ForeColor = new OxColorHelper(label.ForeColor).HDarker(4).Bluer(6);
         }
 

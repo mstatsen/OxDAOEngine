@@ -97,7 +97,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected virtual void OnControlFontChanged()
         {
             if (ReadOnlyControl != null)
-                ReadOnlyControl.Font = new Font(
+                ReadOnlyControl.Font = new(
                     Control.Font.FontFamily,
                     Control.Font.Size + (Control.Text == string.Empty ? 0 : 1),
                     Control.Font.Style 
@@ -171,7 +171,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual Control? CreateReadOnlyControl() => new OxTextBox()
         { 
-            Font = new Font(Control.Font.FontFamily, Control.Font.Size+1),
+            Font = new(Control.Font.FontFamily, Control.Font.Size+1),
             BorderStyle = BorderStyle.None,
             Multiline = true,
             ReadOnly = true
