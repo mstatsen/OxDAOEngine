@@ -83,16 +83,16 @@ namespace OxDAOEngine.Data.Filter
 
                     return byChildsFilter;
                 }
-                else
-                    return ParentCategory == null ||
-                        ParentCategory.BaseOnChilds ||
-                        ParentCategory.FilterIsEmpty
-                        ? Filter
-                        : new Filter<TField, TDAO>(FilterConcat.AND)
-                        {
-                            this,
-                            ParentCategory
-                        };
+                
+                return ParentCategory == null ||
+                    ParentCategory.BaseOnChilds ||
+                    ParentCategory.FilterIsEmpty
+                    ? Filter
+                    : new Filter<TField, TDAO>(FilterConcat.AND)
+                    {
+                        this,
+                        ParentCategory
+                    };
             }
         }
 
@@ -114,6 +114,7 @@ namespace OxDAOEngine.Data.Filter
             Type = XmlHelper.Value<CategoryType>(element, XmlConsts.Type);
             BaseOnChilds = XmlHelper.ValueBool(element, XmlConsts.BaseOnChilds);
             Name = XmlHelper.Value(element, XmlConsts.Name);
+
             if (Type == CategoryType.FieldExtraction)
                 Field = XmlHelper.Value<TField>(element, XmlConsts.Field);
 
@@ -121,6 +122,14 @@ namespace OxDAOEngine.Data.Filter
 
             foreach (Category<TField, TDAO> child in Childs)
                 child.ParentCategory = this;
+        }
+
+        protected override void BeforeSave()
+        {
+            base.BeforeSave();
+
+            if (BaseOnChilds)
+                Filter.Clear();
         }
 
         protected override void SaveData(XmlElement element, bool clearModified = true)

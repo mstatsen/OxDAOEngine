@@ -352,7 +352,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void ListClickHandler(object? sender, EventArgs e)
         {
-            if (ListBox.SelectedItem == null && ListBox.Items.Count > 0)
+            if (ListBox.SelectedItem == null 
+                && ListBox.Items.Count > 0)
                 ListBox.SelectedIndex = 0;
         }
 
