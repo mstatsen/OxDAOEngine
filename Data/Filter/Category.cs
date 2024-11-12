@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace OxDAOEngine.Data.Filter
 {
-    public class Category<TField, TDAO> : DAO, IMatcher<TField>
+    public class Category<TField, TDAO> : TreeItemDAO<Category<TField, TDAO>>, IMatcher<TField>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -28,25 +28,7 @@ namespace OxDAOEngine.Data.Filter
             }
         }
 
-        public Category<TField, TDAO>? ParentCategory { get; set; }
-
-        public readonly Categories<TField, TDAO> Childs = new();
-
         public Category() : base() { }
-
-        public Category<TField, TDAO> AddChild(Category<TField, TDAO> childCategory)
-        {
-            if (childCategory != null)
-            {
-                childCategory.ParentCategory = this;
-                Childs.Add(childCategory);
-            }
-
-            return this;
-        }
-
-        public void RemoveChild(Category<TField, TDAO> childCategory) =>
-            Childs.Remove(childCategory);
 
         public bool FilterIsEmpty =>
             FullFilter.FilterIsEmpty;
@@ -84,27 +66,30 @@ namespace OxDAOEngine.Data.Filter
                     return byChildsFilter;
                 }
                 
-                return ParentCategory == null ||
-                    ParentCategory.BaseOnChilds ||
-                    ParentCategory.FilterIsEmpty
+                return Parent == null ||
+                    Parent.BaseOnChilds ||
+                    Parent.FilterIsEmpty
                     ? Filter
                     : new Filter<TField, TDAO>(FilterConcat.AND)
                     {
                         this,
-                        ParentCategory
+                        Parent
                     };
             }
         }
 
         public override void Clear()
         {
+            base.Clear();
             Name = string.Empty;
             Filter.Clear();
-            Childs.Clear();
         }
 
-        public override void Init() =>
+        public override void Init()
+        {
+            base.Init();
             AddMember(Filter);
+        }
 
         public bool Match(IFieldMapping<TField>? dao) =>
             FullFilter.Match(dao);
@@ -117,11 +102,6 @@ namespace OxDAOEngine.Data.Filter
 
             if (Type == CategoryType.FieldExtraction)
                 Field = XmlHelper.Value<TField>(element, XmlConsts.Field);
-
-            Childs.Load(element);
-
-            foreach (Category<TField, TDAO> child in Childs)
-                child.ParentCategory = this;
         }
 
         protected override void BeforeSave()
@@ -143,9 +123,7 @@ namespace OxDAOEngine.Data.Filter
                 XmlHelper.AppendElement(element, XmlConsts.Field, Field);
             }
             else
-            {
                 XmlHelper.AppendElement(element, XmlConsts.Name, Name);
-            }
         }
 
         public override string ToString() =>
