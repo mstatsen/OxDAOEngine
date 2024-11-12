@@ -10,12 +10,12 @@ namespace OxDAOEngine.ControlFactory.Controls
     {
         OxPane ButtonsPanel { get; }
         OxPane ControlPanel { get; }
-        OxListBox ListBox { get; }
+        IItemListControl ListBox { get; }
         void DisableValueChangeHandler();
 
         void EnableValueChangeHandler();
-        public EventHandler? ItemAdded { get; set; }
-        public EventHandler? ItemRemoved { get; set; }
+        EventHandler? ItemAdded { get; set; }
+        EventHandler? ItemRemoved { get; set; }
 
     }
 }

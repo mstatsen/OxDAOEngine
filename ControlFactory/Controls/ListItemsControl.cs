@@ -23,7 +23,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         public OxPane ButtonsPanel { get; private set; } = new();
         public OxPane ControlPanel { get; private set; } = new();
-        public OxListBox ListBox { get; internal set; } = new()
+        public IItemListControl ListBox { get; internal set; } = new OxListBox()
         {
             Dock = DockStyle.Fill,
             BorderStyle = BorderStyle.None
@@ -55,8 +55,9 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         public IMatcher<TField>? Filter { get; set; }
 
-        protected virtual bool EqualsItems(TItem leftItem, TItem rightItem) =>
-            leftItem.Equals(rightItem);
+        protected virtual bool EqualsItems(TItem? leftItem, TItem? rightItem) => 
+            (leftItem is null && rightItem is null)
+            || (leftItem is not null && leftItem.Equals(rightItem));
 
         protected TList GetExistingItems(TypeOfEditorShow editingType)
         {
@@ -105,8 +106,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             EnableControls();
         }
 
-        protected TItem SelectedItem => 
-            (TItem)ListBox.SelectedItem;
+        protected TItem? SelectedItem => 
+            (TItem?)ListBox.SelectedItem;
 
         private void EditItem()
         {
@@ -114,7 +115,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                 (readOnly && ReadonlyMode == ReadonlyMode.ViewAsReadonly))
                 return;
 
-            TItem item = SelectedItem;
+            TItem? item = SelectedItem;
 
             if (item == null)
                 return;
@@ -127,7 +128,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             try
             {
                 ListBox.ClearSelected();
-                ListBox.Items[selectedIndex] = item;
+                ListBox.UpdateItem(selectedIndex, item);
                 ResortValue();
                 ListBox.SelectedItem = item;
                 ItemEdited?.Invoke(item, EventArgs.Empty);
@@ -168,9 +169,9 @@ namespace OxDAOEngine.ControlFactory.Controls
                 if (removeIndex < 0)
                     return;
 
-                ListBox.Items.RemoveAt(removeIndex);
+                ListBox.RemoveAt(removeIndex);
 
-                if (removeIndex == ListBox.Items.Count)
+                if (removeIndex == ListBox.Count)
                     removeIndex--;
 
                 if (removeIndex > -1)
@@ -186,7 +187,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         }
 
         private bool AllItemsAdded => 
-            ListBox.Items.Count == (
+            ListBox.Count == (
                 GetMaximumCount != null
                     ? GetMaximumCount()
                     : MaximumItemsCount
@@ -355,13 +356,13 @@ namespace OxDAOEngine.ControlFactory.Controls
         private void ListClickHandler(object? sender, EventArgs e)
         {
             if (ListBox.SelectedItem == null 
-                && ListBox.Items.Count > 0)
+                && ListBox.Count > 0)
                 ListBox.SelectedIndex = 0;
         }
 
         protected override void SetValuePart(TItem valuePart)
         {
-            ListBox.Items.Add(valuePart);
+            ListBox.Add(valuePart);
             EnableControls();
         }
 
@@ -369,16 +370,16 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             list.Clear();
 
-            foreach (object item in ListBox.Items)
+            foreach (object item in ListBox.ObjectList)
                 list.Add(((TItem)item).GetCopy<TItem>());
         }
 
-        protected override Control GetControl() => ListBox;
+        protected override Control GetControl() => (Control)ListBox;
 
         protected override void ClearValue()
         {
             ListBox.ClearSelected();
-            ListBox.Items.Clear();
+            ListBox.Clear();
             InvokeValueChangeHandler();
         }
 
@@ -399,7 +400,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             base.PrepareColors();
             SetPaneBaseColor(ControlPanel, BaseColor);
             SetPaneBaseColor(ButtonsPanel, BaseColor);
-            SetControlBackColor(ListBox, Colors.Lighter(7));
+            SetControlBackColor(Control, Colors.Lighter(7));
 
             if (Buttons == null)
                 return;

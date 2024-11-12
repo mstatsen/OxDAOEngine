@@ -29,7 +29,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             base.EnableControls();
             buttonUp.Enabled = ListBox.SelectedIndex > 0;
             buttonDown.Enabled = (ListBox.SelectedIndex > -1) 
-                && (ListBox.SelectedIndex < ListBox.Items.Count - 1);
+                && (ListBox.SelectedIndex < ListBox.Count - 1);
         }
 
         private void MoveUpHandler(object? sender, EventArgs e)

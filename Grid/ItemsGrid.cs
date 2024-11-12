@@ -71,24 +71,6 @@ namespace OxDAOEngine.Grid
 
         protected readonly FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
 
-        private void CreateAdditionalColumn(CustomGridColumn<TField, TDAO> gridColumn)
-        {
-            DataGridViewColumn dataColumn = new DataGridViewTextBoxColumn
-            {
-                Name = $"column{gridColumn.Text}",
-                HeaderText = gridColumn.Text,
-                SortMode = DataGridViewColumnSortMode.Programmatic,
-                Width = gridColumn.Width + 20,
-                Frozen = false
-            };
-            dataColumn.DefaultCellStyle.ApplyStyle(Styles.Cell_Default);
-            dataColumn.HeaderCell.Style.ApplyStyle(Styles.Cell_Default);
-            dataColumn.HeaderCell.Style.BackColor = EngineStyles.ElementControlColor;
-            dataColumn.HeaderCell.Style.SelectionBackColor = EngineStyles.ElementControlColor;
-            GridView.Columns.Add(dataColumn);
-            customGridColumns.Add(gridColumn, dataColumn);
-        }
-
         private void CreateColumn(TField field)
         {
             if (GridFieldColumns.TryGetValue(field, out var _))
