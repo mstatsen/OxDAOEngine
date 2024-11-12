@@ -9,11 +9,16 @@ namespace OxDAOEngine.Data
 
         public TDAO? Parent 
         { 
-            get => (TDAO?)OwnerDAO; 
+            get => OwnerDAO is TDAO treeItemDAO 
+                ? treeItemDAO 
+                : null; 
             set => OwnerDAO = value; 
         }
 
-        public readonly TreeDAO<TDAO> Childs = new();
+        public readonly TreeDAO<TDAO> Childs = new()
+        {
+            XmlName = "Childs"
+        };
 
         public override void Clear()
         {

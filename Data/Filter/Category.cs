@@ -97,8 +97,8 @@ namespace OxDAOEngine.Data.Filter
         protected override void LoadData(XmlElement element)
         {
             Type = XmlHelper.Value<CategoryType>(element, XmlConsts.Type);
-            BaseOnChilds = XmlHelper.ValueBool(element, XmlConsts.BaseOnChilds);
             Name = XmlHelper.Value(element, XmlConsts.Name);
+            BaseOnChilds = XmlHelper.ValueBool(element, XmlConsts.BaseOnChilds);
 
             if (Type == CategoryType.FieldExtraction)
                 Field = XmlHelper.Value<TField>(element, XmlConsts.Field);
@@ -108,22 +108,26 @@ namespace OxDAOEngine.Data.Filter
         {
             base.BeforeSave();
 
-            if (BaseOnChilds)
+            if (Type == CategoryType.FieldExtraction)
+            {
+                BaseOnChilds = false;
+                Name = $"By {TypeHelper.Name(Field)}";
+            }
+
+            if (Type == CategoryType.FieldExtraction
+                || BaseOnChilds)
                 Filter.Clear();
         }
 
         protected override void SaveData(XmlElement element, bool clearModified = true)
         {
             XmlHelper.AppendElement(element, XmlConsts.Type, Type);
-            XmlHelper.AppendElement(element, XmlConsts.BaseOnChilds, BaseOnChilds);
+            XmlHelper.AppendElement(element, XmlConsts.Name, Name);
 
             if (Type == CategoryType.FieldExtraction)
-            {
-                XmlHelper.AppendElement(element, XmlConsts.Name, $"By {TypeHelper.Name(Field)}");
                 XmlHelper.AppendElement(element, XmlConsts.Field, Field);
-            }
             else
-                XmlHelper.AppendElement(element, XmlConsts.Name, Name);
+                XmlHelper.AppendElement(element, XmlConsts.BaseOnChilds, BaseOnChilds);
         }
 
         public override string ToString() =>
