@@ -13,7 +13,7 @@
     <Compile Update="ControlFactory\Controls\CustomControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="ControlFactory\Controls\CustomListControl.cs">
+    <Compile Update="ControlFactory\Controls\CustomItemsControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="ControlFactory\Controls\Fields\FieldEditor.cs">
@@ -25,13 +25,16 @@
     <Compile Update="ControlFactory\Controls\Fields\FieldsPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="ControlFactory\Controls\ListItemEditor.cs">
+    <Compile Update="ControlFactory\Controls\CustomItemEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ControlFactory\Controls\ListItemsControl.cs">
+    <Compile Update="ControlFactory\Controls\CustomItemsContainerControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="ControlFactory\Controls\ListMovableItemsControl.cs">
+    <Compile Update="ControlFactory\Controls\CustomMovableItemsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\ListItemsControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="ControlFactory\Controls\Sorting\SortingEditor.cs">

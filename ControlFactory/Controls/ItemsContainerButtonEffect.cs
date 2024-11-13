@@ -1,6 +1,6 @@
 ﻿namespace OxDAOEngine.ControlFactory.Controls
 {
-    public enum ListControlButtonEffect
+    public enum ItemsContainerButtonEffect
     { 
         Edit,
         View

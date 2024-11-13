@@ -8,7 +8,7 @@ using OxDAOEngine.Data.Filter;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    public abstract partial class ListItemEditor<TItem, TField, TDAO> : OxDialog
+    public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
         where TItem : DAO, new()
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
@@ -16,10 +16,10 @@ namespace OxDAOEngine.ControlFactory.Controls
         public IBuilderContext<TField, TDAO> Context { get; private set; } = default!;
         public ControlBuilder<TField, TDAO> Builder => Context.Builder;
 
-        public ListItemEditor() { }
+        public CustomItemEditor() { }
 
         public TEditor Init<TEditor>(IBuilderContext<TField, TDAO> context)
-            where TEditor : ListItemEditor<TItem, TField, TDAO>
+            where TEditor : CustomItemEditor<TItem, TField, TDAO>
         {
             Context = context;
             InitializeComponent();
@@ -31,7 +31,9 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected bool FirstLoad { get; private set; }
 
-        public TDAO? ParentItem { get; set; }
+        public TDAO? OwnerDAO { get; set; }
+
+        public TItem? ParentItem { get; set; }
 
         public List<object>? ExistingItems { get; set; }
 
@@ -41,7 +43,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected virtual void SetPaddings() { }
 
-        public IListItemsControl<TField,TDAO>? OwnerControl { get; internal set; }
+        public IItemsContainerControl<TField,TDAO>? OwnerControl { get; internal set; }
 
         protected bool ReadOnly { get; set; }
         public DialogResult Edit(TItem item, bool readOnly = false)

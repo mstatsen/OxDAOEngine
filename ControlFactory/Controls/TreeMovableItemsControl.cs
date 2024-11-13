@@ -3,8 +3,8 @@ using OxLibrary.Controls;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    public abstract class ListItemsControl<TList, TItem, TEditor, TField, TDAO> 
-        : CustomItemsContainerControl<TList, TItem, OxListBox, TEditor, TField, TDAO>
+    public abstract class TreeMovableItemsControl<TList, TItem, TEditor, TField, TDAO> 
+        : CustomMovableItemsControl<TList, TItem, OxTreeView, TEditor, TField, TDAO>
         where TList : ListDAO<TItem>, new ()
         where TItem : DAO, new ()
         where TEditor : CustomItemEditor<TItem, TField, TDAO>, new ()

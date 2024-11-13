@@ -10,7 +10,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         Control Control { get; }
         bool ReadOnly { get; set; }
         EventHandler? ItemEdited { get; set; }
-        TDAO? ParentItem { get; set; }
+        TDAO? OwnerDAO { get; set; }
         ReadonlyMode ReadonlyMode { get; }
     }
 }

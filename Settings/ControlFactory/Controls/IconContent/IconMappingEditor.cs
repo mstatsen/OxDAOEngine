@@ -12,7 +12,7 @@ using OxDAOEngine.View.Types;
 
 namespace OxDAOEngine.Settings.ControlFactory.Controls
 {
-    public partial class IconMappingEditor<TField> : ListItemEditor<IconMapping<TField>, DAOSetting, SystemRootDAO<DAOSetting>>
+    public partial class IconMappingEditor<TField> : CustomItemEditor<IconMapping<TField>, DAOSetting, SystemRootDAO<DAOSetting>>
         where TField : notnull, Enum
     {
         private IControlAccessor ContentPartControl = default!;

@@ -10,7 +10,7 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
         where TControl : ButtonEdit<TField, TDAO, TItem, TItemPart, TListControl>
         where TItem : ListDAO<TItemPart>, new()
         where TItemPart : DAO, new()
-        where TListControl : CustomListControl<TField, TDAO, TItem, TItemPart>, new()
+        where TListControl : CustomItemsControl<TField, TDAO, TItem, TItemPart>, new()
     {
         public override object? GetValue() =>
             ((TControl)Control).Value;

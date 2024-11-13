@@ -3,6 +3,7 @@
     public enum TypeOfEditorShow
     {
         Add,
+        AddChild,
         Edit
     }
 }

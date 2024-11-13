@@ -7,13 +7,13 @@ using OxDAOEngine.Data;
 namespace OxDAOEngine.ControlFactory.Controls
 {
     public class ButtonEdit<TField, TDAO, TItems, TItem, TListControl>
-        : CustomListControl<TField, TDAO, TItems, TItem>,
+        : CustomItemsControl<TField, TDAO, TItems, TItem>,
         IButtonEdit
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
         where TItems : ListDAO<TItem>, new() 
         where TItem : DAO, new() 
-        where TListControl : CustomListControl<TField, TDAO, TItems, TItem>, new()
+        where TListControl : CustomItemsControl<TField, TDAO, TItems, TItem>, new()
     {
         private readonly TItems internalValue = new();
 
@@ -44,7 +44,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             {
                 Parent = dialog,
                 Dock = DockStyle.Fill,
-                ParentItem = ParentItem,
+                OwnerDAO = OwnerDAO,
                 Font = Font,
                 BaseColor = dialogBaseColor
             };

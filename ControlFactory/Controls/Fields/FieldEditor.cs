@@ -7,7 +7,7 @@ using OxLibrary;
 namespace OxDAOEngine.ControlFactory.Controls
 {
     public partial class FieldEditor<TField, TDAO> 
-        : ListItemEditor<FieldColumn<TField>, TField, TDAO>
+        : CustomItemEditor<FieldColumn<TField>, TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {

@@ -7,7 +7,7 @@ using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    public partial class LinkEditor<TField, TDAO> : ListItemEditor<Link<TField>, TField, TDAO>
+    public partial class LinkEditor<TField, TDAO> : CustomItemEditor<Link<TField>, TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {

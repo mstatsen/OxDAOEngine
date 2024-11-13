@@ -269,14 +269,14 @@ namespace OxDAOEngine.ControlFactory
         protected IControlAccessor CreateButtonEditAccessor<TItem, TList, TListControl>(IBuilderContext<TField, TDAO> context)
             where TItem : DAO, new()
             where TList : ListDAO<TItem>, new()
-            where TListControl : CustomListControl<TField, TDAO, TList, TItem>, new() =>
+            where TListControl : CustomItemsControl<TField, TDAO, TList, TItem>, new() =>
             new ButtonEditAccessor<TField, TDAO, TList, TItem, TListControl>(context).Init();
 
         protected IControlAccessor CreateListAccessor<TItem, TList, TListControl>(
             IBuilderContext<TField, TDAO> context, List<ControlScope> simpleControlScopes)
             where TItem : DAO, new()
             where TList : ListDAO<TItem>, new()
-            where TListControl : CustomListControl<TField, TDAO, TList, TItem>, new() =>
+            where TListControl : CustomItemsControl<TField, TDAO, TList, TItem>, new() =>
             (simpleControlScopes == null) || simpleControlScopes.Contains(context.Scope)
                 ? new CustomControlAccessor<TField, TDAO, TListControl, TList>(context).Init()
                 : CreateButtonEditAccessor<TItem, TList, TListControl>(context);
@@ -286,7 +286,7 @@ namespace OxDAOEngine.ControlFactory
             ControlScope simpleControlScope)
             where TItem : DAO, new()
             where TList : ListDAO<TItem>, new()
-            where TListControl : CustomListControl<TField, TDAO, TList, TItem>, new() =>
+            where TListControl : CustomItemsControl<TField, TDAO, TList, TItem>, new() =>
             CreateListAccessor<TItem, TList, TListControl>(
                 context, new List<ControlScope>() { simpleControlScope }
             );
@@ -295,7 +295,7 @@ namespace OxDAOEngine.ControlFactory
             IBuilderContext<TField, TDAO> context)
             where TItem : DAO, new()
             where TList : ListDAO<TItem>, new()
-            where TListControl : CustomListControl<TField, TDAO, TList, TItem>, new() =>
+            where TListControl : CustomItemsControl<TField, TDAO, TList, TItem>, new() =>
             CreateListAccessor<TItem, TList, TListControl>(context, ControlScope.Editor);
 
         public virtual ControlBuilder<TField, TDAO> Builder(ControlScope scope, bool forceNew = false, object? variant = null)

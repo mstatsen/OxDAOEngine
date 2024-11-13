@@ -43,7 +43,7 @@ namespace OxDAOEngine.Settings.ControlFactory
         {
             IControlAccessor accessor =
                 CreateButtonEditAccessor<IconMapping<TField>, ListDAO<IconMapping<TField>>, IconMappingControl<TField>>(context);
-            ((ICustomListControl<IconMapping<TField>, ListDAO<IconMapping<TField>>>)accessor.Control).FixedItems = 
+            ((ICustomItemsControl<IconMapping<TField>, ListDAO<IconMapping<TField>>>)accessor.Control).FixedItems = 
                 (ListDAO<IconMapping<TField>>?)(DataManager.FieldController<TField>().Settings as IDAOSettings<TField>)!
                     .GetDefault("IconMapping");
             return accessor;

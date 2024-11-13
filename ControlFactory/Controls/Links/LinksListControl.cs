@@ -7,7 +7,8 @@ using OxLibrary.Dialogs;
 
 namespace OxDAOEngine.ControlFactory.Controls.Links
 {
-    public class LinksListControl<TField, TDAO> : ListItemsControl<Links<TField>, Link<TField>, LinkEditor<TField, TDAO>, TField, TDAO>
+    public class LinksListControl<TField, TDAO> 
+        : ListItemsControl<Links<TField>, Link<TField>, LinkEditor<TField, TDAO>, TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -20,6 +21,9 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                 goButton,
                 (s, e) =>
                 {
+                    if (SelectedItem == null)
+                        return;
+
                     try
                     {
                         Process.Start(

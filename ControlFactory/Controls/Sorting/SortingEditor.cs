@@ -7,7 +7,7 @@ using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    public partial class SortingEditor<TField, TDAO> : ListItemEditor<FieldSorting<TField, TDAO>, TField, TDAO>
+    public partial class SortingEditor<TField, TDAO> : CustomItemEditor<FieldSorting<TField, TDAO>, TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {

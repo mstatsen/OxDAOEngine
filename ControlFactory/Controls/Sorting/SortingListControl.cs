@@ -1,13 +1,15 @@
 ﻿using OxDAOEngine.Data;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
+using OxLibrary.Controls;
 
 namespace OxDAOEngine.ControlFactory.Controls.Sorting
 {
     public class SortingsControl<TField, TDAO>
-        : ListMovableItemsControl<
+        : CustomMovableItemsControl<
             FieldSortings<TField, TDAO>,
             FieldSorting<TField, TDAO>,
+            OxListBox,
             SortingEditor<TField, TDAO>,
             TField,
             TDAO>

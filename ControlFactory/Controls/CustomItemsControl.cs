@@ -2,8 +2,8 @@
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    public abstract class CustomListControl<TField, TDAO, TItems, TItem> 
-        : CustomControl<TField, TDAO, TItems>, ICustomListControl<TItem, TItems>
+    public abstract class CustomItemsControl<TField, TDAO, TItems, TItem> 
+        : CustomControl<TField, TDAO, TItems>, ICustomItemsControl<TItem, TItems>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
         where TItems : ListDAO<TItem>, new()

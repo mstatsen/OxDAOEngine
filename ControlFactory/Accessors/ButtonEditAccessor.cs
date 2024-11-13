@@ -12,7 +12,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         where TDAO : RootDAO<TField>, new()
         where TItems : ListDAO<TItem>, new()
         where TItem : DAO, new()
-        where TListControl : CustomListControl<TField, TDAO, TItems, TItem>, new()
+        where TListControl : CustomItemsControl<TField, TDAO, TItems, TItem>, new()
     {
         public ButtonEditAccessor(IBuilderContext<TField, TDAO> context): base(context) { }
 

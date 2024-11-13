@@ -2,7 +2,7 @@
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    partial class ListItemEditor<TItem, TField, TDAO> : OxDialog
+    partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
     {
         /// <summary>
         /// Required designer variable.

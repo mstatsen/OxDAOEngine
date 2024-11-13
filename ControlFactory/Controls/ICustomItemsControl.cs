@@ -2,7 +2,7 @@
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    public interface ICustomListControl<TItem, TItems>
+    public interface ICustomItemsControl<TItem, TItems>
         where TItem : DAO, new()
         where TItems : ListDAO<TItem>, new()
     {

@@ -82,7 +82,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         public virtual object? PrepareValueToReadOnly(TItem? value) =>
             value;
 
-        public TDAO? ParentItem { get; set; }
+        public TDAO? OwnerDAO { get; set; }
 
         public virtual ReadonlyMode ReadonlyMode => ReadonlyMode.ViewAsReadonly;
     }

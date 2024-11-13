@@ -207,7 +207,7 @@ namespace OxDAOEngine.ControlFactory
                 try
                 {
                     if (accessor.Control is ICustomControl<TField, TDAO> listControl)
-                        listControl.ParentItem = item;
+                        listControl.OwnerDAO = item;
 
                     accessor.RenewControl();
 

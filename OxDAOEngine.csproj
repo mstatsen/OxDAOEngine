@@ -17,7 +17,7 @@
     <Compile Update="ControlFactory\BatchUpdate\BatchUpdatePanel.cs" />
     <Compile Update="ControlFactory\Controls\ButtonEdit.cs" />
     <Compile Update="ControlFactory\Controls\CustomControl.cs" />
-    <Compile Update="ControlFactory\Controls\CustomListControl.cs" />
+    <Compile Update="ControlFactory\Controls\CustomItemsControl.cs" />
     <Compile Update="ControlFactory\Controls\Fields\FieldEditor.cs" />
     <Compile Update="ControlFactory\Controls\Fields\FieldListControl.cs" />
     <Compile Update="ControlFactory\Controls\Fields\FieldsPanel.cs" />
@@ -33,9 +33,18 @@
     <Compile Update="ControlFactory\Controls\Links\LinksListControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="ControlFactory\Controls\ListItemEditor.cs" />
-    <Compile Update="ControlFactory\Controls\ListItemsControl.cs" />
-    <Compile Update="ControlFactory\Controls\ListMovableItemsControl.cs" />
+    <Compile Update="ControlFactory\Controls\CustomItemEditor.cs" />
+    <Compile Update="ControlFactory\Controls\CustomItemsContainerControl.cs" />
+    <Compile Update="ControlFactory\Controls\CustomMovableItemsControl.cs" />
+    <Compile Update="ControlFactory\Controls\TreeItemsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\TreeMovableItemsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ControlFactory\Controls\ListMovableItemsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="ControlFactory\Controls\Sorting\SortingEditor.cs" />
     <Compile Update="ControlFactory\Controls\Sorting\SortingListControl.cs" />
     <Compile Update="ControlFactory\Controls\Sorting\SortingPanel.cs" />

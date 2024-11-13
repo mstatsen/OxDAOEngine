@@ -45,7 +45,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
             CustomControl.ItemEdited += ItemEditedHandler;
 
-            if (CustomControl is IListItemsControl<TField, TDAO> listControl)
+            if (CustomControl is IItemsContainerControl<TField, TDAO> listControl)
             {
                 listControl.ItemAdded += ItemAddedHandler;
                 listControl.ItemRemoved += ItemRemovedHandler;

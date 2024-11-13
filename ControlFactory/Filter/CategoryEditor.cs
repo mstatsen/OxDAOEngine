@@ -10,7 +10,7 @@ using OxLibrary.Controls;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
-    public partial class CategoryEditor<TField, TDAO> : ListItemEditor<Category<TField, TDAO>, TField, TDAO>
+    public partial class CategoryEditor<TField, TDAO> : CustomItemEditor<Category<TField, TDAO>, TField, TDAO>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {

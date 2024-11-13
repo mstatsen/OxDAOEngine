@@ -2,7 +2,13 @@
 
 namespace OxDAOEngine.Data
 {
-    public class TreeItemDAO<TDAO> : DAO
+    public interface ITreeItemDAO<TDAO>
+        where TDAO : DAO, new()
+    {
+        TDAO? Parent { get; set; }
+    }
+
+    public class TreeItemDAO<TDAO> : DAO, ITreeItemDAO<TDAO>
         where TDAO : TreeItemDAO<TDAO>, new()
     {
         public TreeItemDAO() { }
@@ -14,6 +20,7 @@ namespace OxDAOEngine.Data
                 : null; 
             set => OwnerDAO = value; 
         }
+
 
         public readonly TreeDAO<TDAO> Childs = new()
         {
