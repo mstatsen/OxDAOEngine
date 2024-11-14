@@ -14,7 +14,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         private OxTreeView TreeView => (OxTreeView)ItemsContainer;
 
         protected override void PrepareItemsContainer() =>
-            TreeView.DoubleClickExpand = false;
+            TreeItemsControlHelper.PrepareTreeView(TreeView);
 
         protected override void AddValueToItemsContainer(TItem valuePart) =>
             TreeItemsControlHelper.AddValueNode(TreeView, valuePart);
