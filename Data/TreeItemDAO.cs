@@ -6,6 +6,8 @@ namespace OxDAOEngine.Data
         where TDAO : DAO, new()
     {
         TDAO? Parent { get; set; }
+
+        TDAO AddChild(TDAO child);
     }
 
     public class TreeItemDAO<TDAO> : DAO, ITreeItemDAO<TDAO>
@@ -40,8 +42,12 @@ namespace OxDAOEngine.Data
 
         public TDAO AddChild(TDAO child)
         {
-            child.Parent = (TDAO)this;
-            return Childs.Add(child);
+            if (Childs.Contains(child))
+                return child;
+
+            Childs.Add(child);
+            child.Parent = (TDAO?)this;
+            return child;
         }
 
         public void RemoveChild(TDAO child)

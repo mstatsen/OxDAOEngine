@@ -160,7 +160,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             RootCategory.Name = $"All {ListController.ListName}";
 
             foreach (Category<TField, TDAO> category in Settings.Categories)
-                RootCategory.AddChild(category);
+                RootCategory.AddChild(category.GetCopy<Category<TField, TDAO>>());
         }
 
         private void PrepareCategorySelector()
@@ -238,22 +238,24 @@ namespace OxDAOEngine.ControlFactory.Filter
                     ? FullList.FilteredList(category).Count 
                     : 0;
 
+            if (!category.IsRootCategory
+                && ShowCount
+                && Settings.HideEmptyCategory
+                && itemsCount == 0)
+                return null;
+
             return
-                ShowCount && 
-                Settings.HideEmptyCategory 
-                && itemsCount == 0
-                    ? null
-                    : !ShowCount 
-                        || category.FilterIsEmpty
-                        ? new TreeNode(category.Name)
-                            {
-                                Tag = category
-                            }
-                        : new CountedTreeNode(category.Name)
-                            {
-                                Tag = category,
-                                Count = itemsCount
-                            };
+                !ShowCount 
+                || category.FilterIsEmpty
+                ? new TreeNode(category.Name)
+                    {
+                        Tag = category
+                    }
+                : new CountedTreeNode(category.Name)
+                    {
+                        Tag = category,
+                        Count = itemsCount
+                    };
         }
 
         protected override DAOSetting VisibleSetting => DAOSetting.ShowCategories;
@@ -290,7 +292,8 @@ namespace OxDAOEngine.ControlFactory.Filter
             foreach (Category<TField, TDAO> childCategory in category.Childs)
                 AddCategoryToSelector(childCategory, node);
 
-            if (Settings.HideEmptyCategory
+            if (!category.IsRootCategory
+                && Settings.HideEmptyCategory
                 && category.FilterIsEmpty
                 && node.Nodes.Count == 0)
                 return;

@@ -11,9 +11,7 @@ namespace OxDAOEngine.Data.Filter
     {
         public string Name { get; internal set; } = string.Empty;
         public CategoryType Type { get; internal set; } = CategoryType.Filter;
-
         public TField Field { get; internal set; } = default!;
-
         public bool BaseOnChilds { get; set; } = false;
 
         private readonly Filter<TField, TDAO> filter = new(FilterConcat.AND);
@@ -78,6 +76,8 @@ namespace OxDAOEngine.Data.Filter
             }
         }
 
+        public bool IsRootCategory => Parent == null;
+
         public override void Clear()
         {
             base.Clear();
@@ -126,7 +126,8 @@ namespace OxDAOEngine.Data.Filter
 
             if (Type == CategoryType.FieldExtraction)
                 XmlHelper.AppendElement(element, XmlConsts.Field, Field);
-            else
+
+            if (BaseOnChilds)
                 XmlHelper.AppendElement(element, XmlConsts.BaseOnChilds, BaseOnChilds);
         }
 
@@ -135,9 +136,13 @@ namespace OxDAOEngine.Data.Filter
 
         public override bool Equals(object? obj) =>
             base.Equals(obj)
-            || ((obj is Category<TField, TDAO> other)
-                    && Name.Equals(other.Name)
-                    && BaseOnChilds.Equals(other.BaseOnChilds)
+            || (obj is Category<TField, TDAO> other
+                && Type.Equals(other.Type)
+                && Name.Equals(other.Name)
+                && BaseOnChilds.Equals(other.BaseOnChilds)
+                && Field.Equals(other.Field)
+                && Filter.Equals(other.Filter)
+                && Childs.Equals(other.Childs)
                 );
 
         public override int GetHashCode() =>

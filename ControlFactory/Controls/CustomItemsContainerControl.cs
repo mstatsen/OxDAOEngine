@@ -29,6 +29,9 @@ namespace OxDAOEngine.ControlFactory.Controls
             Dock = DockStyle.Fill,
             BorderStyle = BorderStyle.None
         };
+
+        protected virtual void PrepareItemsContainer() { }
+
         protected abstract string ItemName();
 
         private const int ButtonSpace = (int)OxSize.Medium;
@@ -135,12 +138,10 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (Editor(TypeOfEditorShow.Edit).Edit(item, readOnly) != DialogResult.OK)
                 return;
             
-            int selectedIndex = ItemsContainer.SelectedIndex;
             ItemsContainer.BeginUpdate();
             try
             {
-                ItemsContainer.ClearSelected();
-                ItemsContainer.UpdateItem(selectedIndex, item);
+                ItemsContainer.UpdateSelectedItem(item);
                 ResortValue();
                 ItemsContainer.SelectedItem = item;
                 ItemEdited?.Invoke(item, EventArgs.Empty);
@@ -176,18 +177,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
             try
             {
-                int removeIndex = ItemsContainer.SelectedIndex;
-
-                if (removeIndex < 0)
-                    return;
-
-                ItemsContainer.RemoveAt(removeIndex);
-
-                if (removeIndex == ItemsContainer.Count)
-                    removeIndex--;
-
-                if (removeIndex > -1)
-                    ItemsContainer.SelectedIndex = removeIndex;
+                ItemsContainer.RemoveCurrent();
             }
             finally
             {
@@ -324,6 +314,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected sealed override void InitComponents()
         {
             PrepareControlPanel();
+            PrepareItemsContainer();
             PrepareButtonsPanel();
             InitControl();
             EnableControls();
@@ -377,17 +368,11 @@ namespace OxDAOEngine.ControlFactory.Controls
                 ItemsContainer.SelectedIndex = 0;
         }
 
-        protected override void SetValuePart(TItem valuePart)
+        protected virtual void AddValueToItemsContainer(TItem valuePart) =>
+            ItemsContainer.Add(valuePart);
+        protected sealed override void SetValuePart(TItem valuePart)
         {
-            if (valuePart is ITreeItemDAO<TItem> treeItem
-                && treeItem.Parent != null)
-            {
-                ItemsContainer.AddChild(valuePart);
-                ItemsContainer.ExpandAll();
-            }
-            else
-                ItemsContainer.Add(valuePart);
-
+            AddValueToItemsContainer(valuePart);
             EnableControls();
         }
 
