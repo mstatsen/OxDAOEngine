@@ -8,7 +8,8 @@ namespace OxDAOEngine.XML
     {
         public static string NormalizeNameString(string name) => 
             name.Trim().Replace(" ", "_");
-        public static XmlElement? AppendElement(XmlElement parentElement, string name, string? value, bool nullIfEmpty = false)
+        public static XmlElement? AppendElement(XmlElement parentElement, string name, string? value, 
+            bool nullIfEmpty = false)
         {
             name = NormalizeNameString(name);
             string normalizedValue = value ?? string.Empty;

@@ -67,6 +67,6 @@ namespace OxDAOEngine.Data
         public override int GetHashCode() =>
             id.GetHashCode();
 
-        public readonly UniqueList<DAO> UsageList = new();
+        public readonly List<DAO> UsageList = new();
     }
 }
