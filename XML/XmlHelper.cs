@@ -38,7 +38,7 @@ namespace OxDAOEngine.XML
                 NormalizeNameString(name),
                 TypeHelper.IsTypeHelpered(value) &&
                 value is not bool
-                    ? TypeHelper.XmlValue(value) 
+                    ? TypeHelper.XmlValue(value)
                     : value?.ToString());
         }
 

@@ -20,6 +20,8 @@ namespace OxDAOEngine.Data.Filter
 
         public FilterGroup(FilterConcat filterConcat) : base(filterConcat) { }
 
+        public override bool IsEmpty => Rules.IsEmpty;
+
         public FilterRule<TField> Add(TField field, FilterOperation operation, object? value) =>
             Rules.Add(
                 new FilterRule<TField>(field, operation, value)
@@ -114,5 +116,13 @@ namespace OxDAOEngine.Data.Filter
                     rule.Value = value;
             }
         }
+
+        public override bool Equals(object? obj) => 
+            base.Equals(obj)
+            && obj is FilterGroup<TField, TDAO> otherGroup
+            && Rules.Equals(otherGroup.Rules);
+
+        public override int GetHashCode() => 
+            base.GetHashCode() ^ Rules.GetHashCode();
     }
 }

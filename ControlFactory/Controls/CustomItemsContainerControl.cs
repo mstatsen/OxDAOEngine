@@ -177,7 +177,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
             try
             {
-                ItemsContainer.RemoveCurrent();
+                RemoveCurrentItemFromContainer();
             }
             finally
             {
@@ -187,6 +187,9 @@ namespace OxDAOEngine.ControlFactory.Controls
             InvokeValueChangeHandler();
             ItemRemoved?.Invoke(this, EventArgs.Empty);
         }
+
+        protected virtual void RemoveCurrentItemFromContainer() =>
+            ItemsContainer.RemoveCurrent();
 
         private bool AllItemsAdded => 
             ItemsContainer.Count == (

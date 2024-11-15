@@ -4,6 +4,10 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Part;
+using OxDAOEngine.Data.Types;
+using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.Data.Fields;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -14,6 +18,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         public void RefreshCategories()
         {
             categorySelector.Loading = true;
+            CategoriesReady = false;
 
             try
             {
@@ -22,9 +27,12 @@ namespace OxDAOEngine.ControlFactory.Filter
             }
             finally
             {
+                CategoriesReady = true;
                 categorySelector.Loading = false;
             }
         }
+
+        private bool CategoriesReady = false;
 
         public Category<TField, TDAO>? ActiveCategory
         {
@@ -110,49 +118,6 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         protected override SettingsPart SettingsPart => 
             SettingsPart.Category; 
-
-        /*
-        private Category<TField, TDAO>? FieldCategory(TField field)
-        {
-            try
-            {
-                string? categoryName = TypeHelper.Name(field);
-
-                if (categoryName == null)
-                    return null;
-
-                Category<TField, TDAO> fieldCategory = CreateCategory(categoryName);
-                List<object> extract = new FieldExtractor<TField, TDAO>()
-                {
-                    Items = FullList
-                }
-                .Extract(field, true, true);
-
-                foreach (object value in extract)
-                {
-                    categoryName = value is Enum ? TypeHelper.Name(value) : value.ToString();
-
-                    if (categoryName != null)
-                        fieldCategory.AddChild(
-                            CreateCategory(categoryName)
-                            .AddFilter(field, value)
-                        );
-                }
-
-                if (!TypeHelper.FieldIsTypeHelpered(field))
-                    fieldCategory.AddChild(
-                        CreateCategory($"< no {fieldCategory.Name.ToLower()} >")
-                        .AddFilterBlank(field)
-                    );
-
-                return fieldCategory;
-            }
-            catch 
-            {
-                return null;
-            }
-        }
-        */
 
         private void LoadCategories()
         {
@@ -246,6 +211,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             return
                 !ShowCount 
+                || category.Type.Equals(CategoryType.FieldExtraction)
                 || category.FilterIsEmpty
                 ? new TreeNode(category.Name)
                     {
@@ -282,6 +248,8 @@ namespace OxDAOEngine.ControlFactory.Filter
             Settings.CategoryPanelExpanded = Expanded;
         }
 
+        private readonly FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();
+
         private void AddCategoryToSelector(Category<TField, TDAO> category, TreeNode? parentNode)
         {
             TreeNode? node = CreateCategoryTreeNode(category);
@@ -290,7 +258,13 @@ namespace OxDAOEngine.ControlFactory.Filter
                 return;
 
             foreach (Category<TField, TDAO> childCategory in category.Childs)
+            {
+                if (!CategoriesReady 
+                    && childCategory.Type.Equals(CategoryType.FieldExtraction))
+                    CreateFieldExtractionCategories(childCategory);
+
                 AddCategoryToSelector(childCategory, node);
+            }
 
             if (!category.IsRootCategory
                 && Settings.HideEmptyCategory
@@ -301,6 +275,54 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (parentNode == null)
                 categorySelector.Nodes.Add(node);
             else parentNode.Nodes.Add(node);
+        }
+
+        private void CreateFieldExtractionCategories(Category<TField, TDAO> category)
+        {
+            TreeDAO<Category<TField, TDAO>> fieldChildsCategories =
+                category.Childs.GetCopy<TreeDAO<Category<TField, TDAO>>>();
+
+            category.Childs.Clear();
+
+            List<object> extract = new FieldExtractor<TField, TDAO>()
+            {
+                Items = FullList
+            }
+            .Extract(category.Field, true, true);
+
+            foreach (object value in extract)
+            {
+                string categoryName =
+                    value is null
+                        ? "<blank>"
+                        : value is Enum
+                            ? TypeHelper.Name(value)
+                            : value.ToString()!;
+
+                Filter<TField, TDAO> valueFilter = new(FilterConcat.AND);
+
+                FilterOperation filterOperation = FieldHelper.DefaultFilterOperation(category.Field);
+
+                if (value == null)
+                    filterOperation = FilterOperation.Blank;
+
+                valueFilter.AddFilter(category.Field, filterOperation, value);
+
+                Category<TField, TDAO> valueCategory = new()
+                {
+                    Name = categoryName,
+                    Type = CategoryType.Filter,
+                    BaseOnChilds = false,
+                    Filter = valueFilter
+                };
+
+                foreach (Category<TField, TDAO> fieldChildsCategory in fieldChildsCategories)
+                    valueCategory.AddChild(fieldChildsCategory.GetCopy<Category<TField, TDAO>>());
+
+                category.AddChild(
+                    valueCategory
+                );
+            }
         }
 
         private void AfterSelectHandler(object? sender, TreeViewEventArgs e)

@@ -29,7 +29,8 @@ namespace OxDAOEngine.ControlFactory.Filter
                 if (NewCategory == null)
                     return true;
 
-                return !OldCategory.Filter.Equals(NewCategory.Filter);
+                return !OldCategory.Filter.Equals(NewCategory.Filter)
+                    || (OldCategory.NearFilteredParent != NewCategory.NearFilteredParent);
             }
         }
     }

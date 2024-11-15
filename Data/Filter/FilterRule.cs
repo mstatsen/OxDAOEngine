@@ -45,6 +45,7 @@ namespace OxDAOEngine.Data.Filter
         {
             Operation = XmlHelper.Value<FilterOperation>(element, XmlConsts.Operation);
             Field = XmlHelper.Value<TField>(element, XmlConsts.Field);
+            ITypeHelper? valueHelper = FieldHelper.GetHelper(Field);
             Value = FieldHelper.GetFieldType(Field) switch
             {
                 FieldType.Boolean =>
@@ -54,7 +55,9 @@ namespace OxDAOEngine.Data.Filter
                 FieldType.Integer =>
                     XmlHelper.ValueInt(element, XmlConsts.Value),
                 _ =>
-                    XmlHelper.Value(element, XmlConsts.Value),
+                    valueHelper != null
+                    ? valueHelper.Parse(XmlHelper.Value(element, XmlConsts.Value))
+                    : XmlHelper.Value(element, XmlConsts.Value),
             };
         }
 

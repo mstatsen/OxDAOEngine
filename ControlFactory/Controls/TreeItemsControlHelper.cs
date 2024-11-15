@@ -32,5 +32,17 @@ namespace OxDAOEngine.ControlFactory.Controls
 
             treeView.ExpandAll();
         }
+
+        public static void RemoveCurrentNode<TItem>(OxTreeView treeView)
+            where TItem : TreeItemDAO<TItem>, new()
+        {
+            TItem? currentItem = (TItem?)treeView.SelectedItem;
+
+            if (currentItem == null)
+                return;
+
+            currentItem.Parent?.RemoveChild(currentItem);
+            treeView.RemoveCurrent();
+        }
     }
 }

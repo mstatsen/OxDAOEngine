@@ -18,5 +18,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected override void AddValueToItemsContainer(TItem valuePart) =>
             TreeItemsControlHelper.AddValueNode(TreeView, valuePart);
+
+        protected override void RemoveCurrentItemFromContainer() =>
+            TreeItemsControlHelper.RemoveCurrentNode<TItem>(TreeView);
     }
 }

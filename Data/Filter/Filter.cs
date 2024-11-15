@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace OxDAOEngine.Data.Filter
 {
-    public class Filter<TField, TDAO> 
+    public class Filter<TField, TDAO>
         : AbstractFilterPart<TField, TDAO>, IMatcher<TField>, IMatcherList<TField>,
         IEnumerable<FilterGroup<TField, TDAO>>
         where TField : notnull, Enum
@@ -11,8 +11,12 @@ namespace OxDAOEngine.Data.Filter
     {
         public readonly ListDAO<FilterGroup<TField, TDAO>> Groups = new();
 
+        public Filter() : base() { }
+
         public Filter(FilterConcat concat) =>
             FilterConcat = concat;
+
+        public override bool IsEmpty => Groups.IsEmpty;
 
         public List<IMatcher<TField>> MatchList
         {
@@ -98,5 +102,13 @@ namespace OxDAOEngine.Data.Filter
             base.Init();
             AddMember(Groups);
         }
+
+        public override bool Equals(object? obj) => 
+            base.Equals(obj)
+            && obj is Filter<TField, TDAO> otherFilter
+            && Groups.Equals(otherFilter.Groups);
+
+        public override int GetHashCode() => 
+            base.GetHashCode() ^ Groups.GetHashCode();
     }
 }
