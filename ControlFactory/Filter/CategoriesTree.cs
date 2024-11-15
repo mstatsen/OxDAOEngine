@@ -1,13 +1,13 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxDAOEngine.Data;
+using OxDAOEngine.Data.Extract;
+using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
+using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Part;
-using OxDAOEngine.Data.Types;
-using OxDAOEngine.Data.Extract;
-using OxDAOEngine.Data.Filter.Types;
-using OxDAOEngine.Data.Fields;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -164,7 +164,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             {
                 Category<TField, TDAO>? selectedNodeTag = (Category<TField, TDAO>?)categorySelector.SelectedItem;
                 categorySelector.Nodes.Clear();
-                AddCategoryToSelector(RootCategory, null);
+                AddCategoryToSelector(RootCategory);
 
                 if (categorySelector.GetNodeCount(true) == 0)
                     return;
@@ -250,7 +250,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private readonly FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();
 
-        private void AddCategoryToSelector(Category<TField, TDAO> category, TreeNode? parentNode)
+        private void AddCategoryToSelector(Category<TField, TDAO> category, TreeNode? parentNode = null)
         {
             TreeNode? node = CreateCategoryTreeNode(category);
 
