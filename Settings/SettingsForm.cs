@@ -372,16 +372,16 @@ namespace OxDAOEngine.Settings
             return frame;
         }
 
-        private void RelocateControls(ISettingsController settings, SettingsPart part,
+        private OxFrameWithHeader? RelocateControls(ISettingsController settings, SettingsPart part,
             List<string>? settingList = null, string caption = "")
         {
             if (!AvailablePart(settings, part))
-                return;
+                return null;
 
             settingList ??= settings.Helper.ItemsByPart(part);
 
             if (settingList == null || settingList.Count == 0)
-                return;
+                return null;
 
             OxFrameWithHeader frame = CreateFrame(settings, part, caption);
             IControlAccessor? lastAccessor = null;
@@ -413,16 +413,23 @@ namespace OxDAOEngine.Settings
                 + (caption != string.Empty ? frame.Header.Height : 0)
                 + 16
             );
+
+            return frame;
         }
 
         private void CreateFramesForControls()
         {
             foreach (ISettingsController settings in SettingsManager.Controllers)
             {
-                if (settings is IDAOSettings)
+                if (settings is IDAOSettings daoSettings)
                 {
-                    RelocateControls(settings, SettingsPart.View, settings.Helper.CardSettingsItems, "Cards");
-                    RelocateControls(settings, SettingsPart.View, settings.Helper.IconSettingsItems, "Icons");
+                    OxFrame? frame = RelocateControls(settings, SettingsPart.View, settings.Helper.CardSettingsItems, "Cards");
+                    if (frame != null)
+                        frame.Visible = daoSettings.AvailableCards;
+
+                    frame = RelocateControls(settings, SettingsPart.View, settings.Helper.IconSettingsItems, "Icons");
+                    if (frame != null)
+                        frame.Visible = daoSettings.AvailableIcons;
                 }
 
                 foreach (SettingsPart part in PartList(settings))
