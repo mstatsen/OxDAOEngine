@@ -131,6 +131,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void PrepareCategorySelector()
         {
             categorySelector.Parent = ContentContainer;
+            categorySelector.ShowNodeToolTips = true;
             categorySelector.AfterSelect += AfterSelectHandler;
             categorySelector.BeforeCollapse += (s, e) => e.Cancel = e.Node == null || e.Node.Level == 0;
             categorySelector.DoubleClick += CategorySelectorDoubleClickHandler;
@@ -271,6 +272,8 @@ namespace OxDAOEngine.ControlFactory.Filter
                 && category.FilterIsEmpty
                 && node.Nodes.Count == 0)
                 return;
+
+            node.ToolTipText = category.Description;
 
             if (parentNode == null)
                 categorySelector.Nodes.Add(node);

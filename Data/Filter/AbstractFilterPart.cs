@@ -1,14 +1,16 @@
 ﻿using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;
 using System.Xml;
 
 namespace OxDAOEngine.Data.Filter
 {
-    public class AbstractFilterPart<TField, TDAO> : DAO
+    public class AbstractFilterPart<TField, TDAO> : DAO, IWithDescription
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
         public FilterConcat FilterConcat { get; internal set; } = FilterConcat.AND;
+        protected readonly FilterConcatHelper ConcatHelper = TypeHelper.Helper<FilterConcatHelper>();
 
         public AbstractFilterPart() { }
 
@@ -34,5 +36,7 @@ namespace OxDAOEngine.Data.Filter
 
         public override int GetHashCode() =>
             FilterConcat.GetHashCode();
+
+        public virtual string Description => string.Empty;
     }
 }

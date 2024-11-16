@@ -65,9 +65,13 @@ namespace OxDAOEngine.ControlFactory.Filter
                 Parent = this,
                 Dock = DockStyle.Bottom
             };
+            FilterPanel.GetCategoryName += GetCategoryNameHandler;
             FilterPanel.SizeChanged += FilterPanelSizeChangedHandler;
             RecalcSize();
         }
+
+        private string GetCategoryNameHandler() => 
+            NameControl.StringValue;
 
         private void BaseOnChildsControlValueChangeHandler(object? sender, EventArgs e) =>
             SetControlsVisible();

@@ -1,11 +1,14 @@
-﻿using OxDAOEngine.Data.Filter.Types;
+﻿using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;
 using System.Xml;
 
 namespace OxDAOEngine.Data.Filter
 {
-    public class Category<TField, TDAO> : TreeItemDAO<Category<TField, TDAO>>, IMatcher<TField>
+    public class Category<TField, TDAO> : TreeItemDAO<Category<TField, TDAO>>, 
+        IMatcher<TField>,
+        IWithDescription
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -114,6 +117,18 @@ namespace OxDAOEngine.Data.Filter
                 return null;
            }
         }
+
+        private readonly IListController<TField, TDAO> ListController = 
+            DataManager.ListController<TField, TDAO>();
+
+        public string Description => 
+            Type.Equals(CategoryType.FieldExtraction)
+                ? $"{ListController.ListName}, separated by {TypeHelper.Name(Field)}"
+                : BaseOnChilds
+                    ? $"Category, summorizing {ListController.ListName}, suitable for childs categories"
+                    : Filter.IsEmpty
+                        ? "Without filtration"
+                        : Filter.Description;
 
         private bool MatchParentFilter(IFieldMapping<TField>? dao)
         {

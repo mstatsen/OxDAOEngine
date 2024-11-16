@@ -8,9 +8,10 @@ using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
 using OxLibrary.Dialogs;
 
-
 namespace OxDAOEngine.ControlFactory.Filter
 {
+    public delegate string GetCategoryName();
+
     public class FilterPanel<TField, TDAO> : OxFrameWithHeader
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
@@ -21,6 +22,13 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly List<FilterGroupPanel<TField, TDAO>> groupsPanels = new();
         private readonly OxPanel AddGroupButtonParent = new();
         private readonly OxButton AddGroupButton = new("Add group", OxIcons.Plus);
+        private readonly OxIconButton ViewSQLButton = new(OxIcons.SQL, 16)
+        { 
+            ToolTipText = "View filter description"
+        };
+
+        public GetCategoryName? GetCategoryName { get; set; }
+
 
         private int GroupPanelsHeight()
         {
@@ -197,5 +205,18 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             groupsPanels.Clear();
         }
+
+        private string CategoryName =>
+            GetCategoryName == null ? string.Empty : GetCategoryName.Invoke();
+
+        protected override void PrepareInnerControls()
+        {
+            base.PrepareInnerControls();
+            ViewSQLButton.Click += ViewSQLButtonClickHandler;
+            Header.AddToolButton(ViewSQLButton);
+        }
+
+        private void ViewSQLButtonClickHandler(object? sender, EventArgs e) => 
+            TextViewer.Show("Filter of '" + CategoryName + "' category", Filter.Description, BaseColor);
     }
 }

@@ -110,5 +110,35 @@ namespace OxDAOEngine.Data.Filter
 
         public override int GetHashCode() => 
             base.GetHashCode() ^ Groups.GetHashCode();
+
+        public override string Description
+        {
+            get
+            {
+                string result = string.Empty;
+                bool severalGroups = Count > 1;
+
+                foreach (FilterGroup<TField, TDAO> group in Groups)
+                {
+                    string groupDescroption = group.Description;
+
+                    if (severalGroups)
+                    {
+                        result += "(\n\t";
+                        groupDescroption = groupDescroption.Replace("\n", "\n\t");
+                    }
+
+                    result += groupDescroption;
+
+                    if (severalGroups)
+                        result += "\n)";
+
+                    if (!Groups.Last().Equals(group))
+                        result += $"\n{ConcatHelper.Name(FilterConcat)}\n";
+                }
+
+                return result;
+            }
+        }
     }
 }

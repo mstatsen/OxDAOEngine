@@ -6,9 +6,10 @@ using System.Xml;
 
 namespace OxDAOEngine.Data.Filter
 {
-    public class FilterRule<TField> : DAO,
+    public class FilterRule<TField> : DAO, 
         IFieldMapping<TField>,
-        IMatcher<TField>
+        IMatcher<TField>,
+        IWithDescription
         where TField : notnull, Enum
     {
         public TField Field = default!;
@@ -91,8 +92,36 @@ namespace OxDAOEngine.Data.Filter
         }
 
         private readonly FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();
+        private readonly FilterOperationHelper OperationHelper = TypeHelper.Helper<FilterOperationHelper>();
 
         public bool FilterIsEmpty => false;
+
+        public string Description
+        {
+            get
+            {
+                string result = $"[{FieldHelper.Caption(Field)}] {OperationHelper.NameForDescription(Operation)}";
+                string? valueDescription = Value?.ToString();
+
+                switch (FieldHelper.GetFieldType(Field))
+                {
+                    case FieldType.Boolean:
+                        if (bool.TryParse(valueDescription, out bool boolValue))
+                            valueDescription = boolValue ? "Yes" : "No";
+                        break;
+                    case FieldType.Integer:
+                        break;
+                    default:
+                        valueDescription = $"'{valueDescription}'";
+                        break;
+                }
+
+                if (!OperationHelper.IsUnaryOperation(Operation))
+                    result += $" {valueDescription}";
+
+                return result;
+            }
+        }
 
         public object ParseCaldedValue(TField field, string value)
         {

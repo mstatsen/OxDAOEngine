@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.Data.Types;
+using System.Net.Http.Headers;
 
 namespace OxDAOEngine.Data.Filter.Types
 {
@@ -20,6 +21,22 @@ namespace OxDAOEngine.Data.Filter.Types
                 FilterOperation.Lower => "Lower",
                 FilterOperation.Blank => "Blank",
                 FilterOperation.NotBlank => "Not Blank",
+                _ => string.Empty,
+            };
+
+        public string NameForDescription(FilterOperation operation) =>
+            operation switch
+            {
+                FilterOperation.Equals => "equals",
+                FilterOperation.NotEquals => "not equals",
+                FilterOperation.Contains => "contains",
+                FilterOperation.StartsWith => "starts with",
+                FilterOperation.EndsWith => "ends with",
+                FilterOperation.NotContains => "not contains",
+                FilterOperation.Greater => "greater than",
+                FilterOperation.Lower => "lower than",
+                FilterOperation.Blank => "is blank",
+                FilterOperation.NotBlank => "is not blank",
                 _ => string.Empty,
             };
 

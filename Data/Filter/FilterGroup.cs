@@ -2,6 +2,7 @@
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace OxDAOEngine.Data.Filter
 {
@@ -124,5 +125,35 @@ namespace OxDAOEngine.Data.Filter
 
         public override int GetHashCode() => 
             base.GetHashCode() ^ Rules.GetHashCode();
+
+        public override string Description
+        {
+            get
+            { 
+                string result = string.Empty;
+                bool severalRules = Count > 1;
+
+                foreach (FilterRule<TField> rule in Rules)
+                {
+                    if (severalRules)
+                    {
+                        if (Rules.First().Equals(rule))
+                            result = result.PadRight(ConcatHelper.Name(FilterConcat).Length * 3 + 1, ' ');  
+
+                        result += "(";
+                    }
+
+                    result += rule.Description;
+
+                    if (severalRules)
+                        result += ")";
+
+                    if (!Rules.Last().Equals(rule))
+                        result += $"\n{ConcatHelper.Name(FilterConcat)} ";
+                }
+
+                return result;
+            }
+        }
     }
 }
