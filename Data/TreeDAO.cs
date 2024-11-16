@@ -4,5 +4,7 @@
         where TDAO : TreeItemDAO<TDAO>, new()
     {
         public TreeDAO() : base() { }
+
+        protected override bool AutoSorting => false;
     }
 }

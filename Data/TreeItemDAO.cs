@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using OxLibrary.Controls;
+using System.Xml;
 
 namespace OxDAOEngine.Data
 {
@@ -15,12 +16,12 @@ namespace OxDAOEngine.Data
     {
         public TreeItemDAO() { }
 
-        public TDAO? Parent 
-        { 
-            get => OwnerDAO is TDAO treeItemDAO 
-                ? treeItemDAO 
-                : null; 
-            set => OwnerDAO = value; 
+        public TDAO? Parent
+        {
+            get => OwnerDAO is TDAO treeItemDAO
+                ? treeItemDAO
+                : null;
+            set => OwnerDAO = value;
         }
 
 
@@ -37,7 +38,7 @@ namespace OxDAOEngine.Data
             Childs.Clear();
         }
 
-        public override void Init() => 
+        public override void Init() =>
             AddMember(Childs);
 
         public TDAO AddChild(TDAO child)
@@ -46,6 +47,16 @@ namespace OxDAOEngine.Data
                 return child;
 
             Childs.Add(child);
+            child.Parent = (TDAO?)this;
+            return child;
+        }
+
+        public TDAO InsertChild(int index, TDAO child)
+        {
+            if (Childs.Contains(child))
+                return child;
+
+            Childs.Insert(index, child);
             child.Parent = (TDAO?)this;
             return child;
         }
@@ -66,8 +77,43 @@ namespace OxDAOEngine.Data
         {
             base.AfterLoad();
 
-            foreach(TDAO child in Childs)
+            foreach (TDAO child in Childs)
                 child.Parent = (TDAO)this;
         }
+
+        protected TDAO AsDAO => (TDAO)this;
+
+        public int Index
+        {
+            get => Parent != null
+                ? Parent.Childs.IndexOf(AsDAO)
+                : -1;
+            set => Move(value);
+        }
+
+        private void Move(int newIndex)
+        {
+            if (Parent == null 
+                || newIndex < 0 
+                || newIndex >= Parent.Count)
+                return;
+
+            TreeItemDAO<TDAO> thisParent = Parent;
+            thisParent.RemoveChild(AsDAO);
+            thisParent.InsertChild(newIndex, AsDAO);
+        }
+
+        private void Move(MoveDirection direction)
+        {
+            if (Parent == null 
+                || Index < 0)
+                return;
+
+            Move(Index + MoveDirectionHelper.Delta(direction));
+        }
+
+        public void MoveUp() => Move(MoveDirection.Up);
+
+        public void MoveDown() => Move(MoveDirection.Down);
     }
 }

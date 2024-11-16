@@ -21,5 +21,11 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected override void RemoveCurrentItemFromContainer() =>
             TreeItemsControlHelper.RemoveCurrentNode<TItem>(TreeView);
+
+        protected override void ValueMoveUp() => 
+            SelectedItem?.MoveUp();
+
+        protected override void ValueMoveDown() =>
+            SelectedItem?.MoveDown();
     }
 }

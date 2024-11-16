@@ -169,6 +169,8 @@ namespace OxDAOEngine.Data
             ItemsToMembers();
         }
 
+        public void Insert(int index, T item) => List.Insert(index, item);
+
         public void RemoveAll(Predicate<T> match) => RemoveAll(match, true);
 
         public void RemoveAll(Predicate<T> match, bool needSaveHistory)

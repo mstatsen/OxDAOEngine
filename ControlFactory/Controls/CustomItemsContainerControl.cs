@@ -113,7 +113,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         public void EnableValueChangeHandler() => 
             valueChangeHandlerEnabled = true;
 
-        private void InvokeValueChangeHandler()
+        protected void InvokeValueChangeHandler()
         {
             if (valueChangeHandlerEnabled)
                 ValueChangeHandler?.Invoke(this, EventArgs.Empty);

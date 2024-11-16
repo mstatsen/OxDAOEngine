@@ -34,15 +34,20 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void MoveUpHandler(object? sender, EventArgs e)
         {
+            ValueMoveUp();
             ItemsContainer.MoveUp();
-            ValueChangeHandler?.Invoke(this, e);
+            InvokeValueChangeHandler();
         }
 
         private void MoveDownHandler(object? sender, EventArgs e)
         {
+            ValueMoveDown();
             ItemsContainer.MoveDown();
-            ValueChangeHandler?.Invoke(this, e);
+            InvokeValueChangeHandler();
         }
+
+        protected virtual void ValueMoveUp() { }
+        protected virtual void ValueMoveDown() { }
 
         public bool AllowSorting
         {
