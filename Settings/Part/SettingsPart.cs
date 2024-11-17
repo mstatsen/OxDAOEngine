@@ -4,7 +4,8 @@
     {
         Full,
         Table,
-        View,
+        Cards,
+        Icons,
         Category,
         QuickFilter,
         QuickFilterText,

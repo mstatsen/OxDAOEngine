@@ -17,6 +17,7 @@ namespace OxDAOEngine.ControlFactory.Filter
     {
         public void RefreshCategories()
         {
+            categorySelector.AllowCollapse = !Settings.AlwaysExpandedCategories;
             categorySelector.Loading = true;
             CategoriesReady = false;
 
@@ -170,11 +171,10 @@ namespace OxDAOEngine.ControlFactory.Filter
                 if (categorySelector.GetNodeCount(true) == 0)
                     return;
 
-                if (Settings.AutoExpandCategories)
+                if (Settings.AlwaysExpandedCategories)
                     categorySelector.ExpandAll();
                 else
                     categorySelector.Nodes[0].Expand();
-
                 SelectCategory(selectedNodeTag);
             }
             finally 
@@ -236,7 +236,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             base.ApplySettingsInternal();
 
             if (Observer.CategoriesChanged
-                || Observer[DAOSetting.AutoExpandCategories]
+                || Observer[DAOSetting.AlwaysExpandedCategories]
                 || Observer[DAOSetting.HideEmptyCategory]
                 || Observer[DAOSetting.ShowCategories])
                 RefreshCategories();

@@ -29,14 +29,6 @@ namespace OxDAOEngine.Settings.Helpers
 
         List<string> ISettingHelper.VisibleItems => VisibleSettings.StringList;
 
-        public virtual SettingList<TSetting>? CardSettings => null;
-
-        public virtual SettingList<TSetting>? IconSettings => null;
-
-        public List<string>? CardSettingsItems => CardSettings?.StringList;
-
-        public List<string>? IconSettingsItems => IconSettings?.StringList;
-
         public SettingList<TSetting> SettingsByPart(SettingsPart part)
         {
             SettingList<TSetting> list = new();

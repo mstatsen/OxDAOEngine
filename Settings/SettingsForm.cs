@@ -226,8 +226,10 @@ namespace OxDAOEngine.Settings
                     SettingsPart.QuickFilter or
                     SettingsPart.QuickFilterText =>
                         daoSettings.AvailableQuickFilter,
-                    SettingsPart.View =>
-                        daoSettings.AvailableCards || daoSettings.AvailableIcons,
+                    SettingsPart.Cards =>
+                        daoSettings.AvailableCards,
+                    SettingsPart.Icons =>
+                        daoSettings.AvailableIcons,
                     _ => true
                 };
 
@@ -420,22 +422,8 @@ namespace OxDAOEngine.Settings
         private void CreateFramesForControls()
         {
             foreach (ISettingsController settings in SettingsManager.Controllers)
-            {
-                if (settings is IDAOSettings daoSettings)
-                {
-                    OxFrame? frame = RelocateControls(settings, SettingsPart.View, settings.Helper.CardSettingsItems, "Cards");
-                    if (frame != null)
-                        frame.Visible = daoSettings.AvailableCards;
-
-                    frame = RelocateControls(settings, SettingsPart.View, settings.Helper.IconSettingsItems, "Icons");
-                    if (frame != null)
-                        frame.Visible = daoSettings.AvailableIcons;
-                }
-
                 foreach (SettingsPart part in PartList(settings))
-                    if (part != SettingsPart.View)
-                        RelocateControls(settings, part);
-            }
+                    RelocateControls(settings, part);
         }
 
         private void CreateDefaulter(DefaulterScope scope)

@@ -16,7 +16,7 @@ namespace OxDAOEngine.Settings
         int IconsPageSize { get; set; }
         bool CategoryPanelPinned { get; set; }
         bool CategoryPanelExpanded { get; set; }
-        bool AutoExpandCategories { get; set; }
+        bool AlwaysExpandedCategories { get; set; }
         bool HideEmptyCategory { get; set; }
         FunctionalPanelVisible ShowCategories { get; set; }
         FunctionalPanelVisible ShowItemInfo { get; set; }

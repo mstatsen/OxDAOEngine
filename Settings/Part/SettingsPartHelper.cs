@@ -11,7 +11,8 @@ namespace OxDAOEngine.Settings.Part
                 SettingsPart.Category => "Categories",
                 SettingsPart.QuickFilter => "Quick filter",
                 SettingsPart.QuickFilterText => "Text filter",
-                SettingsPart.View => "Views",
+                SettingsPart.Cards => "Cards",
+                SettingsPart.Icons => "Icons",
                 SettingsPart.Styles => "Styles",
                 SettingsPart.Main => "Main",
                 _ => string.Empty,
@@ -21,7 +22,8 @@ namespace OxDAOEngine.Settings.Part
             new()
             {
                 SettingsPart.Table,
-                SettingsPart.View,
+                SettingsPart.Cards,
+                SettingsPart.Icons,
                 SettingsPart.Category,
                 SettingsPart.QuickFilter,
             };

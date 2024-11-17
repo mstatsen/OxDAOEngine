@@ -509,9 +509,24 @@ namespace OxDAOEngine
             }
         }
 
-        public SettingsPart ActiveSettingsPart => tabControl.ActivePage != tableView 
-            ? SettingsPart.View
-            : SettingsPart.Table;
+        public SettingsPart ActiveSettingsPart
+        {
+            get
+            {
+                SettingsPart result = SettingsPart.Table;
+
+                if (tabControl.ActivePage != tableView)
+                    if (ListController.AvailableCards 
+                        && tabControl.ActivePage == cardsView)
+                        result = SettingsPart.Cards;
+                    else
+                        if (ListController.AvailableIcons 
+                            && tabControl.ActivePage == iconsView)
+                            result = SettingsPart.Icons;
+
+                return result;
+            }
+        }
 
         public Bitmap? Icon => ListController.Icon;
 

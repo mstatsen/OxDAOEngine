@@ -9,6 +9,7 @@ using OxDAOEngine.SystemEngine;
 using OxDAOEngine.XML;
 using System.Xml;
 using OxDAOEngine.Settings.Part;
+using OxDAOEngine.Data.Fields;
 
 namespace OxDAOEngine.Settings
 {
@@ -86,11 +87,12 @@ namespace OxDAOEngine.Settings
 
         protected Dictionary<TSetting, object?> settings = new();
 
+        private readonly SettingHelper<TSetting> settingsHelper = 
+            TypeHelper.Helper<SettingHelper<TSetting>>();
+
         public override void Init()
         {
-            SettingHelper<TSetting> helper = TypeHelper.Helper<SettingHelper<TSetting>>();
-
-            foreach (TSetting setting in helper.All())
+            foreach (TSetting setting in settingsHelper.All())
                 if (IsDAOSetting(setting))
                     settings[setting] = CreateDAO(setting);
         }
@@ -153,8 +155,11 @@ namespace OxDAOEngine.Settings
             }
         }
 
-        protected virtual bool IsBoolSettings(TSetting setting) => false;
-        protected virtual bool IsIntSettings(TSetting setting) => false;
+        protected bool IsBoolSettings(TSetting setting) => 
+            settingsHelper.GetFieldType(setting) == FieldType.Boolean;
+
+        protected bool IsIntSettings(TSetting setting) => 
+            settingsHelper.GetFieldType(setting) == FieldType.Integer;
 
         protected virtual object ParseXMLValue(TSetting setting, XmlElement parentElement, string elementName) => 
             IsBoolSettings(setting)

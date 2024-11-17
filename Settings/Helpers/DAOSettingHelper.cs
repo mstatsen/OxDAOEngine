@@ -19,7 +19,6 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.IconClickVariant => "When click on icon",
                 DAOSetting.ShowCategories => "Show Categories",
                 DAOSetting.HideEmptyCategory => "Hide empty categories",
-                DAOSetting.AutoExpandCategories => "Auto expand categories",
                 DAOSetting.ShowItemInfo => "Info panel",
                 DAOSetting.ShowIcons => "Show Icons view",
                 DAOSetting.ShowCards => "Show Cards view",
@@ -33,6 +32,7 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.QuickFilterPinned => "Quick filter pinned",
                 DAOSetting.QuickFilterExpanded => "Quick filter expanded",
                 DAOSetting.CurrentView => "Current view",
+                DAOSetting.AlwaysExpandedCategories => "Always expanded",
                 _ => string.Empty,
             };
 
@@ -46,13 +46,13 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.ShowIcons or
                 DAOSetting.ShowCards =>
                     true,
-                DAOSetting.AutoExpandCategories or
                 DAOSetting.CategoryPanelPinned or
                 DAOSetting.CategoryPanelExpanded or
                 DAOSetting.ItemInfoPanelExpanded or
                 DAOSetting.ItemInfoPanelPinned or
                 DAOSetting.QuickFilterPinned or
-                DAOSetting.QuickFilterExpanded =>
+                DAOSetting.QuickFilterExpanded or
+                DAOSetting.AlwaysExpandedCategories =>
                     false,
                 DAOSetting.ItemInfoPosition =>
                     ItemInfoPosition.Right,
@@ -80,20 +80,21 @@ namespace OxDAOEngine.Settings.Helpers
             setting switch
             {
                 DAOSetting.ShowCategories or
-                DAOSetting.HideEmptyCategory or
-                DAOSetting.AutoExpandCategories =>
+                DAOSetting.AlwaysExpandedCategories or
+                DAOSetting.HideEmptyCategory =>
                     SettingsPart.Category,
                 DAOSetting.ShowItemInfo or 
                 DAOSetting.ItemInfoPosition =>
                     SettingsPart.Table,
                 DAOSetting.ShowCards or
-                DAOSetting.CardsPageSize or
+                DAOSetting.CardsPageSize =>
+                    SettingsPart.Cards,
                 DAOSetting.ShowIcons or
                 DAOSetting.IconsSize or
                 DAOSetting.IconsPageSize or
                 DAOSetting.IconMapping or
                 DAOSetting.IconClickVariant =>
-                    SettingsPart.View,
+                    SettingsPart.Icons,
                 DAOSetting.ShowQuickFilter or
                 DAOSetting.QuickFilterTextFieldOperation =>
                     SettingsPart.QuickFilter,
@@ -106,8 +107,8 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.ShowItemInfo or
                 DAOSetting.ItemInfoPosition or
                 DAOSetting.ShowCategories or
+                DAOSetting.AlwaysExpandedCategories or
                 DAOSetting.HideEmptyCategory or
-                DAOSetting.AutoExpandCategories or
                 DAOSetting.ShowCards or
                 DAOSetting.CardsPageSize or
                 DAOSetting.ShowIcons or
@@ -119,23 +120,6 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.QuickFilterTextFieldOperation =>
                     true,//case DAOSetting.SummarySorting:
                 _ => false,
-            };
-
-        public override SettingList<DAOSetting> CardSettings =>
-            new()
-            {
-                DAOSetting.ShowCards,
-                DAOSetting.CardsPageSize
-            };
-
-        public override SettingList<DAOSetting> IconSettings =>
-            new()
-            {
-                DAOSetting.ShowIcons,
-                DAOSetting.IconsPageSize,
-                DAOSetting.IconsSize,
-                DAOSetting.IconMapping,
-                DAOSetting.IconClickVariant
             };
 
         public override int ControlWidth(DAOSetting setting) =>
@@ -170,11 +154,11 @@ namespace OxDAOEngine.Settings.Helpers
                     FieldType.List,
                 DAOSetting.CategoryPanelPinned or
                 DAOSetting.CategoryPanelExpanded or
+                DAOSetting.AlwaysExpandedCategories or
                 DAOSetting.ItemInfoPanelPinned or
                 DAOSetting.ItemInfoPanelExpanded or
                 DAOSetting.QuickFilterPinned or
                 DAOSetting.QuickFilterExpanded or
-                DAOSetting.AutoExpandCategories or
                 DAOSetting.HideEmptyCategory or
                 DAOSetting.ShowIcons or
                 DAOSetting.ShowCards =>

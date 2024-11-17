@@ -60,16 +60,16 @@ namespace OxDAOEngine.Settings
             set => this[DAOSetting.CurrentView] = value;
         }
 
-        public bool AutoExpandCategories
-        {
-            get => BoolValue(DAOSetting.AutoExpandCategories);
-            set => this[DAOSetting.AutoExpandCategories] = value;
-        }
-
         public bool HideEmptyCategory
         {
             get => BoolValue(DAOSetting.HideEmptyCategory);
             set => this[DAOSetting.HideEmptyCategory] = value;
+        }
+
+        public bool AlwaysExpandedCategories
+        {
+            get => BoolValue(DAOSetting.AlwaysExpandedCategories);
+            set => this[DAOSetting.AlwaysExpandedCategories] = value;
         }
 
         public FunctionalPanelVisible ShowCategories
@@ -419,33 +419,6 @@ namespace OxDAOEngine.Settings
             get => availableIcons;
             set => availableIcons = value;
         }
-
-        protected override bool IsBoolSettings(DAOSetting setting) =>
-            setting switch
-            {
-                DAOSetting.AutoExpandCategories or 
-                DAOSetting.HideEmptyCategory or 
-                DAOSetting.CategoryPanelPinned or
-                DAOSetting.CategoryPanelExpanded or
-                DAOSetting.ItemInfoPanelPinned or
-                DAOSetting.ItemInfoPanelExpanded or
-                DAOSetting.QuickFilterPinned or
-                DAOSetting.QuickFilterExpanded or
-                DAOSetting.ShowCards or 
-                DAOSetting.ShowIcons =>
-                    true,
-                _ => 
-                    base.IsBoolSettings(setting),
-            };
-
-        protected override bool IsIntSettings(DAOSetting setting) =>
-            setting switch
-            {
-                DAOSetting.CardsPageSize or 
-                DAOSetting.IconsPageSize => 
-                    true,
-                _ => false,
-            };
 
         protected override SystemControlFactory<DAOSetting> CreateControlFactory() =>
             new DAOSettingsControlFactory<TField, TDAO>();

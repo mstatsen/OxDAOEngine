@@ -54,20 +54,6 @@ namespace OxDAOEngine.Settings
         protected override ISettingsObserver CreateObserver() => 
             new SettingsObserver<GeneralSetting, GeneralSettings>();
 
-        protected override bool IsBoolSettings(GeneralSetting setting)
-        {
-            return setting switch
-            {
-                GeneralSetting.ShowCustomizeButtons or 
-                GeneralSetting.ColorizePanels or 
-                GeneralSetting.DarkerHeaders or
-                GeneralSetting.DoublePinButtons => 
-                    true,
-                _ => 
-                    base.IsBoolSettings(setting),
-            };
-        }
-
         protected override SystemControlFactory<GeneralSetting> CreateControlFactory() =>
             new GeneralSettingsControlFactory();
 
