@@ -20,8 +20,10 @@ namespace OxDAOEngine.Grid
             Grid.Dock = DockStyle.Fill;
             Grid.ToolbarActionClick += (s, e) => ExecuteAction(e.Action);
             Grid.CurrentItemChanged += CurrentItemChangeHandler;
-            CurrentInfoCard = DataManager.ControlFactory<TField, TDAO>().CreateInfoCard();
-            PrepareInfoCard();
+            InfoPanel = DataManager.ControlFactory<TField, TDAO>().CreateInfoPanel();
+            Margins.BottomOx = OxSize.Medium;
+            Margins.RightOx = OxSize.Large;
+            PrepareInfoPanel();
         }
 
         protected override void OnVisibleChanged(EventArgs e)
@@ -30,17 +32,13 @@ namespace OxDAOEngine.Grid
             UpdateCurrentItemFullCard();
         }
 
-        private void PrepareInfoCard()
+        private void PrepareInfoPanel()
         {
-            if (CurrentInfoCard == null)
+            if (InfoPanel == null)
                 return;
 
-            CurrentInfoCard.Parent = this;
-            CurrentInfoCard.Margins.SetSize(OxSize.Medium);
-            CurrentInfoCard.Margins.LeftOx = OxSize.Large;
-            CurrentInfoCard.Margins.TopOx = OxSize.Large;
-            CurrentInfoCard.Dock = DockStyle.Right;
-            CurrentInfoCard.SetContentSize(500, 1);
+            InfoPanel.Parent = this;
+            InfoPanel.SetContentSize(500, 250);
         }
 
         public void ApplyQuickFilter(IMatcher<TField>? filter) =>
@@ -105,10 +103,11 @@ namespace OxDAOEngine.Grid
 
         private void UpdateCurrentItemFullCard()
         {
-            if (CurrentInfoCard == null)
+            if (InfoPanel == null)
                 return;
 
-            CurrentInfoCard.Item = CurrentItem;
+            InfoPanel.Item = CurrentItem;
+            InfoPanel.ScrollToTop();
         }
 
         private static DAOSettings<TField, TDAO> Settings =>
@@ -119,32 +118,19 @@ namespace OxDAOEngine.Grid
 
         public virtual void ApplySettings() 
         {
-
-            if (Observer[DAOSetting.ShowItemInfo] 
-                && CurrentInfoCard != null 
-                && CurrentInfoCard.Visible != Settings.ShowItemInfo)
-                CurrentInfoCard.Visible = Settings.ShowItemInfo;
-
-            if (Observer[DAOSetting.ItemInfoPanelExpanded])
-            {
-                bool savedInfoCardPlaceExpanded = Settings.ItemInfoPanelExpanded;
-
-                if (CurrentInfoCard != null && CurrentInfoCard.Expanded != savedInfoCardPlaceExpanded)
-                    CurrentInfoCard.Expanded = savedInfoCardPlaceExpanded;
-            }
-
             if (Observer.QuickFilterFieldsChanged
                     || Observer.QuickFilterTextFieldsChanged
                     || Observer.SortingFieldsChanged
                     || Observer.TableFieldsChanged)
                 Renew();
 
-            CurrentInfoCard?.ApplySettings();
+            InfoPanel?.ApplySettings();
+            ReAlign();
         }
 
         public virtual void SaveSettings() =>
-            CurrentInfoCard?.SaveSettings();
+            InfoPanel?.SaveSettings();
 
-        public readonly IItemInfo<TField, TDAO>? CurrentInfoCard;
+        public readonly IItemInfo<TField, TDAO>? InfoPanel;
     }
 }

@@ -5,6 +5,8 @@ using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data;
 using OxDAOEngine.Settings;
 using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data.Types;
+using System.Drawing.Printing;
 
 namespace OxDAOEngine.View
 {
@@ -37,6 +39,9 @@ namespace OxDAOEngine.View
 
         private void RenewControls()
         {
+            if (item == null)
+                return;
+
             BaseColor = ControlFactory.ItemColorer.BaseColor(item);
             FontColors.BaseColor = ControlFactory.ItemColorer.ForeColor(item);
 
@@ -59,6 +64,11 @@ namespace OxDAOEngine.View
             Header.Icon = Icon;
         }
 
+        protected override void SetTitleAlign() =>
+            Header.TitleAlign = Dock == DockStyle.Right 
+                ? ContentAlignment.MiddleCenter 
+                : ContentAlignment.MiddleLeft;
+
         protected override void OnExpandedChanged(ExpandedChangedEventArgs e)
         {
             base.OnExpandedChanged(e);
@@ -73,10 +83,27 @@ namespace OxDAOEngine.View
 
         private void SetSizes()
         {
-            Margins.SetSize(OxSize.None);
+            OxDock oxDock = OxDockHelper.Dock(Dock);
+            Margins.SetSize(OxSize.Medium);
+            Margins[OxDockHelper.Opposite(oxDock)].SetSize(OxSize.None);
+
+            if (oxDock == OxDock.Right)
+                Margins.BottomOx = OxSize.None;
+
+            Margins.TopOx = 
+                oxDock == OxDock.Bottom 
+                    ? OxSize.Small 
+                    : Pinned 
+                        ? OxSize.Nine
+                        : OxSize.Large;
+
+            Margins.RightOx = OxSize.None;
             Paddings.SetSize(OxSize.Large);
             Header.SetContentSize(Header.Width, 36);
         }
+
+        protected override void OnPinnedChanged(PinnedChangedEventArgs e) =>
+            SetSizes();
 
         public OxPane AsPane => this;
 
@@ -172,7 +199,7 @@ namespace OxDAOEngine.View
             if (text != string.Empty)
                 Headers.Add(panel, new OxHeader(text)
                 {
-                    Parent = this,
+                    Parent = panel.Parent,
                     Dock = DockStyle.Top
                 });
 
@@ -261,10 +288,16 @@ namespace OxDAOEngine.View
 
         protected override void ApplySettingsInternal()
         {
-            base.ApplySettingsInternal();
+            DockStyle settingsDock = 
+                TypeHelper.Helper<ItemInfoPositionHelper>().Dock(Settings.ItemInfoPosition);
 
-            if (SettingsManager.Settings<GeneralSettings>().Observer[GeneralSetting.DarkerHeaders])
-                PrepareColors();
+            if (Dock != settingsDock)
+            {
+                Dock = settingsDock;
+                SetTitleAlign();
+            }
+
+            base.ApplySettingsInternal();
         }
 
         public override void SaveSettings()
@@ -286,5 +319,14 @@ namespace OxDAOEngine.View
         protected readonly List<OxPanel> panels = new();
         protected readonly Dictionary<OxPanel, ControlLayouts<TField>> LayoutsLists = new();
         protected override Bitmap? GetIcon() => DataManager.ListController<TField, TDAO>().Icon;
+
+        public void ScrollToTop() =>
+            ContentContainer.AutoScrollPosition = new(0, 0);
+
+        protected override void OnDockChanged(EventArgs e)
+        {
+            base.OnDockChanged(e);
+            SetSizes();
+        }
     }
 }

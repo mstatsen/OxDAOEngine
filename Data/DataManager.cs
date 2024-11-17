@@ -587,6 +587,7 @@ namespace OxDAOEngine.Data
             TypeHelper.Register<IconSizeHelper>();
             TypeHelper.Register<IconClickVariantHelper>();
             TypeHelper.Register<IconContentHelper>();
+            TypeHelper.Register<ItemInfoPositionHelper>();
             TypeHelper.Register<ItemsViewsTypeHelper>();
             TypeHelper.Register<StatisticTypeHelper>();
             TypeHelper.Register<SettingsPartHelper>();

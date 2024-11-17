@@ -9,6 +9,7 @@
         ShowItemInfo,
         CategoryPanelPinned,
         CategoryPanelExpanded,
+        ItemInfoPosition,
         ItemInfoPanelPinned,
         ItemInfoPanelExpanded,
         QuickFilterPinned,

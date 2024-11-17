@@ -319,7 +319,7 @@ namespace OxDAOEngine.ControlFactory
             return builder;
         }
 
-        public virtual IItemInfo<TField, TDAO>? CreateInfoCard() => null;
+        public virtual IItemInfo<TField, TDAO>? CreateInfoPanel() => null;
 
         public virtual GridPainter<TField, TDAO>? CreateGridPainter(
             GridFieldColumns<TField> columns, GridUsage usage) => null;

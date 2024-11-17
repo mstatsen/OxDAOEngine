@@ -499,12 +499,13 @@ namespace OxDAOEngine
                     categoriesTree.Expanded = false;
             }
 
-            if (tableView != null && tableView.CurrentInfoCard != null)
+            if (tableView != null 
+                && tableView.InfoPanel != null)
             {
-                tableView.CurrentInfoCard.SiderEnabled = Visible;
+                tableView.InfoPanel.SiderEnabled = Visible;
 
-                if (!tableView.CurrentInfoCard.Pinned)
-                    tableView.CurrentInfoCard.Expanded = false;
+                if (!tableView.InfoPanel.Pinned)
+                    tableView.InfoPanel.Expanded = false;
             }
         }
 

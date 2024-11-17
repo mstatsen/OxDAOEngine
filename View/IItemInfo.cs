@@ -15,5 +15,6 @@ namespace OxDAOEngine.View
         void ApplySettings();
         void SaveSettings();
         new FunctionalPanelVisible Visible { get; set; }
+        void ScrollToTop();
     }
 }

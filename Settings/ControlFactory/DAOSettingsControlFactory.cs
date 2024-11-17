@@ -32,6 +32,8 @@ namespace OxDAOEngine.Settings.ControlFactory
                     DAOSetting.ShowItemInfo or
                     DAOSetting.ShowQuickFilter =>
                         CreateEnumAccessor<FunctionalPanelVisible>(context),
+                    DAOSetting.ItemInfoPosition =>
+                        CreateEnumAccessor<ItemInfoPosition>(context),
                     _ => 
                         null,
                 }

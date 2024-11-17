@@ -134,6 +134,12 @@ namespace OxDAOEngine.Settings
             set => this[DAOSetting.ItemInfoPanelExpanded] = value;
         }
 
+        public ItemInfoPosition ItemInfoPosition
+        {
+            get => Parse<ItemInfoPosition>(DAOSetting.ItemInfoPosition);
+            set => this[DAOSetting.ItemInfoPosition] = value;
+        }
+
         public bool QuickFilterPinned
         {
             get => BoolValue(DAOSetting.QuickFilterPinned);
@@ -325,6 +331,9 @@ namespace OxDAOEngine.Settings
                     case DAOSetting.ShowItemInfo:
                     case DAOSetting.ShowQuickFilter:
                         settings[setting] = XmlHelper.Value<FunctionalPanelVisible>(element, node.Name);
+                        break;
+                    case DAOSetting.ItemInfoPosition:
+                        settings[setting] = XmlHelper.Value<ItemInfoPosition>(element, node.Name);
                         break;
                 }
             }

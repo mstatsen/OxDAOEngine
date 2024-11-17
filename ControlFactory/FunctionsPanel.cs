@@ -5,6 +5,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.Settings.Part;
+using OxLibrary.Dialogs;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -263,10 +264,21 @@ namespace OxDAOEngine.ControlFactory
 
         protected override void OnDockChanged(EventArgs e)
         {
+            Borders.SetSize(OxSize.Small);
+            Paddings[OxDockHelper.Dock(Dock)].Visible = true;
+            Paddings[OxDockHelper.Dock(Sider.Dock)].Visible = true;
+
             OxDock oxDock = OxDockHelper.Dock(Dock);
             Sider.Dock = OxDockHelper.Dock(OxDockHelper.Opposite(oxDock));
-            Borders[OxDockHelper.Dock(Sider.Dock)].Visible = isFixedPanel;
-            Sider.Visible = !isFixedPanel && Dock != DockStyle.Fill && Dock != DockStyle.None;
+            Borders[OxDockHelper.Dock(Sider.Dock)].SetSize(
+                isFixedPanel 
+                    ? OxSize.Small 
+                    : OxSize.None
+            );
+            Sider.Visible = 
+                !isFixedPanel 
+                && Dock != DockStyle.Fill 
+                && Dock != DockStyle.None;
 
             if (OxDockHelper.IsVertical(oxDock))
             {
@@ -291,10 +303,12 @@ namespace OxDAOEngine.ControlFactory
             }
 
             SetExpandButtonLastBorder();
-
             ExpandButton.Icon = ExpandButtonIcon;
             RecalcPinned();
+            RecalcSize();
+            BringToFront();
             base.OnDockChanged(e);
+            SetExpanded(Expanded);
         }
 
         private void SetExpandButtonLastBorder() =>
@@ -321,7 +335,7 @@ namespace OxDAOEngine.ControlFactory
                 ContentContainer.Visible = value;
                 Header.Visible = value; 
                 ExpandButton.Icon = ExpandButtonIcon;
-                Borders[OxDockHelper.Dock(Dock)].Visible = value;
+                Borders[OxDockHelper.Dock(Dock)].SetSize(value ? OxSize.Small : OxSize.None);
             }
             finally
             {
@@ -491,7 +505,8 @@ namespace OxDAOEngine.ControlFactory
         {
             if (Parent != null)
                 foreach (Control control in Parent.Controls)
-                    if (control.Parent == Parent && control.Visible && control.Dock == DockStyle.Fill)
+                    if (control.Parent == Parent 
+                        && control.Dock == DockStyle.Fill)
                         return control;
 
             return null;
@@ -505,7 +520,8 @@ namespace OxDAOEngine.ControlFactory
 
                 if (parentFillControl != null)
                     foreach (Control control in parentFillControl.Controls)
-                        if (control is OxBorder border && control.Name == FakePaddingName)
+                        if (control is OxBorder border 
+                            && control.Name == FakePaddingName)
                             return border;
 
                 return null;
@@ -525,22 +541,14 @@ namespace OxDAOEngine.ControlFactory
         {
             Control? parentFillControl = GetParentFillControl();
 
-            if (parentFillControl == null) 
+            if (parentFillControl == null)
                 return;
 
-            OxBorder? fakePadding = null;
-
-            foreach (Control control in parentFillControl.Controls)
-                if (control is OxBorder border && control.Name == FakePaddingName)
-                {
-                    fakePadding = border;
-                    break;
-                }
+            OxBorder? fakePadding = ParentPadding;
 
             int fakePaddingSize = OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
                 ? Sider.CalcedHeight + Margins.CalcedSize(OxDock.Top) + Margins.CalcedSize(OxDock.Bottom)
                 : Sider.CalcedWidth + Margins.CalcedSize(OxDock.Left) + Margins.CalcedSize(OxDock.Right);
-
 
             if (fakePadding != null)
             {
@@ -574,10 +582,15 @@ namespace OxDAOEngine.ControlFactory
                     !Pinned
                 );
                 fakePadding.Name = FakePaddingName;
+                fakePadding.Click += FakePadding_Click;
             }
 
-            if (fakePadding.Visible)
-                fakePadding.SendToBack();
+            fakePadding.SendToBack();
+        }
+
+        private void FakePadding_Click(object? sender, EventArgs e)
+        {
+            OxMessage.ShowInfo(FakePaddingName, GetParentFillControl()!);
         }
 
         private void MouseEnterHandler(object? sender, EventArgs e)
@@ -646,7 +659,25 @@ namespace OxDAOEngine.ControlFactory
             {
                 base.Visible = value != FunctionalPanelVisible.Hidden;
                 SetAsFixedPanel(value == FunctionalPanelVisible.Fixed);
+
+                if (value == FunctionalPanelVisible.Hidden)
+                    HideParentPadding();
             }
+        }
+
+        private void HideParentPadding()
+        {
+            Control? parentFillControl = GetParentFillControl();
+
+            if (parentFillControl == null)
+                return;
+
+            OxBorder? parentPadding = ParentPadding;
+
+            if (parentPadding == null)
+                return;
+
+            parentPadding.Visible = false;
         }
     }
 
@@ -674,7 +705,8 @@ namespace OxDAOEngine.ControlFactory
             if (Observer[PinnedSetting])
             {
                 bool? settingPinned = (bool?)Settings[PinnedSetting];
-                Pinned = (bool)(settingPinned != null ? settingPinned : false);
+                Pinned = Visible == FunctionalPanelVisible.Fixed 
+                    || (bool)(settingPinned != null ? settingPinned : false);
             }
 
             if (Observer[PinnedSetting]
@@ -683,6 +715,9 @@ namespace OxDAOEngine.ControlFactory
                 bool? settingExpanded = (bool?)Settings[ExpandedSetting];
                 Expanded = Pinned && (bool)(settingExpanded != null ? settingExpanded : false);
             }
+
+            if (SettingsManager.Settings<GeneralSettings>().Observer[GeneralSetting.DarkerHeaders])
+                PrepareColors();
         }
     }
 }
