@@ -75,7 +75,7 @@ namespace OxDAOEngine.Export
                 fieldValue = decorator[column.Field]?.ToString()?.Trim();
 
                 if (fieldValue is null 
-                    || fieldValue == string.Empty)
+                    || fieldValue.Equals(string.Empty))
                     continue;
 
                 if (builder.Length > 0)
@@ -111,7 +111,7 @@ namespace OxDAOEngine.Export
                 {
                     if (prevItem is not null)
                     {
-                        if (group == groupings.First())
+                        if (group.Equals(groupings.First()))
                             builder.AppendLine();
 
                         if (!needStartGroup)
@@ -140,7 +140,7 @@ namespace OxDAOEngine.Export
 
         private string Summary()
         {
-            if (Settings.Text.Summary == ExportSummaryType.None)
+            if (Settings.Text.Summary is ExportSummaryType.None)
                 return string.Empty;
 
             StringBuilder summaryBuilder = new(string.Empty);
@@ -161,7 +161,7 @@ namespace OxDAOEngine.Export
         private void AppendFieldInfo(StringBuilder builder, TField field)
         {
             FieldCountExtract extract = new FieldExtractor<TField, TDAO>(
-                Settings.Text.Summary == ExportSummaryType.Exported
+                Settings.Text.Summary is ExportSummaryType.Exported
                     ? Items
                     : TotalItemsList).CountExtract(
                 field,
@@ -174,7 +174,7 @@ namespace OxDAOEngine.Export
             {
                 valueBuilder.Clear();
 
-                if (Settings.Text.Summary == ExportSummaryType.Full)
+                if (Settings.Text.Summary is ExportSummaryType.Full)
                 {
                     valueBuilder.Append(
                         Items.FilteredList(
@@ -196,7 +196,7 @@ namespace OxDAOEngine.Export
         */
 
         private string ItemsCount() => 
-            Settings.Text.Summary == ExportSummaryType.Full 
+            Settings.Text.Summary is ExportSummaryType.Full 
                 ? $"{Items.Count} / {TotalItemsList.Count}"
                 : Items.Count.ToString();
 
@@ -227,7 +227,7 @@ namespace OxDAOEngine.Export
                 bool textFilterExists = false;
 
                 foreach (var item in filterValues)
-                    if (item.Key == Consts.QuickFilterTextFieldCaption)
+                    if (item.Key.Equals(Consts.QuickFilterTextFieldCaption))
                         textFilterExists = true;
                     else
                     {

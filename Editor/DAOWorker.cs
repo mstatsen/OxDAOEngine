@@ -236,7 +236,7 @@ namespace OxDAOEngine.Editor
             bool needRecalcGroupsAvailability = false;
 
             foreach (TField field in EditingFields)
-                if (Builder.Control(field) == sender)
+                if (Builder.Control(field).Equals(sender))
                 {
                     if (Generator!.TitleAccordionFields().Contains(field))
                         FillFormCaption();

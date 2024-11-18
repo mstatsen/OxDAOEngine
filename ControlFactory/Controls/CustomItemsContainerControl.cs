@@ -44,7 +44,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             editor ??= new TEditor().Init<TEditor>(Context);
             editor.OwnerControl = this;
-            editor.BaseColor = Colors.Lighter(Context.Scope == ControlScope.Editor ? 0 : 1);
+            editor.BaseColor = Colors.Lighter(Context.Scope is ControlScope.Editor ? 0 : 1);
             PrepareEditor(editor);
             editor.OwnerDAO = OwnerDAO;
             editor.ParentItem = SelectedItem;
@@ -68,7 +68,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             TList existingItems = new();
 
             foreach (TItem item in Value)
-                if (editingType != TypeOfEditorShow.Edit 
+                if (editingType is not TypeOfEditorShow.Edit 
                     || !EqualsItems(item, SelectedItem))
                     existingItems.Add(item);
 
@@ -90,13 +90,13 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (item is null)
                 return false;
 
-            if (addType.Equals(TypeOfEditorShow.AddChild)
+            if (addType is TypeOfEditorShow.AddChild
                 && item is ITreeItemDAO<TItem> treeItem)
                 treeItem.Parent = SelectedItem;
 
             SetValuePart(item);
 
-            if (addType == TypeOfEditorShow.Add)
+            if (addType is TypeOfEditorShow.Add)
                 ResortValue();
 
             ItemsContainer.SelectedItem = item;
@@ -136,7 +136,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (item is null)
                 return;
 
-            if (Editor(TypeOfEditorShow.Edit).Edit(item, readOnly) != DialogResult.OK)
+            if (Editor(TypeOfEditorShow.Edit).Edit(item, readOnly) is not DialogResult.OK)
                 return;
             
             ItemsContainer.BeginUpdate();
@@ -193,7 +193,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             ItemsContainer.RemoveCurrent();
 
         private bool AllItemsAdded => 
-            ItemsContainer.Count == (
+            ItemsContainer.Count.Equals(
                 GetMaximumCount is not null
                     ? GetMaximumCount()
                     : MaximumItemsCount
@@ -202,7 +202,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected virtual void EnableControls()
         {
             ButtonsPanel.Visible = 
-                !(readOnly && ReadonlyMode == ReadonlyMode.ViewAsReadonly) 
+                !(readOnly 
+                    && ReadonlyMode is ReadonlyMode.ViewAsReadonly) 
                 || ButtonEffects.ContainsValue(ItemsContainerButtonEffect.View);
 
             AddButton.Visible = !readOnly;
@@ -244,7 +245,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (handler is not null)
                 button.Click += handler;
 
-            if (index == -1)
+            if (index is -1)
                 index = Buttons.Count;
 
             Buttons.Insert(index, button);
@@ -278,7 +279,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         private void SetEditButtonVisible(bool value)
         {
             if (EditButton is null 
-                || EditButton.Visible == value)
+                || EditButton.Visible.Equals(value))
                 return;
 
             if (!readOnly 
@@ -443,7 +444,8 @@ namespace OxDAOEngine.ControlFactory.Controls
                 return;
 
             SetEditButtonVisible(
-                !(readOnly && ReadonlyMode == ReadonlyMode.ViewAsReadonly) 
+                !(readOnly 
+                    && ReadonlyMode is ReadonlyMode.ViewAsReadonly) 
                 && (CalcedButtonsHeight <= ButtonsPanel.Height)
             );
             LayoutButtons();

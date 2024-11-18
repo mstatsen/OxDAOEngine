@@ -50,7 +50,7 @@ namespace OxDAOEngine.Data.Sorting
                     break;
             }
 
-            if (result != 0 
+            if (!result.Equals(0)
                 && SortOrder.Equals(SortOrder.Descending))
                 result = -result;
 

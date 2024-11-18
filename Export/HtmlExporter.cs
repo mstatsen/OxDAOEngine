@@ -95,7 +95,7 @@ namespace OxDAOEngine.Export
 
         private object Summary()
         {
-            if (Settings.HTML.Summary == ExportSummaryType.None)
+            if (Settings.HTML.Summary is ExportSummaryType.None)
                 return string.Empty;
 
             StringBuilder summaryBuilder = new(string.Empty);
@@ -130,7 +130,7 @@ namespace OxDAOEngine.Export
             LevelValueTypeHelper helper = TypeHelper.Helper<LevelValueTypeHelper>();
 
             foreach (LevelValueType valueType in TypeHelper.All<LevelValueType>())
-                if (helper.Group(valueType) == LevelValueTypeGroup.Trophies)
+                if (helper.Group(valueType) is LevelValueTypeGroup.Trophies)
                     bodyBuilder.AppendLine(
                         SummaryRow(
                             TypeHelper.Name(valueType),
@@ -172,7 +172,7 @@ namespace OxDAOEngine.Export
 
         private string GeneralSummary()
         {
-            if (Items.Count == 0)
+            if (Items.Count is 0)
                 return "<i>No data to display</i>";
 
             StringBuilder bodyBuilder = new(string.Empty);
@@ -206,17 +206,18 @@ namespace OxDAOEngine.Export
             );
 
         private string SummaryRow(string key, int value, int totalValue) =>
-            Settings.HTML.ZeroSummary || (value != 0) 
+            Settings.HTML.ZeroSummary 
+            || !value.Equals(0)
                 ? string.Format(Templates.SummaryRow,
                     key,
                     value,
-                    Settings.HTML.Summary == ExportSummaryType.Full
+                    Settings.HTML.Summary is ExportSummaryType.Full
                         ? string.Format(Templates.TotalValue, totalValue)
                         : string.Empty)
                 : string.Empty;
 
         private string SummaryCardClass =>
-            Settings.HTML.Summary == ExportSummaryType.Full
+            Settings.HTML.Summary is ExportSummaryType.Full
                 ? "cardTotal"
                 : "card";
 

@@ -12,7 +12,7 @@
         {
             int result = 0;
 
-            if (Type == ExtractCompareType.Count)
+            if (Type is ExtractCompareType.Count)
                 result =
                     x is null
                         ? y is null
@@ -22,8 +22,12 @@
                             ? 1
                             : Extract[x].CompareTo(Extract[y]);
 
-            if (result == 0)
-                result = string.Compare(x?.ToString(),y?.ToString());
+            if (result is 0)
+                result = 
+                    string.Compare(
+                        x?.ToString(),
+                        y?.ToString()
+                    );
 
             return result;
         }

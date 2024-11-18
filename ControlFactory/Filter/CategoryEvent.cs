@@ -30,7 +30,10 @@ namespace OxDAOEngine.ControlFactory.Filter
                     return true;
 
                 return !OldCategory.Filter.Equals(NewCategory.Filter)
-                    || (OldCategory.NearFilteredParent != NewCategory.NearFilteredParent);
+                    || (OldCategory.NearFilteredParent is null 
+                        && NewCategory.NearFilteredParent is not null)
+                    || (OldCategory.NearFilteredParent is not null
+                        && !OldCategory.NearFilteredParent.Equals(NewCategory.NearFilteredParent));
             }
         }
     }

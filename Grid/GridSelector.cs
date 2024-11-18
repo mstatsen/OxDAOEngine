@@ -41,7 +41,7 @@ namespace OxDAOEngine.Grid
 
         public void FocusOnRow(int topRowIndex)
         {
-            if (grid.RowCount == 0)
+            if (grid.RowCount is 0)
                 return;
 
             if (topRowIndex > -1
@@ -86,7 +86,7 @@ namespace OxDAOEngine.Grid
 
         private void SelectItems()
         {
-            if (savedSelection.Count == 0)
+            if (savedSelection.Count is 0)
                 return;
 
             foreach (DataGridViewRow row in grid.Rows)
@@ -94,7 +94,8 @@ namespace OxDAOEngine.Grid
                     row.Visible
                     && savedSelection.Contains(i => i.Equals(GetDaoFromRow<TDAO>(row)));
 
-            if (grid.SelectedRows.Count == 0 && grid.Rows.Count > 0)
+            if (grid.SelectedRows.Count is 0 
+                && grid.Rows.Count > 0)
                 FocusOnFirstRow();
         }
 

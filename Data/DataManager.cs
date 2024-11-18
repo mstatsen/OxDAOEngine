@@ -43,8 +43,8 @@ namespace OxDAOEngine.Data
 
             Controllers.Add(controller);
 
-            if ((controller.FileName != string.Empty) &&
-                !Files.ContainsKey(controller.FileName))
+            if (!controller.FileName.Equals(string.Empty) 
+                && !Files.ContainsKey(controller.FileName))
                 Files.Add(controller.FileName, new XmlDocument());
 
             return controller;
@@ -58,8 +58,8 @@ namespace OxDAOEngine.Data
                 file.Value.AppendChild(file.Value.CreateElement("Data"));
 
                 foreach (IDataController controller in Controllers)
-                    if (controller.FileName == file.Key && 
-                        file.Value.DocumentElement is not null)
+                    if (controller.FileName.Equals(file.Key) 
+                        && file.Value.DocumentElement is not null)
                         controller.Save(file.Value.DocumentElement);
 
                 file.Value.Save(file.Key);
@@ -119,7 +119,7 @@ namespace OxDAOEngine.Data
         public static IDataController Controller(IOxPane face)
         {
            foreach (IDataController controller in Controllers)
-                if (controller.Face == face)
+                if (face.Equals(controller.Face))
                     return controller;
 
             throw new KeyNotFoundException($"Face Controller for {face.Text} not found");
@@ -604,7 +604,7 @@ namespace OxDAOEngine.Data
         public static IDataController? Controller(string controllerTypeName)
         {
             foreach (var controller in Controllers)
-                if (controller.GetType().Name == controllerTypeName)
+                if (controller.GetType().Name.Equals(controllerTypeName))
                     return controller;
 
             return FirstFieldController() ?? null;

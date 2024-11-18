@@ -64,7 +64,7 @@ namespace OxDAOEngine.Data
         public override void Save(XmlElement? parentElement, bool clearModified = true)
         {
             if (!SaveEmptyList 
-                && Count == 0)
+                && Count is 0)
                 return;
 
             base.Save(parentElement, clearModified);
@@ -108,7 +108,8 @@ namespace OxDAOEngine.Data
                     }
                 );
 
-                if (item.WithoutXmlNode || item.XmlElementName == node.Name)
+                if (item.WithoutXmlNode 
+                    || item.XmlElementName.Equals(node.Name))
                 {
                     item.State = State;
                     item.Load((XmlElement)node);
@@ -246,7 +247,7 @@ namespace OxDAOEngine.Data
 
             ListDAO<T> other = (ListDAO<T>)obj;
 
-            if (other.Count != Count)
+            if (!other.Count.Equals(Count))
                 return false;
 
             if (AutoSorting)
@@ -274,7 +275,8 @@ namespace OxDAOEngine.Data
         }
 
         public int Count => List.Count;
-        public override bool IsEmpty => List.Count == 0;
+        public override bool IsEmpty => List.Count is 0;
+
         public event DAOEntityEventHandler? ItemAddHandler;
         public event DAOEntityEventHandler? ItemRemoveHandler;
 
@@ -291,7 +293,7 @@ namespace OxDAOEngine.Data
 
                 foreach (T item in this)
                 {
-                    if (result != string.Empty)
+                    if (!result.Equals(string.Empty))
                         result += ", ";
 
                     result += item.ShortString;

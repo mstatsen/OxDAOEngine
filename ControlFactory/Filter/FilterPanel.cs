@@ -51,7 +51,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             Clear();
             ConcatControl.Value = value.FilterConcat;
 
-            if (value.Count == 0)
+            if (value.Count is 0)
                 value.AddGroup(ConcatControl.EnumValue<FilterConcat>());
 
             foreach(FilterGroup<TField, TDAO> group in value)
@@ -104,7 +104,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void GroupPanelRemoveGroupHandler(object? sender, EventArgs e)
         {
-            if (groupsPanels.Count == 1)
+            if (groupsPanels.Count is 1)
             {
                 OxMessage.ShowError("You can't delete last group", this);
                 return;

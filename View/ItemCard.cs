@@ -20,7 +20,7 @@ namespace OxDAOEngine.View
             ViewMode = viewMode;
             EditorButton.SetContentSize(25, 20);
             EditorButton.Click += (s, e) => DataManager.EditItem<TField, TDAO>(item);
-            EditorButton.Visible = ViewMode == ItemViewMode.WithEditLink;
+            EditorButton.Visible = ViewMode is ItemViewMode.WithEditLink;
             Header.AddToolButton(EditorButton);
             Builder = DataManager.Builder<TField, TDAO>(ControlScope.CardView, true);
             Layouter = Builder.Layouter;

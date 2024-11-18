@@ -230,7 +230,7 @@ namespace OxDAOEngine.Editor
 
         private void FormClosedHandler(object? sender, FormClosedEventArgs e)
         {
-            if (DialogResult == DialogResult.OK 
+            if (DialogResult is DialogResult.OK 
                 && Item is not null)
                 SaveChanges();
 
@@ -295,7 +295,7 @@ namespace OxDAOEngine.Editor
 
             foreach (var parent in GroupParents)
             {
-                if (parent.Key == MainPanel)
+                if (parent.Key.Equals(MainPanel))
                     continue;
 
                 bool calcedVisible = 
@@ -358,7 +358,7 @@ namespace OxDAOEngine.Editor
         protected void SetParentsColor() 
         { 
             foreach (OxPanel panel in ParentPanels.Cast<OxPanel>())
-                if (panel != MainPanel)
+                if (!panel.Equals(MainPanel))
                     panel.BaseColor = MainPanel.Colors.Lighter();
         }
 
@@ -376,7 +376,7 @@ namespace OxDAOEngine.Editor
             int result = 0;
 
             foreach (TFieldGroup group in Groups.Keys)
-                if (GroupParent(group) == parentControl)
+                if (parentControl.Equals(GroupParent(group)))
                     result = Math.Max(result, Groups.Width(group));
 
             return result;

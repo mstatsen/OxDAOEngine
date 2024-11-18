@@ -37,7 +37,7 @@ namespace OxDAOEngine.Settings.Helpers
             };
 
         public override bool IsDAOSetting(DAOSetting setting) =>
-            setting == DAOSetting.IconMapping;
+            setting is DAOSetting.IconMapping;
 
         public override object? Default(DAOSetting setting) =>
             setting switch

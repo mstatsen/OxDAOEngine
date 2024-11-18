@@ -59,19 +59,19 @@ namespace OxDAOEngine.Settings.Data
                 return part switch
                 {
                     IconContent.Image => 
-                        otherPart == 
+                        otherPart is 
                             IconContent.Image 
                                 ? 0 
                                 : -1,
                     IconContent.Title => 
-                        otherPart == IconContent.Image 
+                        otherPart is IconContent.Image 
                             ? 1 
-                            : otherPart == IconContent.Title ? 0 : -1,
+                            : otherPart is IconContent.Title ? 0 : -1,
                     IconContent.Left => 
-                        otherPart == IconContent.Image 
-                        || otherPart == IconContent.Title
+                        otherPart is IconContent.Image 
+                        || otherPart is IconContent.Title
                             ? 1 
-                            : otherPart == IconContent.Left 
+                            : otherPart is IconContent.Left 
                                 ? 0 
                                 : -1,
                     _ => //IconContent.Right

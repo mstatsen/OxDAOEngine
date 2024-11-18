@@ -70,7 +70,7 @@ namespace OxDAOEngine.Grid
             Color foreColor = ForeColor;
             Color selectionForeColor = foreColor;
 
-            if (e.ColumnIndex == FlagColumn.Index)
+            if (e.ColumnIndex.Equals(FlagColumn.Index))
             {
                 backColor = DAO.BoolValue(e.Value)
                     ? Color.FromArgb(0XFF, 0xAF, 0XFF, 0XAF)

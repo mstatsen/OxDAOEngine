@@ -74,7 +74,7 @@ namespace OxDAOEngine.Settings
             Text = "Settings";
             FillControls();
 
-            if (ShowDialog(null) == DialogResult.OK)
+            if (ShowDialog(null) is DialogResult.OK)
                 DataReceivers.ApplySettings();
         }
 
@@ -93,7 +93,7 @@ namespace OxDAOEngine.Settings
         {
             base.OnFormClosed(e);
 
-            if (DialogResult == DialogResult.OK)
+            if (DialogResult is DialogResult.OK)
                 GrabControls();
         }
 
@@ -103,8 +103,8 @@ namespace OxDAOEngine.Settings
         {
             foreach (var item in settingsFieldPanels)
                 foreach (SettingsPart part in partHelper.MandatoryFields)
-                    if (AvailablePart(item.Key, part) && 
-                        settingsFieldPanels[item.Key][part].Fields.Count == 0)
+                    if (AvailablePart(item.Key, part) 
+                        && settingsFieldPanels[item.Key][part].Fields.Count is 0)
                         return $"{item.Key.ListName} {TypeHelper.Name(part)} fields";
            
             return base.EmptyMandatoryField();
@@ -330,7 +330,7 @@ namespace OxDAOEngine.Settings
                 part,
                 settings.CreateFieldsPanel(
                     part,
-                    settingsPanels[settings][part == SettingsPart.QuickFilterText ? SettingsPart.QuickFilter : part]
+                    settingsPanels[settings][part is SettingsPart.QuickFilterText ? SettingsPart.QuickFilter : part]
                 )
             );
         }
@@ -388,7 +388,7 @@ namespace OxDAOEngine.Settings
             settingList ??= settings.Helper.ItemsByPart(part);
 
             if (settingList is null 
-                || settingList.Count == 0)
+                || settingList.Count is 0)
                 return null;
 
             OxFrameWithHeader frame = CreateFrame(settings, part, caption);
@@ -467,7 +467,7 @@ namespace OxDAOEngine.Settings
         private void SetDefaultForPart(ISettingsController settings, SettingsPart part)
         {
             foreach (var item in settingsControls[settings])
-                if (settings.Helper.Part(item.Key) == part)
+                if (settings.Helper.Part(item.Key).Equals(part))
                     item.Value.Value = settings.GetDefault(item.Key);
 
             if (partHelper.IsFieldsSettings(part))
@@ -476,7 +476,7 @@ namespace OxDAOEngine.Settings
             if (part.Equals(SettingsPart.Category))
                 settingsCategoriesPanels[settings].ResetToDefault();
 
-            if (part == SettingsPart.QuickFilter)
+            if (part is SettingsPart.QuickFilter)
                 SetDefaultForPart(settings, SettingsPart.QuickFilterText);
         }
 
@@ -487,14 +487,18 @@ namespace OxDAOEngine.Settings
 
             DefaulterScope scope = defaulters[(OxButton)sender];
 
-            if (scope == DefaulterScope.All
-                && !OxMessage.Confirmation("Are you sure you want to reset all settings to the default values?", this))
+            if (scope is DefaulterScope.All
+                && !OxMessage.Confirmation(
+                        "Are you sure you want to reset all settings to the default values?", 
+                        this
+                    )
+                )
                 return;
 
             foreach (var item in settingsPanels)
                 foreach (var partPanel in item.Value)
-                    if (scope == DefaulterScope.All ||
-                        partPanel.Value == settingsTabs[item.Key].ActivePage)
+                    if (scope is DefaulterScope.All
+                        || partPanel.Value.Equals(settingsTabs[item.Key].ActivePage))
                         SetDefaultForPart(item.Key, partPanel.Key);
         }
 

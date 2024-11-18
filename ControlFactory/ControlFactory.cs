@@ -51,7 +51,7 @@ namespace OxDAOEngine.ControlFactory
                     return new TextMultiLineInitializer(
                         context.AdditionalContext is bool boolContext
                         && boolContext,
-                        context.FieldType == FieldType.Memo);
+                        context.FieldType is FieldType.Memo);
                 case FieldType.Enum:
                 case FieldType.Boolean:
                 case FieldType.Integer:
@@ -87,7 +87,7 @@ namespace OxDAOEngine.ControlFactory
         protected object? BuilderVariant(ControlBuilder<TField, TDAO> builder)
         {
             foreach (var item in builders)
-                if (builder == item.Value)
+                if (builder.Equals(item.Value))
                     return item.Key.Variant;
 
             return null;
@@ -304,7 +304,14 @@ namespace OxDAOEngine.ControlFactory
 
         public virtual ControlBuilder<TField, TDAO> Builder(ControlScope scope, bool forceNew = false, object? variant = null)
         {
-            BuilderKey? builderKey = buildersKeys.Find(k => k.Scope == scope && k.Variant == variant);
+            BuilderKey? builderKey = buildersKeys.Find(k => 
+                k.Scope.Equals(scope) 
+                && ((k.Variant is null 
+                        && variant is null) 
+                    || (k.Variant is not null 
+                        && k.Variant.Equals(variant))
+                    )
+            );
 
             if (builderKey is null)
             {
@@ -312,7 +319,8 @@ namespace OxDAOEngine.ControlFactory
                 buildersKeys.Add(builderKey);
             }
 
-            if (forceNew || !builders.TryGetValue(builderKey, out var builder))
+            if (forceNew || 
+                !builders.TryGetValue(builderKey, out var builder))
             {
                 builder = new ControlBuilder<TField, TDAO>(this, scope);
 
@@ -350,8 +358,10 @@ namespace OxDAOEngine.ControlFactory
         public IItemView<TField, TDAO>? CreateItemView(ItemsViewsType viewType, ItemViewMode viewMode) =>
             viewType switch
             {
-                ItemsViewsType.Cards => CreateCard(viewMode),
-                ItemsViewsType.Icons => CreateIcon(),
+                ItemsViewsType.Cards => 
+                    CreateCard(viewMode),
+                ItemsViewsType.Icons => 
+                    CreateIcon(),
                 _ => null,
             };
     }

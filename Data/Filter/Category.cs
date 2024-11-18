@@ -45,7 +45,7 @@ namespace OxDAOEngine.Data.Filter
 
                 Category<TField, TDAO>? filteredParent = NearFilteredParent;
                 return 
-                    (Type.Equals(CategoryType.FieldExtraction) 
+                    (Type is CategoryType.FieldExtraction
                         || Filter.IsEmpty)
                     && (filteredParent is null 
                         || filteredParent.FilterIsEmpty);
@@ -137,7 +137,7 @@ namespace OxDAOEngine.Data.Filter
             DataManager.ListController<TField, TDAO>();
 
         public string Description => 
-            Type.Equals(CategoryType.FieldExtraction)
+            Type is CategoryType.FieldExtraction
                 ? $"{ListController.ListName}, separated by {TypeHelper.Name(Field)}"
                 : BaseOnChilds
                     ? $"Category, summorizing {ListController.ListName}, suitable for childs categories"
@@ -158,7 +158,7 @@ namespace OxDAOEngine.Data.Filter
             Name = XmlHelper.Value(element, XmlConsts.Name);
             BaseOnChilds = XmlHelper.ValueBool(element, XmlConsts.BaseOnChilds);
 
-            if (Type == CategoryType.FieldExtraction)
+            if (Type is CategoryType.FieldExtraction)
                 Field = XmlHelper.Value<TField>(element, XmlConsts.Field);
         }
 
@@ -166,13 +166,13 @@ namespace OxDAOEngine.Data.Filter
         {
             base.BeforeSave();
 
-            if (Type == CategoryType.FieldExtraction)
+            if (Type is CategoryType.FieldExtraction)
             {
                 BaseOnChilds = false;
                 Name = $"By {TypeHelper.Name(Field)}";
             }
 
-            if (Type == CategoryType.FieldExtraction
+            if (Type is CategoryType.FieldExtraction
                 || BaseOnChilds)
                 Filter.Clear();
         }
@@ -182,7 +182,7 @@ namespace OxDAOEngine.Data.Filter
             XmlHelper.AppendElement(element, XmlConsts.Type, Type);
             XmlHelper.AppendElement(element, XmlConsts.Name, Name);
 
-            if (Type == CategoryType.FieldExtraction)
+            if (Type is CategoryType.FieldExtraction)
                 XmlHelper.AppendElement(element, XmlConsts.Field, Field);
 
             if (BaseOnChilds)

@@ -52,13 +52,13 @@ namespace OxDAOEngine.Data.Filter
         public FilterGroup<TField, TDAO> GetSuitableGroup(FilterConcat concatToGroup)
         {
             FilterGroup<TField, TDAO>? group =
-                Count == 0
+                Count is 0
                     ? null
                     : Groups.Last();
 
             return 
                 group is not null
-                && group.FilterConcat == concatToGroup
+                && group.FilterConcat.Equals(concatToGroup)
                     ? group
                     : AddGroup(concatToGroup);
         }

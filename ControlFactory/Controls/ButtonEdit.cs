@@ -57,7 +57,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             dialog.Text = editor.Text;
             dialog.BaseColor = dialogBaseColor;
 
-            if (dialog.ShowDialog(this) == DialogResult.OK)
+            if (dialog.ShowDialog(this) is DialogResult.OK)
             {
                 internalValue.CopyFrom(editor.Value);
                 FillTextBox();

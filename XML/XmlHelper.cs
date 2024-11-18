@@ -13,12 +13,13 @@ namespace OxDAOEngine.XML
         {
             name = NormalizeNameString(name);
             string normalizedValue = value ?? string.Empty;
-            if (normalizedValue == string.Empty && nullIfEmpty)
+            if (normalizedValue.Equals(string.Empty) 
+                && nullIfEmpty)
                 return null;
 
             XmlElement fieldElement = parentElement.OwnerDocument.CreateElement(name);
 
-            if (normalizedValue != string.Empty)
+            if (!normalizedValue.Equals(string.Empty))
                 fieldElement.InnerText = normalizedValue;
 
             parentElement.AppendChild(fieldElement);
@@ -50,7 +51,7 @@ namespace OxDAOEngine.XML
             name = NormalizeNameString(name);
 
             foreach (XmlNode node in parentElement.ChildNodes)
-                if (name == node.Name)
+                if (name.Equals(node.Name))
                     return node.InnerText;
 
             return string.Empty;

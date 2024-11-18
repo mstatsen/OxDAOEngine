@@ -54,7 +54,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             FillControls(item);
             DialogResult result = ShowDialog(OwnerControl);
 
-            if (result == DialogResult.OK)
+            if (result is DialogResult.OK)
                 GrabControls(item);
 
             return result;
@@ -97,7 +97,10 @@ namespace OxDAOEngine.ControlFactory.Controls
         public TItem? Add()
         {
             TItem item = CreateNewItem();
-            return Edit(item) == DialogResult.OK ? item : null;
+            return 
+                Edit(item) is DialogResult.OK 
+                    ? item 
+                    : null;
         }
 
         protected OxLabel CreateLabel(string caption, IControlAccessor accessor, 

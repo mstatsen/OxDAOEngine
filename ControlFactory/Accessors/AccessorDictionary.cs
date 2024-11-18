@@ -46,7 +46,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             {
                 FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>()!;
 
-                if (fieldHelper.GetFieldType(field) == FieldType.Enum
+                if (fieldHelper.GetFieldType(field) is FieldType.Enum
                     && key is string stringValue)
                 {
                     ITypeHelper? helper = fieldHelper.GetHelper(field);

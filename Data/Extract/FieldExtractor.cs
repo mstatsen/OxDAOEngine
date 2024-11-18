@@ -38,7 +38,7 @@ namespace OxDAOEngine.Data.Extract
             ignoreEmpty
             && (value is null
                 || (value is string
-                    && value.ToString() == string.Empty
+                    && value.ToString()!.Equals(string.Empty)
                 )
             );
 

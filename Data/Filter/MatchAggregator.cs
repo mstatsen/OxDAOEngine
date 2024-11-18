@@ -10,7 +10,7 @@ namespace OxDAOEngine.Data.Filter
         public MatchAggregator(FilterConcat concat)
         {
             Concat = concat;
-            Matched = Concat == FilterConcat.AND;
+            Matched = Concat is FilterConcat.AND;
         }
 
         public void Aggregate(bool newMatch)
@@ -28,7 +28,8 @@ namespace OxDAOEngine.Data.Filter
 
         public bool Matched { get; internal set; }
         public bool Complete => 
-            Concat == FilterConcat.AND && !Matched;
+            Concat is FilterConcat.AND 
+            && !Matched;
 
         public static bool IsEmpty(IMatcherList<TField> matcher)
         {

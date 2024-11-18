@@ -67,7 +67,7 @@ namespace OxDAOEngine
         private void SaveCurrentView(OxTabControlEventArgs e)
         {
             foreach (KeyValuePair<ItemsViewsType, OxPane> view in Views)
-                if (view.Value == e.Page)
+                if (view.Value.Equals(e.Page))
                 {
                     Settings.CurrentView = view.Key;
                     return;
@@ -259,12 +259,14 @@ namespace OxDAOEngine
                 if (ListController.AvailableQuickFilter)
                     tableView.ApplyQuickFilter(quickFilter.ActiveFilter);
 
-                if (ListController.AvailableCards && 
-                    tabControl.ActivePage == cardsView)
+                if (ListController.AvailableCards &&
+                    cardsView is not null
+                    && cardsView.Equals(tabControl.ActivePage))
                     cardsView?.Fill(actualItemList);
 
-                if (ListController.AvailableIcons && 
-                    tabControl.ActivePage == iconsView)
+                if (ListController.AvailableIcons
+                    && iconsView is not null
+                    && iconsView.Equals(tabControl.ActivePage))
                     iconsView?.Fill(actualItemList);
             }
             finally
@@ -426,7 +428,7 @@ namespace OxDAOEngine
 
         private void DeactivatePageHandler(object sender, OxTabControlEventArgs e)
         {
-            sortingPanel.Visible = e.Page != tableView;
+            sortingPanel.Visible = !e.Page.Equals(tableView);
         }
         */
 
@@ -518,24 +520,18 @@ namespace OxDAOEngine
             }
         }
 
-        public SettingsPart ActiveSettingsPart
-        {
-            get
-            {
-                SettingsPart result = SettingsPart.Table;
-
-                if (tabControl.ActivePage != tableView)
-                    if (ListController.AvailableCards 
-                        && tabControl.ActivePage == cardsView)
-                        result = SettingsPart.Cards;
-                    else
-                        if (ListController.AvailableIcons 
-                            && tabControl.ActivePage == iconsView)
-                            result = SettingsPart.Icons;
-
-                return result;
-            }
-        }
+        public SettingsPart ActiveSettingsPart => 
+            tableView.Equals(tabControl.ActivePage)
+                ? SettingsPart.Table
+                : ListController.AvailableCards
+                    && cardsView is not null
+                    && cardsView.Equals(tabControl.ActivePage)
+                        ? SettingsPart.Cards
+                        : ListController.AvailableIcons
+                            && iconsView is not null
+                            && iconsView.Equals(tabControl.ActivePage)
+                            ? SettingsPart.Icons
+                            : SettingsPart.Table;
 
         public Bitmap? Icon => ListController.Icon;
 

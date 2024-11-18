@@ -114,7 +114,7 @@ namespace OxDAOEngine.Data
         }
         protected void NotifyAll()
         {
-            if (FullItemsList.State == DAOState.Loading)
+            if (FullItemsList.State is DAOState.Loading)
                 return;
 
             ProcessNotifyAll();
@@ -227,7 +227,7 @@ namespace OxDAOEngine.Data
 
         private void AddItem(TDAO item)
         {
-            if (GetItemEditor(item).ShowDialog(Face) == DialogResult.OK)
+            if (GetItemEditor(item).ShowDialog(Face) is DialogResult.OK)
             {
                 History.AddDAO(item);
                 FullItemsList.NotifyAboutItemAdded(item);
@@ -247,10 +247,13 @@ namespace OxDAOEngine.Data
             if (item is null)
                 return;
 
-            if (GetItemEditor(item, parentGrid).ShowDialog(Face) == DialogResult.OK)
+            if (GetItemEditor(item, parentGrid).ShowDialog(Face) is DialogResult.OK)
             {
                 RenewListsAndNotifyAll();
-                ItemFieldChanged?.Invoke(item, new DAOEntityEventArgs(DAOOperation.Modify));
+                ItemFieldChanged?.Invoke(
+                    item, 
+                    new DAOEntityEventArgs(DAOOperation.Modify)
+                );
             }
         }
 
@@ -263,7 +266,7 @@ namespace OxDAOEngine.Data
             itemSelector.Filter = filter;
             itemSelector.SelectedItem = initialItem;
 
-            bool result = itemSelector.ShowAsDialog(Face, OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK;
+            bool result = itemSelector.ShowAsDialog(Face, OxDialogButton.OK | OxDialogButton.Cancel) is DialogResult.OK;
             selectedItem = result ? itemSelector.SelectedItem : null;
             return result;
         }
@@ -543,7 +546,7 @@ namespace OxDAOEngine.Data
                 : null;
 
         public DAOImage? SuitableImage(Bitmap? value) => 
-            ImageList.Find(i => i.ImageBase64 == OxBase64.BitmapToBase64(value));
+            ImageList.Find(i => i.ImageBase64.Equals(OxBase64.BitmapToBase64(value)));
 
         public Bitmap? Icon => GetIcon();
 
@@ -572,7 +575,7 @@ namespace OxDAOEngine.Data
 
             try
             {
-                if (caption != string.Empty)
+                if (!string.Empty.Equals(caption))
                 {
                     itemsViewer.Text = caption;
                     itemsViewer.UseCustomCaption = true;

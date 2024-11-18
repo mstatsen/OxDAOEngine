@@ -4,7 +4,7 @@
     {
         public FieldCountExtract Sort(ExtractCompareType type)
         {
-            if (type == ExtractCompareType.Default)
+            if (type is ExtractCompareType.Default)
                 return this;
 
             FieldExtract list = new();

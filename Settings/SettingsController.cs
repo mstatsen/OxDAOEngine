@@ -157,10 +157,10 @@ namespace OxDAOEngine.Settings
         }
 
         protected bool IsBoolSettings(TSetting setting) => 
-            settingsHelper.GetFieldType(setting) == FieldType.Boolean;
+            settingsHelper.GetFieldType(setting) is FieldType.Boolean;
 
         protected bool IsIntSettings(TSetting setting) => 
-            settingsHelper.GetFieldType(setting) == FieldType.Integer;
+            settingsHelper.GetFieldType(setting) is FieldType.Integer;
 
         protected virtual object ParseXMLValue(TSetting setting, XmlElement parentElement, string elementName) => 
             IsBoolSettings(setting)

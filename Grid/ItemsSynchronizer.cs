@@ -90,7 +90,7 @@ namespace OxDAOEngine.Grid
 
             try
             {
-                if (sender == LeftItemGrid.GridView)
+                if (LeftItemGrid.GridView.Equals(sender))
                 {
                     if (LeftItemGrid.SelectionExists)
                         RightItemGrid.SelectedField = LeftItemGrid.SelectedField;
@@ -278,7 +278,7 @@ namespace OxDAOEngine.Grid
             {
                 BaseColor = owner.BaseColor
             };
-            bool result = synchronizer.ShowAsDialog(owner) == DialogResult.OK;
+            bool result = synchronizer.ShowAsDialog(owner) is DialogResult.OK;
 
             if (result)
                 synchronizer.ApplySynchronize();

@@ -32,7 +32,7 @@
             SettingsManager.Settings<TSettings>();
 
         public virtual bool IsEmpty =>
-            ChangedSettings.Count == 0;
+            ChangedSettings.Count is 0;
 
         protected bool fullApplies = false;
         public bool FullApplies

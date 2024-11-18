@@ -41,7 +41,10 @@ namespace OxDAOEngine.Export
         private bool PrepareToExport(RootListDAO<TField, TDAO>? selectedItems = null)
         {
             settingsForm.SelectedItems = selectedItems;
-            return settingsForm.ShowDialog(DataManager.ListController<TField, TDAO>().Face) == DialogResult.OK;
+            return 
+                settingsForm.ShowDialog(
+                    DataManager.ListController<TField, TDAO>().Face
+                ) is DialogResult.OK;
         }
 
         private static void OpenReadyFile()

@@ -14,7 +14,9 @@ namespace OxDAOEngine.Data.Sorting
         public int Compare(TDAO? x, TDAO? y)
         {
             if (x is null)
-                return y is null ? 0 : -1;
+                return y is null 
+                    ? 0 
+                    : -1;
 
             if (y is null)
                 return 1;
@@ -23,7 +25,7 @@ namespace OxDAOEngine.Data.Sorting
             {
                 int subResult = sorting.Compare(x, y);
 
-                if (subResult == 0)
+                if (subResult is 0)
                     continue;
 
                 return subResult;

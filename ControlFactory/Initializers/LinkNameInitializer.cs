@@ -37,7 +37,7 @@ namespace OxDAOEngine.ControlFactory.Initializers
         private void AddLinkNameToComboBox(string? linkName)
         {
             if (ComboBox!.Items.IndexOf(linkName) < 0
-                && !existingLinks.Contains(l => l.Name == linkName))
+                && !existingLinks.Contains(l => l.Name.Equals(linkName)))
                 ComboBox!.Items.Add(linkName);
         }
 

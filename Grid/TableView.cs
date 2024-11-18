@@ -61,7 +61,7 @@ namespace OxDAOEngine.Grid
             {
                 bool calcedBatchUpdateAvailable = Grid.SelectedRows.Count > 1;
 
-                if (Grid.ToolBar.Actions[OxToolbarAction.Update].Enabled != calcedBatchUpdateAvailable)
+                if (!Grid.ToolBar.Actions[OxToolbarAction.Update].Enabled.Equals(calcedBatchUpdateAvailable))
                     Grid.ToolBar.Actions[OxToolbarAction.Update].Enabled = calcedBatchUpdateAvailable;
             }
 

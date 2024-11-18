@@ -29,9 +29,9 @@ namespace OxDAOEngine.ControlFactory.Filter
             result.Left = 74;
             result.Top = top;
 
-            if (!fieldType.Equals(FieldType.Boolean))
+            if (fieldType is not FieldType.Boolean)
             {
-                if (width == -1)
+                if (width is -1)
                 {
                     result.Width = MainPanel.ContentContainer.Width - result.Left - 8;
                     result.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
@@ -42,7 +42,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             result.Height = 24;
 
-            if (caption != string.Empty)
+            if (!caption.Equals(string.Empty))
                 result.Control.Tag = CreateLabel(caption, result);
 
             return result;
@@ -80,7 +80,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             RecalcSize();
 
         private CategoryType Type => TypeControl.EnumValue<CategoryType>();
-        private bool IsFilterCategory => Type.Equals(CategoryType.Filter);
+        private bool IsFilterCategory => Type is CategoryType.Filter;
 
         private void TypeChangedHandler(object? sender, EventArgs e)
         {

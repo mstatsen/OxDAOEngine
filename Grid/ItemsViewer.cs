@@ -122,7 +122,7 @@ namespace OxDAOEngine.Grid
 
             string? caption = 
                 InitialValue is null 
-                || InitialValue.ToString() == string.Empty 
+                || string.Empty.Equals(InitialValue.ToString())
                     ? "is blank" 
                     : $"= <<{InitialValue}>>";
 

@@ -9,7 +9,7 @@ namespace OxDAOEngine.Grid
         public CustomGridColumn<TField, TDAO>? GetCustomColumn(DataGridViewColumn column)
         { 
             foreach (var item in this)
-                if (item.Value == column)
+                if (item.Value.Equals(column))
                     return item.Key;
 
             return null;

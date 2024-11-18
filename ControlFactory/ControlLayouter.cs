@@ -61,7 +61,7 @@ namespace OxDAOEngine.ControlFactory
         private bool FieldSupportLabelClick(TField field) =>
             !Builder.Context(field).IsView
             || fieldHelper is null 
-            || fieldHelper.GetFieldType(field) != FieldType.List;
+            || fieldHelper.GetFieldType(field) is not FieldType.List;
 
         private void SetLabelClickHander(PlacedControl<TField> placedControl)
         {
@@ -80,17 +80,17 @@ namespace OxDAOEngine.ControlFactory
         {
             OxLabel? label = (OxLabel?)sender;
 
-            if (label is null || 
-                !PlacedLabels.TryGetValue(label, out TField? field))
+            if (label is null 
+                || !PlacedLabels.TryGetValue(label, out TField? field))
                 return;
 
             object? value = Builder.ObjectValue(field);
 
-            if (fieldHelper.GetFieldType(field) == FieldType.List
+            if (fieldHelper.GetFieldType(field) is FieldType.List
                 && value is string)
                 return;
 
-            if (fieldHelper.GetFieldType(field) == FieldType.Enum
+            if (fieldHelper.GetFieldType(field) is FieldType.Enum
                 && value is string stringValue)
             {
                 ITypeHelper? helper = fieldHelper.GetHelper(field);

@@ -18,11 +18,11 @@
         public TDAO Dao { get; set; }
 
         public static object NormalizeIfEmpty(object? value) =>
-            (value is null) ||
-            (value.ToString() is null) ||
-            (value.ToString()?.Trim() == string.Empty) 
-            ? string.Empty 
-            : value;
+            (value is null)
+            || (value.ToString() is null)
+            || (value.ToString()!.Trim().Equals(string.Empty))
+                ? string.Empty 
+                : value;
 
         protected Decorator<TField, TDAO> OtherDecorator(DecoratorType type) =>
             DataManager.DecoratorFactory<TField, TDAO>().Decorator(type, Dao);

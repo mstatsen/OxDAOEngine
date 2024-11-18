@@ -130,7 +130,7 @@ namespace OxDAOEngine.Data
 
         protected override bool AutoSorting => false;
 
-        public bool FilterIsEmpty => Count == 0;
+        public bool FilterIsEmpty => Count is 0;
 
         public new event DAOEntityEventHandler<TDAO>? ItemAddHandler;
         public new event DAOEntityEventHandler<TDAO>? ItemRemoveHandler;

@@ -110,7 +110,7 @@ namespace OxDAOEngine.View
                 return;
             }
 
-            if (placedCards?.Count != paginator.PageSize)
+            if (!paginator.PageSize.Equals(placedCards?.Count))
             {
                 Clear();
                 placedCards = CreateViews();
@@ -178,29 +178,31 @@ namespace OxDAOEngine.View
             SettingsManager.DAOSettings<TField, TDAO>();
 
         private int MaximumCardsCount => 
-            ViewType == ItemsViewsType.Icons ? 270 : 18;
+            ViewType is ItemsViewsType.Icons 
+                ? 270 
+                : 18;
 
         private int SettingsPageSize => 
-            ViewType == ItemsViewsType.Icons 
+            ViewType is ItemsViewsType.Icons 
                 ? Settings.IconsPageSize 
                 : Settings.CardsPageSize;
 
         public void ApplySettings()
         {
-            if (Settings.Observer[ViewType == ItemsViewsType.Icons
+            if (Settings.Observer[ViewType is ItemsViewsType.Icons
                     ? DAOSetting.IconsPageSize 
                     : DAOSetting.CardsPageSize
                 ])
             {
                 int newPageSize = Math.Min(MaximumCardsCount, SettingsPageSize);
 
-                if (paginator.PageSize != newPageSize)
+                if (!paginator.PageSize.Equals(newPageSize))
                     paginator.PageSize = newPageSize;
             }
             else
-                if (ViewType == ItemsViewsType.Icons &&
-                    (Settings.Observer[DAOSetting.IconMapping] ||
-                     Settings.Observer[DAOSetting.IconsSize]))
+                if (ViewType is ItemsViewsType.Icons 
+                    && (Settings.Observer[DAOSetting.IconMapping] 
+                        || Settings.Observer[DAOSetting.IconsSize]))
                 paginator.PageSize = paginator.PageSize;
         }
 

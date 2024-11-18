@@ -32,16 +32,20 @@ namespace OxDAOEngine.Data.Fields.Types
             };
 
         public static bool Sortable(FieldsVariant variant) =>
-            variant != FieldsVariant.QuickFilter
-            && variant != FieldsVariant.QuickFilterText;
+            variant is not FieldsVariant.QuickFilter
+                   and not FieldsVariant.QuickFilterText;
 
         public static FieldsVariant Variant(SettingsPart part) =>
             part switch
             {
-                SettingsPart.Table => FieldsVariant.Table,
-                SettingsPart.QuickFilter => FieldsVariant.QuickFilter,
-                SettingsPart.QuickFilterText => FieldsVariant.QuickFilterText,
-                SettingsPart.Category => FieldsVariant.Category,
+                SettingsPart.Table => 
+                    FieldsVariant.Table,
+                SettingsPart.QuickFilter => 
+                    FieldsVariant.QuickFilter,
+                SettingsPart.QuickFilterText => 
+                    FieldsVariant.QuickFilterText,
+                SettingsPart.Category => 
+                    FieldsVariant.Category,
                 _ => FieldsVariant.Table,
             };
 
@@ -51,7 +55,7 @@ namespace OxDAOEngine.Data.Fields.Types
         public FieldsVariant VariantByScope(ControlScope scope)
         {
             foreach (var item in VariantScope)
-                if (item.Value == scope)
+                if (item.Value.Equals(scope))
                     return item.Key;
 
             return FieldsVariant.Table;

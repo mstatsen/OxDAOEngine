@@ -7,7 +7,7 @@ namespace OxDAOEngine.Data
         where TDAO : RootDAO<TField>, new()
     {
         public DAOImage? ImageInfo(Guid imageId) =>
-            Find((i) => i.Id == imageId);
+            Find((i) => i.Id.Equals(imageId));
 
         public Bitmap? Image(Guid imageId) =>
             ImageInfo(imageId)?.Image;
@@ -49,12 +49,13 @@ namespace OxDAOEngine.Data
                             && usageDao is RootDAO<TField> rootDao)
                             realUsage++;
 
-                if (!item.FixUsage && realUsage == 0)
+                if (!item.FixUsage 
+                    && realUsage is 0)
                     unusedList.Add(item);
             }
 
             Remove(i => unusedList.Contains(i), false);
-            Remove(i => i.UsageList.Count == 0, false);
+            Remove(i => i.UsageList.Count is 0, false);
         }
 
         private void RemoveEmpty()
@@ -77,7 +78,7 @@ namespace OxDAOEngine.Data
 
             foreach (DAOImage item in this)
             {
-                if (item.ImageBase64 == string.Empty)
+                if (item.ImageBase64.Equals(string.Empty))
                     continue;
 
                 DAOImage mergeToItem = item;
@@ -90,7 +91,7 @@ namespace OxDAOEngine.Data
                         break;
                     }
 
-                if (mergeToItem == item)
+                if (mergeToItem.Equals(item))
                 {
                     UsingImagesMap.Add(item);
                     continue;

@@ -34,7 +34,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             ConcatControl.Value = value.FilterConcat;
 
-            if (value.Count == 0)
+            if (value.Count is 0)
                 value.Add(new FilterRule<TField>());
 
             foreach (FilterRule<TField> rule in value)
@@ -113,15 +113,18 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void RulePanelRemoveRuleHandler(object? sender, EventArgs e)
         {
-            if (RulesPanels.Count == 1)
+            if (RulesPanels.Count is 1)
             {
-                if (ParentFilterPanel.GroupsCount == 1)
+                if (ParentFilterPanel.GroupsCount is 1)
                 {
                     OxMessage.ShowError("You can't delete last rule in last group", this);
                     return;
                 }
                 
-                if (OxMessage.ShowConfirm("Are you shore you want to delete last rule in this group?", this) != DialogResult.Yes)
+                if (OxMessage.ShowConfirm(
+                        "Are you shore you want to delete last rule in this group?", 
+                        this
+                    ) is not DialogResult.Yes)
                     return;
             }
                 
@@ -133,7 +136,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             RulesPanels.Remove(rulePanel);
             //TODO: dispose
 
-            if (RulesPanels.Count == 0)
+            if (RulesPanels.Count is 0)
                 RemoveGroup?.Invoke(this, EventArgs.Empty);
 
             RecalcSize();

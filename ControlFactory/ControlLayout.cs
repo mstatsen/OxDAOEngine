@@ -200,7 +200,9 @@ namespace OxDAOEngine.ControlFactory
                 label.MaximumSize = new(MaximumLabelWidth, 0);
 
             label.AutoSize = true;
-            label.Visible = Visible && CaptionVariant != ControlCaptionVariant.None; 
+            label.Visible = 
+                Visible 
+                    && CaptionVariant is not ControlCaptionVariant.None; 
 
             switch (CaptionVariant)
             {

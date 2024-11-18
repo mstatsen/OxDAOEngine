@@ -88,7 +88,9 @@ namespace OxDAOEngine.Summary
                 {
                     panel.Margins.Horizontal = panel.Expanded ? 12 : 32;
                     panel.Borders[OxDock.Top].Visible = !prevExpanded;
-                    panel.Header.UnderlineVisible = panel.Expanded || panel == SummaryPanels.Last();
+                    panel.Header.UnderlineVisible = 
+                        panel.Expanded 
+                        || panel.Equals(SummaryPanels.Last());
                     prevExpanded = panel.Expanded;
                 }
             );

@@ -56,7 +56,10 @@ namespace OxDAOEngine.Grid
             get => painter;
             set
             {
-                if (painter == value)
+                if (painter is null 
+                        && value is null 
+                    || painter is not null 
+                        && painter.Equals(value))
                     return;
 
                 if (painter is not null)
@@ -83,12 +86,14 @@ namespace OxDAOEngine.Grid
 
             dataColumn.Name = $"column{TypeHelper.ShortName(field)}";
             dataColumn.HeaderText = fieldHelper.ColumnCaption(field);
-            dataColumn.SortMode = fieldType == FieldType.Image
-                ? DataGridViewColumnSortMode.NotSortable
-                : DataGridViewColumnSortMode.Programmatic;
+            dataColumn.SortMode = 
+                fieldType is FieldType.Image
+                    ? DataGridViewColumnSortMode.NotSortable
+                    : DataGridViewColumnSortMode.Programmatic;
             dataColumn.Width = fieldHelper.ColumnWidth(field) + 20;
-            dataColumn.Frozen = Usage == GridUsage.Edit
-                && (GridView.ColumnCount == 0 || GridView.Columns[GridView.Columns.Count - 1].Frozen) 
+            dataColumn.Frozen = Usage is GridUsage.Edit
+                && (GridView.ColumnCount is 0 
+                    || GridView.Columns[GridView.Columns.Count - 1].Frozen) 
                 && fieldHelper.MandatoryFields.Contains(field);
             dataColumn.DefaultCellStyle.ApplyStyle(fieldHelper.ColumnStyle(field));
             dataColumn.HeaderCell.Style.ApplyStyle(fieldHelper.ColumnStyle(field));
@@ -139,16 +144,17 @@ namespace OxDAOEngine.Grid
             GridView.MouseDown += GridViewMouseDownHandler;
             Usage = usage;
             ReadOnly = GridUsageHelper.IsReadOnly(usage);
-            GridView.MultiSelect = Usage == GridUsage.Edit || Usage == GridUsage.ChooseItems;
+            GridView.MultiSelect = 
+                Usage is GridUsage.Edit 
+                      or GridUsage.ChooseItems;
             PrepareColumns();
         }
 
         private void GridViewMouseDownHandler(object? sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
+            if (e.Button is MouseButtons.Right)
             {
                 var hitTest = GridView.HitTest(e.X, e.Y);
-                GridView.ClearSelection();
                 GridView.Rows[hitTest.RowIndex].Selected = true;
             }
         }
@@ -247,7 +253,7 @@ namespace OxDAOEngine.Grid
             foreach (TDAO item in ItemsList)
                 currentItemsHashes.Add(item.GetHashCode());
 
-            if (currentItemsHashes.Count != oldItemsHashes.Count)
+            if (!currentItemsHashes.Count.Equals(oldItemsHashes.Count))
                 return true;
 
             for (int i = 0; i < oldItemsHashes.Count; i++)
@@ -406,7 +412,7 @@ namespace OxDAOEngine.Grid
 
         private void SetRowVisible(DataGridViewRow row, bool visible)
         {
-            if (row.Visible == visible)
+            if (row.Visible.Equals(visible))
                 return;
 
             row.Visible = visible;
@@ -489,7 +495,7 @@ namespace OxDAOEngine.Grid
 
             int rowIndex = GetRowIndex(item);
 
-            if (rowIndex == -1)
+            if (rowIndex is -1)
                 return false;
             
             GridView.Rows[rowIndex].Selected = true;
@@ -509,7 +515,7 @@ namespace OxDAOEngine.Grid
             switch (e.Operation)
             {
                 case DAOOperation.Add:
-                    if (rowIndex == -1)
+                    if (rowIndex is -1)
                         AppendItem(tDao);
 
 
@@ -614,7 +620,7 @@ namespace OxDAOEngine.Grid
             {
                 object? value = GetFieldValue(field, item) ?? string.Empty;
 
-                if (fieldHelper.GetFieldType(field) == FieldType.Image
+                if (fieldHelper.GetFieldType(field) is FieldType.Image
                     && value is Bitmap image 
                     && image.Height > GridView.RowTemplate.Height)
                     value = OxImageBoxer.BoxingImage(
@@ -659,10 +665,10 @@ namespace OxDAOEngine.Grid
         }
 
         public bool IsFirstRecord =>
-            CurrentItemIndex == 0;
+            CurrentItemIndex is 0;
 
         public bool IsLastRecord =>
-            CurrentItemIndex == GridView.RowCount-1;
+            CurrentItemIndex.Equals(GridView.RowCount - 1);
 
         protected virtual List<TField> SettingsTableFields => 
             fieldHelper.FullList(FieldsVariant.Table);

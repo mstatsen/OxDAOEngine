@@ -79,10 +79,11 @@ namespace OxDAOEngine.Summary
                     if (extract.ContainsKey(true))
                         trueExtract.Add(true, extract[true]);
 
-                    if (trueExtract.Count == 0 && extract.ContainsKey(1))
+                    if (trueExtract.Count is 0 
+                        && extract.ContainsKey(1))
                         trueExtract.Add(true, extract[1]);
 
-                    if (trueExtract.Count == 0)
+                    if (trueExtract.Count is 0)
                         trueExtract.Add(true, 0);
 
                     nextTop = CreateAccessors(trueExtract, field, nextTop, 4);

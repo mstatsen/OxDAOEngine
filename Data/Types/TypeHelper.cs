@@ -30,8 +30,8 @@ namespace OxDAOEngine.Data.Types
         public static ITypeHelper Helper(object value)
         {
             foreach (ITypeHelper helper in helperList)
-                if (value.GetType() == helper.ItemType
-                    || value.GetType() == helper.ItemObjectType)
+                if (value.GetType().Equals(helper.ItemType)
+                    || value.GetType().Equals(helper.ItemObjectType))
                     return helper;
 
             throw new NotSupportedException();
@@ -169,9 +169,9 @@ namespace OxDAOEngine.Data.Types
 
         public static bool IsTypeHelpered<TItem>()
             where TItem : notnull, Enum =>
-            helperList.Find(H =>
-                (H.ItemType == typeof(TItem)) ||
-                (H.ItemObjectType == typeof(TItem))
+            helperList.Find(h =>
+                h.ItemType.Equals(typeof(TItem))
+                || h.ItemObjectType.Equals(typeof(TItem))
             ) is not null;
 
         public static bool IsTypeHelpered(object? value) =>

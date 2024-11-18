@@ -75,7 +75,7 @@ namespace OxDAOEngine.Data.Links
 
             List<object> allTypes = helper.All();
             int result = allTypes.IndexOf(Type).CompareTo(allTypes.IndexOf(otherLink.Type));
-            return result == 0 
+            return result is 0 
                 ? Name.CompareTo(otherLink.Name) 
                 : result;
         }

@@ -46,9 +46,10 @@ namespace OxDAOEngine.Data.Sorting
         }
 
         public override bool Equals(object? obj) =>
-            obj is FieldSorting<TField, TDAO> sorting
-                && (base.Equals(obj) ||
-                    Field.Equals(sorting.Field) && SortOrder == sorting.SortOrder);
+            base.Equals(obj) 
+                || (obj is FieldSorting<TField, TDAO> sorting 
+                    && Field.Equals(sorting.Field) 
+                    && SortOrder.Equals(sorting.SortOrder));
 
         public override int GetHashCode() =>
             HashCode.Combine(Field, SortOrder);
@@ -82,8 +83,8 @@ namespace OxDAOEngine.Data.Sorting
                     : x.CompareField(Field, y),
             };
 
-            if (result != 0 &&
-                SortOrder.Equals(SortOrder.Descending))
+            if (!result.Equals(0)
+                && SortOrder.Equals(SortOrder.Descending))
                 result = -result;
 
             return result;

@@ -18,11 +18,11 @@ namespace OxDAOEngine.Settings
 
         public FormWindowState MainFormState
         {
-            get => this[GeneralSetting.MainFormState]?.ToString() == "Maximized"
+            get => "Maximized".Equals(this[GeneralSetting.MainFormState]?.ToString())
                         ? FormWindowState.Maximized
                         : FormWindowState.Normal;
             set => this[GeneralSetting.MainFormState] =
-                    value == FormWindowState.Maximized
+                    value is FormWindowState.Maximized
                         ? "Maximized"
                         : "Normal";
         }

@@ -82,11 +82,11 @@ namespace OxDAOEngine.View
             Margins.SetSize(OxSize.Medium);
             Margins[OxDockHelper.Opposite(oxDock)].SetSize(OxSize.None);
 
-            if (oxDock == OxDock.Right)
+            if (oxDock is OxDock.Right)
                 Margins.BottomOx = OxSize.None;
 
             Margins.TopOx = 
-                oxDock == OxDock.Bottom 
+                oxDock is OxDock.Bottom 
                     ? OxSize.Small 
                     : Pinned 
                         ? OxSize.Nine
@@ -191,7 +191,7 @@ namespace OxDAOEngine.View
             panel.Parent = this;
             panel.Dock = DockStyle.Top;
 
-            if (text != string.Empty)
+            if (!text.Equals(string.Empty))
                 Headers.Add(panel, new OxHeader(text)
                 {
                     Parent = panel.Parent,
@@ -291,7 +291,7 @@ namespace OxDAOEngine.View
             DockStyle settingsDock = 
                 TypeHelper.Helper<ItemInfoPositionHelper>().Dock(Settings.ItemInfoPosition);
 
-            if (Dock != settingsDock)
+            if (!Dock.Equals(settingsDock))
                 Dock = settingsDock;
 
             base.ApplySettingsInternal();

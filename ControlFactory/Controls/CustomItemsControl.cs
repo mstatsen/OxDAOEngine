@@ -78,7 +78,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
                 for (int i = 0; i < 8; i++)
                 {
-                    if (i == value.Count)
+                    if (i.Equals(value.Count))
                         break;
 
                     columnDelimiter = string.Empty;
@@ -105,7 +105,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                 }
             }
 
-            if (readOnlyValue == string.Empty)
+            if (readOnlyValue.Equals(string.Empty))
                 readOnlyValue = "Empty\r\n";
 
             readOnlyValue = readOnlyValue.Remove(readOnlyValue.Length - 2);

@@ -80,8 +80,10 @@ namespace OxDAOEngine.Data
         {
             if (e.Modified)
                 foreach (KeyValuePair<TField, DAO> item in FieldMembers)
-                    if (item.Value == dao)
-                        OnFieldModified(new FieldModifiedEventArgs<TField>(this, item.Key, e.OldValue));
+                    if (item.Value.Equals(dao))
+                        OnFieldModified(
+                            new FieldModifiedEventArgs<TField>(this, item.Key, e.OldValue)
+                        );
 
             base.MemberModifiedHandler(dao, e);
         }

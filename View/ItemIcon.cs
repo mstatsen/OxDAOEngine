@@ -133,7 +133,7 @@ namespace OxDAOEngine.View
             titleLayout.Height = IconHeight - titleLayout.Top;
             titleLayout.FontStyle = FontStyle.Bold;
             titleLayout.FontColor = fontColors.BaseColor;
-            titleLayout.Visible = IconsSize != IconSize.Thumbnails;
+            titleLayout.Visible = IconsSize is not IconSize.Thumbnails;
         }
 
         private void FillImageLayout()

@@ -104,7 +104,7 @@ namespace OxDAOEngine.Data
 
         protected virtual void NotifyAboutModify(bool oldValue)
         {
-            if (oldValue != modified)
+            if (!oldValue.Equals(modified))
                 ModifiedChangeHandler?.Invoke(this, new DAOModifyEventArgs(modified, null));
 
             if (SilentChange)
@@ -276,7 +276,7 @@ namespace OxDAOEngine.Data
         }
 
         public string XmlElementName =>
-            xmlName.Trim() == string.Empty
+            xmlName.Trim().Equals(string.Empty)
                 ? DefaultXmlElementName
                 : xmlName;
 
@@ -332,7 +332,7 @@ namespace OxDAOEngine.Data
 
         public void Load(XmlElement? element)
         {
-            if (State != DAOState.Coping)
+            if (State is not DAOState.Coping)
                 State = DAOState.Loading;
 
             try
@@ -342,16 +342,17 @@ namespace OxDAOEngine.Data
                 if (element is null)
                     return;
 
-                if (!WithoutXmlNode && (element.Name != XmlElementName))
+                if (!WithoutXmlNode 
+                    && !element.Name.Equals(XmlElementName))
                     foreach (XmlNode node in element.ChildNodes)
-                        if (node.Name == XmlElementName)
+                        if (node.Name.Equals(XmlElementName))
                         {
                             element = (XmlElement)node;
                             break;
                         }
 
                 if (WithoutXmlNode 
-                    || element.Name == XmlElementName)
+                    || element.Name.Equals(XmlElementName))
                 {
                     LoadData(element);
                     LoadMembersData(element);
@@ -362,7 +363,7 @@ namespace OxDAOEngine.Data
             }
             finally
             {
-                if (State == DAOState.Loading)
+                if (State is DAOState.Loading)
                     State = DAOState.Regular;
             }
         }

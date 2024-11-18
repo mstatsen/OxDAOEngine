@@ -37,7 +37,7 @@ namespace OxDAOEngine.Settings.ControlFactory
                     _ => 
                         null,
                 }
-                : context.Key == "IconMapping:Field" 
+                : context.Key.Equals("IconMapping:Field")
                     ? new FieldAccessor<DAOSetting, SystemRootDAO<DAOSetting>, TField>(context)
                     : (IControlAccessor?)null;
 

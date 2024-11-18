@@ -22,10 +22,10 @@ namespace OxDAOEngine.Grid
             GridView.DoubleClick += (s, e) => ExecuteAction(OxToolbarAction.Edit);
             GridView.KeyUp += GridView_KeyUp;
 
-            if (usage == GridUsage.Edit)
+            if (usage is GridUsage.Edit)
                 GridView.ContextMenuStrip = new ItemsRootGridContextMenu<TField, TDAO>(this)
                 {
-                    Enabled = Usage == GridUsage.Edit
+                    Enabled = Usage is GridUsage.Edit
                 };
             Painter = ListController.ControlFactory.CreateGridPainter(GridFieldColumns, usage);
         }
@@ -70,9 +70,9 @@ namespace OxDAOEngine.Grid
         }
 
         public override IRootListDAO<TField, TDAO> ItemsList =>
-            CustomItemsList ?? (Usage == GridUsage.Edit
-                    ? DataManager.VisibleItemsList<TField, TDAO>()
-                    : DataManager.FullItemsList<TField, TDAO>());
+            CustomItemsList ?? (Usage is GridUsage.Edit
+                ? DataManager.VisibleItemsList<TField, TDAO>()
+                : DataManager.FullItemsList<TField, TDAO>());
 
         public void ExecuteAction(OxToolbarAction action)
         {
@@ -142,7 +142,7 @@ namespace OxDAOEngine.Grid
         private Decorator<TField, TDAO> Decorator(TDAO item)
         {
             if (decorator is null 
-                || decorator.Dao != item)
+                || !decorator.Dao.Equals(item))
                 decorator = DecoratorFactory.Decorator(
                     DecoratorType.Table, item
                 );
@@ -151,7 +151,7 @@ namespace OxDAOEngine.Grid
         }
 
         protected override object? GetFieldValue(TField field, TDAO item) => 
-            fieldHelper.GetFieldType(field) == FieldType.Boolean
+            fieldHelper.GetFieldType(field) is FieldType.Boolean
                 ? OxImageBoxer.BoxingImage(
                     (bool)item[field]!
                         ? OxIcons.Tick

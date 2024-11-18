@@ -30,7 +30,7 @@ namespace OxDAOEngine.Grid
                 GetCellStyle(
                     item,
                     ColumnsDictionary.GetField(e.ColumnIndex), 
-                    (e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected
+                    (e.State & DataGridViewElementStates.Selected) is DataGridViewElementStates.Selected
                 )
             );
 

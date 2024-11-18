@@ -52,13 +52,14 @@ namespace OxDAOEngine.ControlFactory.Accessors
         }
 
         public virtual bool IsEmpty => 
-            Value is null || Value.ToString() == string.Empty;
+            Value is null 
+            || Value.ToString() is null 
+            || Value.ToString()!.Equals(string.Empty);
 
         protected virtual void InitControl()
         {
             Control.Font = Styles.DefaultFont;
             Control.Height = EngineStyles.DefaultControlHeight;
-
             Control.SizeChanged += ControlSizeChangeHandler;
             Control.LocationChanged += ControlLocationChangeHandler;
             Control.TextChanged += ControlTextChangedHandler;
@@ -99,9 +100,9 @@ namespace OxDAOEngine.ControlFactory.Accessors
             if (ReadOnlyControl is not null)
                 ReadOnlyControl.Font = new(
                     Control.Font.FontFamily,
-                    Control.Font.Size + (Control.Text == string.Empty ? 0 : 1),
+                    Control.Font.Size + (Control.Text.Equals(string.Empty) ? 0 : 1),
                     Control.Font.Style 
-                        | (Control.Text == string.Empty
+                        | (Control.Text.Equals(string.Empty)
                             ? FontStyle.Italic
                             : FontStyle.Regular
                         )
@@ -398,7 +399,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         public bool CenteredReadonlyText
         {
             get => ReadOnlyControl is OxTextBox textBox 
-                && textBox.TextAlign == HorizontalAlignment.Center;
+                && textBox.TextAlign is HorizontalAlignment.Center;
             set
             {
                 if (ReadOnlyControl is OxTextBox textBox)

@@ -100,13 +100,13 @@ namespace OxDAOEngine.ControlFactory
 
         private void PinButtonHoveredChanged(object? sender, EventArgs e)
         {
-            if (sender == PinButton)
+            if (PinButton.Equals(sender))
             {
-                if (PinButton.Hovered != PinButton2.Hovered)
+                if (!PinButton.Hovered.Equals(PinButton2.Hovered))
                     PinButton2.Hovered = PinButton.Hovered;
             }
             else
-            if (PinButton.Hovered != PinButton2.Hovered)
+            if (!PinButton.Hovered.Equals(PinButton2.Hovered))
                 PinButton.Hovered = PinButton2.Hovered;
         }
 
@@ -275,9 +275,9 @@ namespace OxDAOEngine.ControlFactory
                     : OxSize.None
             );
             Sider.Visible = 
-                !isFixedPanel 
-                && Dock != DockStyle.Fill 
-                && Dock != DockStyle.None;
+                !isFixedPanel
+                && Dock is not DockStyle.Fill
+                       and not DockStyle.None;
 
             if (OxDockHelper.IsVertical(oxDock))
             {
@@ -604,7 +604,7 @@ namespace OxDAOEngine.ControlFactory
 
             bool onPanel = ClientRectangle.Contains(PointToClient(MousePosition));
 
-            if (Expanded != onPanel)
+            if (!Expanded.Equals(onPanel))
                 Expanded = onPanel;
         }
 
@@ -627,7 +627,7 @@ namespace OxDAOEngine.ControlFactory
         private bool isFixedPanel = false;
         private void SetAsFixedPanel(bool fixedPanel)
         {
-            if (isFixedPanel == fixedPanel)
+            if (isFixedPanel.Equals(fixedPanel))
                 return;
 
             isFixedPanel = fixedPanel;
@@ -652,10 +652,10 @@ namespace OxDAOEngine.ControlFactory
                     : FunctionalPanelVisible.Float;
             set
             {
-                base.Visible = value != FunctionalPanelVisible.Hidden;
-                SetAsFixedPanel(value == FunctionalPanelVisible.Fixed);
+                base.Visible = value is not FunctionalPanelVisible.Hidden;
+                SetAsFixedPanel(value is FunctionalPanelVisible.Fixed);
 
-                if (value == FunctionalPanelVisible.Hidden)
+                if (value is FunctionalPanelVisible.Hidden)
                     HideParentPadding();
             }
         }

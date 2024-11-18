@@ -255,7 +255,10 @@ namespace OxDAOEngine.Grid
 
             selection = new();
 
-            bool result = chooser.ShowAsDialog(owner, OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK 
+            bool result = chooser.ShowAsDialog(
+                    owner, 
+                    OxDialogButton.OK | OxDialogButton.Cancel
+                ) is DialogResult.OK 
                 && chooser.Modified;
 
             if (result)

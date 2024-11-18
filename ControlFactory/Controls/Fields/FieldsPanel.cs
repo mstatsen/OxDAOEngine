@@ -91,7 +91,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
         {
             foreach (var item in toolButtons)
             {
-                if (item.Key == FieldsFilling.Clear)
+                if (item.Key is FieldsFilling.Clear)
                     continue;
 
                 item.Value.Visible = fieldHelper.Columns(Variant, item.Key)?.Count > 0;

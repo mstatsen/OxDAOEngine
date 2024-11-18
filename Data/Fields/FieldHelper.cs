@@ -137,7 +137,7 @@ namespace OxDAOEngine.Data.Fields
         private List<TField> GetInternalSummaryFields()
         {
             List<TField> result = GetSummaryFields();
-            result.RemoveAll(f => GetFieldType(f) == FieldType.Boolean);
+            result.RemoveAll(f => GetFieldType(f) is FieldType.Boolean);
             return result;
         }
 
@@ -146,7 +146,7 @@ namespace OxDAOEngine.Data.Fields
         private List<TField> GetGeneralSummaryFields()
         {
             List<TField> result = GetSummaryFields();
-            result.RemoveAll(f => GetFieldType(f) != FieldType.Boolean);
+            result.RemoveAll(f => GetFieldType(f) is not FieldType.Boolean);
             return result;
         }
 
@@ -189,7 +189,7 @@ namespace OxDAOEngine.Data.Fields
             List<TField>? result = GetFieldsInternal(variant, filling);
 
             if (result is null 
-                || result.Count == 0)
+                || result.Count is 0)
                 result = GetFieldsInternal(FieldsVariant.Table, filling);
 
             result ??= new();
@@ -228,7 +228,7 @@ namespace OxDAOEngine.Data.Fields
             DataGridViewContentAlignment.MiddleCenter;
 
         public DataGridViewCellStyle ColumnStyle(TField field) =>
-            ColumnAlign(field) == DataGridViewContentAlignment.MiddleLeft
+            ColumnAlign(field) is DataGridViewContentAlignment.MiddleLeft
                 ? Styles.Cell_LeftAlignment
                 : Styles.Cell_Default;
 

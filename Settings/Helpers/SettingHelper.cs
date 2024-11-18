@@ -34,7 +34,7 @@ namespace OxDAOEngine.Settings.Helpers
             SettingList<TSetting> list = new();
 
             foreach (TSetting setting in VisibleSettings)
-                if (Part(setting) == part)
+                if (Part(setting).Equals(part))
                     list.Add(setting);
 
             return list;

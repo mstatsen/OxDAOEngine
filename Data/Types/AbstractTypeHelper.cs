@@ -44,11 +44,11 @@
         public object Parse(string text)
         {
             foreach (T value in All())
-                if (text == GetXmlValue(value)
-                    || text == GetFullName(value)
-                    || text == GetName(value)
-                    || text == GetShortName(value)
-                    || text == value.ToString())
+                if (text.Equals(GetXmlValue(value))
+                    || text.Equals(GetFullName(value))
+                    || text.Equals(GetName(value))
+                    || text.Equals(GetShortName(value))
+                    || text.Equals(value.ToString()))
                     return value;
 
             return EmptyValue();

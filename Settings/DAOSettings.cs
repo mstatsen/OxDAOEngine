@@ -364,12 +364,15 @@ namespace OxDAOEngine.Settings
                 new FieldsPanel<TField, TDAO>(FieldVariantHelper.Variant(part))
                 {
                     Parent = parent,
-                    Dock = part == SettingsPart.QuickFilterText ? DockStyle.Bottom : DockStyle.Fill
+                    Dock = 
+                        part is SettingsPart.QuickFilterText 
+                            ? DockStyle.Bottom 
+                            : DockStyle.Fill
                 };
             fieldsPanel.Margins.SetSize(OxSize.Large);
             fieldsPanel.Paddings.HorizontalOx = OxSize.Medium;
 
-            if (part == SettingsPart.QuickFilterText)
+            if (part is SettingsPart.QuickFilterText)
                 fieldsPanel.SetContentSize(fieldsPanel.Width, 78);
 
             return fieldsPanel;
@@ -424,7 +427,7 @@ namespace OxDAOEngine.Settings
             new DAOSettingsControlFactory<TField, TDAO>();
 
         protected override DAO? CreateDAO(DAOSetting setting) => 
-            setting == DAOSetting.IconMapping 
+            setting is DAOSetting.IconMapping 
                 ? new ListDAO<IconMapping<TField>>() 
                 : base.CreateDAO(setting);
 

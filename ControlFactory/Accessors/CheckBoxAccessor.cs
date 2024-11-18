@@ -104,7 +104,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             get => CheckBox.Enabled;
             set
             {
-                if (DAO.IntValue(value) == 0)
+                if (DAO.IntValue(value) is 0)
                     CheckBox.Checked = false;
 
                 CheckBox.Enabled = DAO.IntValue(value) > 0;

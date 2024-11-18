@@ -14,7 +14,7 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             CheckBox.Checked = 
                 value is not null
                 && (value is int @int
-                    ? @int == 1
+                    ? @int is 1
                     : value is string @string
                         ? bool.Parse(@string)
                         : (bool)value);

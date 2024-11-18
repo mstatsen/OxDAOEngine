@@ -134,10 +134,14 @@ namespace OxDAOEngine.ControlFactory.Filter
             categorySelector.Parent = ContentContainer;
             categorySelector.ShowNodeToolTips = true;
             categorySelector.AfterSelect += AfterSelectHandler;
-            categorySelector.BeforeCollapse += (s, e) => e.Cancel = e.Node is null || e.Node.Level == 0;
+            categorySelector.BeforeCollapse += BeforeCollapseHandler;
             categorySelector.DoubleClick += CategorySelectorDoubleClickHandler;
             categorySelector.Click += CategorySelectorClickHandler;
         }
+
+        private void BeforeCollapseHandler(object? sender, TreeViewCancelEventArgs e) => 
+            e.Cancel = e.Node is null 
+            || e.Node.Level is 0;
 
         private void CategorySelectorClickHandler(object? sender, EventArgs e)
         {
@@ -171,18 +175,18 @@ namespace OxDAOEngine.ControlFactory.Filter
                 categorySelector.Nodes.Clear();
                 AddCategoryToSelector(RootCategory);
 
-                if (categorySelector.GetNodeCount(true) == 0)
+                if (categorySelector.GetNodeCount(true) is 0)
                     return;
 
                 if (Settings.AlwaysExpandedCategories)
                     categorySelector.ExpandAll();
                 else
                     categorySelector.Nodes[0].Expand();
+
                 SelectCategory(selectedNodeTag);
             }
             finally 
             {
-                //TODO:
                 ExpandButton.Enabled = categorySelector.GetNodeCount(true) > 0;
                 CollapseButton.Enabled = ExpandButton.Enabled;
                 ResumeLayout();
@@ -192,7 +196,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void SelectCategory(Category<TField, TDAO>? category)
         {
-            if (categorySelector.VisibleCount == 0)
+            if (categorySelector.VisibleCount is 0)
                 return;
 
             categorySelector.SelectedItem = category;
@@ -210,12 +214,12 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (!category.IsRootCategory
                 && ShowCount
                 && Settings.HideEmptyCategory
-                && itemsCount == 0)
+                && itemsCount is 0)
                 return null;
 
             return
                 !ShowCount 
-                || category.Type.Equals(CategoryType.FieldExtraction)
+                || category.Type is CategoryType.FieldExtraction
                 || category.FilterIsEmpty
                 ? new TreeNode(category.Name)
                     {
@@ -264,7 +268,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             foreach (Category<TField, TDAO> childCategory in category.Childs)
             {
                 if (!CategoriesReady 
-                    && childCategory.Type.Equals(CategoryType.FieldExtraction))
+                    && childCategory.Type is CategoryType.FieldExtraction)
                     CreateFieldExtractionCategories(childCategory);
 
                 AddCategoryToSelector(childCategory, node);
@@ -273,7 +277,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (!category.IsRootCategory
                 && Settings.HideEmptyCategory
                 && category.FilterIsEmpty
-                && node.Nodes.Count == 0)
+                && node.Nodes.Count is 0)
                 return;
 
             node.ToolTipText = category.Description;

@@ -71,7 +71,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
             items.Sort();
             AddRange(items.ToArray());
 
-            if ((ComboBox.SelectedIndex == -1) && ComboBox.Items.Count > 0)
+            if ((ComboBox.SelectedIndex is -1) 
+                && ComboBox.Items.Count > 0)
                 ComboBox.SelectedIndex = 0;
 
             base.InitControl();

@@ -222,11 +222,11 @@ namespace OxDAOEngine.Settings
         private IControlAccessor CreateIncludeParamsControl(ExportFormat format)
         {
             IControlAccessor accessor = Builder.Accessor("IncludeParams", FieldType.Boolean, format);
-            accessor.Value = format == ExportFormat.Html
-                    ? settings.HTML.IncludeExportParams
-                    : settings.Text.IncludeExportParams;
+            accessor.Value = format is ExportFormat.Html
+                ? settings.HTML.IncludeExportParams
+                : settings.Text.IncludeExportParams;
             accessor.Text = $"Add export parameters info to {TypeHelper.Name(format).ToLower()}";
-            OxPane parentPane = format == ExportFormat.Html 
+            OxPane parentPane = format is ExportFormat.Html 
                 ? htmlGeneralPanel 
                 : textGeneralPanel;
             SetupControl(accessor.Control, format, parentPane, MainPanel.Colors.Lighter());
@@ -294,21 +294,21 @@ namespace OxDAOEngine.Settings
             if (e.Cancel)
                 return;
 
-            if (DialogResult == DialogResult.OK)
-            {
-                settings.Filter.CopyFrom(quickFilter?.ActiveFilter);
-                settings.CategoryName = categoryControl?.Value ?? string.Empty;
-                settings.Format = formatAccessor.EnumValue;
-                settings.FileName = fileControl.Value ?? string.Empty;
-                settings.HTML.Fields = htmlFieldsPanel.Fields;
-                settings.HTML.Summary = htmlSummaryAccessor.EnumValue;
-                settings.HTML.IncludeExportParams = htmlIncludeParamsAccessor.BoolValue;
-                settings.HTML.ZeroSummary = zeroSummaryAccessor.BoolValue;
-                settings.Text.Fields = inlineFieldsPanel.Fields;
-                settings.Text.Summary = textSummaryAccessor.EnumValue;
-                settings.Text.IncludeExportParams = textIncludeParamsAccessor.BoolValue;
-                settings.XML.Indent = indentAccessor.BoolValue;
-            }
+            if (DialogResult is not DialogResult.OK)
+                return;
+
+            settings.Filter.CopyFrom(quickFilter?.ActiveFilter);
+            settings.CategoryName = categoryControl?.Value ?? string.Empty;
+            settings.Format = formatAccessor.EnumValue;
+            settings.FileName = fileControl.Value ?? string.Empty;
+            settings.HTML.Fields = htmlFieldsPanel.Fields;
+            settings.HTML.Summary = htmlSummaryAccessor.EnumValue;
+            settings.HTML.IncludeExportParams = htmlIncludeParamsAccessor.BoolValue;
+            settings.HTML.ZeroSummary = zeroSummaryAccessor.BoolValue;
+            settings.Text.Fields = inlineFieldsPanel.Fields;
+            settings.Text.Summary = textSummaryAccessor.EnumValue;
+            settings.Text.IncludeExportParams = textIncludeParamsAccessor.BoolValue;
+            settings.XML.Indent = indentAccessor.BoolValue;
         }
 
         private void ExportSettingsForm_Shown(object? sender, EventArgs e)
@@ -319,10 +319,11 @@ namespace OxDAOEngine.Settings
                 quickFilter!.ActiveFilter = settings.Filter;
             }
 
-            htmlFieldsPanel.Fields = settings.HTML.Fields.Count == 0
-                ? TypeHelper.FieldHelper<TField>()
-                    .Columns(FieldsVariant.Html, FieldsFilling.Default)
-                : settings.HTML.Fields;
+            htmlFieldsPanel.Fields = 
+                settings.HTML.Fields.Count is 0
+                    ? TypeHelper.FieldHelper<TField>()
+                        .Columns(FieldsVariant.Html, FieldsFilling.Default)
+                    : settings.HTML.Fields;
             inlineFieldsPanel.Fields = settings.Text.Fields;
             ActualizeFormatSettings();
             OxControlHelper.CenterForm(this);
@@ -334,14 +335,14 @@ namespace OxDAOEngine.Settings
             ExportFormatHelper helper = TypeHelper.Helper<ExportFormatHelper>();
             SaveFileDialog saveDialog = new()
             {
-                FileName = fileControl.Value == string.Empty
+                FileName = string.Empty.Equals(fileControl.Value)
                     ? DataManager.ListController<TField, TDAO>().ListName + helper.FileExt(currentFormat)
                     : fileControl.Value,
                 Filter = helper.FileFilter(currentFormat),
                 OverwritePrompt = false
             };
 
-            if (saveDialog.ShowDialog(this) == DialogResult.OK)
+            if (saveDialog.ShowDialog(this) is DialogResult.OK)
                 fileControl.Value = saveDialog.FileName;
         }
 
@@ -413,13 +414,12 @@ namespace OxDAOEngine.Settings
 
         private void CalcExtraPanelSize(OxFrame frame)
         {
-            OxPanel? panel = null;
-
-            if (frame == extraSettingsFrames[ExportFormat.Html])
-                panel = htmlGeneralPanel;
-            else
-            if (frame == extraSettingsFrames[ExportFormat.Text])
-                panel = textGeneralPanel;
+            OxPanel? panel =
+                frame.Equals(extraSettingsFrames[ExportFormat.Html])
+                    ? htmlGeneralPanel
+                    : frame.Equals(extraSettingsFrames[ExportFormat.Text])
+                        ? textGeneralPanel
+                        : null;
 
             if (panel is null)
                 return;
@@ -434,20 +434,16 @@ namespace OxDAOEngine.Settings
         {
             CalcExtraPanelSize(frame);
             List<Control> frameControls = FramesControls[frame];
-            int lastControlBottom = 24;
-
-            if (frame == extraSettingsFrames[ExportFormat.Html])
-                lastControlBottom = htmlsPanel.Bottom;
-            else
-            if (frame == extraSettingsFrames[ExportFormat.Text])
-                lastControlBottom = textsPanel.Bottom;
-            else
-            if (frameControls.Count > 0)
-                lastControlBottom = frameControls[^1].Bottom;
 
             frame.SetContentSize(
                 frame.SavedWidth,
-                lastControlBottom
+                frame.Equals(extraSettingsFrames[ExportFormat.Html])
+                    ? htmlsPanel.Bottom
+                    : frame.Equals(extraSettingsFrames[ExportFormat.Text])
+                        ? textsPanel.Bottom
+                        : frameControls.Count > 0
+                            ? frameControls[^1].Bottom
+                            : 24
                 + frame.Margins.Top
                 + frame.Paddings.Top
                 + frame.Paddings.Bottom
@@ -488,7 +484,7 @@ namespace OxDAOEngine.Settings
             categoriesTree!.SetContentSize(360, 480);
             categoriesTree!.RefreshCategories();
 
-            if (categoriesTree.ShowAsDialog(this, OxDialogButton.OK | OxDialogButton.Cancel) == DialogResult.OK)
+            if (categoriesTree.ShowAsDialog(this, OxDialogButton.OK | OxDialogButton.Cancel) is DialogResult.OK)
                 categoryControl!.Value = categoriesTree.ActiveCategory?.Name;
         }
 
@@ -496,11 +492,11 @@ namespace OxDAOEngine.Settings
         {
             EnumAccessor<TField, TDAO, ExportSummaryType> accessor = Builder.Accessor<ExportSummaryType>(format);
             
-            accessor.Value = format == ExportFormat.Html 
+            accessor.Value = format is ExportFormat.Html 
                 ? settings.HTML.Summary 
                 : settings.Text.Summary;
 
-            OxPane parentPane = format == ExportFormat.Html
+            OxPane parentPane = format is ExportFormat.Html
                 ? htmlGeneralPanel 
                 : textGeneralPanel;
 
@@ -516,7 +512,7 @@ namespace OxDAOEngine.Settings
             fileControl.Value = settings.GetFileName(formatAccessor.EnumValue);
 
             foreach (var item in extraSettingsFrames)
-                item.Value.Visible = item.Key == formatAccessor.EnumValue;
+                item.Value.Visible = item.Key.Equals(formatAccessor.EnumValue);
 
             foreach (OxFrame frame in extraSettingsFrames.Values)
                 if (frame.Visible)

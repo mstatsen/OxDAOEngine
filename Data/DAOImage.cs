@@ -52,7 +52,7 @@ namespace OxDAOEngine.Data
         {
             XmlHelper.AppendElement(element, XmlConsts.Id, id);
 
-            if (imageBase64 != string.Empty)
+            if (!imageBase64.Equals(string.Empty))
                 XmlHelper.AppendElement(element, XmlConsts.Image, imageBase64);
         }
 
