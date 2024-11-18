@@ -22,7 +22,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly List<FilterGroupPanel<TField, TDAO>> groupsPanels = new();
         private readonly OxPanel AddGroupButtonParent = new();
         private readonly OxButton AddGroupButton = new("Add group", OxIcons.Plus);
-        private readonly OxIconButton ViewSQLButton = new(OxIcons.SQL, 16)
+        private readonly OxIconButton ViewFilterDescription = new(OxIcons.ViewInfo, 16)
         { 
             ToolTipText = "View filter description"
         };
@@ -169,13 +169,13 @@ namespace OxDAOEngine.ControlFactory.Filter
             foreach (FilterGroupPanel<TField, TDAO> groupPanel in groupsPanels)
                 groupPanel.BaseColor = BaseColor;
 
-            if (ConcatControlParent != null)
+            if (ConcatControlParent is not null)
                 ConcatControlParent.BaseColor = BaseColor;
 
-            if (ConcatControl != null)
+            if (ConcatControl is not null)
                 ControlPainter.ColorizeControl(ConcatControl, BaseColor);
 
-            if (AddGroupButtonParent != null)
+            if (AddGroupButtonParent is not null)
                 AddGroupButtonParent.BaseColor = BaseColor;
 
             AddGroupButton.BaseColor = BaseColor;
@@ -207,16 +207,18 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         private string CategoryName =>
-            GetCategoryName == null ? string.Empty : GetCategoryName.Invoke();
+            GetCategoryName is null 
+                ? string.Empty 
+                : GetCategoryName.Invoke();
 
         protected override void PrepareInnerControls()
         {
             base.PrepareInnerControls();
-            ViewSQLButton.Click += ViewSQLButtonClickHandler;
-            Header.AddToolButton(ViewSQLButton);
+            ViewFilterDescription.Click += ViewFilterDescriptionButtonClickHandler;
+            Header.AddToolButton(ViewFilterDescription);
         }
 
-        private void ViewSQLButtonClickHandler(object? sender, EventArgs e) => 
+        private void ViewFilterDescriptionButtonClickHandler(object? sender, EventArgs e) => 
             TextViewer.Show("Filter of '" + CategoryName + "' category", Filter.Description, BaseColor);
     }
 }

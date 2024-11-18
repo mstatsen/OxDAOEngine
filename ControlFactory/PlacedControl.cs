@@ -17,7 +17,7 @@ namespace OxDAOEngine.ControlFactory
             { 
                 Control.Visible = value;
 
-                if (Label != null)
+                if (Label is not null)
                     Label.Visible = value;
             }
         }
@@ -27,16 +27,21 @@ namespace OxDAOEngine.ControlFactory
 
         public int LabelLeft
         {
-            get => Label != null ? Label.Left : int.MaxValue;
+            get => 
+                Label is not null 
+                    ? Label.Left 
+                    : int.MaxValue;
             set
             {
-                if (Label != null)
+                if (Label is not null)
                     Label.Left = value;
             }
         }
 
         public int LabelRight =>
-            Label != null ? Label.Right : 0;
+            Label is not null 
+                ? Label.Right 
+                : 0;
 
         public PlacedControl(Control control, OxLabel? label, ControlLayout<TField> layout)
         {
@@ -48,18 +53,18 @@ namespace OxDAOEngine.ControlFactory
 
         public void DetachParent()
         {
-            if (Control.Parent != null)
+            if (Control.Parent is not null)
             {
                 Control parent = Control.Parent;
                 parent.Controls.Remove(Control);
 
-                if (Label != null)
+                if (Label is not null)
                     parent.Controls.Remove(Label);
             }
 
             Control.Parent = null;
 
-            if (Label != null)
+            if (Label is not null)
                 Label.Parent = null;
         }
 
@@ -70,7 +75,7 @@ namespace OxDAOEngine.ControlFactory
 
             SetMeasureHandlers(Control);
 
-            if (Label != null)
+            if (Label is not null)
                 SetMeasureHandlers(Label);
         }
 
@@ -80,10 +85,7 @@ namespace OxDAOEngine.ControlFactory
             control.SizeChanged += (s, e) => AlignLabel();
         }
 
-        private void AlignLabel()
-        {
-            if (Label != null)
-                OxControlHelper.AlignByBaseLine(Control, Label);
-        }
+        private void AlignLabel() => 
+            OxControlHelper.AlignByBaseLine(Control, Label);
     }
 }

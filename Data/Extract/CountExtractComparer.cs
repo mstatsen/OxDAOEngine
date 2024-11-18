@@ -14,11 +14,11 @@
 
             if (Type == ExtractCompareType.Count)
                 result =
-                    x == null
-                        ? y == null
+                    x is null
+                        ? y is null
                             ? 0
                             : -1
-                        : y == null
+                        : y is null
                             ? 1
                             : Extract[x].CompareTo(Extract[y]);
 

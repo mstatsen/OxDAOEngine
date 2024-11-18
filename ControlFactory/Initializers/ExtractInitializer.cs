@@ -36,18 +36,18 @@ namespace OxDAOEngine.ControlFactory.Initializers
 
         public override void InitControl(Control? control)
         {
-            if (control == null)
+            if (control is null)
                 return;
 
             RootListDAO<TField, TDAO> items = SourceItems; 
 
-            if (items == null)
+            if (items is null)
                 return;
 
             items.ModifiedChangeHandler -= ListModifiedChangedHandler;
             ListController.ListChanged -= ListChangedHandler;
 
-            if (ComboBox == null)
+            if (ComboBox is null)
             {
                 ComboBox = (OxComboBox)control;
                 ComboBox.DropDownStyle = 
@@ -79,7 +79,7 @@ namespace OxDAOEngine.ControlFactory.Initializers
             object? selectedValue = ComboBox?.SelectedItem;
             InitControl(ComboBox);
             
-            if (ComboBox != null)
+            if (ComboBox is not null)
                 ComboBox.SelectedItem = selectedValue;
         }
 

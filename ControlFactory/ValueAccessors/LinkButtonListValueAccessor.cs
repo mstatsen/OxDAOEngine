@@ -36,7 +36,8 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
 
         public override void SetValue(object? value)
         {
-            if (value == null || (value is not Links<TField> links))
+            if (value is null 
+                || (value is not Links<TField> links))
                 return;
 
             LinkButtonList.Clear();

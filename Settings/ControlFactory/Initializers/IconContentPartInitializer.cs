@@ -20,7 +20,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Initializers
         }
 
         public override bool AvailableValue(IconContent value) =>
-            ExistingMappings == null
+            ExistingMappings is null
             || !ExistingMappings.Contains(p => p.Part == value);
     }
 }

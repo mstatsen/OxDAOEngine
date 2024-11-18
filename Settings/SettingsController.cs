@@ -43,7 +43,7 @@ namespace OxDAOEngine.Settings
                     Modified |= value switch
                     {
                         null => 
-                            settings[setting] != null,
+                            settings[setting] is not null,
                         _ => 
                             !value.Equals(settings[setting]),
                     };
@@ -64,7 +64,7 @@ namespace OxDAOEngine.Settings
 
         public void Save(XmlElement? parentElement)
         {
-            if (parentElement == null)
+            if (parentElement is null)
                 return;
 
             XmlNodeList existingNodes = parentElement.GetElementsByTagName(XmlElementName);
@@ -73,7 +73,7 @@ namespace OxDAOEngine.Settings
             {
                 XmlNode? firstNode = existingNodes[0];
 
-                if (firstNode != null)
+                if (firstNode is not null)
                     parentElement.RemoveChild(firstNode);
             }
 
@@ -147,7 +147,8 @@ namespace OxDAOEngine.Settings
             {
                 if (IsDAOSetting(item.Key))
                 {
-                    if (item.Value is DAO dao && item.Value != null)
+                    if (item.Value is DAO dao 
+                        && item.Value is not null)
                         dao.Save(element);
                 }
                 else
@@ -170,7 +171,7 @@ namespace OxDAOEngine.Settings
 
         protected override void LoadData(XmlElement? element)
         {
-            if (element == null)
+            if (element is null)
                 return;
 
             foreach (XmlNode node in element.ChildNodes)

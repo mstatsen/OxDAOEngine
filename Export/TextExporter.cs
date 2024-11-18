@@ -43,7 +43,8 @@ namespace OxDAOEngine.Export
             sortings.CopyFrom(SettingsForm.groupByPanel.Sortings);
 
             FieldSortings<TField, TDAO>? defaultSorting = ListController.DefaultSorting();
-            if (defaultSorting != null)
+
+            if (defaultSorting is not null)
                 sortings.AddRange(defaultSorting);
 
             foreach (FieldColumn<TField> column in Settings.Text.Fields)
@@ -73,8 +74,8 @@ namespace OxDAOEngine.Export
             {
                 fieldValue = decorator[column.Field]?.ToString()?.Trim();
 
-                if (fieldValue == null ||
-                    fieldValue == string.Empty)
+                if (fieldValue is null 
+                    || fieldValue == string.Empty)
                     continue;
 
                 if (builder.Length > 0)
@@ -103,12 +104,12 @@ namespace OxDAOEngine.Export
 
             foreach (FieldSorting<TField, TDAO> group in groupings)
             {
-                if (needStartGroup || 
-                    (prevItem == null) || 
-                    prevItem[group.Field] == null || 
-                    (!prevItem[group.Field]!.Equals(item[group.Field])))
+                if (needStartGroup 
+                    || prevItem is null 
+                    || prevItem[group.Field] is null 
+                    || !prevItem[group.Field]!.Equals(item[group.Field]))
                 {
-                    if (prevItem != null)
+                    if (prevItem is not null)
                     {
                         if (group == groupings.First())
                             builder.AppendLine();
@@ -117,9 +118,15 @@ namespace OxDAOEngine.Export
                             builder.AppendLine();
                     }
 
-                    groupName = string.Join(string.Empty, Enumerable.Repeat(XmlConsts.DefaultIndent, groupIndentCount));
+                    groupName = string.Join(
+                        string.Empty, 
+                        Enumerable.Repeat(XmlConsts.DefaultIndent, groupIndentCount)
+                    );
                     object? decorName = decorator[group.Field];
-                    groupName += decorName != null ? decorName.ToString() : string.Empty;
+                    groupName += 
+                        decorName is not null 
+                            ? decorName.ToString() 
+                            : string.Empty;
                     builder.AppendLine(groupName.ToUpper());
                     builder.AppendLine();
                     needStartGroup = true;

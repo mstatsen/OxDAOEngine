@@ -22,7 +22,7 @@ namespace OxDAOEngine.View
             get
             {
                 IItemView<TField, TDAO>? last = Last;
-                return last == null
+                return last is null
                     ? 0
                     : last.Bottom + 24;
             }

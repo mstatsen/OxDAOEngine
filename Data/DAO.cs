@@ -38,8 +38,8 @@ namespace OxDAOEngine.Data
             string? thisString = ToString();
             string? otherString = other?.ToString();
 
-            return thisString == null 
-                ? otherString == null 
+            return thisString is null 
+                ? otherString is null 
                     ? 0 
                     : -1 
                 : thisString.CompareTo(otherString);
@@ -138,7 +138,7 @@ namespace OxDAOEngine.Data
 
             try
             {
-                if (item == null)
+                if (item is null)
                 {
                     Clear();
                     return this;
@@ -147,8 +147,8 @@ namespace OxDAOEngine.Data
                 try
                 {
                     if (Equals(item)
-                        && ((OwnerDAO == null && item.OwnerDAO == null)
-                            || (OwnerDAO != null && OwnerDAO.Equals(item.OwnerDAO))))
+                        && ((OwnerDAO is null && item.OwnerDAO is null)
+                            || (OwnerDAO is not null && OwnerDAO.Equals(item.OwnerDAO))))
                         return this;
 
                     XmlDocument document = new();
@@ -162,7 +162,7 @@ namespace OxDAOEngine.Data
 
                     try
                     {
-                        if (document.DocumentElement != null)
+                        if (document.DocumentElement is not null)
                         {
                             item.Save(document.DocumentElement, false);
                             Load(document.DocumentElement);
@@ -213,8 +213,8 @@ namespace OxDAOEngine.Data
         }
 
         public static bool CheckValueModified(object? oldValue, object? newValue) =>
-            oldValue == null
-                ? newValue != null
+            oldValue is null
+                ? newValue is not null
                 : !oldValue.Equals(newValue);
 
         public virtual bool IsEmpty => false;
@@ -244,7 +244,7 @@ namespace OxDAOEngine.Data
             {
                 IDAO topOwnerDAO = this;
 
-                while (topOwnerDAO.OwnerDAO != null)
+                while (topOwnerDAO.OwnerDAO is not null)
                     topOwnerDAO = topOwnerDAO.OwnerDAO;
 
                 return topOwnerDAO;
@@ -289,13 +289,13 @@ namespace OxDAOEngine.Data
 
         public virtual void Save(XmlElement? parentElement, bool clearModified = true)
         {
-            if (parentElement == null)
+            if (parentElement is null)
                 return;
 
             BeforeSave();
             XmlElement? element = WithoutXmlNode ? parentElement : XmlHelper.AppendElement(parentElement, XmlElementName, string.Empty);
 
-            if (element == null)
+            if (element is null)
                 return;
 
             SaveData(element, clearModified);
@@ -339,7 +339,7 @@ namespace OxDAOEngine.Data
             {
                 Clear();
 
-                if (element == null)
+                if (element is null)
                     return;
 
                 if (!WithoutXmlNode && (element.Name != XmlElementName))
@@ -392,13 +392,18 @@ namespace OxDAOEngine.Data
             bool.TryParse(value?.ToString(), out bool boolValue) && boolValue;
 
         public static T EnumValue<T>(object? value) =>
-            value == null ? default! : (T)value;
+            value is null 
+                ? default! 
+                : (T)value;
 
         public static T? DAOValue<T>(object? value) where T : DAO =>
-            value == null ? null : (T)value;
+            value is null
+                ? null 
+                : (T)value;
 
         public static string StringValue(object? value) =>
-            value != null && value.ToString() != null
+            value is not null 
+            && value.ToString() is not null
                 ? value.ToString()!
                 : string.Empty;
 

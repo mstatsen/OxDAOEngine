@@ -18,7 +18,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             new LinkButtonValueAccessor<TField>();
 
         public override bool IsEmpty =>
-            base.IsEmpty || Value == null || Value.ToString() == string.Empty;
+            base.IsEmpty || Value is null || Value.ToString() == string.Empty;
 
         public LinkButton ButtonControl =>
             (LinkButton)Control;

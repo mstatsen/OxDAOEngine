@@ -27,7 +27,7 @@ namespace OxDAOEngine.Data.History
 
         protected override void SetFieldValue(TField field, object? value)
         {
-            if (DAO != null)
+            if (DAO is not null)
                 DAO[field] = value;
         }
 

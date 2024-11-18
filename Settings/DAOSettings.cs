@@ -309,7 +309,7 @@ namespace OxDAOEngine.Settings
         {
             base.LoadData(element);
 
-            if (element == null)
+            if (element is null)
                 return;
 
             foreach (XmlNode node in element.ChildNodes)

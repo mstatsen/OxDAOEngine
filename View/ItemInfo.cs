@@ -2,11 +2,10 @@
 using OxLibrary.Controls;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
-using OxDAOEngine.Data;
-using OxDAOEngine.Settings;
 using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
-using System.Drawing.Printing;
+using OxDAOEngine.Settings;
 
 namespace OxDAOEngine.View
 {
@@ -22,15 +21,16 @@ namespace OxDAOEngine.View
             get => item;
             set
             {
-                if (item != null && item.Equals(value))
+                if (item is not null 
+                    && item.Equals(value))
                     return;
 
-                if (item != null)
+                if (item is not null)
                     item.ChangeHandler -= ItemChangeHandler;
 
                 item = value;
 
-                if (Item != null)
+                if (Item is not null)
                     Item.ChangeHandler += ItemChangeHandler;
 
                 RenewControls();
@@ -39,7 +39,7 @@ namespace OxDAOEngine.View
 
         private void RenewControls()
         {
-            if (item == null)
+            if (item is null)
                 return;
 
             BaseColor = ControlFactory.ItemColorer.BaseColor(item);
@@ -61,13 +61,8 @@ namespace OxDAOEngine.View
             SetSizes();
             FontColors = new OxColorHelper(DefaultForeColor);
             SettingsAvailable = false;
-            Header.Icon = Icon;
+            Icon = DataManager.ListController<TField, TDAO>().Icon;
         }
-
-        protected override void SetTitleAlign() =>
-            Header.TitleAlign = Dock == DockStyle.Right 
-                ? ContentAlignment.MiddleCenter 
-                : ContentAlignment.MiddleLeft;
 
         protected override void OnExpandedChanged(ExpandedChangedEventArgs e)
         {
@@ -99,7 +94,7 @@ namespace OxDAOEngine.View
 
             Margins.RightOx = OxSize.None;
             Paddings.SetSize(OxSize.Large);
-            Header.SetContentSize(Header.Width, 36);
+            HeaderHeight = 36;
         }
 
         protected override void OnPinnedChanged(PinnedChangedEventArgs e) =>
@@ -111,7 +106,7 @@ namespace OxDAOEngine.View
         {
             base.PrepareColors();
 
-            if (FontColors != null)
+            if (FontColors is not null)
                 Header.Label.ForeColor = FontColors.BaseColor;
 
             foreach (OxPanel panel in panels)
@@ -141,7 +136,7 @@ namespace OxDAOEngine.View
             OxLabel? control = 
                 (OxLabel?)Layouter.PlacedControl(field)?.Control;
 
-            if (control == null)
+            if (control is null)
                 return;
             
             control.MaximumSize = size;
@@ -185,7 +180,7 @@ namespace OxDAOEngine.View
 
 
         private void SetTitle() => 
-            Text = Item == null 
+            Text = Item is null 
                 ? string.Empty 
                 : GetTitle();
 
@@ -216,14 +211,14 @@ namespace OxDAOEngine.View
         {
             SetTitle();
 
-            if (Item != null)
+            if (Item is not null)
                 Builder.FillControls(Item);
             else
                 foreach (ControlLayout<TField> layout in Layouter.Layouts)
                 {
                     IControlAccessor placedControl = Builder[layout.Field];
 
-                    if (placedControl != null)
+                    if (placedControl is not null)
                         placedControl.Control.Visible = false;
                 }
 
@@ -240,7 +235,7 @@ namespace OxDAOEngine.View
             {
                 Headers.TryGetValue(parentPanel, out var header);
 
-                int lastBottom = header == null ? 0 : 8;
+                int lastBottom = header is null ? 0 : 8;
                 int maxBottom = lastBottom;
                 bool visibleControlsExists = false;
                 ControlLayout<TField>? prevLayout = null;
@@ -250,7 +245,7 @@ namespace OxDAOEngine.View
                     bool controlVisible = !Builder[layout.Field].IsEmpty;
                     PlacedControl<TField>? placedControl = Layouter.PlacedControl(layout.Field);
 
-                    if (placedControl == null)
+                    if (placedControl is null)
                         continue;
 
                     placedControl.Visible = controlVisible;
@@ -258,7 +253,12 @@ namespace OxDAOEngine.View
                     if (controlVisible)
                     {
                         visibleControlsExists = true;
-                        placedControl.Control.Top = lastBottom + (prevLayout != null ? (layout.Top - prevLayout.Bottom) : 8);
+                        placedControl.Control.Top = 
+                            lastBottom 
+                            + (prevLayout is not null 
+                                ? (layout.Top - prevLayout.Bottom) 
+                                : 8
+                            );
                         OxControlHelper.AlignByBaseLine(placedControl.Control, placedControl.Label!);
                         lastBottom = placedControl.Control.Bottom;
                         maxBottom = Math.Max(maxBottom, lastBottom);
@@ -270,7 +270,7 @@ namespace OxDAOEngine.View
                 parentPanel.Height = maxBottom + 36;
                 parentPanel.Visible = visibleControlsExists;
 
-                if (header != null)
+                if (header is not null)
                     header.Visible = visibleControlsExists;
             }
         }
@@ -292,10 +292,7 @@ namespace OxDAOEngine.View
                 TypeHelper.Helper<ItemInfoPositionHelper>().Dock(Settings.ItemInfoPosition);
 
             if (Dock != settingsDock)
-            {
                 Dock = settingsDock;
-                SetTitleAlign();
-            }
 
             base.ApplySettingsInternal();
         }
@@ -318,8 +315,6 @@ namespace OxDAOEngine.View
         protected readonly Dictionary<OxPane, OxHeader> Headers = new();
         protected readonly List<OxPanel> panels = new();
         protected readonly Dictionary<OxPanel, ControlLayouts<TField>> LayoutsLists = new();
-        protected override Bitmap? GetIcon() => DataManager.ListController<TField, TDAO>().Icon;
-
         public void ScrollToTop() =>
             ContentContainer.AutoScrollPosition = new(0, 0);
 

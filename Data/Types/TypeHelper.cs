@@ -87,34 +87,34 @@ namespace OxDAOEngine.Data.Types
                 : throw new NotSupportedException();
 
         public static string Name(object? value) => 
-            value == null 
+            value is null 
                 ? string.Empty 
                 : IsTypeHelpered(value)
                     ? Helper(value).Name(value) 
                     : value.ToString()!;
 
         public static string ShortName(object? value) =>
-            value == null
+            value is null
                 ? string.Empty
                 : IsTypeHelpered(value)
                     ? Helper(value).ShortName(value)
                     : value.ToString()!;
         public static string FullName(object? value) =>
-            value == null
+            value is null
                 ? string.Empty
                 : IsTypeHelpered(value)
                     ? Helper(value).FullName(value)
                     : value.ToString()!;
 
         public static string XmlValue(object? value) =>
-            value == null
+            value is null
                 ? string.Empty
                 : IsTypeHelpered(value)
                     ? Helper(value).XmlValue(value)
                     : value.ToString()!;
 
         public static object? Value(object? typeObject) =>
-            typeObject == null
+            typeObject is null
                 ? null
                 : IsTypeHelpered(typeObject)
                     ? Helper(typeObject).Value(typeObject)
@@ -124,9 +124,10 @@ namespace OxDAOEngine.Data.Types
             where TItem : notnull, Enum
         {
             object? value = Value(typeObject);
-            return value != null 
-                ? (TItem)value 
-                : default!;
+            return 
+                value is not null 
+                    ? (TItem)value 
+                    : default!;
         }
 
         public static EnumItemObject<TItem>? TypeObject<TItem>(object value) 
@@ -134,7 +135,7 @@ namespace OxDAOEngine.Data.Types
             (EnumItemObject<TItem>?)TypeObject(value);
 
         public static object? TypeObject(object? value) =>
-            value == null 
+            value is null 
                 ? AnyObject
                 : Helper(value).TypeObject(value);
 
@@ -152,17 +153,17 @@ namespace OxDAOEngine.Data.Types
             (TItem)Helper(All<TItem>()[0]).Parse(text);
 
         public static Color BaseColor(object? value) =>
-            value == null 
+            value is null 
                 ? Color.Honeydew 
                 : StyledHelper(value).BaseColor(value);
 
         public static Color BackColor(object? value) =>
-            value == null
+            value is null
                 ? Color.Honeydew
                 : StyledHelper(value).BackColor(value);
 
         public static Color FontColor(object? value) =>
-            value == null
+            value is null
                 ? Color.Black
                 : StyledHelper(value).FontColor(value);
 
@@ -171,18 +172,18 @@ namespace OxDAOEngine.Data.Types
             helperList.Find(H =>
                 (H.ItemType == typeof(TItem)) ||
                 (H.ItemObjectType == typeof(TItem))
-            ) != null;
+            ) is not null;
 
         public static bool IsTypeHelpered(object? value) =>
-            value != null &&
-            helperList.Find(H =>
-                (H.ItemType == value.GetType()) ||
-                (H.ItemObjectType == value.GetType())
-            ) != null;
+            value is not null 
+            && helperList.Find(h =>
+                    h.ItemType.Equals(value.GetType()) 
+                    || h.ItemObjectType.Equals(value.GetType())
+                ) is not null;
 
         public static bool FieldIsTypeHelpered<TField>(TField field)
             where TField : notnull, Enum =>
-            FieldHelper<TField>().GetHelper(field) != null;
+            FieldHelper<TField>().GetHelper(field) is not null;
 
         public static List<TDepended> DependedList<TDepended>(object value)
             where TDepended : notnull, Enum
@@ -225,7 +226,7 @@ namespace OxDAOEngine.Data.Types
         }
 
         public static string Caption(object? value) =>
-            value == null
+            value is null
                 ? string.Empty
                 : IsTypeHelpered(value)
                     ? Helper(value).Caption(value)

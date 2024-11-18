@@ -26,13 +26,13 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected override void UnAssignValueChangeHanlderToControl(EventHandler? value)
         {
-            if (CustomControl != null)
+            if (CustomControl is not null)
                 CustomControl.ValueChangeHandler -= value;
         }
 
         protected override void AssignValueChangeHanlderToControl(EventHandler? value)
         {
-            if (CustomControl != null)
+            if (CustomControl is not null)
                 CustomControl.ValueChangeHandler += value;
         }
 
@@ -40,7 +40,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             base.AfterControlsCreated();
 
-            if (CustomControl == null)
+            if (CustomControl is null)
                 return;
 
             CustomControl.ItemEdited += ItemEditedHandler;
@@ -54,11 +54,11 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected override void OnControlValueChanged(object? value)
         {
-            if (ReadOnlyControl == null)
+            if (ReadOnlyControl is null)
                 return;
 
             base.OnControlValueChanged(
-                CustomControl == null 
+                CustomControl is null 
                     ? value
                     : CustomControl.PrepareValueToReadOnly((TItem?)value));
         }
@@ -76,11 +76,14 @@ namespace OxDAOEngine.ControlFactory.Accessors
             Value = null;
 
         public TControl? CustomControl =>
-            Control is TControl ? (TControl?)Control : null;
+            Control is TControl 
+                ? (TControl?)Control 
+                : null;
 
         protected override void SetReadOnly(bool value)
         {
-            if (CustomControl != null && CustomControl.ReadonlyMode == ReadonlyMode.EditAsReadonly)
+            if (CustomControl is not null 
+                && CustomControl.ReadonlyMode is ReadonlyMode.EditAsReadonly)
             {
                 CustomControl.ReadOnly = value;
                 return;
@@ -88,7 +91,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
             base.SetReadOnly(value);
 
-            if (CustomControl != null && CustomControl.Parent?.Parent is OxPanel panel)
+            if (CustomControl is not null 
+                && CustomControl.Parent?.Parent is OxPanel panel)
             {
                 if (value)
                 {

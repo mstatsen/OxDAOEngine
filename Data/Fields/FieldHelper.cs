@@ -68,7 +68,10 @@ namespace OxDAOEngine.Data.Fields
         public int AvailableFieldsCount(ControlScope scope)
         {
             List<TField>? availableFields = AvailableFields(scope);
-            return availableFields != null ? availableFields.Count : 0;
+            return 
+                availableFields is not null 
+                    ? availableFields.Count 
+                    : 0;
         }
 
         public bool AvailableField(ControlScope scope, TField field) =>
@@ -82,7 +85,7 @@ namespace OxDAOEngine.Data.Fields
                 ControlScope.Category or
                 ControlScope.Inline or
                 ControlScope.IconView =>
-                    AvailableFields(scope) != null && AvailableFields(scope)!.Contains(field),
+                    AvailableFields(scope) is not null && AvailableFields(scope)!.Contains(field),
                 ControlScope.Grouping =>
                     IsGroupByField(field),
                 _ => true,
@@ -96,7 +99,7 @@ namespace OxDAOEngine.Data.Fields
         {
             get
             {
-                if (iconFields == null)
+                if (iconFields is null)
                 {
                     iconFields = new();
 
@@ -185,7 +188,8 @@ namespace OxDAOEngine.Data.Fields
         {
             List<TField>? result = GetFieldsInternal(variant, filling);
 
-            if (result == null || result.Count == 0)
+            if (result is null 
+                || result.Count == 0)
                 result = GetFieldsInternal(FieldsVariant.Table, filling);
 
             result ??= new();
@@ -198,7 +202,10 @@ namespace OxDAOEngine.Data.Fields
         public int FullListCount(FieldsVariant variant)
         {
             List<TField>? fields = GetFieldsInternal(variant, FieldsFilling.Full);
-            return fields != null ? fields.Count : 0;
+            return 
+                fields is not null 
+                    ? fields.Count 
+                    : 0;
         }
 
         public FieldColumns<TField> Columns(FieldsVariant variant, FieldsFilling filling)

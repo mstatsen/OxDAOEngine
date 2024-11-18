@@ -41,7 +41,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             ClearValue();
 
-            if (value != null)
+            if (value is not null)
             {
                 foreach (TItem part in value)
                     SetValuePart(part);
@@ -63,7 +63,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             string readOnlyValue = string.Empty;
 
-            if (value != null)
+            if (value is not null)
             {
                 value.Sort();
 

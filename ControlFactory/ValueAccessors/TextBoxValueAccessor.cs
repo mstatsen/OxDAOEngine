@@ -11,8 +11,9 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             TextBox.Text;
 
         public override void SetValue(object? value) =>
-            TextBox.Text = value != null
-                ? value.ToString()
-                : string.Empty;
+            TextBox.Text = 
+                value is not null
+                    ? value.ToString()
+                    : string.Empty;
     }
 }

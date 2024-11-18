@@ -109,7 +109,7 @@ namespace OxDAOEngine.Settings
 
         private void FillSelectedItemsPanel()
         {
-            if (selectedItems != null)
+            if (selectedItems is not null)
             {
                 selectedGrid.ItemsList = selectedItems.Reverse();
                 selectedGrid.Fill();
@@ -129,12 +129,15 @@ namespace OxDAOEngine.Settings
         {
             selectedItems = value;
 
-            if (quickFilter != null)
-                quickFilter.Visible = value == null ? FunctionalPanelVisible.Fixed : FunctionalPanelVisible.Hidden;
+            if (quickFilter is not null)
+                quickFilter.Visible = 
+                    value is null 
+                        ? FunctionalPanelVisible.Fixed 
+                        : FunctionalPanelVisible.Hidden;
 
-            if (categoryControl != null)
+            if (categoryControl is not null)
             {
-                if (value != null)
+                if (value is not null)
                 {
                     categoryControl.Visible = false;
                     ((OxLabel)categoryControl.Tag).Visible = false;
@@ -151,9 +154,9 @@ namespace OxDAOEngine.Settings
                 CalcFrameSize(GeneralPanel);
             }
 
-            selectedItemsPanel.Visible = value != null;
+            selectedItemsPanel.Visible = value is not null;
 
-            if (value != null)
+            if (value is not null)
                 FillSelectedItemsPanel();
         }
 
@@ -418,7 +421,7 @@ namespace OxDAOEngine.Settings
             if (frame == extraSettingsFrames[ExportFormat.Text])
                 panel = textGeneralPanel;
 
-            if (panel == null)
+            if (panel is null)
                 return;
 
             panel.SetContentSize(

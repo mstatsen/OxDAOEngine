@@ -51,7 +51,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 {
                     ITypeHelper? helper = fieldHelper.GetHelper(field);
 
-                    if (helper != null)
+                    if (helper is not null)
                         key = helper.Parse(stringValue);
                 }
 
@@ -79,7 +79,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             OxLabel? label = (OxLabel?)sender;
 
-            if (label == null)
+            if (label is null)
                 return;
 
             label.Font = new(label.Font, label.Font.Style & ~FontStyle.Underline);
@@ -90,7 +90,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             OxLabel? label = (OxLabel?)sender;
 
-            if (label == null)
+            if (label is null)
                 return;
 
             label.Font = new(label.Font, label.Font.Style | FontStyle.Underline);

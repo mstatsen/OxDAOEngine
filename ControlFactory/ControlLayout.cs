@@ -76,7 +76,7 @@ namespace OxDAOEngine.ControlFactory
 
             OxLabel? label = control.Tag as OxLabel;
 
-            if (label != null)
+            if (label is not null)
                 label.Tag = control;
 
             return new PlacedControl<TField> (control, label, this);
@@ -84,7 +84,7 @@ namespace OxDAOEngine.ControlFactory
 
         private void ApplyLayoutToControl(Control control)
         {
-            if (control == null)
+            if (control is null)
                 return;
 
             control.Parent = Parent;
@@ -110,7 +110,8 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetControlBackColor(Control control)
         {
-            if (BackColor == Color.Transparent && Parent != null)
+            if (BackColor.Equals(Color.Transparent) 
+                && Parent is not null)
                 control.BackColor = Parent.BackColor;
             else
                 BackColor = Color.FromArgb(255, BackColor);
@@ -134,7 +135,7 @@ namespace OxDAOEngine.ControlFactory
 
         private OxLabel? ApplyLayoutToLabel(OxLabel? label, Control control)
         {
-            if (label == null)
+            if (label is null)
                 label = CreateLabel();
             else
             if (label.IsDisposed)
@@ -172,7 +173,7 @@ namespace OxDAOEngine.ControlFactory
         {
             OxLabel? label = (OxLabel?)sender;
 
-            if (label == null)
+            if (label is null)
                 return;
 
             label.Font = new(label.Font, label.Font.Style & ~FontStyle.Underline);
@@ -183,7 +184,7 @@ namespace OxDAOEngine.ControlFactory
         {
             OxLabel? label = (OxLabel?)sender;
 
-            if (label == null)
+            if (label is null)
                 return;
 
             label.Font = new(label.Font, label.Font.Style | FontStyle.Underline);
@@ -192,7 +193,7 @@ namespace OxDAOEngine.ControlFactory
 
         private void CalcLabel(OxLabel? label, Control? control)
         {
-            if (label == null)
+            if (label is null)
                 return;
 
             if (WrapLabel)
@@ -206,7 +207,7 @@ namespace OxDAOEngine.ControlFactory
                 case ControlCaptionVariant.Left:
                     label.Left = Left - label.Width - Space;
 
-                    if (control != null)
+                    if (control is not null)
                         OxControlHelper.AlignByBaseLine(control, label);
                     break;
                 case ControlCaptionVariant.Top:
@@ -254,7 +255,7 @@ namespace OxDAOEngine.ControlFactory
 
         public void OffsetVertical(ControlLayout<TField>? fixedLayout, int offset)
         {
-            if (fixedLayout != null)
+            if (fixedLayout is not null)
                 Top = fixedLayout.Bottom + offset;
         }
 

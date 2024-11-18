@@ -92,7 +92,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected override void OnControlTextChanged(string? text)
         {
-            if (ReadOnlyControl == null)
+            if (ReadOnlyControl is null)
                 return;
 
             ReadOnlyLabel.Text = Control.Text;

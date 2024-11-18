@@ -56,10 +56,11 @@ namespace OxDAOEngine.Data.Filter
                     ? null
                     : Groups.Last();
 
-            return group != null
+            return 
+                group is not null
                 && group.FilterConcat == concatToGroup
-                ? group
-                : AddGroup(concatToGroup);
+                    ? group
+                    : AddGroup(concatToGroup);
         }
 
         public FilterRule<TField> AddFilter(
@@ -71,7 +72,7 @@ namespace OxDAOEngine.Data.Filter
             FilterConcat concatToGroup = FilterConcat.OR) =>
             GetSuitableGroup(concatToGroup).Add(field, operation, value);
 
-        public FilterRule<TField> AddFilter(TField field, object value,
+        public FilterRule<TField> AddFilter(TField field, object? value,
             FilterConcat concatToGroup = FilterConcat.OR) =>
             GetSuitableGroup(concatToGroup).Add(field, value);
 

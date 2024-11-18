@@ -16,7 +16,7 @@ namespace OxDAOEngine.Data
         {
             DAOImage? imageInfo = ImageInfo(id);
 
-            if (imageInfo == null)
+            if (imageInfo is null)
             {
                 imageInfo = Add();
                 imageInfo.Id = id;
@@ -59,7 +59,7 @@ namespace OxDAOEngine.Data
 
         private void RemoveEmpty()
         {
-            foreach (DAOImage item in FindAll((i) => i.Image == null || i.Id == Guid.Empty))
+            foreach (DAOImage item in FindAll((i) => i.Image is null || i.Id.Equals(Guid.Empty)))
             {
                 foreach (RootDAO<TField> dao in item.UsageList.Cast<RootDAO<TField>>())
                     dao[ListController.FieldHelper.ImageField] = Guid.Empty;
@@ -100,13 +100,14 @@ namespace OxDAOEngine.Data
 
                 foreach (DAO dao in item.UsageList)
                 {
-                    if (dao.OwnerDAO == null || 
-                        dao is not RootDAO<TField> rootDAO)
+                    if (dao.OwnerDAO is null 
+                        || dao is not RootDAO<TField> rootDAO)
                         continue;
 
                     DAOImage? oldDaoImage = rootDAO.DAOImage;
 
-                    if (oldDaoImage != null && oldDaoImage != item)
+                    if (oldDaoImage is not null 
+                        && !oldDaoImage.Equals(item))
                         oldDaoImage.UsageList.Clear();
 
                     rootDAO.ImageId = mergeToItem.Id;

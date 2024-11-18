@@ -78,7 +78,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Sorting
         {
             base.PrepareColors();
 
-            if (sortingControlAccessor != null)
+            if (sortingControlAccessor is not null)
                 ((SortingsControl<TField, TDAO>)sortingControlAccessor.Control).BaseColor = BaseColor;
         }
 

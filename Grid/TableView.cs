@@ -34,7 +34,7 @@ namespace OxDAOEngine.Grid
 
         private void PrepareInfoPanel()
         {
-            if (InfoPanel == null)
+            if (InfoPanel is null)
                 return;
 
             InfoPanel.Parent = this;
@@ -103,7 +103,7 @@ namespace OxDAOEngine.Grid
 
         private void UpdateCurrentItemFullCard()
         {
-            if (InfoPanel == null)
+            if (InfoPanel is null)
                 return;
 
             InfoPanel.Item = CurrentItem;

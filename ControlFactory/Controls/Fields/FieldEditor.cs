@@ -17,7 +17,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             base.RenewData();
 
-            if (ExistingItems != null)
+            if (ExistingItems is not null)
                 FieldControl.ExcludedList = new FieldColumns<TField>
                 {
                     ObjectList = ExistingItems

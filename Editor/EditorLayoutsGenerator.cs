@@ -47,7 +47,9 @@ namespace OxDAOEngine.Editor
         public bool IsWithoutLabelField(TField field)
         {
             List<TField>? fields = ControlsWithoutLabel();
-            return fields != null && fields.Contains(field);
+            return 
+                fields is not null 
+                && fields.Contains(field);
         }
 
         public ControlCaptionVariant CaptionVariant(TField field) => 
@@ -64,15 +66,18 @@ namespace OxDAOEngine.Editor
         public bool AutoSize(TField field)
         {
             List<TField>? fields = AutoSizeFields();
-            return fields != null && fields.Contains(field);
+            return 
+                fields is not null 
+                && fields.Contains(field);
         }
         private DockStyle Dock(TField field)
         {
             List<TField>? fillDockFields = FillDockFields();
-            return fillDockFields != null 
+            return 
+                fillDockFields is not null
                 && fillDockFields.Contains(field)
-                ? DockStyle.Fill
-                : DockStyle.None;
+                    ? DockStyle.Fill
+                    : DockStyle.None;
         }
         public abstract int Top(TField field);
         public abstract int Left(TField field);
@@ -115,7 +120,9 @@ namespace OxDAOEngine.Editor
         public bool IsOffsettingField(TField field)
         {
             List<TField>? fields = OffsettingFields();
-            return fields != null && fields.Contains(field);
+            return 
+                fields is not null 
+                && fields.Contains(field);
         }
 
         public virtual int Offset(TField field) => 2;

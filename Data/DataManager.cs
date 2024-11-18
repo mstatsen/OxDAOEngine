@@ -59,7 +59,7 @@ namespace OxDAOEngine.Data
 
                 foreach (IDataController controller in Controllers)
                     if (controller.FileName == file.Key && 
-                        file.Value.DocumentElement != null)
+                        file.Value.DocumentElement is not null)
                         controller.Save(file.Value.DocumentElement);
 
                 file.Value.Save(file.Key);
@@ -78,8 +78,8 @@ namespace OxDAOEngine.Data
                     file.Value.AppendChild(file.Value.CreateElement("Data"));
 
                 foreach (IDataController controller in Controllers)
-                    if (controller.FileName == file.Key 
-                        && file.Value.DocumentElement != null)
+                    if (controller.FileName.Equals(file.Key)
+                        && file.Value.DocumentElement is not null)
                         controller.Load(file.Value.DocumentElement);
             }
         }
@@ -87,8 +87,9 @@ namespace OxDAOEngine.Data
         public static void SaveSystemData()
         {
             foreach (IDataController controller in Controllers)
-                if (controller.IsSystem && controller.Modified
-                    && Files[controller.FileName].DocumentElement != null)
+                if (controller.IsSystem 
+                    && controller.Modified
+                    && Files[controller.FileName].DocumentElement is not null)
                 {
                     controller.Save(Files[controller.FileName].DocumentElement);
                     Files[controller.FileName].Save(controller.FileName);
@@ -303,7 +304,7 @@ namespace OxDAOEngine.Data
                 List<OxPane> faces = new();
 
                 foreach (IDataController controller in Controllers)
-                    if (controller.Face != null)
+                    if (controller.Face is not null)
                         faces.Add(controller.Face);
 
                 return faces;
@@ -613,7 +614,9 @@ namespace OxDAOEngine.Data
             where TField : notnull, Enum
         {
             IFieldController<TField>? fieldController = TryGetFieldController<TField>();
-            return fieldController != null && fieldController.UseImageList;
+            return 
+                fieldController is not null 
+                && fieldController.UseImageList;
         }
     }
 }

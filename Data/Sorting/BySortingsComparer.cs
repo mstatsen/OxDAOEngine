@@ -13,10 +13,10 @@ namespace OxDAOEngine.Data.Sorting
 
         public int Compare(TDAO? x, TDAO? y)
         {
-            if (x == null)
-                return y == null ? 0 : -1;
+            if (x is null)
+                return y is null ? 0 : -1;
 
-            if (y == null)
+            if (y is null)
                 return 1;
 
             foreach (ISorting<TField, TDAO> sorting in Sortings)

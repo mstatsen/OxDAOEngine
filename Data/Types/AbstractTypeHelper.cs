@@ -58,11 +58,11 @@
         {
             EnumItemObject<T>? typeObject = typeObjects.Find(t => t.Value.Equals(value));
 
-            if (typeObject == null)
+            if (typeObject is null)
             {
                 typeObject = CreateTypeObject();
 
-                if (typeObject != null)
+                if (typeObject is not null)
                 {
                     typeObject.Value = value;
                     typeObjects.Add(typeObject);

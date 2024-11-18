@@ -10,7 +10,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
     {
         public ExtractAccessor(FieldContext<TField, TDAO> context, bool forQuickFilter, bool fullExtract)
             : base(
-                  context.Initializer != null 
+                  context.Initializer is not null 
                     ? context 
                     : context.SetInitializer(
                         new ExtractInitializer<TField, TDAO>(context.Field, addAnyObject: forQuickFilter, fullExtract: fullExtract)

@@ -17,7 +17,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         public override void RenewData()
         {
             base.RenewData();
-            if (ExistingItems != null)
+            if (ExistingItems is not null)
                 FieldControl!.ExcludedList = new FieldSortings<TField, TDAO>
                 {
                     ObjectList = ExistingItems

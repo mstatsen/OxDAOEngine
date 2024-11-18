@@ -87,10 +87,10 @@ namespace OxDAOEngine.ControlFactory.Controls
 
             TItem? item = Editor(addType).Add();
 
-            if (item == null)
+            if (item is null)
                 return false;
 
-            if (addType == TypeOfEditorShow.AddChild
+            if (addType.Equals(TypeOfEditorShow.AddChild)
                 && item is ITreeItemDAO<TItem> treeItem)
                 treeItem.Parent = SelectedItem;
 
@@ -126,13 +126,14 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void EditItem()
         {
-            if (!EditButton.Enabled || 
-                (readOnly && ReadonlyMode == ReadonlyMode.ViewAsReadonly))
+            if (!EditButton.Enabled 
+                || (readOnly 
+                    && ReadonlyMode.Equals(ReadonlyMode.ViewAsReadonly)))
                 return;
 
             TItem? item = SelectedItem;
 
-            if (item == null)
+            if (item is null)
                 return;
 
             if (Editor(TypeOfEditorShow.Edit).Edit(item, readOnly) != DialogResult.OK)
@@ -193,7 +194,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private bool AllItemsAdded => 
             ItemsContainer.Count == (
-                GetMaximumCount != null
+                GetMaximumCount is not null
                     ? GetMaximumCount()
                     : MaximumItemsCount
             );
@@ -209,11 +210,14 @@ namespace OxDAOEngine.ControlFactory.Controls
             DeleteButton.Visible = !readOnly;
             RecalcEditButtonVisible();
             AddButton.Enabled = !AllItemsAdded;
-            AddChildButton.Enabled = !AllItemsAdded && SelectedItem != null;
+            AddChildButton.Enabled = 
+                !AllItemsAdded 
+                && SelectedItem is not null;
 
             foreach (OxClickFrame eControl in EnabledWhenItemSelected)
-                eControl.Enabled = ItemsContainer.SelectedIndex > -1 
-                    && (FixedItems == null 
+                eControl.Enabled = 
+                    ItemsContainer.SelectedIndex > -1 
+                    && (FixedItems is null 
                         || !FixedItems.Contains(ItemsContainer.SelectedItem));
         }
 
@@ -237,7 +241,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             button.BaseColor = BaseColor;
             button.HiddenBorder = false;
 
-            if (handler != null)
+            if (handler is not null)
                 button.Click += handler;
 
             if (index == -1)
@@ -273,7 +277,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void SetEditButtonVisible(bool value)
         {
-            if (EditButton == null 
+            if (EditButton is null 
                 || EditButton.Visible == value)
                 return;
 
@@ -341,7 +345,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             IsHighPriorityItem((TItem)item);
 
         protected virtual bool IsMandatoryItem(TItem item) =>
-            FixedItems != null && FixedItems.Contains(item);
+            FixedItems is not null 
+            && FixedItems.Contains(item);
 
         protected virtual bool IsHighPriorityItem(TItem item) => false;
 
@@ -366,7 +371,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void ListClickHandler(object? sender, EventArgs e)
         {
-            if (ItemsContainer.SelectedItem == null 
+            if (ItemsContainer.SelectedItem is null 
                 && ItemsContainer.Count > 0)
                 ItemsContainer.SelectedIndex = 0;
         }
@@ -415,7 +420,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             SetPaneBaseColor(ButtonsPanel, BaseColor);
             SetControlBackColor(Control, Colors.Lighter(7));
 
-            if (Buttons == null)
+            if (Buttons is null)
                 return;
 
             foreach (OxIconButton button in Buttons.Cast<OxIconButton>())
@@ -434,7 +439,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void RecalcEditButtonVisible()
         {
-            if (ButtonsPanel == null)
+            if (ButtonsPanel is null)
                 return;
 
             SetEditButtonVisible(
@@ -454,7 +459,8 @@ namespace OxDAOEngine.ControlFactory.Controls
                     if (button.Visible)
                         calcedHeight += button.Height + ButtonSpace;
 
-                if (EditButton != null && !EditButton.Visible)
+                if (EditButton is not null 
+                    && !EditButton.Visible)
                     calcedHeight += EditButton.Height + ButtonSpace;
 
                 return calcedHeight;

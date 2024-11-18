@@ -56,9 +56,9 @@ namespace OxDAOEngine.Data.Filter
                 FieldType.Integer =>
                     XmlHelper.ValueInt(element, XmlConsts.Value),
                 _ =>
-                    valueHelper != null
-                    ? valueHelper.Parse(XmlHelper.Value(element, XmlConsts.Value))
-                    : XmlHelper.Value(element, XmlConsts.Value),
+                    valueHelper is not null
+                        ? valueHelper.Parse(XmlHelper.Value(element, XmlConsts.Value))
+                        : XmlHelper.Value(element, XmlConsts.Value),
             };
         }
 
@@ -78,7 +78,10 @@ namespace OxDAOEngine.Data.Filter
             && (base.Equals(obj) 
                 || (Field.Equals(otherRule.Field)
                     && Operation.Equals(otherRule.Operation)
-                    && (Value == null ? otherRule.Value == null : Value.Equals(otherRule.Value))
+                    && (Value is null 
+                        ? otherRule.Value is null 
+                        : Value.Equals(otherRule.Value)
+                    )
                 )
             );
 
@@ -126,9 +129,10 @@ namespace OxDAOEngine.Data.Filter
         public object ParseCaldedValue(TField field, string value)
         {
             ITypeHelper? helper = FieldHelper.GetHelper(field);
-            return helper != null 
-                ? helper.Parse(value) 
-                : value;
+            return 
+                helper is not null 
+                    ? helper.Parse(value) 
+                    : value;
         }
 
         public FilterOperation DefaultFilterOperation(TField field) => 

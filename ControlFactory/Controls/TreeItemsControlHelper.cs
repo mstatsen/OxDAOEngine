@@ -14,15 +14,15 @@ namespace OxDAOEngine.ControlFactory.Controls
         public static void AddValueNode<TItem>(OxTreeView treeView, TItem item)
             where TItem : TreeItemDAO<TItem>, new()
         {
-            if (item.Parent != null)
+            if (item.Parent is null)
+                treeView.Add(item);
+            else
             {
                 item.Parent.AddChild(item);
                 treeView.SelectedItem = item.Parent;
                 treeView.AddChild(item);
                 treeView.SelectedItem = item;
             }
-            else
-                treeView.Add(item);
 
             foreach (ITreeItemDAO<TItem> child in item.Childs)
             {
@@ -38,7 +38,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             TItem? currentItem = (TItem?)treeView.SelectedItem;
 
-            if (currentItem == null)
+            if (currentItem is null)
                 return;
 
             currentItem.Parent?.RemoveChild(currentItem);

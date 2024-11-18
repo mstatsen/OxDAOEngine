@@ -29,8 +29,11 @@ namespace OxDAOEngine.Editor
         private void FillControls(TDAO? item)
         {
             FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
-            Text = $"{(item != null ? $"{item[fieldHelper.TitleField]} " : string.Empty)}{fieldHelper.Name(fieldHelper.UniqueField)}";
-            uniqueKeyAccessor.Value = item == null ? "Empty" : item[fieldHelper.UniqueField];
+            Text = $"{(item is not null ? $"{item[fieldHelper.TitleField]} " : string.Empty)}{fieldHelper.Name(fieldHelper.UniqueField)}";
+            uniqueKeyAccessor.Value = 
+                item is null 
+                    ? "Empty" 
+                    : item[fieldHelper.UniqueField];
         }
 
         protected override void OnShown(EventArgs e)
@@ -85,7 +88,7 @@ namespace OxDAOEngine.Editor
 
         private void CopyHandler(object? sender, EventArgs e)
         {
-            if (uniqueKeyAccessor.Value != null)
+            if (uniqueKeyAccessor.Value is not null)
                 Clipboard.SetText(uniqueKeyAccessor.Value.ToString());
         }
 

@@ -70,12 +70,14 @@ namespace OxDAOEngine.Data.Links
 
             Link<TField>? otherLink = (Link<TField>?)other;
 
-            if (otherLink == null)
+            if (otherLink is null)
                 return 1;
 
             List<object> allTypes = helper.All();
             int result = allTypes.IndexOf(Type).CompareTo(allTypes.IndexOf(otherLink.Type));
-            return result == 0 ? Name.CompareTo(otherLink.Name) : result;
+            return result == 0 
+                ? Name.CompareTo(otherLink.Name) 
+                : result;
         }
 
         public Color LinkColor => TypeHelper.BaseColor(Type);

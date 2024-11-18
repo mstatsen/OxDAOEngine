@@ -11,6 +11,9 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             PictureContainer.Image;
 
         public override void SetValue(object? value) =>
-            PictureContainer.Image = (Image?)value;
+            PictureContainer.Image = 
+                value is Image imageValue 
+                    ? imageValue 
+                    : null;
     }
 }

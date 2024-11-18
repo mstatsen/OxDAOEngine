@@ -12,7 +12,10 @@
             return decorator;
         }
 
-        public void SetDecorator(DecoratorType type, Decorator<TField, TDAO> decorator) => 
+        public Decorator<TField, TDAO> SetDecorator(DecoratorType type, Decorator<TField, TDAO> decorator)
+        {
             this[type] = decorator;
+            return decorator;
+        }
     }
 }

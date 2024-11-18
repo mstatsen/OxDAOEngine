@@ -18,11 +18,11 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         private readonly string ItemsCaption = DataManager.ListController<TField, TDAO>().ListName;
 
         public void SetItemsCount() => 
-            countLabel.Text = $"Selected {ItemsCaption}: {(ItemsGetter != null ? ItemsGetter().Count.ToString() : "N/A")}";
+            countLabel.Text = $"Selected {ItemsCaption}: {(ItemsGetter is not null ? ItemsGetter().Count.ToString() : "N/A")}";
 
         public void UpdateItems()
         {
-            if (ItemsGetter == null)
+            if (ItemsGetter is null)
                 return;
 
             if (FieldIsEmpty)
@@ -38,7 +38,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
             {
                 TDAO? findItem = DataManager.FullItemsList<TField, TDAO>().Find(i => i.Equals(item));
 
-                if (findItem != null)
+                if (findItem is not null)
                     findItem.Modified = true;
 
                 item.FinishSilentChange();
@@ -63,7 +63,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         }
 
         public bool FieldIsEmpty =>
-            FieldAccessor.Value == null
+            FieldAccessor.Value is null
             || (FieldAccessor.Value is IEmptyChecked ec && ec.IsEmpty);
 
         private void EnabledOKButton() =>
@@ -79,7 +79,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
             valueLabel.Left = PlacedFieldsControl.LabelLeft;
             ControlPainter.ColorizeControl(valueLabel, BaseColor);
 
-            if (PlacedFieldsControl.Label != null)
+            if (PlacedFieldsControl.Label is not null)
                 PlacedFieldsControl.Label.ForeColor = valueLabel.ForeColor;
 
             CreateValueLayout(PlacedFieldsControl.Layout);
@@ -120,7 +120,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
 
             ValueAccessor = (ControlAccessor<TField, TDAO>)controlBuilder[FieldAccessor.EnumValue];
 
-            if (ValueAccessor == null)
+            if (ValueAccessor is null)
                 return;
 
             LayoutValueControl();
@@ -131,7 +131,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         {
             TDAO? firstItem = ItemsGetter?.Invoke().First;
 
-            if (firstItem != null)
+            if (firstItem is not null)
                 ValueAccessor.Value = firstItem[FieldAccessor.EnumValue];
         }
 
@@ -150,7 +150,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
 
         private void HideValueControl()
         {
-            if (CurrentValueControl == null)
+            if (CurrentValueControl is null)
                 return;
 
             ValueAccessor.Control.Visible = false;

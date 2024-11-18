@@ -22,7 +22,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
         {
             base.RenewData();
 
-            if (ExistingItems != null)
+            if (ExistingItems is not null)
                 iconContentPartInitializer.ExistingMappings = new ListDAO<IconMapping<TField>>(ExistingItems);
 
             ContentPartControl.RenewControl(true);

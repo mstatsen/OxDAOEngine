@@ -9,8 +9,9 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             (TComboBox)Control;
 
         private static bool IsEmptyValue(object? value) =>
-            (value == null) ||
-            ((value is string stringValue) && stringValue == string.Empty);
+            (value is null) ||
+            (value is string stringValue 
+                && stringValue == string.Empty);
 
         public override object GetValue() => 
             ComboBox.SelectedItemObject ?? ComboBox.Text;
@@ -20,7 +21,7 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             ComboBox.SelectedItemObject =
                 IsEmptyValue(value) ? null : value;
 
-            if (ComboBox.SelectedItem == null)
+            if (ComboBox.SelectedItem is null)
                 ComboBox.Text = string.Empty;
         }
     }

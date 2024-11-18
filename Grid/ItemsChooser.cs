@@ -69,7 +69,7 @@ namespace OxDAOEngine.Grid
                 {
                     object? itemUniqueValue = item[uniqueField];
 
-                    if (itemUniqueValue == null)
+                    if (itemUniqueValue is null)
                         continue;
 
                     availableGrid.SelectItem(g => itemUniqueValue.Equals(g[uniqueField]));
@@ -180,10 +180,10 @@ namespace OxDAOEngine.Grid
                     foreach (TDAO item in selectedList)
                     {
                         canSelect = select
-                            ? ChooserParams.CanSelectItem == null
+                            ? ChooserParams.CanSelectItem is null
                                 ? CanSelectResult.Available
                                 : ChooserParams.CanSelectItem.Invoke(item, selectedList, this)
-                            : ChooserParams.CanUnselectItem == null
+                            : ChooserParams.CanUnselectItem is null
                                 ? CanSelectResult.Available
                                 : ChooserParams.CanUnselectItem.Invoke(item, selectedList, this);
 
@@ -239,7 +239,7 @@ namespace OxDAOEngine.Grid
 
         private void RecalcGridsSizes()
         {
-            selectedPlace.Width = ((PanelViewer != null ? PanelViewer.Width : Width) - buttonsPanel.Width) / 2;
+            selectedPlace.Width = ((PanelViewer is not null ? PanelViewer.Width : Width) - buttonsPanel.Width) / 2;
             selectButton.Top = buttonsPanel.Height / 2 - selectButton.Height - 50;
             unSelectButton.Top = selectButton.Bottom + 8;
 

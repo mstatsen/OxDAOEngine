@@ -41,13 +41,13 @@ namespace OxDAOEngine.ControlFactory.Controls
         public Control Control => GetControl();
 
         protected virtual Color GetControlColor() => 
-            Control == null 
+            Control is null 
                 ? BackColor 
                 : Control.BackColor;
 
         protected virtual void SetControlColor(Color value)
         {
-            if (Control != null)
+            if (Control is not null)
                 Control.BackColor = value;
         }
 

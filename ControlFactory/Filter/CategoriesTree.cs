@@ -38,7 +38,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         public Category<TField, TDAO>? ActiveCategory
         {
             get =>
-                categorySelector.SelectedNode == null
+                categorySelector.SelectedNode is null
                 || (categorySelector.SelectedItem is IEmptyChecked ec && ec.IsEmpty)
                     ? RootCategory
                     : (Category<TField, TDAO>?)categorySelector.SelectedItem;
@@ -134,28 +134,31 @@ namespace OxDAOEngine.ControlFactory.Filter
             categorySelector.Parent = ContentContainer;
             categorySelector.ShowNodeToolTips = true;
             categorySelector.AfterSelect += AfterSelectHandler;
-            categorySelector.BeforeCollapse += (s, e) => e.Cancel = e.Node == null || e.Node.Level == 0;
+            categorySelector.BeforeCollapse += (s, e) => e.Cancel = e.Node is null || e.Node.Level == 0;
             categorySelector.DoubleClick += CategorySelectorDoubleClickHandler;
             categorySelector.Click += CategorySelectorClickHandler;
         }
 
         private void CategorySelectorClickHandler(object? sender, EventArgs e)
         {
-            if (categorySelector.SelectedNode != null
+            if (categorySelector.SelectedNode is not null
                 && categorySelector.SelectedNode.IsExpanded)
                 categorySelector.SelectedNode.Collapse();
         }
 
         private void CategorySelectorDoubleClickHandler(object? sender, EventArgs e)
         {
-            if (PanelViewer != null)
+            if (PanelViewer is not null)
                 PanelViewer.DialogResult = DialogResult.OK;
         }
 
         private Category<TField, TDAO>? LastCategory;
 
-        public CategoriesTree() : base() =>
+        public CategoriesTree() : base()
+        {
+            Icon = OxIcons.Categories;
             SetContentSize(new(280, 1));
+        }
 
         private void FillTree()
         {
@@ -255,7 +258,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             TreeNode? node = CreateCategoryTreeNode(category);
 
-            if (node == null)
+            if (node is null)
                 return;
 
             foreach (Category<TField, TDAO> childCategory in category.Childs)
@@ -275,7 +278,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             node.ToolTipText = category.Description;
 
-            if (parentNode == null)
+            if (parentNode is null)
                 categorySelector.Nodes.Add(node);
             else parentNode.Nodes.Add(node);
         }
@@ -306,7 +309,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 FilterOperation filterOperation = FieldHelper.DefaultFilterOperation(category.Field);
 
-                if (value == null)
+                if (value is null)
                     filterOperation = FilterOperation.Blank;
 
                 valueFilter.AddFilter(category.Field, filterOperation, value);
@@ -333,7 +336,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             ActiveCategoryChanged?.Invoke(this, new CategoryEventArgs<TField, TDAO>(LastCategory, ActiveCategory));
             LastCategory = ActiveCategory;
 
-            if (categorySelector.SelectedNode == null)
+            if (categorySelector.SelectedNode is null)
                 return;
 
             if (categorySelector.SelectedNode.IsExpanded)

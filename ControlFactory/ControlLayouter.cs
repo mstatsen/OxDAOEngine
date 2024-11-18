@@ -50,7 +50,7 @@ namespace OxDAOEngine.ControlFactory
                 placedControl = controlAccessor.LayoutControl(layout);
                 PlacedControls.Add(field, placedControl);
 
-                if (placedControl.Label != null)
+                if (placedControl.Label is not null)
                     PlacedLabels.Add(placedControl.Label, layout.Field);
             }
 
@@ -60,14 +60,14 @@ namespace OxDAOEngine.ControlFactory
 
         private bool FieldSupportLabelClick(TField field) =>
             !Builder.Context(field).IsView
-            || fieldHelper == null 
+            || fieldHelper is null 
             || fieldHelper.GetFieldType(field) != FieldType.List;
 
         private void SetLabelClickHander(PlacedControl<TField> placedControl)
         {
             OxLabel? label = placedControl?.Label;
 
-            if (label == null)
+            if (label is null)
                 return;
 
             label.Click -= ExtractLabelClick;
@@ -80,7 +80,7 @@ namespace OxDAOEngine.ControlFactory
         {
             OxLabel? label = (OxLabel?)sender;
 
-            if (label == null || 
+            if (label is null || 
                 !PlacedLabels.TryGetValue(label, out TField? field))
                 return;
 
@@ -95,7 +95,7 @@ namespace OxDAOEngine.ControlFactory
             {
                 ITypeHelper? helper = fieldHelper.GetHelper(field);
 
-                if (helper != null)
+                if (helper is not null)
                     value = helper.Parse(stringValue);
             }
 
@@ -121,9 +121,9 @@ namespace OxDAOEngine.ControlFactory
 
             foreach (ControlLayout<TField> layout in layouts)
             { 
-                if (layout == null || 
-                    layout.CaptionVariant == ControlCaptionVariant.None ||
-                    !PlacedControls.TryGetValue(layout.Field, out var placedControl))
+                if (layout is null 
+                    || layout.CaptionVariant.Equals(ControlCaptionVariant.None) 
+                    || !PlacedControls.TryGetValue(layout.Field, out var placedControl))
                     continue;
 
                 minimum = Math.Min(minimum, placedControl.LabelLeft);
@@ -134,11 +134,11 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetLabelsLeft(List<ControlLayout<TField>> layouts, int left)
         {
-            if (layouts == null)
+            if (layouts is null)
                 return;
 
             foreach (ControlLayout<TField> layout in layouts)
-                if (layout != null)
+                if (layout is not null)
                     PlacedControls[layout.Field].LabelLeft = left;
         }
 
@@ -158,7 +158,7 @@ namespace OxDAOEngine.ControlFactory
             {
                 ControlLayout<TField>? layout = Layouts[field];
 
-                if (layout != null)
+                if (layout is not null)
                     layouts.Add(layout);
             }
 
@@ -179,7 +179,7 @@ namespace OxDAOEngine.ControlFactory
             {
                 PlacedControl<TField>? placedControl = PlacedControl(field);
 
-                if (placedControl != null)
+                if (placedControl is not null)
                     placedControl.Control.Left -= offset;
             }
         }

@@ -24,7 +24,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             } 
             remove
             {
-                if (valueChangeHandler != null)
+                if (valueChangeHandler is not null)
                     UnAssignValueChangeHanlderToControl(valueChangeHandler);
 
                 valueChangeHandler = null;
@@ -47,12 +47,12 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlValueChanged(object? value)
         {
-            if (ReadOnlyControl != null)
+            if (ReadOnlyControl is not null)
                 OnControlTextChanged(TypeHelper.Name(value));
         }
 
         public virtual bool IsEmpty => 
-            Value == null || Value.ToString() == string.Empty;
+            Value is null || Value.ToString() == string.Empty;
 
         protected virtual void InitControl()
         {
@@ -72,7 +72,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         private void ControlDockChangedHandler(object? sender, EventArgs e)
         {
-            if (ReadOnlyControl != null)
+            if (ReadOnlyControl is not null)
                 ReadOnlyControl.Dock = Control.Dock;
         }
 
@@ -80,7 +80,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlVisibleChanged()
         {
-            if (ReadOnlyControl != null)
+            if (ReadOnlyControl is not null)
                 ReadOnlyControl.Visible = Visible && ReadOnly && !Control.Visible;
         }
 
@@ -88,7 +88,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlForeColorChanged()
         {
-            if (ReadOnlyControl != null)
+            if (ReadOnlyControl is not null)
                 ReadOnlyControl.ForeColor = Control.ForeColor;
         }
 
@@ -96,7 +96,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlFontChanged()
         {
-            if (ReadOnlyControl != null)
+            if (ReadOnlyControl is not null)
                 ReadOnlyControl.Font = new(
                     Control.Font.FontFamily,
                     Control.Font.Size + (Control.Text == string.Empty ? 0 : 1),
@@ -112,7 +112,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlBackColorChanged()
         {
-            if (ReadOnlyControl != null && Parent != null)
+            if (ReadOnlyControl is not null 
+                && Parent is not null)
                 ReadOnlyControl.BackColor = Parent.BackColor;
         }
 
@@ -120,7 +121,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlParentChanged()
         {
-            if (ReadOnlyControl != null)
+            if (ReadOnlyControl is not null)
                 ReadOnlyControl.Parent = Control.Parent;
         }
 
@@ -129,7 +130,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlTextChanged(string? text)
         {
-            if (ReadOnlyControl == null)
+            if (ReadOnlyControl is null)
                 return;
 
             ReadOnlyControl.Text = 
@@ -144,7 +145,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlLocationChanged()
         {
-            if (ReadOnlyControl == null)
+            if (ReadOnlyControl is null)
                 return;
             
             ReadOnlyControl.Left = Control.Left;
@@ -156,7 +157,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void OnControlSizeChanged()
         {
-            if (ReadOnlyControl == null)
+            if (ReadOnlyControl is null)
                 return;
 
             ReadOnlyControl.Width = Control.Width;
@@ -223,7 +224,9 @@ namespace OxDAOEngine.ControlFactory.Accessors
             where T : Enum
         {
             T? tValue = (T?)GetValue();
-            return IsEmpty || tValue == null ? default! : tValue;
+            return IsEmpty || tValue is null 
+                ? default! 
+                : tValue;
         }
 
         public bool BoolValue => 
@@ -246,7 +249,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
         }
 
         public string StringValue => 
-            Value != null && Value.ToString() != null 
+            Value is not null 
+            && Value.ToString() is not null 
                 ? Value.ToString()!
                 : string.Empty;
 
@@ -274,7 +278,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             readOnly = value;
 
-            if (ReadOnlyControl != null)
+            if (ReadOnlyControl is not null)
             {
                 Control.Visible = visible && !readOnly;
                 ReadOnlyControl.Visible = visible && readOnly;

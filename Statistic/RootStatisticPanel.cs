@@ -25,10 +25,11 @@ namespace OxDAOEngine.Statistic
         private int Statistic(StatisticType type) => 
             type switch
             {
-                StatisticType.Visible => ListController.AvailableQuickFilter 
-                    && QuickFilterPanel != null
-                    ? ListController.VisibleItemsList.FilteredList(QuickFilterPanel.ActiveFilter).Count 
-                    : ListController.TotalCount,
+                StatisticType.Visible => 
+                    ListController.AvailableQuickFilter 
+                    && QuickFilterPanel is not null
+                        ? ListController.VisibleItemsList.FilteredList(QuickFilterPanel.ActiveFilter).Count 
+                        : ListController.TotalCount,
                 StatisticType.Selected => Grid.SelectedCount,
                 StatisticType.Modified => ListController.ModifiedCount,
                 StatisticType.Added => ListController.AddedCount,
@@ -56,9 +57,9 @@ namespace OxDAOEngine.Statistic
 
         private void RenewCategoryValue() => 
             Labels[StatisticType.Category].Text =
-                ListController.Category != null &&
-                ListController.Category.Name != null &&
-                ListController.Category.Name != string.Empty
+                ListController.Category is not null 
+                && ListController.Category.Name is not null 
+                && !ListController.Category.Name.Equals(string.Empty)
                     ? $"{ListController.Category?.Name} : {ListController.FilteredCount}"
                     : string.Empty;
 
@@ -71,16 +72,17 @@ namespace OxDAOEngine.Statistic
                 {
                     StatisticType.Category => 
                         CategoryColorHelper.Darker(
-                            ListController.Category == null || ListController.Category.FilterIsEmpty
+                            ListController.Category is null 
+                            || ListController.Category.FilterIsEmpty
                                 ? 0
                                 : 2
                         ),
                     StatisticType.Visible =>
                         QuickFilterColorHelper.Darker(
-                            !ListController.AvailableQuickFilter ||
-                            QuickFilterPanel == null ||
-                            QuickFilterPanel.ActiveFilter == null ||
-                            QuickFilterPanel.ActiveFilter.FilterIsEmpty
+                            !ListController.AvailableQuickFilter 
+                            || QuickFilterPanel is null 
+                            || QuickFilterPanel.ActiveFilter is null 
+                            || QuickFilterPanel.ActiveFilter.FilterIsEmpty
                                 ? 0
                                 : 2
                         ),
@@ -110,7 +112,7 @@ namespace OxDAOEngine.Statistic
             ListController.ModifiedHandler += (d, m) => SetStatisticsTexts();
             ListController.ItemFieldChanged += (d, e) => SetStatisticsTexts();
 
-            if (QuickFilterPanel != null)
+            if (QuickFilterPanel is not null)
                 QuickFilterPanel.Changed += (s, e) => SetStatisticsTexts();
 
             Grid.CurrentItemChanged += (s, e) => SetStatisticsTexts();

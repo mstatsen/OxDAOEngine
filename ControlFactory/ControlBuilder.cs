@@ -55,11 +55,11 @@ namespace OxDAOEngine.ControlFactory
                 }
 
                 controlAccessor = 
-                    createFunction != null 
+                    createFunction is not null 
                         ? createFunction(context) 
                         : Factory.CreateAccessor(context);
 
-                if (controlAccessor == null)
+                if (controlAccessor is null)
                     throw new KeyNotFoundException($"Control Accessor not exist {context}");
 
                 Accessors.Add(context, controlAccessor);
@@ -128,7 +128,7 @@ namespace OxDAOEngine.ControlFactory
         {
             string hashKey = $"{key}_{fieldType}";
 
-            if (additionalContext != null)
+            if (additionalContext is not null)
                 hashKey += $"_{additionalContext}";
 
             if (!SimpleContexts.TryGetValue(hashKey, out var context))
@@ -166,7 +166,7 @@ namespace OxDAOEngine.ControlFactory
                 IControlAccessor? accessor = null;
                 currentDecorator = null;
 
-                if (item == null)
+                if (item is null)
                 {
                     accessor = this[field];
                     value = null;
@@ -178,7 +178,8 @@ namespace OxDAOEngine.ControlFactory
                         case ControlScope.InfoView:
                         case ControlScope.IconView:
                         case ControlScope.CardView:
-                            if ((availableFields != null) && availableFields.Contains(field))
+                            if (availableFields is not null
+                                && availableFields.Contains(field))
                                 currentDecorator = decorator;
                             break;
                         default:
@@ -192,13 +193,13 @@ namespace OxDAOEngine.ControlFactory
                     }
                 }
 
-                if (currentDecorator != null)
+                if (currentDecorator is not null)
                 {
                     value = currentDecorator[field];
                     accessor = this[field];
                 }
 
-                if (accessor == null)
+                if (accessor is null)
                     continue;
 
                 accessor.ValueChangeHandler -= ModifiedHandler;
@@ -264,7 +265,7 @@ namespace OxDAOEngine.ControlFactory
 
         public void GrabQuickFilterControls(FilterGroup<TField, TDAO> filterGroup, List<TField>? fields)
         {
-            if (fields == null)
+            if (fields is null)
                 return;
 
             foreach (TField field in fields)
@@ -295,7 +296,7 @@ namespace OxDAOEngine.ControlFactory
             this[field].Visible = visible;
             OxLabel? label = Layouter.PlacedControl(field)?.Label;
 
-            if (label != null)
+            if (label is not null)
                 label.Visible = visible;
         }
 

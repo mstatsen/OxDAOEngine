@@ -11,13 +11,13 @@ namespace OxDAOEngine.Grid
 
         public void CellPainting(object? sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (sender == null || 
-                e.RowIndex < 0)
+            if (sender is null 
+                || e.RowIndex < 0)
                 return;
 
             TDAO? item = (TDAO?)((DataGridView)sender).Rows[e.RowIndex].Tag;
 
-            if (item == null)
+            if (item is null)
                 return;
 
             SetCellStyle(item, e);

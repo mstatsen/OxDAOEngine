@@ -52,7 +52,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             OxTextBox? readOnlyControl = (OxTextBox?)base.CreateReadOnlyControl();
 
-            if (readOnlyControl != null)
+            if (readOnlyControl is not null)
                 readOnlyControl.ScrollBars = ScrollBars.None;
 
             return readOnlyControl;

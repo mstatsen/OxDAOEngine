@@ -49,7 +49,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
 
         private void ToolButtonClick(object? sender, EventArgs e)
         {
-            if (sender != null)
+            if (sender is not null)
                 ResetFields((FieldsFilling)((Control)sender).Tag);
         }
 

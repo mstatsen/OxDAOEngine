@@ -23,10 +23,12 @@ namespace OxDAOEngine.Data.Sorting
             switch (x)
             {
                 case null:
-                    result = y == null ? 0 : -1;
+                    result = y is null 
+                        ? 0 
+                        : -1;
                     break;
                 default:
-                    if (y == null)
+                    if (y is null)
                         result = 1;
                     else
                     {
@@ -36,16 +38,20 @@ namespace OxDAOEngine.Data.Sorting
 
                         result = xValue switch
                         {
-                            null => yValue == null ? 0 : -1,
-                            _ => yValue == null ? 1 : xValue.CompareTo(yValue),
+                            null => yValue is null 
+                                ? 0 
+                                : -1,
+                            _ => yValue is null 
+                                ? 1 
+                                : xValue.CompareTo(yValue),
                         };
                     }
 
                     break;
             }
 
-            if (result != 0 &&
-                SortOrder == SortOrder.Descending)
+            if (result != 0 
+                && SortOrder.Equals(SortOrder.Descending))
                 result = -result;
 
             return result;

@@ -1,15 +1,15 @@
-﻿using OxDAOEngine.ControlFactory.Accessors;
+﻿using OxLibrary;
+using OxLibrary.Controls;
+using OxLibrary.Panels;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.ControlFactory.Context;
+using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
-using OxLibrary.Controls;
-using OxLibrary;
-using OxLibrary.Panels;
-using OxDAOEngine.ControlFactory.Context;
-using OxDAOEngine.ControlFactory.Initializers;
-using OxDAOEngine.ControlFactory.ValueAccessors;
+using OxDAOEngine.ControlFactory.Controls.Fields;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -49,18 +49,24 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void FillRule(FilterRule<TField>? value)
         {
-            if (value == null)
-                FieldControl.Value = ((OxComboBox)FieldControl.Control).Items[0];
+            if (value is null)
+                FieldControl.SelectFirst();
             else
-            {
                 FieldControl.Value = value.Field;
-                OperationControl.Value = value.Operation;
-            }
 
+            RenewOperationControl();
+
+            if (value is null)
+                OperationControl.SelectFirst();
+            else
+                OperationControl.Value = value.Operation;
+            
             LayoutValueControl();
 
-            if (ValueAccessor != null)
+            if (ValueAccessor is not null)
                 ValueAccessor.Value = value?[FieldControl.EnumValue];
+
+            SetValueAccessorVisible();
         }
 
         private FilterRule<TField> GrabRule()
@@ -71,7 +77,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 Operation = OperationControl.EnumValue
             };
 
-            if (ValueAccessor != null)
+            if (ValueAccessor is not null)
                 result[FieldControl.EnumValue] = ValueAccessor.Value;
 
             return result;
@@ -96,9 +102,12 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private readonly FilterOperationHelper FilterOperationHelper = TypeHelper.Helper<FilterOperationHelper>();
 
-        private void OperationControlValueChangeHandler(object? sender, EventArgs e)
+        private void OperationControlValueChangeHandler(object? sender, EventArgs e) =>
+            SetValueAccessorVisible();
+
+        private void SetValueAccessorVisible()
         {
-            if (ValueAccessor == null)
+            if (ValueAccessor is null)
                 return;
 
             ValueAccessor.Visible = !FilterOperationHelper.IsUnaryOperation(OperationControl.EnumValue);
@@ -107,18 +116,22 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();
 
         public bool FieldIsEmpty =>
-            FieldControl.Value == null
+            FieldControl.Value is null
             || (FieldControl.Value is IEmptyChecked ec && ec.IsEmpty);
 
         private void FieldControlValueChangeHandler(object? sender, EventArgs e)
         {
-            if (OperationControl.Context.Initializer is FilterOperationInitializer<TField> initializer)
-            {
-                initializer.Field = FieldControl.EnumValue;
-                OperationControl.RenewControl(true);
-            }
-
+            RenewOperationControl();
             LayoutValueControl();
+        }
+
+        private void RenewOperationControl()
+        {
+            if (OperationControl.Context.Initializer is not FilterOperationInitializer<TField> initializer)
+                return;
+
+            initializer.Field = FieldControl.EnumValue;
+            OperationControl.RenewControl(true);
         }
 
         private void LayoutValueControl()
@@ -164,7 +177,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void HideValueControl()
         {
-            if (ValueAccessor == null)
+            if (ValueAccessor is null)
                 return;
 
             ValueAccessor.Control.Parent = null;
@@ -201,16 +214,17 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.PrepareColors();
 
-            if (FieldControl != null)
+            if (FieldControl is not null)
                 ControlPainter.ColorizeControl(FieldControl, BaseColor);
 
-            if (OperationControl != null)
+            if (OperationControl is not null)
                 ControlPainter.ColorizeControl(OperationControl, BaseColor);
 
-            if (RemoveRuleButton != null)
+            if (RemoveRuleButton is not null)
                 RemoveRuleButton.BaseColor = BaseColor;
 
-            if (ValueAccessor != null && ValueAccessor.Control != null)
+            if (ValueAccessor is not null 
+                && ValueAccessor.Control is not null)
                 ControlPainter.ColorizeControl(ValueAccessor.Control, BaseColor);
         }
     }

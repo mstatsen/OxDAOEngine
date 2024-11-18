@@ -29,8 +29,8 @@ namespace OxDAOEngine.Data
         private class DAOComparer : IComparer<DAO>
         {
             public int Compare(DAO? x, DAO? y) =>
-                x == null
-                    ? y == null
+                x is null
+                    ? y is null
                         ? 0
                         : -1
                     : x.CompareTo(y);
@@ -38,7 +38,7 @@ namespace OxDAOEngine.Data
 
         public void LinkedCopyFrom(IListDAO<T>? otherList)
         {
-            if (otherList == null)
+            if (otherList is null)
             {
                 CopyFrom(null);
                 return;
@@ -220,17 +220,24 @@ namespace OxDAOEngine.Data
         public bool Remove(Predicate<T> match, bool needSaveHistory)
         {
             T? item = Find(match);
-            return item != null && Remove(item, needSaveHistory);
+            return 
+                item is not null 
+                && Remove(item, needSaveHistory);
         }
 
-        public int IndexOf(T? value) => value == null ? -1 : List.IndexOf(value);
+        public int IndexOf(T? value) => value is null ? -1 : List.IndexOf(value);
 
-        public T? Find(Predicate<T> match) => List.Find(match);
-        public List<T> FindAll(Predicate<T> match) => List.FindAll(match);
+        public T? Find(Predicate<T> match) => 
+            List.Find(match);
 
-        public bool Contains(Predicate<T> match) => List.Find(match) != null;
+        public List<T> FindAll(Predicate<T> match) => 
+            List.FindAll(match);
 
-        public bool Contains(T item) => List.Contains(item);
+        public bool Contains(Predicate<T> match) => 
+            List.Find(match) is not null;
+
+        public bool Contains(T item) => 
+            List.Contains(item);
 
         public override bool Equals(object? obj)
         {
@@ -332,9 +339,11 @@ namespace OxDAOEngine.Data
             {
                 Clear();
 
-                if (value != null)
-                    foreach (object item in value)
-                        Add((T)item);
+                if (value is null)
+                    return;
+
+                foreach (object item in value)
+                    Add((T)item);
             }
         }
 

@@ -18,22 +18,18 @@ namespace OxDAOEngine.Data.Decorator
         public Decorator<TField, TDAO> Decorator(DecoratorType type, TDAO dao)
         {
             Decorator<TField, TDAO>? decorator = cache.GetDecorator(type);
-
-            if (decorator == null)
-            {
-                decorator =
-                    type switch
-                    {
-                        DecoratorType.Simple => Simple(dao),
-                        DecoratorType.Card => Card(dao),
-                        DecoratorType.Icon => Icon(dao),
-                        DecoratorType.Info => Info(dao),
-                        DecoratorType.Html => HTML(dao),
-                        _ => Table(dao),
-                    };
-
-                cache.SetDecorator(type, decorator);
-            }
+            decorator ??= cache.SetDecorator(
+                type,
+                type switch
+                {
+                    DecoratorType.Simple => Simple(dao),
+                    DecoratorType.Card => Card(dao),
+                    DecoratorType.Icon => Icon(dao),
+                    DecoratorType.Info => Info(dao),
+                    DecoratorType.Html => HTML(dao),
+                    _ => Table(dao),
+                });
+            
             decorator.Dao = dao;
             return decorator;
         }

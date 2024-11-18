@@ -40,7 +40,9 @@ namespace OxDAOEngine.Data.Sorting
         public override int CompareTo(IDAO? other)
         {
             FieldSorting<TField, TDAO>? otherSorting = (FieldSorting<TField, TDAO>?)other;
-            return otherSorting == null ? 1 : Field.CompareTo(otherSorting.Field);
+            return otherSorting is null 
+                ? 1 
+                : Field.CompareTo(otherSorting.Field);
         }
 
         public override bool Equals(object? obj) =>
@@ -72,12 +74,16 @@ namespace OxDAOEngine.Data.Sorting
         {
             var result = x switch
             {
-                null => y == null ? 0 : -1,
-                _ => y == null ? 1 : x.CompareField(Field, y),
+                null => y is null 
+                    ? 0 
+                    : -1,
+                _ => y is null 
+                    ? 1 
+                    : x.CompareField(Field, y),
             };
 
             if (result != 0 &&
-                SortOrder == SortOrder.Descending)
+                SortOrder.Equals(SortOrder.Descending))
                 result = -result;
 
             return result;

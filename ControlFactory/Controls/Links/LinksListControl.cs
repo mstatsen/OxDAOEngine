@@ -21,7 +21,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                 goButton,
                 (s, e) =>
                 {
-                    if (SelectedItem == null)
+                    if (SelectedItem is null)
                         return;
 
                     try

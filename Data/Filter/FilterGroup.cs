@@ -78,7 +78,10 @@ namespace OxDAOEngine.Data.Filter
         public object ParseCaldedValue(TField field, string value)
         {
             ITypeHelper? helper = FieldHelper.GetHelper(field);
-            return helper != null ? helper.Parse(value) : value;
+            return 
+                helper is not null 
+                    ? helper.Parse(value) 
+                    : value;
         }
 
         public FilterOperation DefaultFilterOperation(TField field) => 
@@ -113,7 +116,7 @@ namespace OxDAOEngine.Data.Filter
             { 
                 FilterRule<TField>? rule = Rules.Find(r => r.Field.Equals(field));
 
-                if (rule != null)
+                if (rule is not null)
                     rule.Value = value;
             }
         }

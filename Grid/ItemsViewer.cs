@@ -71,10 +71,10 @@ namespace OxDAOEngine.Grid
         {
             base.PrepareColors();
 
-            if (Grid != null)
+            if (Grid is not null)
                 Grid.BaseColor = Colors.Lighter();
 
-            if (statisticPanel != null)
+            if (statisticPanel is not null)
                 statisticPanel.BaseColor = BaseColor;
         }
 
@@ -103,7 +103,8 @@ namespace OxDAOEngine.Grid
 
         protected override void PrepareDialogCaption(out string? dialogCaption)
         {
-            if (UseCustomCaption || InitialField == null)
+            if (UseCustomCaption 
+                || InitialField is null)
             { 
                 base.PrepareDialogCaption(out dialogCaption);
                 return;
@@ -112,7 +113,7 @@ namespace OxDAOEngine.Grid
             TDAO captionDao = new();
             captionDao[InitialField] = InitialValue;
 
-            if (InitialValue != null)
+            if (InitialValue is not null)
                 InitialValue = 
                     TypeHelper.IsTypeHelpered(InitialValue)
                         ? TypeHelper.Name(InitialValue)
@@ -120,7 +121,7 @@ namespace OxDAOEngine.Grid
                             .Decorator(DecoratorType.Table, captionDao)[InitialField];
 
             string? caption = 
-                InitialValue == null 
+                InitialValue is null 
                 || InitialValue.ToString() == string.Empty 
                     ? "is blank" 
                     : $"= <<{InitialValue}>>";

@@ -9,7 +9,8 @@ namespace OxDAOEngine.ControlFactory.Initializers
         public List<TField>? ExcludedValues { get; set; }
 
         public override bool AvailableValue(TField value) =>
-            (ExcludedValues == null || !ExcludedValues.Contains(value))
+            (ExcludedValues is null 
+                || !ExcludedValues.Contains(value))
             && TypeHelper.FieldHelper<TField>().AvailableField(Scope, value);
 
         public override void InitControl(Control control) => 

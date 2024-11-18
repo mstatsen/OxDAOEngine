@@ -20,7 +20,10 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             TypeHelper.ItemsCount<IconContent>();
 
         protected override bool EqualsItems(IconMapping<TField>? leftItem, IconMapping<TField>? rightItem) => 
-            (leftItem == null && rightItem == null)
-            || (leftItem != null && rightItem != null && leftItem.Part.Equals(rightItem.Part));
+            (leftItem is null 
+                && rightItem is null)
+            || (leftItem is not null 
+                && rightItem is not null 
+                && leftItem.Part.Equals(rightItem.Part));
     }
 }

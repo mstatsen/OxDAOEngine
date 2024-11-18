@@ -22,8 +22,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 : new TComboBox();
 
         protected virtual bool AvailableValue(object value) =>
-            Context == null
-            || Context.Initializer == null
+            Context is null
+            || Context.Initializer is null
             || Context.Initializer is not IComboBoxInitializer initializer
             || initializer.AvailableValue(value);
 
@@ -74,6 +74,9 @@ namespace OxDAOEngine.ControlFactory.Accessors
             if (ComboBox.Items.Count > 0)
                 ComboBox.SelectedIndex = 0;
         }
+
+        public void SelectFirst() => 
+            ComboBox.SelectedIndex = ComboBox.Items.Count > 0 ? 0 : -1;
     }
 
     public class ComboBoxAccessor<TField, TDAO> : ComboBoxAccessor<TField, TDAO, object, OxComboBox>

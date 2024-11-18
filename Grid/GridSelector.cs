@@ -61,7 +61,7 @@ namespace OxDAOEngine.Grid
                 {
                     TDAO? item = GetDaoFromRow<TDAO>(row);
 
-                    if (item != null)
+                    if (item is not null)
                         list.Add(item);
                 }
 
@@ -108,7 +108,7 @@ namespace OxDAOEngine.Grid
             get
             {
                 DataGridViewRow? currentRow = CurrentRow;
-                return currentRow == null 
+                return currentRow is null 
                     ? -1 
                     : currentRow.Index;
             }

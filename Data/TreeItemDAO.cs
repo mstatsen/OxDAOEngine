@@ -85,15 +85,16 @@ namespace OxDAOEngine.Data
 
         public int Index
         {
-            get => Parent != null
-                ? Parent.Childs.IndexOf(AsDAO)
-                : -1;
+            get => 
+                Parent is not null
+                    ? Parent.Childs.IndexOf(AsDAO)
+                    : -1;
             set => Move(value);
         }
 
         private void Move(int newIndex)
         {
-            if (Parent == null 
+            if (Parent is null 
                 || newIndex < 0 
                 || newIndex >= Parent.Count)
                 return;
@@ -105,7 +106,7 @@ namespace OxDAOEngine.Data
 
         private void Move(MoveDirection direction)
         {
-            if (Parent == null 
+            if (Parent is null 
                 || Index < 0)
                 return;
 

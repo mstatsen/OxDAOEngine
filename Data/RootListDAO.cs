@@ -45,7 +45,7 @@ namespace OxDAOEngine.Data
             {
                 daoMember.FieldModified -= MemberFieldModified;
 
-                if (FieldModified != null)
+                if (FieldModified is not null)
                     if (set)
                         daoMember.FieldModified += MemberFieldModified;
             }
@@ -66,8 +66,10 @@ namespace OxDAOEngine.Data
             if (!sortingEnabled)
                 return;
 
-            if (sortings != null)
-                List.Sort(new BySortingsComparer<TField, TDAO>(sortings));
+            if (sortings is not null)
+                List.Sort(
+                    new BySortingsComparer<TField, TDAO>(sortings)
+                );
 
             if (notifyAboutSort)
                 CallSortChangeHandler();
@@ -91,7 +93,8 @@ namespace OxDAOEngine.Data
             try
             {
 
-                if (filter == null || filter.FilterIsEmpty)
+                if (filter is null 
+                    || filter.FilterIsEmpty)
                     filteredList.AddRange(List);
                 else
                     foreach (TDAO item in List)
@@ -119,10 +122,10 @@ namespace OxDAOEngine.Data
 
         public bool Match(IFieldMapping<TField>? dao)
         {
-            if (dao == null)
+            if (dao is null)
                 return false;
 
-            return Find(d => d.Equals(dao)) != null;
+            return Find(d => d.Equals(dao)) is not null;
         }
 
         protected override bool AutoSorting => false;

@@ -152,39 +152,25 @@ namespace OxDAOEngine.Data
         public bool IsListControllerDAO =>
             DataManager.FieldController<TField>().FullItemsList.Equals(TopOwnerDAO);
 
-        protected override void CopyAdditionalInformationFrom(IDAO item)
-        {
-            /*
-            if (!UseImageList
-                || item is not RootDAO<TField> rootItem 
-                || OwnerDAO == null
-                || !IsListControllerDAO)
-                return;
-
-            daoImage?.UsageList.Remove(this);
-            DAOImage = rootItem.DAOImage;
-            AddImageUsage(daoImage);
-            */
-
+        protected override void CopyAdditionalInformationFrom(IDAO item) =>
             AddImageUsage();
-        }
 
         public override string ToString() =>
             Name;
 
         public virtual int CompareField(TField field, IFieldMapping<TField> y)
         {
-            if (field.Equals(FieldHelper.TitleField) ||
-                field.Equals(FieldHelper.ImageField))
+            if (field.Equals(FieldHelper.TitleField) 
+                || field.Equals(FieldHelper.ImageField))
                 return StringValue(this[field]).CompareTo(StringValue(y[field]));
 
-            string? thisString = (this[field] == null) 
+            string? thisString = (this[field] is null) 
                 ? string.Empty 
                 : this[field]?.ToString();
 
-            return thisString != null 
+            return thisString is not null 
                 ? thisString.CompareTo(y[field]?.ToString()) 
-                : y[field] == null 
+                : y[field] is null 
                     ? 0 
                     : -1;
         }
@@ -199,7 +185,7 @@ namespace OxDAOEngine.Data
 
         protected sealed override void InitUniqueCopy()
         {
-            if (UniqueField != null)
+            if (UniqueField is not null)
             {
                 UniqueValue =
                     FieldHelper.GetFieldType(UniqueField) switch
@@ -240,21 +226,9 @@ namespace OxDAOEngine.Data
             }
         }
 
-        //private DAOImage? daoImage;
         public DAOImage? DAOImage 
         {
             get => DataManager.FieldController<TField>().GetImageInfo(imageId);
-            /*
-            set
-            {
-                if (!UseImageList)
-                    return;
-
-                daoImage = value;
-                ImageId = daoImage != null ? daoImage.Id : Guid.Empty;
-                AddImageUsage(daoImage);
-            } 
-            */
         }
 
         public Bitmap? Image
@@ -266,16 +240,18 @@ namespace OxDAOEngine.Data
         private void UpdateImage(Bitmap? value)
         {
             if (!UseImageList
-                || (Image == null && value == null)
-                || (Image != null && Image.Equals(value))
-                || (value != null && value.Equals(Image))
+                || (Image is null && value is null)
+                || (Image is not null && Image.Equals(value))
+                || (value is not null && value.Equals(Image))
             )
                 return;
 
             DAOImage? daoImage = DataManager.FieldController<TField>().SuitableImage(value);
-            ImageId = daoImage != null ? daoImage.Id : Guid.NewGuid();
+            ImageId = daoImage is not null 
+                ? daoImage.Id 
+                : Guid.NewGuid();
 
-            if (daoImage == null)
+            if (daoImage is null)
                 DataManager.FieldController<TField>().UpdateImage(ImageId, value);
 
             AddImageUsage();
@@ -291,14 +267,6 @@ namespace OxDAOEngine.Data
 
         private Bitmap? GetImage()
         {
-            /*
-            if (UseImageList 
-                && DAOImage == null)
-                { 
-                    AddImageUsage(DAOImage);
-                }
-            */
-
             AddImageUsage();
             return DAOImage?.Image;
         }
@@ -308,7 +276,7 @@ namespace OxDAOEngine.Data
         private void AddImageUsage()
         {
             if (!UseImageList
-                || DAOImage == null
+                || DAOImage is null
                 )
                 return;
 

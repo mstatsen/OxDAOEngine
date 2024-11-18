@@ -16,7 +16,7 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
 
         public override void SetValue(object? value)
         {
-            if (value == null || 
+            if (value is null || 
                 (value is not Link<TField> link))
                 return;
 

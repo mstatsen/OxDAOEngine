@@ -2,6 +2,7 @@
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace OxDAOEngine.Data.Filter
 {
@@ -43,26 +44,38 @@ namespace OxDAOEngine.Data.Filter
                     return false;
 
                 Category<TField, TDAO>? filteredParent = NearFilteredParent;
-                return (Type.Equals(CategoryType.FieldExtraction) || Filter.IsEmpty)
-                   && (filteredParent == null || filteredParent.FilterIsEmpty);
+                return 
+                    (Type.Equals(CategoryType.FieldExtraction) 
+                        || Filter.IsEmpty)
+                    && (filteredParent is null 
+                        || filteredParent.FilterIsEmpty);
             }
         }
 
-        public Category<TField, TDAO> AddFilter(TField field, FilterOperation operation, object value,
+        public Category<TField, TDAO> AddChild(string name,
+            TField field, FilterOperation operation, object? value,
+            FilterConcat concatToGroup = FilterConcat.OR) => 
+            AddChild(new Category<TField, TDAO>(name).AddFilter(field, operation, value, concatToGroup));
+
+        public Category<TField, TDAO> AddChild(string name, TField field, object? value,
+            FilterConcat concatToGroup = FilterConcat.OR) =>
+            AddChild(new Category<TField, TDAO>(name).AddFilter(field, value, concatToGroup));
+
+        public Category<TField, TDAO> AddFilter(TField field, FilterOperation operation, object? value,
             FilterConcat concatToGroup = FilterConcat.OR)
         {
             Filter.AddFilter(field, operation, value, concatToGroup);
             return this;
         }
 
-        public Category<TField, TDAO> AddFilter(TField field, object value,
+        public Category<TField, TDAO> AddFilter(TField field, object? value,
             FilterConcat concatToGroup = FilterConcat.OR)
         {
             Filter.AddFilter(field, value, concatToGroup);
             return this;
         }
 
-        public bool IsRootCategory => Parent == null;
+        public bool IsRootCategory => Parent is null;
 
         public override void Clear()
         {
@@ -103,16 +116,16 @@ namespace OxDAOEngine.Data.Filter
             {
                 Category<TField, TDAO>? parent = Parent;
 
-                if (parent == null ||
-                    !parent.Filter.IsEmpty)
+                if (parent is null 
+                    || !parent.Filter.IsEmpty)
                     return parent;
 
-                while (parent != null)
+                while (parent is not null)
                 {
                     parent = parent.Parent;
 
-                    if (parent == null ||
-                        !parent.Filter.IsEmpty)
+                    if (parent is null 
+                        || !parent.Filter.IsEmpty)
                             return parent;
                 }
 
@@ -135,7 +148,8 @@ namespace OxDAOEngine.Data.Filter
         private bool MatchParentFilter(IFieldMapping<TField>? dao)
         {
             Category<TField, TDAO>? filteredParent = NearFilteredParent;
-            return filteredParent == null || filteredParent.Match(dao);
+            return filteredParent is null 
+                || filteredParent.Match(dao);
         }
 
         protected override void LoadData(XmlElement element)

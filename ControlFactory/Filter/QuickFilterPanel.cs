@@ -28,6 +28,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 SettingsAvailable = false;
 
             Layouter = Builder.Layouter;
+            Icon = OxIcons.Filter;
             SetTitle();
             Waiter = new OxWaiter(InvokeChangeHandler);
         }
@@ -36,14 +37,14 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         public void RenewFilterControls()
         {
-            if (Builder == null)
+            if (Builder is null)
                 return;
 
             LayoutControls();
 
             List<TField>? fieldList = fieldHelper.FullList(FieldsVariant.QuickFilter);
 
-            if (fieldList != null)
+            if (fieldList is not null)
                 foreach (TField field in fieldList)
                     Builder[field].RenewControl();
 
@@ -54,12 +55,12 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             try
             {
-                if (Builder == null)
+                if (Builder is null)
                     return;
 
                 SetChangeHandlers(false);
 
-                if (filter == null)
+                if (filter is null)
                 {
                     ClearControls();
                     return;
@@ -86,7 +87,9 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         private TField TextFilterContainer => 
-            QuickFilterLayouter == null ? TextFields[0] : QuickFilterLayouter.TextFilterContainer;
+            QuickFilterLayouter is null 
+                ? TextFields[0] 
+                : QuickFilterLayouter.TextFilterContainer;
 
         private List<TField> TextFields
         {
@@ -95,7 +98,8 @@ namespace OxDAOEngine.ControlFactory.Filter
                 List<TField> list = Settings.QuickFilterTextFields.Fields;
                 List<TField>? textFields = fieldHelper.GetFieldsInternal(FieldsVariant.QuickFilterText, FieldsFilling.Min);
 
-                if (list.Count == 0 && textFields != null)
+                if (list.Count == 0 
+                    && textFields is not null)
                     list.AddRange(textFields);
 
                 return list;
@@ -108,17 +112,17 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             get
             {
-                if (Builder == null)
+                if (Builder is null)
                     return null;
 
-                if (activeFilter == null)
+                if (activeFilter is null)
                     GrabActiveFilter();
                 
                 return activeFilter;
             }
             set
             {
-                if (value == null)
+                if (value is null)
                     return;
 
                 foreach (FilterGroup<TField, TDAO> group in value)
@@ -175,20 +179,23 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.PrepareColors();
 
-            if (Builder != null)
+            if (Builder is not null)
                 RecolorControls();
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (Waiter != null && Waiter.Enabled)
+            if (Waiter is not null 
+                && Waiter.Enabled)
                 Waiter.Stop();
 
             base.Dispose(disposing);
         }
 
         protected int FieldWidth(TField field) => 
-            QuickFilterLayouter == null ? 100 : QuickFilterLayouter.FieldWidth(field);
+            QuickFilterLayouter is null 
+                ? 100 
+                : QuickFilterLayouter.FieldWidth(field);
 
         private bool NeedStartNewColumn(int columnControlCount) => 
             Variant switch
@@ -242,9 +249,9 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                     ControlLayout<TField>? lastLayout = Layouter.Last;
 
-                    if (QuickFilterLayouter != null &&
-                        lastLayout != null &&
-                        QuickFilterLayouter.IsLastLayoutForOneRow(field, lastLayout.Field))
+                    if (QuickFilterLayouter is not null &&
+                        lastLayout is not null 
+                        && QuickFilterLayouter.IsLastLayoutForOneRow(field, lastLayout.Field))
                     {
                         newColumn = false;
                         captionVariant = ControlCaptionVariant.None;
@@ -283,7 +290,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             ControlLayout<TField> layoutTextFilter = Layouter.AddFromTemplate(TextFilterContainer);
 
-            if (layoutForOffsetText != null)
+            if (layoutForOffsetText is not null)
                 layoutTextFilter.OffsetVertical(layoutForOffsetText);
 
             if (Layouter.Count == 1)
@@ -365,22 +372,24 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             PlacedControl<TField>? FilterTextControl = Layouter.PlacedControl(TextFilterContainer);
 
-            if (FilterTextControl == null)
+            if (FilterTextControl is null)
                 return;
 
             int calcedWidth = FilterTextControl.Control.Right + 10;
-            int calcedHeight = Layouter.Count == 1 ? 40 : FilterTextControl.Control.Bottom;
+            int calcedHeight = Layouter.Count == 1 
+                ? 40 
+                : FilterTextControl.Control.Bottom;
             SetTextFilterBorder();
             calcedHeight += Paddings.Bottom;
             SetContentSize(calcedWidth, calcedHeight);
             Width = calcedWidth;
 
-            if (FilterTextControl.Label != null)
+            if (FilterTextControl.Label is not null)
             {
                 FilterTextControl.Label.Text =
                     TextFields.Count == 1
-                    ? TypeHelper.Name(TextFilterContainer)
-                    : Consts.QuickFilterTextFieldCaption;
+                        ? TypeHelper.Name(TextFilterContainer)
+                        : Consts.QuickFilterTextFieldCaption;
                 FilterTextControl.RecalcLabel();
             }
 
@@ -391,7 +400,8 @@ namespace OxDAOEngine.ControlFactory.Filter
                 OxLabel? temlpateLabel = Layouter.PlacedControl(QuickFilterFields[0])?.Label;
                 OxLabel? textControlLabel = FilterTextControl.Label;
 
-                if (temlpateLabel != null && textControlLabel != null)
+                if (temlpateLabel is not null 
+                    && textControlLabel is not null)
                     textControlLabel.Left = textControlLabel.Left < 0 
                         ? temlpateLabel.Left 
                         : temlpateLabel.Right - textControlLabel.Width;
@@ -400,20 +410,20 @@ namespace OxDAOEngine.ControlFactory.Filter
                 {
                     PlacedControl<TField>? placedControl = Layouter.PlacedControl(field);
 
-                    if (placedControl == null ||
-                        placedControl.Label == null)
+                    if (placedControl is null 
+                        || placedControl.Label is null)
                         continue;
 
                     string caption = FieldCaption(field);
 
-                    if (caption != placedControl.Label.Text)
+                    if (!caption.Equals(placedControl.Label.Text))
                     {
                         placedControl.Label.Text = FieldCaption(field);
                         placedControl.RecalcLabel();
                     }
                 }
 
-                if (temlpateLabel != null)
+                if (temlpateLabel is not null)
                 {
                     delta = temlpateLabel.Left - 4;
 
@@ -423,12 +433,12 @@ namespace OxDAOEngine.ControlFactory.Filter
                         {
                             PlacedControl<TField>? placedControl = Layouter.PlacedControl(field);
 
-                            if (placedControl == null)
+                            if (placedControl is null)
                                 continue;
 
                             placedControl.Control.Left -= delta;
 
-                            if (placedControl.Label != null)
+                            if (placedControl.Label is not null)
                                 placedControl.Label.Left -= delta;
                         }
 
@@ -446,12 +456,12 @@ namespace OxDAOEngine.ControlFactory.Filter
             base.OnSizeChanged(e);
 
             if (QuickFilterFields.Count == 0
-                || Layouter == null)
+                || Layouter is null)
                 return;
 
             PlacedControl<TField>? FilterTextControl = Layouter.PlacedControl(TextFilterContainer);
 
-            if (FilterTextControl == null)
+            if (FilterTextControl is null)
                 return;
 
             FilterTextControl.Control.Width = Layouter[QuickFilterFields.Last()]!.Right
@@ -462,7 +472,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             PlacedControl<TField>? textFilterControl = Layouter.PlacedControl(TextFilterContainer);
 
-            if (textFilterControl == null)
+            if (textFilterControl is null)
                 return;
 
             ((OxTextBox)textFilterControl.Control).BorderStyle = 
@@ -475,18 +485,18 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             string caption = string.Empty;
 
-            if (QuickFilterLayouter != null)
+            if (QuickFilterLayouter is not null)
                 caption = QuickFilterLayouter.FieldCaption(field, Variant);
 
             PlacedControl<TField>? placedControl = Layouter.PlacedControl(field);
 
             if (caption == string.Empty && 
-                placedControl != null && 
-                placedControl.Label != null)
+                placedControl is not null && 
+                placedControl.Label is not null)
             {
                 OxLabel label = placedControl.Label;
 
-                if (label != null)
+                if (label is not null)
                     caption = label.Text;
             }
 
@@ -495,7 +505,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void SetChangeHandlers(TField field, bool set)
         {
-            if (Builder == null)
+            if (Builder is null)
                 return;
 
             if (set)

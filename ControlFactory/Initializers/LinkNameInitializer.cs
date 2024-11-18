@@ -26,7 +26,7 @@ namespace OxDAOEngine.ControlFactory.Initializers
         {
             existingLinks.Clear();
 
-            if (existingItems == null)
+            if (existingItems is null)
                 return;
 
             foreach(object item in existingItems)

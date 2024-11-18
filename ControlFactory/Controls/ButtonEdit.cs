@@ -93,7 +93,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected override void SetControlColor(Color value)
         {
-            if (buttonEditControl != null)
+            if (buttonEditControl is not null)
                 buttonEditControl.BaseColor = new OxColorHelper(value).Darker(6);
 
             OnBackColorChanged(EventArgs.Empty);

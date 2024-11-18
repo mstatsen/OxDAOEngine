@@ -11,7 +11,8 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             CheckBox.Checked;
 
         public override void SetValue(object? value) => 
-            CheckBox.Checked = value != null
+            CheckBox.Checked = 
+                value is not null
                 && (value is int @int
                     ? @int == 1
                     : value is string @string

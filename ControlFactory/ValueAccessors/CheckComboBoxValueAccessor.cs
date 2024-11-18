@@ -8,8 +8,9 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             (OxCheckComboBox)Control;
 
         private static bool IsEmptyValue(object? value) =>
-            (value == null) ||
-            ((value is string stringValue) && stringValue == string.Empty);
+            (value is null) ||
+            (value is string stringValue 
+                && stringValue == string.Empty);
 
         public override object? GetValue() =>
             CheckComboBox.CheckedList ?? null;

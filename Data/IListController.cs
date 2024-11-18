@@ -65,7 +65,7 @@ namespace OxDAOEngine.Data
         List<ToolStripMenuItem>? MenuItems(TDAO? item);
         string GetExtractItemCaption(TField field, object? value);
         void ShowItemKey(TDAO? item);
-        Categories<TField, TDAO>? DefaultCategories { get; }
+        Categories<TField, TDAO> DefaultCategories { get; }
         bool AvailableSummary { get; }
         bool AvailableCategories { get; }
         bool AvailableQuickFilter { get; }

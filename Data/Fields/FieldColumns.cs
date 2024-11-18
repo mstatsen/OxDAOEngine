@@ -26,7 +26,7 @@ namespace OxDAOEngine.Data.Fields
 
         public void AddRange(List<TField>? fields) 
         {
-            if (fields != null)
+            if (fields is not null)
                 foreach (TField field in fields)
                     Add(field);
         }

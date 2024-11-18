@@ -94,7 +94,7 @@ namespace OxDAOEngine
         {
             IOxPane? firstPage = tabControl.Pages.First;
 
-            if (firstPage != null)
+            if (firstPage is not null)
                 tabControl.TabButtons[firstPage].Margins.LeftOx = OxSize.Medium;
 
             tabControl.ActivePage = Views[Settings.CurrentView];
@@ -140,12 +140,22 @@ namespace OxDAOEngine
                     BaseColor = BaseColor
                 };
 
-            itemsView.LoadingStarted += (s, e) => StartLoading(s == null ? this : ((ItemsView<TField, TDAO>)s).ContentContainer);
-            itemsView.LoadingEnded += (s, e) => EndLoading();
+            itemsView.LoadingStarted += LoadingStartedHandler;
+            itemsView.LoadingEnded += LoadingEndedHandler;
             tabControl.AddPage(itemsView);
             Views.Add(viewType, itemsView);
             return itemsView;
         }
+
+        private void LoadingEndedHandler(object? sender, EventArgs e) =>
+            EndLoading();
+
+        private void LoadingStartedHandler(object? sender, EventArgs e) =>
+            StartLoading(
+                sender is null 
+                    ? this 
+                    : ((ItemsView<TField, TDAO>)sender).ContentContainer
+                );
 
         private readonly Dictionary<ItemsViewsType, OxPane> Views = new();
 
@@ -229,7 +239,7 @@ namespace OxDAOEngine
                     Settings.Sortings.SortingsList
                 );
 
-            if (actualItemList != null
+            if (actualItemList is not null
                 && actualItemList.Equals(newActualItemList))
                 return false;
 
@@ -248,10 +258,6 @@ namespace OxDAOEngine
             {
                 if (ListController.AvailableQuickFilter)
                     tableView.ApplyQuickFilter(quickFilter.ActiveFilter);
-
-                /*if (actualItemList == null)
-                    actualItemList = 
-                */
 
                 if (ListController.AvailableCards && 
                     tabControl.ActivePage == cardsView)
@@ -364,7 +370,10 @@ namespace OxDAOEngine
 
         private void StartLoading(IOxPane? parentPanel = null)
         {
-            loadingPanel.Parent = parentPanel == null ? this : (Control)parentPanel;
+            loadingPanel.Parent = 
+                parentPanel is null 
+                    ? this 
+                    : (Control)parentPanel;
             loadingPanel.StartLoading();
         }
 
@@ -463,16 +472,16 @@ namespace OxDAOEngine
         {
             base.PrepareColors();
 
-            if (tableView != null)
+            if (tableView is not null)
                 tableView.BaseColor = BaseColor;
 
-            if (cardsView != null)
+            if (cardsView is not null)
                 cardsView.BaseColor = BaseColor;
 
-            if (iconsView != null)
+            if (iconsView is not null)
                 iconsView.BaseColor = BaseColor;
 
-            if (statisticPanel != null)
+            if (statisticPanel is not null)
                 statisticPanel.BaseColor = BaseColor;
         }
 
@@ -499,8 +508,8 @@ namespace OxDAOEngine
                     categoriesTree.Expanded = false;
             }
 
-            if (tableView != null 
-                && tableView.InfoPanel != null)
+            if (tableView is not null
+                && tableView.InfoPanel is not null)
             {
                 tableView.InfoPanel.SiderEnabled = Visible;
 

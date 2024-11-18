@@ -5,7 +5,6 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.Settings.Part;
-using OxLibrary.Dialogs;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -150,7 +149,7 @@ namespace OxDAOEngine.ControlFactory
             {
                 Control upParent = Parent;
 
-                while (upParent != null)
+                while (upParent is not null)
                 {
                     if (upParent is SettingsForm)
                     {
@@ -379,8 +378,8 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetMouseHandlers()
         {
-            if (mouseHandlersSetted != null 
-                && mouseHandlersSetted == pinned)
+            if (mouseHandlersSetted is not null 
+                && mouseHandlersSetted.Equals(pinned))
                 return;
 
             SetMouseHandler(this);
@@ -472,7 +471,7 @@ namespace OxDAOEngine.ControlFactory
 
             Control? parentFillControl = GetParentFillControl();
 
-            if (parentFillControl != null)
+            if (parentFillControl is not null)
             {
                 parentFillControl.SuspendLayout();
                 parentFillControl.Parent?.SuspendLayout();
@@ -503,10 +502,10 @@ namespace OxDAOEngine.ControlFactory
 
         private Control? GetParentFillControl()
         {
-            if (Parent != null)
+            if (Parent is not null)
                 foreach (Control control in Parent.Controls)
-                    if (control.Parent == Parent 
-                        && control.Dock == DockStyle.Fill)
+                    if (control.Parent.Equals(Parent)
+                        && control.Dock is DockStyle.Fill)
                         return control;
 
             return null;
@@ -518,10 +517,10 @@ namespace OxDAOEngine.ControlFactory
             {
                 Control? parentFillControl = GetParentFillControl();
 
-                if (parentFillControl != null)
+                if (parentFillControl is not null)
                     foreach (Control control in parentFillControl.Controls)
                         if (control is OxBorder border 
-                            && control.Name == FakePaddingName)
+                            && control.Name.Equals(FakePaddingName))
                             return border;
 
                 return null;
@@ -541,7 +540,7 @@ namespace OxDAOEngine.ControlFactory
         {
             Control? parentFillControl = GetParentFillControl();
 
-            if (parentFillControl == null)
+            if (parentFillControl is null)
                 return;
 
             OxBorder? fakePadding = ParentPadding;
@@ -550,7 +549,7 @@ namespace OxDAOEngine.ControlFactory
                 ? Sider.CalcedHeight + Margins.CalcedSize(OxDock.Top) + Margins.CalcedSize(OxDock.Bottom)
                 : Sider.CalcedWidth + Margins.CalcedSize(OxDock.Left) + Margins.CalcedSize(OxDock.Right);
 
-            if (fakePadding != null)
+            if (fakePadding is not null)
             {
                 if (!base.Visible)
                 {
@@ -558,11 +557,11 @@ namespace OxDAOEngine.ControlFactory
                     return;
                 }
 
-                if (fakePadding.Dock == Dock)
+                if (fakePadding.Dock.Equals(Dock))
                 {
                     fakePadding.SetSize(fakePaddingSize);
 
-                    if (Pinned == fakePadding.Visible)
+                    if (Pinned.Equals(fakePadding.Visible))
                         fakePadding.Visible = !Pinned;
                 }
                 else
@@ -572,7 +571,7 @@ namespace OxDAOEngine.ControlFactory
                 }
             }
 
-            if (fakePadding == null)
+            if (fakePadding is null)
             {
                 fakePadding = OxBorder.New(
                     parentFillControl,
@@ -616,7 +615,9 @@ namespace OxDAOEngine.ControlFactory
             if (Pinned)
                 return 1;
 
-            if (Parent == null || !Created || Disposing)
+            if (Parent is null 
+                || !Created 
+                || Disposing)
                 return 2;
 
             BeginInvoke(CheckExpandedState);
@@ -663,12 +664,12 @@ namespace OxDAOEngine.ControlFactory
         {
             Control? parentFillControl = GetParentFillControl();
 
-            if (parentFillControl == null)
+            if (parentFillControl is null)
                 return;
 
             OxBorder? parentPadding = ParentPadding;
 
-            if (parentPadding == null)
+            if (parentPadding is null)
                 return;
 
             parentPadding.Visible = false;
@@ -690,7 +691,7 @@ namespace OxDAOEngine.ControlFactory
             {
                 FunctionalPanelVisible? settingVisible = (FunctionalPanelVisible?)Settings[VisibleSetting];
                 Visible = (FunctionalPanelVisible)(
-                    settingVisible != null
+                    settingVisible is not null
                         ? settingVisible
                         : FunctionalPanelVisible.Float
                 );
@@ -699,15 +700,18 @@ namespace OxDAOEngine.ControlFactory
             if (Observer[PinnedSetting])
             {
                 bool? settingPinned = (bool?)Settings[PinnedSetting];
-                Pinned = Visible == FunctionalPanelVisible.Fixed 
-                    || (bool)(settingPinned != null ? settingPinned : false);
+                Pinned = 
+                    Visible is FunctionalPanelVisible.Fixed 
+                    || (bool)(settingPinned is not null ? settingPinned : false);
             }
 
             if (Observer[PinnedSetting]
                 || Observer[ExpandedSetting])
             {
                 bool? settingExpanded = (bool?)Settings[ExpandedSetting];
-                Expanded = Pinned && (bool)(settingExpanded != null ? settingExpanded : false);
+                Expanded = 
+                    Pinned 
+                    && (bool)(settingExpanded is not null ? settingExpanded : false);
             }
 
             if (SettingsManager.Settings<GeneralSettings>().Observer[GeneralSetting.DarkerHeaders])

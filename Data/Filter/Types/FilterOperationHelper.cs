@@ -49,35 +49,48 @@ namespace OxDAOEngine.Data.Filter.Types
                 || (rightObject is IEmptyChecked rec && rec.IsEmpty))
                 return true;
 
-            string? leftString = leftObject is DAO leftDao ? leftDao.MatchingString() : leftObject?.ToString();
-            string? rightString = rightObject is DAO rightDao ? rightDao.MatchingString() : rightObject?.ToString();
+            string? leftString = leftObject is DAO leftDao 
+                ? leftDao.MatchingString() 
+                : leftObject?.ToString();
+            string? rightString = rightObject is DAO rightDao 
+                ? rightDao.MatchingString() 
+                : rightObject?.ToString();
 
             return operation switch
             {
                 FilterOperation.Equals =>
-                    leftObject != null && leftObject.Equals(rightObject),
+                    leftObject is not null 
+                    && leftObject.Equals(rightObject),
                 FilterOperation.NotEquals =>
                     !Match(FilterOperation.Equals, leftObject, rightObject),
                 FilterOperation.Contains =>
-                    leftString != null && leftString != string.Empty
-                        && rightString != null && rightString != string.Empty
-                        && leftString.ToUpper().Contains(rightString.ToUpper()),
+                    leftString is not null 
+                    && !leftString.Equals(string.Empty)
+                    && rightString is not null 
+                    && !rightString.Equals(string.Empty)
+                    && leftString.ToUpper().Contains(rightString.ToUpper()),
                 FilterOperation.NotContains =>
                     !Match(FilterOperation.Contains, leftObject, rightObject),
                 FilterOperation.StartsWith =>
-                    leftString != null && leftString != string.Empty
-                        && rightString != null && rightString != string.Empty
-                        && leftString.ToUpper().StartsWith(rightString.ToUpper()),
+                    leftString is not null 
+                    && !leftString.Equals(string.Empty)
+                    && rightString is not null 
+                    && !rightString.Equals(string.Empty)
+                    && leftString.ToUpper().StartsWith(rightString.ToUpper()),
                 FilterOperation.EndsWith =>
-                    leftString != null && leftString != string.Empty
-                        && rightString != null && rightString != string.Empty
-                        && leftString.ToUpper().EndsWith(rightString.ToUpper()),
+                    leftString is not null 
+                    && !leftString.Equals(string.Empty)
+                    && rightString is not null 
+                    && !rightString.Equals(string.Empty)
+                    && leftString.ToUpper().EndsWith(rightString.ToUpper()),
                 FilterOperation.Greater =>
                     DAO.IntValue(leftObject) > DAO.IntValue(rightObject),
                 FilterOperation.Lower =>
                     DAO.IntValue(leftObject) < DAO.IntValue(rightObject),
                 FilterOperation.Blank =>
-                    leftObject == null || leftString == null || leftString == string.Empty,
+                    leftObject is null 
+                    || leftString is null 
+                    || leftString.Equals(string.Empty),
                 FilterOperation.NotBlank =>
                     !Match(FilterOperation.Blank, leftObject, rightObject),
                 _ => true,

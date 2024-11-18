@@ -70,7 +70,7 @@ namespace OxDAOEngine.View
             fontColors.BaseColor = ItemColorer.ForeColor(item);
             PrepareLayouts();
 
-            if (item != null)
+            if (item is not null)
                 builder.FillControls(item);
 
             LayoutControls();
@@ -80,9 +80,9 @@ namespace OxDAOEngine.View
 
         private void AfterLayoutControls()
         {
-            if (ImageMapping == null
-                || TitleMapping == null
-                || IconsSize != IconSize.Thumbnails)
+            if (ImageMapping is null
+                || TitleMapping is null
+                || !IconsSize.Equals(IconSize.Thumbnails))
                 return;
 
             ToolTipText = builder[TitleMapping.Field].Text;
@@ -114,16 +114,16 @@ namespace OxDAOEngine.View
             FillImageLayout();
             FillTitleLayout();
 
-            if (LeftMapping != null)
+            if (LeftMapping is not null)
                 FillLeftLayout();
 
-            if (RightMapping != null)
+            if (RightMapping is not null)
                 FillRightLayout();
         }
 
         private void FillTitleLayout()
         {
-            if (TitleMapping == null) 
+            if (TitleMapping is null) 
                 return;
 
             ControlLayout<TField> titleLayout = layouter.AddFromTemplate(TitleMapping.Field);
@@ -138,7 +138,7 @@ namespace OxDAOEngine.View
 
         private void FillImageLayout()
         {
-            if (ImageMapping == null)
+            if (ImageMapping is null)
                 return;
 
             ControlLayout<TField> imageLayout = layouter.AddFromTemplate(ImageMapping.Field);
@@ -149,7 +149,7 @@ namespace OxDAOEngine.View
 
         private void FillLeftLayout()
         {
-            if (LeftMapping == null)
+            if (LeftMapping is null)
                 return;
 
             ControlLayout<TField> leftLayout = layouter.AddFromTemplate(LeftMapping.Field);
@@ -159,7 +159,7 @@ namespace OxDAOEngine.View
 
         private void FillRightLayout()
         {
-            if (RightMapping == null)
+            if (RightMapping is null)
                 return;
 
             ControlLayout<TField> rightLayout = layouter.AddFromTemplate(RightMapping.Field);
@@ -190,20 +190,20 @@ namespace OxDAOEngine.View
             layouter.LayoutControls();
             placedControls.Clear();
 
-            if (Mapping != null)
+            if (Mapping is not null)
                 foreach (IconMapping<TField> mapping in Mapping)
                 {
                     Control? control = layouter.PlacedControl(mapping.Field)?.Control;
 
-                    if (control != null)
+                    if (control is not null)
                         placedControls.Add(control);
                 }
 
-            if (LeftMapping != null)
+            if (LeftMapping is not null)
             {
                 OxLabel? leftControl = (OxLabel?)layouter.PlacedControl(LeftMapping.Field)?.Control;
 
-                if (leftControl != null)
+                if (leftControl is not null)
                 {
                     leftControl.Left = 12 - sizeHelper.LeftDelta(ListController.Settings.IconsSize);
                     leftControl.TextAlign = ContentAlignment.MiddleLeft;
@@ -211,11 +211,11 @@ namespace OxDAOEngine.View
                 }
             }
 
-            if (RightMapping != null)
+            if (RightMapping is not null)
             {
                 OxLabel? rightControl = (OxLabel?)layouter.PlacedControl(RightMapping.Field)?.Control;
 
-                if (rightControl != null)
+                if (rightControl is not null)
                 {
                     rightControl.Left = IconWidth - rightControl.Width - 12
                         + sizeHelper.LeftDelta(ListController.Settings.IconsSize);
@@ -224,11 +224,11 @@ namespace OxDAOEngine.View
                 }
             }
 
-            if (TitleMapping != null)
+            if (TitleMapping is not null)
             {
                 OxLabel? titleControl = (OxLabel?)layouter.PlacedControl(TitleMapping.Field)?.Control;
 
-                if (titleControl != null)
+                if (titleControl is not null)
                     titleControl.TextAlign = ContentAlignment.MiddleCenter;
             }
         }
@@ -261,13 +261,13 @@ namespace OxDAOEngine.View
             get => item;
             set
             {
-                if (item != null)
+                if (item is not null)
                     item.ChangeHandler -= ItemChangeHandler;
 
                 SetContentSize(IconWidth, IconHeight);
                 item = value;
 
-                if (item != null)
+                if (item is not null)
                     item.ChangeHandler += ItemChangeHandler;
 
                 PrepareControls();

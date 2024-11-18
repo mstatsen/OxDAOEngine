@@ -202,7 +202,8 @@ namespace OxDAOEngine.Settings
 
         private void ActivatePage(ISettingsController? settings, SettingsPart part)
         {
-            if (part == SettingsPart.Full || settings == null)
+            if (part.Equals(SettingsPart.Full) 
+                || settings is null)
             {
                 tabControl.ActivateFirstPage();
                 return;
@@ -286,7 +287,7 @@ namespace OxDAOEngine.Settings
 
         private void ControlLabelClick(object? sender, EventArgs e)
         {
-            if (sender == null)
+            if (sender is null)
                 return;
 
             if (((OxLabel)sender).Tag is OxCheckBox checkbox)
@@ -294,7 +295,11 @@ namespace OxDAOEngine.Settings
         }
 
         private static int CalcAcessorTop(IControlAccessor? prevAccessor) =>
-            (prevAccessor != null ? prevAccessor.Bottom : 4) + 4;
+            (prevAccessor is not null
+                ? prevAccessor.Bottom
+                : 4
+            ) 
+            + 4;
 
         private void CreateCategoriesPanel(IDAOSettings settings)
         {
@@ -368,8 +373,8 @@ namespace OxDAOEngine.Settings
             };
             frame.Margins.SetSize(OxSize.Large);
 
-            if (frame.Header != null)
-                frame.Header.Visible = text != string.Empty;
+            if (frame.Header is not null)
+                frame.Header.Visible = !text.Equals(string.Empty);
 
             return frame;
         }
@@ -382,7 +387,8 @@ namespace OxDAOEngine.Settings
 
             settingList ??= settings.Helper.ItemsByPart(part);
 
-            if (settingList == null || settingList.Count == 0)
+            if (settingList is null 
+                || settingList.Count == 0)
                 return null;
 
             OxFrameWithHeader frame = CreateFrame(settings, part, caption);
@@ -411,8 +417,8 @@ namespace OxDAOEngine.Settings
 
             frame.SetContentSize(
                 frame.Width,
-                (lastAccessor != null ? lastAccessor.Bottom : 0)
-                + (caption != string.Empty ? frame.Header.Height : 0)
+                (lastAccessor is not null ? lastAccessor.Bottom : 0)
+                + (!caption.Equals(string.Empty) ? frame.Header.Height : 0)
                 + 16
             );
 
@@ -476,7 +482,7 @@ namespace OxDAOEngine.Settings
 
         private void DefaultButtonClickHandler(object? sender, EventArgs e)
         {
-            if (sender == null)
+            if (sender is null)
                 return;
 
             DefaulterScope scope = defaulters[(OxButton)sender];

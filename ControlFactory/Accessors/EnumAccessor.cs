@@ -32,7 +32,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             toolTipTitle = string.Empty;
             toolTipText = string.Empty;
 
-            if (item == null)
+            if (item is null)
                 return;
 
             toolTipText = TypeHelper.FullName(((EnumItemObject<TItem>)item).Value);
@@ -64,7 +64,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 {
                     EnumItemObject<TItem>? itemObject = TypeHelper.TypeObject<TItem>(value);
 
-                    if (itemObject != null)
+                    if (itemObject is not null)
                         items.Add(itemObject);
                 }
 
@@ -85,23 +85,26 @@ namespace OxDAOEngine.ControlFactory.Accessors
             {
                 CheckComboBox.Items.AddRange(items);
 
-                if (emptyItem != null)
+                if (emptyItem is not null)
                     CheckComboBox.SelectedItem = emptyItem;
             }
             else
             {
                 ComboBox.Items.AddRange(items);
 
-                if (emptyItem != null)
+                if (emptyItem is not null)
                     ComboBox.SelectedItem = emptyItem;
             }
         }
 
         public override bool IsEmpty => 
-            base.IsEmpty || (Value is IEmptyChecked ec && ec.IsEmpty);
+            base.IsEmpty 
+            || (Value is IEmptyChecked ec && ec.IsEmpty);
 
         public TItem EnumValue =>
-            Context.MultipleValue ? default! : EnumValue<TItem>();
+            Context.MultipleValue 
+                ? default! 
+                : EnumValue<TItem>();
 
         protected override ValueAccessor CreateValueAccessor() =>
             Context.MultipleValue

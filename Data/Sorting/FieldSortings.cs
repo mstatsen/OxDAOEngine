@@ -75,10 +75,11 @@ namespace OxDAOEngine.Data.Sorting
         {
             FieldSorting<TField, TDAO>? sorting = Find(s => s.Field.Equals(field));
 
-            if (sorting != null && sortOrder == SortOrder.None)
+            if (sorting is not null 
+                && sortOrder is SortOrder.None)
                 Remove(sorting);
             else
-            if (sorting != null)
+            if (sorting is not null)
                 sorting.SortOrder = sortOrder;
             else
                 Add(new FieldSorting<TField, TDAO>(field, sortOrder));

@@ -35,8 +35,9 @@
                 ListDAO<TDAO> result = new();
 
                 foreach (ItemHistory<TField, TDAO> history in this)
-                    if (history.DAO != null &&
-                        !result.Contains(history.DAO) && history.Operation == DAOOperation.Modify)
+                    if (history.DAO is not null 
+                        && !result.Contains(history.DAO) 
+                        && history.Operation is DAOOperation.Modify)
                         result.Add(history.DAO);
 
                 return result;

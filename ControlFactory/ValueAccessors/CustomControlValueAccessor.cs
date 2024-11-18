@@ -13,6 +13,9 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
             ((TControl)Control).Value;
 
         public override void SetValue(object? value) =>
-            ((TControl)Control).Value = value != null ? (TItem)value : default!;
+            ((TControl)Control).Value = 
+                value is not null 
+                    ? (TItem)value 
+                    : default!;
     }
 }

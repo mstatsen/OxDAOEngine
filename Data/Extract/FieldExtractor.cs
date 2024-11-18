@@ -36,17 +36,18 @@ namespace OxDAOEngine.Data.Extract
 
         private bool NeedIgnore(bool ignoreEmpty, object? value) =>
             ignoreEmpty
-            && (value == null
-                ||
-                (value is string
-                && value.ToString() == string.Empty));
+            && (value is null
+                || (value is string
+                    && value.ToString() == string.Empty
+                )
+            );
 
         public FieldExtract Extract(TField field, IMatcher<TField>? filter, 
             bool ignoreDubles, bool ignoreEmpty = false)
         {
             FieldExtract result = new();
 
-            if (Items == null)
+            if (Items is null)
                 return result;
 
             foreach (TDAO item in Items.FilteredList(filter))
@@ -67,7 +68,7 @@ namespace OxDAOEngine.Data.Extract
             if (NeedIgnore(ignoreEmpty, value))
                 return;
 
-            if (value == null)
+            if (value is null)
                 return;
 
             if (ignoreDubles && extract.Contains(value))
@@ -87,7 +88,8 @@ namespace OxDAOEngine.Data.Extract
         {
             FieldCountExtract result = new();
 
-            if (Items == null || !AvailableCountExtract(field))
+            if (Items is null 
+                || !AvailableCountExtract(field))
                 return result;
 
             RootListDAO<TField, TDAO> extractItems = Items.FilteredList(filter);

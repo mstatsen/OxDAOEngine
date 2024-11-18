@@ -135,7 +135,7 @@ namespace OxDAOEngine.Summary
 
         private string ExtractItemCaptionHandler(TField field, object? value)
         {
-            if (GetExtractItemCaption != null)
+            if (GetExtractItemCaption is not null)
                 return GetExtractItemCaption(field, value);
 
             return 

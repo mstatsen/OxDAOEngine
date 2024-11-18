@@ -42,8 +42,8 @@ namespace OxDAOEngine.Grid
 
         private void GridDoubleClickHandler(object? sender, EventArgs e)
         {
-            if (PanelViewer != null
-                && SelectedItem != null)
+            if (PanelViewer is not null
+                && SelectedItem is not null)
                 PanelViewer.DialogResult = DialogResult.OK;
         }
 

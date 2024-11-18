@@ -23,10 +23,10 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             get
             {
-                if (OldCategory == null)
-                    return NewCategory != null;
+                if (OldCategory is null)
+                    return NewCategory is not null;
 
-                if (NewCategory == null)
+                if (NewCategory is null)
                     return true;
 
                 return !OldCategory.Filter.Equals(NewCategory.Filter)

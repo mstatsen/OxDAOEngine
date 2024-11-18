@@ -11,7 +11,7 @@
             List<string?> stringList = new();
 
             foreach (T item in list)
-                if (item != null)
+                if (item is not null)
                     stringList.Add(item.ToString());
 
             return ListToString(stringList, separator, noWrapItems);
@@ -27,7 +27,7 @@
             {
                 string? item = list[i];
 
-                if (item == null)
+                if (item is null)
                     continue;
 
                 itemString = item;
@@ -45,6 +45,8 @@
         }
 
         public static string NoWrap(string? sourceString) =>
-            sourceString == null ? string.Empty : sourceString.Replace(" ", "&nbsp;");
+            sourceString is null 
+                ? string.Empty 
+                : sourceString.Replace(" ", "&nbsp;");
     }
 }

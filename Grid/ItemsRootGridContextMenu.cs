@@ -40,7 +40,7 @@ namespace OxDAOEngine.Grid
 
             List<ToolStripMenuItem>? CurrentItemMenuItems = DataManager.ListController<TField, TDAO>().MenuItems(Grid.CurrentItem);
 
-            if (CurrentItemMenuItems != null
+            if (CurrentItemMenuItems is not null
                 && CurrentItemMenuItems.Count > 0)
             {
                 CurrentItemSeparator.Visible = true;

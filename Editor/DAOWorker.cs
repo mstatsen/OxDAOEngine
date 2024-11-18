@@ -115,7 +115,7 @@ namespace OxDAOEngine.Editor
 
                 IControlAccessor accessor = Builder[field];
 
-                if (accessor == null)
+                if (accessor is null)
                     return true;
 
                 if (accessor.IsEmpty)
@@ -191,7 +191,7 @@ namespace OxDAOEngine.Editor
 
         public void GrabControls()
         {
-            if (item != null)
+            if (item is not null)
             {
                 BeforeGrabControls();
                 Builder.GrabControls(item);

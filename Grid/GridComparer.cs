@@ -18,7 +18,9 @@ namespace OxDAOEngine.Grid
             GridSelector.GetDaoFromRow((DataGridViewRow?)row);
 
         private int DAOIndex(object? row) =>
-            ItemsList == null ? 0 : ItemsList.IndexOf(GetDAO(row));
+            ItemsList is null 
+                ? 0 
+                : ItemsList.IndexOf(GetDAO(row));
 
         public int Compare(object? x, object? y) =>
             DAOIndex(x).CompareTo(DAOIndex(y));

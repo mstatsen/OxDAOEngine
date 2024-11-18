@@ -63,8 +63,7 @@ namespace OxDAOEngine.ControlFactory
                             accessorContext.Field,
                             addAnyObject: true,
                             fullExtract:
-                                variant != null
-                                && variant.Equals(QuickFilterVariant.Export)
+                                variant is QuickFilterVariant.Export
                         );
                     }
                     break;
@@ -228,8 +227,12 @@ namespace OxDAOEngine.ControlFactory
         {
             object? variant = BuilderVariant(context.Builder);
             return context is FieldContext<TField, TDAO> accessorContext
-                ? new ExtractAccessor<TField, TDAO>(accessorContext, context.IsQuickFilter,
-                    (context.IsQuickFilter && variant != null && variant.Equals(QuickFilterVariant.Export)) || !context.IsQuickFilter)
+                ? new ExtractAccessor<TField, TDAO>(
+                    accessorContext, 
+                    context.IsQuickFilter,
+                    (context.IsQuickFilter 
+                            && variant is QuickFilterVariant.Export) 
+                        || !context.IsQuickFilter)
                 : new ComboBoxAccessor<TField, TDAO>(context);
         }
 
@@ -278,7 +281,7 @@ namespace OxDAOEngine.ControlFactory
             where TItem : DAO, new()
             where TList : ListDAO<TItem>, new()
             where TListControl : CustomItemsControl<TField, TDAO, TList, TItem>, new() =>
-            (simpleControlScopes == null) || simpleControlScopes.Contains(context.Scope)
+            (simpleControlScopes is null) || simpleControlScopes.Contains(context.Scope)
                 ? new CustomControlAccessor<TField, TDAO, TListControl, TList>(context).Init()
                 : CreateButtonEditAccessor<TItem, TList, TListControl>(context);
 
@@ -303,7 +306,7 @@ namespace OxDAOEngine.ControlFactory
         {
             BuilderKey? builderKey = buildersKeys.Find(k => k.Scope == scope && k.Variant == variant);
 
-            if (builderKey == null)
+            if (builderKey is null)
             {
                 builderKey = new BuilderKey(scope, variant);
                 buildersKeys.Add(builderKey);

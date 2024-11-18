@@ -26,7 +26,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 {
                     object? dependsOnValue = accessorContext.Builder.Value(dependsOnField);
 
-                    if (dependsOnValue == null)
+                    if (dependsOnValue is null)
                         continue;
 
                     if (!TypeHelper.DependedList<TField, TItem>(

@@ -26,9 +26,9 @@ namespace OxDAOEngine.View
             Layouter = Builder.Layouter;
             Margins.SetSize(OxSize.Extra);
             Paddings.SetSize(OxSize.Large);
-            Header.SetContentSize(Header.Width, 28);
+            HeaderHeight = 28;
             SetContentSize(CardWidth, CardHeight);
-            Header.Icon = Icon;
+            Icon = DataManager.ListController<TField, TDAO>().Icon;
         }
 
         public override Color DefaultColor => EngineStyles.CardColor;
@@ -88,7 +88,7 @@ namespace OxDAOEngine.View
 
         protected void SetColors()
         {
-            if (item == null)
+            if (item is null)
                 return;
             
             ItemColorer<TField, TDAO> itemColorer = DataManager.ControlFactory<TField, TDAO>().ItemColorer;
@@ -126,7 +126,7 @@ namespace OxDAOEngine.View
 
         private void FillControls()
         {
-            if (item != null)
+            if (item is not null)
                 Builder.FillControls(item);
         }
 
@@ -145,12 +145,12 @@ namespace OxDAOEngine.View
             get => item;
             set
             {
-                if (item != null)
+                if (item is not null)
                     item.ChangeHandler -= ItemChangeHandler;
 
                 item = value;
 
-                if (item != null)
+                if (item is not null)
                     item.ChangeHandler += ItemChangeHandler;
 
                 PrepareControls();
@@ -166,7 +166,5 @@ namespace OxDAOEngine.View
         protected readonly ControlBuilder<TField, TDAO> Builder;
         protected readonly ControlLayouter<TField, TDAO> Layouter;
         private readonly OxColorHelper fontColors = new(default);
-
-        protected override Bitmap? GetIcon() => DataManager.ListController<TField, TDAO>().Icon;
     }
 }

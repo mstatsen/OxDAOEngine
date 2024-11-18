@@ -30,7 +30,7 @@ namespace OxDAOEngine.Statistic
         {
             base.PrepareColors();
 
-            if (DarkerColorHelper != null)
+            if (DarkerColorHelper is not null)
                 DarkerColorHelper.BaseColor = Colors.Darker();
 
             foreach (StatisticType statisticType in Labels.Keys)

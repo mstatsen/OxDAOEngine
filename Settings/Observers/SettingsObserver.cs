@@ -12,9 +12,11 @@
             {
                 object? oldValue = OldValues[setting];
 
-                if (fullApplies ||
-                    oldValue != null && !oldValue.Equals(Controller[setting]) ||
-                    oldValue == null && Controller[setting] != null
+                if (fullApplies 
+                    || oldValue is not null 
+                        && !oldValue.Equals(Controller[setting]) 
+                    || oldValue is null 
+                        && Controller[setting] is not null
                     )
                     ChangedSettings.Add(setting);
             }

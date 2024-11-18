@@ -70,7 +70,7 @@ namespace OxDAOEngine.Export
         private static string RequestRow(string key, object? value)
         {
             string? stringValue = value?.ToString();
-            stringValue = stringValue == null
+            stringValue = stringValue is null
                 ? string.Empty 
                 : stringValue.Replace(" ", "&nbsp;");
 
@@ -83,7 +83,10 @@ namespace OxDAOEngine.Export
         private static string FilterRow(string key, object value)
         {
             string? stringValue = value.ToString();
-            stringValue = stringValue == null ? string.Empty : stringValue.Replace(" ", "&nbsp;");
+            stringValue = 
+                stringValue is null 
+                    ? string.Empty 
+                    : stringValue.Replace(" ", "&nbsp;");
             return string.Format(Templates.FilterRow,
                 key,
                 stringValue

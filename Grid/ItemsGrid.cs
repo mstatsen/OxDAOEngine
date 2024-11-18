@@ -59,12 +59,12 @@ namespace OxDAOEngine.Grid
                 if (painter == value)
                     return;
 
-                if (painter != null)
+                if (painter is not null)
                     GridView.CellPainting -= painter.CellPainting;
 
                 painter = value;
 
-                if (painter != null)
+                if (painter is not null)
                     GridView.CellPainting += painter.CellPainting;
             } 
         }
@@ -155,7 +155,8 @@ namespace OxDAOEngine.Grid
 
         protected virtual void ApplySortigns(List<ISorting<TField, TDAO>> newSortings)
         {
-            if (Usage != GridUsage.Edit || itemsList != null)
+            if (Usage is not GridUsage.Edit 
+                || itemsList is not null)
             {
                 ItemsList?.Sort(newSortings, true);
                 SortGrid();
@@ -179,7 +180,7 @@ namespace OxDAOEngine.Grid
                 {
                     CustomGridColumn<TField, TDAO>? customGridColumn = customGridColumns.GetCustomColumn(sorting.Key);
 
-                    if (customGridColumn != null)
+                    if (customGridColumn is not null)
                         newSortings.Add(new GridSorting<TField, TDAO>(customGridColumn, sorting.Value));
                 }
             }
@@ -228,7 +229,7 @@ namespace OxDAOEngine.Grid
 
         private bool ListOfItemsChanged()
         {
-            if (ItemsList == null)
+            if (ItemsList is null)
                 return false;
 
             List<int> oldItemsHashes = new();
@@ -237,7 +238,7 @@ namespace OxDAOEngine.Grid
             {
                 TDAO? item = selector.GetDaoFromRow<TDAO>(row);
 
-                if (item != null)
+                if (item is not null)
                     oldItemsHashes.Add(item.GetHashCode());
             }
 
@@ -276,7 +277,8 @@ namespace OxDAOEngine.Grid
 
         public void ApplyQuickFilter(IMatcher<TField>? quickFilter)
         {
-            if (quickFilter == null || quickFilter.FilterIsEmpty)
+            if (quickFilter is null 
+                || quickFilter.FilterIsEmpty)
             {
                 ClearQuickFilter();
                 return;
@@ -370,7 +372,7 @@ namespace OxDAOEngine.Grid
             GridView.SelectionChanged += GridSelectionChangedHandler;
             GridView.SortingChanged += GridSortingChangeHandler;
 
-            if (painter != null)
+            if (painter is not null)
                 GridView.CellPainting += painter.CellPainting;
         }
 
@@ -380,7 +382,7 @@ namespace OxDAOEngine.Grid
             GridView.SelectionChanged -= GridSelectionChangedHandler;
             GridView.SortingChanged -= GridSortingChangeHandler;
 
-            if (painter != null)
+            if (painter is not null)
                 GridView.CellPainting -= painter.CellPainting;
         }
 
@@ -398,7 +400,7 @@ namespace OxDAOEngine.Grid
             {
                 readOnly = value;
                 ToolBar.ActionsVisible = !readOnly;
-                ToolBar.Visible = ToolBar.Buttons.Find((b) => b.Visible) != null;
+                ToolBar.Visible = ToolBar.Buttons.Find((b) => b.Visible) is not null;
             }
         }
 
@@ -470,7 +472,10 @@ namespace OxDAOEngine.Grid
         public int GetRowIndex(TDAO item)
         {
             itemsDictionary.TryGetValue(item, out DataGridViewRow? row);
-            return row != null ? row.Index : -1;
+            return 
+                row is not null 
+                    ? row.Index 
+                    : -1;
         }
 
         public bool SelectItem(Predicate<TDAO> match) => 
@@ -479,7 +484,7 @@ namespace OxDAOEngine.Grid
 
         public bool SelectItem(TDAO? item)
         {
-            if (item == null)
+            if (item is null)
                 return false;
 
             int rowIndex = GetRowIndex(item);
@@ -493,7 +498,7 @@ namespace OxDAOEngine.Grid
 
         protected void ItemChanged(DAO dao, DAOEntityEventArgs? e)
         {
-            if (e == null)
+            if (e is null)
                 return;
 
             if (dao is not TDAO tDao)
@@ -602,7 +607,7 @@ namespace OxDAOEngine.Grid
         {
             TDAO? item = selector.GetDaoFromRow(rowIndex);
 
-            if (item == null)
+            if (item is null)
                 return;
 
             foreach (TField field in GridFieldColumns.Keys)

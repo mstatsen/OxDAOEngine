@@ -24,13 +24,14 @@ namespace OxDAOEngine.Grid
             if (DataManager.ListControllerExists<TField, TDAO>())
                 listController = DataManager.ListController<TField, TDAO>();
 
-            if (listController != null && 
+            if (listController is not null && 
                 listController.AvailableCopyItems)
                 AddButton(OxToolbarAction.Copy);
 
             AddButton(OxToolbarAction.Edit, true);
 
-            if (listController != null && DataManager.ListController<TField, TDAO>().AvailableBatchUpdate)
+            if (listController is not null 
+                && DataManager.ListController<TField, TDAO>().AvailableBatchUpdate)
                 AddButton(OxToolbarAction.Update);
 
             AddButton(OxToolbarAction.Delete, true);

@@ -5,7 +5,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 {
     public interface ICategoriesPanel : IOxFrameWithHeader
     {
-        IListDAO? Categories { get; set; }
+        IListDAO Categories { get; set; }
 
         void ResetToDefault();
     }

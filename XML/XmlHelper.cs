@@ -27,7 +27,7 @@ namespace OxDAOEngine.XML
 
         public static void AppendElement(XmlElement parentElement, string name, object? value)
         {
-            if (value == null)
+            if (value is null)
                 return;
 
             if (value is Bitmap bitmap)

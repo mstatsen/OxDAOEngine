@@ -181,19 +181,19 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.PrepareColors();
 
-            if (ConcatControlParent != null)
+            if (ConcatControlParent is not null)
                 ConcatControlParent.BaseColor = BaseColor;
 
-            if (ConcatControl != null)
+            if (ConcatControl is not null)
                 ControlPainter.ColorizeControl(ConcatControl, BaseColor);
 
-            if (AddRuleButtonParent != null)
+            if (AddRuleButtonParent is not null)
                 AddRuleButtonParent.BaseColor = BaseColor;
 
-            if (AddRuleButton != null)
+            if (AddRuleButton is not null)
                 AddRuleButton.BaseColor = BaseColor;
 
-            if (RemoveGroupButton != null)
+            if (RemoveGroupButton is not null)
                 RemoveGroupButton.BaseColor = BaseColor;
 
             foreach (RulePanel<TField, TDAO> rulePanel in RulesPanels)

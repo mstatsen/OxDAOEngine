@@ -61,7 +61,8 @@ namespace OxDAOEngine.Grid
         {
             base.ApplySortigns(newSortings);
 
-            if (Usage == GridUsage.Edit && CustomItemsList == null)
+            if (Usage.Equals(GridUsage.Edit) 
+                && CustomItemsList is null)
             {
                 ListController.Settings.Sortings.SortingsList = newSortings;
                 ListController.Sort();
@@ -77,7 +78,8 @@ namespace OxDAOEngine.Grid
         {
             if (ReadOnly)
             {
-                if (action == OxToolbarAction.Edit && CurrentItem != null)
+                if (action is OxToolbarAction.Edit 
+                    && CurrentItem is not null)
                     ListController.ViewItem(CurrentItem);
 
                 return;
@@ -89,11 +91,11 @@ namespace OxDAOEngine.Grid
                     ListController.AddItem();
                     break;
                 case OxToolbarAction.Edit:
-                    if (CurrentItem != null)
+                    if (CurrentItem is not null)
                         ListController.EditItem(CurrentItem, this); 
                     break;
                 case OxToolbarAction.Copy:
-                    if (CurrentItem != null)
+                    if (CurrentItem is not null)
                         ListController.CopyItem(CurrentItem);
                     break;
                 case OxToolbarAction.Delete:
@@ -139,7 +141,8 @@ namespace OxDAOEngine.Grid
 
         private Decorator<TField, TDAO> Decorator(TDAO item)
         {
-            if (decorator == null || decorator.Dao != item)
+            if (decorator is null 
+                || decorator.Dao != item)
                 decorator = DecoratorFactory.Decorator(
                     DecoratorType.Table, item
                 );

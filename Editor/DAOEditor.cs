@@ -140,7 +140,7 @@ namespace OxDAOEngine.Editor
 
         private void PrepareButtons()
         {
-            if (parentGrid == null)
+            if (parentGrid is null)
             {
                 prevButton.Visible = false;
                 nextButton.Visible = false;
@@ -156,7 +156,7 @@ namespace OxDAOEngine.Editor
 
         private void SetButtonsEnabled()
         {
-            if (parentGrid == null)
+            if (parentGrid is null)
                 return;
 
             prevButton.Enabled = !parentGrid.IsFirstRecord;
@@ -165,10 +165,8 @@ namespace OxDAOEngine.Editor
 
         private void NextClickHandler(object? sender, EventArgs e)
         {
-            if (parentGrid == null)
-                return;
-
-            if (!ReadyToChangeItem())
+            if (parentGrid is null 
+                || !ReadyToChangeItem())
                 return;
 
             Item = parentGrid.GoNext();
@@ -176,10 +174,8 @@ namespace OxDAOEngine.Editor
 
         private void PrevClickHandler(object? sender, EventArgs e)
         {
-            if (parentGrid == null)
-                return;
-
-            if (!ReadyToChangeItem())
+            if (parentGrid is null 
+                || !ReadyToChangeItem())
                 return;
 
             Item = parentGrid.GoPrev();
@@ -234,7 +230,8 @@ namespace OxDAOEngine.Editor
 
         private void FormClosedHandler(object? sender, FormClosedEventArgs e)
         {
-            if (DialogResult == DialogResult.OK && Item != null)
+            if (DialogResult == DialogResult.OK 
+                && Item is not null)
                 SaveChanges();
 
             Worker.UnSetHandlers();
@@ -242,7 +239,7 @@ namespace OxDAOEngine.Editor
 
         private void SaveChanges()
         {
-            if (Item == null)
+            if (Item is null)
                 return;
 
             DAOEntityEventHandler? savedChangeHandler = Item.ChangeHandler;
@@ -301,9 +298,11 @@ namespace OxDAOEngine.Editor
                 if (parent.Key == MainPanel)
                     continue;
 
-                bool calcedVisible = forceVisible || parent.Value.Find(g => g.Visible) != null;
+                bool calcedVisible = 
+                    forceVisible 
+                    || parent.Value.Find(g => g.Visible) is not null;
 
-                if (parent.Key.Visible != calcedVisible)
+                if (!parent.Key.Visible.Equals(calcedVisible))
                 {
                     visibleChanged = true;
                     parent.Key.Visible = calcedVisible;
@@ -352,7 +351,7 @@ namespace OxDAOEngine.Editor
         {
             OxPane? groupParent = GroupParent(group);
 
-            if (groupParent != null)
+            if (groupParent is not null)
                 GroupParents[groupParent].Add(groupFrame);
         }
 

@@ -62,10 +62,8 @@ namespace OxDAOEngine.Grid
 
         private void GridViewCellPainting(object? sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (sender == null)
-                return;
-
-            if (e.RowIndex < 0)
+            if (sender is null 
+                || e.RowIndex < 0)
                 return;
 
             Color backColor = Colors.Lighter(7);
@@ -211,7 +209,8 @@ namespace OxDAOEngine.Grid
             GridView[ValueColumn.Index, fieldsDictionary[field].Index].Value;
 
         private bool GetFlagValueHandler(TField field, object? value) =>
-            GetFlagValue == null || GetFlagValue.Invoke(field, value);
+            GetFlagValue is null 
+            || GetFlagValue.Invoke(field, value);
 
         public event GetFlagValue<TField>? GetFlagValue;
 
@@ -228,13 +227,17 @@ namespace OxDAOEngine.Grid
         public void Fill(TDAO? item, List<TField>? availableFields = null)
         {
             Item = item;
-            Text = Item != null ? Item.FullTitle() : "Empty";
+            Text = 
+                Item is not null 
+                    ? Item.FullTitle() 
+                    : "Empty";
 
             foreach (TField field in fieldHelper.SynchronizedFields)
             {
                 SetValue(field, Item?[field]);
 
-                if (availableFields != null && !availableFields.Contains(field))
+                if (availableFields is not null 
+                    && !availableFields.Contains(field))
                     HideField(field);
             }
         }

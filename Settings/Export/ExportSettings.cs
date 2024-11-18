@@ -87,12 +87,12 @@ namespace OxDAOEngine.Settings.Export
                 Dictionary<string, string> filterValues = new();
                 FilterGroup<TField, TDAO>? fieldsFilter = Filter?[0];
 
-                if (fieldsFilter != null)
+                if (fieldsFilter is not null)
                     foreach (TField @field in fieldsFilter.Fields)
                     {
                         object? value = fieldsFilter[@field];
 
-                        if (value == null)
+                        if (value is null)
                             continue;
 
                         if (TypeHelper.IsTypeHelpered(value))
@@ -101,7 +101,7 @@ namespace OxDAOEngine.Settings.Export
                         {
                             string? stringValue = value.ToString();
 
-                            if (stringValue != null)
+                            if (stringValue is not null)
                                 filterValues.Add(TypeHelper.Name(@field), stringValue);
                         }
                     }
@@ -109,7 +109,7 @@ namespace OxDAOEngine.Settings.Export
                 TextFilterOperationHelper helper = TypeHelper.Helper<TextFilterOperationHelper>();
                 FilterGroup<TField, TDAO>? textFilter = Filter?[1];
 
-                if (textFilter != null)
+                if (textFilter is not null)
                     foreach (FilterRule<TField> rule in textFilter.Rules)
                     {
                         TField @field = rule.Field;

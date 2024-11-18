@@ -23,7 +23,7 @@ namespace OxDAOEngine.View
         {
             Layouter.Clear();
 
-            if (placedCards != null)
+            if (placedCards is not null)
             {
                 foreach (OxPane pane in placedCards.Cast<OxPane>())
                     pane.Dispose();
@@ -38,12 +38,15 @@ namespace OxDAOEngine.View
 
             try
             {
-                if (ItemList != null &&
-                    ItemList.Equals(itemList))
+                if (ItemList is not null 
+                    && ItemList.Equals(itemList))
                     return;
 
                 ItemList = itemList;
-                paginator.ObjectCount = ItemList != null ? ItemList.Count : 0;
+                paginator.ObjectCount = 
+                    ItemList is not null 
+                        ? ItemList.Count 
+                        : 0;
             }
             finally
             {
@@ -101,7 +104,7 @@ namespace OxDAOEngine.View
 
         private void CreateAndLayoutCards(OxPaginatorEventArgs e)
         {
-            if (ItemList == null)
+            if (ItemList is null)
             {
                 Clear();
                 return;
@@ -142,7 +145,7 @@ namespace OxDAOEngine.View
             {
                 IItemView<TField, TDAO>? itemView = Factory.CreateItemView(ViewType, ItemViewMode.WithEditLink);
 
-                if (itemView != null)
+                if (itemView is not null)
                 {
                     itemView.Visible = false;
                     cards.Add(itemView);

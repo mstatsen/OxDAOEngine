@@ -61,8 +61,10 @@ namespace OxDAOEngine.Grid
                 object? leftValue = LeftItem[field];
                 object? rightValue = RightItem[field];
 
-                if ((leftValue == null && rightValue == null) ||
-                    (leftValue != null && leftValue.Equals(rightValue)))
+                if ((leftValue is null 
+                        && rightValue is null) ||
+                    (leftValue is not null 
+                        && leftValue.Equals(rightValue)))
                     EqualFields.Add(field);
             }
         }
@@ -186,15 +188,18 @@ namespace OxDAOEngine.Grid
             object? leftValue = LeftItemGrid.GetValue(field);
             object? rightValue = RightItemGrid.GetValue(field);
 
-            return (leftValue == null && rightValue == null) 
-                || (leftValue != null && leftValue.Equals(rightValue));
+            return 
+                (leftValue is null 
+                    && rightValue is null) 
+                || (leftValue is not null 
+                    && leftValue.Equals(rightValue));
         }
 
         protected override void PrepareColors()
         {
             base.PrepareColors();
 
-            if (LeftItem == null)
+            if (LeftItem is null)
                 return;
 
             LeftPlace.BaseColor = LeftItem.BackColor;
@@ -236,7 +241,7 @@ namespace OxDAOEngine.Grid
 
         private void RecalcGridsSizes()
         {
-            RightPlace.Width = ((PanelViewer != null ? PanelViewer.Width : Width) - ButtonsPanel.Width) / 2;
+            RightPlace.Width = ((PanelViewer is not null ? PanelViewer.Width : Width) - ButtonsPanel.Width) / 2;
             NotEqualsButton.Top = ButtonsPanel.Height / 2 - NotEqualsButton.Height - (NotEqualsButton.Height / 2) - 4;
             LeftToRightButton.Top = NotEqualsButton.Bottom + 8;
             RightToLeftButton.Top = LeftToRightButton.Bottom + 8;
@@ -251,14 +256,18 @@ namespace OxDAOEngine.Grid
 
                 object? leftValue = LeftItemGrid.GetValue(field);
 
-                if ((LeftItem[field] == null && leftValue != null)
-                    || (LeftItem[field] != null && !LeftItem[field]!.Equals(leftValue)))
+                if ((LeftItem[field] is null 
+                        && leftValue is not null)
+                    || (LeftItem[field] is not null 
+                        && !LeftItem[field]!.Equals(leftValue)))
                     LeftItem[field] = LeftItemGrid.GetValue(field);
 
                 object? rightValue = RightItemGrid.GetValue(field);
 
-                if ((RightItem[field] == null && rightValue != null)
-                    || (RightItem[field] != null && !RightItem[field]!.Equals(rightValue)))
+                if ((RightItem[field] is null 
+                        && rightValue is not null)
+                    || (RightItem[field] is not null 
+                        && !RightItem[field]!.Equals(rightValue)))
                     RightItem[field] = RightItemGrid.GetValue(field);
             }
         }
