@@ -175,7 +175,7 @@ namespace OxDAOEngine.View
             SettingsManager.DAOSettings<TField, TDAO>();
 
         private int MaximumCardsCount => 
-            ViewType == ItemsViewsType.Icons ? 90 : 18;
+            ViewType == ItemsViewsType.Icons ? 270 : 18;
 
         private int SettingsPageSize => 
             ViewType == ItemsViewsType.Icons 

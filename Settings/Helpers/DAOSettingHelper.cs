@@ -127,8 +127,9 @@ namespace OxDAOEngine.Settings.Helpers
             {
                 DAOSetting.IconClickVariant => 
                     160,
-                DAOSetting.ItemInfoPosition or
-                DAOSetting.IconsSize => 
+                DAOSetting.IconsSize =>
+                    94,
+                DAOSetting.ItemInfoPosition =>
                     80,
                 DAOSetting.IconMapping => 
                     200,

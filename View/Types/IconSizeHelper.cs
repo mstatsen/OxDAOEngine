@@ -10,6 +10,7 @@ namespace OxDAOEngine.View.Types
         public override string GetName(IconSize value) =>
             value switch
             {
+                IconSize.Thumbnails => "Thumbnails",
                 IconSize.Small => "Small",
                 IconSize.Medium => "Medium",
                 IconSize.Large => "Large",
@@ -19,6 +20,7 @@ namespace OxDAOEngine.View.Types
         public int Width(IconSize size) =>
             size switch
             {
+                IconSize.Thumbnails => 110,
                 IconSize.Small => 125,
                 IconSize.Medium => 162,
                 IconSize.Large => 200,
@@ -26,14 +28,20 @@ namespace OxDAOEngine.View.Types
             };
 
         public int Height(IconSize size) =>
-            Width(size) / 25 * 18;
+            size.Equals(IconSize.Thumbnails)
+                ? Width(size) / 2 - 3
+                : Width(size) / 25 * 18;
 
         public int LeftDelta(IconSize size) =>
             size switch
             {
-                IconSize.Small => 6,
-                IconSize.Medium => 4,
-                _ => 0,
+                IconSize.Thumbnails or
+                IconSize.Small => 
+                    6,
+                IconSize.Medium => 
+                    4,
+                _ => 
+                    0,
             };
 
         public int AddInfoWidth(IconSize size) =>
@@ -56,8 +64,11 @@ namespace OxDAOEngine.View.Types
         public int FontSizeDelta(IconSize size) =>
             size switch
             {
-                IconSize.Small or IconSize.Medium => 1,
-                _ => 2,
+                IconSize.Small or 
+                IconSize.Medium => 
+                    1,
+                _ => 
+                    2,
             };
     }
 }

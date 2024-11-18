@@ -58,7 +58,7 @@ namespace OxDAOEngine.Settings.ControlFactory
                     DAOSetting.CardsPageSize => 
                         new NumericInitializer(1, 18, 3),
                     DAOSetting.IconsPageSize => 
-                        new NumericInitializer(1, 90, 15),
+                        new NumericInitializer(1, 120, 15),
                     _ => 
                         base.Initializer(context),
                 }
