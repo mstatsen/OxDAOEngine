@@ -155,6 +155,14 @@ namespace OxDAOEngine.Grid
             if (e.Button is MouseButtons.Right)
             {
                 var hitTest = GridView.HitTest(e.X, e.Y);
+
+                DataGridViewRow currentRow = GridView.Rows[hitTest.RowIndex];
+
+                if (!GridView.SelectedRows.Contains(currentRow))
+                    GridView.ClearSelection();
+                else
+                    GridView.Rows[hitTest.RowIndex].Selected = false;
+
                 GridView.Rows[hitTest.RowIndex].Selected = true;
             }
         }
