@@ -582,15 +582,9 @@ namespace OxDAOEngine.ControlFactory
                     !Pinned
                 );
                 fakePadding.Name = FakePaddingName;
-                fakePadding.Click += FakePadding_Click;
             }
 
             fakePadding.SendToBack();
-        }
-
-        private void FakePadding_Click(object? sender, EventArgs e)
-        {
-            OxMessage.ShowInfo(FakePaddingName, GetParentFillControl()!);
         }
 
         private void MouseEnterHandler(object? sender, EventArgs e)
