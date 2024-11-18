@@ -311,7 +311,7 @@ namespace OxDAOEngine.View
             DataManager.ControlFactory<TField, TDAO>();
 
         protected ControlBuilder<TField, TDAO> Builder =>
-            ControlFactory.Builder(ControlScope.FullInfoView);
+            ControlFactory.Builder(ControlScope.InfoView);
 
         protected readonly ControlLayouter<TField, TDAO> Layouter;
         protected OxColorHelper FontColors;

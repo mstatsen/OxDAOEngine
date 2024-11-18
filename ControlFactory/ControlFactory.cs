@@ -182,7 +182,7 @@ namespace OxDAOEngine.ControlFactory
                 ControlScope.BatchUpdate or
                 ControlScope.QuickFilter =>
                     new ButtonEditAccessor<TField, TDAO, Links<TField>, Link<TField>, LinksListControl<TField, TDAO>>(context).Init(),
-                ControlScope.FullInfoView =>
+                ControlScope.InfoView =>
                     new LinkButtonListAccessor<TField, TDAO>(context, ButtonListDirection.Horizontal),
                 _ =>
                     new LinkButtonListAccessor<TField, TDAO>(context, ButtonListDirection.Vertical)

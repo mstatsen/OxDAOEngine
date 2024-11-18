@@ -60,7 +60,7 @@ namespace OxDAOEngine.Data.Fields
             scope switch
             {
                 ControlScope.CardView => CardFields,
-                ControlScope.FullInfoView => FullInfoFields,
+                ControlScope.InfoView => InfoFields,
                 ControlScope.IconView => IconFields,
                 _ => FullList(TypeHelper.Helper<FieldVariantHelper>().VariantByScope(scope))
             };
@@ -125,7 +125,7 @@ namespace OxDAOEngine.Data.Fields
 
         public List<TField> EditingFields => GetEditingFields();
         public List<TField> EditingFieldsExtended => GetEditedFieldsExtended();
-        public List<TField> FullInfoFields => GetFullInfoFields();
+        public List<TField> InfoFields => GetInfoFields();
         public List<TField> CardFields => GetCardFields();
         public List<TField> GroupByFields => GetGroupByFields();
         public List<TField> SynchronizedFields => GetSynchronizedFields();
@@ -169,7 +169,7 @@ namespace OxDAOEngine.Data.Fields
         protected abstract List<TField> GetCalcedFields();
         protected abstract List<TField> GetEditingFields();
         protected abstract List<TField> GetEditedFieldsExtended();
-        protected abstract List<TField> GetFullInfoFields();
+        protected abstract List<TField> GetInfoFields();
         protected abstract List<TField> GetCardFields();
         protected abstract List<TField> GetGroupByFields();
         protected abstract FieldFilterOperations<TField> GetAvailableFilterOperations();

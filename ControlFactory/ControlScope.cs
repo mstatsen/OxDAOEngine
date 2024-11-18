@@ -10,7 +10,7 @@
         Inline,
         Table,
         Html,
-        FullInfoView,
+        InfoView,
         CardView,
         IconView,
         Category,

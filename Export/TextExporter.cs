@@ -58,7 +58,7 @@ namespace OxDAOEngine.Export
             StringBuilder builder = new(
                 string.Join(string.Empty, Enumerable.Repeat(XmlConsts.DefaultIndent, Settings.Text.Grouping.Count))
             );
-            Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.FullInfo, item);
+            Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.Info, item);
             builder.Append(decorator[TypeHelper.FieldHelper<TField>().TitleField]);
             builder.Append(InlineFields(decorator));
             return builder.ToString();
@@ -98,7 +98,7 @@ namespace OxDAOEngine.Export
             int groupIndentCount = 0;
             string groupName;
             StringBuilder builder = new(string.Empty);
-            Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.FullInfo, item);
+            Decorator<TField, TDAO> decorator = ListController.DecoratorFactory.Decorator(DecoratorType.Info, item);
             FieldSortings<TField, TDAO> groupings = SettingsForm.groupByPanel.Sortings;
 
             foreach (FieldSorting<TField, TDAO> group in groupings)

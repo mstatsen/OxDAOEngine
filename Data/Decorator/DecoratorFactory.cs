@@ -27,7 +27,7 @@ namespace OxDAOEngine.Data.Decorator
                         DecoratorType.Simple => Simple(dao),
                         DecoratorType.Card => Card(dao),
                         DecoratorType.Icon => Icon(dao),
-                        DecoratorType.FullInfo => FullInfo(dao),
+                        DecoratorType.Info => Info(dao),
                         DecoratorType.Html => HTML(dao),
                         _ => Table(dao),
                     };
@@ -44,7 +44,7 @@ namespace OxDAOEngine.Data.Decorator
 
         protected virtual Decorator<TField, TDAO> Table(TDAO dao) => Simple(dao);
 
-        protected virtual Decorator<TField, TDAO> FullInfo(TDAO dao) => Card(dao);
+        protected virtual Decorator<TField, TDAO> Info(TDAO dao) => Card(dao);
 
         protected virtual Decorator<TField, TDAO> Icon(TDAO dao) => Card(dao);
 

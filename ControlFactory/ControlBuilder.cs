@@ -175,19 +175,18 @@ namespace OxDAOEngine.ControlFactory
                 {
                     switch (Scope)
                     {
-                        case ControlScope.FullInfoView:
+                        case ControlScope.InfoView:
                         case ControlScope.IconView:
                         case ControlScope.CardView:
                             if ((availableFields != null) && availableFields.Contains(field))
                                 currentDecorator = decorator;
                             break;
                         default:
-                            if (fieldHelper.CalcedFields.Contains(field))
-                                currentDecorator = decorator;
-
-                            currentDecorator = fieldHelper.EditingFieldsExtended.Contains(field) 
-                                ? simpleDecorator 
-                                : null;
+                            currentDecorator = fieldHelper.CalcedFields.Contains(field) 
+                                ? decorator 
+                                : fieldHelper.EditingFieldsExtended.Contains(field) 
+                                    ? simpleDecorator 
+                                    : null;
 
                             break;
                     }

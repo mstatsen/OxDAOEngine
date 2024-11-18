@@ -10,7 +10,7 @@ namespace OxDAOEngine.ControlFactory
         public bool IsView(ControlScope scope) =>
             scope is ControlScope.CardView
             or ControlScope.IconView
-            or ControlScope.FullInfoView;
+            or ControlScope.InfoView;
 
         public bool IsSorting(ControlScope scope) =>
             scope == ControlScope.Sorting
@@ -29,7 +29,7 @@ namespace OxDAOEngine.ControlFactory
                 ControlScope.Grouping => "Group by",
                 ControlScope.Table => "Table",
                 ControlScope.Html => "HTML",
-                ControlScope.FullInfoView => "Full game info",
+                ControlScope.InfoView => "Full game info",
                 ControlScope.CardView => "Game card",
                 ControlScope.IconView => "Game icon",
                 ControlScope.Category => "Categories",
@@ -41,6 +41,6 @@ namespace OxDAOEngine.ControlFactory
         public bool SupportClickedLabels(ControlScope scope) =>
             scope == ControlScope.CardView ||
             scope == ControlScope.Editor ||
-            scope == ControlScope.FullInfoView;
+            scope == ControlScope.InfoView;
     }
 }

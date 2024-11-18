@@ -6,7 +6,7 @@
         Table,
         Card,
         Icon,
-        FullInfo,
+        Info,
         Html
     }
 }

@@ -88,7 +88,7 @@ namespace OxDAOEngine.Settings.Helpers
 
         protected override List<TSetting> GetEditingFields() => new();
 
-        protected override List<TSetting> GetFullInfoFields() => new();
+        protected override List<TSetting> GetInfoFields() => new();
 
         protected override List<TSetting> GetGroupByFields() => new();
 
