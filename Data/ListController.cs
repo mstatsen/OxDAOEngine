@@ -591,6 +591,21 @@ namespace OxDAOEngine.Data
         public void ShowItemKey(TDAO? item) => 
             new UniqueKeyViewer<TField, TDAO>().View(item, Face);
 
+        private readonly Categories<TField, TDAO> defaultCategories = new();
+
+        protected virtual void FillDefaultCategories(Categories<TField, TDAO> categories) { }
+
+        public virtual Categories<TField, TDAO> DefaultCategories
+        {
+            get
+            {
+                if (defaultCategories.IsEmpty)
+                    FillDefaultCategories(defaultCategories);
+
+                return defaultCategories;
+            }
+        }
+
         public virtual bool AvailableSummary => true;
         public virtual bool AvailableCategories => true;
         public virtual bool AvailableQuickFilter => true;

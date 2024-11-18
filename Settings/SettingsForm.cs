@@ -467,6 +467,9 @@ namespace OxDAOEngine.Settings
             if (partHelper.IsFieldsSettings(part))
                 settingsFieldPanels[settings][part].ResetFields();
 
+            if (part.Equals(SettingsPart.Category))
+                settingsCategoriesPanels[settings].ResetToDefault();
+
             if (part == SettingsPart.QuickFilter)
                 SetDefaultForPart(settings, SettingsPart.QuickFilterText);
         }

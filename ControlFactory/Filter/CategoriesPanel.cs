@@ -12,7 +12,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public Categories<TField, TDAO> Categories
+        public Categories<TField, TDAO>? Categories
         {
             get => (Categories<TField, TDAO>)categoriesAccessor.Value!;
             set => categoriesAccessor.Value = value;
@@ -37,10 +37,13 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         public FieldsVariant Variant { get; private set; }
 
-        IListDAO ICategoriesPanel.Categories
+        IListDAO? ICategoriesPanel.Categories
         {
             get => Categories;
             set => categoriesAccessor.Value = value;
         }
+
+        public void ResetToDefault() => 
+            Categories = DataManager.ListController<TField, TDAO>().DefaultCategories;
     }
 }

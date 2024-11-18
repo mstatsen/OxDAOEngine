@@ -1,5 +1,4 @@
-﻿using OxDAOEngine.Data.Fields;
-using OxDAOEngine.Data.Filter.Types;
+﻿using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.XML;
 using System.Xml;
@@ -13,8 +12,8 @@ namespace OxDAOEngine.Data.Filter
         where TDAO : RootDAO<TField>, new()
     {
         public string Name { get; internal set; } = string.Empty;
-        public CategoryType Type { get; internal set; } = CategoryType.Filter;
-        public TField Field { get; internal set; } = default!;
+        public CategoryType Type { get; set; } = CategoryType.Filter;
+        public TField Field { get; set; } = default!;
         public bool BaseOnChilds { get; set; } = false;
 
         private readonly Filter<TField, TDAO> filter = new(FilterConcat.AND);
@@ -30,6 +29,9 @@ namespace OxDAOEngine.Data.Filter
         }
 
         public Category() : base() { }
+
+        public Category(string name) : this() =>
+            Name = name;
 
         public bool FilterIsEmpty
         {
