@@ -140,12 +140,16 @@ namespace OxDAOEngine
                     BaseColor = BaseColor
                 };
 
+            itemsView.GetActualItemList += GetActualItemListHandler;
             itemsView.LoadingStarted += LoadingStartedHandler;
             itemsView.LoadingEnded += LoadingEndedHandler;
             tabControl.AddPage(itemsView);
             Views.Add(viewType, itemsView);
             return itemsView;
         }
+
+        private RootListDAO<TField, TDAO>? GetActualItemListHandler() =>
+            actualItemList;
 
         private void LoadingEndedHandler(object? sender, EventArgs e) =>
             EndLoading();
@@ -262,12 +266,12 @@ namespace OxDAOEngine
                 if (ListController.AvailableCards &&
                     cardsView is not null
                     && cardsView.Equals(tabControl.ActivePage))
-                    cardsView?.Fill(actualItemList);
+                    cardsView?.Fill();
 
                 if (ListController.AvailableIcons
                     && iconsView is not null
                     && iconsView.Equals(tabControl.ActivePage))
-                    iconsView?.Fill(actualItemList);
+                    iconsView?.Fill();
             }
             finally
             {

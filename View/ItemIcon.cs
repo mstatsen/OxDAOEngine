@@ -7,6 +7,7 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.View.Types;
+using OxDAOEngine.Grid;
 
 namespace OxDAOEngine.View
 {
@@ -53,7 +54,7 @@ namespace OxDAOEngine.View
                     ListController.ShowItemKey(item);
                     break;
                 case IconClickVariant.ShowCard:
-                    ListController.ViewItem(item, ItemViewMode.WithEditLink);
+                    ListController.ViewItem(item, ItemViewMode.WithEditLinks);
                     break;
                 case IconClickVariant.ShowEditor:
                     ListController.EditItem(item);
@@ -273,6 +274,14 @@ namespace OxDAOEngine.View
                 PrepareControls();
                 PrepareColors();
             }
+        }
+
+        private ItemsView<TField, TDAO>? itemsView;
+
+        public ItemsView<TField, TDAO>? ItemsView
+        {
+            get => itemsView;
+            set => itemsView = value;
         }
 
         public OxPane AsPane => this;

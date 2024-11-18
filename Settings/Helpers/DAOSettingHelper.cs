@@ -12,8 +12,11 @@ namespace OxDAOEngine.Settings.Helpers
         public override string GetName(DAOSetting setting) =>
             setting switch
             {
-                DAOSetting.CardsPageSize => "Cards' View page size",
-                DAOSetting.IconsPageSize => "Icons' View page size",
+                DAOSetting.CardsPageSize => "Page size",
+                DAOSetting.CardsAllowExpand => "Allow expand",
+                DAOSetting.CardsAllowEdit => "Allow edit",
+                DAOSetting.CardsAllowDelete => "Allow delete",
+                DAOSetting.IconsPageSize => "Page size",
                 DAOSetting.IconsSize => "Icons' size",
                 DAOSetting.IconMapping => "Icon mapping",
                 DAOSetting.IconClickVariant => "When click on icon",
@@ -44,7 +47,9 @@ namespace OxDAOEngine.Settings.Helpers
             {
                 DAOSetting.HideEmptyCategory or
                 DAOSetting.ShowIcons or
-                DAOSetting.ShowCards =>
+                DAOSetting.ShowCards or
+                DAOSetting.CardsAllowEdit or
+                DAOSetting.CardsAllowExpand =>
                     true,
                 DAOSetting.CategoryPanelPinned or
                 DAOSetting.CategoryPanelExpanded or
@@ -52,7 +57,8 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.ItemInfoPanelPinned or
                 DAOSetting.QuickFilterPinned or
                 DAOSetting.QuickFilterExpanded or
-                DAOSetting.AlwaysExpandedCategories =>
+                DAOSetting.AlwaysExpandedCategories or
+                DAOSetting.CardsAllowDelete =>
                     false,
                 DAOSetting.ItemInfoPosition =>
                     ItemInfoPosition.Right,
@@ -87,7 +93,10 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.ItemInfoPosition =>
                     SettingsPart.Table,
                 DAOSetting.ShowCards or
-                DAOSetting.CardsPageSize =>
+                DAOSetting.CardsPageSize or
+                DAOSetting.CardsAllowDelete or
+                DAOSetting.CardsAllowEdit or
+                DAOSetting.CardsAllowExpand =>
                     SettingsPart.Cards,
                 DAOSetting.ShowIcons or
                 DAOSetting.IconsSize or
@@ -102,25 +111,13 @@ namespace OxDAOEngine.Settings.Helpers
             };
 
         protected override bool IsVisible(DAOSetting setting) =>
-            setting switch
-            {
-                DAOSetting.ShowItemInfo or
-                DAOSetting.ItemInfoPosition or
-                DAOSetting.ShowCategories or
-                DAOSetting.AlwaysExpandedCategories or
-                DAOSetting.HideEmptyCategory or
-                DAOSetting.ShowCards or
-                DAOSetting.CardsPageSize or
-                DAOSetting.ShowIcons or
-                DAOSetting.IconsPageSize or
-                DAOSetting.IconMapping or
-                DAOSetting.IconsSize or
-                DAOSetting.IconClickVariant or
-                DAOSetting.ShowQuickFilter or
-                DAOSetting.QuickFilterTextFieldOperation =>
-                    true,//case DAOSetting.SummarySorting:
-                _ => false,
-            };
+            setting is not DAOSetting.CurrentView
+                   and not DAOSetting.CategoryPanelPinned
+                   and not DAOSetting.CategoryPanelExpanded
+                   and not DAOSetting.ItemInfoPanelPinned
+                   and not DAOSetting.ItemInfoPanelExpanded
+                   and not DAOSetting.QuickFilterPinned
+                   and not DAOSetting.QuickFilterExpanded;
 
         public override int ControlWidth(DAOSetting setting) =>
             setting switch
@@ -162,7 +159,10 @@ namespace OxDAOEngine.Settings.Helpers
                 DAOSetting.QuickFilterExpanded or
                 DAOSetting.HideEmptyCategory or
                 DAOSetting.ShowIcons or
-                DAOSetting.ShowCards =>
+                DAOSetting.ShowCards or
+                DAOSetting.CardsAllowDelete or
+                DAOSetting.CardsAllowEdit or
+                DAOSetting.CardsAllowExpand =>
                     FieldType.Boolean,
                 DAOSetting.CardsPageSize or
                 DAOSetting.IconsPageSize =>

@@ -22,6 +22,9 @@ namespace OxDAOEngine.Settings
         FunctionalPanelVisible ShowItemInfo { get; set; }
         bool ShowIcons { get; set; }
         bool ShowCards { get; set; }
+        bool CardsAllowDelete { get; set; }
+        bool CardsAllowEdit { get; set; }
+        bool CardsAllowExpand { get; set; }
         TextFilterOperation QuickFilterTextFieldOperation { get; set; }
         bool ItemInfoPanelPinned { get; set; }
         bool ItemInfoPanelExpanded { get; set; }

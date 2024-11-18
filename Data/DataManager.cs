@@ -354,6 +354,34 @@ namespace OxDAOEngine.Data
             }
         }
 
+        public static void DeleteItem<TField, TDAO>(TDAO? item)
+            where TField : notnull, Enum
+            where TDAO : RootDAO<TField>, new()
+        {
+            try
+            {
+                ListController<TField, TDAO>().DeleteItem(item);
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Cannot delete {item} because it controller not found");
+            }
+        }
+
+        public static void Delete<TField, TDAO>(RootListDAO<TField, TDAO> list)
+            where TField : notnull, Enum
+            where TDAO : RootDAO<TField>, new()
+        {
+            try
+            {
+                ListController<TField, TDAO>().Delete(list);
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Cannot delete items because it's controller not found");
+            }
+        }
+
         public static void CopyItem<TField, TDAO>(TDAO? item)
             where TField : notnull, Enum
             where TDAO : RootDAO<TField>, new()

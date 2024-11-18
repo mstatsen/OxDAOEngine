@@ -7,6 +7,10 @@ using OxDAOEngine.View.Types;
 
 namespace OxDAOEngine.View
 {
+    public delegate RootListDAO<TField, TDAO>? GetActualItemList<TField, TDAO>()
+        where TField : notnull, Enum
+        where TDAO : RootDAO<TField>, new();
+
     public sealed class ItemsView<TField, TDAO> : OxPanel
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
@@ -32,12 +36,16 @@ namespace OxDAOEngine.View
             }
         }
 
-        public void Fill(RootListDAO<TField, TDAO>? itemList)
+        public event GetActualItemList<TField, TDAO>? GetActualItemList;
+
+        public void Fill()
         {
             StartLoading();
 
             try
             {
+                RootListDAO<TField, TDAO>? itemList = GetActualItemList?.Invoke();
+
                 if (ItemList is not null 
                     && ItemList.Equals(itemList))
                     return;
@@ -88,6 +96,12 @@ namespace OxDAOEngine.View
             paginator.PageChanged += PaginatorPageChangedHandler;
         }
 
+        public void RenewCards()
+        {
+            Fill();
+            paginator.CurrentPage = 1;
+        }
+
         private void PaginatorPageChangedHandler(object sender, OxPaginatorEventArgs e)
         {
             StartLoading();
@@ -101,6 +115,7 @@ namespace OxDAOEngine.View
                 EndLoading();
             }
         }
+            
 
         private void CreateAndLayoutCards(OxPaginatorEventArgs e)
         {
@@ -128,7 +143,6 @@ namespace OxDAOEngine.View
                 foreach (IItemView<TField, TDAO> card in placedCards)
                     if (itemIndex < e.EndObjectIndex)
                     {
-                        //Task.Delay(100).Wait();
                         card.Item = ItemList[itemIndex];
                         itemIndex++;
                     }
@@ -143,10 +157,11 @@ namespace OxDAOEngine.View
 
             for (int itemIndex = 0; itemIndex < paginator.PageSize; itemIndex++)
             {
-                IItemView<TField, TDAO>? itemView = Factory.CreateItemView(ViewType, ItemViewMode.WithEditLink);
+                IItemView<TField, TDAO>? itemView = Factory.CreateItemView(ViewType, ItemViewMode.WithEditLinks);
 
                 if (itemView is not null)
                 {
+                    itemView.ItemsView = this;
                     itemView.Visible = false;
                     cards.Add(itemView);
                 }
@@ -190,7 +205,7 @@ namespace OxDAOEngine.View
         public void ApplySettings()
         {
             if (Settings.Observer[ViewType is ItemsViewsType.Icons
-                    ? DAOSetting.IconsPageSize 
+                    ? DAOSetting.IconsPageSize
                     : DAOSetting.CardsPageSize
                 ])
             {
@@ -200,10 +215,15 @@ namespace OxDAOEngine.View
                     paginator.PageSize = newPageSize;
             }
             else
-                if (ViewType is ItemsViewsType.Icons 
-                    && (Settings.Observer[DAOSetting.IconMapping] 
+                if ((ViewType is ItemsViewsType.Icons 
+                    && (Settings.Observer[DAOSetting.IconMapping]
                         || Settings.Observer[DAOSetting.IconsSize]))
-                paginator.PageSize = paginator.PageSize;
+                    || (ViewType is ItemsViewsType.Cards
+                        && (Settings.Observer[DAOSetting.CardsAllowDelete]
+                            || Settings.Observer[DAOSetting.CardsAllowEdit]
+                            || Settings.Observer[DAOSetting.CardsAllowExpand]))
+                )
+                    RenewCards();
         }
 
         private readonly OxPaginator paginator = new()

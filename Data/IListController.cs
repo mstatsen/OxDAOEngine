@@ -7,7 +7,6 @@ using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Editor;
 using OxDAOEngine.Export;
 using OxDAOEngine.Settings;
-using OxDAOEngine.Summary;
 using OxDAOEngine.View;
 using OxDAOEngine.Grid;
 
@@ -30,6 +29,8 @@ namespace OxDAOEngine.Data
 
         void AddItem();
         void EditItem(TDAO? item, ItemsRootGrid<TField, TDAO>? parentGrid = null);
+        void DeleteItem(TDAO? item);
+        void Delete(RootListDAO<TField, TDAO> list);
         void CopyItem(TDAO? item);
         void ViewItem(TDAO? item, ItemViewMode viewMode = ItemViewMode.Simple);
         void ViewItem(TField field, object? value, ItemViewMode viewMode = ItemViewMode.Simple);
@@ -38,8 +39,6 @@ namespace OxDAOEngine.Data
         void ViewItems(Predicate<TDAO> predicate, string? caption = "");
         bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TField>? filter = null);
         void ViewHistory();
-        void Delete(RootListDAO<TField, TDAO> list);
-
         int TotalCount { get; }
         int FilteredCount { get; }
         int ModifiedCount { get; }

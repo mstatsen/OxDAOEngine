@@ -5,7 +5,7 @@ namespace OxDAOEngine.View
 {
     public class ItemViewList<TField, TDAO> : List<IItemView<TField, TDAO>>
         where TField : notnull, Enum
-        where TDAO : DAO, IFieldMapping<TField>, new()
+        where TDAO : RootDAO<TField>, new()
     {
         public IItemView<TField, TDAO>? Last =>
             Count > 0

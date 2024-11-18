@@ -15,24 +15,51 @@ namespace OxDAOEngine.View
         protected virtual int CardHeight => 240;
         protected virtual int CardWidth => 440;
 
+        private readonly IListController<TField, TDAO> ListController =
+            DataManager.ListController<TField, TDAO>();
+
         public ItemCard(ItemViewMode viewMode) : base()
         {
             ViewMode = viewMode;
-            EditorButton.SetContentSize(25, 20);
-            EditorButton.Click += (s, e) => DataManager.EditItem<TField, TDAO>(item);
-            EditorButton.Visible = ViewMode is ItemViewMode.WithEditLink;
-            Header.AddToolButton(EditorButton);
+            PrepareEditButton(
+                EditButton,
+                $"Edit {ListController.ItemName}",
+                EditItemHandler
+            );
+            PrepareEditButton(
+                DeleteButton,
+                $"Delete {ListController.ItemName}",
+                DeleteItemHandler
+            );
             Builder = DataManager.Builder<TField, TDAO>(ControlScope.CardView, true);
             Layouter = Builder.Layouter;
             Margins.SetSize(OxSize.Extra);
             Paddings.SetSize(OxSize.Large);
             HeaderHeight = 28;
             SetContentSize(CardWidth, CardHeight);
-            Icon = DataManager.ListController<TField, TDAO>().Icon;
+            Icon = ListController.Icon;
+        }
+
+        private void EditItemHandler(object? sender, EventArgs e) =>
+            DataManager.EditItem<TField, TDAO>(item);
+
+        private void DeleteItemHandler(object? sender, EventArgs e)
+        {
+            DataManager.DeleteItem<TField, TDAO>(item);
+            ItemsView?.RenewCards();
+        }
+
+        private void PrepareEditButton(OxClickFrame button, string toolTipText, EventHandler clickHanler)
+        {
+            button.SetContentSize(25, 20);
+            button.ToolTipText = toolTipText;
+            button.Click += clickHanler;
+            Header.AddToolButton(button);
         }
 
         public override Color DefaultColor => EngineStyles.CardColor;
-        private readonly OxIconButton EditorButton = new(OxIcons.Pencil, 20);
+        private readonly OxIconButton EditButton = new(OxIcons.Pencil, 20);
+        private readonly OxIconButton DeleteButton = new(OxIcons.Trash, 20);
 
         protected override void PrepareColors()
         {
@@ -155,13 +182,32 @@ namespace OxDAOEngine.View
 
                 PrepareControls();
                 PrepareColors();
+                SetButtonsVisible();
                 SetTitle();
             }
+        }
+
+        private void SetButtonsVisible()
+        {
+            ExpandButtonVisible = ListController.Settings.CardsAllowExpand;
+            EditButton.Visible =
+                ListController.Settings.CardsAllowEdit
+                && ViewMode is ItemViewMode.WithEditLinks;
+            EditButton.Visible =
+                ListController.Settings.CardsAllowDelete
+                && ViewMode is ItemViewMode.WithEditLinks;
         }
 
         private readonly ItemViewMode ViewMode;
 
         public OxPane AsPane => this;
+
+        private ItemsView<TField, TDAO>? itemsView;
+        public ItemsView<TField, TDAO>? ItemsView 
+        { 
+            get => itemsView;
+            set => itemsView = value;
+        }
 
         protected readonly ControlBuilder<TField, TDAO> Builder;
         protected readonly ControlLayouter<TField, TDAO> Layouter;

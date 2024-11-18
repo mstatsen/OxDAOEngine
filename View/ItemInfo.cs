@@ -6,6 +6,7 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
+using OxDAOEngine.Grid;
 
 namespace OxDAOEngine.View
 {
@@ -317,6 +318,13 @@ namespace OxDAOEngine.View
         protected readonly Dictionary<OxPanel, ControlLayouts<TField>> LayoutsLists = new();
         public void ScrollToTop() =>
             ContentContainer.AutoScrollPosition = new(0, 0);
+
+        private ItemsView<TField, TDAO>? itemsView;
+        public ItemsView<TField, TDAO>? ItemsView
+        {
+            get => itemsView;
+            set => itemsView = value;
+        }
 
         protected override void OnDockChanged(EventArgs e)
         {

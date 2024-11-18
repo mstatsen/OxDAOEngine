@@ -408,6 +408,19 @@ namespace OxDAOEngine.Data
         public int AddedCount => History.AddedCount;
         public int RemovedCount => History.RemovedCount;
 
+        public void DeleteItem(TDAO? item)
+        {
+            if (item is null)
+                return;
+
+            Delete(
+                new RootListDAO<TField, TDAO>()
+                {
+                    item
+                }
+            );
+        }
+
         public void Delete(RootListDAO<TField, TDAO> list)
         {
             string messageBase = "Are you sure you want to delete selected";
@@ -425,6 +438,7 @@ namespace OxDAOEngine.Data
                 FullItemsList.Remove(item);
 
             FullItemsList.FinishSilentChange();
+            NotifyAll();
             RenewVisibleItems();
         }
 

@@ -6,7 +6,7 @@ namespace OxDAOEngine.View
 {
     public interface IItemInfo<TField, TDAO> : IItemView<TField, TDAO>
         where TField : notnull, Enum
-        where TDAO : DAO, IFieldMapping<TField>, new()
+        where TDAO : RootDAO<TField>, new()
     { 
         bool Expanded { get; set; }
         bool Pinned { get; set; }

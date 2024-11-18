@@ -112,6 +112,24 @@ namespace OxDAOEngine.Settings
             set => this[DAOSetting.ShowCards] = value;
         }
 
+        public bool CardsAllowDelete
+        {
+            get => BoolValue(DAOSetting.CardsAllowDelete);
+            set => this[DAOSetting.CardsAllowDelete] = value;
+        }
+
+        public bool CardsAllowEdit
+        {
+            get => BoolValue(DAOSetting.CardsAllowEdit);
+            set => this[DAOSetting.CardsAllowEdit] = value;
+        }
+
+        public bool CardsAllowExpand
+        {
+            get => BoolValue(DAOSetting.CardsAllowExpand);
+            set => this[DAOSetting.CardsAllowExpand] = value;
+        }
+
         private T? Parse<T>(DAOSetting setting)
             where T : Enum =>
             TypeHelper.Parse<T>(this[setting]!.ToString()!);
