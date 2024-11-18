@@ -1,20 +1,20 @@
 ﻿using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.Controls;
-using OxDAOEngine.ControlFactory.Initializers;
-using OxDAOEngine.Data;
-using OxDAOEngine.Data.Fields;
-using OxDAOEngine.View;
-using OxDAOEngine.Grid;
-using OxDAOEngine.ControlFactory.Filter;
-using OxDAOEngine.Data.Sorting;
-using OxDAOEngine.Data.Filter;
-using OxDAOEngine.Data.Links;
-using OxDAOEngine.View.Types;
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.ControlFactory.Controls.Links;
 using OxDAOEngine.ControlFactory.Controls.Sorting;
+using OxDAOEngine.ControlFactory.Initializers;
+using OxDAOEngine.ControlFactory.Filter;
+using OxDAOEngine.Data;
+using OxDAOEngine.Data.Fields;
+using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
+using OxDAOEngine.Data.Links;
+using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Grid;
+using OxDAOEngine.View;
+using OxDAOEngine.View.Types;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -214,7 +214,8 @@ namespace OxDAOEngine.ControlFactory
                     CreateLinkButtonAccessor(context),
                 FieldType.LinkList =>
                     CreateLinksAccessor(context),
-                _ => CreateLabelAccessor(context)
+                _ => 
+                    CreateLabelAccessor(context)
             };
 
         protected IControlAccessor CreateLabelAccessor(IBuilderContext<TField, TDAO> context) =>

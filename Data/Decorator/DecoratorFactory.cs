@@ -38,7 +38,8 @@ namespace OxDAOEngine.Data.Decorator
             return decorator;
         }
 
-        protected abstract Decorator<TField, TDAO> Simple(TDAO dao);
+        protected Decorator<TField, TDAO> Simple(TDAO dao) =>
+            new SimpleDecorator<TField, TDAO>(dao);
 
         protected virtual Decorator<TField, TDAO> HTML(TDAO dao) => Simple(dao);
 
