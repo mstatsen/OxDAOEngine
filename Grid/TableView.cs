@@ -21,8 +21,8 @@ namespace OxDAOEngine.Grid
             Grid.ToolbarActionClick += (s, e) => ExecuteAction(e.Action);
             Grid.CurrentItemChanged += CurrentItemChangeHandler;
             InfoPanel = DataManager.ControlFactory<TField, TDAO>().CreateInfoPanel();
-            Margins.BottomOx = OxSize.Medium;
-            Margins.RightOx = OxSize.Large;
+            Margins.BottomOx = OxSize.XS;
+            Margins.RightOx = OxSize.S;
             PrepareInfoPanel();
         }
 

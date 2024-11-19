@@ -61,9 +61,9 @@ namespace OxDAOEngine.ControlFactory.Filter
             Builder = builder;
             Number = number;
             ConcatControl = CreateConcatControl();
-            Margins.TopOx = OxSize.Large;
-            Margins.RightOx = OxSize.Extra;
-            Margins.BottomOx = OxSize.Medium;
+            Margins.TopOx = OxSize.S;
+            Margins.RightOx = OxSize.M;
+            Margins.BottomOx = OxSize.XS;
             Margins.Left = 24;
             Group = group;
             PrepareAddRuleButton();
@@ -107,7 +107,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             AddRuleButton.Click += AddRuleButtonClickHandler;
             AddRuleButtonParent.Parent = this;
             AddRuleButtonParent.Dock = DockStyle.Bottom;
-            AddRuleButtonParent.Paddings.SetSize(OxSize.Extra);
+            AddRuleButtonParent.Paddings.SetSize(OxSize.M);
             AddRuleButtonParent.SetContentSize(1, AddRuleButton.Height);
         }
 

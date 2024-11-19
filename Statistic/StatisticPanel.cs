@@ -15,7 +15,7 @@ namespace OxDAOEngine.Statistic
         {
             Grid = grid;
             Borders.SetSize(OxSize.None);
-            Borders.TopOx = OxSize.Small;
+            Borders.TopOx = OxSize.XXS;
             DarkerColorHelper = new OxColorHelper(BaseColor);
             SetStatisticsTexts();
         }
@@ -95,7 +95,7 @@ namespace OxDAOEngine.Statistic
             foreach (OxButton label in Labels.Values)
             {
                 label.BringToFront();
-                label.Margins.SetSize(OxSize.Medium);
+                label.Margins.SetSize(OxSize.XS);
             }
         }
 

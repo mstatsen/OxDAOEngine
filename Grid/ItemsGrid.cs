@@ -366,7 +366,7 @@ namespace OxDAOEngine.Grid
             GridView.Parent = ContentContainer;
             GridView.RowTemplate.Height = 40;
             PrepareToolBar();
-            Paddings.LeftOx = OxSize.Medium;
+            Paddings.LeftOx = OxSize.XS;
         }
 
         private void PrepareToolBar()
@@ -374,7 +374,7 @@ namespace OxDAOEngine.Grid
             ToolBar.Parent = ContentContainer;
             ToolBar.Dock = DockStyle.Top;
             ToolBar.Margins.TopOx = OxSize.None;
-            ToolBar.Margins.BottomOx = OxSize.Medium;
+            ToolBar.Margins.BottomOx = OxSize.XS;
             ToolBar.Borders.RightOx = OxSize.None;
             ToolBar.Borders.LeftOx = OxSize.None;
             ToolBar.AllowEditingActions = false;

@@ -20,7 +20,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                         break;
                     case ButtonListDirection.Horizontal:
                         Dock = DockStyle.Top;
-                        Paddings.TopOx = OxSize.Extra;
+                        Paddings.TopOx = OxSize.M;
                         break;
                 }
             }

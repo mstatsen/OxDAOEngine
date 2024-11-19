@@ -95,7 +95,7 @@ namespace OxDAOEngine
             IOxPane? firstPage = tabControl.Pages.First;
 
             if (firstPage is not null)
-                tabControl.TabButtons[firstPage].Margins.LeftOx = OxSize.Medium;
+                tabControl.TabButtons[firstPage].Margins.LeftOx = OxSize.XS;
 
             tabControl.ActivePage = Views[Settings.CurrentView];
             tabControl.Update();
@@ -113,7 +113,7 @@ namespace OxDAOEngine
             };
 
             result.Margins.SetSize(OxSize.None);
-            result.Margins.BottomOx = OxSize.Small;
+            result.Margins.BottomOx = OxSize.XXS;
             result.Borders[OxDock.Left].Visible = false;
             result.Borders[OxDock.Right].Visible = false;
             return result;
@@ -173,7 +173,7 @@ namespace OxDAOEngine
                 BaseColor = BaseColor,
                 BatchUpdateCompleted = BatchUpdateCompletedHandler
             };
-            result.Paddings.LeftOx = OxSize.Medium;
+            result.Paddings.LeftOx = OxSize.XS;
 
             if (ListController.AvailableQuickFilter)
                 result.GridFillCompleted += (s, e) => ApplyQuickFilter();
@@ -194,7 +194,7 @@ namespace OxDAOEngine
                 Text = itemsViewsTypeHelper.Name(ItemsViewsType.Summary),
                 BaseColor = new OxColorHelper(EngineStyles.SummaryColor).BaseColor
             };
-            result.Paddings.LeftOx = OxSize.Medium;
+            result.Paddings.LeftOx = OxSize.XS;
             tabControl.AddPage(result);
             Views.Add(ItemsViewsType.Summary, result);
             return result;
@@ -370,8 +370,8 @@ namespace OxDAOEngine
         {
             loadingPanel.Parent = tabControl;
             loadingPanel.Visible = false;
-            loadingPanel.Margins.TopOx = OxSize.Large;
-            loadingPanel.Borders.SetSize(OxSize.Small);
+            loadingPanel.Margins.TopOx = OxSize.S;
+            loadingPanel.Borders.SetSize(OxSize.XXS);
         }
 
         private void StartLoading(IOxPane? parentPanel = null)
@@ -393,7 +393,7 @@ namespace OxDAOEngine
             quickFilter.Parent = tabControlPanel;
             quickFilter.Dock = DockStyle.Top;
             quickFilter.Changed += (s, e) => ApplyQuickFilter();
-            quickFilter.Margins.SetSize(OxSize.Large);
+            quickFilter.Margins.SetSize(OxSize.S);
             quickFilter.Margins.BottomOx = OxSize.None;
             quickFilter.RenewFilterControls();
             quickFilter.PinnedChanged += (s, e) => categoriesTree.RecalcPinned();
@@ -409,11 +409,11 @@ namespace OxDAOEngine
 
             categoriesTree.Parent = this;
             categoriesTree.Dock = DockStyle.Left;
-            categoriesTree.Margins.TopOx = OxSize.Large;
-            categoriesTree.Margins.LeftOx = OxSize.Medium;
-            categoriesTree.Margins.BottomOx = OxSize.Medium;
+            categoriesTree.Margins.TopOx = OxSize.S;
+            categoriesTree.Margins.LeftOx = OxSize.XS;
+            categoriesTree.Margins.BottomOx = OxSize.XS;
             categoriesTree.Margins.RightOx = OxSize.None;
-            categoriesTree.Paddings.SetSize(OxSize.Medium);
+            categoriesTree.Paddings.SetSize(OxSize.XS);
             categoriesTree.Borders[OxDock.Right].Visible = false;
             categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;
             categoriesTree.ActiveCategoryChanged += RenewFilterControls;

@@ -96,10 +96,10 @@ namespace OxDAOEngine.ControlFactory.Accessors
             {
                 if (value)
                 {
-                    panel.Paddings.TopOx = OxSize.Medium;
-                    panel.Paddings.BottomOx = OxSize.Medium;
-                    panel.Paddings.LeftOx = OxSize.Extra;
-                    panel.Paddings.RightOx = OxSize.Extra;
+                    panel.Paddings.TopOx = OxSize.XS;
+                    panel.Paddings.BottomOx = OxSize.XS;
+                    panel.Paddings.LeftOx = OxSize.M;
+                    panel.Paddings.RightOx = OxSize.M;
                 }
                 else
                     panel.Paddings.SetSize(OxSize.None);

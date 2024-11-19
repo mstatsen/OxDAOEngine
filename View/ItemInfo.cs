@@ -80,7 +80,7 @@ namespace OxDAOEngine.View
         private void SetSizes()
         {
             OxDock oxDock = OxDockHelper.Dock(Dock);
-            Margins.SetSize(OxSize.Medium);
+            Margins.SetSize(OxSize.XS);
             Margins[OxDockHelper.Opposite(oxDock)].SetSize(OxSize.None);
 
             if (oxDock is OxDock.Right)
@@ -88,13 +88,13 @@ namespace OxDAOEngine.View
 
             Margins.TopOx = 
                 oxDock is OxDock.Bottom 
-                    ? OxSize.Small 
+                    ? OxSize.XXS 
                     : Pinned 
-                        ? OxSize.Nine
-                        : OxSize.Large;
+                        ? OxSize.M | OxSize.XXS
+                        : OxSize.S;
 
             Margins.RightOx = OxSize.None;
-            Paddings.SetSize(OxSize.Large);
+            Paddings.SetSize(OxSize.S);
             HeaderHeight = 36;
         }
 

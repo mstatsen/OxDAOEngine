@@ -309,7 +309,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         public void RecalcPaddings() =>
-            Paddings.SetSize(OnlyText ? OxSize.None : OxSize.Medium);
+            Paddings.SetSize(OnlyText ? OxSize.None : OxSize.XS);
 
         private int FirstControlLeft =>
             Variant is QuickFilterVariant.Export

@@ -33,8 +33,8 @@ namespace OxDAOEngine.View
             );
             Builder = DataManager.Builder<TField, TDAO>(ControlScope.CardView, true);
             Layouter = Builder.Layouter;
-            Margins.SetSize(OxSize.Extra);
-            Paddings.SetSize(OxSize.Large);
+            Margins.SetSize(OxSize.M);
+            Paddings.SetSize(OxSize.S);
             HeaderHeight = 28;
             SetContentSize(CardWidth, CardHeight);
             Icon = ListController.Icon;

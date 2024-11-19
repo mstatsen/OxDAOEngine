@@ -387,8 +387,8 @@ namespace OxDAOEngine.Settings
                             ? DockStyle.Bottom 
                             : DockStyle.Fill
                 };
-            fieldsPanel.Margins.SetSize(OxSize.Large);
-            fieldsPanel.Paddings.HorizontalOx = OxSize.Medium;
+            fieldsPanel.Margins.SetSize(OxSize.S);
+            fieldsPanel.Paddings.HorizontalOx = OxSize.XS;
 
             if (part is SettingsPart.QuickFilterText)
                 fieldsPanel.SetContentSize(fieldsPanel.Width, 78);
@@ -484,8 +484,8 @@ namespace OxDAOEngine.Settings
                     Parent = parent,
                     Dock = DockStyle.Fill
                 };
-            categoriesPanel.Margins.SetSize(OxSize.Large);
-            categoriesPanel.Paddings.HorizontalOx = OxSize.Medium;
+            categoriesPanel.Margins.SetSize(OxSize.S);
+            categoriesPanel.Paddings.HorizontalOx = OxSize.XS;
             return categoriesPanel; 
         }
     }

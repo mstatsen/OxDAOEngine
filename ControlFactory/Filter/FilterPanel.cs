@@ -131,7 +131,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             ConcatControl = CreateConcatControl();
             PrepareAddGroupButton();
             Text = "Filter";
-            Margins.SetSize(OxSize.Extra);
+            Margins.SetSize(OxSize.M);
             RecalcSize();
         }
 
@@ -155,7 +155,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             AddGroupButton.Height = 20;
             AddGroupButtonParent.Parent = this;
             AddGroupButtonParent.Dock = DockStyle.Bottom;
-            AddGroupButtonParent.Paddings.SetSize(OxSize.Extra);
+            AddGroupButtonParent.Paddings.SetSize(OxSize.M);
             AddGroupButtonParent.SetContentSize(1, AddGroupButton.Height);
         }
 

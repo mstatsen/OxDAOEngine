@@ -193,7 +193,7 @@ namespace OxDAOEngine.Settings
                 Text = TypeHelper.Name(part)
             };
 
-            panel.Paddings.SetSize(OxSize.Large);
+            panel.Paddings.SetSize(OxSize.S);
             settingsPanels[settings].Add(part, panel);
             settingsPartControls[settings].Add(part, new ControlAccessorList());
             settingsTabs[settings].AddPage(panel);
@@ -371,7 +371,7 @@ namespace OxDAOEngine.Settings
                 Text = text,
                 BaseColor = MainPanel.BaseColor
             };
-            frame.Margins.SetSize(OxSize.Large);
+            frame.Margins.SetSize(OxSize.S);
 
             if (frame.Header is not null)
                 frame.Header.Visible = !text.Equals(string.Empty);
@@ -546,7 +546,7 @@ namespace OxDAOEngine.Settings
             tabControl.TabHeaderSize = new(124, 32);
             tabControl.BorderVisible = false;
             tabControl.Margins.SetSize(OxSize.None);
-            tabControl.Margins.TopOx = OxSize.Extra;
+            tabControl.Margins.TopOx = OxSize.M;
         }
 
         private void CreateSettingsTabs()
@@ -564,7 +564,7 @@ namespace OxDAOEngine.Settings
                     Text = settings.ListName,
                 };
                 tab.Margins.SetSize(OxSize.None);
-                tab.Margins.TopOx = OxSize.Extra;
+                tab.Margins.TopOx = OxSize.M;
                 tabControl.AddPage(tab, settings.Icon);
                 settingsTabs.Add(settings, tab);
                 settingsPanels.Add(settings);

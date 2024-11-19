@@ -106,8 +106,8 @@ namespace OxDAOEngine.Editor
 
         protected virtual void SetFrameMargin(TFieldGroup group, OxFrame frame)
         {
-            frame.Margins.LeftOx = OxSize.Extra;
-            frame.Margins.TopOx = OxSize.Extra;
+            frame.Margins.LeftOx = OxSize.M;
+            frame.Margins.TopOx = OxSize.M;
             frame.Margins.RightOx = OxSize.None;
             frame.Margins.BottomOx = OxSize.None;
         }

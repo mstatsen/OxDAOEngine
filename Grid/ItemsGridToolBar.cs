@@ -40,9 +40,9 @@ namespace OxDAOEngine.Grid
 
         protected override void SetToolBarPaddings()
         {
-            Paddings.SetSize(OxSize.Medium);
+            Paddings.SetSize(OxSize.XS);
             Paddings.LeftOx = OxSize.None;
-            Paddings.TopOx = OxSize.Large;
+            Paddings.TopOx = OxSize.S;
         }
 
         private bool actionsVisible = true;

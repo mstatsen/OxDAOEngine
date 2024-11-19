@@ -34,7 +34,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected abstract string ItemName();
 
-        private const int ButtonSpace = (int)OxSize.Medium;
+        private const int ButtonSpace = (int)OxSize.XS;
         private const int ButtonWidth = 28;
         private const int ButtonHeight = 20;
 
@@ -292,7 +292,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             ButtonsPanel.Parent = this;
             ButtonsPanel.Dock = DockStyle.Right;
             ButtonsPanel.Width = ButtonWidth + ButtonSpace * 2;
-            OxBorder.NewTop(ButtonsPanel, Color.Transparent, ButtonSpace);
+            OxBorder_old.NewTop(ButtonsPanel, Color.Transparent, ButtonSpace);
             InitButtons();
             LayoutButtons();
         }

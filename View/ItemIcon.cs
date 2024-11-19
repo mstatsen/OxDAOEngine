@@ -20,7 +20,7 @@ namespace OxDAOEngine.View
             builder = ListController.ControlFactory.Builder(ControlScope.IconView, true);
             Click += ClickHandler;
             layouter = builder.Layouter;
-            Margins.SetSize(OxSize.Medium);
+            Margins.SetSize(OxSize.XS);
             HandHoverCursor = true;
             fontColors = new OxColorHelper(DefaultForeColor);
             SetContentSize(IconWidth, IconHeight);
