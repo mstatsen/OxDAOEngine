@@ -417,9 +417,9 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected override void PrepareColors()
         {
             base.PrepareColors();
-            SetPaneBaseColor(ControlPanel, BaseColor);
-            SetPaneBaseColor(ButtonsPanel, BaseColor);
-            SetControlBackColor(Control, Colors.Lighter(7));
+            ControlPanel.BaseColor = BaseColor;
+            ButtonsPanel.BaseColor = BaseColor;
+            Control.BackColor = Colors.Lighter(7);
 
             if (Buttons is null)
                 return;
