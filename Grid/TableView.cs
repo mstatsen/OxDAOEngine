@@ -98,7 +98,7 @@ namespace OxDAOEngine.Grid
         protected override void PrepareColors()
         {
             base.PrepareColors();
-            SetPaneBaseColor(Grid, BaseColor);
+            Grid.BaseColor = BaseColor;
         }
 
         private void UpdateCurrentItemFullCard()
