@@ -3,7 +3,7 @@ using OxDAOEngine.Data;
 
 namespace OxDAOEngine.View
 {
-    public interface IItemView<TField, TDAO> : IOxFrame
+    public interface IItemView<TField, TDAO> : IOxPane
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {

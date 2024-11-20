@@ -11,7 +11,7 @@ namespace OxDAOEngine.Grid
     public delegate bool GetFlagValue<TField>(TField field, object? value)
         where TField : notnull, Enum;
 
-    public class OneItemGrid<TField, TDAO> : OxPanel
+    public class OneItemGrid<TField, TDAO> : OxPane
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -114,7 +114,7 @@ namespace OxDAOEngine.Grid
         protected override void PrepareInnerControls()
         {
             base.PrepareInnerControls();
-            GridView.Parent = ContentContainer;
+            GridView.Parent = this;
             GridView.RowTemplate.Height = 40;
             GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             GridView.ColumnHeadersHeight = 40;

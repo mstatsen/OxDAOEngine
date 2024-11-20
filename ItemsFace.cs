@@ -95,7 +95,7 @@ namespace OxDAOEngine
             IOxPane? firstPage = tabControl.Pages.First;
 
             if (firstPage is not null)
-                tabControl.TabButtons[firstPage].Margins.LeftOx = OxSize.XS;
+                tabControl.TabButtons[firstPage].Margin.Left = OxSize.XS;
 
             tabControl.ActivePage = Views[Settings.CurrentView];
             tabControl.Update();
@@ -112,10 +112,10 @@ namespace OxDAOEngine
                 TabPosition = OxDock.Bottom,
             };
 
-            result.Margins.SetSize(OxSize.None);
-            result.Margins.BottomOx = OxSize.XXS;
-            result.Borders[OxDock.Left].Visible = false;
-            result.Borders[OxDock.Right].Visible = false;
+            result.Margin.Size = OxSize.None;
+            result.Margin.Bottom = OxSize.XXS;
+            result.Borders.SetVisible(OxDock.Left, false);
+            result.Borders.SetVisible(OxDock.Right, false);
             return result;
         }
 
@@ -158,7 +158,7 @@ namespace OxDAOEngine
             StartLoading(
                 sender is null 
                     ? this 
-                    : ((ItemsView<TField, TDAO>)sender).ContentContainer
+                    : (ItemsView<TField, TDAO>)sender
                 );
 
         private readonly Dictionary<ItemsViewsType, OxPane> Views = new();
@@ -173,7 +173,7 @@ namespace OxDAOEngine
                 BaseColor = BaseColor,
                 BatchUpdateCompleted = BatchUpdateCompletedHandler
             };
-            result.Paddings.LeftOx = OxSize.XS;
+            result.Padding.Left = OxSize.XS;
 
             if (ListController.AvailableQuickFilter)
                 result.GridFillCompleted += (s, e) => ApplyQuickFilter();
@@ -194,7 +194,7 @@ namespace OxDAOEngine
                 Text = itemsViewsTypeHelper.Name(ItemsViewsType.Summary),
                 BaseColor = new OxColorHelper(EngineStyles.SummaryColor).BaseColor
             };
-            result.Paddings.LeftOx = OxSize.XS;
+            result.Padding.Left = OxSize.XS;
             tabControl.AddPage(result);
             Views.Add(ItemsViewsType.Summary, result);
             return result;
@@ -348,7 +348,7 @@ namespace OxDAOEngine
         }
 
         private void SetTabButtonsVisible() =>
-            tabControl.Header.Visible =
+            tabControl.HeaderVisible =
                 (ListController.AvailableCards && Settings.ShowCards) ||
                 (ListController.AvailableIcons && Settings.ShowIcons) ||
                 ListController.AvailableSummary;
@@ -370,16 +370,16 @@ namespace OxDAOEngine
         {
             loadingPanel.Parent = tabControl;
             loadingPanel.Visible = false;
-            loadingPanel.Margins.TopOx = OxSize.S;
-            loadingPanel.Borders.SetSize(OxSize.XXS);
+            loadingPanel.Margin.Top = OxSize.S;
+            loadingPanel.Borders.Size = OxSize.XXS;
         }
 
-        private void StartLoading(IOxPane? parentPanel = null)
+        private void StartLoading(OxPane? parentPanel = null)
         {
             loadingPanel.Parent = 
                 parentPanel is null 
                     ? this 
-                    : (Control)parentPanel;
+                    : parentPanel;
             loadingPanel.StartLoading();
         }
 
@@ -393,8 +393,8 @@ namespace OxDAOEngine
             quickFilter.Parent = tabControlPanel;
             quickFilter.Dock = DockStyle.Top;
             quickFilter.Changed += (s, e) => ApplyQuickFilter();
-            quickFilter.Margins.SetSize(OxSize.S);
-            quickFilter.Margins.BottomOx = OxSize.None;
+            quickFilter.Margin.Size = OxSize.S;
+            quickFilter.Margin.Bottom = OxSize.None;
             quickFilter.RenewFilterControls();
             quickFilter.PinnedChanged += (s, e) => categoriesTree.RecalcPinned();
             quickFilter.VisibleChanged += (s, e) => quickFilter.RecalcPaddings();
@@ -409,11 +409,11 @@ namespace OxDAOEngine
 
             categoriesTree.Parent = this;
             categoriesTree.Dock = DockStyle.Left;
-            categoriesTree.Margins.TopOx = OxSize.S;
-            categoriesTree.Margins.LeftOx = OxSize.XS;
-            categoriesTree.Margins.BottomOx = OxSize.XS;
-            categoriesTree.Margins.RightOx = OxSize.None;
-            categoriesTree.Paddings.SetSize(OxSize.XS);
+            categoriesTree.Margin.Top = OxSize.S;
+            categoriesTree.Margin.Left = OxSize.XS;
+            categoriesTree.Margin.Bottom = OxSize.XS;
+            categoriesTree.Margin.Right = OxSize.None;
+            categoriesTree.Padding.Size = OxSize.XS;
             categoriesTree.Borders[OxDock.Right].Visible = false;
             categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;
             categoriesTree.ActiveCategoryChanged += RenewFilterControls;
@@ -537,7 +537,10 @@ namespace OxDAOEngine
                             ? SettingsPart.Icons
                             : SettingsPart.Table;
 
-        public Bitmap? Icon => ListController.Icon;
+        protected override Bitmap? GetIcon()
+        {
+            return ListController.Icon;
+        }
 
         private readonly TableView<TField, TDAO> tableView;
         private readonly ItemsView<TField, TDAO>? cardsView;

@@ -46,14 +46,14 @@ namespace OxDAOEngine.Editor
 
         private void PrepareControlColors() 
         {
-            foreach (Control control in MainPanel.ContentContainer.Controls)
+            foreach (Control control in MainPanel.Controls)
                 if (control is not OxLabel)
                     ControlPainter.ColorizeControl(
                         control,
                         MainPanel.BaseColor
                     );
 
-            MainPanel.ContentContainer.BackColor = MainPanel.Colors.Lighter(8);
+            MainPanel.BackColor = MainPanel.Colors.Lighter(8);
         }
 
         private bool firstLoad = true;
@@ -62,7 +62,7 @@ namespace OxDAOEngine.Editor
         {
             base.OnLoad(e);
             int height = ContentHeight + (firstLoad ? 0 : 6);
-            SetContentSize(ContentWidth, height);
+            Size = new(ContentWidth, height);
 
             if (firstLoad)
                 firstLoad = false;
@@ -71,7 +71,7 @@ namespace OxDAOEngine.Editor
         private void CreateControls(ControlBuilder<TField, TDAO> builder) 
         {
             uniqueKeyAccessor = builder.Accessor("UniqueKey", FieldType.Guid);
-            uniqueKeyAccessor.Parent = this;
+            uniqueKeyAccessor.Parent = MainPanel;
             uniqueKeyAccessor.Left = 12;
             uniqueKeyAccessor.Top = 12;
             uniqueKeyAccessor.Width = 340;
@@ -79,9 +79,9 @@ namespace OxDAOEngine.Editor
             uniqueKeyAccessor.ReadOnly = true;
             ((OxTextBox)uniqueKeyAccessor.ReadOnlyControl!).Multiline = false;
 
-            copyButton.Parent = this;
+            copyButton.Parent = MainPanel;
             copyButton.Top = 8;
-            copyButton.SetContentSize(64, 24);
+            copyButton.Size = new(64, 24);
             copyButton.Left = 336;
             copyButton.Click += CopyHandler;
         }

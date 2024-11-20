@@ -8,7 +8,7 @@ using OxDAOEngine.Statistic;
 
 namespace OxDAOEngine.Grid
 {
-    public class ItemsViewer<TField, TDAO> : OxPanel
+    public class ItemsViewer<TField, TDAO> : OxPane
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -22,10 +22,10 @@ namespace OxDAOEngine.Grid
         {
             Grid = new ItemsRootGrid<TField, TDAO>(itemList, usage)
             {
-                Parent = ContentContainer,
+                Parent = this,
                 Dock = DockStyle.Fill,
             };
-            Grid.Paddings.SetSize(OxSize.None);
+            Grid.Padding.Size = OxSize.None;
             statisticPanel = CreateStatisticPanel();
             ReAlign();
         }
@@ -58,7 +58,7 @@ namespace OxDAOEngine.Grid
             new(Grid)
             {
                 Dock = DockStyle.Bottom,
-                Parent = ContentContainer
+                Parent = this
             };
 
         protected override void AfterCreated()

@@ -92,7 +92,7 @@ namespace OxDAOEngine.ControlFactory
             control.Top = Top;
 
             if (control is OxPane pane)
-                pane.SetContentSize(Width, Height);
+                pane.Size = new(Width, Height);
             else
             {
                 control.Width = Width;

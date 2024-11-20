@@ -28,7 +28,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
             FieldVariantHelper variantHelper = TypeHelper.Helper<FieldVariantHelper>();
 
             fieldsAccessor = DataManager.Builder<TField, TDAO>(variantHelper.Scope(Variant)).FieldListAccessor(Variant);
-            fieldsAccessor.Parent = ContentContainer;
+            fieldsAccessor.Parent = this;
             fieldsAccessor.Dock = DockStyle.Fill;
 
             FieldsControl<TField, TDAO> fieldsControl = (FieldsControl<TField, TDAO>)fieldsAccessor.Control;
@@ -69,12 +69,11 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
             OxButton button = new(helper.Name(filling), helper.ButtonIcon(filling))
             {
                 Font = Styles.Font(-1, FontStyle.Bold),
-                ToolTipText = helper.FullName(filling)
+                ToolTipText = helper.FullName(filling),
+                Size = new(helper.ButtonWidth(filling), 23),
+                Tag = filling
             };
-
-            button.SetContentSize(helper.ButtonWidth(filling), 23);
             button.Click += ToolButtonClick;
-            button.Tag = filling;
             toolButtons.Add(filling, button);
         }
 

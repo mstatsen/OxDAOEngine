@@ -64,14 +64,14 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected virtual void PrepareControlColors() 
         {
-            foreach (Control control in MainPanel.ContentContainer.Controls)
+            foreach (Control control in MainPanel.Controls)
                 if (control is not OxLabel)
                     ControlPainter.ColorizeControl(
                         control,
                         MainPanel.BaseColor
                     );
 
-            MainPanel.ContentContainer.BackColor = MainPanel.Colors.Lighter(8);
+            MainPanel.BackColor = MainPanel.Colors.Lighter(8);
         }
 
         protected override void OnShown(EventArgs e) => 
@@ -87,7 +87,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         }
 
         protected virtual void RecalcSize() => 
-            SetContentSize(ContentWidth, ContentHeight + (FirstLoad ? 0 : 6));
+            Size = new(ContentWidth, ContentHeight + (FirstLoad ? 0 : 6));
 
         protected virtual void CreateControls() { }
 

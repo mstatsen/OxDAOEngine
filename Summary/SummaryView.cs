@@ -33,8 +33,7 @@ namespace OxDAOEngine.Summary
         public SummaryView() : base()
         {
             layouter.PanelsAlign = PanelsHorizontalAlign.OneColumn;
-            Borders.HorizontalOx = OxSize.None;
-            Borders.VerticalOx = OxSize.None;
+            Borders.Size = OxSize.None;
         }
 
         public override Color DefaultColor => EngineStyles.SummaryColor;
@@ -43,9 +42,10 @@ namespace OxDAOEngine.Summary
         {
             base.PrepareInnerControls();
             PrepareDictionaries();
-            layouter.Parent = ContentContainer;
+            layouter.Parent = this;
             layouter.Dock = DockStyle.Top;
-            ContentContainer.AutoScroll = true;
+            AutoScroll = true;
+            //ContentBox.AutoScroll = true;
         }
 
         private void PrepareDictionaries()
@@ -86,7 +86,10 @@ namespace OxDAOEngine.Summary
             IterateSummaryPanels(
                 (panel) =>
                 {
-                    panel.Margins.Horizontal = panel.Expanded ? 12 : 32;
+                    panel.Margin.Horizontal = 
+                        panel.Expanded 
+                            ? OxSize.M | OxSize.S 
+                            : OxSize.XL;
                     panel.Borders[OxDock.Top].Visible = !prevExpanded;
                     panel.Header.UnderlineVisible = 
                         panel.Expanded 
@@ -98,13 +101,13 @@ namespace OxDAOEngine.Summary
             RecalcSize();
         }
 
-        private void IterateSummaryPanels(SummaryPanelHandler handler)
+        private void IterateSummaryPanels(SummaryPanelHandler<TField, TDAO> handler)
         {
-            foreach (ISummaryPanel summaryPanel in SummaryPanels)
+            foreach (SummaryPanel<TField, TDAO> summaryPanel in SummaryPanels)
                 handler(summaryPanel);
         }
 
-        private readonly List<ISummaryPanel> SummaryPanels = new();
+        private readonly List<SummaryPanel<TField, TDAO>> SummaryPanels = new();
 
         protected override void PrepareColors()
         {

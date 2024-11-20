@@ -24,7 +24,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            SetContentSize(360, 120);
+            Size = new(360, 120);
             SetItemsCount();
         }
 

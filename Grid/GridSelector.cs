@@ -41,15 +41,22 @@ namespace OxDAOEngine.Grid
 
         public void FocusOnRow(int topRowIndex)
         {
-            if (grid.RowCount is 0)
+            if (!grid.Visible 
+                || grid.RowCount is 0)
                 return;
 
-            if (topRowIndex > -1
-                && topRowIndex < grid.RowCount
-                && grid.Rows[topRowIndex].Visible)
-                grid.FirstDisplayedScrollingRowIndex = topRowIndex;
-            else
-                FocusOnFirstRow();
+            try
+            {
+                if (topRowIndex > -1
+                    && topRowIndex < grid.RowCount
+                    && grid.Rows[topRowIndex].Visible)
+                    grid.FirstDisplayedScrollingRowIndex = topRowIndex;
+                else
+                    FocusOnFirstRow();
+            }
+            catch
+            { 
+            }
         }
 
         public RootListDAO<TField, TDAO> GetSelectedItems()

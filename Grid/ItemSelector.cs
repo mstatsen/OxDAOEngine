@@ -60,9 +60,9 @@ namespace OxDAOEngine.Grid
             if (!DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
                 return;
 
-            QuickFilter.Parent = ContentContainer;
+            QuickFilter.Parent = this;
             QuickFilter.Dock = DockStyle.Top;
-            QuickFilter.Margins.BottomOx = OxSize.S;
+            QuickFilter.Margin.Bottom = OxSize.S;
             QuickFilter.Height += 20;
             QuickFilter.Changed += (s, e) => ApplyQuickFilter();
             QuickFilter.RenewFilterControls();

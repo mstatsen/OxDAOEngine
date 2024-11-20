@@ -15,14 +15,14 @@ namespace OxDAOEngine.Grid
     {
         public TableView() : base() 
         {
-            Borders.SetSize(OxSize.None);
+            Borders.Size = OxSize.None;
             Grid.Parent = this;
             Grid.Dock = DockStyle.Fill;
             Grid.ToolbarActionClick += (s, e) => ExecuteAction(e.Action);
             Grid.CurrentItemChanged += CurrentItemChangeHandler;
             InfoPanel = DataManager.ControlFactory<TField, TDAO>().CreateInfoPanel();
-            Margins.BottomOx = OxSize.XS;
-            Margins.RightOx = OxSize.S;
+            Margin.Bottom = OxSize.XS;
+            Margin.Right = OxSize.S;
             PrepareInfoPanel();
         }
 
@@ -38,7 +38,7 @@ namespace OxDAOEngine.Grid
                 return;
 
             InfoPanel.Parent = this;
-            InfoPanel.SetContentSize(500, 250);
+            InfoPanel.Size = new(500, 250);
         }
 
         public void ApplyQuickFilter(IMatcher<TField>? filter) =>

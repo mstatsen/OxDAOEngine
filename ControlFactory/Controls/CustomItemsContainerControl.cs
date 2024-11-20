@@ -292,7 +292,12 @@ namespace OxDAOEngine.ControlFactory.Controls
             ButtonsPanel.Parent = this;
             ButtonsPanel.Dock = DockStyle.Right;
             ButtonsPanel.Width = ButtonWidth + ButtonSpace * 2;
-            OxBorder_old.NewTop(ButtonsPanel, Color.Transparent, ButtonSpace);
+            _ = new OxPane(new(1, ButtonSpace))
+            {
+                Parent = ButtonsPanel,
+                Dock = DockStyle.Top,
+                BaseColor = BaseColor
+            };
             InitButtons();
             LayoutButtons();
         }

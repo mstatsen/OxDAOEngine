@@ -3,7 +3,7 @@ using OxLibrary.Panels;
 
 namespace OxDAOEngine.ControlFactory.Controls.Links
 {
-    public class LinkButtonList : OxPanel
+    public class LinkButtonList : OxPane
     {
         private ButtonListDirection direction = ButtonListDirection.Vertical;
         public ButtonListDirection Direction
@@ -20,7 +20,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                         break;
                     case ButtonListDirection.Horizontal:
                         Dock = DockStyle.Top;
-                        Paddings.TopOx = OxSize.M;
+                        Padding.Top = OxSize.M;
                         break;
                 }
             }
@@ -112,7 +112,8 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                             - ButtonSpace * (Buttons.Count - 1))
                     - button.BorderWidth * 2;
 
-            button.SetContentSize(
+            button.Size = new
+            (
                 calcedWidth,
                 ButtonHeight
             );

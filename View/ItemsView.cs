@@ -11,7 +11,7 @@ namespace OxDAOEngine.View
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new();
 
-    public sealed class ItemsView<TField, TDAO> : OxPanel
+    public sealed class ItemsView<TField, TDAO> : OxPane
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -79,8 +79,13 @@ namespace OxDAOEngine.View
         {
             paginator.Parent = this;
             base.PrepareInnerControls();
-            Layouter.Parent = ContentContainer;
-            ContentContainer.AutoScroll = true;
+            /*
+            Layouter.Parent = ContentBox;
+            ContentBox.AutoScroll = true;
+            */
+
+            Layouter.Parent = this;
+            AutoScroll = true;
         }
 
         protected override void PrepareColors()
@@ -175,14 +180,14 @@ namespace OxDAOEngine.View
         private void StartLoading()
         {
             Layouter.Visible = false;
-            ContentContainer.Update();
+            //ContentBox.Update();
             LoadingStarted?.Invoke(this, EventArgs.Empty);
         }
 
         private void EndLoading()
         {
             Layouter.Visible = true;
-            Layouter.SetContentSize(Layouter.SavedWidth, Layouter.SavedHeight + 1);
+            Layouter.Size = new(Layouter.Width, Layouter.Height + 1);
             LoadingEnded?.Invoke(this, EventArgs.Empty);
         }
 

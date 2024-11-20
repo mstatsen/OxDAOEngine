@@ -7,6 +7,7 @@ using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.View.Types;
+using OxLibrary.Panels;
 
 namespace OxDAOEngine.Settings
 {
@@ -35,8 +36,8 @@ namespace OxDAOEngine.Settings
         //ExportSettings ExportSettings { get; }
         List<object> GetFields(SettingsPart part);
         void SetFields(SettingsPart part, List<object> value);
-        IFieldsPanel CreateFieldsPanel(SettingsPart part, Control parent);
-        ICategoriesPanel CreateCategoriesPanel(Control parent);
+        IFieldsPanel CreateFieldsPanel(SettingsPart part, OxPane parent);
+        ICategoriesPanel CreateCategoriesPanel(OxPane parent);
         bool AvailableSummary { get; set; }
         bool AvailableCategories { get; set; }
         bool AvailableQuickFilter { get; set; }

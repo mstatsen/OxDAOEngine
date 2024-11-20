@@ -18,6 +18,7 @@ using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.View.Types;
 using OxDAOEngine.XML;
+using OxLibrary.Panels;
 
 namespace OxDAOEngine.Settings
 {
@@ -376,7 +377,7 @@ namespace OxDAOEngine.Settings
         public void SetFields(SettingsPart part, List<object> value) =>
             fields[part].ObjectList = value;
 
-        public IFieldsPanel CreateFieldsPanel(SettingsPart part, Control parent)
+        public IFieldsPanel CreateFieldsPanel(SettingsPart part, OxPane parent)
         {
             IFieldsPanel fieldsPanel =
                 new FieldsPanel<TField, TDAO>(FieldVariantHelper.Variant(part))
@@ -387,11 +388,11 @@ namespace OxDAOEngine.Settings
                             ? DockStyle.Bottom 
                             : DockStyle.Fill
                 };
-            fieldsPanel.Margins.SetSize(OxSize.S);
-            fieldsPanel.Paddings.HorizontalOx = OxSize.XS;
+            fieldsPanel.Margin.Size = OxSize.S;
+            fieldsPanel.Padding.Horizontal = OxSize.XS;
 
             if (part is SettingsPart.QuickFilterText)
-                fieldsPanel.SetContentSize(fieldsPanel.Width, 78);
+                fieldsPanel.Size = new(fieldsPanel.Width, 78);
 
             return fieldsPanel;
         }
@@ -476,7 +477,7 @@ namespace OxDAOEngine.Settings
                 _ => base.DAODefault(setting),
             };
 
-        public ICategoriesPanel CreateCategoriesPanel(Control parent)
+        public ICategoriesPanel CreateCategoriesPanel(OxPane parent)
         {
             ICategoriesPanel categoriesPanel =
                 new CategroiesPanel<TField, TDAO>()
@@ -484,8 +485,8 @@ namespace OxDAOEngine.Settings
                     Parent = parent,
                     Dock = DockStyle.Fill
                 };
-            categoriesPanel.Margins.SetSize(OxSize.S);
-            categoriesPanel.Paddings.HorizontalOx = OxSize.XS;
+            categoriesPanel.Margin.Size = OxSize.S;
+            categoriesPanel.Padding.Horizontal = OxSize.XS;
             return categoriesPanel; 
         }
     }

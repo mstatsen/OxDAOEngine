@@ -7,9 +7,11 @@ using OxDAOEngine.Data.Fields;
 
 namespace OxDAOEngine.Summary
 {
-    public delegate void SummaryPanelHandler(ISummaryPanel panel);
+    public delegate void SummaryPanelHandler<TField, TDAO>(SummaryPanel<TField, TDAO> panel)
+        where TField : notnull, Enum
+        where TDAO : RootDAO<TField>, new();
 
-    public class SummaryPanel<TField, TDAO> : OxCard, ISummaryPanel
+    public class SummaryPanel<TField, TDAO> : OxCard
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -22,7 +24,7 @@ namespace OxDAOEngine.Summary
             Text = IsGeneralSummaryPanel
                 ? "General"
                 : $"by {TypeHelper.Name(field)}";
-            Paddings.Horizontal = 24;
+            Padding.HorizontalInt = 24;
         }
 
         private readonly FieldHelper<TField> FieldHelper = 
@@ -44,8 +46,8 @@ namespace OxDAOEngine.Summary
             foreach (IControlAccessor accessor in ValueAccessors.Values)
                 maxBottom = Math.Max(accessor.Bottom, maxBottom);
 
-            Header.SetContentSize(SummaryConsts.CardWidth, SummaryConsts.CardHeaderHeight);
-            SetContentSize(
+            Header.Size = new(SummaryConsts.CardWidth, SummaryConsts.CardHeaderHeight);
+            Size = new(
                 SummaryConsts.CardWidth,
                 Math.Max(SummaryConsts.CardHeight, maxBottom + SummaryConsts.CardHeaderHeight * 2)
             );
@@ -122,7 +124,7 @@ namespace OxDAOEngine.Summary
                 IControlAccessor accessor = ValueAccessors.CreateAccessor(
                     field,
                     extractItem.Key,
-                    ContentContainer,
+                    this,
                     ExtractItemCaptionHandler(field, extractItem.Key),
                     extractItem.Value,
                     nextLocation

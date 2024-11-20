@@ -92,17 +92,17 @@ namespace OxDAOEngine.ControlFactory.Accessors
             base.SetReadOnly(value);
 
             if (CustomControl is not null 
-                && CustomControl.Parent?.Parent is OxPanel panel)
+                && CustomControl.Parent?.Parent is OxPane panel)
             {
                 if (value)
                 {
-                    panel.Paddings.TopOx = OxSize.XS;
-                    panel.Paddings.BottomOx = OxSize.XS;
-                    panel.Paddings.LeftOx = OxSize.M;
-                    panel.Paddings.RightOx = OxSize.M;
+                    panel.Padding.Top = OxSize.XS;
+                    panel.Padding.Bottom = OxSize.XS;
+                    panel.Padding.Left = OxSize.M;
+                    panel.Padding.Right = OxSize.M;
                 }
                 else
-                    panel.Paddings.SetSize(OxSize.None);
+                    panel.Padding.Size = OxSize.None;
             }
         }
 

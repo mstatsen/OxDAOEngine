@@ -11,7 +11,7 @@ using OxDAOEngine.Data.Fields.Types;
 namespace OxDAOEngine.Grid
 {
 
-    public class ItemsGrid<TField, TDAO> : OxPanel
+    public class ItemsGrid<TField, TDAO> : OxPane
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -363,20 +363,20 @@ namespace OxDAOEngine.Grid
         protected override void PrepareInnerControls()
         {
             base.PrepareInnerControls();
-            GridView.Parent = ContentContainer;
+            GridView.Parent = this;
             GridView.RowTemplate.Height = 40;
             PrepareToolBar();
-            Paddings.LeftOx = OxSize.XS;
+            Padding.Left = OxSize.XS;
         }
 
         private void PrepareToolBar()
         {
-            ToolBar.Parent = ContentContainer;
+            ToolBar.Parent = this;
             ToolBar.Dock = DockStyle.Top;
-            ToolBar.Margins.TopOx = OxSize.None;
-            ToolBar.Margins.BottomOx = OxSize.XS;
-            ToolBar.Borders.RightOx = OxSize.None;
-            ToolBar.Borders.LeftOx = OxSize.None;
+            ToolBar.Margin.Top = OxSize.None;
+            ToolBar.Margin.Bottom = OxSize.XS;
+            ToolBar.Borders.Right = OxSize.None;
+            ToolBar.Borders.Left = OxSize.None;
             ToolBar.AllowEditingActions = false;
         }
 

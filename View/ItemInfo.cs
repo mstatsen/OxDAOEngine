@@ -6,7 +6,6 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
-using OxDAOEngine.Grid;
 
 namespace OxDAOEngine.View
 {
@@ -56,7 +55,8 @@ namespace OxDAOEngine.View
 
         public ItemInfo() : base()
         {
-            ContentContainer.AutoScroll = true;
+            AutoScroll = true;
+            //ContentBox.AutoScroll = true;
             PreparePanels();
             Layouter = Builder.Layouter;
             SetSizes();
@@ -80,21 +80,21 @@ namespace OxDAOEngine.View
         private void SetSizes()
         {
             OxDock oxDock = OxDockHelper.Dock(Dock);
-            Margins.SetSize(OxSize.XS);
-            Margins[OxDockHelper.Opposite(oxDock)].SetSize(OxSize.None);
+            Margin.Size = OxSize.XS;
+            Margin[OxDockHelper.Opposite(oxDock)].Size = OxSize.None;
 
             if (oxDock is OxDock.Right)
-                Margins.BottomOx = OxSize.None;
+                Margin.Bottom = OxSize.None;
 
-            Margins.TopOx = 
+            Margin.Top = 
                 oxDock is OxDock.Bottom 
                     ? OxSize.XXS 
                     : Pinned 
                         ? OxSize.M | OxSize.XXS
                         : OxSize.S;
 
-            Margins.RightOx = OxSize.None;
-            Paddings.SetSize(OxSize.S);
+            Margin.Right = OxSize.None;
+            Padding.Size = OxSize.S;
             HeaderHeight = 36;
         }
 
@@ -110,7 +110,7 @@ namespace OxDAOEngine.View
             if (FontColors is not null)
                 Header.Label.ForeColor = FontColors.BaseColor;
 
-            foreach (OxPanel panel in panels)
+            foreach (OxPane panel in panels)
                 panel.BaseColor = BaseColor;
 
             foreach (OxHeader header in Headers.Values)
@@ -187,7 +187,7 @@ namespace OxDAOEngine.View
 
         protected virtual string? GetTitle() => Item?.ToString();
 
-        protected void PreparePanel(OxPanel panel, string text)
+        protected void PreparePanel(OxPane panel, string text)
         {
             panel.Parent = this;
             panel.Dock = DockStyle.Top;
@@ -232,7 +232,7 @@ namespace OxDAOEngine.View
 
         private void RecalcControlsVisible()
         {
-            foreach (OxPanel parentPanel in LayoutsLists.Keys)
+            foreach (OxPane parentPanel in LayoutsLists.Keys)
             {
                 Headers.TryGetValue(parentPanel, out var header);
 
@@ -270,9 +270,7 @@ namespace OxDAOEngine.View
 
                 parentPanel.Height = maxBottom + 36;
                 parentPanel.Visible = visibleControlsExists;
-
-                if (header is not null)
-                    header.Visible = visibleControlsExists;
+                HeaderVisible = visibleControlsExists;
             }
         }
 
@@ -314,10 +312,11 @@ namespace OxDAOEngine.View
         protected readonly ControlLayouter<TField, TDAO> Layouter;
         protected OxColorHelper FontColors;
         protected readonly Dictionary<OxPane, OxHeader> Headers = new();
-        protected readonly List<OxPanel> panels = new();
-        protected readonly Dictionary<OxPanel, ControlLayouts<TField>> LayoutsLists = new();
+        protected readonly List<OxPane> panels = new();
+        protected readonly Dictionary<OxPane, ControlLayouts<TField>> LayoutsLists = new();
         public void ScrollToTop() =>
-            ContentContainer.AutoScrollPosition = new(0, 0);
+            //ContentBox.AutoScrollPosition = new(0, 0);
+            AutoScrollPosition = new(0, 0);
 
         private ItemsView<TField, TDAO>? itemsView;
         public ItemsView<TField, TDAO>? ItemsView

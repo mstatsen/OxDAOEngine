@@ -19,7 +19,8 @@ namespace OxDAOEngine.Data.Fields
         public void SetGroupsSize()
         {
             foreach (var group in this)
-                group.Value.SetContentSize(
+                group.Value.Size = new
+                (
                     Width(group.Key),
                     Height(group.Key)
                 );
@@ -30,10 +31,10 @@ namespace OxDAOEngine.Data.Fields
             if (!fieldGroupHelper.IsCalcedHeightGroup(group))
                 return fieldGroupHelper.DefaultGroupHeight(group);
 
-            OxPanel groupFrame = this[group];
+            OxFrame groupFrame = this[group];
             int height = 0;
 
-            foreach (Control control in groupFrame.ContentContainer.Controls)
+            foreach (Control control in groupFrame.Controls)
                 if (control.Visible)
                     height = Math.Max(control.Bottom, height);
 

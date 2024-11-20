@@ -22,13 +22,13 @@ namespace OxDAOEngine.ControlFactory.Controls.Sorting
             BaseColor = variantHelper.BaseColor(variant);
 
             sortingControlAccessor = DataManager.Builder<TField, TDAO>(Scope).SortingListAccessor();
-            sortingControlAccessor.Parent = ContentContainer;
+            sortingControlAccessor.Parent = this;
             sortingControlAccessor.Dock = DockStyle.Fill;
             sortingControlAccessor.Value = sortings;
             sortingControlAccessor.ValueChangeHandler += ChangeSortingHandler;
 
             PrepareColors();
-            SetContentSize(240, 94);
+            Size = new(240, 94);
         }
 
         public ControlScope Scope { get; set; }
@@ -54,7 +54,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Sorting
         protected override void PrepareInnerControls()
         {
             base.PrepareInnerControls();
-            ClearButton.SetContentSize(80, 23);
+            ClearButton.Size = new(80, 23);
             ClearButton.Click += (s, e) => ClearControls();
             Header.AddToolButton(ClearButton);
         }

@@ -42,7 +42,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             Color dialogBaseColor = new OxColorHelper(ControlColor).Darker(7);
             TListControl editor = new()
             {
-                Parent = dialog,
+                Parent = dialog.MainPanel,
                 Dock = DockStyle.Fill,
                 OwnerDAO = OwnerDAO,
                 Font = Font,
@@ -53,7 +53,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             editor.FixedItems = FixedItems;
             dialog.FirstFocusControl = editor.Control;
             dialog.SetKeyUpHandler(editor.Control);
-            dialog.SetContentSize(360, 240);
+            dialog.Size = new(360, 240);
             dialog.Text = editor.Text;
             dialog.BaseColor = dialogBaseColor;
 

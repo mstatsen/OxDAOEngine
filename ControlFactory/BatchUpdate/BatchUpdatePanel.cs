@@ -52,14 +52,14 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
 
         public BatchUpdatePanel(OxForm form) : base(form)
         {
+            Size = new(360, 120);
             controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
             countLabel.Parent = this;
-            countLabel.Top = ContentContainer.Height - 30;
+            countLabel.Top = Height - 30;
             ControlPainter.ColorizeControl(countLabel, BaseColor);
             FieldAccessor = (FieldAccessor<TField, TDAO>)controlBuilder[TypeHelper.FieldHelper<TField>().FieldMetaData];
             PrepareFieldAccessor();
             Text = BatchUpdateTitle;
-            SetContentSize(360, 120);
         }
 
         public bool FieldIsEmpty =>
@@ -106,7 +106,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
                 Anchors = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right,
             };
 
-            fieldLayout.Width = SavedWidth - fieldLayout.Left - 16;
+            fieldLayout.Width = Width - fieldLayout.Left - 16;
             return FieldAccessor.LayoutControl(fieldLayout);
         }
 

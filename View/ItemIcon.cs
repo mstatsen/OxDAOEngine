@@ -7,7 +7,6 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.View.Types;
-using OxDAOEngine.Grid;
 
 namespace OxDAOEngine.View
 {
@@ -20,10 +19,10 @@ namespace OxDAOEngine.View
             builder = ListController.ControlFactory.Builder(ControlScope.IconView, true);
             Click += ClickHandler;
             layouter = builder.Layouter;
-            Margins.SetSize(OxSize.XS);
+            Margin.Size = OxSize.XS;
             HandHoverCursor = true;
             fontColors = new OxColorHelper(DefaultForeColor);
-            SetContentSize(IconWidth, IconHeight);
+            Size = new(IconWidth, IconHeight);
         }
 
         private IconSize IconsSize => ListController.Settings.IconsSize;
@@ -246,7 +245,7 @@ namespace OxDAOEngine.View
         private void RecolorControls()
         {
             foreach (Control control in placedControls)
-                control.BackColor = ContentContainer.BackColor;
+                control.BackColor = BackColor;
         }
 
         public void ApplySettings() { }
@@ -265,7 +264,7 @@ namespace OxDAOEngine.View
                 if (item is not null)
                     item.ChangeHandler -= ItemChangeHandler;
 
-                SetContentSize(IconWidth, IconHeight);
+                Size = new(IconWidth, IconHeight);
                 item = value;
 
                 if (item is not null)

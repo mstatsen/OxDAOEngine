@@ -41,8 +41,8 @@ namespace OxDAOEngine.Settings
 
             if (ListController.AvailableQuickFilter)
             { 
-                quickFilter!.Parent = this;
-                quickFilter!.Margins.HorizontalOx = OxSize.M;
+                quickFilter!.Parent = MainPanel;
+                quickFilter!.Margin.Horizontal = OxSize.M;
             }
 
             PrepareHTMLControls();
@@ -66,7 +66,7 @@ namespace OxDAOEngine.Settings
             PrepareSelectedItemsGrid();
 
             GeneralPanel = CreateFrame("General");
-            GeneralPanel.Margins.TopOx = OxSize.M;
+            GeneralPanel.Margin.Top = OxSize.M;
 
             formatAccessor = Builder.Accessor<ExportFormat>();
             formatAccessor.Value = settings.Format;
@@ -91,10 +91,10 @@ namespace OxDAOEngine.Settings
 
         private void PrepareSelectedItemsPanel()
         {
-            selectedItemsPanel.Parent = this;
-            selectedItemsPanel.SetContentSize(100, 200);
+            selectedItemsPanel.Parent = MainPanel;
+            selectedItemsPanel.Size = new(100, 200);
             selectedItemsPanel.Visible = false;
-            selectedItemsPanel.Paddings.SetSize(OxSize.None);
+            selectedItemsPanel.Padding.Size = OxSize.None;
         }
 
         private void PrepareSelectedItemsGrid()
@@ -182,7 +182,7 @@ namespace OxDAOEngine.Settings
                 Dock = DockStyle.Top,
                 Visible = FunctionalPanelVisible.Fixed
             };
-            quickFilter.Margins.BottomOx = OxSize.M;
+            quickFilter.Margin.Bottom = OxSize.M;
         }
 
         private OxButtonEdit CreateButtonEdit(string? value, EventHandler? onClick)
@@ -197,13 +197,13 @@ namespace OxDAOEngine.Settings
             return buttonEdit;
         }
 
-        private static OxPanel CreateExtraPanel(int height) => new()
+        private static OxPane CreateExtraPanel(int height) => new()
         {
             Dock = DockStyle.Top,
             Height = height
         };
 
-        private void PrepareExtraPanel(OxPanel panel, ExportFormat format)
+        private void PrepareExtraPanel(OxPane panel, ExportFormat format)
         {
             OxFrame parentFrame = extraSettingsFrames[format];
             panel.Parent = parentFrame;
@@ -241,8 +241,8 @@ namespace OxDAOEngine.Settings
             htmlSortingPanel.Sortings = settings.HTML.Sorting;
             htmlSortingPanel.Parent = htmlsPanel;
             htmlSortingPanel.Dock = DockStyle.Right;
-            htmlSortingPanel.Paddings.HorizontalOx = OxSize.XS;
-            htmlSortingPanel.SetContentSize(168, htmlSortingPanel.SavedHeight);
+            htmlSortingPanel.Padding.Horizontal = OxSize.XS;
+            htmlSortingPanel.Size = new(168, htmlSortingPanel.Height);
             htmlSortingPanel.Visible = FunctionalPanelVisible.Fixed;
         }
 
@@ -264,9 +264,9 @@ namespace OxDAOEngine.Settings
                 Dock = DockStyle.Top,
                 BaseColor = MainPanel.BaseColor
             };
-            frame.Margins.SetSize(OxSize.M);
-            frame.Margins.TopOx = OxSize.None;
-            frame.Paddings.SetSize(OxSize.M);
+            frame.Margin.Size = OxSize.M;
+            frame.Margin.Top = OxSize.None;
+            frame.Padding.Size = OxSize.M;
 
             if (caledSize)
                 FramesControls.Add(frame, new List<Control>());
@@ -350,8 +350,8 @@ namespace OxDAOEngine.Settings
         {
             panel.Parent = parent;
             panel.Dock = DockStyle.Fill;
-            panel.Margins[ExtraMarginsDock].SetSize(OxSize.M);
-            panel.Paddings.HorizontalOx = OxSize.XS;
+            panel.Margin[ExtraMarginsDock].Size = OxSize.M;
+            panel.Padding.Horizontal = OxSize.XS;
         }
 
         private void PrepareGroupByPanel()
@@ -359,8 +359,8 @@ namespace OxDAOEngine.Settings
             groupByPanel.Sortings = settings.Text.Grouping;
             groupByPanel.Parent = textsPanel;
             groupByPanel.Dock = DockStyle.Left;
-            groupByPanel.Paddings.HorizontalOx = OxSize.XS;
-            groupByPanel.SetContentSize(200, groupByPanel.SavedHeight);
+            groupByPanel.Padding.Horizontal = OxSize.XS;
+            groupByPanel.Size = new(200, groupByPanel.Height);
             groupByPanel.Visible = FunctionalPanelVisible.Fixed;
         }
 
@@ -403,7 +403,7 @@ namespace OxDAOEngine.Settings
             List<Control> framesControls = FramesControls[frame];
 
             for (int i = framesControls.Count - 1; i > -1; i--)
-                if (framesControls[i] is not OxPanel)
+                if (framesControls[i] is not OxPane)
                     return framesControls[i].Bottom + 8;
 
             return 0;
@@ -414,7 +414,7 @@ namespace OxDAOEngine.Settings
 
         private void CalcExtraPanelSize(OxFrame frame)
         {
-            OxPanel? panel =
+            OxPane? panel =
                 frame.Equals(extraSettingsFrames[ExportFormat.Html])
                     ? htmlGeneralPanel
                     : frame.Equals(extraSettingsFrames[ExportFormat.Text])
@@ -424,8 +424,8 @@ namespace OxDAOEngine.Settings
             if (panel is null)
                 return;
 
-            panel.SetContentSize(
-                panel.SavedWidth,
+            panel.Size = new(
+                panel.Width,
                 GetLastControlBottom(frame)
             );
         }
@@ -435,8 +435,8 @@ namespace OxDAOEngine.Settings
             CalcExtraPanelSize(frame);
             List<Control> frameControls = FramesControls[frame];
 
-            frame.SetContentSize(
-                frame.SavedWidth,
+            frame.Size = new(
+                frame.Width,
                 frame.Equals(extraSettingsFrames[ExportFormat.Html])
                     ? htmlsPanel.Bottom
                     : frame.Equals(extraSettingsFrames[ExportFormat.Text])
@@ -444,9 +444,9 @@ namespace OxDAOEngine.Settings
                         : frameControls.Count > 0
                             ? frameControls[^1].Bottom
                             : 24
-                + frame.Margins.Top
-                + frame.Paddings.Top
-                + frame.Paddings.Bottom
+                + frame.Margin.TopInt
+                + frame.Padding.TopInt
+                + frame.Padding.BottomInt
                 + 12
             );
 
@@ -463,9 +463,9 @@ namespace OxDAOEngine.Settings
                 control.Left = maxLeft;
                 control.Width = frame.Width
                     - maxLeft
-                    - frame.Margins.Right
-                    - frame.Margins.Left
-                    - frame.Paddings.Right
+                    - frame.Margin.Right
+                    - frame.Margin.Left
+                    - frame.Padding.RightInt
                     - 12;
             }
         }
@@ -481,7 +481,7 @@ namespace OxDAOEngine.Settings
             if (!ListController.AvailableCategories)
                 return;
 
-            categoriesTree!.SetContentSize(360, 480);
+            categoriesTree!.Size = new(360, 480);
             categoriesTree!.RefreshCategories();
 
             if (categoriesTree.ShowAsDialog(this, OxDialogButton.OK | OxDialogButton.Cancel) is DialogResult.OK)
@@ -517,7 +517,7 @@ namespace OxDAOEngine.Settings
             foreach (OxFrame frame in extraSettingsFrames.Values)
                 if (frame.Visible)
                 {
-                    MainPanel.SetContentSize(720, frame.Bottom);
+                    MainPanel.Size = new(720, frame.Bottom);
                     break;
                 }
         }
@@ -529,16 +529,16 @@ namespace OxDAOEngine.Settings
         { 
             Dock = DockStyle.Fill,
         };
-        private readonly OxPanel htmlGeneralPanel = CreateExtraPanel(216);
-        private readonly OxPanel htmlsPanel = CreateExtraPanel(144);
+        private readonly OxPane htmlGeneralPanel = CreateExtraPanel(216);
+        private readonly OxPane htmlsPanel = CreateExtraPanel(144);
         private readonly FieldsPanel<TField, TDAO> htmlFieldsPanel = new(FieldsVariant.Html);
         public readonly SortingPanel<TField, TDAO> htmlSortingPanel = new(SortingVariant.Export, ControlScope.Html);
         private readonly EnumAccessor<TField, TDAO, ExportSummaryType> htmlSummaryAccessor;
         private readonly IControlAccessor htmlIncludeParamsAccessor;
         private readonly IControlAccessor zeroSummaryAccessor;
 
-        private readonly OxPanel textsPanel = CreateExtraPanel(144);
-        private readonly OxPanel textGeneralPanel = CreateExtraPanel(84);
+        private readonly OxPane textsPanel = CreateExtraPanel(144);
+        private readonly OxPane textGeneralPanel = CreateExtraPanel(84);
         private readonly FieldsPanel<TField, TDAO> inlineFieldsPanel = new(FieldsVariant.Inline);
         public readonly SortingPanel<TField, TDAO> groupByPanel = new(SortingVariant.GroupBy, ControlScope.Grouping);
         private readonly EnumAccessor<TField, TDAO, ExportSummaryType> textSummaryAccessor;

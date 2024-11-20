@@ -7,7 +7,7 @@ using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.Grid
 {
-    public class ItemsChooser<TField, TDAO> : OxPanel
+    public class ItemsChooser<TField, TDAO> : OxPane
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -100,31 +100,31 @@ namespace OxDAOEngine.Grid
         protected override void PrepareInnerControls()
         {
             base.PrepareInnerControls();
-            availablePlace.Parent = ContentContainer;
+            availablePlace.Parent = this;
             availablePlace.Dock = DockStyle.Fill;
             availablePlace.Header.Underline.Visible = false;
             availableGrid.Parent = availablePlace;
             availableGrid.Dock = DockStyle.Fill;
 
-            buttonsPanel.Parent = ContentContainer;
+            buttonsPanel.Parent = this;
             buttonsPanel.Dock = DockStyle.Right;
 
             selectButton.Parent = buttonsPanel;
             selectButton.Click += (s, e) => MoveSelected(true);
             selectButton.Left = 4;
-            selectButton.SetContentSize(54, 38);
+            selectButton.Size = new(54, 38);
             selectButton.HiddenBorder = false;
 
             unSelectButton.Parent = buttonsPanel;
             unSelectButton.Click += (s, e) => MoveSelected(false);
             unSelectButton.Left = 4;
-            unSelectButton.SetContentSize(54, 38);
+            unSelectButton.Size = new(54, 38);
             unSelectButton.HiddenBorder = false;
 
             selectButton.Top = buttonsPanel.Height / 2 - selectButton.Height - 4;
             unSelectButton.Top = selectButton.Bottom + 8;
 
-            selectedPlace.Parent = ContentContainer;
+            selectedPlace.Parent = this;
             selectedPlace.Dock = DockStyle.Right;
             selectedPlace.Header.Underline.Visible = false;
             selectedGrid.Parent = selectedPlace;
@@ -132,11 +132,13 @@ namespace OxDAOEngine.Grid
 
             if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
             {
-                topPanel.Parent = ContentContainer;
+                topPanel.Parent = this;
                 topPanel.Dock = DockStyle.Top;
-                topPanel.SetContentSize(1,
+                topPanel.Size = new
+                (
+                    1,
                     availableGrid.QuickFilter.Height
-                    + availableGrid.QuickFilter.Margins.Bottom
+                    + availableGrid.QuickFilter.Margin.BottomInt
                 );
 
                 availableGrid.QuickFilter.Dock = DockStyle.Left;

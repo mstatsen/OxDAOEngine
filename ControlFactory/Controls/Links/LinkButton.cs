@@ -15,7 +15,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         {
             base.AfterCreated();
             Cursor = Cursors.Hand;
-            SetContentSize(SavedWidth, 22);
+            Size = new(Width, 22);
         }
 
         protected override void SetHandlers()

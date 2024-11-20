@@ -361,7 +361,7 @@ namespace OxDAOEngine.Data
             {
                 historyGrid.Painter = new HistoryGridPainter(historyGrid);
                 historyGrid.GridView.DoubleClick += (s, e) => ViewItem(historyGrid.CurrentItem?.DAO);
-                historyGrid.SetContentSize(1024, 768);
+                historyGrid.Size = new(1024, 768);
                 historyGrid.Fill();
                 historyGrid.ShowAsDialog(Face, OxDialogButton.Cancel);
             }

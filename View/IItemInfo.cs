@@ -10,7 +10,7 @@ namespace OxDAOEngine.View
     { 
         bool Expanded { get; set; }
         bool Pinned { get; set; }
-        OxPanel Sider { get; }
+        OxPane Sider { get; }
         bool SiderEnabled { get; set; }
         void ApplySettings();
         void SaveSettings();

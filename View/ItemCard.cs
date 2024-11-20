@@ -33,10 +33,10 @@ namespace OxDAOEngine.View
             );
             Builder = DataManager.Builder<TField, TDAO>(ControlScope.CardView, true);
             Layouter = Builder.Layouter;
-            Margins.SetSize(OxSize.M);
-            Paddings.SetSize(OxSize.S);
+            Margin.Size = OxSize.M;
+            Padding.Size = OxSize.S;
             HeaderHeight = 28;
-            SetContentSize(CardWidth, CardHeight);
+            Size = new(CardWidth, CardHeight);
             Icon = ListController.Icon;
         }
 
@@ -49,9 +49,9 @@ namespace OxDAOEngine.View
             ItemsView?.RenewCards();
         }
 
-        private void PrepareEditButton(OxClickFrame button, string toolTipText, EventHandler clickHanler)
+        private void PrepareEditButton(OxIconButton button, string toolTipText, EventHandler clickHanler)
         {
-            button.SetContentSize(25, 20);
+            button.Size = new(25, 20);
             button.ToolTipText = toolTipText;
             button.Click += clickHanler;
             Header.AddToolButton(button);

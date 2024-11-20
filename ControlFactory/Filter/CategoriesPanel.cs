@@ -22,7 +22,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             Text = "Categories";
             categoriesAccessor = DataManager.Builder<TField, TDAO>(ControlScope.Category).CategoriesAccessor();
-            categoriesAccessor.Parent = ContentContainer;
+            categoriesAccessor.Parent = this;
             categoriesAccessor.Dock = DockStyle.Fill;
 
             CategoriesControl<TField, TDAO> categoriesControl = (CategoriesControl<TField, TDAO>)categoriesAccessor.Control;

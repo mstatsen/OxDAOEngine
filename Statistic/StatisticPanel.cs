@@ -14,8 +14,8 @@ namespace OxDAOEngine.Statistic
         public StatisticPanel(ItemsRootGrid<TField, TDAO> grid) : base(new(100, 24))
         {
             Grid = grid;
-            Borders.SetSize(OxSize.None);
-            Borders.TopOx = OxSize.XXS;
+            Borders.Size = OxSize.None;
+            Borders.Top = OxSize.XXS;
             DarkerColorHelper = new OxColorHelper(BaseColor);
             SetStatisticsTexts();
         }
@@ -70,12 +70,12 @@ namespace OxDAOEngine.Statistic
         {
             OxButton label = new(string.Empty, null)
             {
-                Parent = ContentContainer,
+                Parent = this,
                 Dock = StatisticTypeHelper.Dock(type),
                 ReadOnly = true
             };
             Labels.Add(type, label);
-            label.SetContentSize(StatisticTypeHelper.Width(type), 1);
+            label.Size = new(StatisticTypeHelper.Width(type), 1);
         }
 
         protected readonly StatisticTypeHelper StatisticTypeHelper = TypeHelper.Helper<StatisticTypeHelper>();
@@ -95,7 +95,7 @@ namespace OxDAOEngine.Statistic
             foreach (OxButton label in Labels.Values)
             {
                 label.BringToFront();
-                label.Margins.SetSize(OxSize.XS);
+                label.Margin.Size = OxSize.XS;
             }
         }
 

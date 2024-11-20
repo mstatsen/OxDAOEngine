@@ -33,7 +33,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             {
                 if (width is -1)
                 {
-                    result.Width = MainPanel.ContentContainer.Width - result.Left - 8;
+                    result.Width = MainPanel.Width - result.Left - 8;
                     result.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
                 }
                 else
@@ -62,7 +62,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             FilterPanel = new(Builder)
             {
-                Parent = this,
+                Parent = MainPanel,
                 Dock = DockStyle.Bottom
             };
             FilterPanel.GetCategoryName += GetCategoryNameHandler;

@@ -42,7 +42,7 @@ namespace OxDAOEngine.Editor
                 };
                 idButton.Click += (s, e) => uniqueKeyViewer.View(Item, this);
                 MainPanel.Header.AddToolButton(idButton);
-                MainPanel.SetHeaderContentSize(35);
+                MainPanel.SetHeaderHeight(35);
             }
             finally
             {
@@ -106,10 +106,10 @@ namespace OxDAOEngine.Editor
 
         protected virtual void SetFrameMargin(TFieldGroup group, OxFrame frame)
         {
-            frame.Margins.LeftOx = OxSize.M;
-            frame.Margins.TopOx = OxSize.M;
-            frame.Margins.RightOx = OxSize.None;
-            frame.Margins.BottomOx = OxSize.None;
+            frame.Margin.Left = OxSize.M;
+            frame.Margin.Top = OxSize.M;
+            frame.Margin.Right = OxSize.None;
+            frame.Margin.Bottom = OxSize.None;
         }
 
         private static readonly IListController<TField, TDAO> listController 
@@ -357,7 +357,7 @@ namespace OxDAOEngine.Editor
 
         protected void SetParentsColor() 
         { 
-            foreach (OxPanel panel in ParentPanels.Cast<OxPanel>())
+            foreach (IOxPane panel in ParentPanels)
                 if (!panel.Equals(MainPanel))
                     panel.BaseColor = MainPanel.Colors.Lighter();
         }
@@ -392,7 +392,7 @@ namespace OxDAOEngine.Editor
             return result;
         }
 
-        protected void PrepareParentPanel(OxPanel panel, Control parent, DockStyle dock = DockStyle.Left, bool parentForGroups = true)
+        protected void PrepareParentPanel(OxPane panel, OxPane parent, DockStyle dock = DockStyle.Left, bool parentForGroups = true)
         {
             panel.Parent = parent;
             panel.Dock = dock;

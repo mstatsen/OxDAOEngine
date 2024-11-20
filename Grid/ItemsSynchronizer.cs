@@ -7,7 +7,7 @@ using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.Grid
 {
-    public class ItemsSynchronizer<TField, TDAO> : OxPanel
+    public class ItemsSynchronizer<TField, TDAO> : OxPane
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -127,38 +127,38 @@ namespace OxDAOEngine.Grid
         {
             base.PrepareInnerControls();
 
-            LeftPlace.Parent = ContentContainer;
+            LeftPlace.Parent = this;
             LeftPlace.Dock = DockStyle.Fill;
             LeftPlace.Header.Underline.Visible = false;
             LeftItemGrid.Parent = LeftPlace;
             LeftItemGrid.Dock = DockStyle.Fill;
 
-            ButtonsPanel.Parent = ContentContainer;
+            ButtonsPanel.Parent = this;
             ButtonsPanel.Dock = DockStyle.Right;
 
             NotEqualsButton.Parent = ButtonsPanel;
             NotEqualsButton.Click += NotEqualsButtonHandler;
             NotEqualsButton.Left = 4;
-            NotEqualsButton.SetContentSize(54, 38);
+            NotEqualsButton.Size = new(54, 38);
             NotEqualsButton.HiddenBorder = false;
 
             LeftToRightButton.Parent = ButtonsPanel;
             LeftToRightButton.Click += LeftToRightHandler;
             LeftToRightButton.Left = 4;
-            LeftToRightButton.SetContentSize(54, 38);
+            LeftToRightButton.Size = new(54, 38);
             LeftToRightButton.HiddenBorder = false;
 
             RightToLeftButton.Parent = ButtonsPanel;
             RightToLeftButton.Click += RightToLeftHandler;
             RightToLeftButton.Left = 4;
-            RightToLeftButton.SetContentSize(54, 38);
+            RightToLeftButton.Size = new(54, 38);
             RightToLeftButton.HiddenBorder = false;
 
             NotEqualsButton.Top = ButtonsPanel.Height / 2 - NotEqualsButton.Height - (NotEqualsButton.Height / 2) - 4;
             LeftToRightButton.Top = NotEqualsButton.Bottom + 8;
             RightToLeftButton.Top = LeftToRightButton.Bottom + 8;
 
-            RightPlace.Parent = ContentContainer;
+            RightPlace.Parent = this;
             RightPlace.Dock = DockStyle.Right;
             RightPlace.Header.Underline.Visible = false;
             RightItemGrid.Parent = RightPlace;

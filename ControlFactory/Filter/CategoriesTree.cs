@@ -77,9 +77,9 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.PrepareInnerControls();
             PrepareCategorySelector();
-            ExpandButton.SetContentSize(28, 23);
+            ExpandButton.Size = new(28, 23);
             ExpandButton.Click += ExpandAllClick;
-            CollapseButton.SetContentSize(28, 23);
+            CollapseButton.Size = new(28, 23);
             CollapseButton.Click += (s, e) => categorySelector.CollapseAll();
             Header.AddToolButton(CollapseButton);
             Header.AddToolButton(ExpandButton);
@@ -131,7 +131,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private void PrepareCategorySelector()
         {
-            categorySelector.Parent = ContentContainer;
+            categorySelector.Parent = this;
             categorySelector.ShowNodeToolTips = true;
             categorySelector.AfterSelect += AfterSelectHandler;
             categorySelector.BeforeCollapse += BeforeCollapseHandler;
@@ -161,7 +161,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         public CategoriesTree() : base()
         {
             Icon = OxIcons.Categories;
-            SetContentSize(new(280, 1));
+            Size = new(280, 1);
         }
 
         private void FillTree()

@@ -4,7 +4,7 @@ using OxDAOEngine.Data;
 
 namespace OxDAOEngine.Grid
 {
-    public class ItemsGridToolBar<TField, TDAO> : OxToolBar
+    public class ItemsGridToolBar<TField, TDAO> : OxToolBar<OxButton>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -31,19 +31,15 @@ namespace OxDAOEngine.Grid
             AddButton(OxToolbarAction.Edit, true);
 
             if (listController is not null 
-                && DataManager.ListController<TField, TDAO>().AvailableBatchUpdate)
+                && listController.AvailableBatchUpdate)
                 AddButton(OxToolbarAction.Update);
 
             AddButton(OxToolbarAction.Delete, true);
             AddButton(OxToolbarAction.Export, true, DockStyle.Right);
         }
 
-        protected override void SetToolBarPaddings()
-        {
-            Paddings.SetSize(OxSize.XS);
-            Paddings.LeftOx = OxSize.None;
-            Paddings.TopOx = OxSize.S;
-        }
+        protected override void SetToolBarPaddings() => 
+            Padding.SetSize(OxSize.S, OxSize.None, OxSize.XS, OxSize.XS);
 
         private bool actionsVisible = true;
         public bool ActionsVisible 
