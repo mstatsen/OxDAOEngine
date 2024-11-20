@@ -1,4 +1,6 @@
-﻿namespace OxDAOEngine.ControlFactory.Controls
+﻿using OxLibrary;
+
+namespace OxDAOEngine.ControlFactory.Controls
 {
     partial class LinkEditor<TField, TDAO>
     {
@@ -32,7 +34,7 @@
             // 
             // MainPanel
             // 
-            this.MainPanel.Size = new System.Drawing.Size(390, 230);
+            this.MainPanel.Size = new OxSize(390, OxWh.W230);
             this.MainPanel.Text = "Link";
             // 
             // LinkEditor

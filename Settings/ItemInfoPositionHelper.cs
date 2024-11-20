@@ -1,9 +1,5 @@
 ﻿using OxDAOEngine.Data.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OxLibrary;
 
 namespace OxDAOEngine.Settings
 {
@@ -20,11 +16,11 @@ namespace OxDAOEngine.Settings
                 _ => string.Empty
             };
 
-        public DockStyle Dock(ItemInfoPosition value) =>
+        public OxDock Dock(ItemInfoPosition value) =>
             value switch
             { 
-                ItemInfoPosition.Bottom => DockStyle.Bottom,
-                _ => DockStyle.Right,
+                ItemInfoPosition.Bottom => OxDock.Bottom,
+                _ => OxDock.Right,
             };
     }
 }

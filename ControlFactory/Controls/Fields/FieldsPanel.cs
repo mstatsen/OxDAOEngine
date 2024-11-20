@@ -19,7 +19,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
             set => fieldsAccessor.Value = value;
         }
 
-        public FieldsPanel(FieldsVariant variant) : base(new(240, 86))
+        public FieldsPanel(FieldsVariant variant) : base(new(OxWh.W240, OxWh.W86))
         {
             Variant = variant;
             SetTitle();
@@ -70,7 +70,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
             {
                 Font = Styles.Font(-1, FontStyle.Bold),
                 ToolTipText = helper.FullName(filling),
-                Size = new(helper.ButtonWidth(filling), 23),
+                Size = new(helper.ButtonWidth(filling), OxWh.W23),
                 Tag = filling
             };
             button.Click += ToolButtonClick;

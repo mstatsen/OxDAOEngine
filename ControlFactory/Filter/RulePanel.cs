@@ -24,7 +24,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly EnumAccessor<TField, TDAO, FilterOperation> OperationControl;
         private IControlAccessor? ValueAccessor;
 
-        private readonly OxIconButton RemoveRuleButton = new(OxIcons.Minus, 20);
+        private readonly OxIconButton RemoveRuleButton = new(OxIcons.Minus, OxWh.W20);
 
         public FilterRule<TField> Rule 
         {
@@ -84,12 +84,12 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         public RulePanel(FilterRule<TField> rule, ControlBuilder<TField, TDAO> builder, int groupNumber, int number) 
-            : base(new(1, 32))
+            : base(new(OxWh.W1, OxWh.W32))
         { 
             Builder = builder;
             GroupNumber = groupNumber;
             Number = number;
-            Dock = DockStyle.Top;
+            Dock = OxDock.Top;
             FieldControl = (FieldAccessor<TField,TDAO>)
                 CreateSimpleControl("SimpleFilter:Field", FieldType.MetaData, 24, 160);
             FieldControl.ValueChangeHandler += FieldControlValueChangeHandler;

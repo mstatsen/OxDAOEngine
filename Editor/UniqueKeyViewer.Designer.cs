@@ -1,4 +1,5 @@
-﻿using OxLibrary.Dialogs;
+﻿using OxLibrary;
+using OxLibrary.Dialogs;
 
 namespace OxDAOEngine.Editor
 {
@@ -34,7 +35,7 @@ namespace OxDAOEngine.Editor
             // 
             // MainPanel
             // 
-            this.MainPanel.Size = new System.Drawing.Size(574, 398);
+            this.MainPanel.Size = new OxSize(574, 398);
             // 
             // ListItemEditor
             // 

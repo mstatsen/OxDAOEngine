@@ -366,17 +366,17 @@ namespace OxDAOEngine.Grid
             GridView.Parent = this;
             GridView.RowTemplate.Height = 40;
             PrepareToolBar();
-            Padding.Left = OxSize.XS;
+            Padding.Left = OxWh.W2;
         }
 
         private void PrepareToolBar()
         {
             ToolBar.Parent = this;
-            ToolBar.Dock = DockStyle.Top;
-            ToolBar.Margin.Top = OxSize.None;
-            ToolBar.Margin.Bottom = OxSize.XS;
-            ToolBar.Borders.Right = OxSize.None;
-            ToolBar.Borders.Left = OxSize.None;
+            ToolBar.Dock = OxDock.Top;
+            ToolBar.Margin.Top = OxWh.W0;
+            ToolBar.Margin.Bottom = OxWh.W2;
+            ToolBar.Borders.Right = OxWh.W0;
+            ToolBar.Borders.Left = OxWh.W0;
             ToolBar.AllowEditingActions = false;
         }
 
@@ -636,7 +636,7 @@ namespace OxDAOEngine.Grid
                         new()
                         {
                             Height = GridView.RowTemplate.Height,
-                            Width = Width * (image.Height / GridView.RowTemplate.Height)
+                            Width = WidthInt * (image.Height / GridView.RowTemplate.Height)
                         }
                     );
 

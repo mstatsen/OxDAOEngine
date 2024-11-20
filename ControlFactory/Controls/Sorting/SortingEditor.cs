@@ -32,7 +32,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldControl.Top = 8;
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             FieldControl.Height = 24;
-            FieldControl.Width = MainPanel.Width - FieldControl.Left - 8;
+            FieldControl.Width = MainPanel.WidthInt - FieldControl.Left - 8;
             FieldControl.Control.BackColor = MainPanel.Colors.Lighter(7);
             FieldControl.Context.Initializer = new FieldsInitializer<TField>(ControlScope.Sorting);
         }
@@ -43,7 +43,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             DirectionControl.Parent = this;
             DirectionControl.Left = 80;
             DirectionControl.Top = FieldControl!.Bottom + 8;
-            FieldControl.Width = MainPanel.Width - FieldControl.Left - 8;
+            FieldControl.Width = MainPanel.WidthInt - FieldControl.Left - 8;
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             FieldControl.Height *= 3;
         }

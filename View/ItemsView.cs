@@ -4,6 +4,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
 using OxDAOEngine.View.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.View
 {
@@ -19,7 +20,7 @@ namespace OxDAOEngine.View
         public EventHandler? LoadingEnded;
         public readonly OxPanelLayouter Layouter = new()
         {
-            Dock = DockStyle.Top,
+            Dock = OxDock.Top,
             Visible = false
         };
 
@@ -233,7 +234,7 @@ namespace OxDAOEngine.View
 
         private readonly OxPaginator paginator = new()
         {
-            Dock = DockStyle.Top,
+            Dock = OxDock.Top,
             PageSize = 1
         };
 

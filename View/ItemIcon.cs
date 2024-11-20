@@ -19,7 +19,7 @@ namespace OxDAOEngine.View
             builder = ListController.ControlFactory.Builder(ControlScope.IconView, true);
             Click += ClickHandler;
             layouter = builder.Layouter;
-            Margin.Size = OxSize.XS;
+            Margin.Size = OxWh.W2;
             HandHoverCursor = true;
             fontColors = new OxColorHelper(DefaultForeColor);
             Size = new(IconWidth, IconHeight);
@@ -128,9 +128,9 @@ namespace OxDAOEngine.View
 
             ControlLayout<TField> titleLayout = layouter.AddFromTemplate(TitleMapping.Field);
             titleLayout.AutoSize = false;
-            titleLayout.Top = IconWidth / 2 - 2;
-            titleLayout.Width = IconWidth;
-            titleLayout.Height = IconHeight - titleLayout.Top;
+            titleLayout.Top = OxWh.Int(OxWh.Sub(OxWh.Div(IconWidth, OxWh.W2), OxWh.W2));
+            titleLayout.Width = OxWh.Int(IconWidth);
+            titleLayout.Height = OxWh.Int(OxWh.Sub(IconHeight, titleLayout.Top));
             titleLayout.FontStyle = FontStyle.Bold;
             titleLayout.FontColor = fontColors.BaseColor;
             titleLayout.Visible = IconsSize is not IconSize.Thumbnails;
@@ -143,8 +143,8 @@ namespace OxDAOEngine.View
 
             ControlLayout<TField> imageLayout = layouter.AddFromTemplate(ImageMapping.Field);
             imageLayout.Top = IconsSize.Equals(IconSize.Thumbnails) ? 0 : 1;
-            imageLayout.Width = IconWidth;
-            imageLayout.Height = IconWidth / 2 - 3;
+            imageLayout.Width = OxWh.Int(IconWidth);
+            imageLayout.Height = OxWh.Int(OxWh.Sub(OxWh.Div(IconWidth, OxWh.W2), OxWh.W3));
         }
 
         private void FillLeftLayout()
@@ -163,7 +163,7 @@ namespace OxDAOEngine.View
                 return;
 
             ControlLayout<TField> rightLayout = layouter.AddFromTemplate(RightMapping.Field);
-            rightLayout.Top = IconWidth / 2 - 20;
+            rightLayout.Top = OxWh.Int(OxWh.Sub(OxWh.Div(IconWidth, OxWh.W2), OxWh.W20));
             rightLayout.FontSize -= sizeHelper.FontSizeDelta(ListController.Settings.IconsSize);
         }
 
@@ -172,7 +172,7 @@ namespace OxDAOEngine.View
             layouter.Template.Parent = this;
             layouter.Template.Left = 0;
             layouter.Template.Top = 0;
-            layouter.Template.Width = sizeHelper.AddInfoWidth(ListController.Settings.IconsSize);
+            layouter.Template.Width = OxWh.Int(sizeHelper.AddInfoWidth(ListController.Settings.IconsSize));
             layouter.Template.CaptionVariant = ControlCaptionVariant.None;
             layouter.Template.WrapLabel = true;
             layouter.Template.MaximumLabelWidth = 80;
@@ -205,7 +205,7 @@ namespace OxDAOEngine.View
 
                 if (leftControl is not null)
                 {
-                    leftControl.Left = 12 - sizeHelper.LeftDelta(ListController.Settings.IconsSize);
+                    leftControl.Left = OxWh.Int(OxWh.Sub(OxWh.W12, sizeHelper.LeftDelta(ListController.Settings.IconsSize)));
                     leftControl.TextAlign = ContentAlignment.MiddleLeft;
                     leftControl.BringToFront();
                 }
@@ -217,8 +217,13 @@ namespace OxDAOEngine.View
 
                 if (rightControl is not null)
                 {
-                    rightControl.Left = IconWidth - rightControl.Width - 12
-                        + sizeHelper.LeftDelta(ListController.Settings.IconsSize);
+                    rightControl.Left =
+                        OxWh.Int(
+                            OxWh.Add(
+                                OxWh.Sub(IconWidth, rightControl.Width - 12),
+                                sizeHelper.LeftDelta(ListController.Settings.IconsSize)
+                            )
+                        );
                     rightControl.TextAlign = ContentAlignment.MiddleLeft;
                     rightControl.BringToFront();
                 }
@@ -250,10 +255,10 @@ namespace OxDAOEngine.View
 
         public void ApplySettings() { }
 
-        private int IconWidth =>
+        private OxWidth IconWidth =>
             sizeHelper.Width(ListController.Settings.IconsSize);
 
-        private int IconHeight =>
+        private OxWidth IconHeight =>
             sizeHelper.Height(ListController.Settings.IconsSize);
 
         public TDAO? Item

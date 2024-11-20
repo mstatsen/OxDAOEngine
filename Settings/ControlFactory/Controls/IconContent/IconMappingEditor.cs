@@ -41,7 +41,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             ContentPartControl.Parent = this;
             ContentPartControl.Left = 64;
             ContentPartControl.Top = 12;
-            ContentPartControl.Width = MainPanel.Width - ContentPartControl.Left - 8;
+            ContentPartControl.Width = MainPanel.WidthInt - ContentPartControl.Left - 8;
             ContentPartControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             CreateLabel("Part: ", ContentPartControl);
         }
@@ -53,7 +53,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             FieldControl.Parent = this;
             FieldControl.Left = ContentPartControl!.Left;
             FieldControl.Top = ContentPartControl.Bottom + 8;
-            FieldControl.Width = MainPanel.Width - FieldControl.Left - 8;
+            FieldControl.Width = MainPanel.WidthInt - FieldControl.Left - 8;
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             CreateLabel("Field: ", FieldControl);
         }

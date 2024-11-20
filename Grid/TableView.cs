@@ -15,14 +15,14 @@ namespace OxDAOEngine.Grid
     {
         public TableView() : base() 
         {
-            Borders.Size = OxSize.None;
+            Borders.Size = OxWh.W0;
             Grid.Parent = this;
-            Grid.Dock = DockStyle.Fill;
+            Grid.Dock = OxDock.Fill;
             Grid.ToolbarActionClick += (s, e) => ExecuteAction(e.Action);
             Grid.CurrentItemChanged += CurrentItemChangeHandler;
             InfoPanel = DataManager.ControlFactory<TField, TDAO>().CreateInfoPanel();
-            Margin.Bottom = OxSize.XS;
-            Margin.Right = OxSize.S;
+            Margin.Bottom = OxWh.W2;
+            Margin.Right = OxWh.W4;
             PrepareInfoPanel();
         }
 

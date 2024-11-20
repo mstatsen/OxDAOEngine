@@ -33,7 +33,7 @@ namespace OxDAOEngine.Summary
         public SummaryView() : base()
         {
             layouter.PanelsAlign = PanelsHorizontalAlign.OneColumn;
-            Borders.Size = OxSize.None;
+            Borders.Size = OxWh.W0;
         }
 
         public override Color DefaultColor => EngineStyles.SummaryColor;
@@ -43,7 +43,7 @@ namespace OxDAOEngine.Summary
             base.PrepareInnerControls();
             PrepareDictionaries();
             layouter.Parent = this;
-            layouter.Dock = DockStyle.Top;
+            layouter.Dock = OxDock.Top;
             AutoScroll = true;
             //ContentBox.AutoScroll = true;
         }
@@ -88,8 +88,8 @@ namespace OxDAOEngine.Summary
                 {
                     panel.Margin.Horizontal = 
                         panel.Expanded 
-                            ? OxSize.M | OxSize.S 
-                            : OxSize.XL;
+                            ? OxWh.W12 
+                            : OxWh.W32;
                     panel.Borders[OxDock.Top].Visible = !prevExpanded;
                     panel.Header.UnderlineVisible = 
                         panel.Expanded 

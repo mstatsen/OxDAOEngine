@@ -23,9 +23,9 @@ namespace OxDAOEngine.Grid
             Grid = new ItemsRootGrid<TField, TDAO>(itemList, usage)
             {
                 Parent = this,
-                Dock = DockStyle.Fill,
+                Dock = OxDock.Fill,
             };
-            Grid.Padding.Size = OxSize.None;
+            Grid.Padding.Size = OxWh.W0;
             statisticPanel = CreateStatisticPanel();
             ReAlign();
         }
@@ -57,7 +57,7 @@ namespace OxDAOEngine.Grid
         private StatisticPanel<TField, TDAO> CreateStatisticPanel() =>
             new(Grid)
             {
-                Dock = DockStyle.Bottom,
+                Dock = OxDock.Bottom,
                 Parent = this
             };
 

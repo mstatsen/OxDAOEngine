@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.Data.Fields
 {
@@ -25,13 +26,13 @@ namespace OxDAOEngine.Data.Fields
         public virtual TGroup EditedGroup(TField field) =>
             Group(field);
 
-        public abstract int GroupWidth(TGroup group);
+        public abstract OxWidth GroupWidth(TGroup group);
 
-        public virtual DockStyle GroupDock(TGroup group) =>
-            DockStyle.Top;
+        public virtual OxDock GroupDock(TGroup group) =>
+            OxDock.Top;
 
         public abstract bool IsCalcedHeightGroup(TGroup group);
 
-        public abstract int DefaultGroupHeight(TGroup group);
+        public abstract OxWidth DefaultGroupHeight(TGroup group);
     }
 }

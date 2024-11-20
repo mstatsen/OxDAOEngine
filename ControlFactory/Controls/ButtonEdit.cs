@@ -22,7 +22,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private readonly OxButtonEdit buttonEditControl = new()
         { 
-            Dock = DockStyle.Fill
+            Dock = OxDock.Fill
         };
         public OxButtonEdit ButtonEditControl => buttonEditControl;
 
@@ -32,7 +32,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected override void InitComponents()
         {
             buttonEditControl.Parent = this;
-            buttonEditControl.Dock = DockStyle.Fill;
+            buttonEditControl.Dock = OxDock.Fill;
             buttonEditControl.OnButtonClick += ButtonClick;
         }
 
@@ -43,7 +43,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             TListControl editor = new()
             {
                 Parent = dialog.MainPanel,
-                Dock = DockStyle.Fill,
+                Dock = OxDock.Fill,
                 OwnerDAO = OwnerDAO,
                 Font = Font,
                 BaseColor = dialogBaseColor

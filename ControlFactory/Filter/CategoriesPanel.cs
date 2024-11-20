@@ -5,6 +5,7 @@ using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Data.Fields.Types;
 using OxDAOEngine.Data.Filter;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -18,7 +19,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             set => categoriesAccessor.Value = value;
         }
 
-        public CategroiesPanel() : base(new(240, 86))
+        public CategroiesPanel() : base(new(OxWh.W240, OxWh.W86))
         {
             Text = "Categories";
             categoriesAccessor = DataManager.Builder<TField, TDAO>(ControlScope.Category).CategoriesAccessor();

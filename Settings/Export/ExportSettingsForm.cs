@@ -42,7 +42,7 @@ namespace OxDAOEngine.Settings
             if (ListController.AvailableQuickFilter)
             { 
                 quickFilter!.Parent = MainPanel;
-                quickFilter!.Margin.Horizontal = OxSize.M;
+                quickFilter!.Margin.Horizontal = OxWh.W8;
             }
 
             PrepareHTMLControls();
@@ -66,7 +66,7 @@ namespace OxDAOEngine.Settings
             PrepareSelectedItemsGrid();
 
             GeneralPanel = CreateFrame("General");
-            GeneralPanel.Margin.Top = OxSize.M;
+            GeneralPanel.Margin.Top = OxWh.W8;
 
             formatAccessor = Builder.Accessor<ExportFormat>();
             formatAccessor.Value = settings.Format;
@@ -85,16 +85,16 @@ namespace OxDAOEngine.Settings
             CalcFramesSizes();
             ActualizeFormatSettings();
             MainPanel.SetFooterButtonText(OxDialogButton.OK, "Export");
-            MainPanel.DialogButtonStartSpace = 8;
-            MainPanel.DialogButtonSpace = 4;
+            MainPanel.DialogButtonStartSpace = OxWh.W8;
+            MainPanel.DialogButtonSpace = OxWh.W4;
         }
 
         private void PrepareSelectedItemsPanel()
         {
             selectedItemsPanel.Parent = MainPanel;
-            selectedItemsPanel.Size = new(100, 200);
+            selectedItemsPanel.Size = new(OxWh.W100, OxWh.W200);
             selectedItemsPanel.Visible = false;
-            selectedItemsPanel.Padding.Size = OxSize.None;
+            selectedItemsPanel.Padding.Size = OxWh.W0;
         }
 
         private void PrepareSelectedItemsGrid()
@@ -179,10 +179,10 @@ namespace OxDAOEngine.Settings
 
             quickFilter = new(QuickFilterVariant.Export)
             {
-                Dock = DockStyle.Top,
+                Dock = OxDock.Top,
                 Visible = FunctionalPanelVisible.Fixed
             };
-            quickFilter.Margin.Bottom = OxSize.M;
+            quickFilter.Margin.Bottom = OxWh.W8;
         }
 
         private OxButtonEdit CreateButtonEdit(string? value, EventHandler? onClick)
@@ -197,9 +197,9 @@ namespace OxDAOEngine.Settings
             return buttonEdit;
         }
 
-        private static OxPane CreateExtraPanel(int height) => new()
+        private static OxPane CreateExtraPanel(OxWidth height) => new()
         {
-            Dock = DockStyle.Top,
+            Dock = OxDock.Top,
             Height = height
         };
 
@@ -240,9 +240,9 @@ namespace OxDAOEngine.Settings
             PrepareFieldsPanel(htmlFieldsPanel, htmlsPanel, OxDock.Right);
             htmlSortingPanel.Sortings = settings.HTML.Sorting;
             htmlSortingPanel.Parent = htmlsPanel;
-            htmlSortingPanel.Dock = DockStyle.Right;
-            htmlSortingPanel.Padding.Horizontal = OxSize.XS;
-            htmlSortingPanel.Size = new(168, htmlSortingPanel.Height);
+            htmlSortingPanel.Dock = OxDock.Right;
+            htmlSortingPanel.Padding.Horizontal = OxWh.W2;
+            htmlSortingPanel.Size = new(OxWh.W168, htmlSortingPanel.Height);
             htmlSortingPanel.Visible = FunctionalPanelVisible.Fixed;
         }
 
@@ -261,12 +261,12 @@ namespace OxDAOEngine.Settings
             {
                 Text = Caption,
                 Parent = MainPanel,
-                Dock = DockStyle.Top,
+                Dock = OxDock.Top,
                 BaseColor = MainPanel.BaseColor
             };
-            frame.Margin.Size = OxSize.M;
-            frame.Margin.Top = OxSize.None;
-            frame.Padding.Size = OxSize.M;
+            frame.Margin.Size = OxWh.W8;
+            frame.Margin.Top = OxWh.W0;
+            frame.Padding.Size = OxWh.W8;
 
             if (caledSize)
                 FramesControls.Add(frame, new List<Control>());
@@ -349,18 +349,18 @@ namespace OxDAOEngine.Settings
         private static void PrepareFieldsPanel(FieldsPanel<TField, TDAO> panel, OxPane parent, OxDock ExtraMarginsDock)
         {
             panel.Parent = parent;
-            panel.Dock = DockStyle.Fill;
-            panel.Margin[ExtraMarginsDock].Size = OxSize.M;
-            panel.Padding.Horizontal = OxSize.XS;
+            panel.Dock = OxDock.Fill;
+            panel.Margin[ExtraMarginsDock].Size = OxWh.W8;
+            panel.Padding.Horizontal = OxWh.W2;
         }
 
         private void PrepareGroupByPanel()
         {
             groupByPanel.Sortings = settings.Text.Grouping;
             groupByPanel.Parent = textsPanel;
-            groupByPanel.Dock = DockStyle.Left;
-            groupByPanel.Padding.Horizontal = OxSize.XS;
-            groupByPanel.Size = new(200, groupByPanel.Height);
+            groupByPanel.Dock = OxDock.Left;
+            groupByPanel.Padding.Horizontal = OxWh.W2;
+            groupByPanel.Size = new(OxWh.W200, groupByPanel.Height);
             groupByPanel.Visible = FunctionalPanelVisible.Fixed;
         }
 
@@ -461,7 +461,7 @@ namespace OxDAOEngine.Settings
                     continue;
 
                 control.Left = maxLeft;
-                control.Width = frame.Width
+                control.Width = frame.WidthInt
                     - maxLeft
                     - frame.Margin.Right
                     - frame.Margin.Left
@@ -527,18 +527,18 @@ namespace OxDAOEngine.Settings
         private readonly OxFrame selectedItemsPanel;
         private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(GridUsage.ViewItems)
         { 
-            Dock = DockStyle.Fill,
+            Dock = OxDock.Fill,
         };
-        private readonly OxPane htmlGeneralPanel = CreateExtraPanel(216);
-        private readonly OxPane htmlsPanel = CreateExtraPanel(144);
+        private readonly OxPane htmlGeneralPanel = CreateExtraPanel(OxWh.W216);
+        private readonly OxPane htmlsPanel = CreateExtraPanel(OxWh.W144);
         private readonly FieldsPanel<TField, TDAO> htmlFieldsPanel = new(FieldsVariant.Html);
         public readonly SortingPanel<TField, TDAO> htmlSortingPanel = new(SortingVariant.Export, ControlScope.Html);
         private readonly EnumAccessor<TField, TDAO, ExportSummaryType> htmlSummaryAccessor;
         private readonly IControlAccessor htmlIncludeParamsAccessor;
         private readonly IControlAccessor zeroSummaryAccessor;
 
-        private readonly OxPane textsPanel = CreateExtraPanel(144);
-        private readonly OxPane textGeneralPanel = CreateExtraPanel(84);
+        private readonly OxPane textsPanel = CreateExtraPanel(OxWh.W144);
+        private readonly OxPane textGeneralPanel = CreateExtraPanel(OxWh.W84);
         private readonly FieldsPanel<TField, TDAO> inlineFieldsPanel = new(FieldsVariant.Inline);
         public readonly SortingPanel<TField, TDAO> groupByPanel = new(SortingVariant.GroupBy, ControlScope.Grouping);
         private readonly EnumAccessor<TField, TDAO, ExportSummaryType> textSummaryAccessor;

@@ -385,14 +385,14 @@ namespace OxDAOEngine.Settings
                     Parent = parent,
                     Dock = 
                         part is SettingsPart.QuickFilterText 
-                            ? DockStyle.Bottom 
-                            : DockStyle.Fill
+                            ? OxDock.Bottom 
+                            : OxDock.Fill
                 };
-            fieldsPanel.Margin.Size = OxSize.S;
-            fieldsPanel.Padding.Horizontal = OxSize.XS;
+            fieldsPanel.Margin.Size = OxWh.W4;
+            fieldsPanel.Padding.Horizontal = OxWh.W2;
 
             if (part is SettingsPart.QuickFilterText)
-                fieldsPanel.Size = new(fieldsPanel.Width, 78);
+                fieldsPanel.Size = new(fieldsPanel.Width, OxWh.W78);
 
             return fieldsPanel;
         }
@@ -483,10 +483,10 @@ namespace OxDAOEngine.Settings
                 new CategroiesPanel<TField, TDAO>()
                 {
                     Parent = parent,
-                    Dock = DockStyle.Fill
+                    Dock = OxDock.Fill
                 };
-            categoriesPanel.Margin.Size = OxSize.S;
-            categoriesPanel.Padding.Horizontal = OxSize.XS;
+            categoriesPanel.Margin.Size = OxWh.W4;
+            categoriesPanel.Padding.Horizontal = OxWh.W2;
             return categoriesPanel; 
         }
     }

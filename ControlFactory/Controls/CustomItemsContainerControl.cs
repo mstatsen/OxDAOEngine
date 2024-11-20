@@ -34,9 +34,9 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected abstract string ItemName();
 
-        private const int ButtonSpace = (int)OxSize.XS;
-        private const int ButtonWidth = 28;
-        private const int ButtonHeight = 20;
+        private static readonly OxWidth ButtonSpace = OxWh.W2;
+        private static readonly OxWidth ButtonWidth = OxWh.W28;
+        private static readonly OxWidth ButtonHeight = OxWh.W20;
 
         private TEditor? editor;
 
@@ -290,12 +290,12 @@ namespace OxDAOEngine.ControlFactory.Controls
         private void PrepareButtonsPanel()
         {
             ButtonsPanel.Parent = this;
-            ButtonsPanel.Dock = DockStyle.Right;
-            ButtonsPanel.Width = ButtonWidth + ButtonSpace * 2;
-            _ = new OxPane(new(1, ButtonSpace))
+            ButtonsPanel.Dock = OxDock.Right;
+            ButtonsPanel.Width = ButtonWidth | OxWh.Mul(ButtonSpace, 2);
+            _ = new OxPane(new(OxWh.W1, ButtonSpace))
             {
                 Parent = ButtonsPanel,
-                Dock = DockStyle.Top,
+                Dock = OxDock.Top,
                 BaseColor = BaseColor
             };
             InitButtons();
@@ -304,23 +304,23 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void LayoutButtons()
         {
-            int calcedTop = ButtonSpace;
+            int calcedTop = OxWh.Int(ButtonSpace);
 
             foreach (OxClickFrame button in Buttons)
             {
                 if (!button.Visible)
                     continue;
 
-                button.Left = ButtonSpace;
+                button.Left = OxWh.Int(ButtonSpace);
                 button.Top = calcedTop;
-                calcedTop = button.Bottom + ButtonSpace;
+                calcedTop = button.Bottom + OxWh.Int(ButtonSpace);
             }
         }
 
         private void PrepareControlPanel()
         {
             ControlPanel.Parent = this;
-            ControlPanel.Dock = DockStyle.Fill;
+            ControlPanel.Dock = OxDock.Fill;
             ControlPanel.AutoScroll = true;
         }
 
@@ -410,7 +410,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected override void RecalcControls()
         {
             base.RecalcControls();
-            ItemsContainer.Height = ControlPanel.Height;
+            ItemsContainer.Height = ControlPanel.HeightInt;
         }
 
         protected override void SetControlColor(Color value)
@@ -449,26 +449,26 @@ namespace OxDAOEngine.ControlFactory.Controls
                 return;
 
             SetEditButtonVisible(
-                !(readOnly 
-                    && ReadonlyMode is ReadonlyMode.ViewAsReadonly) 
-                && (CalcedButtonsHeight <= ButtonsPanel.Height)
+                (!readOnly
+                    || ReadonlyMode is not ReadonlyMode.ViewAsReadonly) 
+                && OxWh.Greater(ButtonsPanel.Height, CalcedButtonsHeight)
             );
             LayoutButtons();
         }
 
-        private int CalcedButtonsHeight
+        private OxWidth CalcedButtonsHeight
         {
             get
             {
-                int calcedHeight = 0;
+                OxWidth calcedHeight = 0;
 
                 foreach (OxClickFrame button in Buttons)
                     if (button.Visible)
-                        calcedHeight += button.Height + ButtonSpace;
+                        calcedHeight |= button.Height | ButtonSpace;
 
                 if (EditButton is not null 
                     && !EditButton.Visible)
-                    calcedHeight += EditButton.Height + ButtonSpace;
+                    calcedHeight |= EditButton.Height | ButtonSpace;
 
                 return calcedHeight;
             }

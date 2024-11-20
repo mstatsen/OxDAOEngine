@@ -22,7 +22,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly List<FilterGroupPanel<TField, TDAO>> groupsPanels = new();
         private readonly OxPane AddGroupButtonParent = new();
         private readonly OxButton AddGroupButton = new("Add group", OxIcons.Plus);
-        private readonly OxIconButton ViewFilterDescription = new(OxIcons.ViewInfo, 16)
+        private readonly OxIconButton ViewFilterDescription = new(OxIcons.ViewInfo, OxWh.W16)
         { 
             ToolTipText = "View filter description"
         };
@@ -30,12 +30,12 @@ namespace OxDAOEngine.ControlFactory.Filter
         public GetCategoryName? GetCategoryName { get; set; }
 
 
-        private int GroupPanelsHeight()
+        private OxWidth GroupPanelsHeight()
         {
-            int result = 0;
+            OxWidth result = 0;
 
             foreach (FilterGroupPanel<TField, TDAO> panel in groupsPanels)
-                result += panel.Height;
+                result |= panel.Height;
 
             return result;
         }
@@ -77,7 +77,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 FilterGroupPanel<TField, TDAO> groupPanel = new(this, group, Builder, groupsPanels.Count)
                 {
                     Parent = this,
-                    Dock = DockStyle.Top
+                    Dock = OxDock.Top
                 };
                 groupPanel.RuleAdded += GroupPanelRuleAddedHandler;
                 groupPanel.RemoveGroup += GroupPanelRemoveGroupHandler;
@@ -86,12 +86,12 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 foreach (FilterGroupPanel<TField, TDAO> panel in groupsPanels)
                 {
-                    panel.Dock = DockStyle.None;
-                    panel.Dock = DockStyle.Top;
+                    panel.Dock = OxDock.None;
+                    panel.Dock = OxDock.Top;
                 }
 
-                ConcatControlParent.Dock = DockStyle.None;
-                ConcatControlParent.Dock = DockStyle.Top;
+                ConcatControlParent.Dock = OxDock.None;
+                ConcatControlParent.Dock = OxDock.Top;
             }
             finally
             {
@@ -131,32 +131,32 @@ namespace OxDAOEngine.ControlFactory.Filter
             ConcatControl = CreateConcatControl();
             PrepareAddGroupButton();
             Text = "Filter";
-            Margin.Size = OxSize.M;
+            Margin.Size = OxWh.W8;
             RecalcSize();
         }
 
-        protected override int GetCalcedHeight() =>
+        protected override OxWidth GetCalcedHeight() =>
             Header.Height
-            + Margin.TopInt
-            + Margin.BottomInt
-            + Padding.TopInt
-            + Padding.BottomInt
-            + ConcatControlParent.CalcedHeight
-            + GroupPanelsHeight()
-            + AddGroupButton.Height
-            + AddGroupButtonParent.Padding.TopInt
-            + AddGroupButtonParent.Padding.BottomInt;
+            | Margin.Top
+            | Margin.Bottom
+            | Padding.Top
+            | Padding.Bottom
+            | ConcatControlParent.CalcedHeight
+            | GroupPanelsHeight()
+            | AddGroupButton.Height
+            | AddGroupButtonParent.Padding.Top
+            | AddGroupButtonParent.Padding.Bottom;
 
 
         private void PrepareAddGroupButton()
         {
             AddGroupButton.Parent = AddGroupButtonParent;
             AddGroupButton.Click += AddGroupButtonClickHandler;
-            AddGroupButton.Height = 20;
+            AddGroupButton.Height = OxWh.W20;
             AddGroupButtonParent.Parent = this;
-            AddGroupButtonParent.Dock = DockStyle.Bottom;
-            AddGroupButtonParent.Padding.Size = OxSize.M;
-            AddGroupButtonParent.Size = new(1, AddGroupButton.Height);
+            AddGroupButtonParent.Dock = OxDock.Bottom;
+            AddGroupButtonParent.Padding.Size = OxWh.W8;
+            AddGroupButtonParent.Size = new(OxWh.W1, AddGroupButton.Height);
         }
 
         private void AddGroupButtonClickHandler(object? sender, EventArgs e) => 
@@ -190,8 +190,8 @@ namespace OxDAOEngine.ControlFactory.Filter
             result.Width = 108;
             result.Height = 18;
             ConcatControlParent.Parent = this;
-            ConcatControlParent.Size = new(1, result.Height);
-            ConcatControlParent.Dock = DockStyle.Top;
+            ConcatControlParent.Size = new(OxWh.W1, result.Height);
+            ConcatControlParent.Dock = OxDock.Top;
             return result;
         }
 

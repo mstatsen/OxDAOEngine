@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.Statistic
 {
@@ -18,15 +19,15 @@ namespace OxDAOEngine.Statistic
                 _ => string.Empty
             };
 
-        public DockStyle Dock(StatisticType type) =>
+        public OxDock Dock(StatisticType type) =>
             type switch
             {
                 StatisticType.Modified or
                 StatisticType.Added or
                 StatisticType.Deleted =>
-                    DockStyle.Right,
+                    OxDock.Right,
                 _ =>
-                    DockStyle.Left
+                    OxDock.Left
             };
 
         public int Width(StatisticType type) =>

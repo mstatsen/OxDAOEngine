@@ -17,40 +17,40 @@ namespace OxDAOEngine.View.Types
                 _ => string.Empty,
             };
 
-        public int Width(IconSize size) =>
+        public OxWidth Width(IconSize size) =>
             size switch
             {
-                IconSize.Thumbnails => 110,
-                IconSize.Small => 125,
-                IconSize.Medium => 162,
-                IconSize.Large => 200,
+                IconSize.Thumbnails => OxWh.W110,
+                IconSize.Small => OxWh.W125,
+                IconSize.Medium => OxWh.W162,
+                IconSize.Large => OxWh.W200,
                 _ => 0,
             };
 
-        public int Height(IconSize size) =>
+        public OxWidth Height(IconSize size) =>
             size.Equals(IconSize.Thumbnails)
-                ? Width(size) / 2 - 3
-                : Width(size) / 25 * 18;
+                ? OxWh.Sub(OxWh.Div(Width(size), 2), OxWh.W3)
+                : OxWh.Mul(OxWh.Div(Width(size), 25), OxWh.W18);
 
-        public int LeftDelta(IconSize size) =>
+        public OxWidth LeftDelta(IconSize size) =>
             size switch
             {
                 IconSize.Thumbnails or
-                IconSize.Small => 
-                    6,
-                IconSize.Medium => 
-                    4,
-                _ => 
-                    0,
+                IconSize.Small =>
+                    OxWh.W6,
+                IconSize.Medium =>
+                    OxWh.W4,
+                _ =>
+                    OxWh.W0,
             };
 
-        public int AddInfoWidth(IconSize size) =>
+        public OxWidth AddInfoWidth(IconSize size) =>
             size switch
             {
-                IconSize.Small => 36,
-                IconSize.Medium => 40,
-                IconSize.Large => 44,
-                _ => 0,
+                IconSize.Small => OxWh.W36,
+                IconSize.Medium => OxWh.W40,
+                IconSize.Large => OxWh.W44,
+                _ => OxWh.W0,
             };
 
         public float FontSize(IconSize size) =>

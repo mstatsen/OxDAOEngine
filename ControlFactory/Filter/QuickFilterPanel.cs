@@ -309,7 +309,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         public void RecalcPaddings() =>
-            Padding.Size = OnlyText ? OxSize.None : OxSize.XS;
+            Padding.Size = OnlyText ? OxWh.W0 : OxWh.W2;
 
         private int FirstControlLeft =>
             Variant is QuickFilterVariant.Export
@@ -383,7 +383,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             SetTextFilterBorder();
             calcedHeight += Padding.BottomInt;
             Size = new(calcedWidth, calcedHeight);
-            Width = calcedWidth;
+            WidthInt = calcedWidth;
 
             if (FilterTextControl.Label is not null)
             {
@@ -535,7 +535,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         protected override void PrepareInnerControls()
         {
             base.PrepareInnerControls();
-            ClearButton.Size = new(80, 23);
+            ClearButton.Size = new(OxWh.W80, OxWh.W23);
             ClearButton.Click += (s, e) => ClearControls();
             Header.AddToolButton(ClearButton);
         }

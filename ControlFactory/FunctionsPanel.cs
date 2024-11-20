@@ -63,7 +63,7 @@ namespace OxDAOEngine.ControlFactory
 
         protected override void PrepareInnerControls()
         {
-            CustomizeButton.Size = new(28, 23);
+            CustomizeButton.Size = new(OxWh.W28, OxWh.W23);
             CustomizeButton.Click += (s, e) => SettingsForm.ShowSettings(Settings, SettingsPart);
             Header.AddToolButton(CustomizeButton);
 
@@ -72,7 +72,7 @@ namespace OxDAOEngine.ControlFactory
 
             Sider.Parent = this;
             ExpandButton.Parent = Sider;
-            ExpandButton.Borders.Size = OxSize.None;
+            ExpandButton.Borders.Size = OxWh.W0;
             PreparePinButton(PinButton);
             PreparePinButton(PinButton2);
             PinButton2.VisibleChanged += PinButton2VisibleChanged;
@@ -82,8 +82,8 @@ namespace OxDAOEngine.ControlFactory
         {
             loadingPanel.Parent = this;
             loadingPanel.FontSize = 18;
-            loadingPanel.Margin.Size = OxSize.None;
-            loadingPanel.Borders.Size = OxSize.None;
+            loadingPanel.Margin.Size = OxWh.W0;
+            loadingPanel.Borders.Size = OxWh.W0;
             loadingPanel.BringToFront();
         }
 
@@ -93,7 +93,7 @@ namespace OxDAOEngine.ControlFactory
         private void PreparePinButton(OxIconButton button)
         {
             button.Parent = Sider;
-            button.Borders.Size = OxSize.XXS;
+            button.Borders.Size = OxWh.W1;
             button.HoveredChanged = PinButtonHoveredChanged;
         }
 
@@ -109,22 +109,22 @@ namespace OxDAOEngine.ControlFactory
                 PinButton.Hovered = PinButton2.Hovered;
         }
 
-        public OxPane Sider { get; } = new(new(16, 1));
-        private readonly OxIconButton ExpandButton = new(OxIcons.Left, 16)
+        public OxPane Sider { get; } = new(new(OxWh.W16, OxWh.W1));
+        private readonly OxIconButton ExpandButton = new(OxIcons.Left, OxWh.W16)
         {
-            Dock = DockStyle.Fill,
+            Dock = OxDock.Fill,
             HiddenBorder = false
         };
 
-        private readonly OxIconButton PinButton = new(OxIcons.Unpin, 16)
+        private readonly OxIconButton PinButton = new(OxIcons.Unpin, OxWh.W16)
         {
-            Dock = DockStyle.Left,
+            Dock = OxDock.Left,
             HiddenBorder = false
         };
 
-        private readonly OxIconButton PinButton2 = new(OxIcons.Unpin, 16)
+        private readonly OxIconButton PinButton2 = new(OxIcons.Unpin, OxWh.W16)
         {
-            Dock = DockStyle.Right,
+            Dock = OxDock.Right,
             HiddenBorder = false
         };
 
@@ -183,13 +183,13 @@ namespace OxDAOEngine.ControlFactory
 
         protected virtual SettingsPart SettingsPart => default;
 
-        private readonly OxIconButton CustomizeButton = new(OxIcons.Settings, 23)
+        private readonly OxIconButton CustomizeButton = new(OxIcons.Settings, OxWh.W23)
         {
             Font = Styles.Font(-1, FontStyle.Bold),
             HiddenBorder = false
         };
 
-        public void ApplySettings() 
+        public void ApplySettings()
         {
             if (GeneralObserver[GeneralSetting.ShowCustomizeButtons])
                 ShowSettingsButton = GeneralSettings.ShowCustomizeButtons;
@@ -201,7 +201,7 @@ namespace OxDAOEngine.ControlFactory
                 BaseColor = GeneralSettings.ColorizePanels ? FunctionColor : DefaultColor;
             else
                 if (GeneralObserver[GeneralSetting.DarkerHeaders])
-                    PrepareColors();
+                PrepareColors();
 
             ApplySettingsInternal();
         }
@@ -231,21 +231,21 @@ namespace OxDAOEngine.ControlFactory
             HeaderVisible = true;
         }
 
-        protected override int GetCalcedWidth() => 
-            !OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
-                ? (isFixedPanel ? 0 : Sider.CalcedWidth)
-                    + (Expanded
+        protected override OxWidth GetCalcedWidth() =>
+            !OxDockHelper.IsVertical(Dock)
+                ? (isFixedPanel ? OxWh.W0 : Sider.CalcedWidth)
+                    | (Expanded
                         ? base.GetCalcedWidth()
-                        : Margin.LeftInt + Margin.RightInt
+                        : Margin.Left | Margin.Right
                     )
                 : base.GetCalcedWidth();
 
-        protected override int GetCalcedHeight() => 
-            OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
-                ? (isFixedPanel ? 0 : Sider.CalcedHeight) 
-                    + (Expanded
+        protected override OxWidth GetCalcedHeight() => 
+            OxDockHelper.IsVertical(Dock)
+                ? (isFixedPanel ? OxWh.W0 : Sider.CalcedHeight) 
+                    | (Expanded
                         ? base.GetCalcedHeight()
-                        : Margin.TopInt + Margin.BottomInt
+                        : Margin.Top | Margin.Bottom
                     )
                 : base.GetCalcedHeight();
 
@@ -259,41 +259,41 @@ namespace OxDAOEngine.ControlFactory
 
         protected override void OnDockChanged(EventArgs e)
         {
-            Borders.Size = OxSize.XXS;
-            Padding.SetVisible(OxDockHelper.Dock(Dock), true);
-            Padding[OxDockHelper.Dock(Sider.Dock)].Visible = true;
+            if (!OxDockHelper.SimpleDirectionDocks.Contains(Dock))
+                return;
 
-            OxDock oxDock = OxDockHelper.Dock(Dock);
-            Sider.Dock = OxDockHelper.Dock(OxDockHelper.Opposite(oxDock));
-            Borders[OxDockHelper.Dock(Sider.Dock)].Size =
+            Borders.Size = OxWh.W1;
+            Padding.SetVisible(Dock, true);
+            Sider.Dock = OxDockHelper.Opposite(Dock);
+            Borders[Sider.Dock].Size =
                 isFixedPanel
-                    ? OxSize.XXS
-                    : OxSize.None;
+                    ? OxWh.W1
+                    : OxWh.W0;
             Sider.Visible = 
                 !isFixedPanel
-                && Dock is not DockStyle.Fill
-                       and not DockStyle.None;
+                && Dock is not OxDock.Fill
+                       and not OxDock.None;
 
-            if (OxDockHelper.IsVertical(oxDock))
+            if (OxDockHelper.IsVertical(Dock))
             {
-                Sider.Size = new(1, 16);
-                ExpandButton.Borders.Vertical = OxSize.XXS;
-                ExpandButton.Borders.Horizontal = OxSize.None;
-                PinButton.Dock = DockStyle.Left;
-                PinButton.Width = 24;
-                PinButton2.Dock = DockStyle.Right;
-                PinButton2.Width = 24;
+                Sider.Size = new(OxWh.W1, OxWh.W16);
+                ExpandButton.Borders.Vertical = OxWh.W1;
+                ExpandButton.Borders.Horizontal = OxWh.W0;
+                PinButton.Dock = OxDock.Left;
+                PinButton.Width = OxWh.W24;
+                PinButton2.Dock = OxDock.Right;
+                PinButton2.Width = OxWh.W24;
             }
             else
             {
-                Sider.Size = new(16, 1);
-                ExpandButton.Borders.Vertical = OxSize.None;
-                ExpandButton.Borders.Horizontal = OxSize.XXS;
-                PinButton.Borders.Size = OxSize.XXS;
-                PinButton.Dock = DockStyle.Top;
-                PinButton.Height = 24;
-                PinButton2.Dock = DockStyle.Bottom;
-                PinButton2.Height = 24;
+                Sider.Size = new(OxWh.W16, OxWh.W1);
+                ExpandButton.Borders.Vertical = OxWh.W0;
+                ExpandButton.Borders.Horizontal = OxWh.W1;
+                PinButton.Borders.Size = OxWh.W1;
+                PinButton.Dock = OxDock.Top;
+                PinButton.Height = OxWh.W24;
+                PinButton2.Dock = OxDock.Bottom;
+                PinButton2.Height = OxWh.W24;
             }
 
             SetExpandButtonLastBorder();
@@ -306,8 +306,10 @@ namespace OxDAOEngine.ControlFactory
         }
 
         private void SetExpandButtonLastBorder() =>
-            ExpandButton.Borders[OxDockHelper.Dock(PinButton2.Dock)].Size = 
-                PinButton2.Visible ? OxSize.None : OxSize.XXS;
+            ExpandButton.Borders[PinButton2.Dock].Size = 
+                PinButton2.Visible 
+                    ? OxWh.W0
+                    : OxWh.W1;
 
         private bool expanded = false;
 
@@ -320,20 +322,22 @@ namespace OxDAOEngine.ControlFactory
             OnExpandedChanging(new ExpandedChangedEventArgs(expanded, value));
             expanded = value;
 
-            StartSizeRecalcing();
+            StartSizeChanging();
             try
             {
-                Padding[OxDockHelper.Dock(Dock)].Visible = value;
-                Padding[OxDockHelper.Dock(Sider.Dock)].Visible = value;
+                Padding[Dock].Visible = value;
+                Padding[Sider.Dock].Visible = value;
                 //ContentBox.Visible = value;
                 HeaderVisible = value; 
                 ExpandButton.Icon = ExpandButtonIcon;
-                Borders[OxDockHelper.Dock(Dock)].Size = value ? OxSize.XXS : OxSize.None;
+                Borders[Dock].Size = value 
+                    ? OxWh.W1
+                    : OxWh.W0;
             }
             finally
             {
                 Update();
-                EndSizeRecalcing();
+                EndSizeChanging();
                 RecalcPinned();
                 RecalcSize();
             }
@@ -401,10 +405,10 @@ namespace OxDAOEngine.ControlFactory
         public Bitmap? ExpandButtonIcon =>
             Dock switch
             {
-                DockStyle.Left => expanded ? OxIcons.Left : OxIcons.Right,
-                DockStyle.Right => expanded ? OxIcons.Right : OxIcons.Left,
-                DockStyle.Top => expanded ? OxIcons.Up : OxIcons.Down,
-                DockStyle.Bottom => expanded ? OxIcons.Down : OxIcons.Up,
+                OxDock.Left => expanded ? OxIcons.Left : OxIcons.Right,
+                OxDock.Right => expanded ? OxIcons.Right : OxIcons.Left,
+                OxDock.Top => expanded ? OxIcons.Up : OxIcons.Down,
+                OxDock.Bottom => expanded ? OxIcons.Down : OxIcons.Up,
                 _ => null,
             };
 
@@ -481,7 +485,7 @@ namespace OxDAOEngine.ControlFactory
                 foreach (Control control in Parent.Controls)
                     if (control is OxPane pane
                         && Parent.Equals(pane.Parent)
-                        && pane.Dock is DockStyle.Fill)
+                        && pane.Dock is OxDock.Fill)
                         return pane;
 
             return null;
@@ -521,9 +525,9 @@ namespace OxDAOEngine.ControlFactory
 
             OxPane? fakePadding = ParentPadding;
 
-            int fakePaddingSize = OxDockHelper.IsVertical(OxDockHelper.Dock(Dock))
-                ? Sider.CalcedHeight + Margin.TopInt + Margin.BottomInt
-                : Sider.CalcedWidth + Margin.LeftInt + Margin.RightInt;
+            OxWidth fakePaddingSize = OxDockHelper.IsVertical(Dock)
+                ? Sider.CalcedHeight | Margin.Top | Margin.Bottom
+                : Sider.CalcedWidth | Margin.Left | Margin.Right;
 
             if (fakePadding is not null)
             {

@@ -20,9 +20,9 @@ namespace OxDAOEngine.Grid
         private readonly OxFrameWithHeader LeftPlace = new();
         private readonly OxFrameWithHeader RightPlace = new();
 
-        private readonly OxIconButton NotEqualsButton = new(OxIcons.NotEqual, 54);
-        private readonly OxIconButton LeftToRightButton = new(OxIcons.Right, 54);
-        private readonly OxIconButton RightToLeftButton = new(OxIcons.Left, 54);
+        private readonly OxIconButton NotEqualsButton = new(OxIcons.NotEqual, OxWh.W54);
+        private readonly OxIconButton LeftToRightButton = new(OxIcons.Right, OxWh.W54);
+        private readonly OxIconButton RightToLeftButton = new(OxIcons.Left, OxWh.W54);
 
         private readonly OxPane ButtonsPanel = new(new(64, 1));
         private readonly List<TField> EqualFields = new();
@@ -128,41 +128,45 @@ namespace OxDAOEngine.Grid
             base.PrepareInnerControls();
 
             LeftPlace.Parent = this;
-            LeftPlace.Dock = DockStyle.Fill;
+            LeftPlace.Dock = OxDock.Fill;
             LeftPlace.Header.Underline.Visible = false;
             LeftItemGrid.Parent = LeftPlace;
-            LeftItemGrid.Dock = DockStyle.Fill;
+            LeftItemGrid.Dock = OxDock.Fill;
 
             ButtonsPanel.Parent = this;
-            ButtonsPanel.Dock = DockStyle.Right;
+            ButtonsPanel.Dock = OxDock.Right;
 
             NotEqualsButton.Parent = ButtonsPanel;
             NotEqualsButton.Click += NotEqualsButtonHandler;
             NotEqualsButton.Left = 4;
-            NotEqualsButton.Size = new(54, 38);
+            NotEqualsButton.Size = new(OxWh.W54, OxWh.W38);
             NotEqualsButton.HiddenBorder = false;
 
             LeftToRightButton.Parent = ButtonsPanel;
             LeftToRightButton.Click += LeftToRightHandler;
             LeftToRightButton.Left = 4;
-            LeftToRightButton.Size = new(54, 38);
+            LeftToRightButton.Size = new(OxWh.W54, OxWh.W38);
             LeftToRightButton.HiddenBorder = false;
 
             RightToLeftButton.Parent = ButtonsPanel;
             RightToLeftButton.Click += RightToLeftHandler;
             RightToLeftButton.Left = 4;
-            RightToLeftButton.Size = new(54, 38);
+            RightToLeftButton.Size = new(OxWh.W54, OxWh.W38);
             RightToLeftButton.HiddenBorder = false;
 
-            NotEqualsButton.Top = ButtonsPanel.Height / 2 - NotEqualsButton.Height - (NotEqualsButton.Height / 2) - 4;
+            NotEqualsButton.Top = 
+                ButtonsPanel.HeightInt / 2 
+                - NotEqualsButton.HeightInt 
+                - (NotEqualsButton.HeightInt / 2) 
+                - 4;
             LeftToRightButton.Top = NotEqualsButton.Bottom + 8;
             RightToLeftButton.Top = LeftToRightButton.Bottom + 8;
 
             RightPlace.Parent = this;
-            RightPlace.Dock = DockStyle.Right;
+            RightPlace.Dock = OxDock.Right;
             RightPlace.Header.Underline.Visible = false;
             RightItemGrid.Parent = RightPlace;
-            RightItemGrid.Dock = DockStyle.Fill;
+            RightItemGrid.Dock = OxDock.Fill;
         }
 
         private void NotEqualsButtonHandler(object? sender, EventArgs e)
@@ -241,8 +245,8 @@ namespace OxDAOEngine.Grid
 
         private void RecalcGridsSizes()
         {
-            RightPlace.Width = ((PanelViewer is not null ? PanelViewer.Width : Width) - ButtonsPanel.Width) / 2;
-            NotEqualsButton.Top = ButtonsPanel.Height / 2 - NotEqualsButton.Height - (NotEqualsButton.Height / 2) - 4;
+            RightPlace.WidthInt = ((PanelViewer is not null ? PanelViewer.Width : WidthInt) - ButtonsPanel.WidthInt) / 2;
+            NotEqualsButton.Top = ButtonsPanel.HeightInt / 2 - NotEqualsButton.HeightInt - (NotEqualsButton.HeightInt / 2) - 4;
             LeftToRightButton.Top = NotEqualsButton.Bottom + 8;
             RightToLeftButton.Top = LeftToRightButton.Bottom + 8;
         }

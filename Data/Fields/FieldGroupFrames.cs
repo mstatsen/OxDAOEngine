@@ -1,5 +1,6 @@
 ﻿using OxLibrary.Panels;
 using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.Data.Fields
 {
@@ -26,22 +27,22 @@ namespace OxDAOEngine.Data.Fields
                 );
         }
 
-        private int Height(TFieldGroup group)
+        private OxWidth Height(TFieldGroup group)
         {
             if (!fieldGroupHelper.IsCalcedHeightGroup(group))
                 return fieldGroupHelper.DefaultGroupHeight(group);
 
             OxFrame groupFrame = this[group];
-            int height = 0;
+            OxWidth height = OxWh.W0;
 
             foreach (Control control in groupFrame.Controls)
                 if (control.Visible)
-                    height = Math.Max(control.Bottom, height);
+                    height = OxWh.Max(control.Bottom, height);
 
-            return height + 8;
+            return height | OxWh.W8;
         }
 
-        public int Width(TFieldGroup group) => fieldGroupHelper.GroupWidth(group);
-        public DockStyle Dock(TFieldGroup group) => fieldGroupHelper.GroupDock(group);
+        public OxWidth Width(TFieldGroup group) => fieldGroupHelper.GroupWidth(group);
+        public OxDock Dock(TFieldGroup group) => fieldGroupHelper.GroupDock(group);
     }
 }

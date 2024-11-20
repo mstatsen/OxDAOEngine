@@ -61,13 +61,13 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 Parent = readOnlyControl
             };
             ReadOnlyPicture.Parent = readOnlyControl;
-            ReadOnlyPicture.Height = ReadOnlyPictureSize;
-            ReadOnlyPicture.Width = ReadOnlyPictureSize;
+            ReadOnlyPicture.HeightInt = ReadOnlyPictureSize;
+            ReadOnlyPicture.WidthInt = ReadOnlyPictureSize;
             ReadOnlyPicture.MinimumSize = new(ReadOnlyPictureSize, ReadOnlyPictureSize);
             ReadOnlyPicture.Top = 0;
-            ReadOnlyPicture.Left = readOnlyControl.Width - ReadOnlyPictureSize;
+            ReadOnlyPicture.Left = readOnlyControl.WidthInt - ReadOnlyPictureSize;
             ReadOnlyPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            ReadOnlyPicture.PictureSize = ReadOnlyPictureSize;
+            ReadOnlyPicture.PictureSize = OxWh.W(ReadOnlyPictureSize);
             ReadOnlyPicture.Image = OxIcons.Tick;
             return readOnlyControl;
         }

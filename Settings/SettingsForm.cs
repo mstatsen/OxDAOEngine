@@ -56,8 +56,8 @@ namespace OxDAOEngine.Settings
             CreateSettingsTabs();
             CreatePanels();
             CreateControls();
-            MainPanel.DialogButtonStartSpace = 8;
-            MainPanel.DialogButtonSpace = 4;
+            MainPanel.DialogButtonStartSpace = OxWh.W8;
+            MainPanel.DialogButtonSpace = OxWh.W4;
             SetSettingsTabButtonsVisible();
             foreach (OxTabControl tabControl in settingsTabs.Values)
                 tabControl.ActivateFirstPage();
@@ -112,14 +112,14 @@ namespace OxDAOEngine.Settings
 
         private void SetFormSize()
         {
-            int maximumTabWidth = tabControl.TabHeaderSize.Width * tabControl.Pages.Count;
+            int maximumTabWidth = tabControl.TabHeaderSize.WidthInt * tabControl.Pages.Count;
 
             foreach (OxPane tab in tabControl.Pages.Cast<OxPane>())
                 if (tab is OxTabControl childTabControl)
-                {
-                    maximumTabWidth = Math.Max(maximumTabWidth, 
-                        childTabControl.TabHeaderSize.Width * childTabControl.Pages.Count);
-                }
+                    maximumTabWidth = Math.Max(
+                        maximumTabWidth, 
+                        childTabControl.TabHeaderSize.WidthInt * childTabControl.Pages.Count
+                    );
 
             maximumTabWidth += tabControl.Margin.LeftInt + tabControl.Margin.RightInt + 24;
             Size = new(
@@ -189,11 +189,11 @@ namespace OxDAOEngine.Settings
             {
                 BaseColor = MainPanel.BaseColor,
                 Parent = MainPanel,
-                Dock = DockStyle.Fill,
+                Dock = OxDock.Fill,
                 Text = TypeHelper.Name(part)
             };
 
-            panel.Padding.Size = OxSize.S;
+            panel.Padding.Size = OxWh.W4;
             settingsPanels[settings].Add(part, panel);
             settingsPartControls[settings].Add(part, new ControlAccessorList());
             settingsTabs[settings].AddPage(panel);
@@ -367,11 +367,11 @@ namespace OxDAOEngine.Settings
             OxFrameWithHeader frame = new()
             {
                 Parent = settingsPanels[settings][part],
-                Dock = DockStyle.Top,
+                Dock = OxDock.Top,
                 Text = text,
                 BaseColor = MainPanel.BaseColor
             };
-            frame.Margin.Size = OxSize.S;
+            frame.Margin.Size = OxWh.W4;
             frame.HeaderVisible = !text.Equals(string.Empty);
             return frame;
         }
@@ -437,20 +437,20 @@ namespace OxDAOEngine.Settings
                 left = Math.Max(left, existButton.Right);
 
             DefaulterScopeHelper helper = TypeHelper.Helper<DefaulterScopeHelper>();
-            left += DefaulterScopeHelper.DefaultButtonsSpace;
+            left += OxWh.Int(helper.DefaultButtonsSpace);
             OxButton button = new(helper.Name(scope), OxIcons.Eraser)
             {
                 Parent = MainPanel.Footer,
                 BaseColor = MainPanel.BaseColor,
-                Top = (MainPanel.Footer.Height - DefaulterScopeHelper.DefaultButtonHeight) / 2,
+                Top = (MainPanel.Footer.HeightInt - OxWh.Int(helper.DefaultButtonHeight)) / 2,
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
                 Font = Styles.Font(-1, FontStyle.Regular),
-                Left = left
+                Left = left,
+                Size = new(
+                    helper.Width(scope),
+                    helper.DefaultButtonHeight
+                )
             };
-
-            button.Size = new(
-                helper.Width(scope),
-                DefaulterScopeHelper.DefaultButtonHeight);
             button.Click += DefaultButtonClickHandler;
             defaulters.Add(button, scope);
         }
@@ -537,13 +537,13 @@ namespace OxDAOEngine.Settings
         private void PrepareTabControl()
         {
             tabControl.Parent = MainPanel;
-            tabControl.Dock = DockStyle.Fill;
+            tabControl.Dock = OxDock.Fill;
             tabControl.BaseColor = MainPanel.BaseColor;
             tabControl.Font = Styles.DefaultFont;
-            tabControl.TabHeaderSize = new(124, 32);
+            tabControl.TabHeaderSize = new(OxWh.W124, OxWh.W32);
             tabControl.BorderVisible = false;
-            tabControl.Margin.Size = OxSize.None;
-            tabControl.Margin.Top = OxSize.M;
+            tabControl.Margin.Size = OxWh.W0;
+            tabControl.Margin.Top = OxWh.W8;
         }
 
         private void CreateSettingsTabs()
@@ -553,15 +553,15 @@ namespace OxDAOEngine.Settings
                 OxTabControl tab = new()
                 {
                     Parent = MainPanel,
-                    Dock = DockStyle.Fill,
+                    Dock = OxDock.Fill,
                     BaseColor = MainPanel.BaseColor,
                     Font = Styles.DefaultFont,
-                    TabHeaderSize = new(84, 30),
+                    TabHeaderSize = new(OxWh.W84, OxWh.W30),
                     BorderVisible = false,
                     Text = settings.ListName,
                 };
-                tab.Margin.Size = OxSize.None;
-                tab.Margin.Top = OxSize.M;
+                tab.Margin.Size = OxWh.W0;
+                tab.Margin.Top = OxWh.W8;
                 tabControl.AddPage(tab, settings.Icon);
                 settingsTabs.Add(settings, tab);
                 settingsPanels.Add(settings);

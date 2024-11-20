@@ -30,7 +30,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             NameControl.Parent = this;
             NameControl.Left = 60;
             NameControl.Top = 8;
-            NameControl.Width = MainPanel.Width - NameControl.Left - 8;
+            NameControl.Width = MainPanel.WidthInt - NameControl.Left - 8;
             NameControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             NameControl.Height = 24;
             CreateLabel("Name", NameControl);
@@ -42,7 +42,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             UrlControl.Parent = this;
             UrlControl.Left = 60;
             UrlControl.Top = NameControl.Bottom + 8;
-            UrlControl.Width = MainPanel.Width - UrlControl.Left - 8;
+            UrlControl.Width = MainPanel.WidthInt - UrlControl.Left - 8;
             UrlControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             UrlControl.Height = 90;
             CreateLabel("URL", UrlControl);

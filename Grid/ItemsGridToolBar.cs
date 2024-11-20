@@ -35,11 +35,11 @@ namespace OxDAOEngine.Grid
                 AddButton(OxToolbarAction.Update);
 
             AddButton(OxToolbarAction.Delete, true);
-            AddButton(OxToolbarAction.Export, true, DockStyle.Right);
+            AddButton(OxToolbarAction.Export, true, OxDock.Right);
         }
 
         protected override void SetToolBarPaddings() => 
-            Padding.SetSize(OxSize.S, OxSize.None, OxSize.XS, OxSize.XS);
+            Padding.SetSize(OxWh.W4, OxWh.W0, OxWh.W2, OxWh.W2);
 
         private bool actionsVisible = true;
         public bool ActionsVisible 

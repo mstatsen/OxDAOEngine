@@ -11,11 +11,11 @@ namespace OxDAOEngine.Statistic
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        public StatisticPanel(ItemsRootGrid<TField, TDAO> grid) : base(new(100, 24))
+        public StatisticPanel(ItemsRootGrid<TField, TDAO> grid) : base(new(OxWh.W100, OxWh.W24))
         {
             Grid = grid;
-            Borders.Size = OxSize.None;
-            Borders.Top = OxSize.XXS;
+            Borders.Size = OxWh.W0;
+            Borders.Top = OxWh.W1;
             DarkerColorHelper = new OxColorHelper(BaseColor);
             SetStatisticsTexts();
         }
@@ -95,7 +95,7 @@ namespace OxDAOEngine.Statistic
             foreach (OxButton label in Labels.Values)
             {
                 label.BringToFront();
-                label.Margin.Size = OxSize.XS;
+                label.Margin.Size = OxWh.W2;
             }
         }
 

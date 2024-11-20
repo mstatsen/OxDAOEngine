@@ -19,7 +19,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly OxPane ConcatControlParent = new();
         private readonly OxPane AddRuleButtonParent = new();
         private readonly OxButton AddRuleButton = new("Add rule", OxIcons.Plus);
-        private readonly OxIconButton RemoveGroupButton = new(OxIcons.Trash, 16);
+        private readonly OxIconButton RemoveGroupButton = new(OxIcons.Trash, OxWh.W16);
         private readonly FilterPanel<TField, TDAO> ParentFilterPanel;
         private readonly int Number;
         private readonly List<RulePanel<TField, TDAO>> RulesPanels = new();
@@ -61,10 +61,10 @@ namespace OxDAOEngine.ControlFactory.Filter
             Builder = builder;
             Number = number;
             ConcatControl = CreateConcatControl();
-            Margin.Top = OxSize.S;
-            Margin.Right = OxSize.M;
-            Margin.Bottom = OxSize.XS;
-            Margin.Left = OxSize.L | OxSize.M;
+            Margin.Top = OxWh.W4;
+            Margin.Right = OxWh.W8;
+            Margin.Bottom = OxWh.W2;
+            Margin.Left = OxWh.W24;
             Group = group;
             PrepareAddRuleButton();
             PrepareRemoveGroupButton();
@@ -76,7 +76,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             RemoveGroupButton.Parent = ConcatControlParent;
             RemoveGroupButton.ToolTipText = "Remove group";
             RemoveGroupButton.Top = 1;
-            RemoveGroupButton.Left = ConcatControlParent.Right - RemoveGroupButton.Width - 1;
+            RemoveGroupButton.Left = ConcatControlParent.Right - RemoveGroupButton.WidthInt - 1;
             RemoveGroupButton.Anchor = AnchorStyles.Right;
             RemoveGroupButton.Click += RemoveGroupButtonClickHandler;
         }
@@ -95,20 +95,20 @@ namespace OxDAOEngine.ControlFactory.Filter
             result.Width = 60;
             result.Height = 18;
             ConcatControlParent.Parent = this;
-            ConcatControlParent.Size = new(1, result.Height);
-            ConcatControlParent.Dock = DockStyle.Top;
+            ConcatControlParent.Size = new(OxWh.W1, result.Height);
+            ConcatControlParent.Dock = OxDock.Top;
             return result;
         }
 
         private void PrepareAddRuleButton()
         {
             AddRuleButton.Parent = AddRuleButtonParent;
-            AddRuleButton.Height = 20;
+            AddRuleButton.Height = OxWh.W20;
             AddRuleButton.Click += AddRuleButtonClickHandler;
             AddRuleButtonParent.Parent = this;
-            AddRuleButtonParent.Dock = DockStyle.Bottom;
-            AddRuleButtonParent.Padding.Size = OxSize.M;
-            AddRuleButtonParent.Size = new(1, AddRuleButton.Height);
+            AddRuleButtonParent.Dock = OxDock.Bottom;
+            AddRuleButtonParent.Padding.Size = OxWh.W8;
+            AddRuleButtonParent.Size = new(OxWh.W1, AddRuleButton.Height);
         }
 
         private void RulePanelRemoveRuleHandler(object? sender, EventArgs e)
@@ -154,7 +154,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 RulePanel<TField, TDAO> simpleFilterPanel = new(rule, Builder, Number, RulesPanels.Count)
                 {
                     Parent = this,
-                    Dock = DockStyle.Top
+                    Dock = OxDock.Top
                 };
                 RulesPanels.Insert(0, simpleFilterPanel);
                 PrepareColors();
@@ -163,12 +163,12 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 foreach (RulePanel<TField, TDAO> panel in RulesPanels)
                 {
-                    panel.Dock = DockStyle.None;
-                    panel.Dock = DockStyle.Top;
+                    panel.Dock = OxDock.None;
+                    panel.Dock = OxDock.Top;
                 }
 
-                ConcatControlParent.Dock = DockStyle.None;
-                ConcatControlParent.Dock = DockStyle.Top;
+                ConcatControlParent.Dock = OxDock.None;
+                ConcatControlParent.Dock = OxDock.Top;
             }
             finally
             {
@@ -203,21 +203,21 @@ namespace OxDAOEngine.ControlFactory.Filter
                 rulePanel.BaseColor = BaseColor;
         }
 
-        protected override int GetCalcedHeight() =>
-            + Margin.TopInt
-            + Margin.BottomInt
-            + Padding.TopInt
-            + Padding.BottomInt
-            + ConcatControlParent.CalcedHeight
-            + RulePanelsHeight()
-            + AddRuleButtonParent.CalcedHeight;
+        protected override OxWidth GetCalcedHeight() =>
+            Margin.Top
+            | Margin.Bottom
+            | Padding.Top
+            | Padding.Bottom
+            | ConcatControlParent.CalcedHeight
+            | RulePanelsHeight()
+            | AddRuleButtonParent.CalcedHeight;
 
-        private int RulePanelsHeight()
+        private OxWidth RulePanelsHeight()
         {
-            int result = 0;
+            OxWidth result = 0;
 
             foreach (RulePanel<TField, TDAO> panel in RulesPanels)
-                result += panel.Height;
+                result |= panel.Height;
 
             return result;
         }

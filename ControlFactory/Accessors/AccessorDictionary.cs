@@ -30,12 +30,12 @@ namespace OxDAOEngine.ControlFactory.Accessors
         private const int HorizontalSpace = 28;
 
         public IControlAccessor CreateAccessor(TField field, object key, Control parent, 
-            string? caption, object value, Point location)
+            string? caption, object value, OxSize location)
         {
             OxLabel captionLabel = new()
             {
                 Parent = parent,
-                Left = location.X,
+                Left = location.WidthInt,
                 Text = caption,
                 Font = Styles.Font(FontStyle.Italic),
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -66,7 +66,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
                     FieldType.Label
                 );
             accessor.Left = captionLabel.Right + HorizontalSpace;
-            accessor.Top = location.Y;
+            accessor.Top = location.HeightInt;
             accessor.Parent = parent;
             accessor.Value = value;
             accessor.Control.Font = Styles.Font(FontStyle.Bold);

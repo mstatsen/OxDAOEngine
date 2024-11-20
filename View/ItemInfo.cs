@@ -56,6 +56,7 @@ namespace OxDAOEngine.View
         public ItemInfo() : base()
         {
             AutoScroll = true;
+            Dock = OxDock.Right;
             //ContentBox.AutoScroll = true;
             PreparePanels();
             Layouter = Builder.Layouter;
@@ -79,23 +80,22 @@ namespace OxDAOEngine.View
 
         private void SetSizes()
         {
-            OxDock oxDock = OxDockHelper.Dock(Dock);
-            Margin.Size = OxSize.XS;
-            Margin[OxDockHelper.Opposite(oxDock)].Size = OxSize.None;
+            Margin.Size = OxWh.W2;
+            Margin[OxDockHelper.Opposite(Dock)].Size = OxWh.W0;
 
-            if (oxDock is OxDock.Right)
-                Margin.Bottom = OxSize.None;
+            if (Dock is OxDock.Right)
+                Margin.Bottom = OxWh.W0;
 
             Margin.Top = 
-                oxDock is OxDock.Bottom 
-                    ? OxSize.XXS 
+                Dock is OxDock.Bottom 
+                    ? OxWh.W1
                     : Pinned 
-                        ? OxSize.M | OxSize.XXS
-                        : OxSize.S;
+                        ? OxWh.W9
+                        : OxWh.W4;
 
-            Margin.Right = OxSize.None;
-            Padding.Size = OxSize.S;
-            HeaderHeight = 36;
+            Margin.Right = OxWh.W0;
+            Padding.Size = OxWh.W4;
+            HeaderHeight = OxWh.W36;
         }
 
         protected override void OnPinnedChanged(PinnedChangedEventArgs e) =>
@@ -190,13 +190,13 @@ namespace OxDAOEngine.View
         protected void PreparePanel(OxPane panel, string text)
         {
             panel.Parent = this;
-            panel.Dock = DockStyle.Top;
+            panel.Dock = OxDock.Top;
 
             if (!text.Equals(string.Empty))
                 Headers.Add(panel, new OxHeader(text)
                 {
                     Parent = panel.Parent,
-                    Dock = DockStyle.Top
+                    Dock = OxDock.Top
                 });
 
             panels.Add(panel);
@@ -268,7 +268,7 @@ namespace OxDAOEngine.View
                     prevLayout = layout;
                 }
 
-                parentPanel.Height = maxBottom + 36;
+                parentPanel.HeightInt = maxBottom + 36;
                 parentPanel.Visible = visibleControlsExists;
                 HeaderVisible = visibleControlsExists;
             }
@@ -287,7 +287,7 @@ namespace OxDAOEngine.View
 
         protected override void ApplySettingsInternal()
         {
-            DockStyle settingsDock = 
+            OxDock settingsDock = 
                 TypeHelper.Helper<ItemInfoPositionHelper>().Dock(Settings.ItemInfoPosition);
 
             if (!Dock.Equals(settingsDock))

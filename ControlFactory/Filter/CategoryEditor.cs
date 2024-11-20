@@ -33,7 +33,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             {
                 if (width is -1)
                 {
-                    result.Width = MainPanel.Width - result.Left - 8;
+                    result.Width = MainPanel.WidthInt - result.Left - 8;
                     result.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
                 }
                 else
@@ -63,7 +63,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             FilterPanel = new(Builder)
             {
                 Parent = MainPanel,
-                Dock = DockStyle.Bottom
+                Dock = OxDock.Bottom
             };
             FilterPanel.GetCategoryName += GetCategoryNameHandler;
             FilterPanel.SizeChanged += FilterPanelSizeChangedHandler;
@@ -122,11 +122,9 @@ namespace OxDAOEngine.ControlFactory.Filter
                 {
                     if (BaseOnChildsControl.BoolValue)
                         return BaseOnChildsControl.Bottom + 8;
-                    else
-                    {
-                        FilterPanel.RecalcSize();
-                        return BaseOnChildsControl.Bottom + FilterPanel.Height + 4;
-                    }
+
+                    FilterPanel.RecalcSize();
+                    return BaseOnChildsControl.Bottom + FilterPanel.HeightInt + 4;
                 }
                 
                 return FieldControl.Bottom + 8;

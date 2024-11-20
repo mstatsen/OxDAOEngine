@@ -15,8 +15,8 @@ namespace OxDAOEngine.Grid
         private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
         private readonly OxPane buttonsPanel = new(new(64, 1));
         private readonly OxPane topPanel = new(new(1, 100));
-        private readonly OxIconButton selectButton = new(OxIcons.Right, 54);
-        private readonly OxIconButton unSelectButton = new(OxIcons.Left, 54);
+        private readonly OxIconButton selectButton = new(OxIcons.Right, OxWh.W54);
+        private readonly OxIconButton unSelectButton = new(OxIcons.Left, OxWh.W54);
         private readonly ItemsChooserParams<TField, TDAO> ChooserParams;
         private readonly OxFrameWithHeader availablePlace = new()
         {
@@ -101,47 +101,47 @@ namespace OxDAOEngine.Grid
         {
             base.PrepareInnerControls();
             availablePlace.Parent = this;
-            availablePlace.Dock = DockStyle.Fill;
+            availablePlace.Dock = OxDock.Fill;
             availablePlace.Header.Underline.Visible = false;
             availableGrid.Parent = availablePlace;
-            availableGrid.Dock = DockStyle.Fill;
+            availableGrid.Dock = OxDock.Fill;
 
             buttonsPanel.Parent = this;
-            buttonsPanel.Dock = DockStyle.Right;
+            buttonsPanel.Dock = OxDock.Right;
 
             selectButton.Parent = buttonsPanel;
             selectButton.Click += (s, e) => MoveSelected(true);
             selectButton.Left = 4;
-            selectButton.Size = new(54, 38);
+            selectButton.Size = new(OxWh.W54, OxWh.W38);
             selectButton.HiddenBorder = false;
 
             unSelectButton.Parent = buttonsPanel;
             unSelectButton.Click += (s, e) => MoveSelected(false);
             unSelectButton.Left = 4;
-            unSelectButton.Size = new(54, 38);
+            unSelectButton.Size = new(OxWh.W54, OxWh.W38);
             unSelectButton.HiddenBorder = false;
 
-            selectButton.Top = buttonsPanel.Height / 2 - selectButton.Height - 4;
+            selectButton.Top = buttonsPanel.HeightInt / 2 - selectButton.HeightInt - 4;
             unSelectButton.Top = selectButton.Bottom + 8;
 
             selectedPlace.Parent = this;
-            selectedPlace.Dock = DockStyle.Right;
+            selectedPlace.Dock = OxDock.Right;
             selectedPlace.Header.Underline.Visible = false;
             selectedGrid.Parent = selectedPlace;
-            selectedGrid.Dock = DockStyle.Fill;
+            selectedGrid.Dock = OxDock.Fill;
 
             if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
             {
                 topPanel.Parent = this;
-                topPanel.Dock = DockStyle.Top;
+                topPanel.Dock = OxDock.Top;
                 topPanel.Size = new
                 (
-                    1,
+                    OxWh.W1,
                     availableGrid.QuickFilter.Height
-                    + availableGrid.QuickFilter.Margin.BottomInt
+                    | availableGrid.QuickFilter.Margin.Bottom
                 );
 
-                availableGrid.QuickFilter.Dock = DockStyle.Left;
+                availableGrid.QuickFilter.Dock = OxDock.Left;
                 availableGrid.QuickFilter.Parent = topPanel;
             }
 
@@ -241,8 +241,11 @@ namespace OxDAOEngine.Grid
 
         private void RecalcGridsSizes()
         {
-            selectedPlace.Width = ((PanelViewer is not null ? PanelViewer.Width : Width) - buttonsPanel.Width) / 2;
-            selectButton.Top = buttonsPanel.Height / 2 - selectButton.Height - 50;
+            selectedPlace.Width = OxWh.W(
+                ((PanelViewer is not null 
+                ? PanelViewer.Width
+                : WidthInt) - buttonsPanel.WidthInt) / 2);
+            selectButton.Top = buttonsPanel.HeightInt / 2 - selectButton.HeightInt - 50;
             unSelectButton.Top = selectButton.Bottom + 8;
 
             if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)

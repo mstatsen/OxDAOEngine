@@ -61,8 +61,8 @@ namespace OxDAOEngine.Grid
                 return;
 
             QuickFilter.Parent = this;
-            QuickFilter.Dock = DockStyle.Top;
-            QuickFilter.Margin.Bottom = OxSize.S;
+            QuickFilter.Dock = OxDock.Top;
+            QuickFilter.Margin.Bottom = OxWh.W4;
             QuickFilter.Height += 20;
             QuickFilter.Changed += (s, e) => ApplyQuickFilter();
             QuickFilter.RenewFilterControls();

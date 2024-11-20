@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.Settings
 {
@@ -12,17 +13,17 @@ namespace OxDAOEngine.Settings
                 _ => "Reset to defaults",
             };
 
-        public int Width(DefaulterScope scope) => 
+        public OxWidth Width(DefaulterScope scope) => 
             scope switch
             {
-                DefaulterScope.CurrentPage => 160,
-                _ => 86,
+                DefaulterScope.CurrentPage => OxWh.W160,
+                _ => OxWh.W86,
             };
 
         public override DefaulterScope EmptyValue() =>
             DefaulterScope.All;
 
-        public const int DefaultButtonHeight = 23;
-        public const int DefaultButtonsSpace = 4;
+        public readonly OxWidth DefaultButtonHeight = OxWh.W23;
+        public readonly OxWidth DefaultButtonsSpace = OxWh.W4;
     }
 }

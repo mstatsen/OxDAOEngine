@@ -77,9 +77,9 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.PrepareInnerControls();
             PrepareCategorySelector();
-            ExpandButton.Size = new(28, 23);
+            ExpandButton.Size = new(OxWh.W28, OxWh.W23);
             ExpandButton.Click += ExpandAllClick;
-            CollapseButton.Size = new(28, 23);
+            CollapseButton.Size = new(OxWh.W28, OxWh.W23);
             CollapseButton.Click += (s, e) => categorySelector.CollapseAll();
             Header.AddToolButton(CollapseButton);
             Header.AddToolButton(ExpandButton);
@@ -105,13 +105,13 @@ namespace OxDAOEngine.ControlFactory.Filter
             categorySelector.SelectedNode?.EnsureVisible();
         }
 
-        private readonly OxIconButton CollapseButton = new(OxIcons.Up, 23)
+        private readonly OxIconButton CollapseButton = new(OxIcons.Up, OxWh.W23)
         {
             Font = Styles.Font(-1, FontStyle.Bold),
             HiddenBorder = false
         };
 
-        private readonly OxIconButton ExpandButton = new(OxIcons.Down, 23)
+        private readonly OxIconButton ExpandButton = new(OxIcons.Down, OxWh.W23)
         {
             Font = Styles.Font(-1, FontStyle.Bold),
             HiddenBorder = false
@@ -161,7 +161,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         public CategoriesTree() : base()
         {
             Icon = OxIcons.Categories;
-            Size = new(280, 1);
+            Size = new(280, OxWh.W1);
         }
 
         private void FillTree()

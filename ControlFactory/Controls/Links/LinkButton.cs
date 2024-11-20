@@ -1,4 +1,5 @@
-﻿using OxLibrary.Controls;
+﻿using OxLibrary;
+using OxLibrary.Controls;
 using OxLibrary.Dialogs;
 using System.Diagnostics;
 
@@ -15,7 +16,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         {
             base.AfterCreated();
             Cursor = Cursors.Hand;
-            Size = new(Width, 22);
+            Size = new(Width, OxWh.W22);
         }
 
         protected override void SetHandlers()

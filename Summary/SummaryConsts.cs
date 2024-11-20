@@ -1,11 +1,13 @@
-﻿namespace OxDAOEngine.Summary
+﻿using OxLibrary;
+
+namespace OxDAOEngine.Summary
 {
     public static class SummaryConsts
     {
-        public const int HorizontalSpace = 8;
-        public const int VerticalSpace = 12;
-        public const int CardWidth = 250;
-        public const int CardHeight = 36;
-        public const int CardHeaderHeight = 24;
+        public static readonly OxWidth HorizontalSpace = OxWh.W8;
+        public static readonly OxWidth VerticalSpace = OxWh.W12;
+        public static readonly OxWidth CardWidth = OxWh.W250;
+        public static readonly OxWidth CardHeight = OxWh.W36;
+        public static readonly OxWidth CardHeaderHeight = OxWh.W24;
     }
 }
