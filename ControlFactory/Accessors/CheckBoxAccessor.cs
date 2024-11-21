@@ -65,7 +65,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             ReadOnlyPicture.WidthInt = ReadOnlyPictureSize;
             ReadOnlyPicture.MinimumSize = new(ReadOnlyPictureSize, ReadOnlyPictureSize);
             ReadOnlyPicture.Top = 0;
-            ReadOnlyPicture.Left = readOnlyControl.WidthInt - ReadOnlyPictureSize;
+            ReadOnlyPicture.Left = OxWh.Sub(readOnlyControl.Width, ReadOnlyPictureSize);
             ReadOnlyPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             ReadOnlyPicture.PictureSize = OxWh.W(ReadOnlyPictureSize);
             ReadOnlyPicture.Image = OxIcons.Tick;

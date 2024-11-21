@@ -431,10 +431,10 @@ namespace OxDAOEngine.Settings
 
         private void CreateDefaulter(DefaulterScope scope)
         {
-            int left = 4;
+            OxWidth left = OxWh.W4;
 
             foreach (OxButton existButton in defaulters.Keys)
-                left = Math.Max(left, existButton.Right);
+                left = OxWh.Max(left, existButton.Right);
 
             DefaulterScopeHelper helper = TypeHelper.Helper<DefaulterScopeHelper>();
             left += OxWh.Int(helper.DefaultButtonsSpace);
@@ -442,7 +442,10 @@ namespace OxDAOEngine.Settings
             {
                 Parent = MainPanel.Footer,
                 BaseColor = MainPanel.BaseColor,
-                Top = (MainPanel.Footer.HeightInt - OxWh.Int(helper.DefaultButtonHeight)) / 2,
+                Top = OxWh.Div(
+                    OxWh.Sub(MainPanel.Footer.Height, helper.DefaultButtonHeight), 
+                    OxWh.W2
+                ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
                 Font = Styles.Font(-1, FontStyle.Regular),
                 Left = left,

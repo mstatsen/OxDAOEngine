@@ -442,12 +442,12 @@ namespace OxDAOEngine.Settings
                     : frame.Equals(extraSettingsFrames[ExportFormat.Text])
                         ? textsPanel.Bottom
                         : frameControls.Count > 0
-                            ? frameControls[^1].Bottom
-                            : 24
-                + frame.Margin.TopInt
-                + frame.Padding.TopInt
-                + frame.Padding.BottomInt
-                + 12
+                            ? OxWh.W(frameControls[^1].Bottom)
+                            : OxWh.W24
+                | frame.Margin.Top
+                | frame.Padding.Top
+                | frame.Padding.Bottom
+                | OxWh.W12
             );
 
             int maxLeft = 0;

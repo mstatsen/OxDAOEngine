@@ -112,22 +112,26 @@ namespace OxDAOEngine.ControlFactory.Filter
             RecalcSize();
         }
 
-        protected override int ContentWidth => 600;
+        protected override OxWidth ContentWidth => OxWh.W600;
 
-        protected override int ContentHeight
+        protected override OxWidth ContentHeight
         {
             get
             {
                 if (IsFilterCategory)
                 {
                     if (BaseOnChildsControl.BoolValue)
-                        return BaseOnChildsControl.Bottom + 8;
+                        return OxWh.Add(BaseOnChildsControl.Bottom, OxWh.W8);
 
                     FilterPanel.RecalcSize();
-                    return BaseOnChildsControl.Bottom + FilterPanel.HeightInt + 4;
+                    return 
+                        OxWh.Add(
+                            OxWh.Add(BaseOnChildsControl.Bottom, FilterPanel.Height),
+                            OxWh.W4
+                        );
                 }
                 
-                return FieldControl.Bottom + 8;
+                return OxWh.Add(FieldControl.Bottom, OxWh.W8);
             }
         }
 

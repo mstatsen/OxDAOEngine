@@ -40,8 +40,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected override void CreateControls() =>
             CreateFieldControl();
 
-        protected override int ContentWidth => 300;
-        protected override int ContentHeight => FieldControl.Bottom + 8;
+        protected override OxWidth ContentWidth => OxWh.W300;
+        protected override OxWidth ContentHeight => OxWh.Add(FieldControl.Bottom, OxWh.W8);
 
         protected override void FillControls(FieldColumn<TField> item) =>
             FieldControl.Value = item.Field;

@@ -80,9 +80,9 @@ namespace OxDAOEngine.Editor
             ((OxTextBox)uniqueKeyAccessor.ReadOnlyControl!).Multiline = false;
 
             copyButton.Parent = MainPanel;
-            copyButton.Top = 8;
-            copyButton.Size = new(64, 24);
-            copyButton.Left = 336;
+            copyButton.Top = OxWh.W8;
+            copyButton.Size = new(OxWh.W64, OxWh.W24);
+            copyButton.Left = OxWh.W336;
             copyButton.Click += CopyHandler;
         }
 

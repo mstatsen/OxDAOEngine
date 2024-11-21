@@ -9,6 +9,7 @@ using OxDAOEngine.Settings.ControlFactory.Initializers;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.SystemEngine;
 using OxDAOEngine.View.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.Settings.ControlFactory.Controls
 {
@@ -76,8 +77,8 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             item.Field = FieldControl.EnumValue<TField>() ?? default!;
         }
 
-        protected override int ContentWidth => 320;
-        protected override int ContentHeight => FieldControl.Bottom + 8;
+        protected override OxWidth ContentWidth => OxWh.W320;
+        protected override OxWidth ContentHeight => OxWh.Add(FieldControl.Bottom, OxWh.W8);
 
         protected override string EmptyMandatoryField() =>
             ContentPartControl.IsEmpty 

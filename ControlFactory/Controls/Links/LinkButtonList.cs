@@ -34,12 +34,12 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
 
         private OxWidth LastBottom =>
             Buttons.Count > 0 
-                ? OxWh.W(Buttons[^1].Bottom)
+                ? Buttons[^1].Bottom
                 : OxWh.W0;
 
         private OxWidth LastRight =>
             Buttons.Count > 0
-                ? OxWh.W(Buttons[^1].Right)
+                ? Buttons[^1].Right
                 : OxWh.W0;
 
         private OxWidth ButtonLeft() =>
@@ -62,7 +62,11 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         {
             if (Direction is ButtonListDirection.Horizontal)
                 foreach (LinkButton button in Buttons)
-                    button.Left = Buttons.IndexOf(button) * OxWh.Int(button.Width | ButtonSpace);
+                    button.Left = 
+                        OxWh.Mul(
+                            Buttons.IndexOf(button), 
+                            button.Width | ButtonSpace
+                        );
         }
 
         private void RecalcButtonsSize()
@@ -84,8 +88,8 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                 return;
 
             button.Parent = this;
-            button.Left = OxWh.Int(ButtonLeft());
-            button.Top = OxWh.Int(ButtonTop());
+            button.Left = ButtonLeft();
+            button.Top = ButtonTop();
             Buttons.Add(button);
             SetButtonsSize();
             RecalcButtonsSizeAndPositions();

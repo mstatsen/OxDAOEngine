@@ -4,6 +4,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -56,8 +57,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             CreateLabel("Direction", DirectionControl!);
         }
 
-        protected override int ContentHeight => DirectionControl!.Bottom + 8;
-        protected override int ContentWidth => 300;
+        protected override OxWidth ContentHeight => OxWh.Add(DirectionControl!.Bottom, OxWh.W8);
+        protected override OxWidth ContentWidth => OxWh.W300;
 
         protected override void FillControls(FieldSorting<TField, TDAO> item)
         {

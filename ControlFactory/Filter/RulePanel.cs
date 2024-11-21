@@ -38,8 +38,12 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             RemoveRuleButton.Parent = this;
             RemoveRuleButton.ToolTipText = "Remove rule";
-            RemoveRuleButton.Top = 4;
-            RemoveRuleButton.Left = Width - RemoveRuleButton.Width - 1;
+            RemoveRuleButton.Top = OxWh.W4;
+            RemoveRuleButton.Left =
+                OxWh.Sub(
+                    OxWh.Sub(Width, RemoveRuleButton.Width), 
+                    OxWh.W1
+                );
             RemoveRuleButton.Anchor = AnchorStyles.Right;
             RemoveRuleButton.Click += RemoveRuleButtonClickHandler;
         }

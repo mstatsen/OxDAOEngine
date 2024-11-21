@@ -1,4 +1,6 @@
-﻿using OxLibrary.Dialogs;
+﻿using System.Xml;
+using OxLibrary;
+using OxLibrary.Dialogs;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data.Decorator;
@@ -6,15 +8,14 @@ using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.History;
 using OxDAOEngine.Data.Sorting;
+using OxDAOEngine.Data.Types;
 using OxDAOEngine.Editor;
 using OxDAOEngine.Export;
 using OxDAOEngine.Grid;
 using OxDAOEngine.Settings;
 using OxDAOEngine.View;
 using OxDAOEngine.XML;
-using System.Xml;
-using OxLibrary;
-using OxDAOEngine.Data.Types;
+
 using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.Data
@@ -583,7 +584,7 @@ namespace OxDAOEngine.Data
             }
         }
 
-        public void ViewItems(Predicate<TDAO> predicate, string? caption = "")
+        public void ViewItems(Predicate<TDAO> predicate, string caption = "")
         {
             ItemsViewer<TField, TDAO>? itemsViewer = new(FullItemsList.FindAllRoot(predicate));
 

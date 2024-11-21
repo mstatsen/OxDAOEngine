@@ -1,5 +1,6 @@
 ﻿using OxLibrary.Panels;
 using OxDAOEngine.Data;
+using OxLibrary;
 
 namespace OxDAOEngine.View
 {
@@ -17,14 +18,14 @@ namespace OxDAOEngine.View
                 ? this[0]
                 : null;
 
-        public int Bottom
+        public OxWidth Bottom
         {
             get
             {
                 IItemView<TField, TDAO>? last = Last;
                 return last is null
-                    ? 0
-                    : last.Bottom + 24;
+                    ? OxWh.W0
+                    : last.Bottom | OxWh.W24;
             }
         }
 

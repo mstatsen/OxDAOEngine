@@ -304,16 +304,16 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void LayoutButtons()
         {
-            int calcedTop = OxWh.Int(ButtonSpace);
+            OxWidth calcedTop = ButtonSpace;
 
             foreach (OxClickFrame button in Buttons)
             {
                 if (!button.Visible)
                     continue;
 
-                button.Left = OxWh.Int(ButtonSpace);
+                button.Left = ButtonSpace;
                 button.Top = calcedTop;
-                calcedTop = button.Bottom + OxWh.Int(ButtonSpace);
+                calcedTop = button.Bottom | ButtonSpace;
             }
         }
 

@@ -134,7 +134,7 @@ namespace OxDAOEngine.Summary
                     extractItem.Value,
                     nextLocation
                 );
-                nextLocation.Height = OxWh.Sum(accessor.Bottom, OxWh.Div(SummaryConsts.VerticalSpace, 3));
+                nextLocation.Height = OxWh.Add(accessor.Bottom, OxWh.Div(SummaryConsts.VerticalSpace, 3));
             }
 
             return nextLocation.Height;

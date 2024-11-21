@@ -54,7 +54,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             CreateUrlControl();
         }
 
-        protected override int ContentHeight => UrlControl.Bottom + 8;
+        protected override OxWidth ContentHeight => OxWh.Add(UrlControl.Bottom, OxWh.W8);
 
         protected override void FillControls(Link<TField> item)
         {

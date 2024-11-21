@@ -75,8 +75,12 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             RemoveGroupButton.Parent = ConcatControlParent;
             RemoveGroupButton.ToolTipText = "Remove group";
-            RemoveGroupButton.Top = 1;
-            RemoveGroupButton.Left = ConcatControlParent.Right - RemoveGroupButton.WidthInt - 1;
+            RemoveGroupButton.Top = OxWh.W1;
+            RemoveGroupButton.Left = 
+                OxWh.Sub(
+                    OxWh.Sub(ConcatControlParent.Right, RemoveGroupButton.Width), 
+                    OxWh.W1
+                );
             RemoveGroupButton.Anchor = AnchorStyles.Right;
             RemoveGroupButton.Click += RemoveGroupButtonClickHandler;
         }

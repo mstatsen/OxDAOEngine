@@ -36,7 +36,7 @@ namespace OxDAOEngine.Data
         void ViewItem(TField field, object? value, ItemViewMode viewMode = ItemViewMode.Simple);
         void ViewItems(TField field, object? value);
         void ViewItems(IMatcher<TField> filter);
-        void ViewItems(Predicate<TDAO> predicate, string? caption = "");
+        void ViewItems(Predicate<TDAO> predicate, string caption = "");
         bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TField>? filter = null);
         void ViewHistory();
         int TotalCount { get; }

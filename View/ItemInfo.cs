@@ -185,7 +185,10 @@ namespace OxDAOEngine.View
                 ? string.Empty 
                 : GetTitle();
 
-        protected virtual string? GetTitle() => Item?.ToString();
+        protected virtual string GetTitle() =>
+            Item is null || Item.ToString() is null
+                ? string.Empty
+                : Item?.ToString()!;
 
         protected void PreparePanel(OxPane panel, string text)
         {

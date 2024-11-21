@@ -87,12 +87,15 @@ namespace OxDAOEngine.ControlFactory.Controls
         }
 
         protected virtual void RecalcSize() => 
-            Size = new(ContentWidth, ContentHeight + (FirstLoad ? 0 : 6));
+            Size = new(
+                OxWh.Int(ContentWidth),
+                OxWh.Int(ContentHeight | (FirstLoad ? OxWh.W0 : OxWh.W6))
+            );
 
         protected virtual void CreateControls() { }
 
-        protected virtual int ContentWidth => 400;
-        protected virtual int ContentHeight => 240;
+        protected virtual OxWidth ContentWidth => OxWh.W400;
+        protected virtual OxWidth ContentHeight => OxWh.W240;
 
         public TItem? Add()
         {
