@@ -96,7 +96,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             finally
             {
                 ResumeLayout();
-                RecalcSize();
+                //RecalcSize();
             }
         }
 
@@ -115,13 +115,13 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             groupPanel.Parent = null;
             groupsPanels.Remove(groupPanel);
-            RecalcSize();
+            //RecalcSize();
             //TODO: dispose group panel
         }
 
         private void GroupPanelRuleAddedHandler(object? sender, EventArgs e)
         {
-            RecalcSize();
+            //RecalcSize();
             OnSizeChanged(EventArgs.Empty);
         }
 
@@ -132,9 +132,10 @@ namespace OxDAOEngine.ControlFactory.Filter
             PrepareAddGroupButton();
             Text = "Filter";
             Margin.Size = OxWh.W8;
-            RecalcSize();
+            //RecalcSize();
         }
 
+        /*
         protected override OxWidth GetCalcedHeight() =>
             Header.Height
             | Margin.Top
@@ -146,6 +147,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             | AddGroupButton.Height
             | AddGroupButtonParent.Padding.Top
             | AddGroupButtonParent.Padding.Bottom;
+        */
 
 
         private void PrepareAddGroupButton()

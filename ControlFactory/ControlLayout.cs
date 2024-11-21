@@ -9,19 +9,19 @@ namespace OxDAOEngine.ControlFactory
     public class ControlLayout<TField>
         where TField : notnull, Enum
     {
-        public const int Space = 8;
+        public readonly OxWidth Space = OxWh.W8;
 
         public TField Field { get; set; } = default!;
         public Control? Parent { get; set; }
-        public int Left { get; set; }
-        public int Top { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public OxWidth Left { get; set; }
+        public OxWidth Top { get; set; }
+        public OxWidth Width { get; set; }
+        public OxWidth Height { get; set; }
         public bool Visible { get; set; }
         public Color BackColor { get; set; }
         public Color FontColor { get; set; }
         public AnchorStyles Anchors { get; set; }
-        public DockStyle Dock { get; set; }
+        public OxDock Dock { get; set; }
         public string FontFamily { get; set; } = string.Empty;
         public float FontSize { get; set; }
         public FontStyle FontStyle { get; set; }
@@ -29,12 +29,12 @@ namespace OxDAOEngine.ControlFactory
         public bool WrapLabel { get; set; }
         public Color LabelColor { get; set; }
         public FontStyle LabelStyle { get; set; }
-        public int MaximumLabelWidth { get; set; }
+        public OxWidth MaximumLabelWidth { get; set; }
         public bool AutoSize { get; set; }
         public bool SupportClickedLabels { get; set; } = false;
 
-        public int Right => Left + Width;
-        public int Bottom => Top + Height;
+        public OxWidth Right => Left | Width;
+        public OxWidth Bottom => Top | Height;
 
         public void Clear()
         {
@@ -42,21 +42,21 @@ namespace OxDAOEngine.ControlFactory
             Parent = null;
             Left = 0;
             Top = 0;
-            Width = 100;
-            Height = 28;
+            Width = OxWh.W100;
+            Height = OxWh.W28;
             Visible = true;
             BackColor = Color.FromKnownColor(KnownColor.Window);
             FontColor = Color.FromKnownColor(KnownColor.WindowText);
             CaptionVariant = ControlCaptionVariant.Left;
             WrapLabel = false;
             Anchors = AnchorStyles.Top | AnchorStyles.Left;
-            Dock = DockStyle.None;
+            Dock = OxDock.None;
             FontFamily = Styles.FontFamily;
             FontSize = Styles.DefaultFontSize;
             FontStyle = FontStyle.Regular;
             LabelColor = Color.FromKnownColor(KnownColor.WindowText);
             LabelStyle = FontStyle.Regular;
-            MaximumLabelWidth = 64;
+            MaximumLabelWidth = OxWh.W64;
             AutoSize = false;
         }
 
@@ -88,20 +88,20 @@ namespace OxDAOEngine.ControlFactory
                 return;
 
             control.Parent = Parent;
-            control.Left = Left;
-            control.Top = Top;
+            control.Left = OxWh.Int(Left);
+            control.Top = OxWh.Int(Top);
 
             if (control is OxPane pane)
                 pane.Size = new(Width, Height);
             else
             {
-                control.Width = Width;
-                control.Height = Height;
+                control.Width = OxWh.Int(Width);
+                control.Height = OxWh.Int(Height);
             }
 
             control.Visible = Visible;
             control.ForeColor = FontColor;
-            control.Dock = Dock;
+            control.Dock = OxDockHelper.Dock(Dock);
             control.Font = new(FontFamily, FontSize, FontStyle);
             control.AutoSize = AutoSize;
             control.Anchor = Anchors;
@@ -197,7 +197,7 @@ namespace OxDAOEngine.ControlFactory
                 return;
 
             if (WrapLabel)
-                label.MaximumSize = new(MaximumLabelWidth, 0);
+                label.MaximumSize = new OxSize(MaximumLabelWidth, OxWh.W0).Size;
 
             label.AutoSize = true;
             label.Visible = 
@@ -213,8 +213,8 @@ namespace OxDAOEngine.ControlFactory
                         OxControlHelper.AlignByBaseLine(control, label);
                     break;
                 case ControlCaptionVariant.Top:
-                    label.Left = Left - 2;
-                    label.Top = Top - 13;
+                    label.Left = OxWh.Int(OxWh.Sub(Left, OxWh.W2));
+                    label.Top = OxWh.Int(OxWh.Sub(Top, OxWh.W13));
                     break;
                 case ControlCaptionVariant.None:
                     label.Text = string.Empty;

@@ -55,7 +55,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
             Size = new(360, OxWh.W120);
             controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
             countLabel.Parent = this;
-            countLabel.Top = HeightInt - 30;
+            countLabel.Top = OxWh.Int(OxWh.Sub(Height, OxWh.W30));
             ControlPainter.ColorizeControl(countLabel, BaseColor);
             FieldAccessor = (FieldAccessor<TField, TDAO>)controlBuilder[TypeHelper.FieldHelper<TField>().FieldMetaData];
             PrepareFieldAccessor();
@@ -90,7 +90,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         {
             ValueLayout.CopyFrom(template);
             ValueLayout.BackColor = Colors.Lighter(6);
-            ValueLayout.Top = FieldAccessor.Bottom + 8;
+            ValueLayout.Top = OxWh.Add(FieldAccessor.Bottom, OxWh.W8);
             ValueLayout.CaptionVariant = ControlCaptionVariant.None;
         }
 
@@ -100,13 +100,17 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
             {
                 Field = TypeHelper.FieldHelper<TField>().FieldMetaData,
                 Parent = this,
-                Left = 50,
-                Top = 12,
-                Height = 26,
+                Left = OxWh.W50,
+                Top = OxWh.W12,
+                Height = OxWh.W26,
                 Anchors = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right,
             };
 
-            fieldLayout.Width = WidthInt - fieldLayout.Left - 16;
+            fieldLayout.Width = 
+                OxWh.Sub(
+                    OxWh.Sub(Width, fieldLayout.Left), 
+                    OxWh.W16
+                );
             return FieldAccessor.LayoutControl(fieldLayout);
         }
 

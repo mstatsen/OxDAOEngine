@@ -157,11 +157,11 @@ namespace OxDAOEngine.View
         protected void ClearLayoutTemplate()
         {
             Layouter.Template.Parent = this;
-            Layouter.Template.Left = 0;
-            Layouter.Template.Top = 8;
+            Layouter.Template.Left = OxWh.W0;
+            Layouter.Template.Top = OxWh.W8;
             Layouter.Template.CaptionVariant = ControlCaptionVariant.Left;
             Layouter.Template.WrapLabel = true;
-            Layouter.Template.MaximumLabelWidth = 80;
+            Layouter.Template.MaximumLabelWidth = OxWh.W80;
             Layouter.Template.BackColor = Color.Transparent;
             Layouter.Template.FontColor = FontColors.BaseColor;
             Layouter.Template.FontStyle = FontStyle.Bold;
@@ -239,8 +239,8 @@ namespace OxDAOEngine.View
             {
                 Headers.TryGetValue(parentPanel, out var header);
 
-                int lastBottom = header is null ? 0 : 8;
-                int maxBottom = lastBottom;
+                OxWidth lastBottom = header is null ? OxWh.W0 : OxWh.W8;
+                OxWidth maxBottom = lastBottom;
                 bool visibleControlsExists = false;
                 ControlLayout<TField>? prevLayout = null;
 
@@ -257,21 +257,23 @@ namespace OxDAOEngine.View
                     if (controlVisible)
                     {
                         visibleControlsExists = true;
-                        placedControl.Control.Top = 
-                            lastBottom 
-                            + (prevLayout is not null 
-                                ? (layout.Top - prevLayout.Bottom) 
-                                : 8
+                        placedControl.Control.Top =
+                            OxWh.Int(
+                                lastBottom 
+                                | (prevLayout is not null 
+                                    ? OxWh.Sub(layout.Top, prevLayout.Bottom) 
+                                    : OxWh.W8
+                                )
                             );
                         OxControlHelper.AlignByBaseLine(placedControl.Control, placedControl.Label!);
-                        lastBottom = placedControl.Control.Bottom;
-                        maxBottom = Math.Max(maxBottom, lastBottom);
+                        lastBottom = OxWh.W(placedControl.Control.Bottom);
+                        maxBottom = OxWh.Max(maxBottom, lastBottom);
                     }
 
                     prevLayout = layout;
                 }
 
-                parentPanel.HeightInt = maxBottom + 36;
+                parentPanel.Height = maxBottom | OxWh.W36;
                 parentPanel.Visible = visibleControlsExists;
                 HeaderVisible = visibleControlsExists;
             }

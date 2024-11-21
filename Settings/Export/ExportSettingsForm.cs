@@ -450,23 +450,26 @@ namespace OxDAOEngine.Settings
                 | OxWh.W12
             );
 
-            int maxLeft = 0;
+            OxWidth maxLeft = OxWh.W0;
 
             foreach (Control control in frameControls)
-                maxLeft = Math.Max(maxLeft, control.Left);
+                maxLeft = OxWh.Max(maxLeft, control.Left);
 
             foreach (Control control in frameControls)
             {
                 if (control is OxCheckBox)
                     continue;
 
-                control.Left = maxLeft;
-                control.Width = frame.WidthInt
-                    - maxLeft
-                    - frame.Margin.Right
-                    - frame.Margin.Left
-                    - frame.Padding.RightInt
-                    - 12;
+                control.Left = OxWh.Int(maxLeft);
+                control.Width =
+                    OxWh.Int(
+                        frame.Width
+                        & ~maxLeft
+                        & ~frame.Margin.Right
+                        & ~frame.Margin.Left
+                        & ~frame.Padding.Right
+                        & ~OxWh.W12
+                    );
             }
         }
 

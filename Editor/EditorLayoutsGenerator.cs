@@ -3,6 +3,7 @@ using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.Editor
 {
@@ -70,22 +71,22 @@ namespace OxDAOEngine.Editor
                 fields is not null 
                 && fields.Contains(field);
         }
-        private DockStyle Dock(TField field)
+        private OxDock Dock(TField field)
         {
             List<TField>? fillDockFields = FillDockFields();
             return 
                 fillDockFields is not null
                 && fillDockFields.Contains(field)
-                    ? DockStyle.Fill
-                    : DockStyle.None;
+                    ? OxDock.Fill
+                    : OxDock.None;
         }
-        public abstract int Top(TField field);
-        public abstract int Left(TField field);
-        public virtual int MaximumLabelWidth(TField field) =>
-            64;
+        public abstract OxWidth Top(TField field);
+        public abstract OxWidth Left(TField field);
+        public virtual OxWidth MaximumLabelWidth(TField field) =>
+            OxWh.W64;
         public virtual bool WrapLabel(TField field) => false;
-        public virtual int Height(TField field) => 28;
-        public abstract int Width(TField field);
+        public virtual OxWidth Height(TField field) => OxWh.W28;
+        public abstract OxWidth Width(TField field);
 
         private void GenerateLayout(TField field)
         {

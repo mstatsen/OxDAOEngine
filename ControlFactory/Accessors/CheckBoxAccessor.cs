@@ -51,7 +51,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         private OxLabel ReadOnlyLabel = default!;
         private readonly OxPicture ReadOnlyPicture = new();
 
-        private readonly int ReadOnlyPictureSize = 16;
+        private readonly OxWidth ReadOnlyPictureSize = OxWh.W16;
 
         protected override Control? CreateReadOnlyControl()
         {
@@ -61,13 +61,13 @@ namespace OxDAOEngine.ControlFactory.Accessors
                 Parent = readOnlyControl
             };
             ReadOnlyPicture.Parent = readOnlyControl;
-            ReadOnlyPicture.HeightInt = ReadOnlyPictureSize;
-            ReadOnlyPicture.WidthInt = ReadOnlyPictureSize;
+            ReadOnlyPicture.Height = ReadOnlyPictureSize;
+            ReadOnlyPicture.Width = ReadOnlyPictureSize;
             ReadOnlyPicture.MinimumSize = new(ReadOnlyPictureSize, ReadOnlyPictureSize);
             ReadOnlyPicture.Top = 0;
             ReadOnlyPicture.Left = OxWh.Sub(readOnlyControl.Width, ReadOnlyPictureSize);
             ReadOnlyPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            ReadOnlyPicture.PictureSize = OxWh.W(ReadOnlyPictureSize);
+            ReadOnlyPicture.PictureSize = ReadOnlyPictureSize;
             ReadOnlyPicture.Image = OxIcons.Tick;
             return readOnlyControl;
         }
@@ -75,8 +75,14 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected override void OnControlSizeChanged()
         {
             base.OnControlSizeChanged();
-            ReadOnlyControl!.Width = ReadOnlyLabel.Width + ReadOnlyPictureSize;
-            ReadOnlyControl.Height = ReadOnlyPictureSize + 2;
+            ReadOnlyControl!.Width =
+                OxWh.Int(
+                    OxWh.Sub(
+                        ReadOnlyLabel.Width, 
+                        ReadOnlyPictureSize
+                    )
+                );
+            ReadOnlyControl.Height = OxWh.Int(ReadOnlyPictureSize | OxWh.W2);
         }
 
         protected override void OnControlFontChanged()

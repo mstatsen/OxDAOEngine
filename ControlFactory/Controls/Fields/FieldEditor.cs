@@ -33,7 +33,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldControl.Parent = this;
             FieldControl.Left = 12;
             FieldControl.Top = 12;
-            FieldControl.Width = MainPanel.WidthInt - 24;
+            FieldControl.Width = OxWh.Int(OxWh.Sub(MainPanel.Width, OxWh.W24));
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
         }
 

@@ -249,7 +249,15 @@ namespace OxDAOEngine.Grid
 
         private void RecalcGridsSizes()
         {
-            RightPlace.WidthInt = ((PanelViewer is not null ? PanelViewer.Width : WidthInt) - ButtonsPanel.WidthInt) / 2;
+            RightPlace.Width =
+                OxWh.Div(
+                    OxWh.Sub(
+                        PanelViewer is not null 
+                            ? OxWh.W(PanelViewer.Width) 
+                            : Width,
+                        ButtonsPanel.Width), 
+                    OxWh.W2
+                );
             NotEqualsButton.Top =
                 OxWh.Sub(
                     OxWh.Sub(

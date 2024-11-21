@@ -410,7 +410,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected override void RecalcControls()
         {
             base.RecalcControls();
-            ItemsContainer.Height = ControlPanel.HeightInt;
+            ItemsContainer.Height = OxWh.Int(ControlPanel.Height);
         }
 
         protected override void SetControlColor(Color value)
@@ -437,10 +437,14 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected virtual int MaximumItemsCount => -1;
 
-        protected override void OnSizeChanged(EventArgs e)
+        public override bool OnSizeChanged(SizeChangedEventArgs e)
         {
             base.OnSizeChanged(e);
-            RecalcEditButtonVisible();
+
+            if (e.Changed)
+                RecalcEditButtonVisible();
+
+            return e.Changed;
         }
 
         private void RecalcEditButtonVisible()

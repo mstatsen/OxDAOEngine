@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.Data.Filter;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -6,7 +7,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         where TField : notnull, Enum
     {
         TField TextFilterContainer { get; }
-        int FieldWidth(TField field);
+        OxWidth FieldWidth(TField field);
         string FieldCaption(TField field, QuickFilterVariant variant);
         bool IsLastLayoutForOneRow(TField field, TField lastField);
     }

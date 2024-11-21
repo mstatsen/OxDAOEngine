@@ -68,7 +68,6 @@ namespace OxDAOEngine.ControlFactory.Filter
             Group = group;
             PrepareAddRuleButton();
             PrepareRemoveGroupButton();
-            RecalcSize();
         }
 
         private void PrepareRemoveGroupButton()
@@ -143,7 +142,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (RulesPanels.Count is 0)
                 RemoveGroup?.Invoke(this, EventArgs.Empty);
 
-            RecalcSize();
+//            RecalcSize();
         }
 
         private void AddRuleButtonClickHandler(object? sender, EventArgs e) => 
@@ -162,7 +161,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 };
                 RulesPanels.Insert(0, simpleFilterPanel);
                 PrepareColors();
-                RecalcSize();
+                //RecalcSize();
                 simpleFilterPanel.RemoveRule += RulePanelRemoveRuleHandler;
 
                 foreach (RulePanel<TField, TDAO> panel in RulesPanels)
@@ -207,14 +206,16 @@ namespace OxDAOEngine.ControlFactory.Filter
                 rulePanel.BaseColor = BaseColor;
         }
 
+        /*
         protected override OxWidth GetCalcedHeight() =>
             Margin.Top
             | Margin.Bottom
             | Padding.Top
             | Padding.Bottom
-            | ConcatControlParent.CalcedHeight
+            | ConcatControlParent.Height
             | RulePanelsHeight()
-            | AddRuleButtonParent.CalcedHeight;
+            | AddRuleButtonParent.Height;
+        */
 
         private OxWidth RulePanelsHeight()
         {

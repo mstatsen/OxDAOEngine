@@ -2,6 +2,7 @@
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -14,8 +15,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected override Control CreateControl() => 
             new OxPicture
             {
-                WidthInt = 160,
-                HeightInt = 78,
+                Width = OxWh.W160,
+                Height = OxWh.W78,
                 Stretch = true
             };
 

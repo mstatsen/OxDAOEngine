@@ -98,7 +98,7 @@ namespace OxDAOEngine.Summary
                 }
             );
 
-            RecalcSize();
+            //RecalcSize();
         }
 
         private void IterateSummaryPanels(SummaryPanelHandler<TField, TDAO> handler)

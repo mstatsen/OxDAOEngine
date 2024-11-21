@@ -257,7 +257,7 @@ namespace OxDAOEngine.Grid
                 OxWh.Sub(
                     OxWh.Sub(
                         OxWh.Div(buttonsPanel.Height, OxWh.W2),
-                        selectButton.HeightInt), 
+                        selectButton.Height), 
                     OxWh.W50
                 );
             unSelectButton.Top = selectButton.Bottom | OxWh.W8;

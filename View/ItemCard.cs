@@ -93,7 +93,7 @@ namespace OxDAOEngine.View
             Layouter.Template.Top = 0;
             Layouter.Template.CaptionVariant = ControlCaptionVariant.Left;
             Layouter.Template.WrapLabel = true;
-            Layouter.Template.MaximumLabelWidth = 80;
+            Layouter.Template.MaximumLabelWidth = OxWh.W80;
             Layouter.Template.BackColor = Color.Transparent;
             Layouter.Template.FontColor = fontColors.BaseColor;
             Layouter.Template.FontStyle = FontStyle.Bold;

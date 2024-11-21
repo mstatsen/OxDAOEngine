@@ -33,7 +33,13 @@ namespace OxDAOEngine.ControlFactory.Filter
             {
                 if (width is -1)
                 {
-                    result.Width = MainPanel.WidthInt - result.Left - 8;
+                    result.Width = 
+                        OxWh.Int(
+                            OxWh.Sub(
+                                OxWh.Sub(MainPanel.Width, result.Left), 
+                                OxWh.W8
+                            )
+                        );
                     result.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
                 }
                 else
@@ -123,7 +129,6 @@ namespace OxDAOEngine.ControlFactory.Filter
                     if (BaseOnChildsControl.BoolValue)
                         return OxWh.Add(BaseOnChildsControl.Bottom, OxWh.W8);
 
-                    FilterPanel.RecalcSize();
                     return 
                         OxWh.Add(
                             OxWh.Add(BaseOnChildsControl.Bottom, FilterPanel.Height),

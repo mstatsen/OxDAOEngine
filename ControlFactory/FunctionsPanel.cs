@@ -231,6 +231,7 @@ namespace OxDAOEngine.ControlFactory
             HeaderVisible = true;
         }
 
+        /*
         protected override OxWidth GetCalcedWidth() =>
             !OxDockHelper.IsVertical(Dock)
                 ? (isFixedPanel ? OxWh.W0 : Sider.CalcedWidth)
@@ -248,6 +249,7 @@ namespace OxDAOEngine.ControlFactory
                         : Margin.Top | Margin.Bottom
                     )
                 : base.GetCalcedHeight();
+        */
 
         public override void ReAlignControls()
         {
@@ -299,7 +301,7 @@ namespace OxDAOEngine.ControlFactory
             SetExpandButtonLastBorder();
             ExpandButton.Icon = ExpandButtonIcon;
             RecalcPinned();
-            RecalcSize();
+            //RecalcSize();
             BringToFront();
             base.OnDockChanged(e);
             SetExpanded(Expanded);
@@ -327,7 +329,6 @@ namespace OxDAOEngine.ControlFactory
             {
                 Padding[Dock].Visible = value;
                 Padding[Sider.Dock].Visible = value;
-                //ContentBox.Visible = value;
                 HeaderVisible = value; 
                 ExpandButton.Icon = ExpandButtonIcon;
                 Borders[Dock].Size = value 
@@ -339,7 +340,7 @@ namespace OxDAOEngine.ControlFactory
                 Update();
                 EndSizeChanging();
                 RecalcPinned();
-                RecalcSize();
+//                RecalcSize();
             }
 
             OnExpandedChanged(new ExpandedChangedEventArgs(!Expanded, Expanded));
@@ -526,8 +527,8 @@ namespace OxDAOEngine.ControlFactory
             OxPane? fakePadding = ParentPadding;
 
             OxWidth fakePaddingSize = OxDockHelper.IsVertical(Dock)
-                ? Sider.CalcedHeight | Margin.Top | Margin.Bottom
-                : Sider.CalcedWidth | Margin.Left | Margin.Right;
+                ? Sider.Height | Margin.Top | Margin.Bottom
+                : Sider.Width | Margin.Left | Margin.Right;
 
             if (fakePadding is not null)
             {

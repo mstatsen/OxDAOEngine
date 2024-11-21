@@ -18,10 +18,14 @@ namespace OxDAOEngine.ControlFactory.Controls
             return this;
         }
 
-        protected override void OnSizeChanged(EventArgs e)
+        public override bool OnSizeChanged(SizeChangedEventArgs e)
         {
             base.OnSizeChanged(e);
-            RecalcControls();
+
+            if (e.Changed)
+                RecalcControls();
+
+            return e.Changed;
         }
 
         public IBuilderContext<TField, TDAO> Context { get; private set; } = default!;

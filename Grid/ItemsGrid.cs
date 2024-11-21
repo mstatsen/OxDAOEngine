@@ -636,7 +636,7 @@ namespace OxDAOEngine.Grid
                         new()
                         {
                             Height = GridView.RowTemplate.Height,
-                            Width = WidthInt * (image.Height / GridView.RowTemplate.Height)
+                            Width = OxWh.Int(Width) * (image.Height / GridView.RowTemplate.Height)
                         }
                     );
 
