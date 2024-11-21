@@ -108,7 +108,7 @@ namespace OxDAOEngine
                 Parent = tabControlPanel,
                 Dock = OxDock.Fill,
                 Font = Styles.DefaultFont,
-                TabHeaderSize = new(84, 24),
+                TabHeaderSize = new(OxWh.W84, OxWh.W24),
                 TabPosition = OxDock.Bottom,
             };
 
