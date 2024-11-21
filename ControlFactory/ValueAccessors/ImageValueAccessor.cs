@@ -14,10 +14,18 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
         public override void SetValue(object? value)
         {
             if (value is int intValue)
-                value = OxImageBoxer.BoxingImage(intValue > 0 ? OxIcons.Tick : OxIcons.Cross, new Size(16,16));
+                value = OxImageBoxer.BoxingImage(
+                    intValue > 0 
+                        ? OxIcons.Tick 
+                        : OxIcons.Cross, 
+                    new OxSize(OxWh.W16, OxWh.W16));
 
             if (value is bool boolValue)
-                value = OxImageBoxer.BoxingImage(boolValue ? OxIcons.Tick : OxIcons.Cross, new Size(16, 16));
+                value = OxImageBoxer.BoxingImage(
+                    boolValue 
+                        ? OxIcons.Tick 
+                        : OxIcons.Cross, 
+                    new OxSize(OxWh.W16, OxWh.W16));
 
             Picture.Image = (Image?)value;
         }

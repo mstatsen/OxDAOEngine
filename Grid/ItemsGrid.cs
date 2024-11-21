@@ -633,11 +633,10 @@ namespace OxDAOEngine.Grid
                     && image.Height > GridView.RowTemplate.Height)
                     value = OxImageBoxer.BoxingImage(
                         image,
-                        new()
-                        {
-                            Height = GridView.RowTemplate.Height,
-                            Width = OxWh.Int(Width) * (image.Height / GridView.RowTemplate.Height)
-                        }
+                        new(
+                            OxWh.Int(Width) * (image.Height / GridView.RowTemplate.Height),
+                            GridView.RowTemplate.Height
+                        )
                     );
 
                 GridView[GridFieldColumns[field].Index, rowIndex].Value = value;

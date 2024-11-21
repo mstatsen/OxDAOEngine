@@ -524,7 +524,7 @@ namespace OxDAOEngine.Settings
             foreach (OxFrame frame in extraSettingsFrames.Values)
                 if (frame.Visible)
                 {
-                    MainPanel.Size = new(720, frame.Bottom);
+                    MainPanel.Size = new(OxWh.W720, frame.Bottom);
                     break;
                 }
         }
