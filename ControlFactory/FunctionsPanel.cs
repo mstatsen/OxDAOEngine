@@ -317,6 +317,9 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetExpanded(bool value)
         {
+            if (!OxDockHelper.SimpleDirectionDocks.Contains(Sider.Dock))
+                return;
+
             if (!Expandable)
                 return;
 
