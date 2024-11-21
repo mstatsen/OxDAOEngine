@@ -16,6 +16,7 @@ using OxDAOEngine.Data.Sorting.Types;
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.ControlFactory.Controls.Sorting;
 using OxDAOEngine.Data.Fields.Types;
+using System.Linq.Expressions;
 
 namespace OxDAOEngine.Settings
 {
@@ -461,14 +462,14 @@ namespace OxDAOEngine.Settings
                     continue;
 
                 control.Left = OxWh.Int(maxLeft);
+                OxWidth[] subWidthComponent = { maxLeft, frame.Margin.Right, frame.Margin.Left, frame.Padding.Right, OxWh.W12};
                 control.Width =
-                    OxWh.Int(
-                        frame.Width
-                        & ~maxLeft
-                        & ~frame.Margin.Right
-                        & ~frame.Margin.Left
-                        & ~frame.Padding.Right
-                        & ~OxWh.W12
+                    OxWh.Int
+                    (
+                        OxWh.Sub(
+                            frame.Width,
+                            subWidthComponent
+                        )
                     );
             }
         }
