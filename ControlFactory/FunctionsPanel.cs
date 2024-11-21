@@ -146,7 +146,7 @@ namespace OxDAOEngine.ControlFactory
 
             if (ShowSettingsButton)
             {
-                Control? upParent = Parent;
+                IOxControl? upParent = Parent;
 
                 while (upParent is not null)
                 {
@@ -583,7 +583,7 @@ namespace OxDAOEngine.ControlFactory
             if (pinned)
                 return;
 
-            bool onPanel = ClientRectangle.Contains(PointToClient(MousePosition));
+            bool onPanel = ClientRectangle.Rectangle.Contains(PointToClient(MousePosition));
 
             if (!Expanded.Equals(onPanel))
                 Expanded = onPanel;
