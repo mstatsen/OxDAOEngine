@@ -34,14 +34,14 @@ namespace OxDAOEngine.ControlFactory.Filter
             // 
             // MainPanel
             // 
-            this.MainPanel.Size = new OxSize(390, OxWh.W230);
+            this.MainPanel.Size = new OxSize(OxWh.W390, OxWh.W230);
             this.MainPanel.Text = "Category";
             // 
             // LinkEditor
             // 
-            this.ClientSize = new System.Drawing.Size(390, 230);
-            this.MaximumSize = new System.Drawing.Size(390, 230);
-            this.MinimumSize = new System.Drawing.Size(390, 230);
+            this.ClientSize = new OxSize(OxWh.W390, OxWh.W230);
+            this.MaximumSize = new OxSize(OxWh.W390, OxWh.W230);
+            this.MinimumSize = new OxSize(OxWh.W390, OxWh.W230);
             this.Name = "CategoryEditor";
             this.Text = "Category";
             this.ResumeLayout(false);

@@ -1,4 +1,5 @@
-﻿using OxLibrary.Dialogs;
+﻿using OxLibrary;
+using OxLibrary.Dialogs;
 
 namespace OxDAOEngine.Editor
 {
@@ -38,10 +39,10 @@ namespace OxDAOEngine.Editor
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1225, 636);
-            this.Location = new System.Drawing.Point(0, 0);
-            this.MaximumSize = new System.Drawing.Size(1225, 636);
-            this.MinimumSize = new System.Drawing.Size(1225, 636);
+            this.ClientSize = new OxSize(1225, OxWh.W636);
+            this.Location = new OxPoint(OxWh.W0, OxWh.W0);
+            this.MaximumSize = new OxSize(1225, OxWh.W636);
+            this.MinimumSize = new OxSize(1225, OxWh.W636);
             this.Name = "AbstractEditor";
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

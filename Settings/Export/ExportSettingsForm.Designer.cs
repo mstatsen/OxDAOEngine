@@ -1,4 +1,6 @@
 ﻿
+using OxLibrary;
+
 namespace OxDAOEngine.Settings
 {
     partial class ExportSettingsForm<TField, TDAO>
@@ -33,7 +35,7 @@ namespace OxDAOEngine.Settings
             // 
             // HTMLSettingsForm
             // 
-            this.ClientSize = new System.Drawing.Size(487, 447);
+            this.ClientSize = new OxSize(OxWh.W487, OxWh.W447);
             this.Name = "HTMLSettingsForm";
             this.Text = "Settings";
             this.Shown += new System.EventHandler(this.ExportSettingsForm_Shown);

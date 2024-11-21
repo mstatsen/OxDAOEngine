@@ -1,4 +1,6 @@
 ﻿
+using OxLibrary;
+
 namespace OxDAOEngine.Settings.ControlFactory.Controls
 {
     partial class IconMappingEditor<TField>
@@ -33,9 +35,9 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             // 
             // IconMappingEditor
             // 
-            this.ClientSize = new System.Drawing.Size(404, 327);
-            this.MaximumSize = new System.Drawing.Size(404, 327);
-            this.MinimumSize = new System.Drawing.Size(404, 327);
+            this.ClientSize = new OxSize(OxWh.W404, OxWh.W327);
+            this.MaximumSize = new OxSize(OxWh.W404, OxWh.W327);
+            this.MinimumSize = new OxSize(OxWh.W404, OxWh.W327);
             this.Name = "IconMappingEditor";
             this.ResumeLayout(false);
 

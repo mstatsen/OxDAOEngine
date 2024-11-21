@@ -253,7 +253,7 @@ namespace OxDAOEngine.Grid
                 OxWh.Div(
                     OxWh.Sub(
                         PanelViewer is not null 
-                            ? OxWh.W(PanelViewer.Width) 
+                            ? PanelViewer.Width
                             : Width,
                         ButtonsPanel.Width), 
                     OxWh.W2

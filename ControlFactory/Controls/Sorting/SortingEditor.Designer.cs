@@ -1,4 +1,6 @@
 ﻿
+using OxLibrary;
+
 namespace OxDAOEngine.ControlFactory.Controls
 {
     partial class SortingEditor<TField, TDAO>
@@ -30,12 +32,9 @@ namespace OxDAOEngine.ControlFactory.Controls
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
-            // SortingEditor
-            // 
-            this.ClientSize = new System.Drawing.Size(390, 230);
-            this.MaximumSize = new System.Drawing.Size(390, 230);
-            this.MinimumSize = new System.Drawing.Size(390, 230);
+            this.ClientSize = new OxSize(OxWh.W390, OxWh.W230);
+            this.MaximumSize = new OxSize(OxWh.W390, OxWh.W230);
+            this.MinimumSize = new OxSize(OxWh.W390, OxWh.W230);
             this.Name = "SortingEditor";
             this.Text = "Sorting";
             this.ResumeLayout(false);

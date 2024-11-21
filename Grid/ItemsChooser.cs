@@ -250,7 +250,9 @@ namespace OxDAOEngine.Grid
             selectedPlace.Width =
                 OxWh.Div(
                     OxWh.Sub(
-                        PanelViewer is not null ? OxWh.W(PanelViewer.Width) : Width,
+                        PanelViewer is not null 
+                            ? PanelViewer.Width 
+                            : Width,
                         buttonsPanel.Width),
                     OxWh.W2);
             selectButton.Top =

@@ -1,4 +1,6 @@
-﻿namespace OxDAOEngine.Settings
+﻿using OxLibrary;
+
+namespace OxDAOEngine.Settings
 {
     partial class SettingsForm
     {
@@ -32,10 +34,10 @@
             // 
             // SettingsForm
             // 
-            ClientSize = new Size(349, 0);
-            Location = new Point(0, 0);
-            MaximumSize = new Size(349, 0);
-            MinimumSize = new Size(349, 0);
+            ClientSize = new OxSize(OxWh.W349, OxWh.W0);
+            Location = new OxPoint(OxWh.W0, OxWh.W0);
+            MaximumSize = new OxSize(OxWh.W349, OxWh.W0);
+            MinimumSize = new OxSize(OxWh.W349, OxWh.W0);
             Name = "SettingsForm";
             Text = "Settings";
             Shown += SettingsForm_Shown;
