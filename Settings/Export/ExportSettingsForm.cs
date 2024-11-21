@@ -462,13 +462,16 @@ namespace OxDAOEngine.Settings
                     continue;
 
                 control.Left = OxWh.Int(maxLeft);
-                OxWidth[] subWidthComponent = { maxLeft, frame.Margin.Right, frame.Margin.Left, frame.Padding.Right, OxWh.W12};
                 control.Width =
                     OxWh.Int
                     (
                         OxWh.Sub(
                             frame.Width,
-                            subWidthComponent
+                            maxLeft
+                                | frame.Margin.Right
+                                | frame.Margin.Left
+                                | frame.Padding.Right
+                                | OxWh.W12
                         )
                     );
             }
