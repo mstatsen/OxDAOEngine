@@ -125,7 +125,6 @@ namespace OxDAOEngine.Grid
                 Renew();
 
             InfoPanel?.ApplySettings();
-            ReAlign();
         }
 
         public virtual void SaveSettings() =>

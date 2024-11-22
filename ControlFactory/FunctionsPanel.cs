@@ -251,17 +251,9 @@ namespace OxDAOEngine.ControlFactory
                 : base.GetCalcedHeight();
         */
 
-        public override void ReAlignControls()
-        {
-            base.ReAlignControls();
-            Header.ReAlign();
-            Sider.ReAlign();
-            SendToBack();
-        }
-
         protected override void OnDockChanged(EventArgs e)
         {
-            if (!OxDockHelper.SimpleDirectionDocks.Contains(Dock))
+            if (!OxDockHelper.SingleDirectionDocks.Contains(Dock))
                 return;
 
             Borders.Size = OxWh.W1;
@@ -317,7 +309,7 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetExpanded(bool value)
         {
-            if (!OxDockHelper.SimpleDirectionDocks.Contains(Sider.Dock))
+            if (!OxDockHelper.SingleDirectionDocks.Contains(Sider.Dock))
                 return;
 
             if (!Expandable)
@@ -327,25 +319,21 @@ namespace OxDAOEngine.ControlFactory
             OnExpandedChanging(new ExpandedChangedEventArgs(expanded, value));
             expanded = value;
 
-            StartSizeChanging();
-            try
-            {
-                Padding[Dock].Visible = value;
-                Padding[Sider.Dock].Visible = value;
-                HeaderVisible = value; 
-                ExpandButton.Icon = ExpandButtonIcon;
-                Borders[Dock].Size = value 
-                    ? OxWh.W1
-                    : OxWh.W0;
-            }
-            finally
-            {
-                Update();
-                EndSizeChanging();
-                RecalcPinned();
-//                RecalcSize();
-            }
+            SilentSizeChange(() =>
+                {
+                    Padding[Dock].Visible = value;
+                    Padding[Sider.Dock].Visible = value;
+                    HeaderVisible = value;
+                    ExpandButton.Icon = ExpandButtonIcon;
+                    Borders[Dock].Size = value
+                        ? OxWh.W1
+                        : OxWh.W0;
+                }
+            );
 
+            Update();
+            RecalcPinned();
+//          RecalcSize();
             OnExpandedChanged(new ExpandedChangedEventArgs(!Expanded, Expanded));
         }
 

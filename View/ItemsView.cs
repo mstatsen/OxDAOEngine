@@ -63,12 +63,6 @@ namespace OxDAOEngine.View
             }
         }
 
-        public override void ReAlignControls()
-        {
-            base.ReAlignControls();
-            paginator.SendToBack();
-        }
-
         public ItemsView(ItemsViewsType viewType) : base() 
         {
             Text = TypeHelper.Name(viewType);

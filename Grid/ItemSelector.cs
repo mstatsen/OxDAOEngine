@@ -16,8 +16,7 @@ namespace OxDAOEngine.Grid
         };
 
         public ItemSelector(RootListDAO<TField, TDAO>? itemList = null, GridUsage usage = GridUsage.SelectItem)
-            : base(itemList, usage) => 
-            ReAlign();
+            : base(itemList, usage) { }
 
         public TDAO? SelectedItem
         {
@@ -78,16 +77,6 @@ namespace OxDAOEngine.Grid
         {
             base.AfterCreated();
             Text = "Select Item";
-        }
-
-        public override void ReAlignControls()
-        {
-            base.ReAlignControls();
-
-            if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
-                QuickFilter.BringToFront();
-
-            Grid?.BringToFront();
         }
     }
 }

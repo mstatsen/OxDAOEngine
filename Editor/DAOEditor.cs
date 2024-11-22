@@ -274,7 +274,6 @@ namespace OxDAOEngine.Editor
             {
                 Groups.SetGroupsSize();
                 RecalcPanels();
-                MainPanel.ReAlign();
 
                 if (centerForm)
                     OxControlHelper.CenterForm(this);

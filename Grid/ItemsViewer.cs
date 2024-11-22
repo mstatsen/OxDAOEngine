@@ -18,7 +18,7 @@ namespace OxDAOEngine.Grid
         public IMatcher<TField>? Filter { get; set; }
 
         public ItemsViewer(RootListDAO<TField, TDAO>? itemList = null, GridUsage usage = GridUsage.ViewItems)
-            : base(new(1024, 768))
+            : base(new(1024, OxWh.W768))
         {
             Grid = new ItemsRootGrid<TField, TDAO>(itemList, usage)
             {
@@ -27,7 +27,6 @@ namespace OxDAOEngine.Grid
             };
             Grid.Padding.Size = OxWh.W0;
             statisticPanel = CreateStatisticPanel();
-            ReAlign();
         }
 
         public List<TField>? Fields

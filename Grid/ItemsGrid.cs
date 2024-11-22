@@ -317,13 +317,6 @@ namespace OxDAOEngine.Grid
 
         public readonly ItemsGridToolBar<TField,TDAO> ToolBar = new();
 
-        public override void ReAlignControls()
-        {
-            base.ReAlignControls();
-            GridView.SendToBack();
-            ToolBar.SendToBack();
-        }
-
         public new event EventHandler DoubleClick
         {
             add => GridView.DoubleClick += value;
