@@ -116,7 +116,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                 {
                     Parent = this,
                     AutoSize = true,
-                    Left = (rightLabel ? control.Right : 0) + 8,
+                    Left = OxWh.Add(OxWh.W(rightLabel ? control.Right : 0), OxWh.W8),
                     Text = caption,
                     Font = Styles.DefaultFont
                 }

@@ -390,7 +390,7 @@ namespace OxDAOEngine.Settings
                     Font = Styles.DefaultFont
                 };
 
-                control.Left = label.Right + 12;
+                control.Left = OxWh.Int(label.Right) + 12;
                 control.Tag = label;
                 OxControlHelper.AlignByBaseLine(control, label);
             }

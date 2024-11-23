@@ -408,7 +408,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                     && textControlLabel is not null)
                     textControlLabel.Left = textControlLabel.Left < 0 
                         ? temlpateLabel.Left 
-                        : temlpateLabel.Right - textControlLabel.Width;
+                        : OxWh.Sub(temlpateLabel.Right, textControlLabel.Width);
 
                 foreach (TField field in QuickFilterFields)
                 {
@@ -429,7 +429,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 if (temlpateLabel is not null)
                 {
-                    delta = temlpateLabel.Left - 4;
+                    delta = OxWh.Int(temlpateLabel.Left) - 4;
 
                     if (delta < 0)
                     {

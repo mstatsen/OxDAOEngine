@@ -34,8 +34,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             OxLabel captionLabel = new()
             {
-                Parent = parent,
-                Left = location.WidthInt,
+                Parent = (IOxControlContainer)parent,
+                Left = location.Width,
                 Text = caption,
                 Font = Styles.Font(FontStyle.Italic),
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -65,7 +65,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
                     $"{typeof(TField).Name}_{typeof(TDAO).Name}_AD{caption!}", 
                     FieldType.Label
                 );
-            accessor.Left = captionLabel.Right + HorizontalSpace;
+            accessor.Left = OxWh.Int(captionLabel.Right) + HorizontalSpace;
             accessor.Top = location.HeightInt;
             accessor.Parent = parent;
             accessor.Value = value;

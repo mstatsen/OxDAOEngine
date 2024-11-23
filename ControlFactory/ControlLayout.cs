@@ -142,7 +142,7 @@ namespace OxDAOEngine.ControlFactory
                 return null;
 
             label.Text = TypeHelper.Caption(Field);
-            label.Parent = Parent;
+            label.Parent = (IOxControlContainer?)Parent;
             label.ForeColor = LabelColor;
 
             if (LabelsForeColors.ContainsKey(label))
@@ -197,7 +197,7 @@ namespace OxDAOEngine.ControlFactory
                 return;
 
             if (WrapLabel)
-                label.MaximumSize = new OxSize(MaximumLabelWidth, OxWh.W0).Size;
+                label.MaximumSize = new OxSize(MaximumLabelWidth, OxWh.W0);
 
             label.AutoSize = true;
             label.Visible = 
@@ -213,8 +213,8 @@ namespace OxDAOEngine.ControlFactory
                         OxControlHelper.AlignByBaseLine(control, label);
                     break;
                 case ControlCaptionVariant.Top:
-                    label.Left = OxWh.Int(OxWh.Sub(Left, OxWh.W2));
-                    label.Top = OxWh.Int(OxWh.Sub(Top, OxWh.W13));
+                    label.Left = OxWh.Sub(Left, OxWh.W2);
+                    label.Top = OxWh.Sub(Top, OxWh.W13);
                     break;
                 case ControlCaptionVariant.None:
                     label.Text = string.Empty;

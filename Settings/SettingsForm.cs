@@ -267,8 +267,8 @@ namespace OxDAOEngine.Settings
             {
                 OxLabel label = new()
                 {
-                    Parent = accessor.Parent,
-                    Left = 12 + 150 * columnNum,
+                    Parent = (IOxControlContainer)accessor.Parent,
+                    Left = OxWh.Add(OxWh.W12, 150 * columnNum),
                     Font = Styles.DefaultFont,
                     Text = $"{settings.Helper.Name(setting)}",
                     Tag = accessor.Control
@@ -390,7 +390,7 @@ namespace OxDAOEngine.Settings
 
             OxFrameWithHeader frame = CreateFrame(settings, part, caption);
             IControlAccessor? lastAccessor = null;
-            int maxLabelWidth = 0;
+            OxWidth maxLabelWidth = OxWh.W0;
 
             foreach (string setting in settingList)
             {
@@ -398,7 +398,7 @@ namespace OxDAOEngine.Settings
                 settingsControls[settings][setting].Top = CalcAcessorTop(lastAccessor);
 
                 if (!settings.Helper.WithoutLabel(setting))
-                    maxLabelWidth = Math.Max(
+                    maxLabelWidth = OxWh.Max(
                         maxLabelWidth,
                         ((OxLabel)settingsControls[settings][setting].Control.Tag).Width
                     );
@@ -410,7 +410,7 @@ namespace OxDAOEngine.Settings
                 settingsControls[settings][setting].Control.Left = 
                     settings.Helper.WithoutLabel(setting) 
                         ? 8 
-                        : maxLabelWidth + 24;
+                        : OxWh.Int(maxLabelWidth) + 24;
 
             frame.Size = new(
                 frame.Width,

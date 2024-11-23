@@ -52,10 +52,10 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
 
         public BatchUpdatePanel(OxForm form) : base(form)
         {
-            Size = new(360, OxWh.W120);
+            Size = new(OxWh.W360, OxWh.W120);
             controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
             countLabel.Parent = this;
-            countLabel.Top = OxWh.Int(OxWh.Sub(Height, OxWh.W30));
+            countLabel.Top = OxWh.Sub(Height, OxWh.W30);
             ControlPainter.ColorizeControl(countLabel, BaseColor);
             FieldAccessor = (FieldAccessor<TField, TDAO>)controlBuilder[TypeHelper.FieldHelper<TField>().FieldMetaData];
             PrepareFieldAccessor();
@@ -75,8 +75,8 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
             PlacedControl<TField> PlacedFieldsControl = LayoutFieldControl();
             ControlPainter.ColorizeControl(PlacedFieldsControl.Control, BaseColor);
             valueLabel.Parent = this;
-            valueLabel.Top = PlacedFieldsControl.Control.Bottom + 16;
-            valueLabel.Left = PlacedFieldsControl.LabelLeft;
+            valueLabel.Top = OxWh.Add(PlacedFieldsControl.Control.Bottom, OxWh.W16);
+            valueLabel.Left = OxWh.W(PlacedFieldsControl.LabelLeft);
             ControlPainter.ColorizeControl(valueLabel, BaseColor);
 
             if (PlacedFieldsControl.Label is not null)
@@ -179,7 +179,7 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
         {
             Text = "Selected Items: ",
             Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
-            Left = 24,
+            Left = OxWh.W24,
             AutoSize = true,
             Visible = true,
             Font = Styles.DefaultFont

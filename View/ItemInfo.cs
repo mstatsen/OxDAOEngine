@@ -140,7 +140,7 @@ namespace OxDAOEngine.View
             if (control is null)
                 return;
             
-            control.MaximumSize = size;
+            control.MaximumSize = new(size);
             control.TextAlign = ContentAlignment.TopLeft;
         }
 

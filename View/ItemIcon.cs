@@ -205,7 +205,10 @@ namespace OxDAOEngine.View
 
                 if (leftControl is not null)
                 {
-                    leftControl.Left = OxWh.Int(OxWh.Sub(OxWh.W12, sizeHelper.LeftDelta(ListController.Settings.IconsSize)));
+                    leftControl.Left = OxWh.Sub(
+                        OxWh.W12, 
+                        sizeHelper.LeftDelta(ListController.Settings.IconsSize)
+                    );
                     leftControl.TextAlign = ContentAlignment.MiddleLeft;
                     leftControl.BringToFront();
                 }
@@ -218,11 +221,9 @@ namespace OxDAOEngine.View
                 if (rightControl is not null)
                 {
                     rightControl.Left =
-                        OxWh.Int(
-                            OxWh.Add(
-                                OxWh.Sub(IconWidth, rightControl.Width - 12),
-                                sizeHelper.LeftDelta(ListController.Settings.IconsSize)
-                            )
+                        OxWh.Add(
+                            OxWh.Sub(IconWidth, rightControl.Width - 12),
+                            sizeHelper.LeftDelta(ListController.Settings.IconsSize)
                         );
                     rightControl.TextAlign = ContentAlignment.MiddleLeft;
                     rightControl.BringToFront();
