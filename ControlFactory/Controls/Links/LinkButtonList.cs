@@ -118,7 +118,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         {
             OxWidth calcedWidth =
                 Direction is ButtonListDirection.Vertical
-                    ? OxWh.Sub(Width, OxWh.Div(button.BorderWidth, 2))
+                    ? OxWh.Sub(Width, button.Borders.Left)
                     : (Buttons.Count is 0
                         ? OxWh.W120
                         : OxWh.Sub(
@@ -126,7 +126,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                                 OxWh.Min(OxWh.Div(Width, Buttons.Count), OxWh.W120),
                                 OxWh.Mul(ButtonSpace, Buttons.Count - 1)
                             ),
-                            OxWh.Mul(button.BorderWidth, 2)
+                            OxWh.Add(button.Borders.Left, button.Borders.Right)
                           )
                       );
 
