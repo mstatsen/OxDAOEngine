@@ -92,7 +92,7 @@ namespace OxDAOEngine
 
         private void ActivateSavedView()
         {
-            IOxPane? firstPage = tabControl.Pages.First;
+            OxPane? firstPage = tabControl.Pages.First;
 
             if (firstPage is not null)
                 tabControl.TabButtons[firstPage].Margin.Left = OxWh.W2;

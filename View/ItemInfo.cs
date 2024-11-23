@@ -198,8 +198,7 @@ namespace OxDAOEngine.View
             if (!text.Equals(string.Empty))
                 Headers.Add(panel, new OxHeader(text)
                 {
-                    Parent = panel.Parent,
-                    Dock = OxDock.Top
+                    Parent = panel.Parent
                 });
 
             panels.Add(panel);

@@ -356,7 +356,7 @@ namespace OxDAOEngine.Editor
 
         protected void SetParentsColor() 
         { 
-            foreach (IOxPane panel in ParentPanels)
+            foreach (OxPane panel in ParentPanels)
                 if (!panel.Equals(MainPanel))
                     panel.BaseColor = MainPanel.Colors.Lighter();
         }

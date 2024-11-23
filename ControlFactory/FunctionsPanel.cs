@@ -328,7 +328,8 @@ namespace OxDAOEngine.ControlFactory
                     Borders[Dock].Size = value
                         ? OxWh.W1
                         : OxWh.W0;
-                }
+                },
+                Size
             );
 
             Update();

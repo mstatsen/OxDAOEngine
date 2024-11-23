@@ -29,7 +29,7 @@ namespace OxDAOEngine.View
             }
         }
 
-        public OxPaneList<OxPane> AsPaneList =>
+        public OxPaneList AsPaneList =>
             new OxPaneList().AddRange(this.Select(item => item.AsPane));
     }
 }
