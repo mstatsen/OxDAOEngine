@@ -51,9 +51,9 @@ namespace OxDAOEngine.ControlFactory.Controls.Sorting
 
         protected override Color FunctionColor => EngineStyles.SortingColor;
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             ClearButton.Size = new(OxWh.W80, OxWh.W23);
             ClearButton.Click += (s, e) => ClearControls();
             Header.AddToolButton(ClearButton);

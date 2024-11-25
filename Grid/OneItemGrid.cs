@@ -111,9 +111,9 @@ namespace OxDAOEngine.Grid
             MultiSelect = false
         };
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             GridView.Parent = this;
             GridView.RowTemplate.Height = 40;
             GridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;

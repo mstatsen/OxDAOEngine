@@ -70,10 +70,10 @@ namespace OxDAOEngine.View
             paginator.PageSize = SettingsPageSize;
         }
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
             paginator.Parent = this;
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             /*
             Layouter.Parent = ContentBox;
             ContentBox.AutoScroll = true;

@@ -123,9 +123,9 @@ namespace OxDAOEngine.Grid
         private void SynchronizeScroll(OneItemGrid<TField, TDAO> source, OneItemGrid<TField, TDAO> dest) =>
             dest.FirstDisplayedScrollingRowIndex = source.FirstDisplayedScrollingRowIndex;
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
 
             LeftPlace.Parent = this;
             LeftPlace.Dock = OxDock.Fill;

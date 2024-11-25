@@ -97,9 +97,9 @@ namespace OxDAOEngine.Grid
 
         }
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             availablePlace.Parent = this;
             availablePlace.Dock = OxDock.Fill;
             availablePlace.Header.Underline.Visible = false;

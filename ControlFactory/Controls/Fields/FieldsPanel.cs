@@ -41,9 +41,9 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
 
         public override Color DefaultColor => EngineStyles.FieldsColor;
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             CreateToolButtons();
         }
 

@@ -31,9 +31,9 @@ namespace OxDAOEngine.Grid
             }
         }
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
 
             if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
                 PrepareQuickFilter();

@@ -213,9 +213,9 @@ namespace OxDAOEngine.ControlFactory.Filter
                 ? string.Empty 
                 : GetCategoryName.Invoke();
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             ViewFilterDescription.Click += ViewFilterDescriptionButtonClickHandler;
             Header.AddToolButton(ViewFilterDescription);
         }

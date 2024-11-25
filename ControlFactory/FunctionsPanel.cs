@@ -61,13 +61,13 @@ namespace OxDAOEngine.ControlFactory
         public sealed override Color DefaultColor => base.DefaultColor;
         protected abstract Color FunctionColor { get; }
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
             CustomizeButton.Size = new(OxWh.W28, OxWh.W23);
             CustomizeButton.Click += (s, e) => SettingsForm.ShowSettings(Settings, SettingsPart);
             Header.AddToolButton(CustomizeButton);
 
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             PrepareLoadingPanel();
 
             Sider.Parent = this;

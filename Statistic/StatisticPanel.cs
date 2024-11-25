@@ -60,9 +60,9 @@ namespace OxDAOEngine.Statistic
         protected virtual void PrepareStatisticColor(StatisticType type, int statistic) =>
             Labels[type].BaseColor = BaseColor;
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             CreateLabels();
         }
 

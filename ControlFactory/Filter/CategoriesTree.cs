@@ -73,9 +73,9 @@ namespace OxDAOEngine.ControlFactory.Filter
         protected IListController<TField, TDAO> ListController =>
             DataManager.ListController<TField, TDAO>();
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             PrepareCategorySelector();
             ExpandButton.Size = new(OxWh.W28, OxWh.W23);
             ExpandButton.Click += ExpandAllClick;

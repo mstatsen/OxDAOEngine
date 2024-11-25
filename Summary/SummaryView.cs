@@ -38,9 +38,9 @@ namespace OxDAOEngine.Summary
 
         public override Color DefaultColor => EngineStyles.SummaryColor;
 
-        protected override void PrepareInnerControls()
+        protected override void PrepareInnerComponents()
         {
-            base.PrepareInnerControls();
+            base.PrepareInnerComponents();
             PrepareDictionaries();
             layouter.Parent = this;
             layouter.Dock = OxDock.Top;
