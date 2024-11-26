@@ -327,7 +327,7 @@ namespace OxDAOEngine.Settings
                     : settings.HTML.Fields;
             inlineFieldsPanel.Fields = settings.Text.Fields;
             ActualizeFormatSettings();
-            OxControlHelper.CenterForm(this);
+            MoveToScreenCenter();
         }
 
         private void ShowFileDialog(object? sender, EventArgs e)

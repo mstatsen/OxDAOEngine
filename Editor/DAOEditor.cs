@@ -276,7 +276,7 @@ namespace OxDAOEngine.Editor
                 RecalcPanels();
 
                 if (centerForm)
-                    OxControlHelper.CenterForm(this);
+                    MoveToScreenCenter();
 
                 Invalidate();
             }

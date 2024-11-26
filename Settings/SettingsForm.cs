@@ -126,7 +126,7 @@ namespace OxDAOEngine.Settings
                 Math.Max(maximumTabWidth, 480),
                 488
             );
-            OxControlHelper.CenterForm(this);
+            MoveToScreenCenter();
         }
 
         private void FillControls()

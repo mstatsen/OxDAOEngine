@@ -1,7 +1,6 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Dialogs;
-using System.Windows.Forms;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -37,7 +36,7 @@ namespace OxDAOEngine.ControlFactory
         private static void ViewerShown(object? sender, EventArgs e)
         {
             if (sender is OxForm form)
-                OxControlHelper.CenterForm(form);
+                form.MoveToScreenCenter();
         }
     }
 }
