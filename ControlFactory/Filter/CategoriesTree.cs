@@ -58,7 +58,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             Text = "Categories";
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             categorySelector.BackColor = BackColor;

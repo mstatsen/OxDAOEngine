@@ -164,7 +164,7 @@ namespace OxDAOEngine.ControlFactory
             RecalcPinned();
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
 

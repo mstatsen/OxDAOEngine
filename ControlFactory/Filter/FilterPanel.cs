@@ -164,7 +164,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void AddGroupButtonClickHandler(object? sender, EventArgs e) => 
             AddGroup(new FilterGroup<TField, TDAO>());
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
 

@@ -419,7 +419,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             BaseColor = value;
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             ControlPanel.BaseColor = BaseColor;

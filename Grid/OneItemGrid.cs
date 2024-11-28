@@ -164,7 +164,7 @@ namespace OxDAOEngine.Grid
         public override Color DefaultColor =>
             new OxColorHelper(EngineStyles.ElementControlColor).Darker(2);
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             GridView.BackgroundColor = Colors.Lighter(7);

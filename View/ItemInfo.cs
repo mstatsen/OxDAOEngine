@@ -103,7 +103,7 @@ namespace OxDAOEngine.View
 
         public OxPanel AsPane => this;
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
 

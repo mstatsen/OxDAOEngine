@@ -26,7 +26,7 @@ namespace OxDAOEngine.Statistic
 
         protected readonly Dictionary<StatisticType, OxButton> Labels = new();
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
 

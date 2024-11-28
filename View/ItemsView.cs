@@ -83,7 +83,7 @@ namespace OxDAOEngine.View
             AutoScroll = true;
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             paginator.BaseColor = BaseColor;

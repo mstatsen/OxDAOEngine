@@ -95,7 +95,7 @@ namespace OxDAOEngine.Grid
         public void SelectFirstItem() =>
             Grid.SelectFirstItem();
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             Grid.BaseColor = BaseColor;

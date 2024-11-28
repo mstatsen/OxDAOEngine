@@ -183,7 +183,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         public EventHandler? RuleAdded;
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
 

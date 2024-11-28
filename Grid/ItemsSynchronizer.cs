@@ -203,7 +203,7 @@ namespace OxDAOEngine.Grid
                     && leftValue.Equals(rightValue));
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
 

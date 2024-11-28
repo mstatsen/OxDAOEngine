@@ -83,7 +83,7 @@ namespace OxDAOEngine.Grid
             }
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             availableGrid.BaseColor = Colors.Darker();

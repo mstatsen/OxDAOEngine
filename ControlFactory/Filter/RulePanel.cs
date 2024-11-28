@@ -213,7 +213,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             return result;
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
 

@@ -61,7 +61,7 @@ namespace OxDAOEngine.View
         private readonly OxIconButton EditButton = new(OxIcons.Pencil, OxWh.W20);
         private readonly OxIconButton DeleteButton = new(OxIcons.Trash, OxWh.W20);
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             Header.Label.ForeColor = fontColors.BaseColor;

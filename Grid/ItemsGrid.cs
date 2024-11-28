@@ -393,7 +393,7 @@ namespace OxDAOEngine.Grid
                 GridView.CellPainting -= painter.CellPainting;
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             ToolBar.BaseColor = BaseColor;

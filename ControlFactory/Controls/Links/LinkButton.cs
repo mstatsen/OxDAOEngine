@@ -41,7 +41,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
             };
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             ForeColor = Colors.Darker(3);

@@ -2,6 +2,7 @@
 using OxLibrary.Controls;
 using OxLibrary;
 using OxDAOEngine.ControlFactory.Accessors;
+using OxLibrary.Panels;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -17,7 +18,7 @@ namespace OxDAOEngine.ControlFactory
                 case IButtonEdit buttonEdit:
                     buttonEdit.ControlColor = new OxColorHelper(baseColor).Lighter(control.Enabled ? 7 : 8);
                     break;
-                case OxSpinEdit spinEdit:
+                case OxPanel spinEdit:
                     spinEdit.BaseColor = baseColor;
                     break;
                 case OxCheckBox checkBox:
@@ -25,12 +26,6 @@ namespace OxDAOEngine.ControlFactory
                     break;
                 case IColoredCustomControl customControl:
                     customControl.ControlColor = baseColor;
-                    break;
-                case OxPictureContainer pictureContainer:
-                    pictureContainer.BaseColor = baseColor;
-                    break;
-                case OxButton button:
-                    button.BaseColor = baseColor;
                     break;
                 default:
                     control.BackColor = new OxColorHelper(baseColor).Lighter(control.Enabled ? 7 : 8);

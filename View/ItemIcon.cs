@@ -36,7 +36,7 @@ namespace OxDAOEngine.View
             builder.DisposeControls();
         }
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             RecolorControls();

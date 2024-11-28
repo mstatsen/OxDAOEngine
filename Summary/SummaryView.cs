@@ -109,7 +109,7 @@ namespace OxDAOEngine.Summary
 
         private readonly List<SummaryPanel<TField, TDAO>> SummaryPanels = new();
 
-        protected override void PrepareColors()
+        public override void PrepareColors()
         {
             base.PrepareColors();
             layouter.BaseColor = BaseColor;
