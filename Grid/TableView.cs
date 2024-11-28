@@ -1,11 +1,11 @@
-﻿using OxLibrary;
-using OxLibrary.Controls;
+﻿using OxLibrary.Controls;
 using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.View;
+using OxLibrary;
 
 namespace OxDAOEngine.Grid
 {

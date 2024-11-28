@@ -12,7 +12,7 @@ namespace OxDAOEngine.View
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new();
 
-    public sealed class ItemsView<TField, TDAO> : OxPane
+    public sealed class ItemsView<TField, TDAO> : OxPanel
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -30,7 +30,7 @@ namespace OxDAOEngine.View
 
             if (placedCards is not null)
             {
-                foreach (OxPane pane in placedCards.Cast<OxPane>())
+                foreach (OxPanel pane in placedCards.Cast<OxPanel>())
                     pane.Dispose();
 
                 placedCards.Clear();

@@ -1,10 +1,10 @@
-﻿using OxLibrary.Dialogs;
+﻿using OxLibrary;
+using OxLibrary.Forms;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
-using OxLibrary;
 
 namespace OxDAOEngine.Editor
 {

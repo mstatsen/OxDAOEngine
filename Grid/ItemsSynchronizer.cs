@@ -1,13 +1,13 @@
 ﻿using OxDAOEngine.Data;
 using OxLibrary.Controls;
 using OxLibrary;
+using OxLibrary.Forms;
 using OxLibrary.Panels;
-using OxLibrary.Dialogs;
 using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.Grid
 {
-    public class ItemsSynchronizer<TField, TDAO> : OxPane
+    public class ItemsSynchronizer<TField, TDAO> : OxPanel
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -24,7 +24,7 @@ namespace OxDAOEngine.Grid
         private readonly OxIconButton LeftToRightButton = new(OxIcons.Right, OxWh.W54);
         private readonly OxIconButton RightToLeftButton = new(OxIcons.Left, OxWh.W54);
 
-        private readonly OxPane ButtonsPanel = new(new(64, 1));
+        private readonly OxPanel ButtonsPanel = new(new(64, 1));
         private readonly List<TField> EqualFields = new();
 
         protected override Bitmap? GetIcon() => OxIcons.Replace;
@@ -296,7 +296,7 @@ namespace OxDAOEngine.Grid
             }
         }
 
-        public static bool SynchronizeItems(TDAO leftItem, TDAO rightItem, OxPane owner)
+        public static bool SynchronizeItems(TDAO leftItem, TDAO rightItem, OxPanel owner)
         {
             ItemsSynchronizer<TField, TDAO> synchronizer = new(leftItem, rightItem)
             {

@@ -10,7 +10,6 @@ namespace OxDAOEngine.ControlFactory
         where TField : notnull, Enum
     {
         public readonly OxWidth Space = OxWh.W8;
-
         public TField Field { get; set; } = default!;
         public Control? Parent { get; set; }
         public OxWidth Left { get; set; }
@@ -91,7 +90,7 @@ namespace OxDAOEngine.ControlFactory
             control.Left = OxWh.Int(Left);
             control.Top = OxWh.Int(Top);
 
-            if (control is OxPane pane)
+            if (control is OxPanel pane)
                 pane.Size = new(Width, Height);
             else
             {
@@ -121,7 +120,7 @@ namespace OxDAOEngine.ControlFactory
                 case IColoredCustomControl customControl:
                     customControl.ControlColor = BackColor;
                     break;
-                case OxPane pane:
+                case OxPanel pane:
                     pane.BaseColor = BackColor;
                     break;
                 case OxCheckBox checkBox:

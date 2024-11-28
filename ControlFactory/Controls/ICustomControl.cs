@@ -3,7 +3,7 @@ using OxDAOEngine.Data;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    public interface ICustomControl<TField, TDAO> : IOxPane
+    public interface ICustomControl<TField, TDAO> : IOxPanel
         where TField: Enum
         where TDAO : RootDAO<TField>, new()
     {

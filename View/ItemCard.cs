@@ -202,7 +202,7 @@ namespace OxDAOEngine.View
 
         private readonly ItemViewMode ViewMode;
 
-        public OxPane AsPane => this;
+        public OxPanel AsPane => this;
 
         private ItemsView<TField, TDAO>? itemsView;
         public ItemsView<TField, TDAO>? ItemsView 

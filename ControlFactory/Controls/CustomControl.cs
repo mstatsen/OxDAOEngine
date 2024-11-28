@@ -1,10 +1,11 @@
-﻿using OxLibrary.Panels;
+﻿using OxLibrary;
+using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
-    public abstract class CustomControl<TField, TDAO, TItem> : OxPane, 
+    public abstract class CustomControl<TField, TDAO, TItem> : OxPanel, 
         ICustomControl<TField, TDAO>, IColoredCustomControl
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()

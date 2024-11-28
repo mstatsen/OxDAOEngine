@@ -14,7 +14,7 @@ using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine
 {
-    public class ItemsFace<TField, TDAO> : OxPane, IDataReceiver, IOxWithIcon
+    public class ItemsFace<TField, TDAO> : OxPanel, IDataReceiver, IOxWithIcon
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -66,7 +66,7 @@ namespace OxDAOEngine
 
         private void SaveCurrentView(OxTabControlEventArgs e)
         {
-            foreach (KeyValuePair<ItemsViewsType, OxPane> view in Views)
+            foreach (KeyValuePair<ItemsViewsType, OxPanel> view in Views)
                 if (view.Value.Equals(e.Page))
                 {
                     Settings.CurrentView = view.Key;
@@ -92,7 +92,7 @@ namespace OxDAOEngine
 
         private void ActivateSavedView()
         {
-            OxPane? firstPage = tabControl.Pages.First;
+            OxPanel? firstPage = tabControl.Pages.First;
 
             if (firstPage is not null)
                 tabControl.TabButtons[firstPage].Margin.Left = OxWh.W2;
@@ -161,7 +161,7 @@ namespace OxDAOEngine
                     : (ItemsView<TField, TDAO>)sender
                 );
 
-        private readonly Dictionary<ItemsViewsType, OxPane> Views = new();
+        private readonly Dictionary<ItemsViewsType, OxPanel> Views = new();
 
         private TableView<TField, TDAO> CreateTableView()
         {
@@ -374,7 +374,7 @@ namespace OxDAOEngine
             loadingPanel.Borders.Size = OxWh.W1;
         }
 
-        private void StartLoading(OxPane? parentPanel = null)
+        private void StartLoading(OxPanel? parentPanel = null)
         {
             loadingPanel.Parent = 
                 parentPanel is null 
@@ -553,7 +553,7 @@ namespace OxDAOEngine
         //private readonly SortingPanel<TField, TDAO> sortingPanel = new(SortingVariant.Global, ControlScope.Table);
         private RootListDAO<TField, TDAO>? actualItemList;
         private readonly OxTabControl tabControl;
-        private readonly OxPane tabControlPanel = new();
+        private readonly OxPanel tabControlPanel = new();
         private readonly RootStatisticPanel<TField, TDAO> statisticPanel;
     }
 }

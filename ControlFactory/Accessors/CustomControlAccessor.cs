@@ -2,9 +2,9 @@
 using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
-using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -92,7 +92,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             base.SetReadOnly(value);
 
             if (CustomControl is not null 
-                && CustomControl.Parent?.Parent is OxPane panel)
+                && CustomControl.Parent?.Parent is OxPanel panel)
             {
                 if (value)
                 {

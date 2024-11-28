@@ -1,8 +1,8 @@
-﻿using OxDAOEngine.ControlFactory.Accessors;
+﻿using OxLibrary;
+using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Settings.Helpers;
 using OxDAOEngine.Settings.Observers;
-using OxLibrary.Panels;
 
 namespace OxDAOEngine.Settings
 {

@@ -22,8 +22,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         private readonly OxClickFrameList EnabledWhenItemSelected = new();
         private readonly Dictionary<OxClickFrame, ItemsContainerButtonEffect> ButtonEffects = new();
 
-        public OxPane ButtonsPanel { get; private set; } = new();
-        public OxPane ControlPanel { get; private set; } = new();
+        public OxPanel ButtonsPanel { get; private set; } = new();
+        public OxPanel ControlPanel { get; private set; } = new();
         public IItemsContainer ItemsContainer { get; internal set; } = new TItemsContainer()
         {
             Dock = DockStyle.Fill,
@@ -292,7 +292,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             ButtonsPanel.Parent = this;
             ButtonsPanel.Dock = OxDock.Right;
             ButtonsPanel.Width = ButtonWidth | OxWh.Mul(ButtonSpace, 2);
-            _ = new OxPane(new(OxWh.W1, ButtonSpace))
+            _ = new OxPanel(new(OxWh.W1, ButtonSpace))
             {
                 Parent = ButtonsPanel,
                 Dock = OxDock.Top,

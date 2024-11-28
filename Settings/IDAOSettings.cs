@@ -36,8 +36,8 @@ namespace OxDAOEngine.Settings
         //ExportSettings ExportSettings { get; }
         List<object> GetFields(SettingsPart part);
         void SetFields(SettingsPart part, List<object> value);
-        IFieldsPanel CreateFieldsPanel(SettingsPart part, OxPane parent);
-        ICategoriesPanel CreateCategoriesPanel(OxPane parent);
+        IFieldsPanel CreateFieldsPanel(SettingsPart part, OxPanel parent);
+        ICategoriesPanel CreateCategoriesPanel(OxPanel parent);
         bool AvailableSummary { get; set; }
         bool AvailableCategories { get; set; }
         bool AvailableQuickFilter { get; set; }

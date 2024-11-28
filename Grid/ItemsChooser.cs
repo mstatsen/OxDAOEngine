@@ -1,20 +1,20 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxLibrary.Dialogs;
+using OxLibrary.Forms;
 using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.Grid
 {
-    public class ItemsChooser<TField, TDAO> : OxPane
+    public class ItemsChooser<TField, TDAO> : OxPanel
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
         private readonly ItemSelector<TField, TDAO> availableGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
         private readonly ItemsRootGrid<TField, TDAO> selectedGrid = new(DataManager.FullItemsList<TField, TDAO>(), GridUsage.ChooseItems);
-        private readonly OxPane buttonsPanel = new(new(64, 1));
-        private readonly OxPane topPanel = new(new(1, 100));
+        private readonly OxPanel buttonsPanel = new(new(64, 1));
+        private readonly OxPanel topPanel = new(new(1, 100));
         private readonly OxIconButton selectButton = new(OxIcons.Right, OxWh.W54);
         private readonly OxIconButton unSelectButton = new(OxIcons.Left, OxWh.W54);
         private readonly ItemsChooserParams<TField, TDAO> ChooserParams;

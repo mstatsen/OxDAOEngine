@@ -1,6 +1,7 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Panels;
+using OxLibrary.Waiter;
 using OxDAOEngine.Data;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Observers;
@@ -109,7 +110,7 @@ namespace OxDAOEngine.ControlFactory
                 PinButton.Hovered = PinButton2.Hovered;
         }
 
-        public OxPane Sider { get; } = new(new(OxWh.W16, OxWh.W1));
+        public OxPanel Sider { get; } = new(new(OxWh.W16, OxWh.W1));
         private readonly OxIconButton ExpandButton = new(OxIcons.Left, OxWh.W16)
         {
             Dock = OxDock.Fill,
@@ -441,7 +442,7 @@ namespace OxDAOEngine.ControlFactory
             RecalcPinnedButton(PinButton);
             RecalcPinnedButton(PinButton2);
 
-            OxPane? parentFillControl = GetParentFillControl();
+            OxPanel? parentFillControl = GetParentFillControl();
 
             if (parentFillControl is not null)
             {
@@ -472,11 +473,11 @@ namespace OxDAOEngine.ControlFactory
 
         private readonly Guid Id = Guid.NewGuid();
 
-        private OxPane? GetParentFillControl()
+        private OxPanel? GetParentFillControl()
         {
             if (Parent is not null)
                 foreach (Control control in Parent.Controls)
-                    if (control is OxPane pane
+                    if (control is OxPanel pane
                         && Parent.Equals(pane.Parent)
                         && pane.Dock is OxDock.Fill)
                         return pane;
@@ -484,15 +485,15 @@ namespace OxDAOEngine.ControlFactory
             return null;
         }
 
-        public OxPane? ParentPadding
+        public OxPanel? ParentPadding
         {
             get
             {
-                OxPane? parentFillControl = GetParentFillControl();
+                OxPanel? parentFillControl = GetParentFillControl();
 
                 if (parentFillControl is not null)
                     foreach (Control control in parentFillControl.Controls)
-                        if (control is OxPane pane
+                        if (control is OxPanel pane
                             && pane.Name.Equals(FakePaddingName))
                             return pane;
 
@@ -511,12 +512,12 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetParentPaddings()
         {
-            OxPane? parentFillControl = GetParentFillControl();
+            OxPanel? parentFillControl = GetParentFillControl();
 
             if (parentFillControl is null)
                 return;
 
-            OxPane? fakePadding = ParentPadding;
+            OxPanel? fakePadding = ParentPadding;
 
             OxWidth fakePaddingSize = OxDockHelper.IsVertical(Dock)
                 ? Sider.Height | Margin.Top | Margin.Bottom
@@ -543,7 +544,7 @@ namespace OxDAOEngine.ControlFactory
             }
 
             fakePadding ??= 
-                new OxPane
+                new OxPanel
                 {
                     Name = FakePaddingName,
                     Parent = parentFillControl,
@@ -635,12 +636,12 @@ namespace OxDAOEngine.ControlFactory
 
         private void HideParentPadding()
         {
-            OxPane? parentFillControl = GetParentFillControl();
+            OxPanel? parentFillControl = GetParentFillControl();
 
             if (parentFillControl is null)
                 return;
 
-            OxPane? parentPadding = ParentPadding;
+            OxPanel? parentPadding = ParentPadding;
 
             if (parentPadding is null)
                 return;

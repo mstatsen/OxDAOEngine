@@ -1,11 +1,11 @@
-﻿using OxDAOEngine.ControlFactory.Accessors;
-using OxDAOEngine.Data;
+﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxLibrary;
+using OxLibrary.Forms;
 using OxLibrary.Panels;
+using OxDAOEngine.ControlFactory.Accessors;
+using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
-using OxLibrary.Dialogs;
 using OxDAOEngine.Data.Filter.Types;
 
 namespace OxDAOEngine.ControlFactory.Filter
@@ -16,8 +16,8 @@ namespace OxDAOEngine.ControlFactory.Filter
     {
         private readonly ControlBuilder<TField, TDAO> Builder;
         private readonly IControlAccessor ConcatControl;
-        private readonly OxPane ConcatControlParent = new();
-        private readonly OxPane AddRuleButtonParent = new();
+        private readonly OxPanel ConcatControlParent = new();
+        private readonly OxPanel AddRuleButtonParent = new();
         private readonly OxButton AddRuleButton = new("Add rule", OxIcons.Plus);
         private readonly OxIconButton RemoveGroupButton = new(OxIcons.Trash, OxWh.W16);
         private readonly FilterPanel<TField, TDAO> ParentFilterPanel;

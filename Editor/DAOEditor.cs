@@ -1,5 +1,5 @@
 ﻿using OxLibrary;
-using OxLibrary.Dialogs;
+using OxLibrary.Forms;
 using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
@@ -92,7 +92,7 @@ namespace OxDAOEngine.Editor
 
         private void SetHandlers()
         {
-            foreach (OxPane pane in Groups.Values)
+            foreach (OxPanel pane in Groups.Values)
                 pane.Resize += (s, e) => InvalidateSize();
         }
 
@@ -348,7 +348,7 @@ namespace OxDAOEngine.Editor
 
         protected virtual void AddFrameToParent(TFieldGroup group, OxFrameWithHeader groupFrame)
         {
-            OxPane? groupParent = GroupParent(group);
+            OxPanel? groupParent = GroupParent(group);
 
             if (groupParent is not null)
                 GroupParents[groupParent].Add(groupFrame);
@@ -356,7 +356,7 @@ namespace OxDAOEngine.Editor
 
         protected void SetParentsColor() 
         { 
-            foreach (OxPane panel in ParentPanels)
+            foreach (OxPanel panel in ParentPanels)
                 if (!panel.Equals(MainPanel))
                     panel.BaseColor = MainPanel.Colors.Lighter();
         }
@@ -365,12 +365,12 @@ namespace OxDAOEngine.Editor
             FieldGroupHelper.EditedList();
 
         public readonly OxPaneDictionary GroupParents = new();
-        public readonly OxPaneList ParentPanels = new();
+        public readonly OxPanelList ParentPanels = new();
 
-        protected virtual OxPane? GroupParent(TFieldGroup group) 
+        protected virtual OxPanel? GroupParent(TFieldGroup group) 
             => MainPanel;
 
-        protected OxWidth CalcedWidth(OxPane parentControl)
+        protected OxWidth CalcedWidth(OxPanel parentControl)
         {
             OxWidth result = 0;
 
@@ -381,7 +381,7 @@ namespace OxDAOEngine.Editor
             return result;
         }
 
-        protected OxWidth CalcedHeight(OxPane parentControl)
+        protected OxWidth CalcedHeight(OxPanel parentControl)
         {
             OxWidth result = 0;
 
@@ -391,7 +391,7 @@ namespace OxDAOEngine.Editor
             return result;
         }
 
-        protected void PrepareParentPanel(OxPane panel, OxPane parent, OxDock dock = OxDock.Left, bool parentForGroups = true)
+        protected void PrepareParentPanel(OxPanel panel, OxPanel parent, OxDock dock = OxDock.Left, bool parentForGroups = true)
         {
             panel.Parent = parent;
             panel.Dock = dock;

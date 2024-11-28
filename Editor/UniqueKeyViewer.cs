@@ -1,5 +1,5 @@
 ﻿using OxLibrary.Controls;
-using OxLibrary.Dialogs;
+using OxLibrary.Forms;
 using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.ControlFactory;

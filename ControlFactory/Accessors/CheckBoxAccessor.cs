@@ -18,7 +18,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             OxCheckBox checkBox = new()
             {
                 CheckAlign = ContentAlignment.MiddleRight,
-                Width = 14
+                Width = OxWh.W14
             };
             checkBox.CheckedChanged += SetReadOnlyPictureHandler;
             return checkBox;
@@ -55,7 +55,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected override Control? CreateReadOnlyControl()
         {
-            OxPane readOnlyControl = new();
+            OxPanel readOnlyControl = new();
             ReadOnlyLabel = new OxLabel
             {
                 Parent = readOnlyControl

@@ -11,7 +11,7 @@ using OxDAOEngine.Data.Fields.Types;
 namespace OxDAOEngine.Grid
 {
 
-    public class ItemsGrid<TField, TDAO> : OxPane
+    public class ItemsGrid<TField, TDAO> : OxPanel
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {

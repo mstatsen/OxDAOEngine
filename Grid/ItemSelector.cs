@@ -1,8 +1,8 @@
-﻿using OxLibrary;
-using OxDAOEngine.ControlFactory.Filter;
+﻿using OxDAOEngine.ControlFactory.Filter;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.ControlFactory;
+using OxLibrary;
 
 namespace OxDAOEngine.Grid
 {

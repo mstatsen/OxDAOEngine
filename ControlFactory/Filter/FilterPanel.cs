@@ -1,12 +1,12 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
+using OxLibrary.Forms;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
-using OxLibrary.Dialogs;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -17,10 +17,10 @@ namespace OxDAOEngine.ControlFactory.Filter
         where TDAO : RootDAO<TField>, new()
     {
         private readonly ControlBuilder<TField, TDAO> Builder;
-        private readonly OxPane ConcatControlParent = new();
+        private readonly OxPanel ConcatControlParent = new();
         private readonly IControlAccessor ConcatControl;
         private readonly List<FilterGroupPanel<TField, TDAO>> groupsPanels = new();
-        private readonly OxPane AddGroupButtonParent = new();
+        private readonly OxPanel AddGroupButtonParent = new();
         private readonly OxButton AddGroupButton = new("Add group", OxIcons.Plus);
         private readonly OxIconButton ViewFilterDescription = new(OxIcons.ViewInfo, OxWh.W16)
         { 

@@ -128,7 +128,7 @@ namespace OxDAOEngine.Editor
 
         public virtual int Offset(TField field) => 2;
 
-        public OxPane Parent(TField field) =>
+        public OxPanel Parent(TField field) =>
             GroupFrames[fieldGroupHelper.EditedGroup(field)];
 
         private readonly FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();

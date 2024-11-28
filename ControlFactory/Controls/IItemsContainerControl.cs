@@ -8,8 +8,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
-        OxPane ButtonsPanel { get; }
-        OxPane ControlPanel { get; }
+        OxPanel ButtonsPanel { get; }
+        OxPanel ControlPanel { get; }
         IItemsContainer ItemsContainer { get; }
         void DisableValueChangeHandler();
 

@@ -1,5 +1,4 @@
 ﻿using System.Xml;
-using OxLibrary;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.ControlFactory.Filter;
@@ -19,6 +18,7 @@ using OxDAOEngine.Settings.Part;
 using OxDAOEngine.View.Types;
 using OxDAOEngine.XML;
 using OxLibrary.Panels;
+using OxLibrary;
 
 namespace OxDAOEngine.Settings
 {
@@ -377,7 +377,7 @@ namespace OxDAOEngine.Settings
         public void SetFields(SettingsPart part, List<object> value) =>
             fields[part].ObjectList = value;
 
-        public IFieldsPanel CreateFieldsPanel(SettingsPart part, OxPane parent)
+        public IFieldsPanel CreateFieldsPanel(SettingsPart part, OxPanel parent)
         {
             IFieldsPanel fieldsPanel =
                 new FieldsPanel<TField, TDAO>(FieldVariantHelper.Variant(part))
@@ -477,7 +477,7 @@ namespace OxDAOEngine.Settings
                 _ => base.DAODefault(setting),
             };
 
-        public ICategoriesPanel CreateCategoriesPanel(OxPane parent)
+        public ICategoriesPanel CreateCategoriesPanel(OxPanel parent)
         {
             ICategoriesPanel categoriesPanel =
                 new CategroiesPanel<TField, TDAO>()

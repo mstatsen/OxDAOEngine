@@ -116,7 +116,7 @@ namespace OxDAOEngine.Data
             throw new KeyNotFoundException($"Controller {typeof(TDataController).Name} not found");
         }
 
-        public static IDataController Controller(IOxPane face)
+        public static IDataController Controller(IOxPanel face)
         {
            foreach (IDataController controller in Controllers)
                 if (face.Equals(controller.Face))
@@ -297,11 +297,11 @@ namespace OxDAOEngine.Data
                 controller.ModifiedHandler += handler;
         }
 
-        public static List<OxPane> Faces
+        public static List<OxPanel> Faces
         {
             get 
             {
-                List<OxPane> faces = new();
+                List<OxPanel> faces = new();
 
                 foreach (IDataController controller in Controllers)
                     if (controller.Face is not null)
@@ -325,7 +325,7 @@ namespace OxDAOEngine.Data
             }
         }
 
-        public static bool SelectItem<TField, TDAO>(out TDAO? selectedItem, OxPane parentPane, 
+        public static bool SelectItem<TField, TDAO>(out TDAO? selectedItem, OxPanel parentPane, 
             TDAO? initialItem = null, IMatcher<TField>? filter = null)
             where TField : notnull, Enum
             where TDAO : RootDAO<TField>, new()

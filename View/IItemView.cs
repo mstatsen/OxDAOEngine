@@ -3,12 +3,12 @@ using OxDAOEngine.Data;
 
 namespace OxDAOEngine.View
 {
-    public interface IItemView<TField, TDAO> : IOxPane
+    public interface IItemView<TField, TDAO> : IOxPanel
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
         TDAO? Item { get; set; }
-        OxPane AsPane { get; }
+        OxPanel AsPane { get; }
 
         ItemsView<TField, TDAO>? ItemsView { get; set; }
     }

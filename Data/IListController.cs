@@ -37,7 +37,7 @@ namespace OxDAOEngine.Data
         void ViewItems(TField field, object? value);
         void ViewItems(IMatcher<TField> filter);
         void ViewItems(Predicate<TDAO> predicate, string caption = "");
-        bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TField>? filter = null);
+        bool SelectItem(out TDAO? selectedItem, OxPanel parentPane, TDAO? initialItem = null, IMatcher<TField>? filter = null);
         void ViewHistory();
         int TotalCount { get; }
         int FilteredCount { get; }

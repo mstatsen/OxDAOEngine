@@ -1,5 +1,5 @@
 ﻿using OxLibrary;
-using OxLibrary.Dialogs;
+using OxLibrary.Forms;
 using OxDAOEngine.Data;
 
 namespace OxDAOEngine.ControlFactory.BatchUpdate

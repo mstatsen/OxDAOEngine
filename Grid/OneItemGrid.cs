@@ -11,7 +11,7 @@ namespace OxDAOEngine.Grid
     public delegate bool GetFlagValue<TField>(TField field, object? value)
         where TField : notnull, Enum;
 
-    public class OneItemGrid<TField, TDAO> : OxPane
+    public class OneItemGrid<TField, TDAO> : OxPanel
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {

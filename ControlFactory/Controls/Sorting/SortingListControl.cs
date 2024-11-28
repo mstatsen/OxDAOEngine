@@ -1,7 +1,7 @@
-﻿using OxDAOEngine.Data;
+﻿using OxLibrary.Controls;
+using OxDAOEngine.Data;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
-using OxLibrary.Controls;
 
 namespace OxDAOEngine.ControlFactory.Controls.Sorting
 {

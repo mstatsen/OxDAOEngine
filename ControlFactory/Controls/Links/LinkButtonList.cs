@@ -1,9 +1,9 @@
-﻿using OxLibrary;
-using OxLibrary.Panels;
+﻿using OxLibrary.Panels;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Controls.Links
 {
-    public class LinkButtonList : OxPane
+    public class LinkButtonList : OxPanel
     {
         private ButtonListDirection direction = ButtonListDirection.Vertical;
         public ButtonListDirection Direction

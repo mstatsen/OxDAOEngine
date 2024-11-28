@@ -101,7 +101,7 @@ namespace OxDAOEngine.View
         protected override void OnPinnedChanged(PinnedChangedEventArgs e) =>
             SetSizes();
 
-        public OxPane AsPane => this;
+        public OxPanel AsPane => this;
 
         protected override void PrepareColors()
         {
@@ -110,7 +110,7 @@ namespace OxDAOEngine.View
             if (FontColors is not null)
                 Header.Label.ForeColor = FontColors.BaseColor;
 
-            foreach (OxPane panel in panels)
+            foreach (OxPanel panel in panels)
                 panel.BaseColor = BaseColor;
 
             foreach (OxHeader header in Headers.Values)
@@ -190,7 +190,7 @@ namespace OxDAOEngine.View
                 ? string.Empty
                 : Item?.ToString()!;
 
-        protected void PreparePanel(OxPane panel, string text)
+        protected void PreparePanel(OxPanel panel, string text)
         {
             panel.Parent = this;
             panel.Dock = OxDock.Top;
@@ -234,7 +234,7 @@ namespace OxDAOEngine.View
 
         private void RecalcControlsVisible()
         {
-            foreach (OxPane parentPanel in LayoutsLists.Keys)
+            foreach (OxPanel parentPanel in LayoutsLists.Keys)
             {
                 Headers.TryGetValue(parentPanel, out var header);
 
@@ -315,9 +315,9 @@ namespace OxDAOEngine.View
 
         protected readonly ControlLayouter<TField, TDAO> Layouter;
         protected OxColorHelper FontColors;
-        protected readonly Dictionary<OxPane, OxHeader> Headers = new();
-        protected readonly List<OxPane> panels = new();
-        protected readonly Dictionary<OxPane, ControlLayouts<TField>> LayoutsLists = new();
+        protected readonly Dictionary<OxPanel, OxHeader> Headers = new();
+        protected readonly List<OxPanel> panels = new();
+        protected readonly Dictionary<OxPanel, ControlLayouts<TField>> LayoutsLists = new();
         public void ScrollToTop() =>
             //ContentBox.AutoScrollPosition = new(0, 0);
             AutoScrollPosition = new(0, 0);

@@ -17,6 +17,6 @@ namespace OxDAOEngine.Data
         event ModifiedChangeHandler? ModifiedHandler;
         ISettingsController Settings { get; }
         SettingsPart ActiveSettingsPart { get; }
-        OxPane? Face { get; }
+        OxPanel? Face { get; }
     }
 }

@@ -9,11 +9,10 @@ using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
-using OxDAOEngine.ControlFactory.Controls.Fields;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
-    public class RulePanel<TField, TDAO> : OxPane
+    public class RulePanel<TField, TDAO> : OxPanel
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {

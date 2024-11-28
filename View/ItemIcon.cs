@@ -289,7 +289,7 @@ namespace OxDAOEngine.View
             set => itemsView = value;
         }
 
-        public OxPane AsPane => this;
+        public OxPanel AsPane => this;
 
         private TDAO? item;
         private readonly OxColorHelper fontColors;

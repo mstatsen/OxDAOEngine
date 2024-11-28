@@ -1,5 +1,7 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
+using OxLibrary.Panels;
+using OxLibrary.Waiter;
 using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
@@ -9,7 +11,6 @@ using OxDAOEngine.Settings;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.Data.Fields.Types;
-using OxLibrary.Panels;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {

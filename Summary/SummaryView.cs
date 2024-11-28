@@ -1,8 +1,8 @@
-﻿using OxLibrary;
-using OxLibrary.Panels;
+﻿using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Data.Fields;
+using OxLibrary;
 
 namespace OxDAOEngine.Summary
 {

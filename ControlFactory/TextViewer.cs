@@ -1,6 +1,6 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxLibrary.Dialogs;
+using OxLibrary.Forms;
 
 namespace OxDAOEngine.ControlFactory
 {

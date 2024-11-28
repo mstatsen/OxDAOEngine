@@ -8,7 +8,7 @@ using OxDAOEngine.Statistic;
 
 namespace OxDAOEngine.Grid
 {
-    public class ItemsViewer<TField, TDAO> : OxPane
+    public class ItemsViewer<TField, TDAO> : OxPanel
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {

@@ -1,6 +1,6 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxLibrary.Dialogs;
+using OxLibrary.Forms;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Accessors;
@@ -38,8 +38,8 @@ namespace OxDAOEngine.Settings
 
         private class SettingsDictionray<T, U> : SettingsDictionary<T, SettingsPart, U>
             where T : SettingsPartDictionary<U>, new() { }
-        private class SettingsPartPanels : SettingsPartDictionary<OxPane> { }
-        private class SettingsPanels : SettingsDictionray<SettingsPartPanels, OxPane> { }
+        private class SettingsPartPanels : SettingsPartDictionary<OxPanel> { }
+        private class SettingsPanels : SettingsDictionray<SettingsPartPanels, OxPanel> { }
         private class SettingsPartControls : SettingsDictionray<SettingsPartDictionary<ControlAccessorList>, ControlAccessorList> { }
         private class SettingsFieldPanels : SettingsDictionray<SettingsPartDictionary<IFieldsPanel>, IFieldsPanel> { }
 
@@ -114,7 +114,7 @@ namespace OxDAOEngine.Settings
         {
             int maximumTabWidth = tabControl.TabHeaderSize.WidthInt * tabControl.Pages.Count;
 
-            foreach (OxPane tab in tabControl.Pages.Cast<OxPane>())
+            foreach (OxPanel tab in tabControl.Pages.Cast<OxPanel>())
                 if (tab is OxTabControl childTabControl)
                     maximumTabWidth = Math.Max(
                         maximumTabWidth, 
@@ -183,9 +183,9 @@ namespace OxDAOEngine.Settings
             MagnetLabelWithControl((Control)sender);
         }
 
-        private OxPane CreateParamsPanel(ISettingsController settings, SettingsPart part)
+        private OxPanel CreateParamsPanel(ISettingsController settings, SettingsPart part)
         {
-            OxPane panel = new()
+            OxPanel panel = new()
             {
                 BaseColor = MainPanel.BaseColor,
                 Parent = MainPanel,

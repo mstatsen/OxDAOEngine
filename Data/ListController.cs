@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 using OxLibrary;
-using OxLibrary.Dialogs;
+using OxLibrary.Forms;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data.Decorator;
@@ -260,7 +260,7 @@ namespace OxDAOEngine.Data
 
         private ItemSelector<TField, TDAO>? itemSelector;
 
-        public bool SelectItem(out TDAO? selectedItem, OxPane parentPane, TDAO? initialItem = null, IMatcher<TField>? filter = null)
+        public bool SelectItem(out TDAO? selectedItem, OxPanel parentPane, TDAO? initialItem = null, IMatcher<TField>? filter = null)
         {
             itemSelector ??= new();
             itemSelector.BaseColor = parentPane.BaseColor;
@@ -535,7 +535,7 @@ namespace OxDAOEngine.Data
 
         private ItemsFace<TField, TDAO>? face;
         ISettingsController IDataController.Settings => Settings;
-        OxPane? IDataController.Face => Face;
+        OxPanel? IDataController.Face => Face;
 
         public ExportController<TField, TDAO>? exportController;
 
