@@ -320,7 +320,7 @@ namespace OxDAOEngine.ControlFactory
             OnExpandedChanging(new ExpandedChangedEventArgs(expanded, value));
             expanded = value;
 
-            SilentSizeChange(() =>
+            DoWithSuspendedLayout(() =>
                 {
                     Padding[Dock].Visible = value;
                     Padding[Sider.Dock].Visible = value;
@@ -329,8 +329,7 @@ namespace OxDAOEngine.ControlFactory
                     Borders[Dock].Size = value
                         ? OxWh.W1
                         : OxWh.W0;
-                },
-                Size
+                }
             );
 
             Update();

@@ -112,19 +112,32 @@ namespace OxDAOEngine.Settings
 
         private void SetFormSize()
         {
-            int maximumTabWidth = tabControl.TabHeaderSize.WidthInt * tabControl.Pages.Count;
+            OxWidth maximumTabWidth = 
+                OxWh.Mul(
+                    tabControl.TabHeaderSize.Width, 
+                    tabControl.Pages.Count
+                );
 
             foreach (OxPanel tab in tabControl.Pages.Cast<OxPanel>())
                 if (tab is OxTabControl childTabControl)
-                    maximumTabWidth = Math.Max(
-                        maximumTabWidth, 
-                        childTabControl.TabHeaderSize.WidthInt * childTabControl.Pages.Count
+                    maximumTabWidth = OxWh.Max(
+                        maximumTabWidth,
+                        OxWh.Mul(
+                            childTabControl.TabHeaderSize.Width, 
+                            childTabControl.Pages.Count)
                     );
 
-            maximumTabWidth += tabControl.Margin.LeftInt + tabControl.Margin.RightInt + 24;
+            maximumTabWidth = 
+                OxWh.Add(
+                    maximumTabWidth, 
+                    OxWh.Add(
+                        tabControl.Margin.Horizontal, 
+                        OxWh.W24
+                    )
+                );
             Size = new(
-                Math.Max(maximumTabWidth, 480),
-                488
+                OxWh.Max(maximumTabWidth, OxWh.W480),
+                OxWh.W488
             );
             MoveToScreenCenter();
         }
