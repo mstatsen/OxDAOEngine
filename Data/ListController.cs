@@ -15,7 +15,6 @@ using OxDAOEngine.Grid;
 using OxDAOEngine.Settings;
 using OxDAOEngine.View;
 using OxDAOEngine.XML;
-
 using OxDAOEngine.Settings.Part;
 
 namespace OxDAOEngine.Data
