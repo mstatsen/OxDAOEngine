@@ -20,7 +20,7 @@ namespace OxDAOEngine.Grid
             ListController.ItemsSortChangeHandler += (s, e) => SortGrid();
             ListController.AddHandler += (d, e) => d.ChangeHandler += ItemChanged;
             GridView.DoubleClick += (s, e) => ExecuteAction(OxToolbarAction.Edit);
-            GridView.KeyUp += GridView_KeyUp;
+            GridView.KeyUp += GridViewKeyUpHandler;
 
             if (usage is GridUsage.Edit)
                 GridView.ContextMenuStrip = new ItemsRootGridContextMenu<TField, TDAO>(this)
@@ -30,7 +30,7 @@ namespace OxDAOEngine.Grid
             Painter = ListController.ControlFactory.CreateGridPainter(GridFieldColumns, usage);
         }
 
-        private void GridView_KeyUp(object? sender, KeyEventArgs e)
+        private void GridViewKeyUpHandler(object? sender, KeyEventArgs e)
         {
             ExecuteAction(
                 e.KeyCode switch
