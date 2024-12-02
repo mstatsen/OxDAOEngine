@@ -7,6 +7,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
+using OxLibrary.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -122,7 +123,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void GroupPanelRuleAddedHandler(object? sender, EventArgs e)
         {
             //RecalcSize();
-            OnSizeChanged(EventArgs.Empty);
+            OnSizeChanged(OxSizeChangedEventArgs.Empty);
         }
 
         public FilterPanel(ControlBuilder<TField, TDAO> builder) : base()
