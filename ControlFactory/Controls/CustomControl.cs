@@ -2,6 +2,7 @@
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
+using OxLibrary.Controls.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -19,14 +20,14 @@ namespace OxDAOEngine.ControlFactory.Controls
             return this;
         }
 
-        public override bool OnSizeChanged(SizeChangedEventArgs e)
+        public override bool OnSizeChanged(OxSizeChangedEventArgs e)
         {
-            base.OnSizeChanged(e);
+            if (!e.Changed
+                || !base.OnSizeChanged(e))
+                return false;
 
-            if (e.Changed)
-                RecalcControls();
-
-            return e.Changed;
+            RecalcControls();
+            return true;
         }
 
         public IBuilderContext<TField, TDAO> Context { get; private set; } = default!;

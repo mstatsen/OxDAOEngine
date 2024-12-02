@@ -11,6 +11,7 @@ using OxDAOEngine.Settings;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.Data.Fields.Types;
+using OxLibrary.Controls.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -456,7 +457,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             }
         }
 
-        public override bool OnSizeChanged(SizeChangedEventArgs e)
+        public override bool OnSizeChanged(OxSizeChangedEventArgs e)
         {
             base.OnSizeChanged(e);
 
@@ -464,6 +465,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 || QuickFilterFields.Count is 0
                 || Layouter is null)
                 return false;
+
             PlacedControl<TField>? FilterTextControl = Layouter.PlacedControl(TextFilterContainer);
 
             if (FilterTextControl is null)

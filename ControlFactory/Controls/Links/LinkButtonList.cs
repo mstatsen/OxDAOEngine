@@ -1,5 +1,6 @@
 ﻿using OxLibrary.Panels;
 using OxLibrary;
+using OxLibrary.Controls.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Controls.Links
 {
@@ -95,11 +96,10 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
             RecalcButtonsSizeAndPositions();
         }
 
-        public override bool OnSizeChanged(SizeChangedEventArgs e)
+        public override bool OnSizeChanged(OxSizeChangedEventArgs e)
         {
-            base.OnSizeChanged(e);
-
-            if (!e.Changed)
+            if (!e.Changed
+                || base.OnSizeChanged(e))
                 return false;
 
             RecalcButtonsSize();

@@ -7,6 +7,7 @@ using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
 using OxLibrary;
 using OxLibrary.Controls;
+using OxLibrary.Controls.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -82,7 +83,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void BaseOnChildsControlValueChangeHandler(object? sender, EventArgs e) =>
             SetControlsVisible();
 
-        private void FilterPanelSizeChangedHandler(OxSize newSize, OxSize oldSize) =>
+        private void FilterPanelSizeChangedHandler(object sender, OxSizeChangedEventArgs args) =>
             RecalcSize();
 
         private CategoryType Type => TypeControl.EnumValue<CategoryType>();

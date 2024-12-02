@@ -3,6 +3,7 @@ using OxLibrary.Controls;
 using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
+using OxLibrary.Controls.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -437,13 +438,13 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected virtual int MaximumItemsCount => -1;
 
-        public override bool OnSizeChanged(SizeChangedEventArgs e)
+        public override bool OnSizeChanged(OxSizeChangedEventArgs e)
         {
-            base.OnSizeChanged(e);
+            if (!e.Changed
+                || !base.OnSizeChanged(e))
+                return false;
 
-            if (e.Changed)
-                RecalcEditButtonVisible();
-
+            RecalcEditButtonVisible();
             return e.Changed;
         }
 
