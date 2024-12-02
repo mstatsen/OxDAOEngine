@@ -82,7 +82,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void BaseOnChildsControlValueChangeHandler(object? sender, EventArgs e) =>
             SetControlsVisible();
 
-        private void FilterPanelSizeChangedHandler(object? sender, EventArgs e) =>
+        private void FilterPanelSizeChangedHandler(OxSize newSize, OxSize oldSize) =>
             RecalcSize();
 
         private CategoryType Type => TypeControl.EnumValue<CategoryType>();
