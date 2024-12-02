@@ -1,5 +1,4 @@
-﻿using OxLibrary;
-using OxLibrary.Panels;
+﻿using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
 using OxLibrary.Handlers;
@@ -20,14 +19,13 @@ namespace OxDAOEngine.ControlFactory.Controls
             return this;
         }
 
-        public override bool OnSizeChanged(OxSizeChangedEventArgs e)
+        public override void OnSizeChanged(OxSizeChangedEventArgs e)
         {
-            if (!e.Changed
-                || !base.OnSizeChanged(e))
-                return false;
+            if (!e.Changed)
+                return;
 
+            base.OnSizeChanged(e);
             RecalcControls();
-            return true;
         }
 
         public IBuilderContext<TField, TDAO> Context { get; private set; } = default!;

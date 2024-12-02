@@ -254,7 +254,7 @@ namespace OxDAOEngine.ControlFactory
 
         protected override void OnDockChanged(EventArgs e)
         {
-            if (!OxDockHelper.SingleDirectionDocks.Contains(Dock))
+            if (!OxDockHelper.IsSingleDirectionDock(Dock))
                 return;
 
             Borders.Size = OxWh.W1;
@@ -310,7 +310,7 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetExpanded(bool value)
         {
-            if (!OxDockHelper.SingleDirectionDocks.Contains(Sider.Dock))
+            if (!OxDockHelper.IsSingleDirectionDock(Sider.Dock))
                 return;
 
             if (!Expandable)

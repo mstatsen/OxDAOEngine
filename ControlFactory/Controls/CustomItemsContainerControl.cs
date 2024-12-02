@@ -438,14 +438,13 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected virtual int MaximumItemsCount => -1;
 
-        public override bool OnSizeChanged(OxSizeChangedEventArgs e)
+        public override void OnSizeChanged(OxSizeChangedEventArgs e)
         {
-            if (!e.Changed
-                || !base.OnSizeChanged(e))
-                return false;
+            if (!e.Changed)
+                return;
 
+            base.OnSizeChanged(e);
             RecalcEditButtonVisible();
-            return e.Changed;
         }
 
         private void RecalcEditButtonVisible()

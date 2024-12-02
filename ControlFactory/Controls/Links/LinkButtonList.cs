@@ -96,16 +96,15 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
             RecalcButtonsSizeAndPositions();
         }
 
-        public override bool OnSizeChanged(OxSizeChangedEventArgs e)
+        public override void OnSizeChanged(OxSizeChangedEventArgs e)
         {
-            if (!e.Changed
-                || base.OnSizeChanged(e))
-                return false;
+            if (!e.Changed)
+                return;
 
+            base.OnSizeChanged(e);
             RecalcButtonsSize();
             SetButtonsSize();
             RecalcButtonsPositions();
-            return true;
         }
 
         private void SetButtonsSize()

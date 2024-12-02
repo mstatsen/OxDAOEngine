@@ -456,29 +456,25 @@ namespace OxDAOEngine.ControlFactory.Filter
             }
         }
 
-        public override bool OnSizeChanged(OxSizeChangedEventArgs e)
+        public override void OnSizeChanged(OxSizeChangedEventArgs e)
         {
             base.OnSizeChanged(e);
 
             if (!e.Changed 
                 || QuickFilterFields.Count is 0
                 || Layouter is null)
-                return false;
+                return;
 
             PlacedControl<TField>? FilterTextControl = Layouter.PlacedControl(TextFilterContainer);
 
-            if (FilterTextControl is null)
-                return false;
-
-            FilterTextControl.Control.Width =
-                OxWh.Int(
-                    OxWh.Sub(
-                        Layouter[QuickFilterFields.Last()]!.Right,
-                        FilterTextControl.Control.Left
-                    )
-                );
-
-            return true;
+            if (FilterTextControl is not null)
+                FilterTextControl.Control.Width =
+                    OxWh.Int(
+                        OxWh.Sub(
+                            Layouter[QuickFilterFields.Last()]!.Right,
+                            FilterTextControl.Control.Left
+                        )
+                    );
         }
 
         private void SetTextFilterBorder()
