@@ -302,7 +302,7 @@ namespace OxDAOEngine.Data
             DataManager.UseImageList<TField>()
             && !IsFiltrationDao;
 
-        public virtual Color BaseColor => Styles.DefaultGridRowColor;
+        public virtual Color BaseColor => OxStyles.DefaultGridRowColor;
         public Color BackColor => new OxColorHelper(BaseColor).Darker(7);
     }
 }

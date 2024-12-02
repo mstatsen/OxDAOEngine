@@ -1,6 +1,6 @@
 ﻿using OxLibrary.Panels;
 using OxLibrary;
-using OxLibrary.Controls.Handlers;
+using OxLibrary.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Controls.Links
 {

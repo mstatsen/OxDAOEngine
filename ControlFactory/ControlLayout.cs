@@ -50,8 +50,8 @@ namespace OxDAOEngine.ControlFactory
             WrapLabel = false;
             Anchors = AnchorStyles.Top | AnchorStyles.Left;
             Dock = OxDock.None;
-            FontFamily = Styles.FontFamily;
-            FontSize = Styles.DefaultFontSize;
+            FontFamily = OxStyles.FontFamily;
+            FontSize = OxStyles.DefaultFontSize;
             FontStyle = FontStyle.Regular;
             LabelColor = Color.FromKnownColor(KnownColor.WindowText);
             LabelStyle = FontStyle.Regular;

@@ -32,7 +32,7 @@ namespace OxDAOEngine.Summary
 
         public SummaryView() : base()
         {
-            layouter.PanelsAlign = PanelsHorizontalAlign.OneColumn;
+            layouter.PanelsAlign = OxPanelsHorizontalAlign.OneColumn;
             Borders.Size = OxWh.W0;
         }
 

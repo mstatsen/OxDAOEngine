@@ -7,7 +7,7 @@ using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Types;
 using OxLibrary;
 using OxLibrary.Controls;
-using OxLibrary.Controls.Handlers;
+using OxLibrary.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {

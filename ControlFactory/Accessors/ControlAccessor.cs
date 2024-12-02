@@ -58,7 +58,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
 
         protected virtual void InitControl()
         {
-            Control.Font = Styles.DefaultFont;
+            Control.Font = OxStyles.DefaultFont;
             Control.Height = EngineStyles.DefaultControlHeight;
             Control.SizeChanged += ControlSizeChangeHandler;
             Control.LocationChanged += ControlLocationChangeHandler;

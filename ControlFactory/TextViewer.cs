@@ -27,7 +27,7 @@ namespace OxDAOEngine.ControlFactory
                 ReadOnly = true,
                 BackColor = new OxColorHelper(baseColor).Lighter(7),
                 ScrollBars = ScrollBars.Vertical,
-                Font = Styles.DefaultFont
+                Font = OxStyles.DefaultFont
             };
             form.Shown += ViewerShown;
             form.ShowDialog();

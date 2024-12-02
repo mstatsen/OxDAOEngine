@@ -14,7 +14,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected override Control CreateControl() => 
             new OxTextBox
             {
-                Font = Styles.DefaultFont
+                Font = OxStyles.DefaultFont
             };
 
         protected override ValueAccessor CreateValueAccessor() => 

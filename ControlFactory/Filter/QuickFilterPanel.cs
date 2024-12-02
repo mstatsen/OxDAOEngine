@@ -1,6 +1,6 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
-using OxLibrary.Panels;
+using OxLibrary.Handlers;
 using OxLibrary.Waiter;
 using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
@@ -11,7 +11,6 @@ using OxDAOEngine.Settings;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.Data.Fields.Types;
-using OxLibrary.Controls.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -560,7 +559,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly ControlLayouter<TField, TDAO> Layouter;
         private readonly OxButton ClearButton = new ("Clear", OxIcons.Eraser)
         {
-            Font = Styles.Font(-1, FontStyle.Bold)
+            Font = OxStyles.Font(-1, FontStyle.Bold)
         };
         private bool updating = false;
         private readonly OxWaiter Waiter;

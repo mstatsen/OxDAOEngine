@@ -190,7 +190,7 @@ namespace OxDAOEngine.Settings
             OxButtonEdit buttonEdit = new()
             {
                 Value = value,
-                Font = Styles.DefaultFont,
+                Font = OxStyles.DefaultFont,
                 BaseColor = MainPanel.Colors.Lighter()
             };
             buttonEdit.OnButtonClick += onClick;
@@ -386,7 +386,7 @@ namespace OxDAOEngine.Settings
                     Left = 0,
                     AutoSize = true,
                     Text = caption,
-                    Font = Styles.DefaultFont
+                    Font = OxStyles.DefaultFont
                 };
 
                 control.Left = OxWh.Int(label.Right) + 12;

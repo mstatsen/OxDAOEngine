@@ -104,17 +104,17 @@ namespace OxDAOEngine.Data
             thisParent.InsertChild(newIndex, AsDAO);
         }
 
-        private void Move(MoveDirection direction)
+        private void Move(OxUpDown direction)
         {
             if (Parent is null 
                 || Index < 0)
                 return;
 
-            Move(Index + MoveDirectionHelper.Delta(direction));
+            Move(Index + OxUpDownHelper.Delta(direction));
         }
 
-        public void MoveUp() => Move(MoveDirection.Up);
+        public void MoveUp() => Move(OxUpDown.Up);
 
-        public void MoveDown() => Move(MoveDirection.Down);
+        public void MoveDown() => Move(OxUpDown.Down);
     }
 }

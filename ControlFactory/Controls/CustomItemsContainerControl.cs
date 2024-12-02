@@ -3,7 +3,7 @@ using OxLibrary.Controls;
 using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
-using OxLibrary.Controls.Handlers;
+using OxLibrary.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -15,7 +15,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         where TList : ListDAO<TItem>, new()
         where TItem : DAO, new()
         where TEditor : CustomItemEditor<TItem, TField, TDAO>, new()
-        where TItemsContainer : IItemsContainer, new()
+        where TItemsContainer : IOxItemsContainer, new()
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -25,7 +25,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         public OxPanel ButtonsPanel { get; private set; } = new();
         public OxPanel ControlPanel { get; private set; } = new();
-        public IItemsContainer ItemsContainer { get; internal set; } = new TItemsContainer()
+        public IOxItemsContainer ItemsContainer { get; internal set; } = new TItemsContainer()
         {
             Dock = DockStyle.Fill,
             BorderStyle = BorderStyle.None

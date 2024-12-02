@@ -10,7 +10,7 @@ namespace OxDAOEngine.ControlFactory.Controls
     {
         OxPanel ButtonsPanel { get; }
         OxPanel ControlPanel { get; }
-        IItemsContainer ItemsContainer { get; }
+        IOxItemsContainer ItemsContainer { get; }
         void DisableValueChangeHandler();
 
         void EnableValueChangeHandler();

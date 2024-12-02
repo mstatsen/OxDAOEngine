@@ -118,7 +118,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                     AutoSize = true,
                     Left = OxWh.Add(OxWh.W(rightLabel ? control.Right : 0), OxWh.W8),
                     Text = caption,
-                    Font = Styles.DefaultFont
+                    Font = OxStyles.DefaultFont
                 }
             )!;
 

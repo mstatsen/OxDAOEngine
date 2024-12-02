@@ -282,7 +282,7 @@ namespace OxDAOEngine.Settings
                 {
                     Parent = (IOxControlContainer)accessor.Parent,
                     Left = OxWh.Add(OxWh.W12, 150 * columnNum),
-                    Font = Styles.DefaultFont,
+                    Font = OxStyles.DefaultFont,
                     Text = $"{settings.Helper.Name(setting)}",
                     Tag = accessor.Control
                 };
@@ -460,7 +460,7 @@ namespace OxDAOEngine.Settings
                     OxWh.W2
                 ),
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
-                Font = Styles.Font(-1, FontStyle.Regular),
+                Font = OxStyles.Font(-1, FontStyle.Regular),
                 Left = left,
                 Size = new(
                     helper.Width(scope),
@@ -555,7 +555,7 @@ namespace OxDAOEngine.Settings
             tabControl.Parent = MainPanel;
             tabControl.Dock = OxDock.Fill;
             tabControl.BaseColor = MainPanel.BaseColor;
-            tabControl.Font = Styles.DefaultFont;
+            tabControl.Font = OxStyles.DefaultFont;
             tabControl.TabHeaderSize = new(OxWh.W124, OxWh.W32);
             tabControl.BorderVisible = false;
             tabControl.Margin.Size = OxWh.W0;
@@ -571,7 +571,7 @@ namespace OxDAOEngine.Settings
                     Parent = MainPanel,
                     Dock = OxDock.Fill,
                     BaseColor = MainPanel.BaseColor,
-                    Font = Styles.DefaultFont,
+                    Font = OxStyles.DefaultFont,
                     TabHeaderSize = new(OxWh.W84, OxWh.W30),
                     BorderVisible = false,
                     Text = settings.ListName,

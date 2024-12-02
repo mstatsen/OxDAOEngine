@@ -56,9 +56,9 @@ namespace OxDAOEngine.View.Types
         public float FontSize(IconSize size) =>
             size switch
             {
-                IconSize.Small => Styles.DefaultFontSize - 3,
-                IconSize.Medium => Styles.DefaultFontSize - 2,
-                _ => Styles.DefaultFontSize,
+                IconSize.Small => OxStyles.DefaultFontSize - 3,
+                IconSize.Medium => OxStyles.DefaultFontSize - 2,
+                _ => OxStyles.DefaultFontSize,
             };
 
         public int FontSizeDelta(IconSize size) =>

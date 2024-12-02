@@ -2,7 +2,7 @@
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
-using OxLibrary.Controls.Handlers;
+using OxLibrary.Handlers;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {

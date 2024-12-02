@@ -50,7 +50,7 @@ namespace OxDAOEngine
         {
             Text = ListController.ListName;
             Dock = OxDock.Fill;
-            Font = Styles.DefaultFont;
+            Font = OxStyles.DefaultFont;
             BaseColor = Colors.Darker(2);
         }
 
@@ -107,7 +107,7 @@ namespace OxDAOEngine
             {
                 Parent = tabControlPanel,
                 Dock = OxDock.Fill,
-                Font = Styles.DefaultFont,
+                Font = OxStyles.DefaultFont,
                 TabHeaderSize = new(OxWh.W84, OxWh.W24),
                 TabPosition = OxDock.Bottom,
             };

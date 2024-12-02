@@ -8,7 +8,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         : CustomItemsContainerControl<TList, TItem, TItemsContainer, TEditor, TField, TDAO>
         where TList : ListDAO<TItem>, new ()
         where TItem : DAO, new ()
-        where TItemsContainer : IItemsContainer, new()
+        where TItemsContainer : IOxItemsContainer, new()
         where TEditor : CustomItemEditor<TItem, TField, TDAO>, new ()
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()

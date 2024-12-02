@@ -186,7 +186,7 @@ namespace OxDAOEngine.ControlFactory
 
         private readonly OxIconButton CustomizeButton = new(OxIcons.Settings, OxWh.W23)
         {
-            Font = Styles.Font(-1, FontStyle.Bold),
+            Font = OxStyles.Font(-1, FontStyle.Bold),
             HiddenBorder = false
         };
 

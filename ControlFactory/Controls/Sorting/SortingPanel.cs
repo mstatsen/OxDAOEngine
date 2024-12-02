@@ -90,7 +90,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Sorting
 
         private readonly OxButton ClearButton = new("Clear", OxIcons.Eraser)
         {
-            Font = Styles.Font(-1, FontStyle.Bold)
+            Font = OxStyles.Font(-1, FontStyle.Bold)
         };
         private readonly IControlAccessor sortingControlAccessor;
 

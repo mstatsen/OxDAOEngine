@@ -229,8 +229,8 @@ namespace OxDAOEngine.Data.Fields
 
         public DataGridViewCellStyle ColumnStyle(TField field) =>
             ColumnAlign(field) is DataGridViewContentAlignment.MiddleLeft
-                ? Styles.Cell_LeftAlignment
-                : Styles.Cell_Default;
+                ? OxStyles.Cell_LeftAlignment
+                : OxStyles.Cell_Default;
 
         public virtual int ColumnWidth(TField field) => 100;
 
