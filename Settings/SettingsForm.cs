@@ -280,7 +280,7 @@ namespace OxDAOEngine.Settings
             {
                 OxLabel label = new()
                 {
-                    Parent = (IOxControlContainer)accessor.Parent,
+                    Parent = (IOxContainer)accessor.Parent,
                     Left = OxWh.Add(OxWh.W12, 150 * columnNum),
                     Font = OxStyles.DefaultFont,
                     Text = $"{settings.Helper.Name(setting)}",

@@ -141,7 +141,7 @@ namespace OxDAOEngine.ControlFactory
                 return null;
 
             label.Text = TypeHelper.Caption(Field);
-            label.Parent = (IOxControlContainer?)Parent;
+            label.Parent = (IOxContainer?)Parent;
             label.ForeColor = LabelColor;
 
             if (LabelsForeColors.ContainsKey(label))
