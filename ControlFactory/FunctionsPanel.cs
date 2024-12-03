@@ -148,7 +148,7 @@ namespace OxDAOEngine.ControlFactory
 
             if (ShowSettingsButton)
             {
-                IOxControl? upParent = Parent;
+                IOxContainer? upParent = Parent;
 
                 while (upParent is not null)
                 {
