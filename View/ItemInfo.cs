@@ -6,6 +6,7 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
+using OxLibrary.Handlers;
 
 namespace OxDAOEngine.View
 {
@@ -329,7 +330,7 @@ namespace OxDAOEngine.View
             set => itemsView = value;
         }
 
-        protected override void OnDockChanged(EventArgs e)
+        public override void OnDockChanged(OxDockChangedEventArgs e)
         {
             base.OnDockChanged(e);
             SetSizes();

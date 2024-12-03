@@ -6,6 +6,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.Settings.Part;
+using OxLibrary.Handlers;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -252,7 +253,7 @@ namespace OxDAOEngine.ControlFactory
                 : base.GetCalcedHeight();
         */
 
-        protected override void OnDockChanged(EventArgs e)
+        public override void OnDockChanged(OxDockChangedEventArgs e)
         {
             if (!OxDockHelper.IsSingleDirectionDock(Dock))
                 return;
