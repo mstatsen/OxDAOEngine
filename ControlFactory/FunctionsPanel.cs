@@ -142,7 +142,7 @@ namespace OxDAOEngine.ControlFactory
             set => waiter.Enabled = value && !Pinned;
         }
 
-        protected override void OnParentChanged(EventArgs e)
+        public override void OnParentChanged(OxParentChangedEventArgs e)
         {
             base.OnParentChanged(e);
 
