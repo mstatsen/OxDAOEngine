@@ -34,7 +34,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         {
             OxLabel captionLabel = new()
             {
-                Parent = (IOxContainer)parent,
+                Parent = (IOxBox)parent,
                 Left = location.Width,
                 Text = caption,
                 Font = OxStyles.Font(FontStyle.Italic),
