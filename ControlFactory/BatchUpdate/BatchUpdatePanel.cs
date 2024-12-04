@@ -5,184 +5,183 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 
-namespace OxDAOEngine.ControlFactory.BatchUpdate
+namespace OxDAOEngine.ControlFactory.BatchUpdate;
+
+public class BatchUpdatePanel<TField, TDAO> : OxDialogMainPanel
+    where TField : notnull, Enum
+    where TDAO : RootDAO<TField>, new()
 {
-    public class BatchUpdatePanel<TField, TDAO> : OxDialogMainPanel
-        where TField : notnull, Enum
-        where TDAO : RootDAO<TField>, new()
+    public GetListEvent<TField, TDAO>? ItemsGetter;
+
+    public EventHandler? BatchUpdateCompleted;
+
+    private readonly string ItemsCaption = DataManager.ListController<TField, TDAO>().ListName;
+
+    public void SetItemsCount() => 
+        countLabel.Text = $"Selected {ItemsCaption}: {(ItemsGetter is not null ? ItemsGetter().Count.ToString() : "N/A")}";
+
+    public void UpdateItems()
     {
-        public GetListEvent<TField, TDAO>? ItemsGetter;
+        if (ItemsGetter is null)
+            return;
 
-        public EventHandler? BatchUpdateCompleted;
+        if (FieldIsEmpty)
+            return;
 
-        private readonly string ItemsCaption = DataManager.ListController<TField, TDAO>().ListName;
+        foreach (TDAO item in ItemsGetter())
+            item.StartSilentChange();
 
-        public void SetItemsCount() => 
-            countLabel.Text = $"Selected {ItemsCaption}: {(ItemsGetter is not null ? ItemsGetter().Count.ToString() : "N/A")}";
+        foreach (TDAO item in ItemsGetter())
+            item[FieldAccessor.EnumValue] = ValueAccessor.Value;
 
-        public void UpdateItems()
+        foreach (TDAO item in ItemsGetter())
         {
-            if (ItemsGetter is null)
-                return;
+            TDAO? findItem = DataManager.FullItemsList<TField, TDAO>().Find(i => i.Equals(item));
 
-            if (FieldIsEmpty)
-                return;
+            if (findItem is not null)
+                findItem.Modified = true;
 
-            foreach (TDAO item in ItemsGetter())
-                item.StartSilentChange();
-
-            foreach (TDAO item in ItemsGetter())
-                item[FieldAccessor.EnumValue] = ValueAccessor.Value;
-
-            foreach (TDAO item in ItemsGetter())
-            {
-                TDAO? findItem = DataManager.FullItemsList<TField, TDAO>().Find(i => i.Equals(item));
-
-                if (findItem is not null)
-                    findItem.Modified = true;
-
-                item.FinishSilentChange();
-            }
-
-            BatchUpdateCompleted?.Invoke(this, EventArgs.Empty);
+            item.FinishSilentChange();
         }
 
-        public override Color DefaultColor => EngineStyles.BatchUpdateColor;
-        public const string BatchUpdateTitle = "Batch Update";
-
-        public BatchUpdatePanel(OxForm form) : base(form)
-        {
-            Size = new(OxWh.W360, OxWh.W120);
-            controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
-            countLabel.Parent = this;
-            countLabel.Top = OxWh.Sub(Height, OxWh.W30);
-            ControlPainter.ColorizeControl(countLabel, BaseColor);
-            FieldAccessor = (FieldAccessor<TField, TDAO>)controlBuilder[TypeHelper.FieldHelper<TField>().FieldMetaData];
-            PrepareFieldAccessor();
-            Text = BatchUpdateTitle;
-        }
-
-        public bool FieldIsEmpty =>
-            FieldAccessor.Value is null
-            || (FieldAccessor.Value is IEmptyChecked ec && ec.IsEmpty);
-
-        private void EnabledOKButton() =>
-            buttonsDictionary[OxDialogButton.OK].Enabled = !FieldIsEmpty;
-
-        private void PrepareFieldAccessor()
-        {
-            FieldAccessor.ValueChangeHandler += FieldChangeHandler;
-            PlacedControl<TField> PlacedFieldsControl = LayoutFieldControl();
-            ControlPainter.ColorizeControl(PlacedFieldsControl.Control, BaseColor);
-            valueLabel.Parent = this;
-            valueLabel.Top = OxWh.Add(PlacedFieldsControl.Control.Bottom, OxWh.W16);
-            valueLabel.Left = OxWh.W(PlacedFieldsControl.LabelLeft);
-            ControlPainter.ColorizeControl(valueLabel, BaseColor);
-
-            if (PlacedFieldsControl.Label is not null)
-                PlacedFieldsControl.Label.ForeColor = valueLabel.ForeColor;
-
-            CreateValueLayout(PlacedFieldsControl.Layout);
-            EnabledOKButton();
-        }
-
-        private void CreateValueLayout(ControlLayout<TField> template)
-        {
-            ValueLayout.CopyFrom(template);
-            ValueLayout.BackColor = Colors.Lighter(6);
-            ValueLayout.Top = OxWh.Add(FieldAccessor.Bottom, OxWh.W8);
-            ValueLayout.CaptionVariant = ControlCaptionVariant.None;
-        }
-
-        private PlacedControl<TField> LayoutFieldControl()
-        {
-            ControlLayout<TField> fieldLayout = new()
-            {
-                Field = TypeHelper.FieldHelper<TField>().FieldMetaData,
-                Parent = this,
-                Left = OxWh.W50,
-                Top = OxWh.W12,
-                Height = OxWh.W26,
-                Anchors = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right,
-            };
-
-            fieldLayout.Width = 
-                OxWh.Sub(
-                    OxWh.Sub(Width, fieldLayout.Left), 
-                    OxWh.W16
-                );
-            return FieldAccessor.LayoutControl(fieldLayout);
-        }
-
-        private void FieldChangeHandler(object? sender, EventArgs e)
-        {
-            HideValueControl();
-            EnabledOKButton();
-
-            if (FieldIsEmpty)
-                return;
-
-            ValueAccessor = (ControlAccessor<TField, TDAO>)controlBuilder[FieldAccessor.EnumValue];
-
-            if (ValueAccessor is null)
-                return;
-
-            LayoutValueControl();
-            SetFirstItemValue();
-        }
-
-        private void SetFirstItemValue()
-        {
-            TDAO? firstItem = ItemsGetter?.Invoke().First;
-
-            if (firstItem is not null)
-                ValueAccessor.Value = firstItem[FieldAccessor.EnumValue];
-        }
-
-        private void LayoutValueControl()
-        {
-            ValueLayout.Field = FieldAccessor.EnumValue;
-            CurrentValueControl = ValueAccessor.LayoutControl(ValueLayout);
-            CurrentValueControl.Control.Width =
-                CurrentValueControl.Control is OxSpinEdit
-                ? 80
-                : FieldAccessor.Width;
-            ControlPainter.ColorizeControl(CurrentValueControl.Control, BaseColor);
-            OxControlHelper.AlignByBaseLine(CurrentValueControl.Control, valueLabel);
-            valueLabel.Visible = true;
-        }
-
-        private void HideValueControl()
-        {
-            if (CurrentValueControl is null)
-                return;
-
-            ValueAccessor.Control.Visible = false;
-            valueLabel.Visible = false;
-        }
-
-        private readonly FieldAccessor<TField, TDAO> FieldAccessor = default!;
-        private ControlAccessor<TField, TDAO> ValueAccessor = default!;
-        private PlacedControl<TField>? CurrentValueControl;
-        private readonly ControlBuilder<TField, TDAO> controlBuilder;
-        private readonly ControlLayout<TField> ValueLayout = new();
-
-        private readonly OxLabel valueLabel = new()
-        {
-            Text = "Value",
-            AutoSize = true,
-            Visible = false,
-            Font = OxStyles.DefaultFont
-        };
-
-        private readonly OxLabel countLabel = new()
-        {
-            Text = "Selected Items: ",
-            Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
-            Left = OxWh.W24,
-            AutoSize = true,
-            Visible = true,
-            Font = OxStyles.DefaultFont
-        };
+        BatchUpdateCompleted?.Invoke(this, EventArgs.Empty);
     }
+
+    public override Color DefaultColor => EngineStyles.BatchUpdateColor;
+    public const string BatchUpdateTitle = "Batch Update";
+
+    public BatchUpdatePanel(OxForm form) : base(form)
+    {
+        Size = new(OxWh.W360, OxWh.W120);
+        controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
+        countLabel.Parent = this;
+        countLabel.Top = OxWh.Sub(Height, OxWh.W30);
+        ControlPainter.ColorizeControl(countLabel, BaseColor);
+        FieldAccessor = (FieldAccessor<TField, TDAO>)controlBuilder[TypeHelper.FieldHelper<TField>().FieldMetaData];
+        PrepareFieldAccessor();
+        Text = BatchUpdateTitle;
+    }
+
+    public bool FieldIsEmpty =>
+        FieldAccessor.Value is null
+        || (FieldAccessor.Value is IEmptyChecked ec && ec.IsEmpty);
+
+    private void EnabledOKButton() =>
+        buttonsDictionary[OxDialogButton.OK].Enabled = !FieldIsEmpty;
+
+    private void PrepareFieldAccessor()
+    {
+        FieldAccessor.ValueChangeHandler += FieldChangeHandler;
+        PlacedControl<TField> PlacedFieldsControl = LayoutFieldControl();
+        ControlPainter.ColorizeControl(PlacedFieldsControl.Control, BaseColor);
+        valueLabel.Parent = this;
+        valueLabel.Top = OxWh.Add(PlacedFieldsControl.Control.Bottom, OxWh.W16);
+        valueLabel.Left = OxWh.W(PlacedFieldsControl.LabelLeft);
+        ControlPainter.ColorizeControl(valueLabel, BaseColor);
+
+        if (PlacedFieldsControl.Label is not null)
+            PlacedFieldsControl.Label.ForeColor = valueLabel.ForeColor;
+
+        CreateValueLayout(PlacedFieldsControl.Layout);
+        EnabledOKButton();
+    }
+
+    private void CreateValueLayout(ControlLayout<TField> template)
+    {
+        ValueLayout.CopyFrom(template);
+        ValueLayout.BackColor = Colors.Lighter(6);
+        ValueLayout.Top = OxWh.Add(FieldAccessor.Bottom, OxWh.W8);
+        ValueLayout.CaptionVariant = ControlCaptionVariant.None;
+    }
+
+    private PlacedControl<TField> LayoutFieldControl()
+    {
+        ControlLayout<TField> fieldLayout = new()
+        {
+            Field = TypeHelper.FieldHelper<TField>().FieldMetaData,
+            Parent = this,
+            Left = OxWh.W50,
+            Top = OxWh.W12,
+            Height = OxWh.W26,
+            Anchors = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right,
+        };
+
+        fieldLayout.Width = 
+            OxWh.Sub(
+                OxWh.Sub(Width, fieldLayout.Left), 
+                OxWh.W16
+            );
+        return FieldAccessor.LayoutControl(fieldLayout);
+    }
+
+    private void FieldChangeHandler(object? sender, EventArgs e)
+    {
+        HideValueControl();
+        EnabledOKButton();
+
+        if (FieldIsEmpty)
+            return;
+
+        ValueAccessor = (ControlAccessor<TField, TDAO>)controlBuilder[FieldAccessor.EnumValue];
+
+        if (ValueAccessor is null)
+            return;
+
+        LayoutValueControl();
+        SetFirstItemValue();
+    }
+
+    private void SetFirstItemValue()
+    {
+        TDAO? firstItem = ItemsGetter?.Invoke().First;
+
+        if (firstItem is not null)
+            ValueAccessor.Value = firstItem[FieldAccessor.EnumValue];
+    }
+
+    private void LayoutValueControl()
+    {
+        ValueLayout.Field = FieldAccessor.EnumValue;
+        CurrentValueControl = ValueAccessor.LayoutControl(ValueLayout);
+        CurrentValueControl.Control.Width =
+            CurrentValueControl.Control is OxSpinEdit
+            ? 80
+            : FieldAccessor.Width;
+        ControlPainter.ColorizeControl(CurrentValueControl.Control, BaseColor);
+        OxControlHelper.AlignByBaseLine(CurrentValueControl.Control, valueLabel);
+        valueLabel.Visible = true;
+    }
+
+    private void HideValueControl()
+    {
+        if (CurrentValueControl is null)
+            return;
+
+        ValueAccessor.Control.Visible = false;
+        valueLabel.Visible = false;
+    }
+
+    private readonly FieldAccessor<TField, TDAO> FieldAccessor = default!;
+    private ControlAccessor<TField, TDAO> ValueAccessor = default!;
+    private PlacedControl<TField>? CurrentValueControl;
+    private readonly ControlBuilder<TField, TDAO> controlBuilder;
+    private readonly ControlLayout<TField> ValueLayout = new();
+
+    private readonly OxLabel valueLabel = new()
+    {
+        Text = "Value",
+        AutoSize = true,
+        Visible = false,
+        Font = OxStyles.DefaultFont
+    };
+
+    private readonly OxLabel countLabel = new()
+    {
+        Text = "Selected Items: ",
+        Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
+        Left = OxWh.W24,
+        AutoSize = true,
+        Visible = true,
+        Font = OxStyles.DefaultFont
+    };
 }

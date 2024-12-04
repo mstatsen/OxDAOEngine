@@ -1,6 +1,7 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxDAOEngine.Data;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {

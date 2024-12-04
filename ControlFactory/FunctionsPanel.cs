@@ -7,6 +7,7 @@ using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.Settings.Part;
 using OxLibrary.Handlers;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory
 {

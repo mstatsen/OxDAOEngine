@@ -4,6 +4,7 @@ using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
 using OxLibrary.Handlers;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {

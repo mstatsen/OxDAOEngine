@@ -1,6 +1,6 @@
-﻿using OxLibrary.Controls;
-using OxLibrary.Panels;
+﻿using OxLibrary.Panels;
 using OxDAOEngine.Data;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
