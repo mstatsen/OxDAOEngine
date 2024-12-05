@@ -67,7 +67,7 @@ public class AccessorDictionary<TField, TDAO> : Dictionary<object, IControlAcces
                 FieldType.Label
             );
         accessor.Left = OxWh.Int(captionLabel.Right) + HorizontalSpace;
-        accessor.Top = location.HeightInt;
+        accessor.Top = location.Z_Height;
         accessor.Parent = parent;
         accessor.Value = value;
         accessor.Control.Font = OxStyles.Font(FontStyle.Bold);
