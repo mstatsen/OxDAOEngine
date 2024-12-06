@@ -1,5 +1,7 @@
 ﻿using OxLibrary;
+using OxLibrary.BitmapWorker;
 using OxLibrary.Controls;
+using OxLibrary.Handlers;
 using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
@@ -7,7 +9,6 @@ using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Data.Fields.Types;
-using OxLibrary.Handlers;
 
 namespace OxDAOEngine.Grid
 {
@@ -328,7 +329,7 @@ namespace OxDAOEngine.Grid
 
         public readonly OxDataGridView GridView = new()
         {
-            Dock = DockStyle.Fill,
+            Dock = OxDock.Fill,
             AllowUserToAddRows = false,
             AllowUserToDeleteRows = false,
             AllowUserToOrderColumns = true,
@@ -625,7 +626,7 @@ namespace OxDAOEngine.Grid
                 if (fieldHelper.GetFieldType(field) is FieldType.Image
                     && value is Bitmap image 
                     && image.Height > GridView.RowTemplate.Height)
-                    value = OxImageBoxer.BoxingImage(
+                    value = OxBitmapWorker.BoxingImage(
                         image,
                         new(
                             OxWh.Int(Width) * (image.Height / GridView.RowTemplate.Height),

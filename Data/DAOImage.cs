@@ -1,7 +1,6 @@
-﻿using OxLibrary;
-using OxDAOEngine.XML;
+﻿using OxDAOEngine.XML;
 using System.Xml;
-using OxLibrary.Data;
+using OxLibrary.BitmapWorker;
 
 namespace OxDAOEngine.Data
 {

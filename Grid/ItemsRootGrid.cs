@@ -1,11 +1,12 @@
-﻿using OxLibrary.Controls;
+﻿using OxLibrary;
+using OxLibrary.BitmapWorker;
+using OxLibrary.Controls;
 using OxDAOEngine.ControlFactory.BatchUpdate;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Decorator;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Fields;
-using OxLibrary;
 
 namespace OxDAOEngine.Grid
 {
@@ -152,7 +153,7 @@ namespace OxDAOEngine.Grid
 
         protected override object? GetFieldValue(TField field, TDAO item) => 
             fieldHelper.GetFieldType(field) is FieldType.Boolean
-                ? OxImageBoxer.BoxingImage(
+                ? OxBitmapWorker.BoxingImage(
                     (bool)item[field]!
                         ? OxIcons.Tick
                         : new Bitmap(16, 16),

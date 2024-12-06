@@ -1,4 +1,4 @@
-﻿using OxLibrary;
+﻿using OxLibrary.BitmapWorker;
 using OxDAOEngine.Data.Types;
 using System.Xml;
 

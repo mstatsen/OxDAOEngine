@@ -1,4 +1,5 @@
 ﻿using OxLibrary;
+using OxLibrary.BitmapWorker;
 using OxLibrary.Controls;
 
 namespace OxDAOEngine.ControlFactory.ValueAccessors
@@ -14,14 +15,14 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
         public override void SetValue(object? value)
         {
             if (value is int intValue)
-                value = OxImageBoxer.BoxingImage(
+                value = OxBitmapWorker.BoxingImage(
                     intValue > 0 
                         ? OxIcons.Tick 
                         : OxIcons.Cross, 
                     new OxSize(OxWh.W16, OxWh.W16));
 
             if (value is bool boolValue)
-                value = OxImageBoxer.BoxingImage(
+                value = OxBitmapWorker.BoxingImage(
                     boolValue 
                         ? OxIcons.Tick 
                         : OxIcons.Cross, 

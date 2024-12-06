@@ -1,5 +1,5 @@
 ﻿using System.Xml;
-using OxLibrary;
+using OxLibrary.BitmapWorker;
 using OxLibrary.Forms;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;

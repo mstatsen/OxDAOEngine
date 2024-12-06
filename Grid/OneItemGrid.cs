@@ -93,7 +93,7 @@ namespace OxDAOEngine.Grid
 
         public readonly OxDataGridView GridView = new()
         {
-            Dock = DockStyle.Fill,
+            Dock = OxDock.Fill,
             AllowUserToAddRows = false,
             AllowUserToDeleteRows = false,
             AllowUserToOrderColumns = true,

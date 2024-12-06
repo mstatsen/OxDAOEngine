@@ -90,13 +90,14 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         private readonly OxTreeView categorySelector = new()
         {
-            Left = 20,
-            Top = 20,
-            Width = 200,
-            Height = 128,
-            Dock = DockStyle.Fill,
+            Left = OxWh.W20,
+            Top = OxWh.W20,
+            Width = OxWh.W200,
+            Height = OxWh.W128,
+            Dock = OxDock.Fill,
             Font = OxStyles.DefaultFont
         };
+
         private readonly Category<TField, TDAO> RootCategory = new();
 
         private void ExpandAllClick(object? sender, EventArgs e)
