@@ -18,7 +18,7 @@ namespace OxDAOEngine.ControlFactory
             _ = new OxTextBox
             {
                 Parent = form,
-                Dock = DockStyle.Fill,
+                Dock = OxDock.Fill,
                 Multiline = true,
                 AcceptsTab = true,
                 WordWrap = true,
