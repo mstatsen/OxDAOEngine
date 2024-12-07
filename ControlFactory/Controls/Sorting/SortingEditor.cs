@@ -36,11 +36,11 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldControl.Width =
                 OxWh.Int(
                     OxWh.Sub(
-                        OxWh.Sub(MainPanel.Width, FieldControl.Left), 
+                        OxWh.Sub(FormPanel.Width, FieldControl.Left), 
                         OxWh.W8
                     )
                 );
-            FieldControl.Control.BackColor = MainPanel.Colors.Lighter(7);
+            FieldControl.Control.BackColor = Colors.Lighter(7);
             FieldControl.Context.Initializer = new FieldsInitializer<TField>(ControlScope.Sorting);
         }
 
@@ -53,7 +53,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldControl.Width =
                 OxWh.Int(
                     OxWh.Sub(
-                        OxWh.Sub(MainPanel.Width, FieldControl.Left),
+                        OxWh.Sub(FormPanel.Width, FieldControl.Left),
                         OxWh.W8
                     )
                 );
@@ -80,8 +80,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected override void PrepareControlColors()
         {
-            FieldControl!.Control.BackColor = MainPanel.Colors.Lighter(6);
-            DirectionControl!.Control.BackColor = MainPanel.Colors.Lighter(6);
+            FieldControl!.Control.BackColor = Colors.Lighter(6);
+            DirectionControl!.Control.BackColor = FieldControl!.Control.BackColor;
         }
 
         protected override void GrabControls(FieldSorting<TField, TDAO> item)

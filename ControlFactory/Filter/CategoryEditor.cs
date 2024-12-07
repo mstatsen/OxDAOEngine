@@ -37,7 +37,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                     result.Width = 
                         OxWh.Int(
                             OxWh.Sub(
-                                OxWh.Sub(MainPanel.Width, result.Left), 
+                                OxWh.Sub(FormPanel.Width, result.Left), 
                                 OxWh.W8
                             )
                         );
@@ -69,7 +69,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             FilterPanel = new(Builder)
             {
-                Parent = MainPanel,
+                Parent = FormPanel,
                 Dock = OxDock.Bottom
             };
             FilterPanel.GetCategoryName += GetCategoryNameHandler;

@@ -133,16 +133,16 @@ namespace OxDAOEngine.Editor
 
         private void PrepareStylesInternal()
         {
-            SetMainPanelColor();
+            SetEditorColor();
             PrepareStyles();
             ColorizeControls();
             AfterColorizeControls();
         }
 
-        private void SetMainPanelColor()
+        private void SetEditorColor()
         {
             if (!Generator.BackColorField.Equals(default!))
-                Editor.MainPanel.BaseColor = new OxColorHelper(
+                Editor.BaseColor = new OxColorHelper(
                     TypeHelper.BackColor(Builder[Generator.BackColorField].Value)
                 ).Darker(7);
         }
@@ -154,7 +154,7 @@ namespace OxDAOEngine.Editor
             foreach (TField field in EditingFields)
                 ControlPainter.ColorizeControl(
                     Builder.Control(field),
-                    Editor.MainPanel.BaseColor
+                    Editor.BaseColor
                 );
         }
 

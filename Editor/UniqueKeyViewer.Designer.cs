@@ -33,9 +33,9 @@ namespace OxDAOEngine.Editor
         {
             this.SuspendLayout();
             // 
-            // MainPanel
+            // FormPanel
             // 
-            this.MainPanel.Size = new OxSize(574, 398);
+            this.FormPanel.Size = new OxSize(574, 398);
             // 
             // ListItemEditor
             // 

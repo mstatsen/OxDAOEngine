@@ -41,7 +41,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
 
         if (ListController.AvailableQuickFilter)
         { 
-            quickFilter!.Parent = MainPanel;
+            quickFilter!.Parent = FormPanel;
             quickFilter!.Margin.Horizontal = OxWh.W8;
         }
 
@@ -54,7 +54,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         indentAccessor = Builder.Accessor("XmlIndent", FieldType.Boolean);
         indentAccessor.Text = "Indent XML elements";
         indentAccessor.Value = settings.XML.Indent;
-        SetupControl(indentAccessor.Control, ExportFormat.Xml, null, MainPanel.Colors.Lighter());
+        SetupControl(indentAccessor.Control, ExportFormat.Xml, null, Colors.Lighter());
 
         PrepareTextControls();
 
@@ -71,27 +71,27 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         formatAccessor = Builder.Accessor<ExportFormat>();
         formatAccessor.Value = settings.Format;
         formatAccessor.ValueChangeHandler += FormatChangeHandler;
-        SetupGeneralControl(formatAccessor.Control, MainPanel.BaseColor, "Export as");
+        SetupGeneralControl(formatAccessor.Control, BaseColor, "Export as");
 
 
         if (ListController.Settings.AvailableCategories)
         {
             categoryControl = CreateButtonEdit(settings.CategoryName, SelectCategory);
-            SetupGeneralControl(categoryControl, MainPanel.Colors.Lighter(), "Category");
+            SetupGeneralControl(categoryControl, Colors.Lighter(), "Category");
         }
 
         fileControl = CreateButtonEdit(settings.FileName, ShowFileDialog);
-        SetupGeneralControl(fileControl, MainPanel.Colors.Lighter(), "File name");
+        SetupGeneralControl(fileControl, Colors.Lighter(), "File name");
         CalcFramesSizes();
         ActualizeFormatSettings();
-        MainPanel.SetFooterButtonText(OxDialogButton.OK, "Export");
-        MainPanel.DialogButtonStartSpace = OxWh.W8;
-        MainPanel.DialogButtonSpace = OxWh.W4;
+        SetFooterButtonText(OxDialogButton.OK, "Export");
+        DialogButtonStartSpace = OxWh.W8;
+        DialogButtonSpace = OxWh.W4;
     }
 
     private void PrepareSelectedItemsPanel()
     {
-        selectedItemsPanel.Parent = MainPanel;
+        selectedItemsPanel.Parent = FormPanel;
         selectedItemsPanel.Size = new(OxWh.W100, OxWh.W200);
         selectedItemsPanel.Visible = false;
         selectedItemsPanel.Padding.Size = OxWh.W0;
@@ -191,7 +191,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         {
             Value = value,
             Font = OxStyles.DefaultFont,
-            BaseColor = MainPanel.Colors.Lighter()
+            BaseColor = Colors.Lighter()
         };
         buttonEdit.OnButtonClick += onClick;
         return buttonEdit;
@@ -207,7 +207,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
     {
         OxFrame parentFrame = extraSettingsFrames[format];
         panel.Parent = parentFrame;
-        panel.BaseColor = MainPanel.BaseColor;
+        panel.BaseColor = BaseColor;
         FramesControls[parentFrame].Add(panel);
     }
 
@@ -229,7 +229,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         OxPanel parentPane = format is ExportFormat.Html 
             ? htmlGeneralPanel 
             : textGeneralPanel;
-        SetupControl(accessor.Control, format, parentPane, MainPanel.Colors.Lighter());
+        SetupControl(accessor.Control, format, parentPane, Colors.Lighter());
         return accessor;
     }
 
@@ -251,7 +251,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         IControlAccessor accessor = Builder.Accessor("ZeroSummary", FieldType.Boolean);
         accessor.Value = settings.HTML.ZeroSummary;
         accessor.Text = "Show summary with zero count";
-        SetupControl(accessor.Control, ExportFormat.Html, htmlGeneralPanel, MainPanel.Colors.Lighter());
+        SetupControl(accessor.Control, ExportFormat.Html, htmlGeneralPanel, Colors.Lighter());
         return accessor;
     }
 
@@ -260,9 +260,9 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         OxFrame frame = new OxFrameWithHeader()
         {
             Text = Caption,
-            Parent = MainPanel,
+            Parent = FormPanel,
             Dock = OxDock.Top,
-            BaseColor = MainPanel.BaseColor
+            BaseColor = BaseColor
         };
         frame.Margin.Size = OxWh.W8;
         frame.Margin.Top = OxWh.W0;
@@ -506,7 +506,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
             ? htmlGeneralPanel 
             : textGeneralPanel;
 
-        SetupControl(accessor.Control, format, parentPane, MainPanel.BaseColor, "Summary");
+        SetupControl(accessor.Control, format, parentPane, BaseColor, "Summary");
         return accessor;
     }
 
@@ -523,7 +523,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         foreach (OxFrame frame in extraSettingsFrames.Values)
             if (frame.Visible)
             {
-                MainPanel.Size = new(OxWh.W720, frame.Bottom);
+                FormPanel.Size = new(OxWh.W720, frame.Bottom);
                 break;
             }
     }

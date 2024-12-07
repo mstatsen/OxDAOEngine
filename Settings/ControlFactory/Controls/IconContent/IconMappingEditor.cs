@@ -45,7 +45,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             ContentPartControl.Width =
                 OxWh.Int(
                     OxWh.Sub(
-                        OxWh.Sub(MainPanel.Width, ContentPartControl.Left),
+                        OxWh.Sub(FormPanel.Width, ContentPartControl.Left),
                         OxWh.W8
                     )
                 );
@@ -63,7 +63,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             FieldControl.Width =
                 OxWh.Int(
                     OxWh.Sub(
-                        OxWh.Sub(MainPanel.Width, FieldControl.Left),
+                        OxWh.Sub(FormPanel.Width, FieldControl.Left),
                         OxWh.W8
                     )
                 );

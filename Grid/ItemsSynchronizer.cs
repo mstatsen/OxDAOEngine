@@ -120,8 +120,10 @@ namespace OxDAOEngine.Grid
         private void RightScrollHandler(object? sender, EventArgs e) => 
             SynchronizeScroll(RightItemGrid, LeftItemGrid);
 
+#pragma warning disable CA1822 // Mark members as static
         private void SynchronizeScroll(OneItemGrid<TField, TDAO> source, OneItemGrid<TField, TDAO> dest) =>
             dest.FirstDisplayedScrollingRowIndex = source.FirstDisplayedScrollingRowIndex;
+#pragma warning restore CA1822 // Mark members as static
 
         protected override void PrepareInnerComponents()
         {
@@ -227,7 +229,9 @@ namespace OxDAOEngine.Grid
         private void LeftToRightHandler(object? sender, EventArgs e) => 
             Synchronize(LeftItemGrid, RightItemGrid);
 
+#pragma warning disable CA1822 // Mark members as static
         private void Synchronize(OneItemGrid<TField, TDAO> source, OneItemGrid<TField, TDAO> dest)
+#pragma warning restore CA1822 // Mark members as static
         {
             dest.SetValue(
                 source.SelectedField,
@@ -239,7 +243,7 @@ namespace OxDAOEngine.Grid
         protected override void PrepareDialog(OxPanelViewer dialog)
         {
             base.PrepareDialog(dialog);
-            dialog.Sizeble = true;
+            dialog.Sizable = true;
             dialog.CanMaximize = true;
             dialog.Shown += (s, e) => RecalcGridsSizes();
             dialog.SizeChanged += (s, e) => RecalcGridsSizes();

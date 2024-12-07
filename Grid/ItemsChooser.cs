@@ -233,7 +233,7 @@ namespace OxDAOEngine.Grid
         protected override void PrepareDialog(OxPanelViewer dialog)
         {
             base.PrepareDialog(dialog);
-            dialog.Sizeble = true;
+            dialog.Sizable = true;
             dialog.CanMaximize = true;
             dialog.Shown += (s, e) => RecalcGridsSizes();
             dialog.SizeChanged += (s, e) => RecalcGridsSizes();

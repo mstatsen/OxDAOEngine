@@ -33,7 +33,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             NameControl.Width =
                 OxWh.Int(
                     OxWh.Sub(
-                        OxWh.Sub(MainPanel.Width, NameControl.Left),
+                        OxWh.Sub(FormPanel.Width, NameControl.Left),
                         OxWh.W8
                     )
                 );
@@ -51,7 +51,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             UrlControl.Width =
                 OxWh.Int(
                     OxWh.Sub(
-                        OxWh.Sub(MainPanel.Width, UrlControl.Left),
+                        OxWh.Sub(FormPanel.Width, UrlControl.Left),
                         OxWh.W8
                     )
                 );

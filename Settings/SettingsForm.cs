@@ -57,9 +57,10 @@ public partial class SettingsForm : OxDialog
         CreateSettingsTabs();
         CreatePanels();
         CreateControls();
-        MainPanel.DialogButtonStartSpace = OxWh.W8;
-        MainPanel.DialogButtonSpace = OxWh.W4;
+        DialogButtonStartSpace = OxWh.W8;
+        DialogButtonSpace = OxWh.W4;
         SetSettingsTabButtonsVisible();
+
         foreach (OxTabControl tabControl in settingsTabs.Values)
             tabControl.ActivateFirstPage();
     }
@@ -201,8 +202,8 @@ public partial class SettingsForm : OxDialog
     {
         OxPanel panel = new()
         {
-            BaseColor = MainPanel.BaseColor,
-            Parent = MainPanel,
+            BaseColor = BaseColor,
+            Parent = FormPanel,
             Dock = OxDock.Fill,
             Text = TypeHelper.Name(part)
         };
@@ -294,7 +295,7 @@ public partial class SettingsForm : OxDialog
             accessor.Control.ParentChanged += ControlLocationChangeHandler;
         }
 
-        ControlPainter.ColorizeControl(accessor, MainPanel.BaseColor);
+        ControlPainter.ColorizeControl(accessor, BaseColor);
         settingsPartControls[settings][settingsPart].Add(accessor);
         settingsControls[settings].Add(setting, accessor);
     }
@@ -383,7 +384,7 @@ public partial class SettingsForm : OxDialog
             Parent = settingsPanels[settings][part],
             Dock = OxDock.Top,
             Text = text,
-            BaseColor = MainPanel.BaseColor
+            BaseColor = BaseColor
         };
         frame.Margin.Size = OxWh.W4;
         frame.HeaderVisible = !text.Equals(string.Empty);
@@ -454,10 +455,10 @@ public partial class SettingsForm : OxDialog
         left += OxWh.Int(helper.DefaultButtonsSpace);
         OxButton button = new(helper.Name(scope), OxIcons.Eraser)
         {
-            Parent = MainPanel.Footer,
-            BaseColor = MainPanel.BaseColor,
+            Parent = Footer,
+            BaseColor = BaseColor,
             Top = OxWh.Div(
-                OxWh.Sub(MainPanel.Footer.Height, helper.DefaultButtonHeight), 
+                OxWh.Sub(Footer.Height, helper.DefaultButtonHeight), 
                 OxWh.W2
             ),
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
@@ -553,9 +554,9 @@ public partial class SettingsForm : OxDialog
 
     private void PrepareTabControl()
     {
-        tabControl.Parent = MainPanel;
+        tabControl.Parent = FormPanel;
         tabControl.Dock = OxDock.Fill;
-        tabControl.BaseColor = MainPanel.BaseColor;
+        tabControl.BaseColor = BaseColor;
         tabControl.Font = OxStyles.DefaultFont;
         tabControl.TabHeaderSize = new(OxWh.W124, OxWh.W32);
         tabControl.BorderVisible = false;
@@ -569,9 +570,9 @@ public partial class SettingsForm : OxDialog
         {
             OxTabControl tab = new()
             {
-                Parent = MainPanel,
+                Parent = FormPanel,
                 Dock = OxDock.Fill,
-                BaseColor = MainPanel.BaseColor,
+                BaseColor = BaseColor,
                 Font = OxStyles.DefaultFont,
                 TabHeaderSize = new(OxWh.W84, OxWh.W30),
                 BorderVisible = false,

@@ -32,10 +32,9 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             this.SuspendLayout();
             // 
-            // MainPanel
+            // FormPanel
             // 
-            this.MainPanel.Size = new OxSize(OxWh.W390, OxWh.W230);
-            this.MainPanel.Text = "Category";
+            this.FormPanel.Size = new OxSize(OxWh.W390, OxWh.W230);
             // 
             // LinkEditor
             // 

@@ -33,7 +33,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldControl.Parent = this;
             FieldControl.Left = 12;
             FieldControl.Top = 12;
-            FieldControl.Width = OxWh.Int(OxWh.Sub(MainPanel.Width, OxWh.W24));
+            FieldControl.Width = OxWh.Int(OxWh.Sub(FormPanel.Width, OxWh.W24));
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
         }
 
@@ -53,6 +53,6 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldControl.IsEmpty ? "Field" : base.EmptyMandatoryField();
 
         protected override void PrepareControlColors() => 
-            FieldControl.Control.BackColor = MainPanel.Colors.Lighter(6);
+            FieldControl.Control.BackColor = Colors.Lighter(6);
     }
 }

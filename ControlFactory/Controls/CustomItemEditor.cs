@@ -64,14 +64,14 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
 
     protected virtual void PrepareControlColors() 
     {
-        foreach (Control control in MainPanel.Controls)
+        foreach (Control control in FormPanel.Controls)
             if (control is not OxLabel)
                 ControlPainter.ColorizeControl(
                     control,
-                    MainPanel.BaseColor
+                    BaseColor
                 );
 
-        MainPanel.BackColor = MainPanel.Colors.Lighter(8);
+        BackColor = Colors.Lighter(8);
     }
 
     protected override void OnShown(EventArgs e) => 

@@ -32,10 +32,9 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             this.SuspendLayout();
             // 
-            // MainPanel
+            // FormPanel
             // 
-            this.MainPanel.Size = new OxSize(390, OxWh.W230);
-            this.MainPanel.Text = "Link";
+            this.FormPanel.Size = new OxSize(390, OxWh.W230);
             // 
             // LinkEditor
             // 

@@ -32,18 +32,18 @@ namespace OxDAOEngine.Editor
                 StartPosition = FormStartPosition.CenterScreen;
                 InitializeComponent();
                 CreatePanels();
-                MainPanel.Colors.BaseColorChanged += FormColorChanged;
+                Colors.BaseColorChanged += FormColorChanged;
                 FormClosed += FormClosedHandler;
-                MainPanel.Header.AddToolButton(prevButton);
-                MainPanel.Header.AddToolButton(nextButton);
+                Header.AddToolButton(prevButton);
+                Header.AddToolButton(nextButton);
                 FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
                 OxIconButton idButton = new(OxIcons.Key, OxWh.W28)
                 {
                     ToolTipText = $"View {fieldHelper.Name(fieldHelper.UniqueField)}"
                 };
                 idButton.Click += (s, e) => uniqueKeyViewer.View(Item, this);
-                MainPanel.Header.AddToolButton(idButton);
-                MainPanel.SetHeaderHeight(OxWh.W35);
+                Header.AddToolButton(idButton);
+                HeaderHeight = OxWh.W35;
             }
             finally
             {
@@ -56,7 +56,7 @@ namespace OxDAOEngine.Editor
         protected virtual void CreatePanels()
         {
             PreparePanels();
-            GroupParents.Add(MainPanel);
+            GroupParents.Add(FormPanel);
             SetParentsColor();
             CreateGroups();
             PlaceGroups();
@@ -72,7 +72,7 @@ namespace OxDAOEngine.Editor
         private void SetGroupsColor()
         {
             foreach (OxFrame frame in Groups.Values)
-                frame.BaseColor = MainPanel.Colors.Lighter();
+                frame.BaseColor = Colors.Lighter();
         }
 
         private void PlaceGroups()
@@ -270,7 +270,6 @@ namespace OxDAOEngine.Editor
 
             invalidateSizeInProcess = true;
             SuspendLayout();
-            MainPanel.SuspendLayout();
             try
             {
                 Groups.SetGroupsSize();
@@ -283,7 +282,6 @@ namespace OxDAOEngine.Editor
             }
             finally
             {
-                MainPanel.ResumeLayout();
                 ResumeLayout();
                 invalidateSizeInProcess = false;
             }
@@ -295,7 +293,7 @@ namespace OxDAOEngine.Editor
 
             foreach (var parent in GroupParents)
             {
-                if (parent.Key.Equals(MainPanel))
+                if (parent.Key.Equals(FormPanel))
                     continue;
 
                 bool calcedVisible = 
@@ -358,8 +356,8 @@ namespace OxDAOEngine.Editor
         protected void SetParentsColor() 
         { 
             foreach (OxPanel panel in ParentPanels)
-                if (!panel.Equals(MainPanel))
-                    panel.BaseColor = MainPanel.Colors.Lighter();
+                if (!panel.Equals(FormPanel))
+                    panel.BaseColor = Colors.Lighter();
         }
 
         protected virtual List<TFieldGroup> EditedGroups =>
@@ -369,7 +367,7 @@ namespace OxDAOEngine.Editor
         public readonly OxPanelList ParentPanels = new();
 
         protected virtual OxPanel? GroupParent(TFieldGroup group) 
-            => MainPanel;
+            => FormPanel;
 
         protected OxWidth CalcedWidth(OxPanel parentControl)
         {

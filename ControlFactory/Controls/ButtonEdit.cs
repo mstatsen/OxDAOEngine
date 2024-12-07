@@ -42,7 +42,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             Color dialogBaseColor = new OxColorHelper(ControlColor).Darker(7);
             TListControl editor = new()
             {
-                Parent = dialog.MainPanel,
+                Parent = dialog.FormPanel,
                 Dock = OxDock.Fill,
                 OwnerDAO = OwnerDAO,
                 Font = Font,

@@ -15,7 +15,13 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
         public override void SetValue(object? value)
         {
             ObjectValue = value;
-            Label.Text = value?.ToString();
+
+            string valueToString =
+                value is null
+                || value.ToString() is null
+                    ? string.Empty
+                    : value.ToString()!;
+            Label.Text = valueToString;
         }
     }
 }

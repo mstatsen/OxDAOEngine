@@ -37,7 +37,7 @@ public class AccessorDictionary<TField, TDAO> : Dictionary<object, IControlAcces
         {
             Parent = (IOxBox)parent,
             Left = location.Width,
-            Text = caption,
+            Text = caption is null ? string.Empty : caption,
             Font = OxStyles.Font(FontStyle.Italic),
             TextAlign = ContentAlignment.MiddleCenter,
             AutoSize = true,

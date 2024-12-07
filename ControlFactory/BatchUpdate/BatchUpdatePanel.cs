@@ -7,7 +7,8 @@ using OxDAOEngine.Data.Types;
 
 namespace OxDAOEngine.ControlFactory.BatchUpdate;
 
-public class BatchUpdatePanel<TField, TDAO> : OxDialogMainPanel
+public class BatchUpdatePanel<TField, TDAO> :
+    OxDialogPanel<BatchUpdateForm<TField, TDAO>, BatchUpdatePanel<TField, TDAO>>
     where TField : notnull, Enum
     where TDAO : RootDAO<TField>, new()
 {
@@ -22,12 +23,8 @@ public class BatchUpdatePanel<TField, TDAO> : OxDialogMainPanel
 
     public void UpdateItems()
     {
-        if (ItemsGetter is null)
+        if (ItemsGetter is null || FieldIsEmpty)
             return;
-
-        if (FieldIsEmpty)
-            return;
-
         foreach (TDAO item in ItemsGetter())
             item.StartSilentChange();
 
@@ -50,7 +47,7 @@ public class BatchUpdatePanel<TField, TDAO> : OxDialogMainPanel
     public override Color DefaultColor => EngineStyles.BatchUpdateColor;
     public const string BatchUpdateTitle = "Batch Update";
 
-    public BatchUpdatePanel(OxForm form) : base(form)
+    public BatchUpdatePanel() : base()
     {
         Size = new(OxWh.W360, OxWh.W120);
         controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
