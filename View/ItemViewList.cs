@@ -4,7 +4,8 @@ using OxLibrary.ControlList;
 
 namespace OxDAOEngine.View
 {
-    public class ItemViewList<TField, TDAO> : List<IItemView<TField, TDAO>>
+    public class ItemViewList<TField, TDAO> :
+        List<IItemView<TField, TDAO>>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     {
@@ -30,6 +31,6 @@ namespace OxDAOEngine.View
         }
 
         public OxPanelList AsPaneList =>
-            new OxPanelList().AddRange(this.Select(item => item.AsPane));
+            (OxPanelList)new OxPanelList().AddRange(this.Select(item => item.AsPane));
     }
 }

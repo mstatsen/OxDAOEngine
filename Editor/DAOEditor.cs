@@ -367,7 +367,7 @@ namespace OxDAOEngine.Editor
         protected virtual List<TFieldGroup> EditedGroups =>
             FieldGroupHelper.EditedList();
 
-        public readonly OxPaneDictionary GroupParents = new();
+        public readonly OxPanelsDictionary GroupParents = new();
         public readonly OxPanelList ParentPanels = new();
 
         protected virtual OxPanel? GroupParent(TFieldGroup group) 
