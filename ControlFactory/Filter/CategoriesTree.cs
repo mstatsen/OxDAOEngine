@@ -81,8 +81,8 @@ namespace OxDAOEngine.ControlFactory.Filter
             ExpandButton.Click += ExpandAllClick;
             CollapseButton.Size = new(OxWh.W28, OxWh.W23);
             CollapseButton.Click += (s, e) => categorySelector.CollapseAll();
-            Header.AddToolButton(CollapseButton);
-            Header.AddToolButton(ExpandButton);
+            Header.AddButton(CollapseButton);
+            Header.AddButton(ExpandButton);
         }
 
         private void FieldChangedHandler(DAO dao, DAOEntityEventArgs? e) =>

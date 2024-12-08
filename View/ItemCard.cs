@@ -54,7 +54,7 @@ namespace OxDAOEngine.View
             button.Size = new(OxWh.W25, OxWh.W20);
             button.ToolTipText = toolTipText;
             button.Click += clickHanler;
-            Header.AddToolButton(button);
+            Header.AddButton(button);
         }
 
         public override Color DefaultColor => EngineStyles.CardColor;
@@ -64,7 +64,7 @@ namespace OxDAOEngine.View
         public override void PrepareColors()
         {
             base.PrepareColors();
-            Header.Label.ForeColor = fontColors.BaseColor;
+            Header.Title.ForeColor = fontColors.BaseColor;
         }
 
         private void LayoutControls()

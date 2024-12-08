@@ -109,7 +109,7 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         base.PrepareColors();
 
         if (FontColors is not null)
-            Header.Label.ForeColor = FontColors.BaseColor;
+            Header.Title.ForeColor = FontColors.BaseColor;
 
         foreach (OxPanel panel in panels)
             panel.BaseColor = BaseColor;
@@ -117,7 +117,7 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         foreach (OxHeader header in Headers.Values)
         {
             header.BaseColor = BaseColor;
-            header.Label.ForeColor = Header.Label.ForeColor;
+            header.Title.ForeColor = Header.Title.ForeColor;
         }
     }
 

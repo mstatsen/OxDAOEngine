@@ -83,7 +83,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
                 CreateToolButton(filling);
 
             foreach (OxButton button in toolButtons.Values.Reverse())
-                Header.AddToolButton(button);
+                Header.AddButton(button);
         }
 
         private void SetToolButtonsVisible()

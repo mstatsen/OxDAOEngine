@@ -545,7 +545,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             base.PrepareInnerComponents();
             ClearButton.Size = new(OxWh.W80, OxWh.W23);
             ClearButton.Click += (s, e) => ClearControls();
-            Header.AddToolButton(ClearButton);
+            Header.AddButton(ClearButton);
         }
 
         protected override SettingsPart SettingsPart => SettingsPart.QuickFilter;

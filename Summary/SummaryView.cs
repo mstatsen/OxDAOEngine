@@ -3,6 +3,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Data.Fields;
 using OxLibrary;
+using OxLibrary.ControlList;
 
 namespace OxDAOEngine.Summary
 {
@@ -48,6 +49,8 @@ namespace OxDAOEngine.Summary
             //ContentBox.AutoScroll = true;
         }
 
+        private readonly OxAccordionItems Accordion = new();
+
         private void PrepareDictionaries()
         {
             FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
@@ -67,15 +70,13 @@ namespace OxDAOEngine.Summary
             IterateSummaryPanels(
                 (panel) =>
                     {
-                        panel.Accordion = false;
                         panel.Expanded = false;
                         panel.BaseColor = EngineStyles.SummaryColor;
-                        panel.Accordion = true;
-                        panel.ExpandHandler += SummaryPanelExpandHandler;
+                        panel.ExpandChanged += SummaryPanelExpandHandler;
                         panel.Header.UnderlineVisible = false;
+                        Accordion.Add(panel);
                     }
             );
-
             SummaryPanels.Last().Header.UnderlineVisible = true;
         }
 

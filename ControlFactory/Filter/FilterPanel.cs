@@ -218,7 +218,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.PrepareInnerComponents();
             ViewFilterDescription.Click += ViewFilterDescriptionButtonClickHandler;
-            Header.AddToolButton(ViewFilterDescription);
+            Header.AddButton(ViewFilterDescription);
         }
 
         private void ViewFilterDescriptionButtonClickHandler(object? sender, EventArgs e) => 

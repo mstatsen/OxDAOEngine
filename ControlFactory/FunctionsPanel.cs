@@ -68,7 +68,7 @@ namespace OxDAOEngine.ControlFactory
         {
             CustomizeButton.Size = new(OxWh.W28, OxWh.W23);
             CustomizeButton.Click += (s, e) => SettingsForm.ShowSettings(Settings, SettingsPart);
-            Header.AddToolButton(CustomizeButton);
+            Header.AddButton(CustomizeButton);
 
             base.PrepareInnerComponents();
             PrepareLoadingPanel();

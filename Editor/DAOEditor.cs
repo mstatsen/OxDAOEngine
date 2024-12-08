@@ -5,6 +5,7 @@ using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Grid;
+using OxLibrary.ControlList;
 
 
 namespace OxDAOEngine.Editor
@@ -34,15 +35,15 @@ namespace OxDAOEngine.Editor
                 CreatePanels();
                 Colors.BaseColorChanged += FormColorChanged;
                 FormClosed += FormClosedHandler;
-                Header.AddToolButton(prevButton);
-                Header.AddToolButton(nextButton);
+                Header.AddButton(prevButton);
+                Header.AddButton(nextButton);
                 FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
                 OxIconButton idButton = new(OxIcons.Key, OxWh.W28)
                 {
                     ToolTipText = $"View {fieldHelper.Name(fieldHelper.UniqueField)}"
                 };
                 idButton.Click += (s, e) => uniqueKeyViewer.View(Item, this);
-                Header.AddToolButton(idButton);
+                Header.AddButton(idButton);
                 HeaderHeight = OxWh.W35;
             }
             finally
