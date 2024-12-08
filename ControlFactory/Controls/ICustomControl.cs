@@ -1,5 +1,5 @@
-﻿using OxLibrary.Panels;
-using OxDAOEngine.Data;
+﻿using OxDAOEngine.Data;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {

@@ -1,5 +1,5 @@
 ﻿using OxDAOEngine.Data;
-using OxLibrary.Panels;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {

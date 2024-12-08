@@ -1,5 +1,6 @@
 ﻿using OxLibrary.Panels;
 using OxDAOEngine.Data;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.View
 {

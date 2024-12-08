@@ -1,5 +1,5 @@
-﻿using OxLibrary.Panels;
-using OxDAOEngine.Data.Fields.Types;
+﻿using OxDAOEngine.Data.Fields.Types;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory.Controls.Fields
 {

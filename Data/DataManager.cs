@@ -19,6 +19,7 @@ using OxDAOEngine.View.Types;
 using OxDAOEngine.Data.Sorting.Types;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Data.Fields.Types;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.Data
 {
