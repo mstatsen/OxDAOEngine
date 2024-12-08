@@ -445,12 +445,8 @@ namespace OxDAOEngine.ControlFactory
 
             OxPanel? parentFillControl = GetParentFillControl();
 
-            if (parentFillControl is not null)
-            {
-                parentFillControl.SuspendLayout();
-                parentFillControl.Parent?.SuspendLayout();
-
-                try
+            parentFillControl?.DoWithSuspendedLayout(
+                () =>
                 {
                     if (Pinned)
                         SendToBack();
@@ -459,12 +455,7 @@ namespace OxDAOEngine.ControlFactory
 
                     SetParentPaddings();
                 }
-                finally
-                {
-                    parentFillControl?.Parent?.ResumeLayout();
-                    parentFillControl?.ResumeLayout();
-                }
-            }
+            );
             OnPinnedChanged(new PinnedChangedEventArgs(!Pinned, Pinned));
             SetMouseHandlers();
         }

@@ -269,20 +269,23 @@ namespace OxDAOEngine.Editor
                 return;
 
             invalidateSizeInProcess = true;
-            SuspendLayout();
             try
             {
-                Groups.SetGroupsSize();
-                RecalcPanels();
+                DoWithSuspendedLayout(
+                    () =>
+                    {
+                        Groups.SetGroupsSize();
+                        RecalcPanels();
 
-                if (centerForm)
-                    MoveToScreenCenter();
+                        if (centerForm)
+                            MoveToScreenCenter();
 
-                Invalidate();
+                        Invalidate();
+                    }
+                );
             }
             finally
             {
-                ResumeLayout();
                 invalidateSizeInProcess = false;
             }
         }

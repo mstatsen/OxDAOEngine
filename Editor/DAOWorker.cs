@@ -252,19 +252,20 @@ namespace OxDAOEngine.Editor
             Builder.GrabControls(CurrentItem);
         }
 
-        private void RecalcGroupsAvailability()
-        {
-            Editor.SuspendLayout();
-            bool parentsVisibleChanged = Editor.SetParentsVisible(true);
-            bool groupsAvailabilityChanged = SetGroupsAvailability(true);
-            Editor.Groups.SetGroupsSize();
+        private void RecalcGroupsAvailability() =>
+            Editor.DoWithSuspendedLayout(
+                () =>
+                {
+                    bool parentsVisibleChanged = Editor.SetParentsVisible(true);
+                    bool groupsAvailabilityChanged = SetGroupsAvailability(true);
+                    Editor.Groups.SetGroupsSize();
 
-            if (Editor.SetParentsVisible(false) || parentsVisibleChanged || groupsAvailabilityChanged)
-                Editor.InvalidateSize();
+                    if (Editor.SetParentsVisible(false) || parentsVisibleChanged || groupsAvailabilityChanged)
+                        Editor.InvalidateSize();
 
-            PrepareStylesInternal();
-            Editor.ResumeLayout();
-        }
+                    PrepareStylesInternal();
+                }
+            );
 
         protected virtual bool SyncFieldValue(TField field, bool byUser) => false;
         protected virtual bool SetGroupsAvailability(bool afterSyncValues = false) => false;
