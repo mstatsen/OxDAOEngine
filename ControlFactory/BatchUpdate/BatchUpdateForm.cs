@@ -5,7 +5,7 @@ using OxDAOEngine.Data;
 namespace OxDAOEngine.ControlFactory.BatchUpdate
 {
     public class BatchUpdateForm<TField, TDAO> :
-        OxDialog<BatchUpdateForm<TField, TDAO>, BatchUpdatePanel<TField, TDAO>>
+        OxDialog<BatchUpdatePanel<TField, TDAO>>
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new ()
     {
