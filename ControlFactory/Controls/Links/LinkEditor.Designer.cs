@@ -38,7 +38,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             // 
             // LinkEditor
             // 
-            this.ClientSize = new OxSize(OxWh.W390, OxWh.W230);
+            this.ClientSize = new(390, 230);
             this.MaximumSize = new OxSize(OxWh.W390, OxWh.W230);
             this.MinimumSize = new OxSize(OxWh.W390, OxWh.W230);
             this.Name = "LinkEditor";

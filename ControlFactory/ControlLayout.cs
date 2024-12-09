@@ -136,7 +136,7 @@ public class ControlLayout<TField>
     private OxLabel? ApplyLayoutToLabel(OxLabel? label, Control control)
     {
         if (label is null)
-            label = CreateLabel();
+            label = ControlLayout<TField>.CreateLabel();
         else
         if (label.IsDisposed)
             return null;
@@ -222,7 +222,7 @@ public class ControlLayout<TField>
         }
     }
 
-    private OxLabel CreateLabel() => new();
+    private static OxLabel CreateLabel() => new();
 
     public ControlLayout() => Clear();
 

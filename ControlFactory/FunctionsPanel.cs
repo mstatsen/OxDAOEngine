@@ -568,7 +568,7 @@ namespace OxDAOEngine.ControlFactory
             if (pinned)
                 return;
 
-            bool onPanel = ClientRectangle.Rectangle.Contains(PointToClient(MousePosition));
+            bool onPanel = ClientRectangle.Contains(PointToClient(MousePosition));
 
             if (!Expanded.Equals(onPanel))
                 Expanded = onPanel;

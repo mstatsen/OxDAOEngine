@@ -34,7 +34,7 @@ namespace OxDAOEngine.Settings
             // 
             // SettingsForm
             // 
-            ClientSize = new OxSize(OxWh.W349, OxWh.W0);
+            ClientSize = new(349, 0);
             Location = new OxPoint(OxWh.W0, OxWh.W0);
             MaximumSize = new OxSize(OxWh.W349, OxWh.W0);
             MinimumSize = new OxSize(OxWh.W349, OxWh.W0);

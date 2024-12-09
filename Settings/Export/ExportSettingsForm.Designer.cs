@@ -34,7 +34,7 @@ namespace OxDAOEngine.Settings
             // 
             // HTMLSettingsForm
             // 
-            this.ClientSize = new OxSize(OxWh.W487, OxWh.W447);
+            this.ClientSize = new(487, 447);
             this.Name = "HTMLSettingsForm";
             this.Text = "Settings";
             this.Shown += new System.EventHandler(this.ExportSettingsForm_Shown);
