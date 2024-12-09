@@ -10,6 +10,7 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.ControlFactory.Controls.Fields;
 using OxDAOEngine.ControlFactory.Filter;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.Settings;
 
@@ -168,12 +169,12 @@ public partial class SettingsForm : OxDialog
         }
     }
 
-    private static void MagnetLabelWithControl(Control control)
+    private static void MagnetLabelWithControl(IOxControl control)
     {
-        if ((control.Tag is not Control))
+        if (control.Tag is not Control)
             return;
 
-        Control label = (Control)control.Tag;
+        IOxControl label = (IOxControl)control.Tag;
         label.Parent = control.Parent;
         OxControlHelper.AlignByBaseLine(control, label);
     }
@@ -183,7 +184,7 @@ public partial class SettingsForm : OxDialog
         if (sender is not Control)
             return;
 
-        MagnetLabelWithControl((Control)sender);
+        MagnetLabelWithControl((IOxControl)sender);
     }
 
     private OxPanel CreateParamsPanel(ISettingsController settings, SettingsPart part)
@@ -258,7 +259,7 @@ public partial class SettingsForm : OxDialog
             return;
 
         accessor.Parent = settingsPanels[settings][settingsPart];
-        accessor.Left = 180 * (columnNum + 1);
+        accessor.Left = OxSH.Mul(180, columnNum + 1);
         accessor.Top = CalcAcessorTop(
             settingsPartControls[settings][settingsPart].Last
         );
@@ -297,12 +298,15 @@ public partial class SettingsForm : OxDialog
             checkbox.Checked = !checkbox.Checked;
     }
 
-    private static int CalcAcessorTop(IControlAccessor? prevAccessor) =>
-        (prevAccessor is not null
-            ? prevAccessor.Bottom
-            : 4
-        ) 
-        + 4;
+    private static short CalcAcessorTop(IControlAccessor? prevAccessor) =>
+        OxSH.Add(
+            OxSH.IfElse(
+                prevAccessor is not null,
+                prevAccessor!.Bottom,
+                4
+            ),
+            4
+        );
 
     private void CreateCategoriesPanel(IDAOSettings settings)
     {
@@ -403,17 +407,19 @@ public partial class SettingsForm : OxDialog
             if (!settings.Helper.WithoutLabel(setting))
                 maxLabelWidth = Math.Max(
                     maxLabelWidth,
-                    ((OxLabel)settingsControls[settings][setting].Control.Tag).Width
+                    ((OxLabel)settingsControls[settings][setting].Control.Tag!).Width
                 );
 
             lastAccessor = settingsControls[settings][setting];
         }
 
         foreach (string setting in settingList)
-            settingsControls[settings][setting].Control.Left = 
-                settings.Helper.WithoutLabel(setting) 
-                    ? 8 
-                    : (maxLabelWidth + 24);
+            settingsControls[settings][setting].Control.Left =
+                OxSH.IfElse(
+                    settings.Helper.WithoutLabel(setting),
+                    8,
+                    maxLabelWidth + 24
+                );
 
         frame.Size = new(
             frame.Width,

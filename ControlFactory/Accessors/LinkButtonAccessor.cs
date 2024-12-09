@@ -1,36 +1,36 @@
-﻿using OxDAOEngine.ControlFactory.Context;
+﻿using OxLibrary.Interfaces;
+using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.Controls.Links;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
 
-namespace OxDAOEngine.ControlFactory.Accessors
+namespace OxDAOEngine.ControlFactory.Accessors;
+
+public class LinkButtonAccessor<TField, TDAO> : ControlAccessor<TField, TDAO>
+    where TField : notnull, Enum
+    where TDAO : RootDAO<TField>, new()
 {
-    public class LinkButtonAccessor<TField, TDAO> : ControlAccessor<TField, TDAO>
-        where TField : notnull, Enum
-        where TDAO : RootDAO<TField>, new()
-    {
-        public LinkButtonAccessor(IBuilderContext<TField, TDAO> context) : base(context) { }
+    public LinkButtonAccessor(IBuilderContext<TField, TDAO> context) : base(context) { }
 
-        protected override Control CreateControl() =>
-            new LinkButton(string.Empty, string.Empty);
+    protected override IOxControl CreateControl() =>
+        new LinkButton(string.Empty, string.Empty);
 
-        protected override ValueAccessor CreateValueAccessor() =>
-            new LinkButtonValueAccessor<TField>();
+    protected override ValueAccessor CreateValueAccessor() =>
+        new LinkButtonValueAccessor<TField>();
 
-        public override bool IsEmpty =>
-            base.IsEmpty 
-            || Value is null 
-            || Value.ToString() is null
-            || Value.ToString()!.Equals(string.Empty);
+    public override bool IsEmpty =>
+        base.IsEmpty 
+        || Value is null 
+        || Value.ToString() is null
+        || Value.ToString()!.Equals(string.Empty);
 
-        public LinkButton ButtonControl =>
-            (LinkButton)Control;
+    public LinkButton ButtonControl =>
+        (LinkButton)Control;
 
-        protected override void UnAssignValueChangeHanlderToControl(EventHandler? value) { }
+    protected override void UnAssignValueChangeHanlderToControl(EventHandler? value) { }
 
-        protected override void AssignValueChangeHanlderToControl(EventHandler? value) { }
+    protected override void AssignValueChangeHanlderToControl(EventHandler? value) { }
 
-        public override void Clear() =>
-            Value = string.Empty;
-    }
+    public override void Clear() =>
+        Value = string.Empty;
 }

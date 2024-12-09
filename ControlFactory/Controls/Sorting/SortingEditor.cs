@@ -5,6 +5,7 @@ using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Sorting;
 using OxDAOEngine.Data.Types;
 using OxLibrary;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -33,7 +34,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldControl.Top = 8;
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             FieldControl.Height = 24;
-            FieldControl.Width = FormPanel.Width - FieldControl.Left - 8;
+            FieldControl.Width = OxSH.Sub(FormPanel.Width, FieldControl.Left + 8);
             FieldControl.Control.BackColor = Colors.Lighter(7);
             FieldControl.Context.Initializer = new FieldsInitializer<TField>(ControlScope.Sorting);
         }
@@ -43,8 +44,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             DirectionControl = Context.Builder.Accessor<SortOrder>();
             DirectionControl.Parent = this;
             DirectionControl.Left = 80;
-            DirectionControl.Top = FieldControl!.Bottom + 8;
-            FieldControl.Width = FormPanel.Width - FieldControl.Left - 8;
+            DirectionControl.Top = OxSH.Add(FieldControl!.Bottom, 8);
+            FieldControl.Width = OxSH.Sub(FormPanel.Width, FieldControl.Left + 8);
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             FieldControl.Height *= 3;
         }

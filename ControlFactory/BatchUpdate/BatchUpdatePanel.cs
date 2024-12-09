@@ -54,7 +54,7 @@ public class BatchUpdatePanel<TField, TDAO> :
         controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
         countLabel.Parent = this;
         countLabel.Top = OxSH.Sub(Height, 30);
-        ControlPainter.ColorizeControlOx(countLabel, BaseColor);
+        ControlPainter.ColorizeControl(countLabel, BaseColor);
         FieldAccessor = (FieldAccessor<TField, TDAO>)controlBuilder[TypeHelper.FieldHelper<TField>().FieldMetaData];
         PrepareFieldAccessor();
         Text = BatchUpdateTitle;
@@ -73,7 +73,7 @@ public class BatchUpdatePanel<TField, TDAO> :
         PlacedControl<TField> PlacedFieldsControl = LayoutFieldControl();
         ControlPainter.ColorizeControl(PlacedFieldsControl.Control, BaseColor);
         valueLabel.Parent = this;
-        valueLabel.Top = (short)(PlacedFieldsControl.Control.Bottom + 16);
+        valueLabel.Top = OxSH.Add(PlacedFieldsControl.Control.Bottom, 16);
         valueLabel.Left = (short)PlacedFieldsControl.LabelLeft;
         ControlPainter.ColorizeControl(valueLabel, BaseColor);
 
@@ -137,10 +137,10 @@ public class BatchUpdatePanel<TField, TDAO> :
     {
         ValueLayout.Field = FieldAccessor.EnumValue;
         CurrentValueControl = ValueAccessor.LayoutControl(ValueLayout);
-        CurrentValueControl.Control.Width =
-            CurrentValueControl.Control is OxSpinEdit
-            ? 80
-            : FieldAccessor.Width;
+        CurrentValueControl.Control.Width = OxSH.IfElse(
+            CurrentValueControl.Control is OxSpinEdit, 80, FieldAccessor.Width
+        );
+
         ControlPainter.ColorizeControl(CurrentValueControl.Control, BaseColor);
         OxControlHelper.AlignByBaseLine(CurrentValueControl.Control, valueLabel);
         valueLabel.Visible = true;

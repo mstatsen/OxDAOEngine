@@ -4,6 +4,7 @@ using OxLibrary.Interfaces;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.Data.Types;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory;
 
@@ -12,7 +13,7 @@ public class ControlLayout<TField>
 {
     public readonly short Space = 8;
     public TField Field { get; set; } = default!;
-    public Control? Parent { get; set; }
+    public IOxBox? Parent { get; set; }
     public short Left { get; set; }
     public short Top { get; set; }
     public short Width { get; set; }
@@ -69,7 +70,7 @@ public class ControlLayout<TField>
     public void RecalcLabel(PlacedControl<TField> control) =>
         CalcLabel(control?.Label, control?.Control);
 
-    public PlacedControl<TField> ApplyLayout(Control control)
+    public PlacedControl<TField> ApplyLayout(IOxControl control)
     {
         ApplyLayoutToControl(control);
         control.Tag = ApplyLayoutToLabel(null, control);
@@ -82,7 +83,7 @@ public class ControlLayout<TField>
         return new PlacedControl<TField> (control, label, this);
     }
 
-    private void ApplyLayoutToControl(Control control)
+    private void ApplyLayoutToControl(IOxControl control)
     {
         if (control is null)
             return;
@@ -101,14 +102,14 @@ public class ControlLayout<TField>
 
         control.Visible = Visible;
         control.ForeColor = FontColor;
-        control.Dock = OxDockHelper.Dock(Dock);
+        control.Dock = Dock;
         control.Font = new(FontFamily, FontSize, FontStyle);
         control.AutoSize = AutoSize;
         control.Anchor = Anchors;
         SetControlBackColor(control);
     }
 
-    private void SetControlBackColor(Control control)
+    private void SetControlBackColor(IOxControl control)
     {
         if (BackColor.Equals(Color.Transparent) 
             && Parent is not null)
@@ -133,7 +134,7 @@ public class ControlLayout<TField>
         }
     }
 
-    private OxLabel? ApplyLayoutToLabel(OxLabel? label, Control control)
+    private OxLabel? ApplyLayoutToLabel(OxLabel? label, IOxControl control)
     {
         if (label is null)
             label = ControlLayout<TField>.CreateLabel();
@@ -191,7 +192,7 @@ public class ControlLayout<TField>
         label.ForeColor = new OxColorHelper(label.ForeColor).HLighter().Bluer();
     }
 
-    private void CalcLabel(OxLabel? label, Control? control)
+    private void CalcLabel(OxLabel? label, IOxControl? control)
     {
         if (label is null)
             return;
@@ -202,19 +203,19 @@ public class ControlLayout<TField>
         label.AutoSize = true;
         label.Visible = 
             Visible 
-                && CaptionVariant is not ControlCaptionVariant.None; 
+            && CaptionVariant is not ControlCaptionVariant.None; 
 
         switch (CaptionVariant)
         {
             case ControlCaptionVariant.Left:
-                label.Left = (short)(Left - label.Width - Space);
+                label.Left = OxSH.Sub(Left, label.Width + Space);
 
                 if (control is not null)
                     OxControlHelper.AlignByBaseLine(control, label);
                 break;
             case ControlCaptionVariant.Top:
-                label.Left = (short)(Left - 2);
-                label.Top = (short)(Top - 13);
+                label.Left = OxSH.Sub(Left, 2);
+                label.Top = OxSH.Sub(Top, 13);
                 break;
             case ControlCaptionVariant.None:
                 label.Text = string.Empty;

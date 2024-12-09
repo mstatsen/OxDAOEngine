@@ -7,7 +7,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         where TField: Enum
         where TDAO : RootDAO<TField>, new()
     {
-        Control Control { get; }
+        IOxControl Control { get; }
         bool ReadOnly { get; set; }
         EventHandler? ItemEdited { get; set; }
         TDAO? OwnerDAO { get; set; }

@@ -1,8 +1,9 @@
-﻿using OxLibrary.Controls;
+﻿using OxLibrary;
+using OxLibrary.Controls;
+using OxLibrary.Interfaces;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
-using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -11,7 +12,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         where TDAO : RootDAO<TField>, new()
     {
         public TextAccessor(IBuilderContext<TField, TDAO> context) : base(context) { }
-        protected override Control CreateControl() => 
+        protected override IOxControl CreateControl() => 
             new OxTextBox
             {
                 Font = OxStyles.DefaultFont
@@ -21,18 +22,16 @@ namespace OxDAOEngine.ControlFactory.Accessors
             new TextBoxValueAccessor();
 
         protected override void AssignValueChangeHanlderToControl(EventHandler? value) => 
-            TextBox.TextChanged += value;
+            Control.TextChanged += value;
 
         protected override void UnAssignValueChangeHanlderToControl(EventHandler? value) => 
-            TextBox.TextChanged -= value;
+            Control.TextChanged -= value;
 
         public override void Clear() => 
             Value = string.Empty;
 
-        public OxTextBox TextBox => 
-            (OxTextBox)Control;
-
         public override bool IsEmpty =>
-            base.IsEmpty || StringValue.Trim().Equals(string.Empty);
+            base.IsEmpty
+            || StringValue.Trim().Equals(string.Empty);
     }
 }

@@ -1,10 +1,12 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Forms;
+using OxLibrary.Interfaces;
 using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Filter;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory.Controls;
 
@@ -64,7 +66,7 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
 
     protected virtual void PrepareControlColors() 
     {
-        foreach (Control control in FormPanel.Controls)
+        foreach (IOxControl control in FormPanel.OxControls)
             if (control is not OxLabel)
                 ControlPainter.ColorizeControl(
                     control,
@@ -110,13 +112,13 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
         bool rightLabel = false) =>
         CreateLabel(caption, accessor.Control, rightLabel);
 
-    private OxLabel CreateLabel(string caption, Control control, bool rightLabel = false) => 
+    private OxLabel CreateLabel(string caption, IOxControl control, bool rightLabel = false) => 
         OxControlHelper.AlignByBaseLine(control,
             new OxLabel()
             {
                 Parent = this,
                 AutoSize = true,
-                Left = (short)((rightLabel ? control.Right : 0) + 8),
+                Left = OxSH.Add(OxSH.IfElseZero(rightLabel, control.Right), 8),
                 Text = caption,
                 Font = OxStyles.DefaultFont
             }

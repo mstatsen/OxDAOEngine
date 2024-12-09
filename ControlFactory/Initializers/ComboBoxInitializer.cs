@@ -1,10 +1,10 @@
-﻿namespace OxDAOEngine.ControlFactory.Initializers
+﻿using OxLibrary.Interfaces;
+
+namespace OxDAOEngine.ControlFactory.Initializers;
+
+public class ComboBoxInitializer : IComboBoxInitializer
 {
-    public class ComboBoxInitializer : IComboBoxInitializer
-    {
-        public virtual bool AvailableValue(object value) => true;
+    public virtual bool AvailableValue(object value) => true;
 
-        public virtual void InitControl(Control control) { }
-
-    }
+    public virtual void InitControl(IOxControl control) { }
 }

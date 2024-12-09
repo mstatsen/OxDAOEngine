@@ -4,6 +4,8 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxLibrary;
 using OxLibrary.Controls;
+using OxLibrary.Geometry;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory.Accessors;
 
@@ -11,7 +13,7 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
     where TField : notnull, Enum
     where TDAO : RootDAO<TField>, new()
 {
-    private Control control = default!;
+    private IOxControl control = default!;
     protected ValueAccessor ValueAccessor { get; private set; } = default!;
     private EventHandler? valueChangeHandler;
 
@@ -62,8 +64,8 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
         Control.Height = EngineStyles.DefaultControlHeight;
         Control.SizeChanged += ControlSizeChangeHandler;
         Control.LocationChanged += ControlLocationChangeHandler;
-        Control.TextChanged += ControlTextChangedHandler;
         Control.ParentChanged += ControlParentChangedHandler;
+        Control.TextChanged += ControlTextChangedHandler;
         Control.BackColorChanged += ControlBackColorChangedHandler;
         Control.FontChanged += ControlFontChangedHandler;
         Control.ForeColorChanged += ControlForeColorChangedHandler;
@@ -169,9 +171,9 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
 
     private bool visible = true;
     protected abstract ValueAccessor CreateValueAccessor();
-    protected abstract Control CreateControl();
+    protected abstract IOxControl CreateControl();
 
-    protected virtual Control? CreateReadOnlyControl() => new OxTextBox()
+    protected virtual IOxControl? CreateReadOnlyControl() => new OxTextBox()
     { 
         Font = new(Control.Font.FontFamily, Control.Font.Size+1),
         BorderStyle = BorderStyle.None,
@@ -179,7 +181,7 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
         ReadOnly = true
     };
 
-    public Control? ReadOnlyControl { get; private set; }
+    public IOxControl? ReadOnlyControl { get; private set; }
 
     protected virtual void AfterControlsCreated() { }
 
@@ -261,7 +263,7 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
     public Guid GuidValue => 
         Guid.Parse(StringValue);
 
-    public Control Control => control;
+    public IOxControl Control => control;
 
     public bool Enabled
     {
@@ -290,49 +292,49 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
     protected virtual bool GetReadOnly() =>
         readOnly;
 
-    public int Left
+    public short Left
     {
         get => Control.Left;
         set => Control.Left = value;
     }
 
-    public int Right
+    public short Right
     {
-        get => Left + Width;
-        set => Left = value - Width;
+        get => OxSH.Add(Left, Width);
+        set => Left = OxSH.Sub(value, Width);
     }
 
-    public int Top
+    public short Top
     {
         get => Control.Top;
         set => Control.Top = value;
     }
 
-    public int Bottom
+    public short Bottom
     {
-        get => Top + Height;
-        set => Top = value - Height;
+        get => OxSH.Add(Top, Height);
+        set => Top = OxSH.Sub(value, Height);
     }
 
-    public int Width
+    public short Width
     {
         get => Control.Width;
         set => Control.Width = value;
     }
 
-    public int Height
+    public short Height
     {
         get => Control.Height;
         set => Control.Height = value;
     }
 
-    public Control? Parent
+    public IOxBox? Parent
     {
         get => Control.Parent;
         set => Control.Parent = value;
     }
 
-    public DockStyle Dock
+    public OxDock Dock
     {
         get => Control.Dock;
         set => Control.Dock = value;

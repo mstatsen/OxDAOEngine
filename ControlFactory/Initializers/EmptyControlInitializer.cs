@@ -1,7 +1,8 @@
-﻿namespace OxDAOEngine.ControlFactory.Initializers
+﻿using OxLibrary.Interfaces;
+
+namespace OxDAOEngine.ControlFactory.Initializers;
+
+public class EmptyControlInitializer : IInitializer
 {
-    public class EmptyControlInitializer : IInitializer
-    {
-        public virtual void InitControl(Control control) { }
-    }
+    public virtual void InitControl(IOxControl control) { }
 }

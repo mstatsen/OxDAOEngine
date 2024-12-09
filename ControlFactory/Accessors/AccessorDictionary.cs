@@ -4,6 +4,7 @@ using OxLibrary.Interfaces;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory.Accessors;
 
@@ -13,10 +14,10 @@ public class AccessorDictionary<TField, TDAO> : Dictionary<object, IControlAcces
 {
     public void AlignAccessors()
     {
-        int maxLeft = 0;
+        short maxLeft = 0;
 
         foreach (IControlAccessor accessor in Values)
-            maxLeft = Math.Max(maxLeft, accessor.Left);
+            maxLeft = OxSH.Max(maxLeft, accessor.Left);
 
         foreach (IControlAccessor accessor in Values)
             accessor.Left = maxLeft;
@@ -28,14 +29,14 @@ public class AccessorDictionary<TField, TDAO> : Dictionary<object, IControlAcces
         base.Clear();
     }
 
-    private const int HorizontalSpace = 28;
+    private const short HorizontalSpace = 28;
 
-    public IControlAccessor CreateAccessor(TField field, object key, Control parent, 
+    public IControlAccessor CreateAccessor(TField field, object key, IOxBox parent, 
         string? caption, object value, OxSize location)
     {
         OxLabel captionLabel = new()
         {
-            Parent = (IOxBox)parent,
+            Parent = parent,
             Left = location.Width,
             Text = caption is null ? string.Empty : caption,
             Font = OxStyles.Font(FontStyle.Italic),
@@ -66,7 +67,7 @@ public class AccessorDictionary<TField, TDAO> : Dictionary<object, IControlAcces
                 $"{typeof(TField).Name}_{typeof(TDAO).Name}_AD{caption!}", 
                 FieldType.Label
             );
-        accessor.Left = captionLabel.Right + HorizontalSpace;
+        accessor.Left = OxSH.Add(captionLabel.Right, HorizontalSpace);
         accessor.Top = location.Height;
         accessor.Parent = parent;
         accessor.Value = value;

@@ -1,6 +1,7 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Forms;
+using OxLibrary.Interfaces;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.ControlFactory.Accessors;
@@ -16,7 +17,6 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Export;
 using OxDAOEngine.Grid;
 using OxDAOEngine.Settings.Export;
-using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.Settings;
 
@@ -151,7 +151,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
                 fileControl.Top = (short)(categoryControl.Bottom + 8);
                 
             }
-            OxControlHelper.AlignByBaseLineOx(fileControl, (OxLabel)fileControl.Tag);
+            OxControlHelper.AlignByBaseLine(fileControl, (OxLabel)fileControl.Tag);
             CalcFrameSize(GeneralPanel);
         }
 
@@ -392,10 +392,10 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
 
             control.Left = (short)(label.Right + 12);
             control.Tag = label;
-            OxControlHelper.AlignByBaseLineOx(control, label);
+            OxControlHelper.AlignByBaseLine(control, label);
         }
 
-        ControlPainter.ColorizeControlOx(control, baseColor);
+        ControlPainter.ColorizeControl(control, baseColor);
         framesControls.Add(control);
     }
 
@@ -410,7 +410,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         return 0;
     }
 
-    private void SetupGeneralControl(Control control, Color baseColor, string caption = "") =>
+    private void SetupGeneralControl(IOxControl control, Color baseColor, string caption = "") =>
         SetupControl((IOxControl)control, GeneralPanel, null, baseColor, caption);
 
     private void CalcExtraPanelSize(OxFrame frame)

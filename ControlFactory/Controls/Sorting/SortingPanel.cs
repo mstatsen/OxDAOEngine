@@ -23,7 +23,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Sorting
 
             sortingControlAccessor = DataManager.Builder<TField, TDAO>(Scope).SortingListAccessor();
             sortingControlAccessor.Parent = this;
-            sortingControlAccessor.Dock = DockStyle.Fill;
+            sortingControlAccessor.Dock = OxDock.Fill;
             sortingControlAccessor.Value = sortings;
             sortingControlAccessor.ValueChangeHandler += ChangeSortingHandler;
 

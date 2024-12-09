@@ -1,7 +1,9 @@
-﻿namespace OxDAOEngine.ControlFactory.Initializers
+﻿using OxLibrary.Interfaces;
+
+namespace OxDAOEngine.ControlFactory.Initializers
 {
     public interface IInitializer
     {
-        void InitControl(Control control);
+        void InitControl(IOxControl control);
     }
 }

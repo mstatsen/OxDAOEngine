@@ -5,6 +5,7 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data.Fields;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.Editor
 {
@@ -46,7 +47,7 @@ namespace OxDAOEngine.Editor
 
         private void PrepareControlColors() 
         {
-            foreach (Control control in FormPanel.Controls)
+            foreach (IOxControl control in FormPanel.OxControls)
                 if (control is not OxLabel)
                     ControlPainter.ColorizeControl(
                         control,

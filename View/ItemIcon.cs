@@ -7,6 +7,8 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.View.Types;
+using OxLibrary.Interfaces;
+using OxLibrary.ControlsManaging;
 
 namespace OxDAOEngine.View
 {
@@ -193,7 +195,7 @@ namespace OxDAOEngine.View
             if (Mapping is not null)
                 foreach (IconMapping<TField> mapping in Mapping)
                 {
-                    Control? control = layouter.PlacedControl(mapping.Field)?.Control;
+                    IOxControl? control = layouter.PlacedControl(mapping.Field)?.Control;
 
                     if (control is not null)
                         placedControls.Add(control);
@@ -240,7 +242,7 @@ namespace OxDAOEngine.View
 
         private void SetClickHandlers()
         {
-            foreach (Control control in placedControls)
+            foreach (IOxControl control in placedControls)
             {
                 SetClickHandler(control);
                 SetHoverHandlers(control);
@@ -249,7 +251,7 @@ namespace OxDAOEngine.View
 
         private void RecolorControls()
         {
-            foreach (Control control in placedControls)
+            foreach (IOxControl control in placedControls)
                 control.BackColor = BackColor;
         }
 
@@ -293,7 +295,7 @@ namespace OxDAOEngine.View
         private TDAO? item;
         private readonly OxColorHelper fontColors;
         private readonly ControlBuilder<TField, TDAO> builder;
-        private readonly List<Control> placedControls = new();
+        private readonly OxControlList placedControls = new();
         private readonly IconSizeHelper sizeHelper = TypeHelper.Helper<IconSizeHelper>();
         private readonly ControlLayouter<TField, TDAO> layouter;
     }

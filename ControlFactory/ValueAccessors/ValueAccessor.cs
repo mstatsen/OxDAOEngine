@@ -1,16 +1,17 @@
-﻿namespace OxDAOEngine.ControlFactory.ValueAccessors
+﻿using OxLibrary.Interfaces;
+
+namespace OxDAOEngine.ControlFactory.ValueAccessors;
+
+public abstract class ValueAccessor
 {
-    public abstract class ValueAccessor
-    {
-        private Control control = default!;
+    private IOxControl control = default!;
 
-        public abstract object? GetValue();
-        public abstract void SetValue(object? value);
+    public abstract object? GetValue();
+    public abstract void SetValue(object? value);
 
-        public void SetControl(Control valueControl) =>
-            control = valueControl;
+    public void SetControl(IOxControl valueControl) =>
+        control = valueControl;
 
-        public Control Control =>
-            control;
-    }
+    public IOxControl Control =>
+        control;
 }

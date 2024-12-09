@@ -1,26 +1,26 @@
 ﻿using OxLibrary.Controls;
+using OxLibrary.Interfaces;
 using OxDAOEngine.ControlFactory.Initializers;
 using OxDAOEngine.Data;
 using OxDAOEngine.Settings.Data;
 using OxDAOEngine.View.Types;
 
-namespace OxDAOEngine.Settings.ControlFactory.Initializers
+namespace OxDAOEngine.Settings.ControlFactory.Initializers;
+
+public class IconContentPartInitializer<TField> : TypedComboBoxInitializer<IconContent>
+    where TField : notnull, Enum
 {
-    public class IconContentPartInitializer<TField> : TypedComboBoxInitializer<IconContent>
-        where TField : notnull, Enum
+    public ListDAO<IconMapping<TField>>? ExistingMappings;
+
+    public override void InitControl(IOxControl control)
     {
-        public ListDAO<IconMapping<TField>>? ExistingMappings;
+        OxComboBox ComboBox = (OxComboBox)control;
 
-        public override void InitControl(Control control)
-        {
-            OxComboBox ComboBox = (OxComboBox)control;
-
-            if (ComboBox.Items.Count > 0)
-                ComboBox.SelectedIndex = 0;
-        }
-
-        public override bool AvailableValue(IconContent value) =>
-            ExistingMappings is null
-            || !ExistingMappings.Contains(p => p.Part.Equals(value));
+        if (ComboBox.Items.Count > 0)
+            ComboBox.SelectedIndex = 0;
     }
+
+    public override bool AvailableValue(IconContent value) =>
+        ExistingMappings is null
+        || !ExistingMappings.Contains(p => p.Part.Equals(value));
 }

@@ -29,7 +29,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
 
             fieldsAccessor = DataManager.Builder<TField, TDAO>(variantHelper.Scope(Variant)).FieldListAccessor(Variant);
             fieldsAccessor.Parent = this;
-            fieldsAccessor.Dock = DockStyle.Fill;
+            fieldsAccessor.Dock = OxDock.Fill;
 
             FieldsControl<TField, TDAO> fieldsControl = (FieldsControl<TField, TDAO>)fieldsAccessor.Control;
             fieldsControl.BaseColor = BaseColor;

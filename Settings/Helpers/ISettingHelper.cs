@@ -10,7 +10,7 @@ namespace OxDAOEngine.Settings.Helpers
         List<string> VisibleItems { get; }
         List<string> ItemsByPart(SettingsPart part);
         string Name(string value);
-        int ControlWidth(string setting);
+        short ControlWidth(string setting);
         bool IsDAOSetting(string setting);
         bool WithoutLabel(string setting);
     }

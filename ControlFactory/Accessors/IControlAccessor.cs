@@ -1,5 +1,6 @@
 ﻿using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
+using OxLibrary;
 using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory.Accessors
@@ -9,7 +10,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         event EventHandler ValueChangeHandler;
         IAccessorContext Context { get; }
         IControlAccessor Init();
-        Control Control { get; }
+        IOxControl Control { get; }
         void ClearValueConstraints();
         void Clear();
         void RenewControl(bool hardReset = false);
@@ -26,22 +27,22 @@ namespace OxDAOEngine.ControlFactory.Accessors
         string Text { get; set; }
         object? MaximumValue { get; set; }
         object? MinimumValue { get; set; }
-        Control? Parent { get; set; }
+        IOxBox? Parent { get; set; }
         bool Visible { get; set; }
         bool Enabled { get; set; }
         bool ReadOnly { get; set; }
-        int Left { get; set; }
-        int Right { get; set; }
-        int Top { get; set; }
-        int Bottom { get; set; }
-        int Width { get; set; }
-        int Height { get; set; }
-        DockStyle Dock { get; set; }
+        short Left { get; set; }
+        short Right { get; set; }
+        short Top { get; set; }
+        short Bottom { get; set; }
+        short Width { get; set; }
+        short Height { get; set; }
+        OxDock Dock { get; set; }
         AnchorStyles Anchor { get; set; }
         string SingleStringValue { get; }
         Guid GuidValue { get; }
         void SetDefaultValue();
 
-        Control? ReadOnlyControl { get; }
+        IOxControl? ReadOnlyControl { get; }
     }
 }

@@ -119,7 +119,7 @@ namespace OxDAOEngine.Settings.Helpers
                    and not DAOSetting.QuickFilterPinned
                    and not DAOSetting.QuickFilterExpanded;
 
-        public override int ControlWidth(DAOSetting setting) =>
+        public override short ControlWidth(DAOSetting setting) =>
             setting switch
             {
                 DAOSetting.IconClickVariant => 

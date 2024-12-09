@@ -1,15 +1,14 @@
-﻿using OxLibrary.Controls;
+﻿using OxLibrary.Interfaces;
 
-namespace OxDAOEngine.ControlFactory.Initializers
+namespace OxDAOEngine.ControlFactory.Initializers;
+
+public class CheckBoxInitializer : EmptyControlInitializer
 {
-    public class CheckBoxInitializer : EmptyControlInitializer
-    {
-        private readonly string Caption;
+    private readonly string Caption;
 
-        public CheckBoxInitializer(string caption) => 
-            Caption = caption;
-        
-        public override void InitControl(Control control) => 
-            ((OxCheckBox)control).Text = Caption;
-    }
+    public CheckBoxInitializer(string caption) => 
+        Caption = caption;
+    
+    public override void InitControl(IOxControl control) => 
+        control.Text = Caption;
 }

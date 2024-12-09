@@ -11,6 +11,7 @@ using OxDAOEngine.Settings;
 using OxDAOEngine.Data.Filter.Types;
 using OxDAOEngine.Settings.Part;
 using OxDAOEngine.Data.Fields.Types;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -398,7 +399,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 FilterTextControl.RecalcLabel();
             }
 
-            int delta;
+            short delta;
 
             if (QuickFilterFields.Count > 0)
             {
@@ -408,10 +409,10 @@ namespace OxDAOEngine.ControlFactory.Filter
                 if (temlpateLabel is not null 
                     && textControlLabel is not null)
                     textControlLabel.Left =
-                        (short)(
-                            textControlLabel.Left < 0
-                                ? temlpateLabel.Left 
-                                : temlpateLabel.Right - textControlLabel.Width
+                        OxSH.IfElse(
+                            textControlLabel.Left < 0,
+                            temlpateLabel.Left,
+                            temlpateLabel.Right - textControlLabel.Width
                         );
 
                 foreach (TField field in QuickFilterFields)
@@ -433,7 +434,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 if (temlpateLabel is not null)
                 {
-                    delta = temlpateLabel.Left - 4;
+                    delta = OxSH.Sub(temlpateLabel.Left, 4);
 
                     if (delta < 0)
                     {
@@ -447,10 +448,10 @@ namespace OxDAOEngine.ControlFactory.Filter
                             placedControl.Control.Left -= delta;
 
                             if (placedControl.Label is not null)
-                                placedControl.Label.Left -= (short)delta;
+                                placedControl.Label.Left -= delta;
                         }
 
-                        calcedWidth += (short)delta;
+                        calcedWidth += delta;
                     }
                 }
 
@@ -472,8 +473,10 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             if (FilterTextControl is not null)
                 FilterTextControl.Control.Width =
-                    Layouter[QuickFilterFields.Last()]!.Right
-                    - FilterTextControl.Control.Left;
+                    OxSH.Sub(
+                        Layouter[QuickFilterFields.Last()]!.Right,
+                        FilterTextControl.Control.Left
+                    );
         }
 
         private void SetTextFilterBorder()

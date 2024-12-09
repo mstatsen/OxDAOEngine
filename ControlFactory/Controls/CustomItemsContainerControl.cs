@@ -6,6 +6,7 @@ using OxDAOEngine.Data.Filter;
 using OxLibrary.Handlers;
 using OxLibrary.Interfaces;
 using OxLibrary.ControlList;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -316,7 +317,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
                 button.Left = ButtonSpace;
                 button.Top = calcedTop;
-                calcedTop = (short)(button.Bottom + ButtonSpace);
+                calcedTop = OxSH.Add(button.Bottom, ButtonSpace);
             }
         }
 
@@ -401,7 +402,7 @@ namespace OxDAOEngine.ControlFactory.Controls
                 list.Add(((TItem)item).GetCopy<TItem>());
         }
 
-        protected override Control GetControl() => ItemsContainer.AsControl();
+        protected override IOxControl GetControl() => ItemsContainer.AsControl();
 
         protected override void ClearValue()
         {

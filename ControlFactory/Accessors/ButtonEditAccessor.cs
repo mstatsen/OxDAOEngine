@@ -1,61 +1,61 @@
-﻿using OxDAOEngine.ControlFactory.Context;
+﻿using OxLibrary.Controls;
+using OxLibrary.Interfaces;
+using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
-using OxLibrary.Controls;
 
-namespace OxDAOEngine.ControlFactory.Accessors
+namespace OxDAOEngine.ControlFactory.Accessors;
+
+public class ButtonEditAccessor<TField, TDAO, TItems, TItem, TListControl> 
+    : CustomControlAccessor<TField, TDAO, TListControl, TItems>
+    where TField : notnull, Enum
+    where TDAO : RootDAO<TField>, new()
+    where TItems : ListDAO<TItem>, new()
+    where TItem : DAO, new()
+    where TListControl : CustomItemsControl<TField, TDAO, TItems, TItem>, new()
 {
-    public class ButtonEditAccessor<TField, TDAO, TItems, TItem, TListControl> 
-        : CustomControlAccessor<TField, TDAO, TListControl, TItems>
-        where TField : notnull, Enum
-        where TDAO : RootDAO<TField>, new()
-        where TItems : ListDAO<TItem>, new()
-        where TItem : DAO, new()
-        where TListControl : CustomItemsControl<TField, TDAO, TItems, TItem>, new()
+    public ButtonEditAccessor(IBuilderContext<TField, TDAO> context): base(context) { }
+
+    protected override IOxControl CreateControl() => 
+        new ButtonEdit<TField, TDAO, TItems, TItem, TListControl>(Context);
+
+    public ButtonEdit<TField, TDAO, TItems, TItem, TListControl> ButtonEditControl =>
+        (ButtonEdit<TField, TDAO, TItems, TItem, TListControl>)Control;
+
+    public TItems? FixedItems
     {
-        public ButtonEditAccessor(IBuilderContext<TField, TDAO> context): base(context) { }
+        get => ButtonEditControl.FixedItems;
+        set => ButtonEditControl.FixedItems = value;
+    }
 
-        protected override Control CreateControl() => 
-            new ButtonEdit<TField, TDAO, TItems, TItem, TListControl>(Context);
+    protected override void InitControl()
+    {
+        base.InitControl();
+        ButtonEditControl.ValueChangeHandler += ControlValueChangedHandler;
+    }
 
-        public ButtonEdit<TField, TDAO, TItems, TItem, TListControl> ButtonEditControl =>
-            (ButtonEdit<TField, TDAO, TItems, TItem, TListControl>)Control;
+    private void ControlValueChangedHandler(object? sender, EventArgs e) => 
+        OnControlValueChanged(Value);
 
-        public TItems? FixedItems
-        {
-            get => ButtonEditControl.FixedItems;
-            set => ButtonEditControl.FixedItems = value;
-        }
+    protected override ValueAccessor CreateValueAccessor() =>
+        new CustomButtonControlValueAccessor<TField, TDAO, 
+            ButtonEdit<TField, TDAO, TItems, TItem, TListControl>, TItems, TItem, TListControl>();
 
-        protected override void InitControl()
-        {
-            base.InitControl();
-            ButtonEditControl.ValueChangeHandler += ControlValueChangedHandler;
-        }
+    protected override void UnAssignValueChangeHanlderToControl(EventHandler? value) { }
 
-        private void ControlValueChangedHandler(object? sender, EventArgs e) => 
-            OnControlValueChanged(Value);
+    protected override void AssignValueChangeHanlderToControl(EventHandler? value) { }
 
-        protected override ValueAccessor CreateValueAccessor() =>
-            new CustomButtonControlValueAccessor<TField, TDAO, 
-                ButtonEdit<TField, TDAO, TItems, TItem, TListControl>, TItems, TItem, TListControl>();
+    public override void Clear() =>
+        Value = null;
 
-        protected override void UnAssignValueChangeHanlderToControl(EventHandler? value) { }
+    protected override IOxControl? CreateReadOnlyControl()
+    {
+        OxTextBox? readOnlyControl = (OxTextBox?)base.CreateReadOnlyControl();
 
-        protected override void AssignValueChangeHanlderToControl(EventHandler? value) { }
+        if (readOnlyControl is not null)
+            readOnlyControl.ScrollBars = ScrollBars.None;
 
-        public override void Clear() =>
-            Value = null;
-
-        protected override Control? CreateReadOnlyControl()
-        {
-            OxTextBox? readOnlyControl = (OxTextBox?)base.CreateReadOnlyControl();
-
-            if (readOnlyControl is not null)
-                readOnlyControl.ScrollBars = ScrollBars.None;
-
-            return readOnlyControl;
-        }
+        return readOnlyControl;
     }
 }

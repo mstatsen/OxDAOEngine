@@ -4,6 +4,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Links;
 using OxLibrary;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory.Controls
 {
@@ -30,7 +31,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             NameControl.Parent = this;
             NameControl.Left = 60;
             NameControl.Top = 8;
-            NameControl.Width = FormPanel.Width - NameControl.Left - 8;
+            NameControl.Width = OxSH.Sub(FormPanel.Width, NameControl.Left + 8);
             NameControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             NameControl.Height = 24;
             CreateLabel("Name", NameControl);
@@ -41,8 +42,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             UrlControl = Context.Accessor("Link:Url", FieldType.Memo, true);
             UrlControl.Parent = this;
             UrlControl.Left = 60;
-            UrlControl.Top = NameControl.Bottom + 8;
-            UrlControl.Width = FormPanel.Width - UrlControl.Left - 8;
+            UrlControl.Top = OxSH.Add(NameControl.Bottom, 8);
+            UrlControl.Width = OxSH.Sub(FormPanel.Width, UrlControl.Left + 8);
             UrlControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             UrlControl.Height = 90;
             CreateLabel("URL", UrlControl);

@@ -24,7 +24,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             Text = "Categories";
             categoriesAccessor = DataManager.Builder<TField, TDAO>(ControlScope.Category).CategoriesAccessor();
             categoriesAccessor.Parent = this;
-            categoriesAccessor.Dock = DockStyle.Fill;
+            categoriesAccessor.Dock = OxDock.Fill;
 
             CategoriesControl<TField, TDAO> categoriesControl = (CategoriesControl<TField, TDAO>)categoriesAccessor.Control;
             categoriesControl.BaseColor = BaseColor;

@@ -7,6 +7,7 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.View;
 
@@ -88,11 +89,11 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
             Margin.Bottom = 0;
 
         Margin.Top =
-            (short)(Dock is OxDock.Bottom 
-                ? 1
-                : Pinned 
-                    ? 9
-                    : 4);
+            OxSH.IfElse(
+                Dock is OxDock.Bottom ,
+                1,
+                OxSH.IfElse(Pinned, 9, 4)
+            );
 
         Margin.Right = 0;
         Padding.Size = 4;
@@ -239,7 +240,7 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         {
             Headers.TryGetValue(parentPanel, out var header);
 
-            short lastBottom = (short)(header is null ? 0 : 8);
+            short lastBottom = OxSH.IfElseZero(header is not null, 8);
             short maxBottom = lastBottom;
             bool visibleControlsExists = false;
             ControlLayout<TField>? prevLayout = null;
@@ -258,19 +259,26 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
                 {
                     visibleControlsExists = true;
                     placedControl.Control.Top =
-                            lastBottom 
-                            + (prevLayout is not null 
-                                ? layout.Top - prevLayout.Bottom
-                                : 8);
+                        OxSH.Add(
+                            lastBottom,
+                            OxSH.IfElse(
+                                prevLayout is not null,
+                                OxSH.Sub(
+                                    layout.Top,
+                                    OxSH.IfElseZero(prevLayout is not null, prevLayout!.Bottom)
+                                ),
+                                8
+                            )
+                        );
                     OxControlHelper.AlignByBaseLine(placedControl.Control, placedControl.Label!);
-                    lastBottom = (short)placedControl.Control.Bottom;
+                    lastBottom = placedControl.Control.Bottom;
                     maxBottom = Math.Max(maxBottom, lastBottom);
                 }
 
                 prevLayout = layout;
             }
 
-            parentPanel.Height = (short)(maxBottom + 36);
+            parentPanel.Height = OxSH.Add(maxBottom, 36);
             parentPanel.Visible = visibleControlsExists;
             HeaderVisible = visibleControlsExists;
         }
