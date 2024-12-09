@@ -11,6 +11,7 @@ using OxDAOEngine.Summary;
 using OxDAOEngine.View;
 using OxDAOEngine.View.Types;
 using OxDAOEngine.Settings.Part;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine
 {
@@ -92,7 +93,7 @@ namespace OxDAOEngine
 
         private void ActivateSavedView()
         {
-            OxPanel? firstPage = tabControl.Pages.First;
+            IOxPanel? firstPage = tabControl.Pages.First;
 
             if (firstPage is not null)
                 tabControl.TabButtons[firstPage].Margin.Left = 2;
