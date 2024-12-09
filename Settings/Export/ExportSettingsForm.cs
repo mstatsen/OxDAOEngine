@@ -16,6 +16,7 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Export;
 using OxDAOEngine.Grid;
 using OxDAOEngine.Settings.Export;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.Settings;
 
@@ -42,7 +43,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         if (ListController.AvailableQuickFilter)
         { 
             quickFilter!.Parent = FormPanel;
-            quickFilter!.Margin.Horizontal = OxWh.W8;
+            quickFilter!.Margin.Horizontal = 8;
         }
 
         PrepareHTMLControls();
@@ -54,7 +55,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         indentAccessor = Builder.Accessor("XmlIndent", FieldType.Boolean);
         indentAccessor.Text = "Indent XML elements";
         indentAccessor.Value = settings.XML.Indent;
-        SetupControl(indentAccessor.Control, ExportFormat.Xml, null, Colors.Lighter());
+        SetupControl((IOxControl)indentAccessor.Control, ExportFormat.Xml, null, Colors.Lighter());
 
         PrepareTextControls();
 
@@ -66,7 +67,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         PrepareSelectedItemsGrid();
 
         GeneralPanel = CreateFrame("General");
-        GeneralPanel.Margin.Top = OxWh.W8;
+        GeneralPanel.Margin.Top = 8;
 
         formatAccessor = Builder.Accessor<ExportFormat>();
         formatAccessor.Value = settings.Format;
@@ -85,16 +86,16 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         CalcFramesSizes();
         ActualizeFormatSettings();
         SetFooterButtonText(OxDialogButton.OK, "Export");
-        DialogButtonStartSpace = OxWh.W8;
-        DialogButtonSpace = OxWh.W4;
+        DialogButtonStartSpace = 8;
+        DialogButtonSpace = 4;
     }
 
     private void PrepareSelectedItemsPanel()
     {
         selectedItemsPanel.Parent = FormPanel;
-        selectedItemsPanel.Size = new(OxWh.W100, OxWh.W200);
+        selectedItemsPanel.Size = new(100, 200);
         selectedItemsPanel.Visible = false;
-        selectedItemsPanel.Padding.Size = OxWh.W0;
+        selectedItemsPanel.Padding.Size = 0;
     }
 
     private void PrepareSelectedItemsGrid()
@@ -147,10 +148,10 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
             {
                 categoryControl.Visible = true;
                 ((OxLabel)categoryControl.Tag).Visible = true;
-                fileControl.Top = categoryControl.Bottom + 8;
+                fileControl.Top = (short)(categoryControl.Bottom + 8);
                 
             }
-            OxControlHelper.AlignByBaseLine(fileControl, (OxLabel)fileControl.Tag);
+            OxControlHelper.AlignByBaseLineOx(fileControl, (OxLabel)fileControl.Tag);
             CalcFrameSize(GeneralPanel);
         }
 
@@ -182,7 +183,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
             Dock = OxDock.Top,
             Visible = FunctionalPanelVisible.Fixed
         };
-        quickFilter.Margin.Bottom = OxWh.W8;
+        quickFilter.Margin.Bottom = 8;
     }
 
     private OxButtonEdit CreateButtonEdit(string? value, EventHandler? onClick)
@@ -197,7 +198,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         return buttonEdit;
     }
 
-    private static OxPanel CreateExtraPanel(OxWidth height) => new()
+    private static OxPanel CreateExtraPanel(short height) => new()
     {
         Dock = OxDock.Top,
         Height = height
@@ -229,7 +230,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         OxPanel parentPane = format is ExportFormat.Html 
             ? htmlGeneralPanel 
             : textGeneralPanel;
-        SetupControl(accessor.Control, format, parentPane, Colors.Lighter());
+        SetupControl((IOxControl)accessor.Control, format, parentPane, Colors.Lighter());
         return accessor;
     }
 
@@ -241,8 +242,8 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         htmlSortingPanel.Sortings = settings.HTML.Sorting;
         htmlSortingPanel.Parent = htmlsPanel;
         htmlSortingPanel.Dock = OxDock.Right;
-        htmlSortingPanel.Padding.Horizontal = OxWh.W2;
-        htmlSortingPanel.Size = new(OxWh.W168, htmlSortingPanel.Height);
+        htmlSortingPanel.Padding.Horizontal = 2;
+        htmlSortingPanel.Size = new(168, htmlSortingPanel.Height);
         htmlSortingPanel.Visible = FunctionalPanelVisible.Fixed;
     }
 
@@ -251,7 +252,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         IControlAccessor accessor = Builder.Accessor("ZeroSummary", FieldType.Boolean);
         accessor.Value = settings.HTML.ZeroSummary;
         accessor.Text = "Show summary with zero count";
-        SetupControl(accessor.Control, ExportFormat.Html, htmlGeneralPanel, Colors.Lighter());
+        SetupControl((IOxControl)accessor.Control, ExportFormat.Html, htmlGeneralPanel, Colors.Lighter());
         return accessor;
     }
 
@@ -264,12 +265,12 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
             Dock = OxDock.Top,
             BaseColor = BaseColor
         };
-        frame.Margin.Size = OxWh.W8;
-        frame.Margin.Top = OxWh.W0;
-        frame.Padding.Size = OxWh.W8;
+        frame.Margin.Size = 8;
+        frame.Margin.Top = 0;
+        frame.Padding.Size = 8;
 
         if (caledSize)
-            FramesControls.Add(frame, new List<Control>());
+            FramesControls.Add(frame, new List<IOxControl>());
 
         return frame;
     }
@@ -350,8 +351,8 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
     {
         panel.Parent = parent;
         panel.Dock = OxDock.Fill;
-        panel.Margin[ExtraMarginsDock].Size = OxWh.W8;
-        panel.Padding.Horizontal = OxWh.W2;
+        panel.Margin[ExtraMarginsDock].Size = 8;
+        panel.Padding.Horizontal = 2;
     }
 
     private void PrepareGroupByPanel()
@@ -359,17 +360,17 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         groupByPanel.Sortings = settings.Text.Grouping;
         groupByPanel.Parent = textsPanel;
         groupByPanel.Dock = OxDock.Left;
-        groupByPanel.Padding.Horizontal = OxWh.W2;
-        groupByPanel.Size = new(OxWh.W200, groupByPanel.Height);
+        groupByPanel.Padding.Horizontal = 2;
+        groupByPanel.Size = new(200, groupByPanel.Height);
         groupByPanel.Visible = FunctionalPanelVisible.Fixed;
     }
 
-    private void SetupControl(Control control, ExportFormat format, OxPanel? parent, Color baseColor, string caption = "") =>
+    private void SetupControl(IOxControl control, ExportFormat format, OxPanel? parent, Color baseColor, string caption = "") =>
         SetupControl(control, extraSettingsFrames[format], parent, baseColor, caption);
 
-    private void SetupControl(Control control, OxFrame frame, OxPanel? parent, Color baseColor, string caption)
+    private void SetupControl(IOxControl control, OxFrame frame, OxPanel? parent, Color baseColor, string caption)
     {
-        List<Control> framesControls = FramesControls[frame];
+        List<IOxControl> framesControls = FramesControls[frame];
         parent ??= frame;
         control.Top = GetLastControlBottom(frame);
         control.Parent = parent;
@@ -389,28 +390,28 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
                 Font = OxStyles.DefaultFont
             };
 
-            control.Left = OxWh.Int(label.Right) + 12;
+            control.Left = (short)(label.Right + 12);
             control.Tag = label;
-            OxControlHelper.AlignByBaseLine(control, label);
+            OxControlHelper.AlignByBaseLineOx(control, label);
         }
 
-        ControlPainter.ColorizeControl(control, baseColor);
+        ControlPainter.ColorizeControlOx(control, baseColor);
         framesControls.Add(control);
     }
 
-    private int GetLastControlBottom(OxFrame frame)
+    private short GetLastControlBottom(OxFrame frame)
     {
-        List<Control> framesControls = FramesControls[frame];
+        List<IOxControl> framesControls = FramesControls[frame];
 
         for (int i = framesControls.Count - 1; i > -1; i--)
             if (framesControls[i] is not OxPanel)
-                return framesControls[i].Bottom + 8;
+                return (short)(framesControls[i].Bottom + 8);
 
         return 0;
     }
 
     private void SetupGeneralControl(Control control, Color baseColor, string caption = "") =>
-        SetupControl(control, GeneralPanel, null, baseColor, caption);
+        SetupControl((IOxControl)control, GeneralPanel, null, baseColor, caption);
 
     private void CalcExtraPanelSize(OxFrame frame)
     {
@@ -433,46 +434,43 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
     private void CalcFrameSize(OxFrame frame)
     {
         CalcExtraPanelSize(frame);
-        List<Control> frameControls = FramesControls[frame];
+        List<IOxControl> frameControls = FramesControls[frame];
 
         frame.Size = new(
             frame.Width,
-            frame.Equals(extraSettingsFrames[ExportFormat.Html])
-                ? htmlsPanel.Bottom
-                : frame.Equals(extraSettingsFrames[ExportFormat.Text])
-                    ? textsPanel.Bottom
-                    : frameControls.Count > 0
-                        ? OxWh.W(frameControls[^1].Bottom)
-                        : OxWh.W24
-            | frame.Margin.Top
-            | frame.Padding.Top
-            | frame.Padding.Bottom
-            | OxWh.W12
+            (short)
+            (
+                frame.Equals(extraSettingsFrames[ExportFormat.Html])
+                    ? htmlsPanel.Bottom
+                    : frame.Equals(extraSettingsFrames[ExportFormat.Text])
+                        ? textsPanel.Bottom
+                        : frameControls.Count > 0
+                            ? frameControls[^1].Bottom
+                            : 24
+                + frame.Margin.Top
+                + frame.Padding.Vertical
+                + 12
+            )
         );
 
-        OxWidth maxLeft = OxWh.W0;
+        short maxLeft = 0;
 
-        foreach (Control control in frameControls)
-            maxLeft = OxWh.Max(maxLeft, control.Left);
+        foreach (IOxControl control in frameControls)
+            maxLeft = Math.Max(maxLeft, control.Left);
 
-        foreach (Control control in frameControls)
+        foreach (IOxControl control in frameControls)
         {
             if (control is OxCheckBox)
                 continue;
 
-            control.Left = OxWh.Int(maxLeft);
+            control.Left = maxLeft;
             control.Width =
-                OxWh.Int
-                (
-                    OxWh.Sub(
-                        frame.Width,
-                        maxLeft
-                            | frame.Margin.Right
-                            | frame.Margin.Left
-                            | frame.Padding.Right
-                            | OxWh.W12
-                    )
-                );
+                (short)(frame.Width
+                - maxLeft
+                - frame.Margin.Right
+                - frame.Margin.Left
+                - frame.Padding.Right
+                - 12);
         }
     }
 
@@ -506,7 +504,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
             ? htmlGeneralPanel 
             : textGeneralPanel;
 
-        SetupControl(accessor.Control, format, parentPane, BaseColor, "Summary");
+        SetupControl((IOxControl)accessor.Control, format, parentPane, BaseColor, "Summary");
         return accessor;
     }
 
@@ -523,7 +521,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         foreach (OxFrame frame in extraSettingsFrames.Values)
             if (frame.Visible)
             {
-                FormPanel.Size = new(OxWh.W720, frame.Bottom);
+                FormPanel.Size = new(720, frame.Bottom);
                 break;
             }
     }
@@ -535,16 +533,16 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
     { 
         Dock = OxDock.Fill,
     };
-    private readonly OxPanel htmlGeneralPanel = CreateExtraPanel(OxWh.W216);
-    private readonly OxPanel htmlsPanel = CreateExtraPanel(OxWh.W144);
+    private readonly OxPanel htmlGeneralPanel = CreateExtraPanel(216);
+    private readonly OxPanel htmlsPanel = CreateExtraPanel(144);
     private readonly FieldsPanel<TField, TDAO> htmlFieldsPanel = new(FieldsVariant.Html);
     public readonly SortingPanel<TField, TDAO> htmlSortingPanel = new(SortingVariant.Export, ControlScope.Html);
     private readonly EnumAccessor<TField, TDAO, ExportSummaryType> htmlSummaryAccessor;
     private readonly IControlAccessor htmlIncludeParamsAccessor;
     private readonly IControlAccessor zeroSummaryAccessor;
 
-    private readonly OxPanel textsPanel = CreateExtraPanel(OxWh.W144);
-    private readonly OxPanel textGeneralPanel = CreateExtraPanel(OxWh.W84);
+    private readonly OxPanel textsPanel = CreateExtraPanel(144);
+    private readonly OxPanel textGeneralPanel = CreateExtraPanel(84);
     private readonly FieldsPanel<TField, TDAO> inlineFieldsPanel = new(FieldsVariant.Inline);
     public readonly SortingPanel<TField, TDAO> groupByPanel = new(SortingVariant.GroupBy, ControlScope.Grouping);
     private readonly EnumAccessor<TField, TDAO, ExportSummaryType> textSummaryAccessor;
@@ -559,6 +557,6 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
     private readonly OxFrame GeneralPanel;
     private readonly Dictionary<ExportFormat, OxFrame> extraSettingsFrames = new();
     private CategoriesTree<TField, TDAO>? categoriesTree;
-    private readonly Dictionary<OxFrame, List<Control>> FramesControls = new();
+    private readonly Dictionary<OxFrame, List<IOxControl>> FramesControls = new();
     private readonly IListController<TField, TDAO> ListController = DataManager.ListController<TField, TDAO>();
 }

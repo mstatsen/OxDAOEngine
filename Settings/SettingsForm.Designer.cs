@@ -35,9 +35,9 @@ namespace OxDAOEngine.Settings
             // SettingsForm
             // 
             ClientSize = new(349, 0);
-            Location = new OxPoint(OxWh.W0, OxWh.W0);
-            MaximumSize = new OxSize(OxWh.W349, OxWh.W0);
-            MinimumSize = new OxSize(OxWh.W349, OxWh.W0);
+            Location = new OxPoint(0, 0);
+            MaximumSize = new OxSize(349, 0);
+            MinimumSize = new OxSize(349, 0);
             Name = "SettingsForm";
             Text = "Settings";
             Shown += SettingsForm_Shown;

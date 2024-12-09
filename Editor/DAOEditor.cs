@@ -38,13 +38,13 @@ namespace OxDAOEngine.Editor
                 Header.AddButton(prevButton);
                 Header.AddButton(nextButton);
                 FieldHelper<TField> fieldHelper = DataManager.FieldHelper<TField>();
-                OxIconButton idButton = new(OxIcons.Key, OxWh.W28)
+                OxIconButton idButton = new(OxIcons.Key, 28)
                 {
                     ToolTipText = $"View {fieldHelper.Name(fieldHelper.UniqueField)}"
                 };
                 idButton.Click += (s, e) => uniqueKeyViewer.View(Item, this);
                 Header.AddButton(idButton);
-                HeaderHeight = OxWh.W35;
+                HeaderHeight = 35;
             }
             finally
             {
@@ -108,20 +108,20 @@ namespace OxDAOEngine.Editor
 
         protected virtual void SetFrameMargin(TFieldGroup group, OxFrame frame)
         {
-            frame.Margin.Left = OxWh.W8;
-            frame.Margin.Top = OxWh.W8;
-            frame.Margin.Right = OxWh.W0;
-            frame.Margin.Bottom = OxWh.W0;
+            frame.Margin.Left = 8;
+            frame.Margin.Top = 8;
+            frame.Margin.Right = 0;
+            frame.Margin.Bottom = 0;
         }
 
         private static readonly IListController<TField, TDAO> listController 
             = DataManager.ListController<TField, TDAO>();
 
-        protected OxIconButton prevButton = new(OxIcons.Up, OxWh.W28)
+        protected OxIconButton prevButton = new(OxIcons.Up, 28)
         {
             ToolTipText = $"Prevous {listController.ItemName}"
         };
-        protected OxIconButton nextButton = new(OxIcons.Down, OxWh.W28)
+        protected OxIconButton nextButton = new(OxIcons.Down, 28)
         {
             ToolTipText = $"Next {listController.ItemName}"
         };
@@ -373,23 +373,23 @@ namespace OxDAOEngine.Editor
         protected virtual OxPanel? GroupParent(TFieldGroup group) 
             => FormPanel;
 
-        protected OxWidth CalcedWidth(OxPanel parentControl)
+        protected short CalcedWidth(OxPanel parentControl)
         {
-            OxWidth result = 0;
+            short result = 0;
 
             foreach (TFieldGroup group in Groups.Keys)
                 if (parentControl.Equals(GroupParent(group)))
-                    result = OxWh.Max(result, Groups.Width(group));
+                    result = Math.Max(result, Groups.Width(group));
 
             return result;
         }
 
-        protected OxWidth CalcedHeight(OxPanel parentControl)
+        protected short CalcedHeight(OxPanel parentControl)
         {
-            OxWidth result = 0;
+            short result = 0;
 
             foreach (OxFrame container in GroupParents[parentControl].Cast<OxFrame>())
-                result |= container.Visible ? container.Height : OxWh.W0;
+                result += (short)(container.Visible ? container.Height : 0);
 
             return result;
         }

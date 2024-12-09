@@ -29,18 +29,18 @@ namespace OxDAOEngine.ControlFactory
         {
             get => 
                 Label is not null 
-                    ? OxWh.Int(Label.Left)
+                    ? Label.Left
                     : int.MaxValue;
             set
             {
                 if (Label is not null)
-                    Label.Left = OxWh.W(value);
+                    Label.Left = (short)value;
             }
         }
 
         public int LabelRight =>
             Label is not null 
-                ? OxWh.Int(Label.Right) 
+                ? Label.Right
                 : 0;
 
         public PlacedControl(Control control, OxLabel? label, ControlLayout<TField> layout)

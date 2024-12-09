@@ -40,9 +40,9 @@ namespace OxDAOEngine.Editor
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new(1225, 636);
-            this.Location = new OxPoint(OxWh.W0, OxWh.W0);
-            this.MaximumSize = new OxSize(1225, OxWh.W636);
-            this.MinimumSize = new OxSize(1225, OxWh.W636);
+            this.Location = new OxPoint(0, 0);
+            this.MaximumSize = new OxSize(1225, 636);
+            this.MinimumSize = new OxSize(1225, 636);
             this.Name = "AbstractEditor";
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

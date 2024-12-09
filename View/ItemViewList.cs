@@ -19,14 +19,14 @@ namespace OxDAOEngine.View
                 ? this[0]
                 : null;
 
-        public OxWidth Bottom
+        public short Bottom
         {
             get
             {
                 IItemView<TField, TDAO>? last = Last;
-                return last is null
-                    ? OxWh.W0
-                    : last.Bottom | OxWh.W24;
+                return (short)(last is null
+                    ? 0
+                    : last.Bottom | 24);
             }
         }
 

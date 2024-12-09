@@ -81,22 +81,22 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
 
     private void SetSizes()
     {
-        Margin.Size = OxWh.W2;
-        Margin[OxDockHelper.Opposite(Dock)].Size = OxWh.W0;
+        Margin.Size = 2;
+        Margin[OxDockHelper.Opposite(Dock)].Size = 0;
 
         if (Dock is OxDock.Right)
-            Margin.Bottom = OxWh.W0;
+            Margin.Bottom = 0;
 
-        Margin.Top = 
-            Dock is OxDock.Bottom 
-                ? OxWh.W1
+        Margin.Top =
+            (short)(Dock is OxDock.Bottom 
+                ? 1
                 : Pinned 
-                    ? OxWh.W9
-                    : OxWh.W4;
+                    ? 9
+                    : 4);
 
-        Margin.Right = OxWh.W0;
-        Padding.Size = OxWh.W4;
-        HeaderHeight = OxWh.W36;
+        Margin.Right = 0;
+        Padding.Size = 4;
+        HeaderHeight = 36;
     }
 
     protected override void OnPinnedChanged(PinnedChangedEventArgs e) =>
@@ -158,11 +158,11 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
     protected void ClearLayoutTemplate()
     {
         Layouter.Template.Parent = this;
-        Layouter.Template.Left = OxWh.W0;
-        Layouter.Template.Top = OxWh.W8;
+        Layouter.Template.Left = 0;
+        Layouter.Template.Top = 8;
         Layouter.Template.CaptionVariant = ControlCaptionVariant.Left;
         Layouter.Template.WrapLabel = true;
-        Layouter.Template.MaximumLabelWidth = OxWh.W80;
+        Layouter.Template.MaximumLabelWidth = 80;
         Layouter.Template.BackColor = Color.Transparent;
         Layouter.Template.FontColor = FontColors.BaseColor;
         Layouter.Template.FontStyle = FontStyle.Bold;
@@ -239,8 +239,8 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         {
             Headers.TryGetValue(parentPanel, out var header);
 
-            OxWidth lastBottom = header is null ? OxWh.W0 : OxWh.W8;
-            OxWidth maxBottom = lastBottom;
+            short lastBottom = (short)(header is null ? 0 : 8);
+            short maxBottom = lastBottom;
             bool visibleControlsExists = false;
             ControlLayout<TField>? prevLayout = null;
 
@@ -258,22 +258,19 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
                 {
                     visibleControlsExists = true;
                     placedControl.Control.Top =
-                        OxWh.Int(
                             lastBottom 
-                            | (prevLayout is not null 
-                                ? OxWh.Sub(layout.Top, prevLayout.Bottom) 
-                                : OxWh.W8
-                            )
-                        );
+                            + (prevLayout is not null 
+                                ? layout.Top - prevLayout.Bottom
+                                : 8);
                     OxControlHelper.AlignByBaseLine(placedControl.Control, placedControl.Label!);
-                    lastBottom = OxWh.W(placedControl.Control.Bottom);
-                    maxBottom = OxWh.Max(maxBottom, lastBottom);
+                    lastBottom = (short)placedControl.Control.Bottom;
+                    maxBottom = Math.Max(maxBottom, lastBottom);
                 }
 
                 prevLayout = layout;
             }
 
-            parentPanel.Height = maxBottom | OxWh.W36;
+            parentPanel.Height = (short)(maxBottom + 36);
             parentPanel.Visible = visibleControlsExists;
             HeaderVisible = visibleControlsExists;
         }

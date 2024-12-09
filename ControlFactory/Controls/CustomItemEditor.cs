@@ -88,14 +88,14 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
 
     protected virtual void RecalcSize() => 
         Size = new(
-            OxWh.Int(ContentWidth),
-            OxWh.Int(ContentHeight | (FirstLoad ? OxWh.W0 : OxWh.W6))
+            ContentWidth,
+            (short)(ContentHeight + (FirstLoad ? 0 : 6))
         );
 
     protected virtual void CreateControls() { }
 
-    protected virtual OxWidth ContentWidth => OxWh.W400;
-    protected virtual OxWidth ContentHeight => OxWh.W240;
+    protected virtual short ContentWidth => 400;
+    protected virtual short ContentHeight => 240;
 
     public TItem? Add()
     {
@@ -116,7 +116,7 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
             {
                 Parent = this,
                 AutoSize = true,
-                Left = OxWh.Add(OxWh.W(rightLabel ? control.Right : 0), OxWh.W8),
+                Left = (short)((rightLabel ? control.Right : 0) + 8),
                 Text = caption,
                 Font = OxStyles.DefaultFont
             }

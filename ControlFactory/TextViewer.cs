@@ -11,7 +11,7 @@ namespace OxDAOEngine.ControlFactory
             OxDialog form = new()
             {
                 DialogButtons = OxDialogButton.OK,
-                MinimumSize = new(OxWh.W800, OxWh.W600),
+                MinimumSize = new(800, 600),
                 Text = caption,
                 BaseColor = baseColor
             };

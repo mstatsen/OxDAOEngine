@@ -37,9 +37,9 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected abstract string ItemName();
 
-        private static readonly OxWidth ButtonSpace = OxWh.W2;
-        private static readonly OxWidth ButtonWidth = OxWh.W28;
-        private static readonly OxWidth ButtonHeight = OxWh.W20;
+        private static readonly short ButtonSpace = 2;
+        private static readonly short ButtonWidth = 28;
+        private static readonly short ButtonHeight = 20;
 
         private TEditor? editor;
 
@@ -294,8 +294,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             ButtonsPanel.Parent = this;
             ButtonsPanel.Dock = OxDock.Right;
-            ButtonsPanel.Width = ButtonWidth | OxWh.Mul(ButtonSpace, 2);
-            _ = new OxPanel(new(OxWh.W1, ButtonSpace))
+            ButtonsPanel.Width = (short)(ButtonWidth + ButtonSpace * 2);
+            _ = new OxPanel(new(1, ButtonSpace))
             {
                 Parent = ButtonsPanel,
                 Dock = OxDock.Top,
@@ -307,7 +307,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void LayoutButtons()
         {
-            OxWidth calcedTop = ButtonSpace;
+            short calcedTop = ButtonSpace;
 
             foreach (OxClickFrame button in Buttons)
             {
@@ -316,7 +316,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
                 button.Left = ButtonSpace;
                 button.Top = calcedTop;
-                calcedTop = button.Bottom | ButtonSpace;
+                calcedTop = (short)(button.Bottom + ButtonSpace);
             }
         }
 
@@ -413,7 +413,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected override void RecalcControls()
         {
             base.RecalcControls();
-            ItemsContainer.Height = OxWh.Int(ControlPanel.Height);
+            ItemsContainer.Height = ControlPanel.Height;
         }
 
         protected override void SetControlColor(Color value)
@@ -457,26 +457,26 @@ namespace OxDAOEngine.ControlFactory.Controls
             SetEditButtonVisible(
                 (!readOnly
                     || ReadonlyMode is not ReadonlyMode.ViewAsReadonly) 
-                && OxWh.Greater(ButtonsPanel.Height, CalcedButtonsHeight)
+                && (ButtonsPanel.Height > CalcedButtonsHeight)
             );
             LayoutButtons();
         }
 
-        private OxWidth CalcedButtonsHeight
+        private short CalcedButtonsHeight
         {
             get
             {
-                OxWidth calcedHeight = 0;
+                int calcedHeight = 0;
 
                 foreach (OxClickFrame button in Buttons)
                     if (button.Visible)
-                        calcedHeight |= button.Height | ButtonSpace;
+                        calcedHeight += button.Height + ButtonSpace;
 
                 if (EditButton is not null 
                     && !EditButton.Visible)
-                    calcedHeight |= EditButton.Height | ButtonSpace;
+                    calcedHeight += EditButton.Height + ButtonSpace;
 
-                return calcedHeight;
+                return (short)calcedHeight;
             }
         }
 

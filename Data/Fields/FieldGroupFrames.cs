@@ -27,22 +27,22 @@ namespace OxDAOEngine.Data.Fields
                 );
         }
 
-        private OxWidth Height(TFieldGroup group)
+        private short Height(TFieldGroup group)
         {
             if (!fieldGroupHelper.IsCalcedHeightGroup(group))
                 return fieldGroupHelper.DefaultGroupHeight(group);
 
             OxFrame groupFrame = this[group];
-            OxWidth height = OxWh.W0;
+            short height = 0;
 
             foreach (Control control in groupFrame.Controls)
                 if (control.Visible)
-                    height = OxWh.Max(control.Bottom, height);
+                    height = Math.Max((short)control.Bottom, height);
 
-            return height | OxWh.W8;
+            return (short)(height + 8);
         }
 
-        public OxWidth Width(TFieldGroup group) => fieldGroupHelper.GroupWidth(group);
+        public short Width(TFieldGroup group) => fieldGroupHelper.GroupWidth(group);
         public OxDock Dock(TFieldGroup group) => fieldGroupHelper.GroupDock(group);
     }
 }

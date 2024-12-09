@@ -39,7 +39,7 @@ namespace OxDAOEngine.Grid
         }
 
         protected override void SetToolBarPaddings() => 
-            Padding.SetSize(OxWh.W4, OxWh.W0, OxWh.W2, OxWh.W2);
+            Padding.SetSize(4, 0, 2, 2);
 
         private bool actionsVisible = true;
         public bool ActionsVisible 

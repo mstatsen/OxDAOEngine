@@ -34,13 +34,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             {
                 if (width is -1)
                 {
-                    result.Width = 
-                        OxWh.Int(
-                            OxWh.Sub(
-                                OxWh.Sub(FormPanel.Width, result.Left), 
-                                OxWh.W8
-                            )
-                        );
+                    result.Width = FormPanel.Width - result.Left - 8;
                     result.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
                 }
                 else
@@ -119,27 +113,14 @@ namespace OxDAOEngine.ControlFactory.Filter
             RecalcSize();
         }
 
-        protected override OxWidth ContentWidth => OxWh.W600;
+        protected override short ContentWidth => 600;
 
-        protected override OxWidth ContentHeight
-        {
-            get
-            {
-                if (IsFilterCategory)
-                {
-                    if (BaseOnChildsControl.BoolValue)
-                        return OxWh.Add(BaseOnChildsControl.Bottom, OxWh.W8);
-
-                    return 
-                        OxWh.Add(
-                            OxWh.Add(BaseOnChildsControl.Bottom, FilterPanel.Height),
-                            OxWh.W4
-                        );
-                }
-                
-                return OxWh.Add(FieldControl.Bottom, OxWh.W8);
-            }
-        }
+        protected override short ContentHeight =>
+            (short)(IsFilterCategory
+                ? BaseOnChildsControl.BoolValue 
+                    ? (BaseOnChildsControl.Bottom + 8) 
+                    : (BaseOnChildsControl.Bottom + FilterPanel.Height + 4)
+                : (FieldControl.Bottom + 8));
 
         protected override void FillControls(Category<TField, TDAO> item)
         {

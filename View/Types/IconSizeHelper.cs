@@ -17,40 +17,40 @@ namespace OxDAOEngine.View.Types
                 _ => string.Empty,
             };
 
-        public OxWidth Width(IconSize size) =>
+        public short Width(IconSize size) =>
             size switch
             {
-                IconSize.Thumbnails => OxWh.W110,
-                IconSize.Small => OxWh.W125,
-                IconSize.Medium => OxWh.W162,
-                IconSize.Large => OxWh.W200,
+                IconSize.Thumbnails => 110,
+                IconSize.Small => 125,
+                IconSize.Medium => 162,
+                IconSize.Large => 200,
                 _ => 0,
             };
 
-        public OxWidth Height(IconSize size) =>
-            size.Equals(IconSize.Thumbnails)
-                ? OxWh.Sub(OxWh.Div(Width(size), 2), OxWh.W3)
-                : OxWh.Mul(OxWh.Div(Width(size), 25), OxWh.W18);
+        public short Height(IconSize size) =>
+            (short)(size.Equals(IconSize.Thumbnails)
+                ? Width(size) / 2 - 3
+                : Width(size) / 25 * 18);
 
-        public OxWidth LeftDelta(IconSize size) =>
+        public short LeftDelta(IconSize size) =>
             size switch
             {
                 IconSize.Thumbnails or
                 IconSize.Small =>
-                    OxWh.W6,
+                    6,
                 IconSize.Medium =>
-                    OxWh.W4,
+                    4,
                 _ =>
-                    OxWh.W0,
+                    0,
             };
 
-        public OxWidth AddInfoWidth(IconSize size) =>
+        public short AddInfoWidth(IconSize size) =>
             size switch
             {
-                IconSize.Small => OxWh.W36,
-                IconSize.Medium => OxWh.W40,
-                IconSize.Large => OxWh.W44,
-                _ => OxWh.W0,
+                IconSize.Small => 36,
+                IconSize.Medium => 40,
+                IconSize.Large => 44,
+                _ => 0,
             };
 
         public float FontSize(IconSize size) =>

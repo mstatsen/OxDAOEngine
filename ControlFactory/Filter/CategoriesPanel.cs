@@ -19,7 +19,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             set => categoriesAccessor.Value = value;
         }
 
-        public CategroiesPanel() : base(new(OxWh.W240, OxWh.W86))
+        public CategroiesPanel() : base(new(240, 86))
         {
             Text = "Categories";
             categoriesAccessor = DataManager.Builder<TField, TDAO>(ControlScope.Category).CategoriesAccessor();

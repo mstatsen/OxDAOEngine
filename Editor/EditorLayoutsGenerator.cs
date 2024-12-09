@@ -80,13 +80,13 @@ namespace OxDAOEngine.Editor
                     ? OxDock.Fill
                     : OxDock.None;
         }
-        public abstract OxWidth Top(TField field);
-        public abstract OxWidth Left(TField field);
-        public virtual OxWidth MaximumLabelWidth(TField field) =>
-            OxWh.W64;
+        public abstract short Top(TField field);
+        public abstract short Left(TField field);
+        public virtual short MaximumLabelWidth(TField field) =>
+            64;
         public virtual bool WrapLabel(TField field) => false;
-        public virtual OxWidth Height(TField field) => OxWh.W28;
-        public abstract OxWidth Width(TField field);
+        public virtual short Height(TField field) => 28;
+        public abstract short Width(TField field);
 
         private void GenerateLayout(TField field)
         {

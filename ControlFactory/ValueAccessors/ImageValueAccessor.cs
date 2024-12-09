@@ -19,14 +19,14 @@ namespace OxDAOEngine.ControlFactory.ValueAccessors
                     intValue > 0 
                         ? OxIcons.Tick 
                         : OxIcons.Cross, 
-                    new OxSize(OxWh.W16, OxWh.W16));
+                    new OxSize(16, 16));
 
             if (value is bool boolValue)
                 value = OxBitmapWorker.BoxingImage(
                     boolValue 
                         ? OxIcons.Tick 
                         : OxIcons.Cross, 
-                    new OxSize(OxWh.W16, OxWh.W16));
+                    new OxSize(16, 16));
 
             Picture.Image = (Image?)value;
         }

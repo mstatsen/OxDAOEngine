@@ -30,7 +30,7 @@ namespace OxDAOEngine.Statistic
                     OxDock.Left
             };
 
-        public int Width(StatisticType type) =>
+        public short Width(StatisticType type) =>
             type switch
             {
                 StatisticType.Total =>

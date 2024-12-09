@@ -361,17 +361,17 @@ namespace OxDAOEngine.Grid
             GridView.Parent = this;
             GridView.RowTemplate.Height = 40;
             PrepareToolBar();
-            Padding.Left = OxWh.W2;
+            Padding.Left = 2;
         }
 
         private void PrepareToolBar()
         {
             ToolBar.Parent = this;
             ToolBar.Dock = OxDock.Top;
-            ToolBar.Margin.Top = OxWh.W0;
-            ToolBar.Margin.Bottom = OxWh.W2;
-            ToolBar.Borders.Right = OxWh.W0;
-            ToolBar.Borders.Left = OxWh.W0;
+            ToolBar.Margin.Top = 0;
+            ToolBar.Margin.Bottom = 2;
+            ToolBar.Borders.Right = 0;
+            ToolBar.Borders.Left = 0;
             ToolBar.AllowEditingActions = false;
         }
 
@@ -629,8 +629,8 @@ namespace OxDAOEngine.Grid
                     value = OxBitmapWorker.BoxingImage(
                         image,
                         new(
-                            OxWh.Int(Width) * (image.Height / GridView.RowTemplate.Height),
-                            GridView.RowTemplate.Height
+                            (short)(Width * (image.Height / GridView.RowTemplate.Height)),
+                            (short)(GridView.RowTemplate.Height)
                         )
                     );
 

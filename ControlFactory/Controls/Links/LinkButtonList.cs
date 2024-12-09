@@ -21,7 +21,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                         break;
                     case ButtonListDirection.Horizontal:
                         Dock = OxDock.Top;
-                        Padding.Top = OxWh.W8;
+                        Padding.Top = 8;
                         break;
                 }
             }
@@ -30,28 +30,28 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         public LinkButtonList() : base() { }
 
         public readonly List<LinkButton> Buttons = new();
-        private readonly OxWidth ButtonSpace = OxWh.W2;
-        private readonly OxWidth ButtonHeight = OxWh.W22;
+        private readonly short ButtonSpace = 2;
+        private readonly short ButtonHeight = 22;
 
-        private OxWidth LastBottom =>
-            Buttons.Count > 0 
+        private short LastBottom =>
+            (short)(Buttons.Count > 0
                 ? Buttons[^1].Bottom
-                : OxWh.W0;
+                : 0);
 
-        private OxWidth LastRight =>
-            Buttons.Count > 0
+        private short LastRight =>
+            (short)(Buttons.Count > 0
                 ? Buttons[^1].Right
-                : OxWh.W0;
+                : 0);
 
-        private OxWidth ButtonLeft() =>
-            Direction is ButtonListDirection.Horizontal
-                ? LastRight | ButtonSpace
-                : OxWh.W0;
+        private short ButtonLeft() =>
+            (short)(Direction is ButtonListDirection.Horizontal
+                ? LastRight + ButtonSpace
+                : 0);
 
-        private OxWidth ButtonTop() =>
-            Direction is ButtonListDirection.Horizontal
-                ? OxWh.W0
-                : LastBottom | ButtonSpace | OxWh.W1;
+        private short ButtonTop() =>
+            (short)(Direction is ButtonListDirection.Horizontal
+                ? 0
+                : LastBottom + ButtonSpace | 1);
 
         public void RecalcButtonsSizeAndPositions()
         {
@@ -63,11 +63,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         {
             if (Direction is ButtonListDirection.Horizontal)
                 foreach (LinkButton button in Buttons)
-                    button.Left = 
-                        OxWh.Mul(
-                            Buttons.IndexOf(button), 
-                            button.Width | ButtonSpace
-                        );
+                    button.Left = (short)(Buttons.IndexOf(button) * (button.Width + ButtonSpace));
         }
 
         private void RecalcButtonsSize()
@@ -115,19 +111,15 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
 
         private void SetButtonSize(LinkButton button)
         {
-            OxWidth calcedWidth =
-                Direction is ButtonListDirection.Vertical
-                    ? OxWh.Sub(Width, button.Borders.Left)
+            short calcedWidth =
+                (short)(Direction is ButtonListDirection.Vertical
+                    ? Width - button.Borders.Left
                     : (Buttons.Count is 0
-                        ? OxWh.W120
-                        : OxWh.Sub(
-                            OxWh.Sub(
-                                OxWh.Min(OxWh.Div(Width, Buttons.Count), OxWh.W120),
-                                OxWh.Mul(ButtonSpace, Buttons.Count - 1)
-                            ),
-                            OxWh.Add(button.Borders.Left, button.Borders.Right)
-                          )
-                      );
+                        ? 120
+                        : Math.Min(Width / Buttons.Count, 120)
+                            - ButtonSpace * (Buttons.Count - 1)
+                            ) 
+                        - (button.Borders.Left + button.Borders.Right));
 
             button.Size = new
             (
@@ -146,14 +138,14 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         }
 
         private void RecalcHeight() =>
-            MinimumSize = new(OxWh.W0, LastBottom | OxWh.W3);
+            MinimumSize = new(0, (short)(LastBottom + 3));
 
         private void RecalcWidth() => 
             MinimumSize = new(
                 OxDockHelper.IsVertical(Dock)
                     ? Width
                     : LastRight,
-                OxWh.W40
+                40
             );
     }
 }

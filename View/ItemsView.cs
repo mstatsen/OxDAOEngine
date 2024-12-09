@@ -182,7 +182,7 @@ namespace OxDAOEngine.View
         private void EndLoading()
         {
             Layouter.Visible = true;
-            Layouter.Size = new(Layouter.Width, Layouter.Height + 1);
+            Layouter.Size = new(Layouter.Width, (short)(Layouter.Height + 1));
             LoadingEnded?.Invoke(this, EventArgs.Empty);
         }
 

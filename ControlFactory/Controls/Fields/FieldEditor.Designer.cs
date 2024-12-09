@@ -35,8 +35,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             // SortingEditor
             // 
             this.ClientSize = new(390, 230);
-            this.MaximumSize = new OxSize(OxWh.W390, OxWh.W230);
-            this.MinimumSize = new OxSize(OxWh.W390, OxWh.W230);
+            this.MaximumSize = new OxSize(390, 230);
+            this.MinimumSize = new OxSize(390, 230);
             this.Name = "FieldEditor";
             this.Text = "Fields";
             this.ResumeLayout(false);

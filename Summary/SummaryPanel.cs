@@ -25,7 +25,7 @@ namespace OxDAOEngine.Summary
             Text = IsGeneralSummaryPanel
                 ? "General"
                 : $"by {TypeHelper.Name(field)}";
-            Padding.HorizontalInt = 24;
+            Padding.Horizontal = 24;
         }
 
         private readonly FieldHelper<TField> FieldHelper = 
@@ -42,17 +42,17 @@ namespace OxDAOEngine.Summary
 
         public void CalcPanelSize()
         {
-            OxWidth maxBottom = OxWh.W0;
+            short maxBottom = 0;
 
             foreach (IControlAccessor accessor in ValueAccessors.Values)
-                maxBottom = OxWh.Max(accessor.Bottom, maxBottom);
+                maxBottom = Math.Max((short)accessor.Bottom, maxBottom);
 
             Header.Size = new(SummaryConsts.CardWidth, SummaryConsts.CardHeaderHeight);
             Size = new(
                 SummaryConsts.CardWidth,
-                OxWh.Max(
-                    SummaryConsts.CardHeight, 
-                    maxBottom | OxWh.Mul(SummaryConsts.CardHeaderHeight, 2)
+                Math.Max(
+                    SummaryConsts.CardHeight,
+                    (short)(maxBottom + SummaryConsts.CardHeaderHeight / 2)
                 )
             );
         }
@@ -63,7 +63,7 @@ namespace OxDAOEngine.Summary
 
             if (IsGeneralSummaryPanel)
             {
-                OxWidth nextTop = CreateAccessors(
+                short nextTop = CreateAccessors(
                     new Dictionary<object, int>()
                     {
                         [$"Total {DataManager.ListController<TField, TDAO>().ListName}"]
@@ -116,11 +116,11 @@ namespace OxDAOEngine.Summary
             Dock = OxDock.Top;
         }
 
-        private OxWidth CreateAccessors(Dictionary<object, int> extraction, TField field, 
-            OxWidth newTop = OxWidth.M | OxWidth.S, int indent = 1)
+        private short CreateAccessors(Dictionary<object, int> extraction, TField field, 
+            short newTop = 12, int indent = 1)
         {
             OxSize nextLocation = new(
-                OxWh.Mul(SummaryConsts.HorizontalSpace, indent), 
+                (short)(SummaryConsts.HorizontalSpace * indent),
                 newTop
             );
 
@@ -134,7 +134,7 @@ namespace OxDAOEngine.Summary
                     extractItem.Value,
                     nextLocation
                 );
-                nextLocation.Height = OxWh.Add(accessor.Bottom, OxWh.Div(SummaryConsts.VerticalSpace, 3));
+                nextLocation.Height = (short)(accessor.Bottom + SummaryConsts.VerticalSpace / 3);
             }
 
             return nextLocation.Height;

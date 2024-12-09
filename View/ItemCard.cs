@@ -12,8 +12,8 @@ namespace OxDAOEngine.View
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
     {
-        protected virtual OxWidth CardHeight => OxWh.W240;
-        protected virtual OxWidth CardWidth => OxWh.W440;
+        protected virtual short CardHeight => 240;
+        protected virtual short CardWidth => 440;
 
         private readonly IListController<TField, TDAO> ListController =
             DataManager.ListController<TField, TDAO>();
@@ -33,9 +33,9 @@ namespace OxDAOEngine.View
             );
             Builder = DataManager.Builder<TField, TDAO>(ControlScope.CardView, true);
             Layouter = Builder.Layouter;
-            Margin.Size = OxWh.W8;
-            Padding.Size = OxWh.W4;
-            HeaderHeight = OxWh.W28;
+            Margin.Size = 8;
+            Padding.Size = 4;
+            HeaderHeight = 28;
             Size = new(CardWidth, CardHeight);
             Icon = ListController.Icon;
         }
@@ -51,15 +51,15 @@ namespace OxDAOEngine.View
 
         private void PrepareEditButton(OxIconButton button, string toolTipText, EventHandler clickHanler)
         {
-            button.Size = new(OxWh.W25, OxWh.W20);
+            button.Size = new(25, 20);
             button.ToolTipText = toolTipText;
             button.Click += clickHanler;
             Header.AddButton(button);
         }
 
         public override Color DefaultColor => EngineStyles.CardColor;
-        private readonly OxIconButton EditButton = new(OxIcons.Pencil, OxWh.W20);
-        private readonly OxIconButton DeleteButton = new(OxIcons.Trash, OxWh.W20);
+        private readonly OxIconButton EditButton = new(OxIcons.Pencil, 20);
+        private readonly OxIconButton DeleteButton = new(OxIcons.Trash, 20);
 
         public override void PrepareColors()
         {
@@ -93,7 +93,7 @@ namespace OxDAOEngine.View
             Layouter.Template.Top = 0;
             Layouter.Template.CaptionVariant = ControlCaptionVariant.Left;
             Layouter.Template.WrapLabel = true;
-            Layouter.Template.MaximumLabelWidth = OxWh.W80;
+            Layouter.Template.MaximumLabelWidth = 80;
             Layouter.Template.BackColor = Color.Transparent;
             Layouter.Template.FontColor = fontColors.BaseColor;
             Layouter.Template.FontStyle = FontStyle.Bold;

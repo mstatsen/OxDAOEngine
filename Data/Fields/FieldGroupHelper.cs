@@ -26,13 +26,13 @@ namespace OxDAOEngine.Data.Fields
         public virtual TGroup EditedGroup(TField field) =>
             Group(field);
 
-        public abstract OxWidth GroupWidth(TGroup group);
+        public abstract short GroupWidth(TGroup group);
 
         public virtual OxDock GroupDock(TGroup group) =>
             OxDock.Top;
 
         public abstract bool IsCalcedHeightGroup(TGroup group);
 
-        public abstract OxWidth DefaultGroupHeight(TGroup group);
+        public abstract short DefaultGroupHeight(TGroup group);
     }
 }

@@ -33,15 +33,15 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldControl.Parent = this;
             FieldControl.Left = 12;
             FieldControl.Top = 12;
-            FieldControl.Width = OxWh.Int(OxWh.Sub(FormPanel.Width, OxWh.W24));
+            FieldControl.Width = FormPanel.Width - 24;
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
         }
 
         protected override void CreateControls() =>
             CreateFieldControl();
 
-        protected override OxWidth ContentWidth => OxWh.W300;
-        protected override OxWidth ContentHeight => OxWh.Add(FieldControl.Bottom, OxWh.W8);
+        protected override short ContentWidth => 300;
+        protected override short ContentHeight => (short)(FieldControl.Bottom + 8);
 
         protected override void FillControls(FieldColumn<TField> item) =>
             FieldControl.Value = item.Field;

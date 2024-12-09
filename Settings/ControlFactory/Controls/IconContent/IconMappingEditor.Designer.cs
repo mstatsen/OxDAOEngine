@@ -35,8 +35,8 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             // IconMappingEditor
             // 
             this.ClientSize = new(404, 327);
-            this.MaximumSize = new OxSize(OxWh.W404, OxWh.W327);
-            this.MinimumSize = new OxSize(OxWh.W404, OxWh.W327);
+            this.MaximumSize = new OxSize(404, 327);
+            this.MinimumSize = new OxSize(404, 327);
             this.Name = "IconMappingEditor";
             this.ResumeLayout(false);
 

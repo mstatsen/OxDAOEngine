@@ -27,7 +27,7 @@ namespace OxDAOEngine.Data.Fields.Types
                 _ => string.Empty,
             };
 
-        public int ButtonWidth(FieldsFilling value) =>
+        public short ButtonWidth(FieldsFilling value) =>
             value switch
             {
                 FieldsFilling.Full or

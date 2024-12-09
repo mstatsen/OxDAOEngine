@@ -20,9 +20,9 @@ namespace OxDAOEngine.Grid
         private readonly OxFrameWithHeader LeftPlace = new();
         private readonly OxFrameWithHeader RightPlace = new();
 
-        private readonly OxIconButton NotEqualsButton = new(OxIcons.NotEqual, OxWh.W54);
-        private readonly OxIconButton LeftToRightButton = new(OxIcons.Right, OxWh.W54);
-        private readonly OxIconButton RightToLeftButton = new(OxIcons.Left, OxWh.W54);
+        private readonly OxIconButton NotEqualsButton = new(OxIcons.NotEqual, 54);
+        private readonly OxIconButton LeftToRightButton = new(OxIcons.Right, 54);
+        private readonly OxIconButton RightToLeftButton = new(OxIcons.Left, 54);
 
         private readonly OxPanel ButtonsPanel = new(new(64, 1));
         private readonly List<TField> EqualFields = new();
@@ -140,33 +140,29 @@ namespace OxDAOEngine.Grid
 
             NotEqualsButton.Parent = ButtonsPanel;
             NotEqualsButton.Click += NotEqualsButtonHandler;
-            NotEqualsButton.Left = OxWh.W4;
-            NotEqualsButton.Size = new(OxWh.W54, OxWh.W38);
+            NotEqualsButton.Left = 4;
+            NotEqualsButton.Size = new(54, 38);
             NotEqualsButton.HiddenBorder = false;
 
             LeftToRightButton.Parent = ButtonsPanel;
             LeftToRightButton.Click += LeftToRightHandler;
-            LeftToRightButton.Left = OxWh.W4;
-            LeftToRightButton.Size = new(OxWh.W54, OxWh.W38);
+            LeftToRightButton.Left = 4;
+            LeftToRightButton.Size = new(54, 38);
             LeftToRightButton.HiddenBorder = false;
 
             RightToLeftButton.Parent = ButtonsPanel;
             RightToLeftButton.Click += RightToLeftHandler;
-            RightToLeftButton.Left = OxWh.W4;
-            RightToLeftButton.Size = new(OxWh.W54, OxWh.W38);
+            RightToLeftButton.Left = 4;
+            RightToLeftButton.Size = new(54, 38);
             RightToLeftButton.HiddenBorder = false;
 
             NotEqualsButton.Top =
-                OxWh.Sub(
-                    OxWh.Sub(
-                        OxWh.Sub(
-                            OxWh.Div(ButtonsPanel.Height, OxWh.W2),
-                            NotEqualsButton.Height),
-                        OxWh.Div(NotEqualsButton.Height, OxWh.W2)),
-                    OxWh.W4
-                );
-            LeftToRightButton.Top = NotEqualsButton.Bottom + 8;
-            RightToLeftButton.Top = LeftToRightButton.Bottom + 8;
+                (short)(ButtonsPanel.Height / 2
+                - NotEqualsButton.Height
+                - NotEqualsButton.Height / 2
+                - 4);
+            LeftToRightButton.Top = (short)(NotEqualsButton.Bottom + 8);
+            RightToLeftButton.Top = (short)(LeftToRightButton.Bottom + 8);
 
             RightPlace.Parent = this;
             RightPlace.Dock = OxDock.Right;
@@ -254,25 +250,18 @@ namespace OxDAOEngine.Grid
         private void RecalcGridsSizes()
         {
             RightPlace.Width =
-                OxWh.Div(
-                    OxWh.Sub(
-                        PanelViewer is not null 
-                            ? PanelViewer.Width
-                            : Width,
-                        ButtonsPanel.Width), 
-                    OxWh.W2
-                );
+                (short)(((PanelViewer is not null
+                        ? PanelViewer.Width
+                        : Width) 
+                        - ButtonsPanel.Width) 
+                    / 2);
             NotEqualsButton.Top =
-                OxWh.Sub(
-                    OxWh.Sub(
-                        OxWh.Sub(
-                            OxWh.Div(ButtonsPanel.Height, OxWh.W2),
-                            NotEqualsButton.Height),
-                        OxWh.Div(NotEqualsButton.Height, OxWh.W2)),
-                    OxWh.W4
-                );
-            LeftToRightButton.Top = NotEqualsButton.Bottom | OxWh.W8;
-            RightToLeftButton.Top = LeftToRightButton.Bottom | OxWh.W8;
+                (short)(ButtonsPanel.Height / 2
+                - NotEqualsButton.Height
+                - NotEqualsButton.Height / 2
+                - 4);
+            LeftToRightButton.Top = (short)(NotEqualsButton.Bottom + 8);
+            RightToLeftButton.Top = (short)(LeftToRightButton.Bottom + 8);
         }
 
         private void ApplySynchronize()

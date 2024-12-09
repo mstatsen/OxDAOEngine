@@ -28,7 +28,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Sorting
             sortingControlAccessor.ValueChangeHandler += ChangeSortingHandler;
 
             PrepareColors();
-            Size = new(OxWh.W240, OxWh.W94);
+            Size = new(240, 94);
         }
 
         public ControlScope Scope { get; set; }
@@ -54,7 +54,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Sorting
         protected override void PrepareInnerComponents()
         {
             base.PrepareInnerComponents();
-            ClearButton.Size = new(OxWh.W80, OxWh.W23);
+            ClearButton.Size = new(80, 23);
             ClearButton.Click += (s, e) => ClearControls();
             Header.AddButton(ClearButton);
         }

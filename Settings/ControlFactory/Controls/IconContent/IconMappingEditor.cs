@@ -42,13 +42,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             ContentPartControl.Parent = this;
             ContentPartControl.Left = 64;
             ContentPartControl.Top = 12;
-            ContentPartControl.Width =
-                OxWh.Int(
-                    OxWh.Sub(
-                        OxWh.Sub(FormPanel.Width, ContentPartControl.Left),
-                        OxWh.W8
-                    )
-                );
+            ContentPartControl.Width = FormPanel.Width - ContentPartControl.Left - 8;
             ContentPartControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             CreateLabel("Part: ", ContentPartControl);
         }
@@ -60,13 +54,7 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             FieldControl.Parent = this;
             FieldControl.Left = ContentPartControl!.Left;
             FieldControl.Top = ContentPartControl.Bottom + 8;
-            FieldControl.Width =
-                OxWh.Int(
-                    OxWh.Sub(
-                        OxWh.Sub(FormPanel.Width, FieldControl.Left),
-                        OxWh.W8
-                    )
-                );
+            FieldControl.Width = FormPanel.Width - FieldControl.Left - 8;
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             CreateLabel("Field: ", FieldControl);
         }
@@ -89,8 +77,8 @@ namespace OxDAOEngine.Settings.ControlFactory.Controls
             item.Field = FieldControl.EnumValue<TField>() ?? default!;
         }
 
-        protected override OxWidth ContentWidth => OxWh.W320;
-        protected override OxWidth ContentHeight => OxWh.Add(FieldControl.Bottom, OxWh.W8);
+        protected override short ContentWidth => 320;
+        protected override short ContentHeight => (short)(FieldControl.Bottom + 8);
 
         protected override string EmptyMandatoryField() =>
             ContentPartControl.IsEmpty 

@@ -34,7 +34,7 @@ namespace OxDAOEngine.Summary
         public SummaryView() : base()
         {
             layouter.PanelsAlign = OxPanelsHorizontalAlign.OneColumn;
-            Borders.Size = OxWh.W0;
+            Borders.Size = 0;
         }
 
         public override Color DefaultColor => EngineStyles.SummaryColor;
@@ -87,10 +87,10 @@ namespace OxDAOEngine.Summary
             IterateSummaryPanels(
                 (panel) =>
                 {
-                    panel.Margin.Horizontal = 
-                        panel.Expanded 
-                            ? OxWh.W12 
-                            : OxWh.W32;
+                    panel.Margin.Horizontal =
+                        (short)(panel.Expanded
+                            ? 12 
+                            : 32);
                     panel.Borders[OxDock.Top].Visible = !prevExpanded;
                     panel.Header.UnderlineVisible = 
                         panel.Expanded 

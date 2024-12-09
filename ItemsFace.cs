@@ -95,7 +95,7 @@ namespace OxDAOEngine
             OxPanel? firstPage = tabControl.Pages.First;
 
             if (firstPage is not null)
-                tabControl.TabButtons[firstPage].Margin.Left = OxWh.W2;
+                tabControl.TabButtons[firstPage].Margin.Left = 2;
 
             tabControl.ActivePage = Views[Settings.CurrentView];
             tabControl.Update();
@@ -108,12 +108,12 @@ namespace OxDAOEngine
                 Parent = tabControlPanel,
                 Dock = OxDock.Fill,
                 Font = OxStyles.DefaultFont,
-                TabHeaderSize = new(OxWh.W84, OxWh.W24),
+                TabHeaderSize = new(84, 24),
                 TabPosition = OxDock.Bottom,
             };
 
-            result.Margin.Size = OxWh.W0;
-            result.Margin.Bottom = OxWh.W1;
+            result.Margin.Size = 0;
+            result.Margin.Bottom = 1;
             result.Borders.SetVisible(OxDock.Left, false);
             result.Borders.SetVisible(OxDock.Right, false);
             return result;
@@ -173,7 +173,7 @@ namespace OxDAOEngine
                 BaseColor = BaseColor,
                 BatchUpdateCompleted = BatchUpdateCompletedHandler
             };
-            result.Padding.Left = OxWh.W2;
+            result.Padding.Left = 2;
 
             if (ListController.AvailableQuickFilter)
                 result.GridFillCompleted += (s, e) => ApplyQuickFilter();
@@ -194,7 +194,7 @@ namespace OxDAOEngine
                 Text = itemsViewsTypeHelper.Name(ItemsViewsType.Summary),
                 BaseColor = new OxColorHelper(EngineStyles.SummaryColor).BaseColor
             };
-            result.Padding.Left = OxWh.W2;
+            result.Padding.Left = 2;
             tabControl.AddPage(result);
             Views.Add(ItemsViewsType.Summary, result);
             return result;
@@ -370,8 +370,8 @@ namespace OxDAOEngine
         {
             loadingPanel.Parent = tabControl;
             loadingPanel.Visible = false;
-            loadingPanel.Margin.Top = OxWh.W4;
-            loadingPanel.Borders.Size = OxWh.W1;
+            loadingPanel.Margin.Top = 4;
+            loadingPanel.Borders.Size = 1;
         }
 
         private void StartLoading(OxPanel? parentPanel = null)
@@ -393,8 +393,8 @@ namespace OxDAOEngine
             quickFilter.Parent = tabControlPanel;
             quickFilter.Dock = OxDock.Top;
             quickFilter.Changed += (s, e) => ApplyQuickFilter();
-            quickFilter.Margin.Size = OxWh.W4;
-            quickFilter.Margin.Bottom = OxWh.W0;
+            quickFilter.Margin.Size = 4;
+            quickFilter.Margin.Bottom = 0;
             quickFilter.RenewFilterControls();
             quickFilter.PinnedChanged += (s, e) => categoriesTree.RecalcPinned();
             quickFilter.VisibleChanged += (s, e) => quickFilter.RecalcPaddings();
@@ -409,11 +409,11 @@ namespace OxDAOEngine
 
             categoriesTree.Parent = this;
             categoriesTree.Dock = OxDock.Left;
-            categoriesTree.Margin.Top = OxWh.W4;
-            categoriesTree.Margin.Left = OxWh.W2;
-            categoriesTree.Margin.Bottom = OxWh.W2;
-            categoriesTree.Margin.Right = OxWh.W0;
-            categoriesTree.Padding.Size = OxWh.W2;
+            categoriesTree.Margin.Top = 4;
+            categoriesTree.Margin.Left = 2;
+            categoriesTree.Margin.Bottom = 2;
+            categoriesTree.Margin.Right = 0;
+            categoriesTree.Padding.Size = 2;
             categoriesTree.Borders[OxDock.Right].Visible = false;
             categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;
             categoriesTree.ActiveCategoryChanged += RenewFilterControls;

@@ -3,11 +3,15 @@ using OxLibrary.Controls;
 using OxLibrary;
 using OxDAOEngine.ControlFactory.Accessors;
 using OxLibrary.Panels;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory
 {
     public static class ControlPainter
     {
+        public static void ColorizeControlOx(IOxControl control, Color baseColor) =>
+            ColorizeControl((Control)control, baseColor);
+
         public static void ColorizeControl(IControlAccessor accessor, Color baseColor) =>
             ColorizeControl(accessor.Control, baseColor);
 

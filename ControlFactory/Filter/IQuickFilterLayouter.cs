@@ -7,7 +7,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         where TField : notnull, Enum
     {
         TField TextFilterContainer { get; }
-        OxWidth FieldWidth(TField field);
+        short FieldWidth(TField field);
         string FieldCaption(TField field, QuickFilterVariant variant);
         bool IsLastLayoutForOneRow(TField field, TField lastField);
     }

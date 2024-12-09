@@ -194,10 +194,10 @@ namespace OxDAOEngine.ControlFactory.Filter
             base.Dispose(disposing);
         }
 
-        protected OxWidth FieldWidth(TField field) => 
-            QuickFilterLayouter is null 
-                ? OxWh.W100
-                : QuickFilterLayouter.FieldWidth(field);
+        protected short FieldWidth(TField field) =>
+            (short)(QuickFilterLayouter is null
+                ? 100
+                : QuickFilterLayouter.FieldWidth(field));
 
         private bool NeedStartNewColumn(int columnControlCount) => 
             Variant switch
@@ -213,12 +213,12 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void PrepareLayouts()
         {
             Layouter.Template.Top =
-                Variant is QuickFilterVariant.Select
+                (short)(Variant is QuickFilterVariant.Select
                         or QuickFilterVariant.Export
-                ? OxWh.W4
-                : OxWh.W0;
+                ? 4
+                : 0);
             Layouter.Template.Left = FirstControlLeft;
-            Layouter.Template.Height = OxWh.W22;
+            Layouter.Template.Height = 22;
             Layouter.Template.Parent = this;
             Layouter.Template.BackColor = BackColor;
             Layouter.Template.FontColor = ForeColor;
@@ -226,10 +226,10 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             bool newColumn;
             bool needVerticalOffset;
-            OxWidth layoutLeft;
-            OxWidth layoutTop;
+            short layoutLeft;
+            short layoutTop;
             int columnControlCount = 0;
-            OxWidth maxColumnWidth = 0;
+            short maxColumnWidth = 0;
             ControlCaptionVariant captionVariant;
             ControlLayout<TField>? layoutForOffsetText = null;
             bool needSetLayoutForOffsetText = true;
@@ -241,7 +241,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                 layoutLeft = Layouter.Template.Left;
                 captionVariant = ControlCaptionVariant.Left;
                 needVerticalOffset = false;
-                layoutTop = OxWh.W0;
+                layoutTop = 0;
                 bool layoutTopSet = false;
 
                 if (Layouter.Count > 0)
@@ -258,7 +258,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                     {
                         newColumn = false;
                         captionVariant = ControlCaptionVariant.None;
-                        layoutLeft = lastLayout.Right + 4;
+                        layoutLeft = (short)(lastLayout.Right + 4);
                         needVerticalOffset = false;
                         columnControlCount--;
                         layoutTop = lastLayout.Top;
@@ -267,7 +267,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                     if (newColumn)
                     {
-                        Layouter.Template.Left = maxColumnWidth + 84;
+                        Layouter.Template.Left = (short)(maxColumnWidth + 84);
                         layoutLeft = Layouter.Template.Left;
                         columnControlCount = 1;
                         maxColumnWidth = 0;
@@ -289,7 +289,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 layout.Width = FieldWidth(field);
                 layout.CaptionVariant = captionVariant;
-                maxColumnWidth = OxWh.Max(maxColumnWidth, layout.Right);
+                maxColumnWidth = Math.Max(maxColumnWidth, layout.Right);
             }
 
             ControlLayout<TField> layoutTextFilter = Layouter.AddFromTemplate(TextFilterContainer);
@@ -305,20 +305,20 @@ namespace OxDAOEngine.ControlFactory.Filter
             else
             {
                 layoutTextFilter.CaptionVariant = ControlCaptionVariant.Left;
-                layoutTextFilter.Left = OxWh.W56;
-                layoutTextFilter.Height = OxWh.W26;
-                layoutTextFilter.Width = OxWh.Sub(Layouter.Last!.Right, layoutTextFilter.Left);
+                layoutTextFilter.Left = 56;
+                layoutTextFilter.Height = 26;
+                layoutTextFilter.Width = (short)(Layouter.Last!.Right - layoutTextFilter.Left);
                 layoutTextFilter.Anchors = AnchorStyles.Top | AnchorStyles.Left;
             }
         }
 
         public void RecalcPaddings() =>
-            Padding.Size = OnlyText ? OxWh.W0 : OxWh.W2;
+            Padding.Size = (short)(OnlyText ? 0 : 2);
 
-        private OxWidth FirstControlLeft =>
-            Variant is QuickFilterVariant.Export
-                ? OxWh.W84
-                : OxWh.W60;
+        private short FirstControlLeft =>
+            (short)(Variant is QuickFilterVariant.Export
+                ? 84
+                : 60);
 
         private void FilterControlsChange(object? sender, EventArgs e)
         {
@@ -379,13 +379,13 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (FilterTextControl is null)
                 return;
 
-            OxWidth calcedWidth = OxWh.Add(FilterTextControl.Control.Right, OxWh.W10);
-            int calcedHeight = 
-                Layouter.Count is 1 
+            short calcedWidth = (short)(FilterTextControl.Control.Right + 10);
+            short calcedHeight =
+                (short)(Layouter.Count is 1
                     ? 40 
-                    : FilterTextControl.Control.Bottom;
+                    : FilterTextControl.Control.Bottom);
             SetTextFilterBorder();
-            calcedHeight += Padding.BottomInt;
+            calcedHeight += Padding.Bottom;
             Size = new(calcedWidth, calcedHeight);
             Width = calcedWidth;
 
@@ -407,9 +407,12 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 if (temlpateLabel is not null 
                     && textControlLabel is not null)
-                    textControlLabel.Left = textControlLabel.Left < 0 
-                        ? temlpateLabel.Left 
-                        : OxWh.Sub(temlpateLabel.Right, textControlLabel.Width);
+                    textControlLabel.Left =
+                        (short)(
+                            textControlLabel.Left < 0
+                                ? temlpateLabel.Left 
+                                : temlpateLabel.Right - textControlLabel.Width
+                        );
 
                 foreach (TField field in QuickFilterFields)
                 {
@@ -430,7 +433,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 if (temlpateLabel is not null)
                 {
-                    delta = OxWh.Int(temlpateLabel.Left) - 4;
+                    delta = temlpateLabel.Left - 4;
 
                     if (delta < 0)
                     {
@@ -444,14 +447,14 @@ namespace OxDAOEngine.ControlFactory.Filter
                             placedControl.Control.Left -= delta;
 
                             if (placedControl.Label is not null)
-                                placedControl.Label.Left -= delta;
+                                placedControl.Label.Left -= (short)delta;
                         }
 
-                        calcedWidth += delta;
+                        calcedWidth += (short)delta;
                     }
                 }
 
-                calcedWidth |= OxWh.W8;
+                calcedWidth |= 8;
                 Size = new(calcedWidth, calcedHeight);
             }
         }
@@ -469,12 +472,8 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             if (FilterTextControl is not null)
                 FilterTextControl.Control.Width =
-                    OxWh.Int(
-                        OxWh.Sub(
-                            Layouter[QuickFilterFields.Last()]!.Right,
-                            FilterTextControl.Control.Left
-                        )
-                    );
+                    Layouter[QuickFilterFields.Last()]!.Right
+                    - FilterTextControl.Control.Left;
         }
 
         private void SetTextFilterBorder()
@@ -543,7 +542,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         protected override void PrepareInnerComponents()
         {
             base.PrepareInnerComponents();
-            ClearButton.Size = new(OxWh.W80, OxWh.W23);
+            ClearButton.Size = new(80, 23);
             ClearButton.Click += (s, e) => ClearControls();
             Header.AddButton(ClearButton);
         }

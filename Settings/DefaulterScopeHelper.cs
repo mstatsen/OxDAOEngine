@@ -13,17 +13,17 @@ namespace OxDAOEngine.Settings
                 _ => "Reset to defaults",
             };
 
-        public OxWidth Width(DefaulterScope scope) => 
+        public short Width(DefaulterScope scope) => 
             scope switch
             {
-                DefaulterScope.CurrentPage => OxWh.W160,
-                _ => OxWh.W86,
+                DefaulterScope.CurrentPage => 160,
+                _ => 86,
             };
 
         public override DefaulterScope EmptyValue() =>
             DefaulterScope.All;
 
-        public readonly OxWidth DefaultButtonHeight = OxWh.W23;
-        public readonly OxWidth DefaultButtonsSpace = OxWh.W4;
+        public readonly short DefaultButtonHeight = 23;
+        public readonly short DefaultButtonsSpace = 4;
     }
 }

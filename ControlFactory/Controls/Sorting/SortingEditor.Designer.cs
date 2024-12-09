@@ -32,8 +32,8 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             this.SuspendLayout();
             this.ClientSize = new(390, 230);
-            this.MaximumSize = new OxSize(OxWh.W390, OxWh.W230);
-            this.MinimumSize = new OxSize(OxWh.W390, OxWh.W230);
+            this.MaximumSize = new OxSize(390, 230);
+            this.MinimumSize = new OxSize(390, 230);
             this.Name = "SortingEditor";
             this.Text = "Sorting";
             this.ResumeLayout(false);

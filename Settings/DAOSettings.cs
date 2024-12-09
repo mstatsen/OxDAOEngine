@@ -388,11 +388,11 @@ namespace OxDAOEngine.Settings
                             ? OxDock.Bottom 
                             : OxDock.Fill
                 };
-            fieldsPanel.Margin.Size = OxWh.W4;
-            fieldsPanel.Padding.Horizontal = OxWh.W2;
+            fieldsPanel.Margin.Size = 4;
+            fieldsPanel.Padding.Horizontal = 2;
 
             if (part is SettingsPart.QuickFilterText)
-                fieldsPanel.Size = new(fieldsPanel.Width, OxWh.W78);
+                fieldsPanel.Size = new(fieldsPanel.Width, 78);
 
             return fieldsPanel;
         }
@@ -485,8 +485,8 @@ namespace OxDAOEngine.Settings
                     Parent = parent,
                     Dock = OxDock.Fill
                 };
-            categoriesPanel.Margin.Size = OxWh.W4;
-            categoriesPanel.Padding.Horizontal = OxWh.W2;
+            categoriesPanel.Margin.Size = 4;
+            categoriesPanel.Padding.Horizontal = 2;
             return categoriesPanel; 
         }
     }

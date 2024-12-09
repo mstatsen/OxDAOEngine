@@ -18,14 +18,14 @@ namespace OxDAOEngine.Grid
         public IMatcher<TField>? Filter { get; set; }
 
         public ItemsViewer(RootListDAO<TField, TDAO>? itemList = null, GridUsage usage = GridUsage.ViewItems)
-            : base(new(1024, OxWh.W768))
+            : base(new(1024, 768))
         {
             Grid = new ItemsRootGrid<TField, TDAO>(itemList, usage)
             {
                 Parent = this,
                 Dock = OxDock.Fill,
             };
-            Grid.Padding.Size = OxWh.W0;
+            Grid.Padding.Size = 0;
             statisticPanel = CreateStatisticPanel();
         }
 

@@ -57,8 +57,8 @@ public partial class SettingsForm : OxDialog
         CreateSettingsTabs();
         CreatePanels();
         CreateControls();
-        DialogButtonStartSpace = OxWh.W8;
-        DialogButtonSpace = OxWh.W4;
+        DialogButtonStartSpace = 8;
+        DialogButtonSpace = 4;
         SetSettingsTabButtonsVisible();
 
         foreach (OxTabControl tabControl in settingsTabs.Values)
@@ -114,32 +114,20 @@ public partial class SettingsForm : OxDialog
 
     private void SetFormSize()
     {
-        OxWidth maximumTabWidth = 
-            OxWh.Mul(
-                tabControl.TabHeaderSize.Width, 
-                tabControl.Pages.Count
-            );
+        int maximumTabWidth = tabControl.TabHeaderSize.Width * tabControl.Pages.Count;
 
         foreach (OxPanel tab in tabControl.Pages.Cast<OxPanel>())
             if (tab is OxTabControl childTabControl)
-                maximumTabWidth = OxWh.Max(
+                maximumTabWidth = (short)Math.Max(
                     maximumTabWidth,
-                    OxWh.Mul(
-                        childTabControl.TabHeaderSize.Width, 
-                        childTabControl.Pages.Count)
+                    childTabControl.TabHeaderSize.Width *
+                        childTabControl.Pages.Count
                 );
 
-        maximumTabWidth = 
-            OxWh.Add(
-                maximumTabWidth, 
-                OxWh.Add(
-                    tabControl.Margin.Horizontal, 
-                    OxWh.W24
-                )
-            );
+        maximumTabWidth += tabControl.Margin.Horizontal + 24;
         Size = new(
-            OxWh.Max(maximumTabWidth, OxWh.W480),
-            OxWh.W488
+            (short)Math.Max(maximumTabWidth, 480),
+            488
         );
         MoveToScreenCenter();
     }
@@ -208,7 +196,7 @@ public partial class SettingsForm : OxDialog
             Text = TypeHelper.Name(part)
         };
 
-        panel.Padding.Size = OxWh.W4;
+        panel.Padding.Size = 4;
         settingsPanels[settings].Add(part, panel);
         settingsPartControls[settings].Add(part, new ControlAccessorList());
         settingsTabs[settings].AddPage(panel);
@@ -283,7 +271,7 @@ public partial class SettingsForm : OxDialog
             OxLabel label = new()
             {
                 Parent = (IOxBox)accessor.Parent,
-                Left = OxWh.Add(OxWh.W12, 150 * columnNum),
+                Left = (short)(150 * columnNum + 12),
                 Font = OxStyles.DefaultFont,
                 Text = $"{settings.Helper.Name(setting)}",
                 Tag = accessor.Control
@@ -386,7 +374,7 @@ public partial class SettingsForm : OxDialog
             Text = text,
             BaseColor = BaseColor
         };
-        frame.Margin.Size = OxWh.W4;
+        frame.Margin.Size = 4;
         frame.HeaderVisible = !text.Equals(string.Empty);
         return frame;
     }
@@ -405,7 +393,7 @@ public partial class SettingsForm : OxDialog
 
         OxFrameWithHeader frame = CreateFrame(settings, part, caption);
         IControlAccessor? lastAccessor = null;
-        OxWidth maxLabelWidth = OxWh.W0;
+        short maxLabelWidth = 0;
 
         foreach (string setting in settingList)
         {
@@ -413,7 +401,7 @@ public partial class SettingsForm : OxDialog
             settingsControls[settings][setting].Top = CalcAcessorTop(lastAccessor);
 
             if (!settings.Helper.WithoutLabel(setting))
-                maxLabelWidth = OxWh.Max(
+                maxLabelWidth = Math.Max(
                     maxLabelWidth,
                     ((OxLabel)settingsControls[settings][setting].Control.Tag).Width
                 );
@@ -425,13 +413,13 @@ public partial class SettingsForm : OxDialog
             settingsControls[settings][setting].Control.Left = 
                 settings.Helper.WithoutLabel(setting) 
                     ? 8 
-                    : OxWh.Int(maxLabelWidth) + 24;
+                    : (maxLabelWidth + 24);
 
         frame.Size = new(
             frame.Width,
-            (lastAccessor is not null ? lastAccessor.Bottom : 0)
+            (short)((lastAccessor is not null ? lastAccessor.Bottom : 0)
             + (!caption.Equals(string.Empty) ? frame.Header.Height : 0)
-            + 16
+            + 16)
         );
 
         return frame;
@@ -446,21 +434,18 @@ public partial class SettingsForm : OxDialog
 
     private void CreateDefaulter(DefaulterScope scope)
     {
-        OxWidth left = OxWh.W4;
+        short left = 4;
 
         foreach (OxButton existButton in defaulters.Keys)
-            left = OxWh.Max(left, existButton.Right);
+            left = Math.Max(left, existButton.Right);
 
         DefaulterScopeHelper helper = TypeHelper.Helper<DefaulterScopeHelper>();
-        left += OxWh.Int(helper.DefaultButtonsSpace);
+        left += helper.DefaultButtonsSpace;
         OxButton button = new(helper.Name(scope), OxIcons.Eraser)
         {
             Parent = Footer,
             BaseColor = BaseColor,
-            Top = OxWh.Div(
-                OxWh.Sub(Footer.Height, helper.DefaultButtonHeight), 
-                OxWh.W2
-            ),
+            Top = (short)((Footer.Height - helper.DefaultButtonHeight) / 2),
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
             Font = OxStyles.Font(-1, FontStyle.Regular),
             Left = left,
@@ -558,10 +543,10 @@ public partial class SettingsForm : OxDialog
         tabControl.Dock = OxDock.Fill;
         tabControl.BaseColor = BaseColor;
         tabControl.Font = OxStyles.DefaultFont;
-        tabControl.TabHeaderSize = new(OxWh.W124, OxWh.W32);
+        tabControl.TabHeaderSize = new(124, 32);
         tabControl.BorderVisible = false;
-        tabControl.Margin.Size = OxWh.W0;
-        tabControl.Margin.Top = OxWh.W8;
+        tabControl.Margin.Size = 0;
+        tabControl.Margin.Top = 8;
     }
 
     private void CreateSettingsTabs()
@@ -574,12 +559,12 @@ public partial class SettingsForm : OxDialog
                 Dock = OxDock.Fill,
                 BaseColor = BaseColor,
                 Font = OxStyles.DefaultFont,
-                TabHeaderSize = new(OxWh.W84, OxWh.W30),
+                TabHeaderSize = new(84, 30),
                 BorderVisible = false,
                 Text = settings.ListName,
             };
-            tab.Margin.Size = OxWh.W0;
-            tab.Margin.Top = OxWh.W8;
+            tab.Margin.Size = 0;
+            tab.Margin.Top = 8;
             tabControl.AddPage(tab, settings.Icon);
             settingsTabs.Add(settings, tab);
             settingsPanels.Add(settings);

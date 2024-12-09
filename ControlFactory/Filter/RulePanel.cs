@@ -23,7 +23,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly EnumAccessor<TField, TDAO, FilterOperation> OperationControl;
         private IControlAccessor? ValueAccessor;
 
-        private readonly OxIconButton RemoveRuleButton = new(OxIcons.Minus, OxWh.W20);
+        private readonly OxIconButton RemoveRuleButton = new(OxIcons.Minus, 20);
 
         public FilterRule<TField> Rule 
         {
@@ -37,12 +37,8 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             RemoveRuleButton.Parent = this;
             RemoveRuleButton.ToolTipText = "Remove rule";
-            RemoveRuleButton.Top = OxWh.W4;
-            RemoveRuleButton.Left =
-                OxWh.Sub(
-                    OxWh.Sub(Width, RemoveRuleButton.Width), 
-                    OxWh.W1
-                );
+            RemoveRuleButton.Top = 4;
+            RemoveRuleButton.Left = (short)(Width - RemoveRuleButton.Width - 1);
             RemoveRuleButton.Anchor = AnchorStyles.Right;
             RemoveRuleButton.Click += RemoveRuleButtonClickHandler;
         }
@@ -87,7 +83,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         public RulePanel(FilterRule<TField> rule, ControlBuilder<TField, TDAO> builder, int groupNumber, int number) 
-            : base(new(OxWh.W1, OxWh.W32))
+            : base(new(1, 32))
         { 
             Builder = builder;
             GroupNumber = groupNumber;

@@ -18,7 +18,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             OxCheckBox checkBox = new()
             {
                 CheckAlign = ContentAlignment.MiddleRight,
-                Width = OxWh.W14
+                Width = 14
             };
             checkBox.CheckedChanged += SetReadOnlyPictureHandler;
             return checkBox;
@@ -51,7 +51,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
         private OxLabel ReadOnlyLabel = default!;
         private readonly OxPicture ReadOnlyPicture = new();
 
-        private readonly OxWidth ReadOnlyPictureSize = OxWh.W16;
+        private readonly short ReadOnlyPictureSize = 16;
 
         protected override Control? CreateReadOnlyControl()
         {
@@ -65,7 +65,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             ReadOnlyPicture.Width = ReadOnlyPictureSize;
             ReadOnlyPicture.MinimumSize = new(ReadOnlyPictureSize, ReadOnlyPictureSize);
             ReadOnlyPicture.Top = 0;
-            ReadOnlyPicture.Left = OxWh.Sub(readOnlyControl.Width, ReadOnlyPictureSize);
+            ReadOnlyPicture.Left = (short)(readOnlyControl.Width - ReadOnlyPictureSize);
             ReadOnlyPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             ReadOnlyPicture.PictureSize = ReadOnlyPictureSize;
             ReadOnlyPicture.Image = OxIcons.Tick;
@@ -75,14 +75,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected override void OnControlSizeChanged()
         {
             base.OnControlSizeChanged();
-            ReadOnlyControl!.Width =
-                OxWh.Int(
-                    OxWh.Sub(
-                        ReadOnlyLabel.Width, 
-                        ReadOnlyPictureSize
-                    )
-                );
-            ReadOnlyControl.Height = OxWh.Int(ReadOnlyPictureSize | OxWh.W2);
+            ReadOnlyControl!.Width = ReadOnlyLabel.Width - ReadOnlyPictureSize;
+            ReadOnlyControl.Height = ReadOnlyPictureSize + 2;
         }
 
         protected override void OnControlFontChanged()

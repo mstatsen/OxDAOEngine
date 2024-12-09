@@ -15,8 +15,8 @@ namespace OxDAOEngine.ControlFactory.Accessors
         protected override Control CreateControl() => 
             new OxPicture
             {
-                Width = OxWh.W160,
-                Height = OxWh.W78,
+                Width = 160,
+                Height = 78,
                 Stretch = true
             };
 

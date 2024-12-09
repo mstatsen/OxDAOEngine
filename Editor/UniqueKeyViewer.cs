@@ -61,7 +61,7 @@ namespace OxDAOEngine.Editor
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            int height = ContentHeight + (firstLoad ? 0 : 6);
+            short height = (short)(ContentHeight + (firstLoad ? 0 : 6));
             Size = new(ContentWidth, height);
 
             if (firstLoad)
@@ -80,9 +80,9 @@ namespace OxDAOEngine.Editor
             ((OxTextBox)uniqueKeyAccessor.ReadOnlyControl!).Multiline = false;
 
             copyButton.Parent = FormPanel;
-            copyButton.Top = OxWh.W8;
-            copyButton.Size = new(OxWh.W64, OxWh.W24);
-            copyButton.Left = OxWh.W336;
+            copyButton.Top = 8;
+            copyButton.Size = new(64, 24);
+            copyButton.Left = 336;
             copyButton.Click += CopyHandler;
         }
 
@@ -92,8 +92,8 @@ namespace OxDAOEngine.Editor
                 Clipboard.SetText(uniqueKeyAccessor.Value.ToString());
         }
 
-        private readonly int ContentWidth = 410;
-        private readonly int ContentHeight = 44;
+        private readonly short ContentWidth = 410;
+        private readonly short ContentHeight = 44;
 
         private IControlAccessor uniqueKeyAccessor = default!;
         private readonly OxButton copyButton = new("Copy", OxIcons.Copy);

@@ -30,13 +30,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             NameControl.Parent = this;
             NameControl.Left = 60;
             NameControl.Top = 8;
-            NameControl.Width =
-                OxWh.Int(
-                    OxWh.Sub(
-                        OxWh.Sub(FormPanel.Width, NameControl.Left),
-                        OxWh.W8
-                    )
-                );
+            NameControl.Width = FormPanel.Width - NameControl.Left - 8;
             NameControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             NameControl.Height = 24;
             CreateLabel("Name", NameControl);
@@ -48,13 +42,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             UrlControl.Parent = this;
             UrlControl.Left = 60;
             UrlControl.Top = NameControl.Bottom + 8;
-            UrlControl.Width =
-                OxWh.Int(
-                    OxWh.Sub(
-                        OxWh.Sub(FormPanel.Width, UrlControl.Left),
-                        OxWh.W8
-                    )
-                );
+            UrlControl.Width = FormPanel.Width - UrlControl.Left - 8;
             UrlControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             UrlControl.Height = 90;
             CreateLabel("URL", UrlControl);
@@ -66,7 +54,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             CreateUrlControl();
         }
 
-        protected override OxWidth ContentHeight => OxWh.Add(UrlControl.Bottom, OxWh.W8);
+        protected override short ContentHeight => (short)(UrlControl.Bottom + 8);
 
         protected override void FillControls(Link<TField> item)
         {

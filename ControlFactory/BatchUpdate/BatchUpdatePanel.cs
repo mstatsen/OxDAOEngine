@@ -49,11 +49,11 @@ public class BatchUpdatePanel<TField, TDAO> :
 
     public BatchUpdatePanel() : base()
     {
-        Size = new(OxWh.W360, OxWh.W120);
+        Size = new(360, 120);
         controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
         countLabel.Parent = this;
-        countLabel.Top = OxWh.Sub(Height, OxWh.W30);
-        ControlPainter.ColorizeControl(countLabel, BaseColor);
+        countLabel.Top = (short)(Height - 30);
+        ControlPainter.ColorizeControlOx(countLabel, BaseColor);
         FieldAccessor = (FieldAccessor<TField, TDAO>)controlBuilder[TypeHelper.FieldHelper<TField>().FieldMetaData];
         PrepareFieldAccessor();
         Text = BatchUpdateTitle;
@@ -72,8 +72,8 @@ public class BatchUpdatePanel<TField, TDAO> :
         PlacedControl<TField> PlacedFieldsControl = LayoutFieldControl();
         ControlPainter.ColorizeControl(PlacedFieldsControl.Control, BaseColor);
         valueLabel.Parent = this;
-        valueLabel.Top = OxWh.Add(PlacedFieldsControl.Control.Bottom, OxWh.W16);
-        valueLabel.Left = OxWh.W(PlacedFieldsControl.LabelLeft);
+        valueLabel.Top = (short)(PlacedFieldsControl.Control.Bottom + 16);
+        valueLabel.Left = (short)PlacedFieldsControl.LabelLeft;
         ControlPainter.ColorizeControl(valueLabel, BaseColor);
 
         if (PlacedFieldsControl.Label is not null)
@@ -87,7 +87,7 @@ public class BatchUpdatePanel<TField, TDAO> :
     {
         ValueLayout.CopyFrom(template);
         ValueLayout.BackColor = Colors.Lighter(6);
-        ValueLayout.Top = OxWh.Add(FieldAccessor.Bottom, OxWh.W8);
+        ValueLayout.Top = (short)(FieldAccessor.Bottom + 8);
         ValueLayout.CaptionVariant = ControlCaptionVariant.None;
     }
 
@@ -97,17 +97,13 @@ public class BatchUpdatePanel<TField, TDAO> :
         {
             Field = TypeHelper.FieldHelper<TField>().FieldMetaData,
             Parent = this,
-            Left = OxWh.W50,
-            Top = OxWh.W12,
-            Height = OxWh.W26,
+            Left = 50,
+            Top = 12,
+            Height = 26,
             Anchors = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right,
         };
 
-        fieldLayout.Width = 
-            OxWh.Sub(
-                OxWh.Sub(Width, fieldLayout.Left), 
-                OxWh.W16
-            );
+        fieldLayout.Width = (short)(Width - fieldLayout.Left - 16);
         return FieldAccessor.LayoutControl(fieldLayout);
     }
 
@@ -176,7 +172,7 @@ public class BatchUpdatePanel<TField, TDAO> :
     {
         Text = "Selected Items: ",
         Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
-        Left = OxWh.W24,
+        Left = 24,
         AutoSize = true,
         Visible = true,
         Font = OxStyles.DefaultFont

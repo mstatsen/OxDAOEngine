@@ -10,13 +10,13 @@ namespace OxDAOEngine.ControlFactory;
 public class ControlLayout<TField>
     where TField : notnull, Enum
 {
-    public readonly OxWidth Space = OxWh.W8;
+    public readonly short Space = 8;
     public TField Field { get; set; } = default!;
     public Control? Parent { get; set; }
-    public OxWidth Left { get; set; }
-    public OxWidth Top { get; set; }
-    public OxWidth Width { get; set; }
-    public OxWidth Height { get; set; }
+    public short Left { get; set; }
+    public short Top { get; set; }
+    public short Width { get; set; }
+    public short Height { get; set; }
     public bool Visible { get; set; }
     public Color BackColor { get; set; }
     public Color FontColor { get; set; }
@@ -29,12 +29,12 @@ public class ControlLayout<TField>
     public bool WrapLabel { get; set; }
     public Color LabelColor { get; set; }
     public FontStyle LabelStyle { get; set; }
-    public OxWidth MaximumLabelWidth { get; set; }
+    public short MaximumLabelWidth { get; set; }
     public bool AutoSize { get; set; }
     public bool SupportClickedLabels { get; set; } = false;
 
-    public OxWidth Right => Left | Width;
-    public OxWidth Bottom => Top | Height;
+    public short Right => (short)(Left + Width);
+    public short Bottom => (short)(Top + Height);
 
     public void Clear()
     {
@@ -42,8 +42,8 @@ public class ControlLayout<TField>
         Parent = null;
         Left = 0;
         Top = 0;
-        Width = OxWh.W100;
-        Height = OxWh.W28;
+        Width = 100;
+        Height = 28;
         Visible = true;
         BackColor = Color.FromKnownColor(KnownColor.Window);
         FontColor = Color.FromKnownColor(KnownColor.WindowText);
@@ -56,7 +56,7 @@ public class ControlLayout<TField>
         FontStyle = FontStyle.Regular;
         LabelColor = Color.FromKnownColor(KnownColor.WindowText);
         LabelStyle = FontStyle.Regular;
-        MaximumLabelWidth = OxWh.W64;
+        MaximumLabelWidth = 64;
         AutoSize = false;
     }
 
@@ -88,15 +88,15 @@ public class ControlLayout<TField>
             return;
 
         control.Parent = Parent;
-        control.Left = OxWh.Int(Left);
-        control.Top = OxWh.Int(Top);
+        control.Left = Left;
+        control.Top = Top;
 
         if (control is OxPanel pane)
             pane.Size = new(Width, Height);
         else
         {
-            control.Width = OxWh.Int(Width);
-            control.Height = OxWh.Int(Height);
+            control.Width = Width;
+            control.Height = Height;
         }
 
         control.Visible = Visible;
@@ -197,7 +197,7 @@ public class ControlLayout<TField>
             return;
 
         if (WrapLabel)
-            label.MaximumSize = new OxSize(MaximumLabelWidth, OxWh.W0);
+            label.MaximumSize = new OxSize(MaximumLabelWidth, 0);
 
         label.AutoSize = true;
         label.Visible = 
@@ -207,14 +207,14 @@ public class ControlLayout<TField>
         switch (CaptionVariant)
         {
             case ControlCaptionVariant.Left:
-                label.Left = Left - label.Width - Space;
+                label.Left = (short)(Left - label.Width - Space);
 
                 if (control is not null)
                     OxControlHelper.AlignByBaseLine(control, label);
                 break;
             case ControlCaptionVariant.Top:
-                label.Left = OxWh.Sub(Left, OxWh.W2);
-                label.Top = OxWh.Sub(Top, OxWh.W13);
+                label.Left = (short)(Left - 2);
+                label.Top = (short)(Top - 13);
                 break;
             case ControlCaptionVariant.None:
                 label.Text = string.Empty;
@@ -258,7 +258,7 @@ public class ControlLayout<TField>
     public void OffsetVertical(ControlLayout<TField>? fixedLayout, int offset)
     {
         if (fixedLayout is not null)
-            Top = fixedLayout.Bottom + offset;
+            Top = (short)(fixedLayout.Bottom + offset);
     }
 
     public void OffsetVertical(ControlLayout<TField>? fixedLayout, bool withMargins = true) =>

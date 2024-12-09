@@ -23,7 +23,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private readonly List<FilterGroupPanel<TField, TDAO>> groupsPanels = new();
         private readonly OxPanel AddGroupButtonParent = new();
         private readonly OxButton AddGroupButton = new("Add group", OxIcons.Plus);
-        private readonly OxIconButton ViewFilterDescription = new(OxIcons.ViewInfo, OxWh.W16)
+        private readonly OxIconButton ViewFilterDescription = new(OxIcons.ViewInfo, 16)
         { 
             ToolTipText = "View filter description"
         };
@@ -31,9 +31,9 @@ namespace OxDAOEngine.ControlFactory.Filter
         public GetCategoryName? GetCategoryName { get; set; }
 
 
-        private OxWidth GroupPanelsHeight()
+        private short GroupPanelsHeight()
         {
-            OxWidth result = 0;
+            short result = 0;
 
             foreach (FilterGroupPanel<TField, TDAO> panel in groupsPanels)
                 result |= panel.Height;
@@ -132,12 +132,12 @@ namespace OxDAOEngine.ControlFactory.Filter
             ConcatControl = CreateConcatControl();
             PrepareAddGroupButton();
             Text = "Filter";
-            Margin.Size = OxWh.W8;
+            Margin.Size = 8;
             //RecalcSize();
         }
 
         /*
-        protected override OxWidth GetCalcedHeight() =>
+        protected override short GetCalcedHeight() =>
             Header.Height
             | Margin.Top
             | Margin.Bottom
@@ -155,11 +155,11 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             AddGroupButton.Parent = AddGroupButtonParent;
             AddGroupButton.Click += AddGroupButtonClickHandler;
-            AddGroupButton.Height = OxWh.W20;
+            AddGroupButton.Height = 20;
             AddGroupButtonParent.Parent = this;
             AddGroupButtonParent.Dock = OxDock.Bottom;
-            AddGroupButtonParent.Padding.Size = OxWh.W8;
-            AddGroupButtonParent.Size = new(OxWh.W1, AddGroupButton.Height);
+            AddGroupButtonParent.Padding.Size = 8;
+            AddGroupButtonParent.Size = new(1, AddGroupButton.Height);
         }
 
         private void AddGroupButtonClickHandler(object? sender, EventArgs e) => 
@@ -193,7 +193,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             result.Width = 108;
             result.Height = 18;
             ConcatControlParent.Parent = this;
-            ConcatControlParent.Size = new(OxWh.W1, result.Height);
+            ConcatControlParent.Size = new(1, (short)result.Height);
             ConcatControlParent.Dock = OxDock.Top;
             return result;
         }
