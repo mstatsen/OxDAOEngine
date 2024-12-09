@@ -1,6 +1,7 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
 using OxLibrary.Forms;
+using OxLibrary.Geometry;
 using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
@@ -52,7 +53,7 @@ public class BatchUpdatePanel<TField, TDAO> :
         Size = new(360, 120);
         controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
         countLabel.Parent = this;
-        countLabel.Top = (short)(Height - 30);
+        countLabel.Top = OxSH.Sub(Height, 30);
         ControlPainter.ColorizeControlOx(countLabel, BaseColor);
         FieldAccessor = (FieldAccessor<TField, TDAO>)controlBuilder[TypeHelper.FieldHelper<TField>().FieldMetaData];
         PrepareFieldAccessor();

@@ -13,8 +13,8 @@ namespace OxDAOEngine.Settings
 {
     public interface IDAOSettings : ISettingsController<DAOSetting>
     {
-        int CardsPageSize { get; set; }
-        int IconsPageSize { get; set; }
+        short CardsPageSize { get; set; }
+        short IconsPageSize { get; set; }
         bool CategoryPanelPinned { get; set; }
         bool CategoryPanelExpanded { get; set; }
         bool AlwaysExpandedCategories { get; set; }

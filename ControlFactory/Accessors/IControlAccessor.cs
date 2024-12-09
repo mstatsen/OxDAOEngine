@@ -1,5 +1,6 @@
 ﻿using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {

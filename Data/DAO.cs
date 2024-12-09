@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.XML;
+using OxLibrary.Geometry;
 using System.Xml;
 
 namespace OxDAOEngine.Data
@@ -387,6 +388,16 @@ namespace OxDAOEngine.Data
                     int.TryParse(value.ToString(), out int intValue)
                         ? intValue
                         : 0,
+            };
+
+        public static short ShortValue(object? value) =>
+            value switch
+            {
+                null => 0,
+                bool boolean =>
+                    OxSH.IfElseZero(boolean, 1),
+                _ =>
+                    OxSH.IfElseZero(short.TryParse(value.ToString(), out short shortValue), shortValue)
             };
 
         public static bool BoolValue(object? value) =>

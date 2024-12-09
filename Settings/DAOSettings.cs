@@ -31,15 +31,15 @@ namespace OxDAOEngine.Settings
 
         public DAOSettings() : base() { }
 
-        public int CardsPageSize
+        public short CardsPageSize
         {
-            get => IntValue(DAOSetting.CardsPageSize);
+            get => ShortValue(DAOSetting.CardsPageSize);
             set => this[DAOSetting.CardsPageSize] = value;
         }
 
-        public int IconsPageSize
+        public short IconsPageSize
         {
-            get => IntValue(DAOSetting.IconsPageSize);
+            get => ShortValue(DAOSetting.IconsPageSize);
             set => this[DAOSetting.IconsPageSize] = value;
         }
 

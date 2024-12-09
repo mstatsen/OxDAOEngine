@@ -1,4 +1,6 @@
 ﻿using OxLibrary;
+using OxLibrary.Handlers;
+using OxLibrary.Interfaces;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Filter;
 using OxDAOEngine.Data;
@@ -11,7 +13,6 @@ using OxDAOEngine.Summary;
 using OxDAOEngine.View;
 using OxDAOEngine.View.Types;
 using OxDAOEngine.Settings.Part;
-using OxLibrary.Interfaces;
 
 namespace OxDAOEngine
 {
@@ -124,14 +125,10 @@ namespace OxDAOEngine
         {
             switch (viewType)
             { 
-                case ItemsViewsType.Cards:
-                    if (!ListController.AvailableCards)
-                        return null;
-                    break;
-                case ItemsViewsType.Icons:
-                    if (!ListController.AvailableIcons)
-                        return null;
-                    break;
+                case ItemsViewsType.Cards when !ListController.AvailableCards:
+                    return null;
+                case ItemsViewsType.Icons when !ListController.AvailableIcons:
+                    return null;
             }    
 
             ItemsView<TField, TDAO> itemsView =

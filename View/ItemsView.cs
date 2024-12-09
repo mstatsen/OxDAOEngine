@@ -1,10 +1,12 @@
-﻿using OxLibrary.Panels;
+﻿using OxLibrary;
+using OxLibrary.Geometry;
+using OxLibrary.Handlers;
+using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
 using OxDAOEngine.View.Types;
-using OxLibrary;
 
 namespace OxDAOEngine.View
 {
@@ -197,7 +199,7 @@ namespace OxDAOEngine.View
                 ? 270 
                 : 18;
 
-        private int SettingsPageSize => 
+        private short SettingsPageSize => 
             ViewType is ItemsViewsType.Icons 
                 ? Settings.IconsPageSize 
                 : Settings.CardsPageSize;
@@ -209,7 +211,7 @@ namespace OxDAOEngine.View
                     : DAOSetting.CardsPageSize
                 ])
             {
-                int newPageSize = Math.Min(MaximumCardsCount, SettingsPageSize);
+                short newPageSize = OxSH.Min(MaximumCardsCount, SettingsPageSize);
 
                 if (!paginator.PageSize.Equals(newPageSize))
                     paginator.PageSize = newPageSize;

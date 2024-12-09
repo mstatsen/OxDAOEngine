@@ -4,6 +4,7 @@ using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
 using OxLibrary.Panels;
 using OxLibrary;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory.Accessors
 {
@@ -65,7 +66,7 @@ namespace OxDAOEngine.ControlFactory.Accessors
             ReadOnlyPicture.Width = ReadOnlyPictureSize;
             ReadOnlyPicture.MinimumSize = new(ReadOnlyPictureSize, ReadOnlyPictureSize);
             ReadOnlyPicture.Top = 0;
-            ReadOnlyPicture.Left = (short)(readOnlyControl.Width - ReadOnlyPictureSize);
+            ReadOnlyPicture.Left = OxSH.Sub(readOnlyControl.Width, ReadOnlyPictureSize);
             ReadOnlyPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             ReadOnlyPicture.PictureSize = ReadOnlyPictureSize;
             ReadOnlyPicture.Image = OxIcons.Tick;

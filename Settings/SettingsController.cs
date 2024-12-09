@@ -33,6 +33,9 @@ namespace OxDAOEngine.Settings
         public int IntValue(TSetting setting) =>
             IntValue(settings[setting]);
 
+        public short ShortValue(TSetting setting) =>
+            ShortValue(settings[setting]);
+
         public object? this[TSetting setting]
         {
             get => settings[setting];
