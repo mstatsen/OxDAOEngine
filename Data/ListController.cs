@@ -626,11 +626,20 @@ namespace OxDAOEngine.Data
             }
         }
 
+        /* TODO: uncomment
         public virtual bool AvailableSummary => true;
         public virtual bool AvailableCategories => true;
         public virtual bool AvailableQuickFilter => true;
         public virtual bool AvailableCards => true;
         public virtual bool AvailableIcons => true;
+        */
+
+        public virtual bool AvailableSummary => false;
+        public virtual bool AvailableCategories => false;
+        public virtual bool AvailableQuickFilter => false;
+        public virtual bool AvailableCards => false;
+        public virtual bool AvailableIcons => false;
+
         public virtual bool AvailableBatchUpdate => true;
         public virtual bool AvailableCopyItems => true;
         public virtual bool UseImageList => false;

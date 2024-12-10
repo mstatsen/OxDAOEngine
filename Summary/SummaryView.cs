@@ -88,7 +88,7 @@ namespace OxDAOEngine.Summary
             IterateSummaryPanels(
                 (panel) =>
                 {
-                    panel.Margin.Horizontal = OxSH.IfElse(panel.Expanded, 12, 32);
+                    panel.Margin.Horizontal = OxSH.Short(panel.Expanded ? 12 : 32);
                     panel.Borders[OxDock.Top].Visible = !prevExpanded;
                     panel.Header.UnderlineVisible = 
                         panel.Expanded 

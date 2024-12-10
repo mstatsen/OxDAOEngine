@@ -137,10 +137,12 @@ public class BatchUpdatePanel<TField, TDAO> :
     {
         ValueLayout.Field = FieldAccessor.EnumValue;
         CurrentValueControl = ValueAccessor.LayoutControl(ValueLayout);
-        CurrentValueControl.Control.Width = OxSH.IfElse(
-            CurrentValueControl.Control is OxSpinEdit, 80, FieldAccessor.Width
-        );
-
+        CurrentValueControl.Control.Width =
+            OxSH.Short(
+                CurrentValueControl.Control is OxSpinEdit
+                    ? 80
+                    : FieldAccessor.Width
+            );
         ControlPainter.ColorizeControl(CurrentValueControl.Control, BaseColor);
         OxControlHelper.AlignByBaseLine(CurrentValueControl.Control, valueLabel);
         valueLabel.Visible = true;

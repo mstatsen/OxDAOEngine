@@ -20,7 +20,7 @@ public class ItemViewList<TField, TDAO> :
             : null;
 
     public short Bottom =>
-        OxSH.IfElseZero(Last is not null, Last!.Bottom + 24);
+        OxSH.Short(Last is not null ? Last!.Bottom + 24 : 0);
 
     public OxPanelList AsPaneList =>
         (OxPanelList)new OxPanelList().AddRange(this.Select(item => item.AsPane));

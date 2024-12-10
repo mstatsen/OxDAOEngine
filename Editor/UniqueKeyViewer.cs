@@ -66,7 +66,7 @@ public partial class UniqueKeyViewer<TField, TDAO> : OxDialog
         Size = new(
             ContentWidth,
             ContentHeight
-            + OxSH.IfElseZero(!firstLoad, 6));
+            + OxSH.Short(!firstLoad ? 6 : 0));
         firstLoad = false;
     }
 

@@ -196,11 +196,11 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         protected short FieldWidth(TField field) =>
-            OxSH.IfElse(
-                QuickFilterLayouter is null,
-                100,
-                QuickFilterLayouter!.FieldWidth(field)
-            );
+            OxSH.Short(
+                QuickFilterLayouter is null
+                    ? 100
+                    : QuickFilterLayouter!.FieldWidth(field)
+                );
 
         private bool NeedStartNewColumn(int columnControlCount) => 
             Variant switch
@@ -216,10 +216,11 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void PrepareLayouts()
         {
             Layouter.Template.Top =
-                OxSH.IfElseZero(
+                OxSH.Short(
                     Variant is QuickFilterVariant.Select
-                            or QuickFilterVariant.Export,
-                    4
+                        or QuickFilterVariant.Export
+                        ? 4
+                        : 0
                 );
             Layouter.Template.Left = FirstControlLeft;
             Layouter.Template.Height = 22;
@@ -317,13 +318,13 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         public void RecalcPaddings() =>
-            Padding.Size = OxSH.IfElseZero(!OnlyText, 2);
+            Padding.Size = OxSH.Short(OnlyText ? 0 : 2);
 
         private short FirstControlLeft =>
-            OxSH.IfElse(
-                Variant is QuickFilterVariant.Export,
-                84,
-                60
+            OxSH.Short(
+                Variant is QuickFilterVariant.Export
+                    ? 84
+                    : 60
             );
 
         private void FilterControlsChange(object? sender, EventArgs e)
@@ -387,10 +388,10 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             short calcedWidth = OxSH.Add(FilterTextControl.Control.Right, 10);
             short calcedHeight =
-                OxSH.IfElse(
-                    Layouter.Count is 1,
-                    40,
-                    FilterTextControl.Control.Bottom
+                OxSH.Short(
+                    Layouter.Count is 1
+                        ? 40
+                        : FilterTextControl.Control.Bottom
                 );
             SetTextFilterBorder();
             calcedHeight += Padding.Bottom;
@@ -416,11 +417,9 @@ namespace OxDAOEngine.ControlFactory.Filter
                 if (temlpateLabel is not null 
                     && textControlLabel is not null)
                     textControlLabel.Left =
-                        OxSH.IfElse(
-                            textControlLabel.Left < 0,
-                            temlpateLabel.Left,
-                            temlpateLabel.Right - textControlLabel.Width
-                        );
+                        textControlLabel.Left < 0
+                            ? temlpateLabel.Left
+                            : OxSH.Sub(temlpateLabel.Right, textControlLabel.Width);
 
                 foreach (TField field in QuickFilterFields)
                 {

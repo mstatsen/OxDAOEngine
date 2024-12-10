@@ -390,10 +390,12 @@ namespace OxDAOEngine.Editor
             short result = 0;
 
             foreach (OxFrame container in GroupParents[parentControl].Cast<OxFrame>())
-                result += OxSH.IfElseZero(
-                    container.Visible, 
-                    container.Height
-                );
+                result +=
+                    OxSH.Short(
+                        container.Visible
+                            ? container.Height
+                            : 0
+                    );
 
             return result;
         }

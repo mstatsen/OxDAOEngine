@@ -263,7 +263,7 @@ namespace OxDAOEngine.ControlFactory
             Borders.Size = 1;
             Padding.SetVisible(Dock, true);
             Sider.Dock = OxDockHelper.Opposite(Dock);
-            Borders[Sider.Dock].Size = OxSH.IfElseZero(isFixedPanel, 1);
+            Borders[Sider.Dock].Size = OxSH.Short(isFixedPanel ? 1 : 0);
             Sider.Visible = 
                 !isFixedPanel
                 && Dock is not OxDock.Fill
@@ -302,7 +302,7 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetExpandButtonLastBorder() =>
             ExpandButton.Borders[PinButton2.Dock].Size = 
-                OxSH.IfElseZero(!PinButton2.Visible, 1);
+                OxSH.Short(!PinButton2.Visible ? 1 : 0);
 
         private bool expanded = false;
 
@@ -325,7 +325,7 @@ namespace OxDAOEngine.ControlFactory
                     Padding[Sider.Dock].Visible = value;
                     HeaderVisible = value;
                     ExpandButton.Icon = ExpandButtonIcon;
-                    Borders[Dock].Size = OxSH.IfElseZero(value, 1);
+                    Borders[Dock].Size = OxSH.Short(value ? 1 : 0);
                 }
             );
 
@@ -507,10 +507,10 @@ namespace OxDAOEngine.ControlFactory
             OxPanel? fakePadding = ParentPadding;
 
             short fakePaddingSize =
-                OxSH.IfElse(
-                    OxDockHelper.IsVertical(Dock),
-                        Sider.Height + Margin.Top + Margin.Bottom,
-                        Sider.Width + Margin.Left + Margin.Right
+                OxSH.Short(
+                    OxDockHelper.IsVertical(Dock)
+                        ? Sider.Height + Margin.Top + Margin.Bottom
+                        : Sider.Width + Margin.Left + Margin.Right
                 );
 
             if (fakePadding is not null)

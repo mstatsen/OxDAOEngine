@@ -391,14 +391,18 @@ namespace OxDAOEngine.Data
             };
 
         public static short ShortValue(object? value) =>
-            value switch
-            {
-                null => 0,
-                bool boolean =>
-                    OxSH.IfElseZero(boolean, 1),
-                _ =>
-                    OxSH.IfElseZero(short.TryParse(value.ToString(), out short shortValue), shortValue)
-            };
+            OxSH.Short(
+                value switch
+                {
+                    null => 0,
+                    bool boolean =>
+                        boolean ? 1 : 0,
+                    _ =>
+                        short.TryParse(value.ToString(), out short shortValue)
+                            ? shortValue
+                            : 0
+                }
+            );
 
         public static bool BoolValue(object? value) =>
             bool.TryParse(value?.ToString(), out bool boolValue) && boolValue;

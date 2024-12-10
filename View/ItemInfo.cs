@@ -89,10 +89,10 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
             Margin.Bottom = 0;
 
         Margin.Top =
-            OxSH.IfElse(
-                Dock is OxDock.Bottom ,
-                1,
-                OxSH.IfElse(Pinned, 9, 4)
+            OxSH.Short(
+                Dock is OxDock.Bottom
+                ? 1
+                : OxSH.Short(Pinned ? 9 : 4)
             );
 
         Margin.Right = 0;
@@ -240,7 +240,7 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         {
             Headers.TryGetValue(parentPanel, out var header);
 
-            short lastBottom = OxSH.IfElseZero(header is not null, 8);
+            short lastBottom = OxSH.Short(header is not null ? 8 : 0);
             short maxBottom = lastBottom;
             bool visibleControlsExists = false;
             ControlLayout<TField>? prevLayout = null;
@@ -261,14 +261,12 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
                     placedControl.Control.Top =
                         OxSH.Add(
                             lastBottom,
-                            OxSH.IfElse(
-                                prevLayout is not null,
-                                OxSH.Sub(
+                            prevLayout is not null
+                                ? OxSH.Sub(
                                     layout.Top,
-                                    OxSH.IfElseZero(prevLayout is not null, prevLayout!.Bottom)
-                                ),
-                                8
-                            )
+                                    prevLayout is not null ? prevLayout!.Bottom : 0
+                                )
+                                : 8
                         );
                     OxControlHelper.AlignByBaseLine(placedControl.Control, placedControl.Label!);
                     lastBottom = placedControl.Control.Bottom;

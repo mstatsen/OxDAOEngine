@@ -300,11 +300,9 @@ public partial class SettingsForm : OxDialog
 
     private static short CalcAcessorTop(IControlAccessor? prevAccessor) =>
         OxSH.Add(
-            OxSH.IfElse(
-                prevAccessor is not null,
-                prevAccessor!.Bottom,
-                4
-            ),
+            prevAccessor is not null
+                ? prevAccessor!.Bottom
+                : 4,
             4
         );
 
@@ -415,18 +413,18 @@ public partial class SettingsForm : OxDialog
 
         foreach (string setting in settingList)
             settingsControls[settings][setting].Control.Left =
-                OxSH.IfElse(
-                    settings.Helper.WithoutLabel(setting),
-                    8,
-                    maxLabelWidth + 24
+                OxSH.Short(
+                    settings.Helper.WithoutLabel(setting)
+                        ? 8
+                        : maxLabelWidth + 24
                 );
 
         frame.Size = new(
             frame.Width,
             OxSH.Add(
-                OxSH.IfElseZero(lastAccessor is not null, lastAccessor!.Bottom),
-                OxSH.IfElseZero(!caption.Equals(string.Empty), frame.Header.Height),
-                + 16
+                lastAccessor is not null ? lastAccessor!.Bottom : 0,
+                caption.Equals(string.Empty) ? 0 : frame.Header.Height,
+                16
             )
         );
 

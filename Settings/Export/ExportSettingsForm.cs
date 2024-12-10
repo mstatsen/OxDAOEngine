@@ -439,24 +439,18 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
 
         frame.Size = new(
             frame.Width,
-            OxSH.IfElse(
-                frame.Equals(extraSettingsFrames[ExportFormat.Html]),
-                htmlsPanel.Bottom,
-                OxSH.IfElse(
-                    frame.Equals(extraSettingsFrames[ExportFormat.Text]),
-                    textsPanel.Bottom,
-                    OxSH.Add(
-                        OxSH.IfElse(
-                            frameControls.Count > 0,
-                            frameControls[^1].Bottom,
-                            24
-                        ),
+            frame.Equals(extraSettingsFrames[ExportFormat.Html])
+                ? htmlsPanel.Bottom
+                : frame.Equals(extraSettingsFrames[ExportFormat.Text])
+                    ? textsPanel.Bottom
+                    : OxSH.Add(
+                        frameControls.Count > 0
+                            ? frameControls[^1].Bottom
+                            : 24,
                         frame.Margin.Top,
                         frame.Padding.Vertical,
                         12
-                    )
-                )
-            )
+                      )
         );
 
         short maxLeft = 0;

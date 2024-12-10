@@ -91,7 +91,7 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
     protected virtual void RecalcSize() => 
         Size = new(
             ContentWidth,
-            ContentHeight + OxSH.IfElseZero(!FirstLoad, 6)
+            ContentHeight + OxSH.Short(!FirstLoad ? 6 : 0)
         );
 
     protected virtual void CreateControls() { }
@@ -118,7 +118,7 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
             {
                 Parent = this,
                 AutoSize = true,
-                Left = OxSH.Add(OxSH.IfElseZero(rightLabel, control.Right), 8),
+                Left = OxSH.Add(OxSH.Short(rightLabel ? control.Right : 0), 8),
                 Text = caption,
                 Font = OxStyles.DefaultFont
             }

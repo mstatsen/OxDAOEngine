@@ -30,11 +30,9 @@ public class PlacedControl<TField>
     public short LabelLeft
     {
         get => 
-            OxSH.IfElse(
-                Label is not null,
-                Label!.Left,
-                short.MaxValue
-            );
+            Label is not null
+                ? Label!.Left
+                : short.MaxValue;
         set
         {
             if (Label is not null)
@@ -43,7 +41,11 @@ public class PlacedControl<TField>
     }
 
     public short LabelRight =>
-        OxSH.IfElseZero(Label is not null, Label!.Right);
+        OxSH.Short(
+            Label is not null
+                ? Label!.Right 
+                : 0
+        );
 
     public PlacedControl(IOxControl control, OxLabel? label, ControlLayout<TField> layout)
     {

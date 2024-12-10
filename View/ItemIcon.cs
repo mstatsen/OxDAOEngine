@@ -145,7 +145,7 @@ public sealed class ItemIcon<TField, TDAO> : OxClickFrame, IItemView<TField, TDA
             return;
 
         ControlLayout<TField> imageLayout = layouter.AddFromTemplate(ImageMapping.Field);
-        imageLayout.Top = OxSH.IfElseZero(!IconsSize.Equals(IconSize.Thumbnails), 1);
+        imageLayout.Top = OxSH.Short(!IconsSize.Equals(IconSize.Thumbnails) ? 1 : 0);
         imageLayout.Width = IconWidth;
         imageLayout.Height = OxSH.Sub(OxSH.Half(IconWidth), 3);
     }

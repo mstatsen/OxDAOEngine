@@ -35,21 +35,23 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         private readonly short ButtonHeight = 22;
 
         private short LastBottom =>
-            OxSH.IfElseZero(Buttons.Count > 0, Buttons[^1].Bottom);
+            OxSH.Short(Buttons.Count > 0 ? Buttons[^1].Bottom : 0);
 
         private short LastRight =>
-            OxSH.IfElseZero(Buttons.Count > 0, Buttons[^1].Right);
+            OxSH.Short(Buttons.Count > 0 ? Buttons[^1].Right : 0);
 
         private short ButtonLeft() =>
-            OxSH.IfElseZero(
-                Direction is ButtonListDirection.Horizontal,
-                LastRight + ButtonSpace
+            OxSH.Short(
+                Direction is ButtonListDirection.Horizontal
+                    ? LastRight + ButtonSpace
+                    : 0
             );
 
         private short ButtonTop() =>
-            OxSH.IfElseZero(
-                !(Direction is ButtonListDirection.Horizontal),
-                LastBottom + ButtonSpace + 1
+            OxSH.Short(
+                Direction is ButtonListDirection.Horizontal
+                    ? 0
+                    : LastBottom + ButtonSpace + 1
             );
 
         public void RecalcButtonsSizeAndPositions()
@@ -116,19 +118,15 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         private void SetButtonSize(LinkButton button) => 
             button.Size = new
             (
-                OxSH.IfElse(
-                    Direction is ButtonListDirection.Vertical,
-                    Width - button.Borders.Left,
-                    OxSH.IfElse(
-                        Buttons.Count is 0,
-                        120,
-                        OxSH.Sub(
-                            OxSH.Min(Width / Buttons.Count, 120),
-                            ButtonSpace * (Buttons.Count - 1),
-                            button.Borders.Left + button.Borders.Right
-                        )
-                    )
-                ),
+                    Direction is ButtonListDirection.Vertical
+                        ? Width - button.Borders.Left
+                        : Buttons.Count is 0
+                            ? 120
+                            : OxSH.Sub(
+                                    OxSH.Min(Width / Buttons.Count, 120),
+                                    ButtonSpace * (Buttons.Count - 1),
+                                    button.Borders.Left + button.Borders.Right
+                              ),
                 ButtonHeight
             );
 
@@ -146,11 +144,9 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
 
         private void RecalcWidth() => 
             MinimumSize = new(
-                OxSH.IfElse(
-                    OxDockHelper.IsVertical(Dock),
-                    Width,
-                    LastRight
-                ),
+                OxDockHelper.IsVertical(Dock)
+                    ? Width
+                    : LastRight,
                 40
             );
     }

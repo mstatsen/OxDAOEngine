@@ -19,10 +19,11 @@ namespace OxDAOEngine.View.Types
             };
 
         public short Height(IconSize size) =>
-            OxSH.IfElse(
-                size.Equals(IconSize.Thumbnails),
-                OxSH.Half(Width(size)) - 3,
-                Width(size) / 25 * 18);
+            OxSH.Short(
+                size.Equals(IconSize.Thumbnails)
+                    ? OxSH.Half(Width(size)) - 3
+                    : Width(size) / 25 * 18
+            );
 
 #pragma warning disable CA1822 // Mark members as static
         public short Width(IconSize size) =>
