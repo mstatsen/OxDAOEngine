@@ -629,8 +629,8 @@ namespace OxDAOEngine.Grid
                     value = OxBitmapWorker.BoxingImage(
                         image,
                         new(
-                            (short)(Width * (image.Height / GridView.RowTemplate.Height)),
-                            (short)(GridView.RowTemplate.Height)
+                            Width * image.Height / GridView.RowTemplate.Height,
+                            GridView.RowTemplate.Height
                         )
                     );
 

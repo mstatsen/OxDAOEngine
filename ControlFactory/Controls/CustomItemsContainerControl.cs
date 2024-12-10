@@ -295,7 +295,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             ButtonsPanel.Parent = this;
             ButtonsPanel.Dock = OxDock.Right;
-            ButtonsPanel.Width = (short)(ButtonWidth + ButtonSpace * 2);
+            ButtonsPanel.Width = OxSH.Add(ButtonWidth, OxSH.X2(ButtonSpace));
             _ = new OxPanel(new(1, ButtonSpace))
             {
                 Parent = ButtonsPanel,
@@ -467,17 +467,17 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             get
             {
-                int calcedHeight = 0;
+                short calcedHeight = 0;
 
                 foreach (OxClickFrame button in Buttons)
                     if (button.Visible)
-                        calcedHeight += button.Height + ButtonSpace;
+                        calcedHeight += OxSH.Add(button.Height, ButtonSpace);
 
                 if (EditButton is not null 
                     && !EditButton.Visible)
-                    calcedHeight += EditButton.Height + ButtonSpace;
+                    calcedHeight += OxSH.Add(EditButton.Height, ButtonSpace);
 
-                return (short)calcedHeight;
+                return calcedHeight;
             }
         }
 

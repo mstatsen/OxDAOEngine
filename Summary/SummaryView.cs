@@ -4,6 +4,7 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Data.Fields;
 using OxLibrary;
 using OxLibrary.ControlList;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.Summary
 {
@@ -87,10 +88,7 @@ namespace OxDAOEngine.Summary
             IterateSummaryPanels(
                 (panel) =>
                 {
-                    panel.Margin.Horizontal =
-                        (short)(panel.Expanded
-                            ? 12 
-                            : 32);
+                    panel.Margin.Horizontal = OxSH.IfElse(panel.Expanded, 12, 32);
                     panel.Borders[OxDock.Top].Visible = !prevExpanded;
                     panel.Header.UnderlineVisible = 
                         panel.Expanded 

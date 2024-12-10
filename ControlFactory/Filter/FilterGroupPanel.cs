@@ -7,6 +7,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Filter.Types;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory.Filter
 {
@@ -75,7 +76,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             RemoveGroupButton.Parent = ConcatControlParent;
             RemoveGroupButton.ToolTipText = "Remove group";
             RemoveGroupButton.Top = 1;
-            RemoveGroupButton.Left = (short)(ConcatControlParent.Right - RemoveGroupButton.Width - 1);
+            RemoveGroupButton.Left = OxSH.Sub(ConcatControlParent.Right, RemoveGroupButton.Width, 1);
             RemoveGroupButton.Anchor = AnchorStyles.Right;
             RemoveGroupButton.Click += RemoveGroupButtonClickHandler;
         }
@@ -94,7 +95,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             result.Width = 60;
             result.Height = 18;
             ConcatControlParent.Parent = this;
-            ConcatControlParent.Size = new(1, (short)result.Height);
+            ConcatControlParent.Size = new(1, result.Height);
             ConcatControlParent.Dock = OxDock.Top;
             return result;
         }

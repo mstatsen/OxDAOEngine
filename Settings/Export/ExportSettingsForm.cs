@@ -17,6 +17,7 @@ using OxDAOEngine.Data.Types;
 using OxDAOEngine.Export;
 using OxDAOEngine.Grid;
 using OxDAOEngine.Settings.Export;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.Settings;
 
@@ -148,7 +149,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
             {
                 categoryControl.Visible = true;
                 ((OxLabel)categoryControl.Tag).Visible = true;
-                fileControl.Top = (short)(categoryControl.Bottom + 8);
+                fileControl.Top = OxSH.Add(categoryControl.Bottom, 8);
                 
             }
             OxControlHelper.AlignByBaseLine(fileControl, (OxLabel)fileControl.Tag);
@@ -390,7 +391,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
                 Font = OxStyles.DefaultFont
             };
 
-            control.Left = (short)(label.Right + 12);
+            control.Left = OxSH.Add(label.Right, 12);
             control.Tag = label;
             OxControlHelper.AlignByBaseLine(control, label);
         }
@@ -405,7 +406,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
 
         for (int i = framesControls.Count - 1; i > -1; i--)
             if (framesControls[i] is not OxPanel)
-                return (short)(framesControls[i].Bottom + 8);
+                return OxSH.Add(framesControls[i].Bottom, 8);
 
         return 0;
     }
@@ -438,18 +439,23 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
 
         frame.Size = new(
             frame.Width,
-            (short)
-            (
-                frame.Equals(extraSettingsFrames[ExportFormat.Html])
-                    ? htmlsPanel.Bottom
-                    : frame.Equals(extraSettingsFrames[ExportFormat.Text])
-                        ? textsPanel.Bottom
-                        : frameControls.Count > 0
-                            ? frameControls[^1].Bottom
-                            : 24
-                + frame.Margin.Top
-                + frame.Padding.Vertical
-                + 12
+            OxSH.IfElse(
+                frame.Equals(extraSettingsFrames[ExportFormat.Html]),
+                htmlsPanel.Bottom,
+                OxSH.IfElse(
+                    frame.Equals(extraSettingsFrames[ExportFormat.Text]),
+                    textsPanel.Bottom,
+                    OxSH.Add(
+                        OxSH.IfElse(
+                            frameControls.Count > 0,
+                            frameControls[^1].Bottom,
+                            24
+                        ),
+                        frame.Margin.Top,
+                        frame.Padding.Vertical,
+                        12
+                    )
+                )
             )
         );
 
@@ -465,12 +471,14 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
 
             control.Left = maxLeft;
             control.Width =
-                (short)(frame.Width
-                - maxLeft
-                - frame.Margin.Right
-                - frame.Margin.Left
-                - frame.Padding.Right
-                - 12);
+                OxSH.Sub(
+                    frame.Width,
+                    maxLeft,
+                    frame.Margin.Horizontal,
+                    frame.Margin.Left,
+                    frame.Padding.Right,
+                    12
+                );
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using OxLibrary.Panels;
 using OxLibrary;
 using OxLibrary.Handlers;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory.Controls.Links
 {
@@ -34,24 +35,22 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         private readonly short ButtonHeight = 22;
 
         private short LastBottom =>
-            (short)(Buttons.Count > 0
-                ? Buttons[^1].Bottom
-                : 0);
+            OxSH.IfElseZero(Buttons.Count > 0, Buttons[^1].Bottom);
 
         private short LastRight =>
-            (short)(Buttons.Count > 0
-                ? Buttons[^1].Right
-                : 0);
+            OxSH.IfElseZero(Buttons.Count > 0, Buttons[^1].Right);
 
         private short ButtonLeft() =>
-            (short)(Direction is ButtonListDirection.Horizontal
-                ? LastRight + ButtonSpace
-                : 0);
+            OxSH.IfElseZero(
+                Direction is ButtonListDirection.Horizontal,
+                LastRight + ButtonSpace
+            );
 
         private short ButtonTop() =>
-            (short)(Direction is ButtonListDirection.Horizontal
-                ? 0
-                : LastBottom + ButtonSpace | 1);
+            OxSH.IfElseZero(
+                !(Direction is ButtonListDirection.Horizontal),
+                LastBottom + ButtonSpace + 1
+            );
 
         public void RecalcButtonsSizeAndPositions()
         {
@@ -61,9 +60,14 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
 
         private void RecalcButtonsPositions()
         {
-            if (Direction is ButtonListDirection.Horizontal)
-                foreach (LinkButton button in Buttons)
-                    button.Left = (short)(Buttons.IndexOf(button) * (button.Width + ButtonSpace));
+            if (Direction is not ButtonListDirection.Horizontal)
+                return;
+
+            foreach (LinkButton button in Buttons)
+                button.Left = OxSH.Mul(
+                    Buttons.IndexOf(button), 
+                    button.Width + ButtonSpace
+                );
         }
 
         private void RecalcButtonsSize()
@@ -109,24 +113,24 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                 SetButtonSize(button);
         }
 
-        private void SetButtonSize(LinkButton button)
-        {
-            short calcedWidth =
-                (short)(Direction is ButtonListDirection.Vertical
-                    ? Width - button.Borders.Left
-                    : (Buttons.Count is 0
-                        ? 120
-                        : Math.Min(Width / Buttons.Count, 120)
-                            - ButtonSpace * (Buttons.Count - 1)
-                            ) 
-                        - (button.Borders.Left + button.Borders.Right));
-
+        private void SetButtonSize(LinkButton button) => 
             button.Size = new
             (
-                calcedWidth,
+                OxSH.IfElse(
+                    Direction is ButtonListDirection.Vertical,
+                    Width - button.Borders.Left,
+                    OxSH.IfElse(
+                        Buttons.Count is 0,
+                        120,
+                        OxSH.Sub(
+                            OxSH.Min(Width / Buttons.Count, 120),
+                            ButtonSpace * (Buttons.Count - 1),
+                            button.Borders.Left + button.Borders.Right
+                        )
+                    )
+                ),
                 ButtonHeight
             );
-        }
 
         public void Clear()
         {
@@ -138,13 +142,15 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         }
 
         private void RecalcHeight() =>
-            MinimumSize = new(0, (short)(LastBottom + 3));
+            MinimumSize = new(0, LastBottom + 3);
 
         private void RecalcWidth() => 
             MinimumSize = new(
-                OxDockHelper.IsVertical(Dock)
-                    ? Width
-                    : LastRight,
+                OxSH.IfElse(
+                    OxDockHelper.IsVertical(Dock),
+                    Width,
+                    LastRight
+                ),
                 40
             );
     }

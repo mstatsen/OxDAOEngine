@@ -1,5 +1,6 @@
 ﻿using OxDAOEngine.Data.Types;
 using OxLibrary;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.View.Types
 {
@@ -17,6 +18,13 @@ namespace OxDAOEngine.View.Types
                 _ => string.Empty,
             };
 
+        public short Height(IconSize size) =>
+            OxSH.IfElse(
+                size.Equals(IconSize.Thumbnails),
+                OxSH.Half(Width(size)) - 3,
+                Width(size) / 25 * 18);
+
+#pragma warning disable CA1822 // Mark members as static
         public short Width(IconSize size) =>
             size switch
             {
@@ -26,11 +34,6 @@ namespace OxDAOEngine.View.Types
                 IconSize.Large => 200,
                 _ => 0,
             };
-
-        public short Height(IconSize size) =>
-            (short)(size.Equals(IconSize.Thumbnails)
-                ? Width(size) / 2 - 3
-                : Width(size) / 25 * 18);
 
         public short LeftDelta(IconSize size) =>
             size switch
@@ -70,5 +73,6 @@ namespace OxDAOEngine.View.Types
                 _ => 
                     2,
             };
+#pragma warning restore CA1822 // Mark members as static
     }
 }

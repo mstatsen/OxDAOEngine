@@ -34,7 +34,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             FieldControl.Top = 8;
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             FieldControl.Height = 24;
-            FieldControl.Width = OxSH.Sub(FormPanel.Width, FieldControl.Left + 8);
+            FieldControl.Width = OxSH.Sub(FormPanel.Width, FieldControl.Left, 8);
             FieldControl.Control.BackColor = Colors.Lighter(7);
             FieldControl.Context.Initializer = new FieldsInitializer<TField>(ControlScope.Sorting);
         }
@@ -45,7 +45,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             DirectionControl.Parent = this;
             DirectionControl.Left = 80;
             DirectionControl.Top = OxSH.Add(FieldControl!.Bottom, 8);
-            FieldControl.Width = OxSH.Sub(FormPanel.Width, FieldControl.Left + 8);
+            FieldControl.Width = OxSH.Sub(FormPanel.Width, FieldControl.Left, 8);
             FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             FieldControl.Height *= 3;
         }
@@ -58,7 +58,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             CreateLabel("Direction", DirectionControl!);
         }
 
-        protected override short ContentHeight => (short)(DirectionControl!.Bottom + 8);
+        protected override short ContentHeight => OxSH.Add(DirectionControl!.Bottom, 8);
         protected override short ContentWidth => 300;
 
         protected override void FillControls(FieldSorting<TField, TDAO> item)

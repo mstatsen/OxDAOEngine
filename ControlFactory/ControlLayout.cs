@@ -34,8 +34,8 @@ public class ControlLayout<TField>
     public bool AutoSize { get; set; }
     public bool SupportClickedLabels { get; set; } = false;
 
-    public short Right => (short)(Left + Width);
-    public short Bottom => (short)(Top + Height);
+    public short Right => OxSH.Add(Left, Width);
+    public short Bottom => OxSH.Add(Top, Height);
 
     public void Clear()
     {
@@ -208,7 +208,7 @@ public class ControlLayout<TField>
         switch (CaptionVariant)
         {
             case ControlCaptionVariant.Left:
-                label.Left = OxSH.Sub(Left, label.Width + Space);
+                label.Left = OxSH.Sub(Left, label.Width, Space);
 
                 if (control is not null)
                     OxControlHelper.AlignByBaseLine(control, label);
@@ -259,7 +259,7 @@ public class ControlLayout<TField>
     public void OffsetVertical(ControlLayout<TField>? fixedLayout, int offset)
     {
         if (fixedLayout is not null)
-            Top = (short)(fixedLayout.Bottom + offset);
+            Top = OxSH.Add(fixedLayout.Bottom, offset);
     }
 
     public void OffsetVertical(ControlLayout<TField>? fixedLayout, bool withMargins = true) =>

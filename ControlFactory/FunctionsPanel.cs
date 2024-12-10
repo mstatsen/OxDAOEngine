@@ -8,6 +8,7 @@ using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.Settings.Part;
 using OxLibrary.Handlers;
 using OxLibrary.Interfaces;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory
 {
@@ -262,10 +263,7 @@ namespace OxDAOEngine.ControlFactory
             Borders.Size = 1;
             Padding.SetVisible(Dock, true);
             Sider.Dock = OxDockHelper.Opposite(Dock);
-            Borders[Sider.Dock].Size =
-                (short)(isFixedPanel
-                    ? 1
-                    : 0);
+            Borders[Sider.Dock].Size = OxSH.IfElseZero(isFixedPanel, 1);
             Sider.Visible = 
                 !isFixedPanel
                 && Dock is not OxDock.Fill
@@ -303,10 +301,8 @@ namespace OxDAOEngine.ControlFactory
         }
 
         private void SetExpandButtonLastBorder() =>
-            ExpandButton.Borders[PinButton2.Dock].Size =
-                (short)(PinButton2.Visible
-                    ? 0
-                    : 1);
+            ExpandButton.Borders[PinButton2.Dock].Size = 
+                OxSH.IfElseZero(!PinButton2.Visible, 1);
 
         private bool expanded = false;
 
@@ -322,15 +318,14 @@ namespace OxDAOEngine.ControlFactory
             OnExpandedChanging(new ExpandedChangedEventArgs(expanded, value));
             expanded = value;
 
-            DoWithSuspendedLayout(() =>
+            DoWithSuspendedLayout(
+                () =>
                 {
                     Padding[Dock].Visible = value;
                     Padding[Sider.Dock].Visible = value;
                     HeaderVisible = value;
                     ExpandButton.Icon = ExpandButtonIcon;
-                    Borders[Dock].Size = (short)(value
-                        ? 1
-                        : 0);
+                    Borders[Dock].Size = OxSH.IfElseZero(value, 1);
                 }
             );
 
@@ -511,9 +506,12 @@ namespace OxDAOEngine.ControlFactory
 
             OxPanel? fakePadding = ParentPadding;
 
-            short fakePaddingSize = (short)(OxDockHelper.IsVertical(Dock)
-                ? Sider.Height + Margin.Top + Margin.Bottom
-                : Sider.Width + Margin.Left + Margin.Right);
+            short fakePaddingSize =
+                OxSH.IfElse(
+                    OxDockHelper.IsVertical(Dock),
+                        Sider.Height + Margin.Top + Margin.Bottom,
+                        Sider.Width + Margin.Left + Margin.Right
+                );
 
             if (fakePadding is not null)
             {

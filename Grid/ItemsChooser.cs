@@ -4,6 +4,7 @@ using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxLibrary.Forms;
+using OxLibrary.Geometry;
 
 namespace OxDAOEngine.Grid
 {
@@ -121,8 +122,13 @@ namespace OxDAOEngine.Grid
             unSelectButton.Size = new(54, 38);
             unSelectButton.HiddenBorder = false;
 
-            selectButton.Top = (short)(buttonsPanel.Height / 2 - selectButton.Height - 4);
-            unSelectButton.Top = (short)(selectButton.Bottom + 8);
+            selectButton.Top = 
+                OxSH.Sub(
+                    OxSH.Half(buttonsPanel.Height),
+                    selectButton.Height, 
+                    4
+                );
+            unSelectButton.Top = OxSH.Add(selectButton.Bottom, 8);
 
             selectedPlace.Parent = this;
             selectedPlace.Dock = OxDock.Right;
@@ -137,8 +143,8 @@ namespace OxDAOEngine.Grid
                 topPanel.Size = new
                 (
                     1,
-                    (short)(availableGrid.QuickFilter.Height
-                    + availableGrid.QuickFilter.Margin.Bottom)
+                    availableGrid.QuickFilter.Height
+                    + availableGrid.QuickFilter.Margin.Bottom
                 );
 
                 availableGrid.QuickFilter.Dock = OxDock.Left;
@@ -242,11 +248,20 @@ namespace OxDAOEngine.Grid
         private void RecalcGridsSizes()
         {
             selectedPlace.Width =
-                (short)(((PanelViewer is not null
-                    ? PanelViewer.Width
-                    : Width) - buttonsPanel.Width) / 2);
-            selectButton.Top = (short)(buttonsPanel.Height / 2 - selectButton.Height - 50);
-            unSelectButton.Top = (short)(selectButton.Bottom | 8);
+                OxSH.CenterOffset(
+                    PanelViewer is not null
+                        ? PanelViewer.Width
+                        : Width,
+                    buttonsPanel.Width
+                );
+
+            selectButton.Top = 
+                OxSH.Sub(
+                    OxSH.Half(buttonsPanel.Height), 
+                    selectButton.Height,
+                    50
+                );
+            unSelectButton.Top = OxSH.Add(selectButton.Bottom, 8);
 
             if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
                 availableGrid.QuickFilter.Width = availablePlace.Width;

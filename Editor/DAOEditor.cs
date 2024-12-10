@@ -6,6 +6,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Grid;
 using OxLibrary.ControlList;
+using OxLibrary.Geometry;
 
 
 namespace OxDAOEngine.Editor
@@ -389,7 +390,10 @@ namespace OxDAOEngine.Editor
             short result = 0;
 
             foreach (OxFrame container in GroupParents[parentControl].Cast<OxFrame>())
-                result += (short)(container.Visible ? container.Height : 0);
+                result += OxSH.IfElseZero(
+                    container.Visible, 
+                    container.Height
+                );
 
             return result;
         }

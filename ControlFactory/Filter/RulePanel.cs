@@ -39,7 +39,7 @@ public class RulePanel<TField, TDAO> : OxPanel
         RemoveRuleButton.Parent = this;
         RemoveRuleButton.ToolTipText = "Remove rule";
         RemoveRuleButton.Top = 4;
-        RemoveRuleButton.Left = (short)(Width - RemoveRuleButton.Width - 1);
+        RemoveRuleButton.Left = OxSH.Sub(Width, RemoveRuleButton.Width, 1);
         RemoveRuleButton.Anchor = AnchorStyles.Right;
         RemoveRuleButton.Click += RemoveRuleButtonClickHandler;
     }

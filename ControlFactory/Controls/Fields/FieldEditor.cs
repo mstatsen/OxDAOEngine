@@ -42,7 +42,7 @@ public partial class FieldEditor<TField, TDAO>
         CreateFieldControl();
 
     protected override short ContentWidth => 300;
-    protected override short ContentHeight => (short)(FieldControl.Bottom + 8);
+    protected override short ContentHeight => OxSH.Add(FieldControl.Bottom, 8);
 
     protected override void FillControls(FieldColumn<TField> item) =>
         FieldControl.Value = item.Field;

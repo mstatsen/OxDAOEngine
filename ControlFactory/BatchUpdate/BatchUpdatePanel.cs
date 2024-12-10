@@ -74,7 +74,7 @@ public class BatchUpdatePanel<TField, TDAO> :
         ControlPainter.ColorizeControl(PlacedFieldsControl.Control, BaseColor);
         valueLabel.Parent = this;
         valueLabel.Top = OxSH.Add(PlacedFieldsControl.Control.Bottom, 16);
-        valueLabel.Left = (short)PlacedFieldsControl.LabelLeft;
+        valueLabel.Left = PlacedFieldsControl.LabelLeft;
         ControlPainter.ColorizeControl(valueLabel, BaseColor);
 
         if (PlacedFieldsControl.Label is not null)
@@ -88,7 +88,7 @@ public class BatchUpdatePanel<TField, TDAO> :
     {
         ValueLayout.CopyFrom(template);
         ValueLayout.BackColor = Colors.Lighter(6);
-        ValueLayout.Top = (short)(FieldAccessor.Bottom + 8);
+        ValueLayout.Top = OxSH.Add(FieldAccessor.Bottom, 8);
         ValueLayout.CaptionVariant = ControlCaptionVariant.None;
     }
 
@@ -104,7 +104,7 @@ public class BatchUpdatePanel<TField, TDAO> :
             Anchors = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right,
         };
 
-        fieldLayout.Width = (short)(Width - fieldLayout.Left - 16);
+        fieldLayout.Width = OxSH.Sub(Width, fieldLayout.Left, 16);
         return FieldAccessor.LayoutControl(fieldLayout);
     }
 

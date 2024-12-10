@@ -91,7 +91,7 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
     protected virtual void RecalcSize() => 
         Size = new(
             ContentWidth,
-            (short)(ContentHeight + (FirstLoad ? 0 : 6))
+            ContentHeight + OxSH.IfElseZero(!FirstLoad, 6)
         );
 
     protected virtual void CreateControls() { }

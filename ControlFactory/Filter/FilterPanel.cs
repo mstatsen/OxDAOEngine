@@ -193,7 +193,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             result.Width = 108;
             result.Height = 18;
             ConcatControlParent.Parent = this;
-            ConcatControlParent.Size = new(1, (short)result.Height);
+            ConcatControlParent.Size = new(1, result.Height);
             ConcatControlParent.Dock = OxDock.Top;
             return result;
         }

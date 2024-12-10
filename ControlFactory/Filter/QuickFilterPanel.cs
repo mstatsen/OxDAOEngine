@@ -196,9 +196,11 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         protected short FieldWidth(TField field) =>
-            (short)(QuickFilterLayouter is null
-                ? 100
-                : QuickFilterLayouter.FieldWidth(field));
+            OxSH.IfElse(
+                QuickFilterLayouter is null,
+                100,
+                QuickFilterLayouter!.FieldWidth(field)
+            );
 
         private bool NeedStartNewColumn(int columnControlCount) => 
             Variant switch
@@ -214,10 +216,11 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void PrepareLayouts()
         {
             Layouter.Template.Top =
-                (short)(Variant is QuickFilterVariant.Select
-                        or QuickFilterVariant.Export
-                ? 4
-                : 0);
+                OxSH.IfElseZero(
+                    Variant is QuickFilterVariant.Select
+                            or QuickFilterVariant.Export,
+                    4
+                );
             Layouter.Template.Left = FirstControlLeft;
             Layouter.Template.Height = 22;
             Layouter.Template.Parent = this;
@@ -259,7 +262,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                     {
                         newColumn = false;
                         captionVariant = ControlCaptionVariant.None;
-                        layoutLeft = (short)(lastLayout.Right + 4);
+                        layoutLeft = OxSH.Add(lastLayout.Right, 4);
                         needVerticalOffset = false;
                         columnControlCount--;
                         layoutTop = lastLayout.Top;
@@ -268,7 +271,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                     if (newColumn)
                     {
-                        Layouter.Template.Left = (short)(maxColumnWidth + 84);
+                        Layouter.Template.Left = OxSH.Add(maxColumnWidth, 84);
                         layoutLeft = Layouter.Template.Left;
                         columnControlCount = 1;
                         maxColumnWidth = 0;
@@ -308,18 +311,20 @@ namespace OxDAOEngine.ControlFactory.Filter
                 layoutTextFilter.CaptionVariant = ControlCaptionVariant.Left;
                 layoutTextFilter.Left = 56;
                 layoutTextFilter.Height = 26;
-                layoutTextFilter.Width = (short)(Layouter.Last!.Right - layoutTextFilter.Left);
+                layoutTextFilter.Width = OxSH.Sub(Layouter.Last!.Right, layoutTextFilter.Left);
                 layoutTextFilter.Anchors = AnchorStyles.Top | AnchorStyles.Left;
             }
         }
 
         public void RecalcPaddings() =>
-            Padding.Size = (short)(OnlyText ? 0 : 2);
+            Padding.Size = OxSH.IfElseZero(!OnlyText, 2);
 
         private short FirstControlLeft =>
-            (short)(Variant is QuickFilterVariant.Export
-                ? 84
-                : 60);
+            OxSH.IfElse(
+                Variant is QuickFilterVariant.Export,
+                84,
+                60
+            );
 
         private void FilterControlsChange(object? sender, EventArgs e)
         {
@@ -380,11 +385,13 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (FilterTextControl is null)
                 return;
 
-            short calcedWidth = (short)(FilterTextControl.Control.Right + 10);
+            short calcedWidth = OxSH.Add(FilterTextControl.Control.Right, 10);
             short calcedHeight =
-                (short)(Layouter.Count is 1
-                    ? 40 
-                    : FilterTextControl.Control.Bottom);
+                OxSH.IfElse(
+                    Layouter.Count is 1,
+                    40,
+                    FilterTextControl.Control.Bottom
+                );
             SetTextFilterBorder();
             calcedHeight += Padding.Bottom;
             Size = new(calcedWidth, calcedHeight);

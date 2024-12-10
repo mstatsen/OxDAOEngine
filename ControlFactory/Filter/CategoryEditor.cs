@@ -35,7 +35,7 @@ public partial class CategoryEditor<TField, TDAO> : CustomItemEditor<Category<TF
         {
             if (width is -1)
             {
-                result.Width = OxSH.Sub(FormPanel.Width, result.Left + 8);
+                result.Width = OxSH.Sub(FormPanel.Width, result.Left, 8);
                 result.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             }
             else
@@ -117,11 +117,15 @@ public partial class CategoryEditor<TField, TDAO> : CustomItemEditor<Category<TF
     protected override short ContentWidth => 600;
 
     protected override short ContentHeight =>
-        (short)(IsFilterCategory
-            ? BaseOnChildsControl.BoolValue 
-                ? (BaseOnChildsControl.Bottom + 8) 
-                : (BaseOnChildsControl.Bottom + FilterPanel.Height + 4)
-            : (FieldControl.Bottom + 8));
+        OxSH.IfElse(
+            IsFilterCategory,
+            OxSH.IfElse(
+                BaseOnChildsControl.BoolValue,
+                BaseOnChildsControl.Bottom + 8,
+                BaseOnChildsControl.Bottom + FilterPanel.Height + 4
+            ),
+            FieldControl.Bottom + 8
+        );
 
     protected override void FillControls(Category<TField, TDAO> item)
     {

@@ -119,7 +119,7 @@ public partial class SettingsForm : OxDialog
 
         foreach (OxPanel tab in tabControl.Pages.Cast<OxPanel>())
             if (tab is OxTabControl childTabControl)
-                maximumTabWidth = (short)Math.Max(
+                maximumTabWidth = OxSH.Max(
                     maximumTabWidth,
                     childTabControl.TabHeaderSize.Width *
                         childTabControl.Pages.Count
@@ -127,7 +127,7 @@ public partial class SettingsForm : OxDialog
 
         maximumTabWidth += tabControl.Margin.Horizontal + 24;
         Size = new(
-            (short)Math.Max(maximumTabWidth, 480),
+            OxSH.Max(maximumTabWidth, 480),
             488
         );
         MoveToScreenCenter();
@@ -271,8 +271,8 @@ public partial class SettingsForm : OxDialog
         {
             OxLabel label = new()
             {
-                Parent = (IOxBox)accessor.Parent,
-                Left = (short)(150 * columnNum + 12),
+                Parent = accessor.Parent,
+                Left = OxSH.Mul(150, OxSH.Add(columnNum, 12)),
                 Font = OxStyles.DefaultFont,
                 Text = $"{settings.Helper.Name(setting)}",
                 Tag = accessor.Control
@@ -423,9 +423,11 @@ public partial class SettingsForm : OxDialog
 
         frame.Size = new(
             frame.Width,
-            (short)((lastAccessor is not null ? lastAccessor.Bottom : 0)
-            + (!caption.Equals(string.Empty) ? frame.Header.Height : 0)
-            + 16)
+            OxSH.Add(
+                OxSH.IfElseZero(lastAccessor is not null, lastAccessor!.Bottom),
+                OxSH.IfElseZero(!caption.Equals(string.Empty), frame.Header.Height),
+                + 16
+            )
         );
 
         return frame;
@@ -451,7 +453,7 @@ public partial class SettingsForm : OxDialog
         {
             Parent = Footer,
             BaseColor = BaseColor,
-            Top = (short)((Footer.Height - helper.DefaultButtonHeight) / 2),
+            Top = OxSH.CenterOffset(Footer.Height, helper.DefaultButtonHeight),
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
             Font = OxStyles.Font(-1, FontStyle.Regular),
             Left = left,
