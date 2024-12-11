@@ -132,7 +132,7 @@ namespace OxDAOEngine.Grid
 
             LeftPlace.Parent = this;
             LeftPlace.Dock = OxDock.Fill;
-            LeftPlace.Header.Underline.Visible = false;
+            LeftPlace.Header.BorderVisible = false;
             LeftItemGrid.Parent = LeftPlace;
             LeftItemGrid.Dock = OxDock.Fill;
 
@@ -169,7 +169,7 @@ namespace OxDAOEngine.Grid
 
             RightPlace.Parent = this;
             RightPlace.Dock = OxDock.Right;
-            RightPlace.Header.Underline.Visible = false;
+            RightPlace.Header.BorderVisible = false;
             RightItemGrid.Parent = RightPlace;
             RightItemGrid.Dock = OxDock.Fill;
         }

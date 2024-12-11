@@ -103,7 +103,7 @@ namespace OxDAOEngine.Grid
             base.PrepareInnerComponents();
             availablePlace.Parent = this;
             availablePlace.Dock = OxDock.Fill;
-            availablePlace.Header.Underline.Visible = false;
+            availablePlace.Header.BorderVisible = false;
             availableGrid.Parent = availablePlace;
             availableGrid.Dock = OxDock.Fill;
 
@@ -132,7 +132,7 @@ namespace OxDAOEngine.Grid
 
             selectedPlace.Parent = this;
             selectedPlace.Dock = OxDock.Right;
-            selectedPlace.Header.Underline.Visible = false;
+            selectedPlace.Header.BorderVisible = false;
             selectedGrid.Parent = selectedPlace;
             selectedGrid.Dock = OxDock.Fill;
 

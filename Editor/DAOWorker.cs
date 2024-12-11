@@ -41,7 +41,7 @@ namespace OxDAOEngine.Editor
                 RecalcGroupsAvailability();
         }
 
-        protected virtual FieldGroupFrames<TField, TFieldGroup> GetFieldGroupFrames() => 
+        protected virtual FieldGroupPanels<TField, TFieldGroup> GetFieldGroupFrames() => 
             Editor.Groups;
 
         private readonly FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
@@ -49,7 +49,7 @@ namespace OxDAOEngine.Editor
         protected List<TField> EditingFields => fieldHelper.EditingFields;
 
         protected abstract EditorLayoutsGenerator<TField, TDAO, TFieldGroup> CreateLayoutsGenerator(
-            FieldGroupFrames<TField, TFieldGroup> frames, ControlLayouter<TField, TDAO> layouter);
+            FieldGroupPanels<TField, TFieldGroup> frames, ControlLayouter<TField, TDAO> layouter);
 
         protected EditorLayoutsGenerator<TField, TDAO, TFieldGroup> Generator { get; private set; }
 

@@ -74,11 +74,11 @@ namespace OxDAOEngine.Summary
                         panel.Expanded = false;
                         panel.BaseColor = EngineStyles.SummaryColor;
                         panel.ExpandChanged += SummaryPanelExpandHandler;
-                        panel.Header.UnderlineVisible = false;
+                        panel.Header.BorderVisible = false;
                         Accordion.Add(panel);
                     }
             );
-            SummaryPanels.Last().Header.UnderlineVisible = true;
+            SummaryPanels.Last().BorderVisible = true;
         }
 
         private void SummaryPanelExpandHandler(object? sender, EventArgs e)
@@ -90,7 +90,7 @@ namespace OxDAOEngine.Summary
                 {
                     panel.Margin.Horizontal = OxSH.Short(panel.Expanded ? 12 : 32);
                     panel.Borders[OxDock.Top].Visible = !prevExpanded;
-                    panel.Header.UnderlineVisible = 
+                    panel.BorderVisible = 
                         panel.Expanded 
                         || panel.Equals(SummaryPanels.Last());
                     prevExpanded = panel.Expanded;

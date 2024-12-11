@@ -4,6 +4,7 @@ using OxDAOEngine.Data;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Types;
 using OxLibrary;
+using OxLibrary.Interfaces;
 
 namespace OxDAOEngine.Editor
 {
@@ -12,7 +13,7 @@ namespace OxDAOEngine.Editor
         where TDAO : RootDAO<TField>, new()
         where TFieldGroup : notnull, Enum
     {
-        public EditorLayoutsGenerator(FieldGroupFrames<TField, TFieldGroup> groupFrames, 
+        public EditorLayoutsGenerator(FieldGroupPanels<TField, TFieldGroup> groupFrames, 
             ControlLayouter<TField, TDAO> layouter)
         {
             GroupFrames = groupFrames;
@@ -128,13 +129,13 @@ namespace OxDAOEngine.Editor
 
         public virtual int Offset(TField field) => 2;
 
-        public OxPanel Parent(TField field) =>
+        public IOxPanel Parent(TField field) =>
             GroupFrames[fieldGroupHelper.EditedGroup(field)];
 
         private readonly FieldHelper<TField> fieldHelper = TypeHelper.FieldHelper<TField>();
         private readonly FieldGroupHelper<TField, TFieldGroup> fieldGroupHelper = 
             TypeHelper.FieldGroupHelper<TField, TFieldGroup>();
-        public FieldGroupFrames<TField, TFieldGroup> GroupFrames;
+        public FieldGroupPanels<TField, TFieldGroup> GroupFrames;
         public ControlLayouter<TField, TDAO> Layouter;
     }
 }
