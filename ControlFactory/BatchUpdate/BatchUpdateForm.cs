@@ -24,9 +24,9 @@ namespace OxDAOEngine.ControlFactory.BatchUpdate
 
         protected override void OnShown(EventArgs e)
         {
-            base.OnShown(e);
             Size = new(360, 120);
             SetItemsCount();
+            base.OnShown(e);
         }
 
         public EventHandler? BatchUpdateCompleted
