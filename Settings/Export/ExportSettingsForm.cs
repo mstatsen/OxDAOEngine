@@ -87,8 +87,6 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         CalcFramesSizes();
         ActualizeFormatSettings();
         SetFooterButtonText(OxDialogButton.OK, "Export");
-        DialogButtonStartSpace = 8;
-        DialogButtonSpace = 4;
     }
 
     private void PrepareSelectedItemsPanel()

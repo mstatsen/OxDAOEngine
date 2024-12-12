@@ -58,8 +58,6 @@ public partial class SettingsForm : OxDialog
         CreateSettingsTabs();
         CreatePanels();
         CreateControls();
-        DialogButtonStartSpace = 8;
-        DialogButtonSpace = 4;
         SetSettingsTabButtonsVisible();
 
         foreach (OxTabControl tabControl in settingsTabs.Values)

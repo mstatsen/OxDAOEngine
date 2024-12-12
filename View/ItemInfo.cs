@@ -1,5 +1,6 @@
 ﻿using OxLibrary;
 using OxLibrary.Controls;
+using OxLibrary.Geometry;
 using OxLibrary.Handlers;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
@@ -7,7 +8,6 @@ using OxDAOEngine.ControlFactory.Accessors;
 using OxDAOEngine.Data;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings;
-using OxLibrary.Geometry;
 
 namespace OxDAOEngine.View;
 

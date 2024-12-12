@@ -65,7 +65,7 @@ public class BatchUpdatePanel<TField, TDAO> :
         || (FieldAccessor.Value is IEmptyChecked ec && ec.IsEmpty);
 
     private void EnabledOKButton() =>
-        buttonsDictionary[OxDialogButton.OK].Enabled = !FieldIsEmpty;
+        Footer.SetButtonEnabled(OxDialogButton.OK, !FieldIsEmpty);
 
     private void PrepareFieldAccessor()
     {
