@@ -58,7 +58,7 @@ public class ButtonEdit<TField, TDAO, TItems, TItem, TListControl>
         dialog.Text = editor.Text;
         dialog.BaseColor = dialogBaseColor;
 
-        if (dialog.ShowDialog(this) is DialogResult.OK)
+        if (dialog.ShowDialogIsOK(this))
         {
             internalValue.CopyFrom(editor.Value);
             FillTextBox();

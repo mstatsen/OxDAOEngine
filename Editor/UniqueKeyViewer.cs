@@ -25,7 +25,7 @@ public partial class UniqueKeyViewer<TField, TDAO> : OxDialog
     {
         PrepareControlColors();
         FillControls(item);
-        ShowDialog(ownerControl);
+        ShowDialog((IWin32Window)ownerControl);
     }
 
     private void FillControls(TDAO? item)

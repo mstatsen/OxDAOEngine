@@ -75,7 +75,7 @@ public partial class SettingsForm : OxDialog
         Text = "Settings";
         FillControls();
 
-        if (ShowDialog(null) is DialogResult.OK)
+        if (ShowDialogIsOK(null))
             DataReceivers.ApplySettings();
     }
 

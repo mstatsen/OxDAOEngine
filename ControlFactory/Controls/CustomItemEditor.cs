@@ -48,15 +48,15 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
     public IItemsContainerControl<TField,TDAO>? OwnerControl { get; internal set; }
 
     protected bool ReadOnly { get; set; }
-    public DialogResult Edit(TItem item, bool readOnly = false)
+    public bool Edit(TItem item, bool readOnly = false)
     {
         ReadOnly = readOnly;
         PrepareReadonly();
         PrepareControlColors();
         FillControls(item);
-        DialogResult result = ShowDialog(OwnerControl);
+        bool result = ShowDialogIsOK(OwnerControl);
 
-        if (result is DialogResult.OK)
+        if (result)
             GrabControls(item);
 
         return result;
@@ -103,7 +103,7 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
     {
         TItem item = CreateNewItem();
         return 
-            Edit(item) is DialogResult.OK 
+            Edit(item) 
                 ? item 
                 : null;
     }

@@ -42,9 +42,9 @@ namespace OxDAOEngine.Export
         {
             settingsForm.SelectedItems = selectedItems;
             return 
-                settingsForm.ShowDialog(
+                settingsForm.ShowDialogIsOK(
                     DataManager.ListController<TField, TDAO>().Face
-                ) is DialogResult.OK;
+                );
         }
 
         private static void OpenReadyFile()

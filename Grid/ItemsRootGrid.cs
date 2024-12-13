@@ -123,8 +123,7 @@ namespace OxDAOEngine.Grid
                     ItemsGetter = GetSelectedItems,
                     BatchUpdateCompleted = (s, e) => BatchUpdateCompleted?.Invoke(s, e)
                 };
-
-            batchUpdateForm.ShowDialog(this);
+            batchUpdateForm.ShowDialog((IWin32Window)this);
         }
 
         public EventHandler? BatchUpdateCompleted;

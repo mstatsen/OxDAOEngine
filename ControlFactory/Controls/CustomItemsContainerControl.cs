@@ -140,7 +140,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (item is null)
                 return;
 
-            if (Editor(TypeOfEditorShow.Edit).Edit(item, readOnly) is not DialogResult.OK)
+            if (!Editor(TypeOfEditorShow.Edit).Edit(item, readOnly))
                 return;
             
             ItemsContainer.BeginUpdate();

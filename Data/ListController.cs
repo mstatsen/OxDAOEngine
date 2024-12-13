@@ -227,7 +227,7 @@ namespace OxDAOEngine.Data
 
         private void AddItem(TDAO item)
         {
-            if (GetItemEditor(item).ShowDialog(Face) is DialogResult.OK)
+            if (GetItemEditor(item).ShowDialogIsOK(Face))
             {
                 History.AddDAO(item);
                 FullItemsList.NotifyAboutItemAdded(item);
@@ -247,7 +247,7 @@ namespace OxDAOEngine.Data
             if (item is null)
                 return;
 
-            if (GetItemEditor(item, parentGrid).ShowDialog(Face) is DialogResult.OK)
+            if (GetItemEditor(item, parentGrid).ShowDialogIsOK(Face))
             {
                 RenewListsAndNotifyAll();
                 ItemFieldChanged?.Invoke(
@@ -266,7 +266,7 @@ namespace OxDAOEngine.Data
             itemSelector.Filter = filter;
             itemSelector.SelectedItem = initialItem;
 
-            bool result = itemSelector.ShowAsDialog(Face, OxDialogButton.OK | OxDialogButton.Cancel) is DialogResult.OK;
+            bool result = itemSelector.ShowDialogIsOK(Face, OxDialogButton.OK | OxDialogButton.Cancel);
             selectedItem = result ? itemSelector.SelectedItem : null;
             return result;
         }
@@ -298,7 +298,7 @@ namespace OxDAOEngine.Data
             }
 
             card.Item = item;
-            card.ShowAsDialog(Face);
+            card.ShowDialog(Face);
         }
 
         public void ViewItems(TField field, object? value)
@@ -312,7 +312,7 @@ namespace OxDAOEngine.Data
             try
             {
                 itemsViewer.Filter = new FilterRule<TField>(field, value);
-                itemsViewer.ShowAsDialog(Face, OxDialogButton.Cancel);
+                itemsViewer.ShowDialog(Face, OxDialogButton.Cancel);
             }
             finally
             {
@@ -363,7 +363,7 @@ namespace OxDAOEngine.Data
                 historyGrid.GridView.DoubleClick += (s, e) => ViewItem(historyGrid.CurrentItem?.DAO);
                 historyGrid.Size = new(1024, 768);
                 historyGrid.Fill();
-                historyGrid.ShowAsDialog(Face, OxDialogButton.Cancel);
+                historyGrid.ShowDialog(Face, OxDialogButton.Cancel);
             }
             finally
             {
@@ -575,7 +575,7 @@ namespace OxDAOEngine.Data
             try
             {
                 itemsViewer.Filter = filter;
-                itemsViewer.ShowAsDialog(Face, OxDialogButton.Cancel);
+                itemsViewer.ShowDialog(Face, OxDialogButton.Cancel);
             }
             finally
             {
@@ -595,7 +595,7 @@ namespace OxDAOEngine.Data
                     itemsViewer.UseCustomCaption = true;
                 }
                 itemsViewer.Fill();
-                itemsViewer.ShowAsDialog(Face, OxDialogButton.Cancel);
+                itemsViewer.ShowDialog(Face, OxDialogButton.Cancel);
             }
             finally
             {

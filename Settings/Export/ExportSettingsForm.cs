@@ -488,7 +488,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         categoriesTree!.Size = new(360, 480);
         categoriesTree!.RefreshCategories();
 
-        if (categoriesTree.ShowAsDialog(this, OxDialogButton.OK | OxDialogButton.Cancel) is DialogResult.OK)
+        if (categoriesTree.ShowDialogIsOK(this, OxDialogButton.OK | OxDialogButton.Cancel))
             categoryControl!.Value = categoriesTree.ActiveCategory?.Name;
     }
 

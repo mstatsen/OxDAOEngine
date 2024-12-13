@@ -300,7 +300,7 @@ namespace OxDAOEngine.Grid
             {
                 BaseColor = owner.BaseColor
             };
-            bool result = synchronizer.ShowAsDialog(owner) is DialogResult.OK;
+            bool result = synchronizer.ShowDialogIsOK(owner);
 
             if (result)
                 synchronizer.ApplySynchronize();
