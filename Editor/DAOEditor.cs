@@ -273,7 +273,7 @@ public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
         invalidateSizeInProcess = true;
         try
         {
-            DoWithSuspendedLayout(
+            WithSuspendedLayout(
                 () =>
                 {
                     Groups.SetGroupsSize();

@@ -318,7 +318,7 @@ namespace OxDAOEngine.ControlFactory
             OnExpandedChanging(new ExpandedChangedEventArgs(expanded, value));
             expanded = value;
 
-            DoWithSuspendedLayout(
+            WithSuspendedLayout(
                 () =>
                 {
                     Padding[Dock].Visible = value;
@@ -440,7 +440,7 @@ namespace OxDAOEngine.ControlFactory
 
             OxPanel? parentFillControl = GetParentFillControl();
 
-            parentFillControl?.DoWithSuspendedLayout(
+            parentFillControl?.WithSuspendedLayout(
                 () =>
                 {
                     if (Pinned)

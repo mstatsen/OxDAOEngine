@@ -253,7 +253,7 @@ public abstract class DAOWorker<TField, TDAO, TFieldGroup>
     }
 
     private void RecalcGroupsAvailability() =>
-        Editor.DoWithSuspendedLayout(
+        Editor.WithSuspendedLayout(
             () =>
             {
                 bool parentsVisibleChanged = Editor.SetParentsVisible(true);
