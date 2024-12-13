@@ -241,11 +241,8 @@ public abstract class RootDAO<TField> : DAO, IDAO, IFieldMapping<TField>
     private void UpdateImage(Bitmap? value)
     {
         if (!UseImageList
-            || (Image is null && value is null)
-            || (Image is not null && Image.Equals(value))
-            || (value is not null && value.Equals(Image))
-        )
-            return;
+            || !OxHelper.Changed(Image, value))
+                return;
 
         DAOImage? daoImage = DataManager.FieldController<TField>().SuitableImage(value);
         ImageId = daoImage is not null 

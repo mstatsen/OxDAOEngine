@@ -47,7 +47,7 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         BaseColor = ControlFactory.ItemColorer.BaseColor(item);
         FontColors.BaseColor = ControlFactory.ItemColorer.ForeColor(item);
 
-        if (Expanded)
+        if (IsExpanded)
             PrepareControls();
 
         PrepareColors();
@@ -64,20 +64,24 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         Layouter = Builder.Layouter;
         SetSizes();
         FontColors = new OxColorHelper(DefaultForeColor);
-        SettingsAvailable = false;
+        SettingsAvailable = OxB.F;
         Icon = DataManager.ListController<TField, TDAO>().Icon;
     }
 
-    protected override void OnExpandedChanged(ExpandedChangedEventArgs e)
+    protected override void OnExpandedChanged(OxBoolChangedEventArgs e)
     {
         base.OnExpandedChanged(e);
-        RenewControls();
+
+        if (e.IsChanged)
+            RenewControls();
     }
 
-    protected override void OnVisibleChanged(EventArgs e)
+    public override void OnVisibleChanged(OxBoolChangedEventArgs e)
     {
         base.OnVisibleChanged(e);
-        RenewControls();
+
+        if (e.IsChanged)
+            RenewControls();
     }
 
     private void SetSizes()
@@ -89,10 +93,10 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
             Margin.Bottom = 0;
 
         Margin.Top =
-            OxSH.Short(
+            OxSh.Short(
                 Dock is OxDock.Bottom
                 ? 1
-                : OxSH.Short(Pinned ? 9 : 4)
+                : OxSh.Short(IsPinned ? 9 : 4)
             );
 
         Margin.Right = 0;
@@ -100,8 +104,13 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         HeaderHeight = 36;
     }
 
-    protected override void OnPinnedChanged(PinnedChangedEventArgs e) =>
+    protected override void OnPinnedChanged(OxBoolChangedEventArgs e)
+    {
+        if (!e.IsChanged)
+            return;
+
         SetSizes();
+    }
 
     public OxPanel AsPane => this;
 
@@ -169,7 +178,7 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         Layouter.Template.FontStyle = FontStyle.Bold;
         Layouter.Template.LabelColor = FontColors.Lighter();
         Layouter.Template.LabelStyle = FontStyle.Italic;
-        Layouter.Template.AutoSize = true;
+        Layouter.Template.AutoSize = OxB.T;
     }
 
     private void PrepareLayoutsInternal()
@@ -224,7 +233,7 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
                 IControlAccessor placedControl = Builder[layout.Field];
 
                 if (placedControl is not null)
-                    placedControl.Control.Visible = false;
+                    placedControl.Control.Visible = OxB.F;
             }
 
         ClearLayouts();
@@ -240,7 +249,7 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
         {
             Headers.TryGetValue(parentPanel, out var header);
 
-            short lastBottom = OxSH.Short(header is not null ? 8 : 0);
+            short lastBottom = OxSh.Short(header is not null ? 8 : 0);
             short maxBottom = lastBottom;
             bool visibleControlsExists = false;
             ControlLayout<TField>? prevLayout = null;
@@ -253,16 +262,16 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
                 if (placedControl is null)
                     continue;
 
-                placedControl.Visible = controlVisible;
+                placedControl.SetVisible(controlVisible);
 
                 if (controlVisible)
                 {
                     visibleControlsExists = true;
                     placedControl.Control.Top =
-                        OxSH.Add(
+                        OxSh.Add(
                             lastBottom,
                             prevLayout is not null
-                                ? OxSH.Sub(
+                                ? OxSh.Sub(
                                     layout.Top,
                                     prevLayout is not null ? prevLayout!.Bottom : 0
                                 )
@@ -276,9 +285,9 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
                 prevLayout = layout;
             }
 
-            parentPanel.Height = OxSH.Add(maxBottom, 36);
-            parentPanel.Visible = visibleControlsExists;
-            HeaderVisible = visibleControlsExists;
+            parentPanel.Height = OxSh.Add(maxBottom, 36);
+            parentPanel.SetVisible(visibleControlsExists);
+            SetHeaderVisible(visibleControlsExists);
         }
     }
 
@@ -307,8 +316,8 @@ public abstract class ItemInfo<TField, TDAO, TFieldGroup> : FunctionsPanel<TFiel
     public override void SaveSettings()
     {
         base.SaveSettings();
-        Settings.ItemInfoPanelPinned = Pinned;
-        Settings.ItemInfoPanelExpanded = Expanded;
+        Settings.ItemInfoPanelPinned = IsPinned;
+        Settings.ItemInfoPanelExpanded = IsExpanded;
     }
 
     protected ControlFactory<TField, TDAO> ControlFactory = 

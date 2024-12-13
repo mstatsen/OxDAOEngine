@@ -5,6 +5,7 @@ using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.ControlFactory.Controls;
 using OxDAOEngine.ControlFactory.ValueAccessors;
 using OxDAOEngine.Data;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Accessors;
 
@@ -80,7 +81,7 @@ public class CustomControlAccessor<TField, TDAO, TControl, TItem> : ControlAcces
             ? (TControl?)Control 
             : null;
 
-    protected override void SetReadOnly(bool value)
+    protected override void SetReadOnly(OxBool value)
     {
         if (CustomControl is not null 
             && CustomControl.ReadonlyMode is ReadonlyMode.EditAsReadonly)
@@ -94,7 +95,7 @@ public class CustomControlAccessor<TField, TDAO, TControl, TItem> : ControlAcces
         if (CustomControl is not null 
             && CustomControl.Parent?.Parent is OxPanel panel)
         {
-            if (value)
+            if (IsReadOnly)
             {
                 panel.Padding.Top = 2;
                 panel.Padding.Bottom = 2;

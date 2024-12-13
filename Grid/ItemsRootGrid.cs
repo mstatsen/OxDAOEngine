@@ -77,7 +77,7 @@ namespace OxDAOEngine.Grid
 
         public void ExecuteAction(OxToolbarAction action)
         {
-            if (ReadOnly)
+            if (IsReadOnly)
             {
                 if (action is OxToolbarAction.Edit 
                     && CurrentItem is not null)

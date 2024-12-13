@@ -64,6 +64,9 @@
     <Compile Update="ControlFactory\Filter\RulePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="ControlFactory\FunctionsPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Editor\DAOEditor.cs">
       <SubType>Form</SubType>
     </Compile>

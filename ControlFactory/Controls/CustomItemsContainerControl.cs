@@ -63,9 +63,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         public IMatcher<TField>? Filter { get; set; }
 
-        protected virtual bool EqualsItems(TItem? leftItem, TItem? rightItem) => 
-            (leftItem is null && rightItem is null)
-            || (leftItem is not null && leftItem.Equals(rightItem));
+        protected virtual bool EqualsItems(TItem? leftItem, TItem? rightItem) =>
+            OxHelper.Equals(leftItem, rightItem);
 
         protected TList GetExistingItems(TypeOfEditorShow editingType)
         {
@@ -84,8 +83,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private bool AddItem(TypeOfEditorShow addType = TypeOfEditorShow.Add)
         {
-            if (!AddButton.Enabled 
-                || readOnly 
+            if (!AddButton.IsEnabled 
+                || IsReadOnly 
                 || AllItemsAdded)
                 return false;
 
@@ -130,8 +129,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void EditItem()
         {
-            if (!EditButton.Enabled 
-                || (readOnly 
+            if (!EditButton.IsEnabled 
+                || (IsReadOnly 
                     && ReadonlyMode.Equals(ReadonlyMode.ViewAsReadonly)))
                 return;
 
@@ -140,7 +139,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             if (item is null)
                 return;
 
-            if (!Editor(TypeOfEditorShow.Edit).Edit(item, readOnly))
+            if (!Editor(TypeOfEditorShow.Edit).Edit(item, ReadOnly))
                 return;
             
             ItemsContainer.BeginUpdate();
@@ -174,8 +173,8 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         private void RemoveItem()
         {
-            if (!DeleteButton.Enabled || 
-                readOnly)
+            if (!DeleteButton.IsEnabled || 
+                IsReadOnly)
                 return;
 
             ItemsContainer.BeginUpdate();
@@ -205,25 +204,28 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         protected virtual void EnableControls()
         {
-            ButtonsPanel.Visible = 
-                !(readOnly 
+            ButtonsPanel.SetVisible(
+                !(IsReadOnly 
                     && ReadonlyMode is ReadonlyMode.ViewAsReadonly) 
-                || ButtonEffects.ContainsValue(ItemsContainerButtonEffect.View);
+                || ButtonEffects.ContainsValue(ItemsContainerButtonEffect.View)
+            );
 
-            AddButton.Visible = !readOnly;
-            AddChildButton.Visible = !readOnly && ItemsContainer.AvailableChilds;
-            DeleteButton.Visible = !readOnly;
+            AddButton.SetVisible(!IsReadOnly);
+            AddChildButton.SetVisible(!IsReadOnly && ItemsContainer.IsAvailableChilds);
+            DeleteButton.SetVisible(!IsReadOnly);
             RecalcEditButtonVisible();
-            AddButton.Enabled = !AllItemsAdded;
-            AddChildButton.Enabled = 
+            AddButton.SetEnabled(!AllItemsAdded);
+            AddChildButton.SetEnabled(
                 !AllItemsAdded 
-                && SelectedItem is not null;
+                && SelectedItem is not null
+            );
 
             foreach (OxClickFrame eControl in EnabledWhenItemSelected)
-                eControl.Enabled = 
+                eControl.SetEnabled(
                     ItemsContainer.SelectedIndex > -1 
                     && (FixedItems is null 
-                        || !FixedItems.Contains(ItemsContainer.SelectedItem));
+                        || !FixedItems.Contains(ItemsContainer.SelectedItem))
+                );
         }
 
         protected void PrepareEditButton(OxIconButton button, EventHandler handler,
@@ -280,14 +282,14 @@ namespace OxDAOEngine.ControlFactory.Controls
         private readonly OxIconButton DeleteButton = CreateButton(OxIcons.Minus);
         private readonly OxIconButton EditButton = CreateButton(OxIcons.Pencil);
 
-        private void SetEditButtonVisible(bool value)
+        private void SetEditButtonVisible(OxBool value)
         {
             if (EditButton is null 
                 || EditButton.Visible.Equals(value))
                 return;
 
-            if (!readOnly 
-                || !value)
+            if (!IsReadOnly 
+                || !OxB.B(value))
                 EditButton.Visible = value;
         }
 
@@ -295,7 +297,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         {
             ButtonsPanel.Parent = this;
             ButtonsPanel.Dock = OxDock.Right;
-            ButtonsPanel.Width = OxSH.Add(ButtonWidth, OxSH.X2(ButtonSpace));
+            ButtonsPanel.Width = OxSh.Add(ButtonWidth, OxSh.X2(ButtonSpace));
             _ = new OxPanel(new(1, ButtonSpace))
             {
                 Parent = ButtonsPanel,
@@ -312,12 +314,12 @@ namespace OxDAOEngine.ControlFactory.Controls
 
             foreach (OxClickFrame button in Buttons)
             {
-                if (!button.Visible)
+                if (!button.IsVisible)
                     continue;
 
                 button.Left = ButtonSpace;
                 button.Top = calcedTop;
-                calcedTop = OxSH.Add(button.Bottom, ButtonSpace);
+                calcedTop = OxSh.Add(button.Bottom, ButtonSpace);
             }
         }
 
@@ -348,17 +350,19 @@ namespace OxDAOEngine.ControlFactory.Controls
             ItemsContainer.CheckIsMandatoryItem += ListBoxCheckIsMandatoryItemHandler;
         }
 
-        private bool ListBoxCheckIsMandatoryItemHandler(object item) =>
+        private OxBool ListBoxCheckIsMandatoryItemHandler(object item) =>
             IsMandatoryItem((TItem)item);
 
-        private bool ListBoxCheckIsHighPriorityItemHandler(object item) => 
+        private OxBool ListBoxCheckIsHighPriorityItemHandler(object item) => 
             IsHighPriorityItem((TItem)item);
 
-        protected virtual bool IsMandatoryItem(TItem item) =>
-            FixedItems is not null 
-            && FixedItems.Contains(item);
+        protected virtual OxBool IsMandatoryItem(TItem item) =>
+            OxB.B(
+                FixedItems is not null
+                && FixedItems.Contains(item)
+            );
 
-        protected virtual bool IsHighPriorityItem(TItem item) => false;
+        protected virtual OxBool IsHighPriorityItem(TItem item) => OxB.F;
 
         private void ListBoxKeyUpHandler(object? sender, KeyEventArgs e)
         {
@@ -443,7 +447,7 @@ namespace OxDAOEngine.ControlFactory.Controls
 
         public override void OnSizeChanged(OxSizeChangedEventArgs e)
         {
-            if (!e.Changed)
+            if (!e.IsChanged)
                 return;
 
             base.OnSizeChanged(e);
@@ -456,9 +460,11 @@ namespace OxDAOEngine.ControlFactory.Controls
                 return;
 
             SetEditButtonVisible(
-                (!readOnly
-                    || ReadonlyMode is not ReadonlyMode.ViewAsReadonly) 
-                && (ButtonsPanel.Height > CalcedButtonsHeight)
+                OxB.B(
+                    (!IsReadOnly
+                        || ReadonlyMode is not ReadonlyMode.ViewAsReadonly) 
+                    && (ButtonsPanel.Height > CalcedButtonsHeight)
+                )
             );
             LayoutButtons();
         }
@@ -470,34 +476,34 @@ namespace OxDAOEngine.ControlFactory.Controls
                 short calcedHeight = 0;
 
                 foreach (OxClickFrame button in Buttons)
-                    if (button.Visible)
-                        calcedHeight += OxSH.Add(button.Height, ButtonSpace);
+                    if (button.IsVisible)
+                        calcedHeight += OxSh.Add(button.Height, ButtonSpace);
 
                 if (EditButton is not null 
-                    && !EditButton.Visible)
-                    calcedHeight += OxSH.Add(EditButton.Height, ButtonSpace);
+                    && !EditButton.IsVisible)
+                    calcedHeight += OxSh.Add(EditButton.Height, ButtonSpace);
 
                 return calcedHeight;
             }
         }
 
-        protected override void OnVisibleChanged(EventArgs e)
+        public override void OnVisibleChanged(OxBoolChangedEventArgs e)
         {
             base.OnVisibleChanged(e);
             RecalcEditButtonVisible();
         }
 
-        protected override bool GetReadOnly() => 
+        protected override OxBool GetReadOnly() => 
             readOnly;
 
-        protected override void SetReadOnly(bool value)
+        protected override void SetReadOnly(OxBool value)
         {
             readOnly = value;
             EnableControls();
             LayoutButtons();
         }
 
-        private bool readOnly = false;
+        private OxBool readOnly = OxB.F;
 
         public EventHandler? itemAdded;
         public EventHandler? itemRemoved;

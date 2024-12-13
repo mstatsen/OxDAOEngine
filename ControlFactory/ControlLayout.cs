@@ -18,7 +18,9 @@ public class ControlLayout<TField>
     public short Top { get; set; }
     public short Width { get; set; }
     public short Height { get; set; }
-    public bool Visible { get; set; }
+    public OxBool Visible { get; set; }
+    public bool IsVisible => OxB.B(Visible);
+    public void SetVisible(bool value) => Visible = OxB.B(value);
     public Color BackColor { get; set; }
     public Color FontColor { get; set; }
     public AnchorStyles Anchors { get; set; }
@@ -31,11 +33,13 @@ public class ControlLayout<TField>
     public Color LabelColor { get; set; }
     public FontStyle LabelStyle { get; set; }
     public short MaximumLabelWidth { get; set; }
-    public bool AutoSize { get; set; }
+    public OxBool AutoSize { get; set; }
+    public bool IsAutoSize => OxB.B(AutoSize);
+    public void SetAutoSize(bool value) => AutoSize = OxB.B(value);
     public bool SupportClickedLabels { get; set; } = false;
 
-    public short Right => OxSH.Add(Left, Width);
-    public short Bottom => OxSH.Add(Top, Height);
+    public short Right => OxSh.Add(Left, Width);
+    public short Bottom => OxSh.Add(Top, Height);
 
     public void Clear()
     {
@@ -45,7 +49,7 @@ public class ControlLayout<TField>
         Top = 0;
         Width = 100;
         Height = 28;
-        Visible = true;
+        Visible = OxB.T;
         BackColor = Color.FromKnownColor(KnownColor.Window);
         FontColor = Color.FromKnownColor(KnownColor.WindowText);
         CaptionVariant = ControlCaptionVariant.Left;
@@ -58,7 +62,7 @@ public class ControlLayout<TField>
         LabelColor = Color.FromKnownColor(KnownColor.WindowText);
         LabelStyle = FontStyle.Regular;
         MaximumLabelWidth = 64;
-        AutoSize = false;
+        AutoSize = OxB.F;
     }
 
     public void ApplyLayout(PlacedControl<TField> placedControl)
@@ -200,22 +204,23 @@ public class ControlLayout<TField>
         if (WrapLabel)
             label.MaximumSize = new OxSize(MaximumLabelWidth, 0);
 
-        label.AutoSize = true;
-        label.Visible = 
-            Visible 
-            && CaptionVariant is not ControlCaptionVariant.None; 
+        label.AutoSize = OxB.T;
+        label.SetVisible(
+            IsVisible 
+            && CaptionVariant is not ControlCaptionVariant.None
+        );
 
         switch (CaptionVariant)
         {
             case ControlCaptionVariant.Left:
-                label.Left = OxSH.Sub(Left, label.Width, Space);
+                label.Left = OxSh.Sub(Left, label.Width, Space);
 
                 if (control is not null)
                     OxControlHelper.AlignByBaseLine(control, label);
                 break;
             case ControlCaptionVariant.Top:
-                label.Left = OxSH.Sub(Left, 2);
-                label.Top = OxSH.Sub(Top, 13);
+                label.Left = OxSh.Sub(Left, 2);
+                label.Top = OxSh.Sub(Top, 13);
                 break;
             case ControlCaptionVariant.None:
                 label.Text = string.Empty;
@@ -259,7 +264,7 @@ public class ControlLayout<TField>
     public void OffsetVertical(ControlLayout<TField>? fixedLayout, int offset)
     {
         if (fixedLayout is not null)
-            Top = OxSH.Add(fixedLayout.Bottom, offset);
+            Top = OxSh.Add(fixedLayout.Bottom, offset);
     }
 
     public void OffsetVertical(ControlLayout<TField>? fixedLayout, bool withMargins = true) =>

@@ -28,9 +28,15 @@ namespace OxDAOEngine.ControlFactory.Accessors
         object? MaximumValue { get; set; }
         object? MinimumValue { get; set; }
         IOxBox? Parent { get; set; }
-        bool Visible { get; set; }
-        bool Enabled { get; set; }
-        bool ReadOnly { get; set; }
+        OxBool Visible { get; set; }
+        bool IsVisible { get; }
+        void SetVisible(bool value);
+        OxBool Enabled { get; set; }
+        bool IsEnabled { get; }
+        void SetEnabled(bool value);
+        OxBool ReadOnly { get; set; }
+        bool IsReadOnly { get; }
+        void SetReadOnly(bool value);
         short Left { get; set; }
         short Right { get; set; }
         short Top { get; set; }
@@ -42,7 +48,6 @@ namespace OxDAOEngine.ControlFactory.Accessors
         string SingleStringValue { get; }
         Guid GuidValue { get; }
         void SetDefaultValue();
-
         IOxControl? ReadOnlyControl { get; }
     }
 }

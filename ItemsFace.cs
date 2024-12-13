@@ -116,8 +116,8 @@ namespace OxDAOEngine
 
             result.Margin.Size = 0;
             result.Margin.Bottom = 1;
-            result.Borders.SetVisible(OxDock.Left, false);
-            result.Borders.SetVisible(OxDock.Right, false);
+            result.Borders.SetVisible(OxDock.Left, OxB.F);
+            result.Borders.SetVisible(OxDock.Right, OxB.F);
             return result;
         }
 
@@ -324,8 +324,8 @@ namespace OxDAOEngine
             { 
                 if (Settings.Observer[DAOSetting.ShowIcons])
                 {
-                    tabControl.TabButtons[iconsView!].Visible = Settings.ShowIcons;
-                    iconsView!.Visible = Settings.ShowIcons;
+                    tabControl.TabButtons[iconsView!].SetVisible(Settings.ShowIcons);
+                    iconsView!.SetVisible(Settings.ShowIcons);
                 }
 
                 iconsView?.ApplySettings();
@@ -335,8 +335,8 @@ namespace OxDAOEngine
             {
                 if (Settings.Observer[DAOSetting.ShowCards])
                 {
-                    tabControl.TabButtons[cardsView!].Visible = Settings.ShowCards;
-                    cardsView!.Visible = Settings.ShowCards;
+                    tabControl.TabButtons[cardsView!].SetVisible(Settings.ShowCards);
+                    cardsView!.SetVisible(Settings.ShowCards);
                 }
 
                 cardsView!.ApplySettings();
@@ -346,10 +346,11 @@ namespace OxDAOEngine
         }
 
         private void SetTabButtonsVisible() =>
-            tabControl.HeaderVisible =
-                (ListController.AvailableCards && Settings.ShowCards) ||
-                (ListController.AvailableIcons && Settings.ShowIcons) ||
-                ListController.AvailableSummary;
+            tabControl.SetHeaderVisible(
+                (ListController.AvailableCards && Settings.ShowCards)
+                || (ListController.AvailableIcons && Settings.ShowIcons)
+                || ListController.AvailableSummary
+            );
 
         public virtual void SaveSettings()
         {
@@ -367,7 +368,7 @@ namespace OxDAOEngine
         private void PrepareLoadingPanel()
         {
             loadingPanel.Parent = tabControl;
-            loadingPanel.Visible = false;
+            loadingPanel.Visible = OxB.F;
             loadingPanel.Margin.Top = 4;
             loadingPanel.Borders.Size = 1;
         }
@@ -412,7 +413,7 @@ namespace OxDAOEngine
             categoriesTree.Margin.Bottom = 2;
             categoriesTree.Margin.Right = 0;
             categoriesTree.Padding.Size = 2;
-            categoriesTree.Borders[OxDock.Right].Visible = false;
+            categoriesTree.Borders[OxDock.Right].Visible = OxB.F;
             categoriesTree.ActiveCategoryChanged += ActiveCategoryChangedHandler;
             categoriesTree.ActiveCategoryChanged += RenewFilterControls;
             categoriesTree.RecalcPinned();
@@ -489,27 +490,30 @@ namespace OxDAOEngine
                 statisticPanel.BaseColor = BaseColor;
         }
 
-        protected override void OnVisibleChanged(EventArgs e)
+        public override void OnVisibleChanged(OxBoolChangedEventArgs e)
         {
             base.OnVisibleChanged(e);
 
+            if (!e.IsChanged)
+                return;
+
             if (ListController.AvailableQuickFilter)
             {
-                if (Visible)
+                if (IsVisible)
                     quickFilter.RecalcPaddings();
 
                 quickFilter.SiderEnabled = Visible;
 
-                if (!quickFilter.Pinned)
-                    quickFilter.Expanded = false;
+                if (!quickFilter.IsPinned)
+                    quickFilter.Expanded = OxB.F;
             }
 
             if (ListController.AvailableCategories)
             {
                 categoriesTree.SiderEnabled = Visible;
 
-                if (!categoriesTree.Pinned)
-                    categoriesTree.Expanded = false;
+                if (!categoriesTree.IsPinned)
+                    categoriesTree.Expanded = OxB.F;
             }
 
             if (tableView is not null
@@ -517,9 +521,9 @@ namespace OxDAOEngine
             {
                 tableView.InfoPanel.SiderEnabled = Visible;
 
-                if (Visible)
-                    if (!tableView.InfoPanel.Pinned)
-                        tableView.InfoPanel.Expanded = false;
+                if (IsVisible
+                    && !tableView.InfoPanel.IsPinned)
+                    tableView.InfoPanel.Expanded = OxB.F;
             }
         }
 

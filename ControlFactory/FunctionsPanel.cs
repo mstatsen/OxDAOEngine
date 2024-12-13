@@ -12,34 +12,7 @@ using OxLibrary.Geometry;
 
 namespace OxDAOEngine.ControlFactory
 {
-    public class PinnedChangedEventArgs : EventArgs
-    {
-        public readonly bool OldPinned;
-        public readonly bool NewPinned;
-
-        public PinnedChangedEventArgs(bool oldPinned, bool newPinned)
-        {
-            OldPinned = oldPinned;
-            NewPinned = newPinned;
-        }
-    }
-
-    public class ExpandedChangedEventArgs : EventArgs
-    {
-        public readonly bool OldExpanded;
-        public readonly bool NewExpanded;
-
-        public ExpandedChangedEventArgs(bool oldExpanded, bool newExpanded)
-        {
-            OldExpanded = oldExpanded;
-            NewExpanded = newExpanded;
-        }
-    }
-
-    public delegate void FunctionsPanelPinnedChangeHandler<TSettings>(FunctionsPanel<TSettings> sender, PinnedChangedEventArgs e)
-        where TSettings : ISettingsController;
-
-    public delegate void FunctionsPanelExpandedChangeHandler<TSettings>(FunctionsPanel<TSettings> sender, ExpandedChangedEventArgs e)
+    public delegate void BoolChandedEvent<TSettings>(FunctionsPanel<TSettings> sender, OxBoolChangedEventArgs e)
         where TSettings : ISettingsController;
 
     public abstract class FunctionsPanel<TSettings> : OxFunctionsPanel
@@ -47,20 +20,30 @@ namespace OxDAOEngine.ControlFactory
     {
         public FunctionsPanel() : base()
         {
-            ShowSettingsButton = true;
+            ShowSettingsButton = OxB.T;
             BaseColor = FunctionColor;
 
             waiter = new OxWaiter(StopWaiter);
             waiter.Start();
         }
 
-        protected bool SettingsAvailable { get; set; } = true;
+        protected OxBool SettingsAvailable { get; set; } = OxB.T;
+        protected bool IsSettingsAvailable =>
+            OxB.B(SettingsAvailable);
+        protected void SetSettingsAvailable(bool value) =>
+            SettingsAvailable = OxB.B(value);
 
-        private bool ShowSettingsButton
+        private OxBool ShowSettingsButton
         {
             get => CustomizeButton.Visible;
-            set => CustomizeButton.Visible = SettingsAvailable && value;
+            set => CustomizeButton.Visible = OxB.And(SettingsAvailable, value);
         }
+
+        private bool IsShowSettingsButton =>
+            OxB.B(ShowSettingsButton);
+
+        private void SetShowSettingsButton(bool value) =>
+            ShowSettingsButton = OxB.B(value);
 
         public sealed override Color DefaultColor => base.DefaultColor;
         protected abstract Color FunctionColor { get; }
@@ -132,23 +115,31 @@ namespace OxDAOEngine.ControlFactory
             HiddenBorder = false
         };
 
-        protected override void OnVisibleChanged(EventArgs e)
+        public override void OnVisibleChanged(OxBoolChangedEventArgs e)
         {
             base.OnVisibleChanged(e);
-            RecalcPinned();
+
+            if (e.IsChanged)
+                RecalcPinned();
         }
 
-        public bool SiderEnabled
+        public OxBool SiderEnabled
         {
-            get => waiter.Enabled;
-            set => waiter.Enabled = value && !Pinned;
+            get => OxB.B(IsSiderEnabled);
+            set => SetSiderEnabled(OxB.B(value));
         }
+
+        public bool IsSiderEnabled =>
+            waiter.Enabled;
+
+        public void SetSiderEnabled(bool value) =>
+            waiter.Enabled = value && !IsPinned;
 
         public override void OnParentChanged(OxParentChangedEventArgs e)
         {
             base.OnParentChanged(e);
 
-            if (ShowSettingsButton)
+            if (IsShowSettingsButton)
             {
                 IOxBox? upParent = Parent;
 
@@ -156,7 +147,7 @@ namespace OxDAOEngine.ControlFactory
                 {
                     if (upParent is SettingsForm)
                     {
-                        ShowSettingsButton = false;
+                        ShowSettingsButton = OxB.F;
                         break;
                     }
 
@@ -196,10 +187,10 @@ namespace OxDAOEngine.ControlFactory
         public void ApplySettings()
         {
             if (GeneralObserver[GeneralSetting.ShowCustomizeButtons])
-                ShowSettingsButton = GeneralSettings.ShowCustomizeButtons;
+                SetShowSettingsButton(GeneralSettings.ShowCustomizeButtons);
 
             if (GeneralObserver[GeneralSetting.DoublePinButtons])
-                PinButton2.Visible = GeneralSettings.DoublePinButtons;
+                PinButton2.SetVisible(GeneralSettings.DoublePinButtons);
 
             if (GeneralObserver[GeneralSetting.ColorizePanels])
                 BaseColor = GeneralSettings.ColorizePanels ? FunctionColor : DefaultColor;
@@ -218,8 +209,8 @@ namespace OxDAOEngine.ControlFactory
 
         protected void StartLoading()
         {
-            HeaderVisible = false;
-            Header.ToolBar.Enabled = false;
+            HeaderVisible = OxB.F;
+            Header.ToolBar.Enabled = OxB.F;
 
             if (GeneralSettings.DarkerHeaders)
                 BaseColor = Colors.Darker();
@@ -231,8 +222,8 @@ namespace OxDAOEngine.ControlFactory
         {
             loadingPanel.EndLoading();
             BaseColor = Colors.Lighter();
-            Header.ToolBar.Enabled = true;
-            HeaderVisible = true;
+            Header.ToolBar.Enabled = OxB.T;
+            HeaderVisible = OxB.T;
         }
 
         /*
@@ -261,13 +252,14 @@ namespace OxDAOEngine.ControlFactory
                 return;
 
             Borders.Size = 1;
-            Padding.SetVisible(Dock, true);
+            Padding.SetVisible(Dock, OxB.T);
             Sider.Dock = OxDockHelper.Opposite(Dock);
-            Borders[Sider.Dock].Size = OxSH.Short(isFixedPanel ? 1 : 0);
-            Sider.Visible = 
+            Borders[Sider.Dock].Size = OxSh.Short(isFixedPanel ? 1 : 0);
+            Sider.SetVisible(
                 !isFixedPanel
                 && Dock is not OxDock.Fill
-                       and not OxDock.None;
+                       and not OxDock.None
+            );
 
             if (OxDockHelper.IsVertical(Dock))
             {
@@ -302,20 +294,18 @@ namespace OxDAOEngine.ControlFactory
 
         private void SetExpandButtonLastBorder() =>
             ExpandButton.Borders[PinButton2.Dock].Size = 
-                OxSH.Short(!PinButton2.Visible ? 1 : 0);
+                OxSh.Short(!PinButton2.IsVisible ? 1 : 0);
 
-        private bool expanded = false;
+        private OxBool expanded = OxB.F;
 
-        private void SetExpanded(bool value)
+        private void SetExpanded(OxBool value)
         {
-            if (!OxDockHelper.IsSingleDirectionDock(Sider.Dock))
+            if (!OxDockHelper.IsSingleDirectionDock(Sider.Dock)
+                || !Expandable)
                 return;
 
-            if (!Expandable)
-                return;
-
-            value = isFixedPanel || value;
-            OnExpandedChanging(new ExpandedChangedEventArgs(expanded, value));
+            value = OxB.Or(isFixedPanel, value);
+            OnExpandedChanging(new OxBoolChangedEventArgs(expanded, value));
             expanded = value;
 
             WithSuspendedLayout(
@@ -325,25 +315,25 @@ namespace OxDAOEngine.ControlFactory
                     Padding[Sider.Dock].Visible = value;
                     HeaderVisible = value;
                     ExpandButton.Icon = ExpandButtonIcon;
-                    Borders[Dock].Size = OxSH.Short(value ? 1 : 0);
+                    Borders[Dock].Size = OxSh.Short(IsExpanded ? 1 : 0);
                 }
             );
 
             Update();
             RecalcPinned();
 //          RecalcSize();
-            OnExpandedChanged(new ExpandedChangedEventArgs(!Expanded, Expanded));
+            OnExpandedChanged(new OxBoolChangedEventArgs(IsExpanded));
         }
 
-        protected virtual void OnExpandedChanging(ExpandedChangedEventArgs e) => 
+        protected virtual void OnExpandedChanging(OxBoolChangedEventArgs e) => 
             ExpandedChanging?.Invoke(this, e);
 
-        protected virtual void OnExpandedChanged(ExpandedChangedEventArgs e) =>
+        protected virtual void OnExpandedChanged(OxBoolChangedEventArgs e) =>
             ExpandedChanged?.Invoke(this, e);
 
         private void SetMouseHandler(Control control)
         {
-            if (pinned)
+            if (IsPinned)
             {
                 control.MouseEnter -= MouseEnterHandler;
                 control.MouseLeave -= MouseLeaveHandler;
@@ -361,7 +351,7 @@ namespace OxDAOEngine.ControlFactory
         private void SetMouseHandlers()
         {
             if (mouseHandlersSetted is not null 
-                && mouseHandlersSetted.Equals(pinned))
+                && mouseHandlersSetted.Equals(IsPinned))
                 return;
 
             SetMouseHandler(this);
@@ -371,54 +361,61 @@ namespace OxDAOEngine.ControlFactory
             SetMouseHandler(PinButton.Picture);
             SetMouseHandler(PinButton2);
             SetMouseHandler(PinButton2.Picture);
-            mouseHandlersSetted = pinned;
+            mouseHandlersSetted = IsPinned;
         }
 
         protected override void SetHandlers()
         {
             base.SetHandlers();
             //ApplyVisibleChangedHandler(ContentBox);
-            ExpandButton.Click += (s, e) => Expanded = !Expanded;
-            PinButton.Click += (s, e) => Pinned = !Pinned;
-            PinButton2.Click += (s, e) => Pinned = !Pinned;
+            ExpandButton.Click += (s, e) => Expanded = OxB.Not(Expanded);
+            PinButton.Click += (s, e) => SetPinned(!IsPinned);
+            PinButton2.Click += (s, e) => SetPinned(!IsPinned);
             SetMouseHandlers();
         }
 
-        public bool Expanded
+        public OxBool Expanded
         {
-            get => isFixedPanel || expanded;
+            get => OxB.Or(isFixedPanel, expanded);
             set => SetExpanded(value);
         }
 
-        private bool Expandable => (IsVariableWidth || IsVariableHeight);
+        public bool IsExpanded =>
+            OxB.B(Expanded);
+
+        public void SetExpanded(bool value) =>
+            Expanded = OxB.B(value);
+
+        private bool Expandable =>
+            IsVariableWidth || IsVariableHeight;
 
         public Bitmap? ExpandButtonIcon =>
             Dock switch
             {
-                OxDock.Left => expanded ? OxIcons.Left : OxIcons.Right,
-                OxDock.Right => expanded ? OxIcons.Right : OxIcons.Left,
-                OxDock.Top => expanded ? OxIcons.Up : OxIcons.Down,
-                OxDock.Bottom => expanded ? OxIcons.Down : OxIcons.Up,
+                OxDock.Left => IsExpanded ? OxIcons.Left : OxIcons.Right,
+                OxDock.Right => IsExpanded ? OxIcons.Right : OxIcons.Left,
+                OxDock.Top => IsExpanded ? OxIcons.Up : OxIcons.Down,
+                OxDock.Bottom => IsExpanded ? OxIcons.Down : OxIcons.Up,
                 _ => null,
             };
 
-        public void Expand() => Expanded = true;
-        public void Collapse() => Expanded = false;
+        public void Expand() => Expanded = OxB.T;
+        public void Collapse() => Expanded = OxB.F;
 
-        public FunctionsPanelPinnedChangeHandler<TSettings>? PinnedChanged { get; set; }
-        public FunctionsPanelExpandedChangeHandler<TSettings>? ExpandedChanging { get; set; }
-        public FunctionsPanelExpandedChangeHandler<TSettings>? ExpandedChanged { get; set; }
+        public BoolChandedEvent<TSettings>? PinnedChanged { get; set; }
+        public BoolChandedEvent<TSettings>? ExpandedChanging { get; set; }
+        public BoolChandedEvent<TSettings>? ExpandedChanged { get; set; }
 
-        private bool pinned = false;
-        public bool Pinned
+        private OxBool pinned = OxB.F;
+        public OxBool Pinned
         {
-            get => isFixedPanel || pinned;
+            get => OxB.Or(isFixedPanel, pinned);
             set
             {
-                pinned = isFixedPanel || value;
-                waiter.Enabled = !pinned;
+                pinned = OxB.Or(isFixedPanel, value);
+                waiter.Enabled = OxB.B(OxB.Not(pinned));
 
-                if (pinned)
+                if (OxB.B(pinned))
                 {
                     StopWaiter();
                     waiter.Stop();
@@ -427,10 +424,16 @@ namespace OxDAOEngine.ControlFactory
             }
         }
 
+        public bool IsPinned =>
+            OxB.B(Pinned);
+
+        public void SetPinned(bool value) =>
+            Pinned = OxB.B(value);
+
         private void RecalcPinnedButton(OxIconButton button)
         {
-            button.FreezeHovered = pinned;
-            button.Icon = pinned ? OxIcons.Pin : OxIcons.Unpin;
+            button.FreezeHovered = IsPinned;
+            button.Icon = IsPinned ? OxIcons.Pin : OxIcons.Unpin;
         }
 
         public void RecalcPinned()
@@ -443,7 +446,7 @@ namespace OxDAOEngine.ControlFactory
             parentFillControl?.WithSuspendedLayout(
                 () =>
                 {
-                    if (Pinned)
+                    if (IsPinned)
                         SendToBack();
                     else
                         BringToFront();
@@ -451,11 +454,11 @@ namespace OxDAOEngine.ControlFactory
                     SetParentPaddings();
                 }
             );
-            OnPinnedChanged(new PinnedChangedEventArgs(!Pinned, Pinned));
+            OnPinnedChanged(new OxBoolChangedEventArgs(Pinned));
             SetMouseHandlers();
         }
 
-        protected virtual void OnPinnedChanged(PinnedChangedEventArgs e) =>
+        protected virtual void OnPinnedChanged(OxBoolChangedEventArgs e) =>
             PinnedChanged?.Invoke(this, e);
 
         private readonly Guid Id = Guid.NewGuid();
@@ -507,7 +510,7 @@ namespace OxDAOEngine.ControlFactory
             OxPanel? fakePadding = ParentPadding;
 
             short fakePaddingSize =
-                OxSH.Short(
+                OxSh.Short(
                     OxDockHelper.IsVertical(Dock)
                         ? Sider.Height + Margin.Top + Margin.Bottom
                         : Sider.Width + Margin.Left + Margin.Right
@@ -515,16 +518,16 @@ namespace OxDAOEngine.ControlFactory
 
             if (fakePadding is not null)
             {
-                if (!base.Visible)
+                if (!IsVisible)
                 {
-                    fakePadding.Visible = false;
+                    fakePadding.Visible = OxB.F;
                     return;
                 }
 
                 if (fakePadding.Dock.Equals(Dock))
                 {
                     if (Pinned.Equals(fakePadding.Visible))
-                        fakePadding.Visible = !Pinned;
+                        fakePadding.Visible = OxB.Not(Pinned);
                 }
                 else
                 {
@@ -540,7 +543,7 @@ namespace OxDAOEngine.ControlFactory
                     Parent = parentFillControl,
                     Dock = Dock,
                     BackColor = parentFillControl.BackColor,
-                    Visible = !Pinned
+                    Visible = OxB.Not(Pinned)
                 };
 
             if (OxDockHelper.IsVertical(Dock))
@@ -553,30 +556,30 @@ namespace OxDAOEngine.ControlFactory
         private void MouseEnterHandler(object? sender, EventArgs e)
         {
             waiter.Start();
-            waiter.Ready = base.Visible && !Expanded && !pinned;
+            waiter.Ready = IsVisible && !IsExpanded && !IsPinned;
         }
 
         private readonly OxWaiter waiter;
 
         private void MouseLeaveHandler(object? sender, EventArgs e) => 
-            waiter.Ready = base.Visible && Expanded && !pinned;
+            waiter.Ready = IsVisible && IsExpanded && !IsPinned;
 
         private void CheckExpandedState()
         {
-            if (pinned)
+            if (IsPinned)
                 return;
 
             bool onPanel = ClientRectangle.Contains(PointToClient(MousePosition));
 
-            if (!Expanded.Equals(onPanel))
-                Expanded = onPanel;
+            if (!IsExpanded.Equals(onPanel))
+                Expanded = OxB.Not(Expanded);
         }
 
         private int StopWaiter()
         {
             waiter.Stop();
 
-            if (Pinned)
+            if (IsPinned)
                 return 1;
 
             if (Parent is null 
@@ -595,13 +598,13 @@ namespace OxDAOEngine.ControlFactory
                 return;
 
             isFixedPanel = fixedPanel;
-            Sider.Visible = !isFixedPanel;
+            Sider.SetVisible(!isFixedPanel);
                 
             if (isFixedPanel)
             {
                 waiter.Stop();
-                Pinned = true;
-                Expanded = true;
+                Pinned = OxB.T;
+                Expanded = OxB.T;
             }
 
             OnDockChanged(EventArgs.Empty);
@@ -609,14 +612,14 @@ namespace OxDAOEngine.ControlFactory
 
         public new FunctionalPanelVisible Visible
         {
-            get => !base.Visible 
+            get => !IsVisible 
                 ? FunctionalPanelVisible.Hidden 
                 : isFixedPanel 
                     ? FunctionalPanelVisible.Fixed 
                     : FunctionalPanelVisible.Float;
             set
             {
-                base.Visible = value is not FunctionalPanelVisible.Hidden;
+                SetVisible(value is not FunctionalPanelVisible.Hidden);
                 SetAsFixedPanel(value is FunctionalPanelVisible.Fixed);
 
                 if (value is FunctionalPanelVisible.Hidden)
@@ -636,7 +639,7 @@ namespace OxDAOEngine.ControlFactory
             if (parentPadding is null)
                 return;
 
-            parentPadding.Visible = false;
+            parentPadding.Visible = OxB.F;
         }
     }
 
@@ -664,18 +667,20 @@ namespace OxDAOEngine.ControlFactory
             if (Observer[PinnedSetting])
             {
                 bool? settingPinned = (bool?)Settings[PinnedSetting];
-                Pinned = 
+                SetPinned(
                     Visible is FunctionalPanelVisible.Fixed 
-                    || (bool)(settingPinned is not null ? settingPinned : false);
+                    || (bool)(settingPinned is not null ? settingPinned : false)
+                );
             }
 
             if (Observer[PinnedSetting]
                 || Observer[ExpandedSetting])
             {
                 bool? settingExpanded = (bool?)Settings[ExpandedSetting];
-                Expanded = 
-                    Pinned 
-                    && (bool)(settingExpanded is not null ? settingExpanded : false);
+                SetExpanded(
+                    IsPinned 
+                    && (bool)(settingExpanded is not null ? settingExpanded : false)
+                );
             }
 
             if (SettingsManager.Settings<GeneralSettings>().Observer[GeneralSetting.DarkerHeaders])

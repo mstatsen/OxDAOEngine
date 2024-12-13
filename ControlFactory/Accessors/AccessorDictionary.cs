@@ -18,7 +18,7 @@ public class AccessorDictionary<TField, TDAO> : Dictionary<object, IControlAcces
         short maxLeft = 0;
 
         foreach (IControlAccessor accessor in Values)
-            maxLeft = OxSH.Max(maxLeft, accessor.Left);
+            maxLeft = OxSh.Max(maxLeft, accessor.Left);
 
         foreach (IControlAccessor accessor in Values)
             accessor.Left = maxLeft;
@@ -42,7 +42,7 @@ public class AccessorDictionary<TField, TDAO> : Dictionary<object, IControlAcces
             Text = caption is null ? string.Empty : caption,
             Font = OxStyles.Font(FontStyle.Italic),
             TextAlign = ContentAlignment.MiddleCenter,
-            AutoSize = true,
+            AutoSize = OxB.T,
             Cursor = Cursors.Hand
         };
         captionLabel.Click += (s, e) =>
@@ -68,7 +68,7 @@ public class AccessorDictionary<TField, TDAO> : Dictionary<object, IControlAcces
                 $"{typeof(TField).Name}_{typeof(TDAO).Name}_AD{caption!}", 
                 FieldType.Label
             );
-        accessor.Left = OxSH.Add(captionLabel.Right, HorizontalSpace);
+        accessor.Left = OxSh.Add(captionLabel.Right, HorizontalSpace);
         accessor.Top = location.Height;
         accessor.Parent = parent;
         accessor.Value = value;

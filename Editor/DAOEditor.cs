@@ -73,7 +73,7 @@ public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
 
     private void SetGroupsColor()
     {
-        foreach (OxFrame frame in Groups.Values)
+        foreach (IOxPanel frame in Groups.Values)
             frame.BaseColor = Colors.Lighter();
     }
 
@@ -95,8 +95,8 @@ public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
 
     private void SetHandlers()
     {
-        foreach (OxPanel pane in Groups.Values)
-            pane.Resize += (s, e) => InvalidateSize();
+        foreach (IOxPanel pane in Groups.Values)
+            pane.SizeChanged += (s, e) => InvalidateSize();
     }
 
     protected virtual void SetPaddings() { }
@@ -145,8 +145,8 @@ public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
     {
         if (parentGrid is null)
         {
-            prevButton.Visible = false;
-            nextButton.Visible = false;
+            prevButton.Visible = OxB.False;
+            nextButton.Visible = OxB.False;
             return;
         }
 
@@ -162,8 +162,8 @@ public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
         if (parentGrid is null)
             return;
 
-        prevButton.Enabled = !parentGrid.IsFirstRecord;
-        nextButton.Enabled = !parentGrid.IsLastRecord;
+        prevButton.SetEnabled(!parentGrid.IsFirstRecord);
+        nextButton.SetEnabled(!parentGrid.IsLastRecord);
     }
 
     private void NextClickHandler(object? sender, EventArgs e)
@@ -303,12 +303,12 @@ public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
 
             bool calcedVisible = 
                 forceVisible 
-                || parent.Value.Find(g => g.Visible) is not null;
+                || parent.Value.Find(g => OxB.B(g.Visible)) is not null;
 
             if (!parent.Key.Visible.Equals(calcedVisible))
             {
                 visibleChanged = true;
-                parent.Key.Visible = calcedVisible;
+                parent.Key.SetVisible(calcedVisible);
                 parent.Key.Update();
                 parent.Key.Parent?.Update();
             }
@@ -337,7 +337,7 @@ public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
             Text = FieldGroupHelper.Name(group),
             Dock = Groups.Dock(group),
             UseDisabledStyles = false,
-            BlurredBorder = true
+            BlurredBorder = OxB.T
         };
         AddFrameToParent(group, groupFrame);
         Groups.Add(group, groupFrame);
@@ -360,7 +360,7 @@ public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
 
     protected void SetParentsColor() 
     { 
-        foreach (OxPanel panel in ParentPanels)
+        foreach (IOxPanel panel in ParentPanels)
             if (!panel.Equals(FormPanel))
                 panel.BaseColor = Colors.Lighter();
     }
@@ -391,8 +391,8 @@ public abstract partial class DAOEditor<TField, TDAO, TFieldGroup> : OxDialog
 
         foreach (OxFrame container in GroupParents[parentControl].Cast<OxFrame>())
             result +=
-                OxSH.Short(
-                    container.Visible
+                OxSh.Short(
+                    container.IsVisible
                         ? container.Height
                         : 0
                 );

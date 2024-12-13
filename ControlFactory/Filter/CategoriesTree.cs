@@ -188,7 +188,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             }
             finally 
             {
-                ExpandButton.Enabled = categorySelector.GetNodeCount(true) > 0;
+                ExpandButton.SetEnabled(categorySelector.GetNodeCount(true) > 0);
                 CollapseButton.Enabled = ExpandButton.Enabled;
                 ResumeLayout();
                 EndLoading();
@@ -253,8 +253,8 @@ namespace OxDAOEngine.ControlFactory.Filter
         public override void SaveSettings()
         {
             base.SaveSettings();
-            Settings.CategoryPanelPinned = Pinned;
-            Settings.CategoryPanelExpanded = Expanded;
+            Settings.CategoryPanelPinned = IsPinned;
+            Settings.CategoryPanelExpanded = IsExpanded;
         }
 
         private readonly FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();

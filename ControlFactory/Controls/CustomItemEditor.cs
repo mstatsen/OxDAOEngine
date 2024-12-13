@@ -47,8 +47,8 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
 
     public IItemsContainerControl<TField,TDAO>? OwnerControl { get; internal set; }
 
-    protected bool ReadOnly { get; set; }
-    public bool Edit(TItem item, bool readOnly = false)
+    protected OxBool ReadOnly { get; set; }
+    public bool Edit(TItem item, OxBool readOnly = OxBool.False)
     {
         ReadOnly = readOnly;
         PrepareReadonly();
@@ -91,7 +91,7 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
     protected virtual void RecalcSize() => 
         Size = new(
             ContentWidth,
-            ContentHeight + OxSH.Short(!FirstLoad ? 6 : 0)
+            ContentHeight + OxSh.Short(!FirstLoad ? 6 : 0)
         );
 
     protected virtual void CreateControls() { }
@@ -117,8 +117,8 @@ public abstract partial class CustomItemEditor<TItem, TField, TDAO> : OxDialog
             new OxLabel()
             {
                 Parent = this,
-                AutoSize = true,
-                Left = OxSH.Add(OxSH.Short(rightLabel ? control.Right : 0), 8),
+                AutoSize = OxB.T,
+                Left = OxSh.Add(OxSh.Short(rightLabel ? control.Right : 0), 8),
                 Text = caption,
                 Font = OxStyles.DefaultFont
             }

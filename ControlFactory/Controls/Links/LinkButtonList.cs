@@ -35,20 +35,20 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
         private readonly short ButtonHeight = 22;
 
         private short LastBottom =>
-            OxSH.Short(Buttons.Count > 0 ? Buttons[^1].Bottom : 0);
+            OxSh.Short(Buttons.Count > 0 ? Buttons[^1].Bottom : 0);
 
         private short LastRight =>
-            OxSH.Short(Buttons.Count > 0 ? Buttons[^1].Right : 0);
+            OxSh.Short(Buttons.Count > 0 ? Buttons[^1].Right : 0);
 
         private short ButtonLeft() =>
-            OxSH.Short(
+            OxSh.Short(
                 Direction is ButtonListDirection.Horizontal
                     ? LastRight + ButtonSpace
                     : 0
             );
 
         private short ButtonTop() =>
-            OxSH.Short(
+            OxSh.Short(
                 Direction is ButtonListDirection.Horizontal
                     ? 0
                     : LastBottom + ButtonSpace + 1
@@ -66,7 +66,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                 return;
 
             foreach (LinkButton button in Buttons)
-                button.Left = OxSH.Mul(
+                button.Left = OxSh.Mul(
                     Buttons.IndexOf(button), 
                     button.Width + ButtonSpace
                 );
@@ -100,7 +100,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
 
         public override void OnSizeChanged(OxSizeChangedEventArgs e)
         {
-            if (!e.Changed)
+            if (!e.IsChanged)
                 return;
 
             base.OnSizeChanged(e);
@@ -122,8 +122,8 @@ namespace OxDAOEngine.ControlFactory.Controls.Links
                         ? Width - button.Borders.Left
                         : Buttons.Count is 0
                             ? 120
-                            : OxSH.Sub(
-                                    OxSH.Min(Width / Buttons.Count, 120),
+                            : OxSh.Sub(
+                                    OxSh.Min(Width / Buttons.Count, 120),
                                     ButtonSpace * (Buttons.Count - 1),
                                     button.Borders.Left + button.Borders.Right
                               ),

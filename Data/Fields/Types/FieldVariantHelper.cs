@@ -1,6 +1,7 @@
 ﻿using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data.Types;
 using OxDAOEngine.Settings.Part;
+using OxLibrary;
 
 namespace OxDAOEngine.Data.Fields.Types
 {
@@ -31,7 +32,10 @@ namespace OxDAOEngine.Data.Fields.Types
                 _ => "Fields",
             };
 
-        public static bool Sortable(FieldsVariant variant) =>
+        public static OxBool Sortable(FieldsVariant variant) =>
+            OxB.B(IsSortable(variant));
+
+        public static bool IsSortable(FieldsVariant variant) =>
             variant is not FieldsVariant.QuickFilter
                    and not FieldsVariant.QuickFilterText;
 

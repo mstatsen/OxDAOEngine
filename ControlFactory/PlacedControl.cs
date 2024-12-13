@@ -12,7 +12,7 @@ public class PlacedControl<TField>
     public OxLabel? Label { get; internal set; }
     public ControlLayout<TField> Layout { get; internal set; }
 
-    public bool Visible
+    public OxBool Visible
     {
         get => Control.Visible;
         set
@@ -23,6 +23,9 @@ public class PlacedControl<TField>
                 Label.Visible = value;
         }
     }
+
+    public bool IsVisible => OxB.B(Visible);
+    public void SetVisible(bool value) => Visible = OxB.B(value);
 
     public void RecalcLabel() =>
         Layout.RecalcLabel(this);
@@ -41,7 +44,7 @@ public class PlacedControl<TField>
     }
 
     public short LabelRight =>
-        OxSH.Short(
+        OxSh.Short(
             Label is not null
                 ? Label!.Right 
                 : 0

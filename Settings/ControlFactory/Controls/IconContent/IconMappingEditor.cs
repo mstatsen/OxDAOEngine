@@ -42,7 +42,7 @@ public partial class IconMappingEditor<TField> : CustomItemEditor<IconMapping<TF
         ContentPartControl.Parent = this;
         ContentPartControl.Left = 64;
         ContentPartControl.Top = 12;
-        ContentPartControl.Width = OxSH.Sub(FormPanel.Width, ContentPartControl.Left, 8);
+        ContentPartControl.Width = OxSh.Sub(FormPanel.Width, ContentPartControl.Left, 8);
         ContentPartControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
         CreateLabel("Part: ", ContentPartControl);
     }
@@ -53,8 +53,8 @@ public partial class IconMappingEditor<TField> : CustomItemEditor<IconMapping<TF
         ((FieldsInitializer<TField>)FieldControl.Context.Initializer!).SetControlScope(ControlScope.IconView);
         FieldControl.Parent = this;
         FieldControl.Left = ContentPartControl!.Left;
-        FieldControl.Top = OxSH.Add(ContentPartControl.Bottom, 8);
-        FieldControl.Width = OxSH.Sub(FormPanel.Width, FieldControl.Left, 8);
+        FieldControl.Top = OxSh.Add(ContentPartControl.Bottom, 8);
+        FieldControl.Width = OxSh.Sub(FormPanel.Width, FieldControl.Left, 8);
         FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
         CreateLabel("Field: ", FieldControl);
     }
@@ -78,7 +78,7 @@ public partial class IconMappingEditor<TField> : CustomItemEditor<IconMapping<TF
     }
 
     protected override short ContentWidth => 320;
-    protected override short ContentHeight => OxSH.Add(FieldControl.Bottom, 8);
+    protected override short ContentHeight => OxSh.Add(FieldControl.Bottom, 8);
 
     protected override string EmptyMandatoryField() =>
         ContentPartControl.IsEmpty 

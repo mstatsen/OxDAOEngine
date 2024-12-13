@@ -46,14 +46,14 @@ public class SummaryPanel<TField, TDAO> : OxCard
         short maxBottom = 0;
 
         foreach (IControlAccessor accessor in ValueAccessors.Values)
-            maxBottom = OxSH.Max(accessor.Bottom, maxBottom);
+            maxBottom = OxSh.Max(accessor.Bottom, maxBottom);
 
         Header.Size = new(SummaryConsts.CardWidth, SummaryConsts.CardHeaderHeight);
         Size = new(
             SummaryConsts.CardWidth,
-            OxSH.Max(
+            OxSh.Max(
                 SummaryConsts.CardHeight,
-                OxSH.Half(maxBottom + SummaryConsts.CardHeaderHeight)
+                OxSh.Half(maxBottom + SummaryConsts.CardHeaderHeight)
             )
         );
     }
@@ -135,7 +135,7 @@ public class SummaryPanel<TField, TDAO> : OxCard
                 extractItem.Value,
                 nextLocation
             );
-            nextLocation.Height = OxSH.Third(OxSH.Add(accessor.Bottom, SummaryConsts.VerticalSpace));
+            nextLocation.Height = OxSh.Third(OxSh.Add(accessor.Bottom, SummaryConsts.VerticalSpace));
         }
 
         return nextLocation.Height;

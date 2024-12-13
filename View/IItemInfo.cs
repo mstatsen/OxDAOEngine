@@ -1,6 +1,7 @@
 ﻿using OxLibrary.Panels;
 using OxDAOEngine.Data;
 using OxDAOEngine.ControlFactory;
+using OxLibrary;
 
 namespace OxDAOEngine.View
 {
@@ -8,10 +9,16 @@ namespace OxDAOEngine.View
         where TField : notnull, Enum
         where TDAO : RootDAO<TField>, new()
     { 
-        bool Expanded { get; set; }
-        bool Pinned { get; set; }
+        OxBool Expanded { get; set; }
+        bool IsExpanded { get; }
+        void SetExpanded(bool value);
+        OxBool Pinned { get; set; }
+        bool IsPinned { get; }
+        void SetPinned(bool value);
         OxPanel Sider { get; }
-        bool SiderEnabled { get; set; }
+        OxBool SiderEnabled { get; set; }
+        void SetSiderEnabled(bool value);
+        bool IsSiderEnabled { get; }
         void ApplySettings();
         void SaveSettings();
         new FunctionalPanelVisible Visible { get; set; }

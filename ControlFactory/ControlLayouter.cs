@@ -127,7 +127,7 @@ public class ControlLayouter<TField, TDAO>
                 || !PlacedControls.TryGetValue(layout.Field, out var placedControl))
                 continue;
 
-            minimum = OxSH.Min(minimum, placedControl.LabelLeft);
+            minimum = OxSh.Min(minimum, placedControl.LabelLeft);
         }
 
         return minimum;

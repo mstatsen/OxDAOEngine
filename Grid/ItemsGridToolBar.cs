@@ -12,7 +12,7 @@ namespace OxDAOEngine.Grid
         {
             base.AfterCreated();
             CreateButtons();
-            BorderVisible = false;
+            BorderVisible = OxB.F;
         }
 
         protected void CreateButtons()
@@ -41,8 +41,8 @@ namespace OxDAOEngine.Grid
         protected override void SetToolBarPaddings() => 
             Padding.SetSize(4, 0, 2, 2);
 
-        private bool actionsVisible = true;
-        public bool ActionsVisible 
+        private OxBool actionsVisible = OxB.T;
+        public OxBool ActionsVisible 
         { 
             get => actionsVisible;
             set

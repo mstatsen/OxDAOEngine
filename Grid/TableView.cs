@@ -6,6 +6,7 @@ using OxDAOEngine.Settings;
 using OxDAOEngine.Settings.Observers;
 using OxDAOEngine.View;
 using OxLibrary;
+using OxLibrary.Handlers;
 
 namespace OxDAOEngine.Grid
 {
@@ -26,10 +27,12 @@ namespace OxDAOEngine.Grid
             PrepareInfoPanel();
         }
 
-        protected override void OnVisibleChanged(EventArgs e)
+        public override void OnVisibleChanged(OxBoolChangedEventArgs e)
         {
             base.OnVisibleChanged(e);
-            UpdateCurrentItemFullCard();
+
+            if (e.IsChanged)
+                UpdateCurrentItemFullCard();
         }
 
         private void PrepareInfoPanel()
@@ -61,8 +64,8 @@ namespace OxDAOEngine.Grid
             {
                 bool calcedBatchUpdateAvailable = Grid.SelectedRows.Count > 1;
 
-                if (!Grid.ToolBar.Actions[OxToolbarAction.Update].Enabled.Equals(calcedBatchUpdateAvailable))
-                    Grid.ToolBar.Actions[OxToolbarAction.Update].Enabled = calcedBatchUpdateAvailable;
+                if (!Grid.ToolBar.Actions[OxToolbarAction.Update].IsEnabled.Equals(calcedBatchUpdateAvailable))
+                    Grid.ToolBar.Actions[OxToolbarAction.Update].SetEnabled(calcedBatchUpdateAvailable);
             }
 
             UpdateCurrentItemFullCard();

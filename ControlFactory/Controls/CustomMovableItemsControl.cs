@@ -50,7 +50,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         protected virtual void ValueMoveUp() { }
         protected virtual void ValueMoveDown() { }
 
-        public bool AllowSorting
+        public OxBool AllowSorting
         {
             get => buttonDown.Visible;
             set

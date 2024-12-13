@@ -66,7 +66,7 @@ public partial class UniqueKeyViewer<TField, TDAO> : OxDialog
         Size = new(
             ContentWidth,
             ContentHeight
-            + OxSH.Short(!firstLoad ? 6 : 0));
+            + OxSh.Short(!firstLoad ? 6 : 0));
         firstLoad = false;
     }
 
@@ -78,7 +78,7 @@ public partial class UniqueKeyViewer<TField, TDAO> : OxDialog
         uniqueKeyAccessor.Top = 12;
         uniqueKeyAccessor.Width = 340;
         uniqueKeyAccessor.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
-        uniqueKeyAccessor.ReadOnly = true;
+        uniqueKeyAccessor.ReadOnly = OxB.T;
         ((OxTextBox)uniqueKeyAccessor.ReadOnlyControl!).Multiline = false;
 
         copyButton.Parent = FormPanel;

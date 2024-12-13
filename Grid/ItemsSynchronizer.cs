@@ -81,8 +81,8 @@ namespace OxDAOEngine.Grid
 
         private void SelectionChangedHandler(object? sender, EventArgs e)
         {
-            LeftToRightButton.Enabled = LeftItemGrid.SelectionExists;
-            RightToLeftButton.Enabled = RightItemGrid.SelectionExists;
+            LeftToRightButton.SetEnabled(LeftItemGrid.SelectionExists);
+            RightToLeftButton.SetEnabled(RightItemGrid.SelectionExists);
 
             if (SelectionChangedProcess)
                 return;
@@ -132,7 +132,7 @@ namespace OxDAOEngine.Grid
 
             LeftPlace.Parent = this;
             LeftPlace.Dock = OxDock.Fill;
-            LeftPlace.Header.BorderVisible = false;
+            LeftPlace.Header.BorderVisible = OxB.F;
             LeftItemGrid.Parent = LeftPlace;
             LeftItemGrid.Dock = OxDock.Fill;
 
@@ -158,18 +158,18 @@ namespace OxDAOEngine.Grid
             RightToLeftButton.HiddenBorder = false;
 
             NotEqualsButton.Top =
-                OxSH.Sub(
-                    OxSH.Half(ButtonsPanel.Height),
+                OxSh.Sub(
+                    OxSh.Half(ButtonsPanel.Height),
                     NotEqualsButton.Height,
-                    OxSH.Half(NotEqualsButton.Height),
+                    OxSh.Half(NotEqualsButton.Height),
                     4
                 );
-            LeftToRightButton.Top = OxSH.Add(NotEqualsButton.Bottom, 8);
-            RightToLeftButton.Top = OxSH.Add(LeftToRightButton.Bottom, 8);
+            LeftToRightButton.Top = OxSh.Add(NotEqualsButton.Bottom, 8);
+            RightToLeftButton.Top = OxSh.Add(LeftToRightButton.Bottom, 8);
 
             RightPlace.Parent = this;
             RightPlace.Dock = OxDock.Right;
-            RightPlace.Header.BorderVisible = false;
+            RightPlace.Header.BorderVisible = OxB.F;
             RightItemGrid.Parent = RightPlace;
             RightItemGrid.Dock = OxDock.Fill;
         }
@@ -242,8 +242,8 @@ namespace OxDAOEngine.Grid
         protected override void PrepareDialog(OxPanelViewer dialog)
         {
             base.PrepareDialog(dialog);
-            dialog.Sizable = true;
-            dialog.CanMaximize = true;
+            dialog.Sizable = OxB.T;
+            dialog.CanMaximize = OxB.T;
             dialog.Shown += (s, e) => RecalcGridsSizes();
             dialog.SizeChanged += (s, e) => RecalcGridsSizes();
             dialog.DialogButtons = OxDialogButton.Apply | OxDialogButton.Cancel;
@@ -253,20 +253,20 @@ namespace OxDAOEngine.Grid
         private void RecalcGridsSizes()
         {
             RightPlace.Width =
-                OxSH.CenterOffset(
+                OxSh.CenterOffset(
                     PanelViewer is not null
                         ? PanelViewer.Width
                         : Width,
                     - ButtonsPanel.Width);
             NotEqualsButton.Top =
-                OxSH.Sub(
-                    OxSH.Half(ButtonsPanel.Height),
+                OxSh.Sub(
+                    OxSh.Half(ButtonsPanel.Height),
                     NotEqualsButton.Height,
-                    OxSH.Half(NotEqualsButton.Height),
+                    OxSh.Half(NotEqualsButton.Height),
                     4
                 );
-            LeftToRightButton.Top = OxSH.Add(NotEqualsButton.Bottom, 8);
-            RightToLeftButton.Top = OxSH.Add(LeftToRightButton.Bottom, 8);
+            LeftToRightButton.Top = OxSh.Add(NotEqualsButton.Bottom, 8);
+            RightToLeftButton.Top = OxSh.Add(LeftToRightButton.Bottom, 8);
         }
 
         private void ApplySynchronize()

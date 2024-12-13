@@ -38,9 +38,9 @@ public class FieldGroupFrames<TField, TFieldGroup> : Dictionary<TFieldGroup, OxF
 
         foreach (Control control in groupFrame.Controls)
             if (control.Visible)
-                calcedHeight = OxSH.Max(control.Bottom, calcedHeight);
+                calcedHeight = OxSh.Max(control.Bottom, calcedHeight);
 
-        return OxSH.Add(calcedHeight, 8);
+        return OxSh.Add(calcedHeight, 8);
     }
 
     public short Width(TFieldGroup group) => fieldGroupHelper.GroupWidth(group);

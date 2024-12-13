@@ -93,7 +93,7 @@ namespace OxDAOEngine.ControlFactory.Controls.Fields
                 if (item.Key is FieldsFilling.Clear)
                     continue;
 
-                item.Value.Visible = fieldHelper.Columns(Variant, item.Key)?.Count > 0;
+                item.Value.SetVisible(fieldHelper.Columns(Variant, item.Key)?.Count > 0);
             }
         }
 

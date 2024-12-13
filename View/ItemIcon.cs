@@ -129,13 +129,13 @@ public sealed class ItemIcon<TField, TDAO> : OxClickFrame, IItemView<TField, TDA
             return;
 
         ControlLayout<TField> titleLayout = layouter.AddFromTemplate(TitleMapping.Field);
-        titleLayout.AutoSize = false;
-        titleLayout.Top = OxSH.Sub(OxSH.Half(IconWidth),2);
+        titleLayout.AutoSize = OxB.F;
+        titleLayout.Top = OxSh.Sub(OxSh.Half(IconWidth),2);
         titleLayout.Width = IconWidth;
-        titleLayout.Height = OxSH.Sub(IconHeight, titleLayout.Top);
+        titleLayout.Height = OxSh.Sub(IconHeight, titleLayout.Top);
         titleLayout.FontStyle = FontStyle.Bold;
         titleLayout.FontColor = fontColors.BaseColor;
-        titleLayout.Visible = IconsSize is not IconSize.Thumbnails;
+        titleLayout.SetVisible(IconsSize is not IconSize.Thumbnails);
     }
 
     private void FillImageLayout()
@@ -144,9 +144,9 @@ public sealed class ItemIcon<TField, TDAO> : OxClickFrame, IItemView<TField, TDA
             return;
 
         ControlLayout<TField> imageLayout = layouter.AddFromTemplate(ImageMapping.Field);
-        imageLayout.Top = OxSH.Short(!IconsSize.Equals(IconSize.Thumbnails) ? 1 : 0);
+        imageLayout.Top = OxSh.Short(!IconsSize.Equals(IconSize.Thumbnails) ? 1 : 0);
         imageLayout.Width = IconWidth;
-        imageLayout.Height = OxSH.Sub(OxSH.Half(IconWidth), 3);
+        imageLayout.Height = OxSh.Sub(OxSh.Half(IconWidth), 3);
     }
 
     private void FillLeftLayout()
@@ -165,7 +165,7 @@ public sealed class ItemIcon<TField, TDAO> : OxClickFrame, IItemView<TField, TDA
             return;
 
         ControlLayout<TField> rightLayout = layouter.AddFromTemplate(RightMapping.Field);
-        rightLayout.Top = OxSH.Sub(OxSH.Half(IconWidth), 20);
+        rightLayout.Top = OxSh.Sub(OxSh.Half(IconWidth), 20);
         rightLayout.FontSize -= sizeHelper.FontSizeDelta(ListController.Settings.IconsSize);
     }
 
@@ -184,7 +184,7 @@ public sealed class ItemIcon<TField, TDAO> : OxClickFrame, IItemView<TField, TDA
         layouter.Template.FontSize = sizeHelper.FontSize(ListController.Settings.IconsSize);
         layouter.Template.LabelColor = fontColors.Lighter();
         layouter.Template.LabelStyle = FontStyle.Italic;
-        layouter.Template.AutoSize = true;
+        layouter.Template.AutoSize = OxB.T;
     }
 
     private void LayoutControls()
@@ -207,7 +207,7 @@ public sealed class ItemIcon<TField, TDAO> : OxClickFrame, IItemView<TField, TDA
 
             if (leftControl is not null)
             {
-                leftControl.Left = OxSH.Sub(12, sizeHelper.LeftDelta(ListController.Settings.IconsSize));
+                leftControl.Left = OxSh.Sub(12, sizeHelper.LeftDelta(ListController.Settings.IconsSize));
                 leftControl.TextAlign = ContentAlignment.MiddleLeft;
                 leftControl.BringToFront();
             }
@@ -220,7 +220,7 @@ public sealed class ItemIcon<TField, TDAO> : OxClickFrame, IItemView<TField, TDA
             if (rightControl is not null)
             {
                 rightControl.Left =
-                    OxSH.Add(
+                    OxSh.Add(
                         IconWidth, 
                         -rightControl.Width, 
                         12, 

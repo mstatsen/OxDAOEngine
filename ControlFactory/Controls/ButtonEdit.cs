@@ -86,10 +86,10 @@ public class ButtonEdit<TField, TDAO, TItems, TItem, TListControl>
         FillTextBox();
     }
 
-    protected override bool GetReadOnly() => 
+    protected override OxBool GetReadOnly() => 
         buttonEditControl.ReadOnly;
 
-    protected override void SetReadOnly(bool value) => 
+    protected override void SetReadOnly(OxBool value) => 
         buttonEditControl.ReadOnly = value;
 
     protected override void SetControlColor(Color value)

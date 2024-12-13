@@ -38,7 +38,7 @@ namespace OxDAOEngine.Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
+            this.SetAutoSize(true);
             this.ClientSize = new(1225, 636);
             this.Location = new OxPoint(0, 0);
             this.MaximumSize = new OxSize(1225, 636);

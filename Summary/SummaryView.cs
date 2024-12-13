@@ -71,28 +71,29 @@ namespace OxDAOEngine.Summary
             IterateSummaryPanels(
                 (panel) =>
                     {
-                        panel.Expanded = false;
+                        panel.Expanded = OxB.F;
                         panel.BaseColor = EngineStyles.SummaryColor;
                         panel.ExpandChanged += SummaryPanelExpandHandler;
-                        panel.Header.BorderVisible = false;
+                        panel.Header.BorderVisible = OxB.F;
                         Accordion.Add(panel);
                     }
             );
-            SummaryPanels.Last().BorderVisible = true;
+            SummaryPanels.Last().BorderVisible = OxB.T;
         }
 
         private void SummaryPanelExpandHandler(object? sender, EventArgs e)
         {
-            bool prevExpanded = false;
+            OxBool prevExpanded = OxB.F;
 
             IterateSummaryPanels(
                 (panel) =>
                 {
-                    panel.Margin.Horizontal = OxSH.Short(panel.Expanded ? 12 : 32);
-                    panel.Borders[OxDock.Top].Visible = !prevExpanded;
-                    panel.BorderVisible = 
-                        panel.Expanded 
-                        || panel.Equals(SummaryPanels.Last());
+                    panel.Margin.Horizontal = OxSh.Short(panel.IsExpanded ? 12 : 32);
+                    panel.Borders[OxDock.Top].Visible = OxB.Not(prevExpanded);
+                    panel.SetBorderVisible(
+                        panel.IsExpanded 
+                        || panel.Equals(SummaryPanels.Last())
+                    );
                     prevExpanded = panel.Expanded;
                 }
             );

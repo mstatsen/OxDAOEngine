@@ -79,15 +79,18 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
             ReadOnlyControl.Dock = Control.Dock;
     }
 
-    private void ControlVisibleChangedHandler(object? sender, EventArgs e) => OnControlVisibleChanged();
+    private void ControlVisibleChangedHandler(object? sender, EventArgs e) =>
+        OnControlVisibleChanged();
 
-    protected virtual void OnControlVisibleChanged()
-    {
-        if (ReadOnlyControl is not null)
-            ReadOnlyControl.Visible = Visible && ReadOnly && !Control.Visible;
-    }
+    protected virtual void OnControlVisibleChanged() =>
+        ReadOnlyControl?.SetVisible(
+            IsVisible
+            && IsReadOnly
+            && !Control.IsVisible
+        );
 
-    private void ControlForeColorChangedHandler(object? sender, EventArgs e) => OnControlForeColorChanged();
+    private void ControlForeColorChangedHandler(object? sender, EventArgs e) =>
+        OnControlForeColorChanged();
 
     protected virtual void OnControlForeColorChanged()
     {
@@ -95,7 +98,8 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
             ReadOnlyControl.ForeColor = Control.ForeColor;
     }
 
-    private void ControlFontChangedHandler(object? sender, EventArgs e) => OnControlFontChanged();
+    private void ControlFontChangedHandler(object? sender, EventArgs e) =>
+        OnControlFontChanged();
 
     protected virtual void OnControlFontChanged()
     {
@@ -111,7 +115,8 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
             );
     }
 
-    private void ControlBackColorChangedHandler(object? sender, EventArgs e) => OnControlBackColorChanged();
+    private void ControlBackColorChangedHandler(object? sender, EventArgs e) =>
+        OnControlBackColorChanged();
 
     protected virtual void OnControlBackColorChanged()
     {
@@ -120,7 +125,8 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
             ReadOnlyControl.BackColor = Parent.BackColor;
     }
 
-    private void ControlParentChangedHandler(object? sender, EventArgs e) => OnControlParentChanged();
+    private void ControlParentChangedHandler(object? sender, EventArgs e) =>
+        OnControlParentChanged();
 
     protected virtual void OnControlParentChanged()
     {
@@ -144,7 +150,8 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
         OnControlFontChanged();
     }
 
-    private void ControlLocationChangeHandler(object? sender, EventArgs e) => OnControlLocationChanged();
+    private void ControlLocationChangeHandler(object? sender, EventArgs e) =>
+        OnControlLocationChanged();
 
     protected virtual void OnControlLocationChanged()
     {
@@ -156,7 +163,8 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
         ReadOnlyControl.Top += 1;
     }
 
-    private void ControlSizeChangeHandler(object? sender, EventArgs e) => OnControlSizeChanged();
+    private void ControlSizeChangeHandler(object? sender, EventArgs e) =>
+        OnControlSizeChanged();
 
     protected virtual void OnControlSizeChanged()
     {
@@ -167,9 +175,9 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
         ReadOnlyControl.Height = Control.Height;
     }
 
-    private bool readOnly = false;
+    private OxBool readOnly = OxB.F;
 
-    private bool visible = true;
+    private OxBool visible = OxB.T;
     protected abstract ValueAccessor CreateValueAccessor();
     protected abstract IOxControl CreateControl();
 
@@ -265,32 +273,44 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
 
     public IOxControl Control => control;
 
-    public bool Enabled
+    public OxBool Enabled
     {
         get => Control.Enabled;
         set => Control.Enabled = value;
     }
 
-    public bool ReadOnly
+    public bool IsEnabled =>
+        OxB.B(Enabled);
+
+    public void SetEnabled(bool value) =>
+        Enabled = OxB.B(value);
+
+    public OxBool ReadOnly
     {
         get => GetReadOnly();
         set => SetReadOnly(value);
     }
 
-    protected virtual void SetReadOnly(bool value)
+    protected virtual void SetReadOnly(OxBool value)
     {
         readOnly = value;
 
         if (ReadOnlyControl is not null)
         {
-            Control.Visible = visible && !readOnly;
-            ReadOnlyControl.Visible = visible && readOnly;
+            Control.SetVisible(IsVisible && !IsReadOnly);
+            ReadOnlyControl.SetVisible(IsVisible && IsReadOnly);
         }
-        else Control.Enabled = !readOnly;
+        else Control.Enabled = OxB.Not(readOnly);
     }
 
-    protected virtual bool GetReadOnly() =>
+    protected virtual OxBool GetReadOnly() =>
         readOnly;
+
+    public bool IsReadOnly =>
+        OxB.B(ReadOnly);
+
+    public void SetReadOnly(bool value) =>
+        ReadOnly = OxB.B(value);
 
     public short Left
     {
@@ -300,8 +320,8 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
 
     public short Right
     {
-        get => OxSH.Add(Left, Width);
-        set => Left = OxSH.Sub(value, Width);
+        get => OxSh.Add(Left, Width);
+        set => Left = OxSh.Sub(value, Width);
     }
 
     public short Top
@@ -312,8 +332,8 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
 
     public short Bottom
     {
-        get => OxSH.Add(Top, Height);
-        set => Top = OxSH.Sub(value, Height);
+        get => OxSh.Add(Top, Height);
+        set => Top = OxSh.Sub(value, Height);
     }
 
     public short Width
@@ -359,7 +379,7 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
 
     public virtual object? MaximumValue { get; set; }
     public virtual object? MinimumValue { get; set; }
-    public bool Visible 
+    public OxBool Visible 
     { 
         get => GetVisible();
         set => SetVisible(value);
@@ -367,13 +387,19 @@ public abstract class ControlAccessor<TField, TDAO> : IControlAccessor
 
     IAccessorContext IControlAccessor.Context => Context;
 
-    protected virtual bool GetVisible() => visible;
+    protected virtual OxBool GetVisible() => visible;
 
-    protected virtual void SetVisible(bool value)
+    protected virtual void SetVisible(OxBool value)
     {
         visible = value;
-        Control.Visible = visible && !readOnly;
+        Control.SetVisible(IsVisible && !IsReadOnly);
     }
+
+    public bool IsVisible =>
+        OxB.B(Visible);
+
+    public void SetVisible(bool value) =>
+        Visible = OxB.B(value);
 
     public abstract void Clear();
 

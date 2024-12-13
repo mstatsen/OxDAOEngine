@@ -17,7 +17,7 @@ public static class ControlPainter
         switch (control)
         {
             case IButtonEdit buttonEdit:
-                buttonEdit.ControlColor = new OxColorHelper(baseColor).Lighter(control.Enabled ? 7 : 8);
+                buttonEdit.ControlColor = new OxColorHelper(baseColor).Lighter(control.IsEnabled ? 7 : 8);
                 break;
             case OxPanel spinEdit:
                 spinEdit.BaseColor = baseColor;
@@ -29,7 +29,7 @@ public static class ControlPainter
                 customControl.ControlColor = baseColor;
                 break;
             default:
-                control.BackColor = new OxColorHelper(baseColor).Lighter(control.Enabled ? 7 : 8);
+                control.BackColor = new OxColorHelper(baseColor).Lighter(control.IsEnabled ? 7 : 8);
                 break;
         }
     }

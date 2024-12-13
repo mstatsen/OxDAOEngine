@@ -1,4 +1,5 @@
 ﻿using OxDAOEngine.XML;
+using OxLibrary;
 using OxLibrary.Geometry;
 using System.Xml;
 
@@ -148,8 +149,7 @@ namespace OxDAOEngine.Data
                 try
                 {
                     if (Equals(item)
-                        && ((OwnerDAO is null && item.OwnerDAO is null)
-                            || (OwnerDAO is not null && OwnerDAO.Equals(item.OwnerDAO))))
+                        && OxHelper.Equals(OwnerDAO, item.OwnerDAO))
                         return this;
 
                     XmlDocument document = new();
@@ -391,7 +391,7 @@ namespace OxDAOEngine.Data
             };
 
         public static short ShortValue(object? value) =>
-            OxSH.Short(
+            OxSh.Short(
                 value switch
                 {
                     null => 0,

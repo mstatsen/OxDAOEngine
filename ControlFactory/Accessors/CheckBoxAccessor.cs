@@ -67,7 +67,7 @@ public class CheckBoxAccessor<TField, TDAO> : ControlAccessor<TField, TDAO>
         ReadOnlyPicture.Width = ReadOnlyPictureSize;
         ReadOnlyPicture.MinimumSize = new(ReadOnlyPictureSize, ReadOnlyPictureSize);
         ReadOnlyPicture.Top = 0;
-        ReadOnlyPicture.Left = OxSH.Sub(readOnlyControl.Width, ReadOnlyPictureSize);
+        ReadOnlyPicture.Left = OxSh.Sub(readOnlyControl.Width, ReadOnlyPictureSize);
         ReadOnlyPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
         ReadOnlyPicture.PictureSize = ReadOnlyPictureSize;
         ReadOnlyPicture.Image = OxIcons.Tick;
@@ -77,8 +77,8 @@ public class CheckBoxAccessor<TField, TDAO> : ControlAccessor<TField, TDAO>
     protected override void OnControlSizeChanged()
     {
         base.OnControlSizeChanged();
-        ReadOnlyControl!.Width = OxSH.Sub(ReadOnlyLabel.Width, ReadOnlyPictureSize);
-        ReadOnlyControl.Height = OxSH.Add(ReadOnlyPictureSize, 2);
+        ReadOnlyControl!.Width = OxSh.Sub(ReadOnlyLabel.Width, ReadOnlyPictureSize);
+        ReadOnlyControl.Height = OxSh.Add(ReadOnlyPictureSize, 2);
     }
 
     protected override void OnControlFontChanged()
@@ -109,7 +109,7 @@ public class CheckBoxAccessor<TField, TDAO> : ControlAccessor<TField, TDAO>
             if (DAO.IntValue(value) is 0)
                 CheckBox.Checked = false;
 
-            CheckBox.Enabled = DAO.IntValue(value) > 0;
+            CheckBox.SetEnabled(DAO.IntValue(value) > 0);
         }
     }
 }

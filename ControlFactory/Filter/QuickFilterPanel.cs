@@ -28,7 +28,7 @@ namespace OxDAOEngine.ControlFactory.Filter
             Builder = DataManager.Builder<TField, TDAO>(ControlScope.QuickFilter, false, Variant);
 
             if (Variant is not QuickFilterVariant.Base)
-                SettingsAvailable = false;
+                SettingsAvailable = OxB.F;
 
             Layouter = Builder.Layouter;
             Icon = OxIcons.Filter;
@@ -196,7 +196,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         }
 
         protected short FieldWidth(TField field) =>
-            OxSH.Short(
+            OxSh.Short(
                 QuickFilterLayouter is null
                     ? 100
                     : QuickFilterLayouter!.FieldWidth(field)
@@ -216,7 +216,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         private void PrepareLayouts()
         {
             Layouter.Template.Top =
-                OxSH.Short(
+                OxSh.Short(
                     Variant is QuickFilterVariant.Select
                         or QuickFilterVariant.Export
                         ? 4
@@ -263,7 +263,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                     {
                         newColumn = false;
                         captionVariant = ControlCaptionVariant.None;
-                        layoutLeft = OxSH.Add(lastLayout.Right, 4);
+                        layoutLeft = OxSh.Add(lastLayout.Right, 4);
                         needVerticalOffset = false;
                         columnControlCount--;
                         layoutTop = lastLayout.Top;
@@ -272,7 +272,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                     if (newColumn)
                     {
-                        Layouter.Template.Left = OxSH.Add(maxColumnWidth, 84);
+                        Layouter.Template.Left = OxSh.Add(maxColumnWidth, 84);
                         layoutLeft = Layouter.Template.Left;
                         columnControlCount = 1;
                         maxColumnWidth = 0;
@@ -312,16 +312,16 @@ namespace OxDAOEngine.ControlFactory.Filter
                 layoutTextFilter.CaptionVariant = ControlCaptionVariant.Left;
                 layoutTextFilter.Left = 56;
                 layoutTextFilter.Height = 26;
-                layoutTextFilter.Width = OxSH.Sub(Layouter.Last!.Right, layoutTextFilter.Left);
+                layoutTextFilter.Width = OxSh.Sub(Layouter.Last!.Right, layoutTextFilter.Left);
                 layoutTextFilter.Anchors = AnchorStyles.Top | AnchorStyles.Left;
             }
         }
 
         public void RecalcPaddings() =>
-            Padding.Size = OxSH.Short(OnlyText ? 0 : 2);
+            Padding.Size = OxSh.Short(OnlyText ? 0 : 2);
 
         private short FirstControlLeft =>
-            OxSH.Short(
+            OxSh.Short(
                 Variant is QuickFilterVariant.Export
                     ? 84
                     : 60
@@ -386,9 +386,9 @@ namespace OxDAOEngine.ControlFactory.Filter
             if (FilterTextControl is null)
                 return;
 
-            short calcedWidth = OxSH.Add(FilterTextControl.Control.Right, 10);
+            short calcedWidth = OxSh.Add(FilterTextControl.Control.Right, 10);
             short calcedHeight =
-                OxSH.Short(
+                OxSh.Short(
                     Layouter.Count is 1
                         ? 40
                         : FilterTextControl.Control.Bottom
@@ -419,7 +419,7 @@ namespace OxDAOEngine.ControlFactory.Filter
                     textControlLabel.Left =
                         textControlLabel.Left < 0
                             ? temlpateLabel.Left
-                            : OxSH.Sub(temlpateLabel.Right, textControlLabel.Width);
+                            : OxSh.Sub(temlpateLabel.Right, textControlLabel.Width);
 
                 foreach (TField field in QuickFilterFields)
                 {
@@ -440,7 +440,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
                 if (temlpateLabel is not null)
                 {
-                    delta = OxSH.Sub(temlpateLabel.Left, 4);
+                    delta = OxSh.Sub(temlpateLabel.Left, 4);
 
                     if (delta < 0)
                     {
@@ -470,7 +470,7 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.OnSizeChanged(e);
 
-            if (!e.Changed 
+            if (!e.IsChanged 
                 || QuickFilterFields.Count is 0
                 || Layouter is null)
                 return;
@@ -479,7 +479,7 @@ namespace OxDAOEngine.ControlFactory.Filter
 
             if (FilterTextControl is not null)
                 FilterTextControl.Control.Width =
-                    OxSH.Sub(
+                    OxSh.Sub(
                         Layouter[QuickFilterFields.Last()]!.Right,
                         FilterTextControl.Control.Left
                     );
@@ -585,8 +585,8 @@ namespace OxDAOEngine.ControlFactory.Filter
         {
             base.SaveSettings();
             Settings.Filter = ActiveFilter;
-            Settings.QuickFilterPinned = Pinned;
-            Settings.QuickFilterExpanded = Expanded;
+            Settings.QuickFilterPinned = IsPinned;
+            Settings.QuickFilterExpanded = IsExpanded;
         }
 
         protected List<TField> QuickFilterFields => 
@@ -604,9 +604,12 @@ namespace OxDAOEngine.ControlFactory.Filter
 
         protected override DAOSetting ExpandedSetting => DAOSetting.QuickFilterExpanded;
 
-        protected override void OnVisibleChanged(EventArgs e)
+        public override void OnVisibleChanged(OxBoolChangedEventArgs e)
         {
             base.OnVisibleChanged(e);
+
+            if (!e.IsChanged)
+                return;
 
             if (Visible is not FunctionalPanelVisible.Hidden)
                 RecolorControls();

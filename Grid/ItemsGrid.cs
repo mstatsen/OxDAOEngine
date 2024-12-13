@@ -37,8 +37,8 @@ public class ItemsGrid<TField, TDAO> : OxPanel
     protected override void PrepareDialog(OxPanelViewer dialog)
     {
         base.PrepareDialog(dialog);
-        dialog.Sizable = true;
-        dialog.CanMaximize = true;
+        dialog.Sizable = OxB.T;
+        dialog.CanMaximize = OxB.T;
     }
 
     private List<CustomGridColumn<TField, TDAO>>? additionalColumns;
@@ -372,7 +372,7 @@ public class ItemsGrid<TField, TDAO> : OxPanel
         ToolBar.Margin.Bottom = 2;
         ToolBar.Borders.Right = 0;
         ToolBar.Borders.Left = 0;
-        ToolBar.AllowEditingActions = false;
+        ToolBar.AllowEditingActions = OxB.F;
     }
 
     protected override void SetHandlers()
@@ -402,16 +402,23 @@ public class ItemsGrid<TField, TDAO> : OxPanel
         GridView.BackgroundColor = Colors.Lighter(7);
     }
 
-    public bool ReadOnly
+    public OxBool ReadOnly
     {
         get => readOnly;
         set
         {
             readOnly = value;
-            ToolBar.ActionsVisible = !readOnly;
-            ToolBar.Visible = ToolBar.Buttons.Find((b) => b.Visible) is not null;
+            ToolBar.ActionsVisible = OxB.Not(readOnly);
+            ToolBar.SetVisible(
+                ToolBar.Buttons.Find(
+                    b => b.IsVisible
+                ) is not null
+            );
         }
     }
+
+    public bool IsReadOnly =>OxB.B(ReadOnly);
+    public void SetReadOnly(bool value) => ReadOnly = OxB.B(value);
 
     private void SetRowVisible(DataGridViewRow row, bool visible)
     {
@@ -428,7 +435,7 @@ public class ItemsGrid<TField, TDAO> : OxPanel
     }
 
     private readonly GridSelector<TField, TDAO> selector;
-    private bool readOnly = false;
+    private OxBool readOnly = OxB.F;
 
     public TDAO? CurrentItem =>
         GridView.SelectedRows.Count > 0
@@ -472,10 +479,11 @@ public class ItemsGrid<TField, TDAO> : OxPanel
     {
         CurrentItemChanged?.Invoke(sender, e);
 
-        if (!ReadOnly)
-            ToolBar.AllowEditingActions = 
+        if (!IsReadOnly)
+            ToolBar.SetAllowEditingActions(
                 GridView.SelectedRows.Count > 0
-                && GridView.SelectedRows[0].Visible;
+                && GridView.SelectedRows[0].Visible
+            );
     }
 
     public int GetRowIndex(TDAO item)

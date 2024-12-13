@@ -31,7 +31,7 @@ namespace OxDAOEngine.ControlFactory.Controls
             NameControl.Parent = this;
             NameControl.Left = 60;
             NameControl.Top = 8;
-            NameControl.Width = OxSH.Sub(FormPanel.Width, NameControl.Left, 8);
+            NameControl.Width = OxSh.Sub(FormPanel.Width, NameControl.Left, 8);
             NameControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             NameControl.Height = 24;
             CreateLabel("Name", NameControl);
@@ -42,8 +42,8 @@ namespace OxDAOEngine.ControlFactory.Controls
             UrlControl = Context.Accessor("Link:Url", FieldType.Memo, true);
             UrlControl.Parent = this;
             UrlControl.Left = 60;
-            UrlControl.Top = OxSH.Add(NameControl.Bottom, 8);
-            UrlControl.Width = OxSH.Sub(FormPanel.Width, UrlControl.Left, 8);
+            UrlControl.Top = OxSh.Add(NameControl.Bottom, 8);
+            UrlControl.Width = OxSh.Sub(FormPanel.Width, UrlControl.Left, 8);
             UrlControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             UrlControl.Height = 90;
             CreateLabel("URL", UrlControl);
@@ -56,7 +56,7 @@ namespace OxDAOEngine.ControlFactory.Controls
         }
 
         protected override short ContentHeight =>
-            OxSH.Add(UrlControl.Bottom, 8);
+            OxSh.Add(UrlControl.Bottom, 8);
 
         protected override void FillControls(Link<TField> item)
         {

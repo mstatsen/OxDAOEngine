@@ -23,7 +23,7 @@ public sealed class ItemsView<TField, TDAO> : OxPanel
     public readonly OxPanelLayouter Layouter = new()
     {
         Dock = OxDock.Top,
-        Visible = false
+        Visible = OxB.F
     };
 
     public void Clear()
@@ -164,7 +164,7 @@ public sealed class ItemsView<TField, TDAO> : OxPanel
             if (itemView is not null)
             {
                 itemView.ItemsView = this;
-                itemView.Visible = false;
+                itemView.Visible = OxB.F;
                 cards.Add(itemView);
             }
         }
@@ -176,14 +176,14 @@ public sealed class ItemsView<TField, TDAO> : OxPanel
 
     private void StartLoading()
     {
-        Layouter.Visible = false;
+        Layouter.Visible = OxB.F;
         //ContentBox.Update();
         LoadingStarted?.Invoke(this, EventArgs.Empty);
     }
 
     private void EndLoading()
     {
-        Layouter.Visible = true;
+        Layouter.Visible = OxB.T;
         Layouter.Size = new(Layouter.Width, Layouter.Height + 1);
         LoadingEnded?.Invoke(this, EventArgs.Empty);
     }
@@ -211,7 +211,7 @@ public sealed class ItemsView<TField, TDAO> : OxPanel
                 : DAOSetting.CardsPageSize
             ])
         {
-            short newPageSize = OxSH.Min(MaximumCardsCount, SettingsPageSize);
+            short newPageSize = OxSh.Min(MaximumCardsCount, SettingsPageSize);
 
             if (!paginator.PageSize.Equals(newPageSize))
                 paginator.PageSize = newPageSize;

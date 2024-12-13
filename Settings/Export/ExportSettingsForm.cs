@@ -56,7 +56,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         indentAccessor = Builder.Accessor("XmlIndent", FieldType.Boolean);
         indentAccessor.Text = "Indent XML elements";
         indentAccessor.Value = settings.XML.Indent;
-        SetupControl((IOxControl)indentAccessor.Control, ExportFormat.Xml, null, Colors.Lighter());
+        SetupControl(indentAccessor.Control, ExportFormat.Xml, null, Colors.Lighter());
 
         PrepareTextControls();
 
@@ -93,7 +93,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
     {
         selectedItemsPanel.Parent = FormPanel;
         selectedItemsPanel.Size = new(100, 200);
-        selectedItemsPanel.Visible = false;
+        selectedItemsPanel.Visible = OxB.F;
         selectedItemsPanel.Padding.Size = 0;
     }
 
@@ -139,22 +139,22 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         {
             if (value is not null)
             {
-                categoryControl.Visible = false;
-                ((OxLabel)categoryControl.Tag).Visible = false;
+                categoryControl.Visible = OxB.F;
+                ((OxLabel)categoryControl.Tag).Visible = OxB.F;
                 fileControl.Top = categoryControl.Top;
             }
             else
             {
-                categoryControl.Visible = true;
-                ((OxLabel)categoryControl.Tag).Visible = true;
-                fileControl.Top = OxSH.Add(categoryControl.Bottom, 8);
+                categoryControl.Visible = OxB.T;
+                ((OxLabel)categoryControl.Tag).Visible = OxB.T;
+                fileControl.Top = OxSh.Add(categoryControl.Bottom, 8);
                 
             }
             OxControlHelper.AlignByBaseLine(fileControl, (OxLabel)fileControl.Tag);
             CalcFrameSize(GeneralPanel);
         }
 
-        selectedItemsPanel.Visible = value is not null;
+        selectedItemsPanel.SetVisible(value is not null);
 
         if (value is not null)
             FillSelectedItemsPanel();
@@ -251,7 +251,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         IControlAccessor accessor = Builder.Accessor("ZeroSummary", FieldType.Boolean);
         accessor.Value = settings.HTML.ZeroSummary;
         accessor.Text = "Show summary with zero count";
-        SetupControl((IOxControl)accessor.Control, ExportFormat.Html, htmlGeneralPanel, Colors.Lighter());
+        SetupControl(accessor.Control, ExportFormat.Html, htmlGeneralPanel, Colors.Lighter());
         return accessor;
     }
 
@@ -384,12 +384,12 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
             {
                 Parent = parent,
                 Left = 0,
-                AutoSize = true,
+                AutoSize = OxB.T,
                 Text = caption,
                 Font = OxStyles.DefaultFont
             };
 
-            control.Left = OxSH.Add(label.Right, 12);
+            control.Left = OxSh.Add(label.Right, 12);
             control.Tag = label;
             OxControlHelper.AlignByBaseLine(control, label);
         }
@@ -404,7 +404,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
 
         for (int i = framesControls.Count - 1; i > -1; i--)
             if (framesControls[i] is not OxPanel)
-                return OxSH.Add(framesControls[i].Bottom, 8);
+                return OxSh.Add(framesControls[i].Bottom, 8);
 
         return 0;
     }
@@ -441,7 +441,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
                 ? htmlsPanel.Bottom
                 : frame.Equals(extraSettingsFrames[ExportFormat.Text])
                     ? textsPanel.Bottom
-                    : OxSH.Add(
+                    : OxSh.Add(
                         frameControls.Count > 0
                             ? frameControls[^1].Bottom
                             : 24,
@@ -463,7 +463,7 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
 
             control.Left = maxLeft;
             control.Width =
-                OxSH.Sub(
+                OxSh.Sub(
                     frame.Width,
                     maxLeft,
                     frame.Margin.Horizontal,
@@ -516,10 +516,10 @@ public partial class ExportSettingsForm<TField, TDAO> : OxDialog
         fileControl.Value = settings.GetFileName(formatAccessor.EnumValue);
 
         foreach (var item in extraSettingsFrames)
-            item.Value.Visible = item.Key.Equals(formatAccessor.EnumValue);
+            item.Value.SetVisible(item.Key.Equals(formatAccessor.EnumValue));
 
         foreach (OxFrame frame in extraSettingsFrames.Values)
-            if (frame.Visible)
+            if (frame.IsVisible)
             {
                 FormPanel.Size = new(720, frame.Bottom);
                 break;

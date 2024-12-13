@@ -103,7 +103,7 @@ namespace OxDAOEngine.Grid
             base.PrepareInnerComponents();
             availablePlace.Parent = this;
             availablePlace.Dock = OxDock.Fill;
-            availablePlace.Header.BorderVisible = false;
+            availablePlace.Header.BorderVisible = OxB.F;
             availableGrid.Parent = availablePlace;
             availableGrid.Dock = OxDock.Fill;
 
@@ -123,16 +123,16 @@ namespace OxDAOEngine.Grid
             unSelectButton.HiddenBorder = false;
 
             selectButton.Top = 
-                OxSH.Sub(
-                    OxSH.Half(buttonsPanel.Height),
+                OxSh.Sub(
+                    OxSh.Half(buttonsPanel.Height),
                     selectButton.Height, 
                     4
                 );
-            unSelectButton.Top = OxSH.Add(selectButton.Bottom, 8);
+            unSelectButton.Top = OxSh.Add(selectButton.Bottom, 8);
 
             selectedPlace.Parent = this;
             selectedPlace.Dock = OxDock.Right;
-            selectedPlace.Header.BorderVisible = false;
+            selectedPlace.Header.BorderVisible = OxB.F;
             selectedGrid.Parent = selectedPlace;
             selectedGrid.Dock = OxDock.Fill;
 
@@ -156,10 +156,10 @@ namespace OxDAOEngine.Grid
         }
 
         private void SelectedGridCurrentItemChanged(object? sender, EventArgs e) => 
-            unSelectButton.Enabled = selectedGrid.SelectedCount > 0;
+            unSelectButton.SetEnabled(selectedGrid.SelectedCount > 0);
 
         private void AvailableGridCurrentItemChanged(object? sender, EventArgs e) => 
-            selectButton.Enabled = availableGrid.Grid.SelectedCount > 0;
+            selectButton.SetEnabled(availableGrid.Grid.SelectedCount > 0);
 
         private void MoveSelected(bool select, bool force = false)
         {
@@ -233,8 +233,8 @@ namespace OxDAOEngine.Grid
         protected override void PrepareDialog(OxPanelViewer dialog)
         {
             base.PrepareDialog(dialog);
-            dialog.Sizable = true;
-            dialog.CanMaximize = true;
+            dialog.Sizable = OxB.T;
+            dialog.CanMaximize = OxB.T;
             dialog.Shown += (s, e) => RecalcGridsSizes();
             dialog.SizeChanged += (s, e) => RecalcGridsSizes();
             availablePlace.SizeChanged += (s, e) => RecalcGridsSizes();
@@ -248,7 +248,7 @@ namespace OxDAOEngine.Grid
         private void RecalcGridsSizes()
         {
             selectedPlace.Width =
-                OxSH.CenterOffset(
+                OxSh.CenterOffset(
                     PanelViewer is not null
                         ? PanelViewer.Width
                         : Width,
@@ -256,12 +256,12 @@ namespace OxDAOEngine.Grid
                 );
 
             selectButton.Top = 
-                OxSH.Sub(
-                    OxSH.Half(buttonsPanel.Height), 
+                OxSh.Sub(
+                    OxSh.Half(buttonsPanel.Height), 
                     selectButton.Height,
                     50
                 );
-            unSelectButton.Top = OxSH.Add(selectButton.Bottom, 8);
+            unSelectButton.Top = OxSh.Add(selectButton.Bottom, 8);
 
             if (DataManager.ListController<TField, TDAO>().AvailableQuickFilter)
                 availableGrid.QuickFilter.Width = availablePlace.Width;

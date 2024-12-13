@@ -35,7 +35,7 @@ public partial class CategoryEditor<TField, TDAO> : CustomItemEditor<Category<TF
         {
             if (width is -1)
             {
-                result.Width = OxSH.Sub(FormPanel.Width, result.Left, 8);
+                result.Width = OxSh.Sub(FormPanel.Width, result.Left, 8);
                 result.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             }
             else
@@ -54,10 +54,10 @@ public partial class CategoryEditor<TField, TDAO> : CustomItemEditor<Category<TF
     {
         TypeControl = CreateSimpleControl("Category:Type", FieldType.Enum, "Type", 8);
         TypeControl.ValueChangeHandler += TypeChangedHandler;
-        NameControl = CreateSimpleControl("Category:Name", FieldType.String, "Name", OxSH.Add(TypeControl.Bottom, 4));
+        NameControl = CreateSimpleControl("Category:Name", FieldType.String, "Name", OxSh.Add(TypeControl.Bottom, 4));
         FieldControl = CreateSimpleControl("Category:Field", FieldType.MetaData, "Field", NameControl.Top);
-        BaseOnChildsControl = CreateSimpleControl("Category:BaseOnChilds", FieldType.Boolean, string.Empty, OxSH.Add(NameControl.Bottom, 4));
-        ((OxCheckBox)BaseOnChildsControl.Control).AutoSize = true;
+        BaseOnChildsControl = CreateSimpleControl("Category:BaseOnChilds", FieldType.Boolean, string.Empty, OxSh.Add(NameControl.Bottom, 4));
+        ((OxCheckBox)BaseOnChildsControl.Control).AutoSize = OxB.T;
         BaseOnChildsControl.Left = 8;
         BaseOnChildsControl.Text = "Base on childs";
         BaseOnChildsControl.ValueChangeHandler += BaseOnChildsControlValueChangeHandler;
@@ -94,21 +94,21 @@ public partial class CategoryEditor<TField, TDAO> : CustomItemEditor<Category<TF
     {
         if (IsFilterCategory)
         {
-            BaseOnChildsControl.Visible = true;
-            NameControl.Visible = true;
-            ((OxLabel)NameControl.Control.Tag!).Visible = true;
-            FilterPanel.Visible = !BaseOnChildsControl.BoolValue;
-            FieldControl.Visible = false;
-            ((OxLabel)FieldControl.Control.Tag!).Visible = false;
+            BaseOnChildsControl.Visible = OxB.T;
+            NameControl.Visible = OxB.T;
+            ((OxLabel)NameControl.Control.Tag!).Visible = OxB.T;
+            FilterPanel.SetVisible(!BaseOnChildsControl.BoolValue);
+            FieldControl.Visible = OxB.F;
+            ((OxLabel)FieldControl.Control.Tag!).Visible = OxB.F;
         }
         else
         {
-            BaseOnChildsControl.Visible = false;
-            NameControl.Visible = false;
-            ((OxLabel)NameControl.Control.Tag!).Visible = false;
-            FilterPanel.Visible = false;
-            FieldControl.Visible = true;
-            ((OxLabel)FieldControl.Control.Tag!).Visible = true;
+            BaseOnChildsControl.Visible = OxB.F;
+            NameControl.Visible = OxB.F;
+            ((OxLabel)NameControl.Control.Tag!).Visible = OxB.F;
+            FilterPanel.Visible = OxB.F;
+            FieldControl.Visible = OxB.T;
+            ((OxLabel)FieldControl.Control.Tag!).Visible = OxB.T;
         }
         
         RecalcSize();
@@ -117,7 +117,7 @@ public partial class CategoryEditor<TField, TDAO> : CustomItemEditor<Category<TF
     protected override short ContentWidth => 600;
 
     protected override short ContentHeight =>
-        OxSH.Short(
+        OxSh.Short(
             IsFilterCategory
                 ? BaseOnChildsControl.BoolValue
                     ? BaseOnChildsControl.Bottom + 8

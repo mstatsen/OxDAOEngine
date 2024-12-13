@@ -123,13 +123,13 @@ public class RootStatisticPanel<TField, TDAO> : StatisticPanel<TField, TDAO>
     protected override void CreateLabels()
     {
         base.CreateLabels();
-        Labels[StatisticType.Category].Visible = ListController.AvailableCategories;
-        Labels[StatisticType.Visible].Visible = ListController.AvailableQuickFilter;
-        Labels[StatisticType.Modified].ReadOnly = false;
+        Labels[StatisticType.Category].SetVisible(ListController.AvailableCategories);
+        Labels[StatisticType.Visible].SetVisible(ListController.AvailableQuickFilter);
+        Labels[StatisticType.Modified].ReadOnly = OxB.F;
         Labels[StatisticType.Modified].Click += ViewHistoryHandler;
-        Labels[StatisticType.Added].ReadOnly = false;
+        Labels[StatisticType.Added].ReadOnly = OxB.F;
         Labels[StatisticType.Added].Click += ViewHistoryHandler;
-        Labels[StatisticType.Deleted].ReadOnly = false;
+        Labels[StatisticType.Deleted].ReadOnly = OxB.F;
         Labels[StatisticType.Deleted].Click += ViewHistoryHandler;
     }
 

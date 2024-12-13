@@ -117,7 +117,7 @@ public partial class SettingsForm : OxDialog
 
         foreach (OxPanel tab in tabControl.Pages.Cast<OxPanel>())
             if (tab is OxTabControl childTabControl)
-                maximumTabWidth = OxSH.Max(
+                maximumTabWidth = OxSh.Max(
                     maximumTabWidth,
                     childTabControl.TabHeaderSize.Width *
                         childTabControl.Pages.Count
@@ -125,7 +125,7 @@ public partial class SettingsForm : OxDialog
 
         maximumTabWidth += tabControl.Margin.Horizontal + 24;
         Size = new(
-            OxSH.Max(maximumTabWidth, 480),
+            OxSh.Max(maximumTabWidth, 480),
             488
         );
         MoveToScreenCenter();
@@ -257,7 +257,7 @@ public partial class SettingsForm : OxDialog
             return;
 
         accessor.Parent = settingsPanels[settings][settingsPart];
-        accessor.Left = OxSH.Mul(180, columnNum + 1);
+        accessor.Left = OxSh.Mul(180, columnNum + 1);
         accessor.Top = CalcAcessorTop(
             settingsPartControls[settings][settingsPart].Last
         );
@@ -270,7 +270,7 @@ public partial class SettingsForm : OxDialog
             OxLabel label = new()
             {
                 Parent = accessor.Parent,
-                Left = OxSH.Mul(150, OxSH.Add(columnNum, 12)),
+                Left = OxSh.Mul(150, OxSh.Add(columnNum, 12)),
                 Font = OxStyles.DefaultFont,
                 Text = $"{settings.Helper.Name(setting)}",
                 Tag = accessor.Control
@@ -297,7 +297,7 @@ public partial class SettingsForm : OxDialog
     }
 
     private static short CalcAcessorTop(IControlAccessor? prevAccessor) =>
-        OxSH.Add(
+        OxSh.Add(
             prevAccessor is not null
                 ? prevAccessor!.Bottom
                 : 4,
@@ -375,7 +375,7 @@ public partial class SettingsForm : OxDialog
             BaseColor = BaseColor
         };
         frame.Margin.Size = 4;
-        frame.HeaderVisible = !text.Equals(string.Empty);
+        frame.SetHeaderVisible(!text.Equals(string.Empty));
         return frame;
     }
 
@@ -411,7 +411,7 @@ public partial class SettingsForm : OxDialog
 
         foreach (string setting in settingList)
             settingsControls[settings][setting].Control.Left =
-                OxSH.Short(
+                OxSh.Short(
                     settings.Helper.WithoutLabel(setting)
                         ? 8
                         : maxLabelWidth + 24
@@ -419,7 +419,7 @@ public partial class SettingsForm : OxDialog
 
         frame.Size = new(
             frame.Width,
-            OxSH.Add(
+            OxSh.Add(
                 lastAccessor is not null ? lastAccessor!.Bottom : 0,
                 caption.Equals(string.Empty) ? 0 : frame.Header.Height,
                 16
@@ -449,7 +449,7 @@ public partial class SettingsForm : OxDialog
         {
             Parent = Footer,
             BaseColor = BaseColor,
-            Top = OxSH.CenterOffset(Footer.Height, helper.DefaultButtonHeight),
+            Top = OxSh.CenterOffset(Footer.Height, helper.DefaultButtonHeight),
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
             Font = OxStyles.Font(-1, FontStyle.Regular),
             Left = left,
@@ -532,10 +532,10 @@ public partial class SettingsForm : OxDialog
                 daoSettings.AvailableCategories ||
                 daoSettings.AvailableQuickFilter ||
                 daoSettings.AvailableSummary)
-                item.Value.HeaderVisible = true;
+                item.Value.HeaderVisible = OxB.T;
             else
             {
-                item.Value.HeaderVisible = false;
+                item.Value.HeaderVisible = OxB.F;
                 settingsFieldPanels[item.Key][SettingsPart.Table].Text = "Fields";
             }
         }
@@ -548,7 +548,7 @@ public partial class SettingsForm : OxDialog
         tabControl.BaseColor = BaseColor;
         tabControl.Font = OxStyles.DefaultFont;
         tabControl.TabHeaderSize = new(124, 32);
-        tabControl.BorderVisible = false;
+        tabControl.BorderVisible = OxB.F;
         tabControl.Margin.Size = 0;
         tabControl.Margin.Top = 8;
     }
@@ -564,7 +564,7 @@ public partial class SettingsForm : OxDialog
                 BaseColor = BaseColor,
                 Font = OxStyles.DefaultFont,
                 TabHeaderSize = new(84, 30),
-                BorderVisible = false,
+                BorderVisible = OxB.F,
                 Text = settings.ListName,
             };
             tab.Margin.Size = 0;

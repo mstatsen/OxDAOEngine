@@ -34,7 +34,7 @@ public partial class FieldEditor<TField, TDAO>
         FieldControl.Parent = this;
         FieldControl.Left = 12;
         FieldControl.Top = 12;
-        FieldControl.Width = OxSH.Sub(FormPanel.Width, 24);
+        FieldControl.Width = OxSh.Sub(FormPanel.Width, 24);
         FieldControl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
     }
 
@@ -42,7 +42,7 @@ public partial class FieldEditor<TField, TDAO>
         CreateFieldControl();
 
     protected override short ContentWidth => 300;
-    protected override short ContentHeight => OxSH.Add(FieldControl.Bottom, 8);
+    protected override short ContentHeight => OxSh.Add(FieldControl.Bottom, 8);
 
     protected override void FillControls(FieldColumn<TField> item) =>
         FieldControl.Value = item.Field;

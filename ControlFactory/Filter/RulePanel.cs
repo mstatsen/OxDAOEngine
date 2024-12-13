@@ -39,7 +39,7 @@ public class RulePanel<TField, TDAO> : OxPanel
         RemoveRuleButton.Parent = this;
         RemoveRuleButton.ToolTipText = "Remove rule";
         RemoveRuleButton.Top = 4;
-        RemoveRuleButton.Left = OxSH.Sub(Width, RemoveRuleButton.Width, 1);
+        RemoveRuleButton.Left = OxSh.Sub(Width, RemoveRuleButton.Width, 1);
         RemoveRuleButton.Anchor = AnchorStyles.Right;
         RemoveRuleButton.Click += RemoveRuleButtonClickHandler;
     }
@@ -110,7 +110,7 @@ public class RulePanel<TField, TDAO> : OxPanel
         if (ValueAccessor is null)
             return;
 
-        ValueAccessor.Visible = !FilterOperationHelper.IsUnaryOperation(OperationControl.EnumValue);
+        ValueAccessor.SetVisible(!FilterOperationHelper.IsUnaryOperation(OperationControl.EnumValue));
     }
 
     private readonly FieldHelper<TField> FieldHelper = TypeHelper.FieldHelper<TField>();
@@ -143,7 +143,7 @@ public class RulePanel<TField, TDAO> : OxPanel
 
         ValueAccessor = CreateValueAccessor(
             FieldControl.EnumValue,
-            OxSH.Add(OperationControl.Right, 4),
+            OxSh.Add(OperationControl.Right, 4),
             220);
         ValueAccessor.Control.Parent = this;
         ValueAccessor.Control.Top = OperationControl.Top;
@@ -170,7 +170,7 @@ public class RulePanel<TField, TDAO> : OxPanel
                     220,
             };
 
-        ValueAccessor.Visible = true;
+        ValueAccessor.Visible = OxB.T;
         ValueAccessor.Clear();
         PrepareColors();
     }
@@ -181,7 +181,7 @@ public class RulePanel<TField, TDAO> : OxPanel
             return;
 
         ValueAccessor.Control.Parent = null;
-        ValueAccessor.Control.Visible = false;
+        ValueAccessor.Control.Visible = OxB.F;
     }
 
     private IControlAccessor CreateValueAccessor(TField field, short left, short width) => 

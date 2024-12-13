@@ -3,6 +3,7 @@ using OxLibrary.Controls;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory;
 using OxDAOEngine.Data;
+using OxLibrary.Handlers;
 
 namespace OxDAOEngine.View;
 
@@ -78,7 +79,7 @@ public abstract class ItemCard<TField, TDAO, TFieldGroup>
 
     protected virtual void AlignControls() { }
 
-    protected override void OnVisibleChanged(EventArgs e)
+    public override void OnVisibleChanged(OxBoolChangedEventArgs e)
     {
         base.OnVisibleChanged(e);
 
@@ -99,7 +100,7 @@ public abstract class ItemCard<TField, TDAO, TFieldGroup>
         Layouter.Template.FontStyle = FontStyle.Bold;
         Layouter.Template.LabelColor = fontColors.Lighter();
         Layouter.Template.LabelStyle = FontStyle.Italic;
-        Layouter.Template.AutoSize = true;
+        Layouter.Template.AutoSize = OxB.T;
     }
 
     protected abstract void PrepareLayouts();
@@ -191,13 +192,15 @@ public abstract class ItemCard<TField, TDAO, TFieldGroup>
 
     private void SetButtonsVisible()
     {
-        ExpandButtonVisible = ListController.Settings.CardsAllowExpand;
-        EditButton.Visible =
+        SetExpandButtonVisible(ListController.Settings.CardsAllowExpand);
+        EditButton.SetVisible(
             ListController.Settings.CardsAllowEdit
-            && ViewMode is ItemViewMode.WithEditLinks;
-        EditButton.Visible =
+            && ViewMode is ItemViewMode.WithEditLinks
+        );
+        DeleteButton.SetVisible(
             ListController.Settings.CardsAllowDelete
-            && ViewMode is ItemViewMode.WithEditLinks;
+            && ViewMode is ItemViewMode.WithEditLinks
+        );
     }
 
     private readonly ItemViewMode ViewMode;

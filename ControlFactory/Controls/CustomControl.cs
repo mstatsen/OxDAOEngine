@@ -3,7 +3,7 @@ using OxLibrary.Interfaces;
 using OxLibrary.Panels;
 using OxDAOEngine.ControlFactory.Context;
 using OxDAOEngine.Data;
-
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory.Controls;
 
@@ -23,10 +23,11 @@ public abstract class CustomControl<TField, TDAO, TItem> : OxPanel,
 
     public override void OnSizeChanged(OxSizeChangedEventArgs e)
     {
-        if (!e.Changed)
+        base.OnSizeChanged(e);
+
+        if (!e.IsChanged)
             return;
 
-        base.OnSizeChanged(e);
         RecalcControls();
     }
 
@@ -44,7 +45,8 @@ public abstract class CustomControl<TField, TDAO, TItem> : OxPanel,
         set => SetValue(value);
     }
 
-    public IOxControl Control => GetControl();
+    public IOxControl Control =>
+        GetControl();
 
     protected virtual Color GetControlColor() => 
         Control is null 
@@ -65,14 +67,15 @@ public abstract class CustomControl<TField, TDAO, TItem> : OxPanel,
 
     protected virtual void RecalcControls() { }
 
-    public bool ReadOnly
+    public OxBool ReadOnly
     {
         get => GetReadOnly();
         set => SetReadOnly(value);
     }
 
-    protected abstract bool GetReadOnly();
-    protected abstract void SetReadOnly(bool value);
+    protected abstract OxBool GetReadOnly();
+    protected abstract void SetReadOnly(OxBool value);
+    public bool IsReadOnly => OxB.B(ReadOnly);
 
     private EventHandler? itemEdited;
 

@@ -19,9 +19,9 @@ namespace OxDAOEngine.View.Types
             };
 
         public short Height(IconSize size) =>
-            OxSH.Short(
+            OxSh.Short(
                 size.Equals(IconSize.Thumbnails)
-                    ? OxSH.Half(Width(size)) - 3
+                    ? OxSh.Half(Width(size)) - 3
                     : Width(size) / 25 * 18
             );
 

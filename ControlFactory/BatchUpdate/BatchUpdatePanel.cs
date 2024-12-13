@@ -53,7 +53,7 @@ public class BatchUpdatePanel<TField, TDAO> :
         Size = new(360, 120);
         controlBuilder = DataManager.Builder<TField, TDAO>(ControlScope.BatchUpdate);
         countLabel.Parent = this;
-        countLabel.Top = OxSH.Sub(Height, 30);
+        countLabel.Top = OxSh.Sub(Height, 30);
         ControlPainter.ColorizeControl(countLabel, BaseColor);
         FieldAccessor = (FieldAccessor<TField, TDAO>)controlBuilder[TypeHelper.FieldHelper<TField>().FieldMetaData];
         PrepareFieldAccessor();
@@ -73,7 +73,7 @@ public class BatchUpdatePanel<TField, TDAO> :
         PlacedControl<TField> PlacedFieldsControl = LayoutFieldControl();
         ControlPainter.ColorizeControl(PlacedFieldsControl.Control, BaseColor);
         valueLabel.Parent = this;
-        valueLabel.Top = OxSH.Add(PlacedFieldsControl.Control.Bottom, 16);
+        valueLabel.Top = OxSh.Add(PlacedFieldsControl.Control.Bottom, 16);
         valueLabel.Left = PlacedFieldsControl.LabelLeft;
         ControlPainter.ColorizeControl(valueLabel, BaseColor);
 
@@ -88,7 +88,7 @@ public class BatchUpdatePanel<TField, TDAO> :
     {
         ValueLayout.CopyFrom(template);
         ValueLayout.BackColor = Colors.Lighter(6);
-        ValueLayout.Top = OxSH.Add(FieldAccessor.Bottom, 8);
+        ValueLayout.Top = OxSh.Add(FieldAccessor.Bottom, 8);
         ValueLayout.CaptionVariant = ControlCaptionVariant.None;
     }
 
@@ -104,7 +104,7 @@ public class BatchUpdatePanel<TField, TDAO> :
             Anchors = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right,
         };
 
-        fieldLayout.Width = OxSH.Sub(Width, fieldLayout.Left, 16);
+        fieldLayout.Width = OxSh.Sub(Width, fieldLayout.Left, 16);
         return FieldAccessor.LayoutControl(fieldLayout);
     }
 
@@ -138,14 +138,14 @@ public class BatchUpdatePanel<TField, TDAO> :
         ValueLayout.Field = FieldAccessor.EnumValue;
         CurrentValueControl = ValueAccessor.LayoutControl(ValueLayout);
         CurrentValueControl.Control.Width =
-            OxSH.Short(
+            OxSh.Short(
                 CurrentValueControl.Control is OxSpinEdit
                     ? 80
                     : FieldAccessor.Width
             );
         ControlPainter.ColorizeControl(CurrentValueControl.Control, BaseColor);
         OxControlHelper.AlignByBaseLine(CurrentValueControl.Control, valueLabel);
-        valueLabel.Visible = true;
+        valueLabel.Visible = OxB.T;
     }
 
     private void HideValueControl()
@@ -153,8 +153,8 @@ public class BatchUpdatePanel<TField, TDAO> :
         if (CurrentValueControl is null)
             return;
 
-        ValueAccessor.Control.Visible = false;
-        valueLabel.Visible = false;
+        ValueAccessor.Control.Visible = OxB.F;
+        valueLabel.Visible = OxB.F;
     }
 
     private readonly FieldAccessor<TField, TDAO> FieldAccessor = default!;
@@ -166,8 +166,8 @@ public class BatchUpdatePanel<TField, TDAO> :
     private readonly OxLabel valueLabel = new()
     {
         Text = "Value",
-        AutoSize = true,
-        Visible = false,
+        AutoSize = OxB.T,
+        Visible = OxB.F,
         Font = OxStyles.DefaultFont
     };
 
@@ -176,8 +176,8 @@ public class BatchUpdatePanel<TField, TDAO> :
         Text = "Selected Items: ",
         Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
         Left = 24,
-        AutoSize = true,
-        Visible = true,
+        AutoSize = OxB.T,
+        Visible = OxB.T,
         Font = OxStyles.DefaultFont
     };
 }

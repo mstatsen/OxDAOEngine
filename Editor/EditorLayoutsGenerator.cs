@@ -65,13 +65,16 @@ namespace OxDAOEngine.Editor
         public virtual Color BackColor(TField field) => 
             Color.FromArgb(250, 250, 250);
 
-        public bool AutoSize(TField field)
+        public OxBool AutoSize(TField field)
         {
             List<TField>? fields = AutoSizeFields();
             return 
-                fields is not null 
-                && fields.Contains(field);
+                OxB.B(
+                    fields is not null 
+                    && fields.Contains(field)
+                );
         }
+
         private OxDock Dock(TField field)
         {
             List<TField>? fillDockFields = FillDockFields();

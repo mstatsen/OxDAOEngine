@@ -80,8 +80,8 @@ namespace OxDAOEngine.Grid
         protected override void PrepareDialog(OxPanelViewer dialog)
         {
             base.PrepareDialog(dialog);
-            dialog.Sizable = true;
-            dialog.CanMaximize = true;
+            dialog.Sizable = OxB.T;
+            dialog.CanMaximize = OxB.T;
             dialog.Shown += DialogShownHandler;
         }
 

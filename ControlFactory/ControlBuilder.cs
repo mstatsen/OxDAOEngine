@@ -8,6 +8,7 @@ using OxDAOEngine.Data.Decorator;
 using OxDAOEngine.Data.Fields;
 using OxDAOEngine.Data.Filter;
 using OxDAOEngine.Data.Types;
+using OxLibrary;
 
 namespace OxDAOEngine.ControlFactory;
 
@@ -292,7 +293,7 @@ public class ControlBuilder<TField, TDAO>
     public object? ObjectValue(TField field) =>
         this[field].ObjectValue;
 
-    public void SetVisible(TField field, bool visible)
+    public void SetVisible(TField field, OxBool visible)
     {
         this[field].Visible = visible;
         OxLabel? label = Layouter.PlacedControl(field)?.Label;
@@ -300,6 +301,9 @@ public class ControlBuilder<TField, TDAO>
         if (label is not null)
             label.Visible = visible;
     }
+
+    public void SetVisible(TField field, bool visible) =>
+        SetVisible(field, OxB.B(visible));
 
     public IOxControl Control(TField field) =>
         this[field].Control;

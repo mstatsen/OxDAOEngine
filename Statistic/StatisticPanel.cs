@@ -72,7 +72,7 @@ public class StatisticPanel<TField, TDAO> : OxFrame
         {
             Parent = this,
             Dock = StatisticTypeHelper.Dock(type),
-            ReadOnly = true
+            ReadOnly = OxB.T
         };
         Labels.Add(type, label);
         label.Size = new(StatisticTypeHelper.Width(type), 1);
